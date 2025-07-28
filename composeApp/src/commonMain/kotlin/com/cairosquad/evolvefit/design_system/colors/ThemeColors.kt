@@ -8,7 +8,6 @@ data class ThemeColors(
     val surfaces: Surfaces,
     val system: System,
 )
-
 data class Surfaces(
     val surface: Color,
     val onSurface: Color,
@@ -24,14 +23,12 @@ data class Surfaces(
     val onSurfaceAt3: Color,
     val onSurfaceAt4: Color
 )
-
 data class Brand(
     val primary: Color,
     val onPrimary: Color,
     val primaryContainer: Color,
     val onPrimaryContainer: Color,
 )
-
 data class System(
     val warning: Color,
     val success: Color,

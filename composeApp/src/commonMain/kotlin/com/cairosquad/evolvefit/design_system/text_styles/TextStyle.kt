@@ -9,7 +9,6 @@ import com.cairosquad.evolvefit.App
 @Composable
 fun TextStyle(): AppTextStyle {
     val fontFamily = AppFontFamily()
-
     return AppTextStyle(
         display = DisplayTextStyle(
             largeBold24 = TextStyle(
@@ -128,9 +127,6 @@ fun TextStyle(): AppTextStyle {
         )
     )
 }
-
-
-
 val DefaultTextStyle = AppTextStyle(
     display = DisplayTextStyle(
         largeBold24 = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),

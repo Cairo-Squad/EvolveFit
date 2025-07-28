@@ -27,5 +27,4 @@ val darkThemeColors = ThemeColors(
         success = Color(0xFF2DAD58),
         info = Color(0xFF2B60D3),
     )
-
 )

@@ -9,21 +9,18 @@ data class DisplayTextStyle(
     val mediumMedium20: TextStyle,
     val largeBold18: TextStyle,
 )
-
 data class HeadlineTextStyle(
     val largeBold18: TextStyle,
     val mediumMedium18: TextStyle,
     val largeBold16: TextStyle,
     val mediumMedium16: TextStyle,
 )
-
 data class TitleTextStyle(
     val largeBold16: TextStyle,
     val mediumMedium16: TextStyle,
     val largeBold14: TextStyle,
     val mediumMedium14: TextStyle,
 )
-
 data class LabelTextStyle(
     val mediumMedium16: TextStyle,
     val mediumMedium14: TextStyle,
@@ -31,14 +28,12 @@ data class LabelTextStyle(
     val mediumMedium12: TextStyle,
     val smallRegular12: TextStyle,
 )
-
 data class BodyTextStyle(
     val smallRegular16: TextStyle,
     val mediumMedium14: TextStyle,
     val mediumMedium12: TextStyle,
     val smallRegular10: TextStyle,
 )
-
 data class AppTextStyle(
     val display: DisplayTextStyle,
     val headline: HeadlineTextStyle,
