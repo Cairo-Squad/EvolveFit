@@ -1,0 +1,42 @@
+package com.cairosquad.evolvefit.design_system.colors
+
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
+
+data class EvolveFitColors(
+    val brand: Brand,
+    val surfaces: Surfaces,
+    val system: System,
+)
+
+data class Surfaces(
+    val surface: Color,
+    val onSurface: Color,
+    val surfaceContainer: Color,
+    val onSurfaceContainer: Color,
+    val textColor : Color,
+    val surfaceVariant: Color,
+    val onSurfaceVariant: Color,
+    val outline: Color,
+    val outlineVariant: Color,
+    val onSurfaceAt1: Color,
+    val onSurfaceAt2: Color,
+    val onSurfaceAt3: Color,
+    val onSurfaceAt4: Color
+)
+
+data class Brand(
+    val primary: Color,
+    val onPrimary: Color,
+    val primaryContainer: Color,
+    val onPrimaryContainer: Color,
+)
+
+data class System(
+    val warning: Color,
+    val success: Color,
+    val info: Color,
+)
+
+
+internal val LocalEvolveFitColor = staticCompositionLocalOf { lightThemeColors }
