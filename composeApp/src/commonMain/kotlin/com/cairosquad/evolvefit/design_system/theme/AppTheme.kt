@@ -14,7 +14,6 @@ fun AppTheme(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    UpdateStatusBarIconsForTheme(isDarkTheme)
     val theme = if (isDarkTheme) darkThemeColors else lightThemeColors
     CompositionLocalProvider(
         LocalThemeColor provides theme,
@@ -25,5 +24,4 @@ fun AppTheme(
 }
 val LocalTextStyle = staticCompositionLocalOf { DefaultTextStyle }
 val LocalThemeColor = staticCompositionLocalOf { lightThemeColors }
-@Composable
-expect fun UpdateStatusBarIconsForTheme(darkTheme: Boolean)
+
