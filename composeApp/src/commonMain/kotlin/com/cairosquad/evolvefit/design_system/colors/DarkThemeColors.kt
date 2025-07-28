@@ -2,7 +2,7 @@ package com.cairosquad.evolvefit.design_system.colors
 
 import androidx.compose.ui.graphics.Color
 
-val darkThemeColors = EvolveFitColors(
+val darkThemeColors = ThemeColors(
     brand = Brand(
         primary = Color(0xFF86D01D),
         onPrimary = Color(0xFF181B14),

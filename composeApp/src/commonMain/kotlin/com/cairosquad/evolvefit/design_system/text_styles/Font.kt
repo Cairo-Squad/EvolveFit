@@ -11,7 +11,7 @@ import org.jetbrains.compose.resources.Font
 
 
 @Composable
-fun LatoFontFamily(): FontFamily {
+fun AppFontFamily(): FontFamily {
     return FontFamily(
         Font(Res.font.lato_bold, FontWeight.Bold),
         Font(Res.font.lato_medium, FontWeight.Medium),

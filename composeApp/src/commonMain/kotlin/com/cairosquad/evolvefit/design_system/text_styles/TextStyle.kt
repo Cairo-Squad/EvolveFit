@@ -4,12 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.cairosquad.evolvefit.App
 
 @Composable
-fun LatoTextStyle(): EvolveFitTextStyle {
-    val fontFamily = LatoFontFamily()
+fun TextStyle(): AppTextStyle {
+    val fontFamily = AppFontFamily()
 
-    return EvolveFitTextStyle(
+    return AppTextStyle(
         display = DisplayTextStyle(
             largeBold24 = TextStyle(
                 fontFamily = fontFamily,
@@ -130,7 +131,7 @@ fun LatoTextStyle(): EvolveFitTextStyle {
 
 
 
-val DefaultTextStyle = EvolveFitTextStyle(
+val DefaultTextStyle = AppTextStyle(
     display = DisplayTextStyle(
         largeBold24 = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
         largeBold20 = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),

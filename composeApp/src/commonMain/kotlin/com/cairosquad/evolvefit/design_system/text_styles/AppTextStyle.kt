@@ -39,7 +39,7 @@ data class BodyTextStyle(
     val smallRegular10: TextStyle,
 )
 
-data class EvolveFitTextStyle(
+data class AppTextStyle(
     val display: DisplayTextStyle,
     val headline: HeadlineTextStyle,
     val title: TitleTextStyle,
@@ -47,4 +47,4 @@ data class EvolveFitTextStyle(
     val body: BodyTextStyle,
 )
 
-internal val LocalEvolveFitTextStyle = staticCompositionLocalOf { DefaultTextStyle }
+

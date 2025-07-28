@@ -3,7 +3,7 @@ package com.cairosquad.evolvefit.design_system.colors
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-data class EvolveFitColors(
+data class ThemeColors(
     val brand: Brand,
     val surfaces: Surfaces,
     val system: System,
@@ -39,4 +39,3 @@ data class System(
 )
 
 
-internal val LocalEvolveFitColor = staticCompositionLocalOf { lightThemeColors }
