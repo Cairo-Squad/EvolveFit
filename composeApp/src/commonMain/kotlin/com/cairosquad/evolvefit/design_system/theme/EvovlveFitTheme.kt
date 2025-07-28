@@ -20,11 +20,9 @@ fun EvolveFitTheme(
     CompositionLocalProvider(
         LocalEvolveFitColor provides theme,
         LocalEvolveFitTextStyle provides LatoTextStyle(),
-
         ) {
         content()
     }
 }
-
 @Composable
 expect fun UpdateStatusBarIconsForTheme(darkTheme: Boolean)
