@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.design_system.composables
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,17 +30,22 @@ fun Chip(
     isEnable: Boolean = true,
     onClick: () -> Unit = {}
 ) {
-    val backgroundColor =
-        if (isSelected) Theme.color.brand.primary else Theme.color.surfaces.surfaceContainer
-    val textColor =
-        if (isSelected) Theme.color.brand.onPrimary else Theme.color.surfaces.onSurfaceContainer
 
+    val containerColor by animateColorAsState(
+        targetValue = if (isSelected) Theme.color.brand.primary else Theme.color.surfaces.surfaceContainer,
+        label = "ContainerColorAnimation"
+    )
+
+    val textColor by animateColorAsState(
+        targetValue = if (isSelected) Theme.color.brand.onPrimary else Theme.color.surfaces.onSurfaceContainer,
+        label = "TextColorAnimation"
+    )
     Row(
         modifier = modifier
             .height(40.dp)
             .clip(CircleShape)
             .clickable(onClick = onClick, enabled = isEnable)
-            .background(color = backgroundColor, shape = CircleShape),
+            .background(color = containerColor, shape = CircleShape),
         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
