@@ -43,7 +43,8 @@ fun SnackBar(
             tint = Color.Unspecified
         )
         Text(
-            modifier = Modifier.fillMaxWidth().weight(1f),
+            modifier = Modifier.fillMaxWidth()
+                .weight(1f),
             text = text,
             color = textColor,
             style = textStyle,
