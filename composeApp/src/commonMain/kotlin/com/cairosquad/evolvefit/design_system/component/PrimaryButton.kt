@@ -28,9 +28,9 @@ fun PrimaryButton(
     enabledContainerColor: Color = Theme.color.brand.primary,
     disabledContainerColor: Color = Theme.color.surfaces.outlineVariant,
     enabledTextColor: Color = Theme.color.brand.onPrimary,
-    disabledTextColor: Color =  Theme.color.surfaces.outline,
+    disabledTextColor: Color = Theme.color.surfaces.outline,
     textStyle: TextStyle = Theme.textStyle.body.mediumMedium14,
-    onClick : ()-> Unit
+    onClick: () -> Unit
 ) {
     val containerColor by animateColorAsState(
         targetValue = if (isEnabled) enabledContainerColor else disabledContainerColor,
@@ -65,7 +65,7 @@ private fun EnabledButtonPreview() {
     AppTheme(isDarkTheme = true) {
         PrimaryButton(
             text = "Get Started",
-        ){
+        ) {
 
         }
     }
@@ -77,9 +77,9 @@ private fun DisabledButtonPreview() {
     AppTheme(isDarkTheme = true) {
         PrimaryButton(
             text = "Get Started",
-           isEnabled = false
-        ){
-
+            isEnabled = false
+        ) {
+            
         }
     }
 }
