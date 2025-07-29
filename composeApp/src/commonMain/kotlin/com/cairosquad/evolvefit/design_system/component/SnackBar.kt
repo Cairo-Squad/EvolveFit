@@ -1,5 +1,10 @@
 package com.cairosquad.evolvefit.design_system.component
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,30 +30,37 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun SnackBar(
     text: String,
+    isVisible: Boolean,
     modifier: Modifier = Modifier,
     icon: Painter = painterResource(Res.drawable.ic_green_check_circle),
     backgroundColor: Color = Theme.color.surfaces.surface,
     textColor: Color = Theme.color.surfaces.onSurface,
     textStyle: TextStyle = Theme.textStyle.label.mediumMedium14,
 ) {
-    Row(
-        modifier = modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp))
-            .background(backgroundColor).padding(horizontal = 16.dp, vertical = 14.dp),
-        verticalAlignment = Alignment.CenterVertically
+    AnimatedVisibility(
+        visible = isVisible,
+        enter = fadeIn() + slideInVertically { it },
+        exit = fadeOut() + slideOutVertically { it }
     ) {
-        Icon(
-            modifier = Modifier.padding(end = 8.dp),
-            painter = icon,
-            contentDescription = null,
-            tint = Color.Unspecified
-        )
-        Text(
-            modifier = Modifier.fillMaxWidth()
-                .weight(1f),
-            text = text,
-            color = textColor,
-            style = textStyle,
-        )
+        Row(
+            modifier = modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp))
+                .background(backgroundColor).padding(horizontal = 16.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                modifier = Modifier.padding(end = 8.dp),
+                painter = icon,
+                contentDescription = null,
+                tint = Color.Unspecified
+            )
+            Text(
+                modifier = Modifier.fillMaxWidth()
+                    .weight(1f),
+                text = text,
+                color = textColor,
+                style = textStyle,
+            )
+        }
     }
 }
 
@@ -56,7 +68,7 @@ fun SnackBar(
 @Composable
 private fun LightSnackBarPreview() {
     AppTheme(isDarkTheme = false) {
-        SnackBar(text = "Meal added to your history.")
+        SnackBar(text = "Meal added to your history.",isVisible = true)
     }
 }
 
@@ -64,6 +76,6 @@ private fun LightSnackBarPreview() {
 @Composable
 private fun DarkSnackBarPreview() {
     AppTheme(isDarkTheme = true) {
-        SnackBar(text = "Meal added to your history.")
+        SnackBar(text = "Meal added to your history.",isVisible = true)
     }
 }
