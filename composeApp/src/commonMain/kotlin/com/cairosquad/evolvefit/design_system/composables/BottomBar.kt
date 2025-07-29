@@ -10,19 +10,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun BottomAppBar() {
+fun NavigationBar() {
     Row(
     ) {}
 }
 
 @Composable
-private fun BottomAppBarItem(
+private fun NavigationBarItem(
     icon: Painter,
     label: String,
     onClick: () -> Unit,
@@ -47,6 +46,6 @@ private fun BottomAppBarItem(
 
 @Preview
 @Composable
-fun BottomAppBarPreview() {
-    BottomAppBar()
+fun NavigationBarPreview() {
+    NavigationBar()
 }
