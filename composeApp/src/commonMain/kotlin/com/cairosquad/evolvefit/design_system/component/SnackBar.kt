@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.design_system.composables
+package com.cairosquad.evolvefit.design_system.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
