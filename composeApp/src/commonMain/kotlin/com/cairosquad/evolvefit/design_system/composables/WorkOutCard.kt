@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,9 +34,11 @@ import evolvefit.composeapp.generated.resources.works
 fun WorkOutCard(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .width(328.dp)
+            .fillMaxWidth()
+            //  .width(328.dp)
             .height(140.dp)
             .clip(RoundedCornerShape(8.dp))
+
     ) {
         Image(
             modifier = Modifier.fillMaxSize(),
@@ -45,12 +48,13 @@ fun WorkOutCard(modifier: Modifier = Modifier) {
         )
 
         Row(
-            modifier = Modifier.padding(bottom = 12.dp).fillMaxWidth().height(19.dp)
+            modifier = Modifier.padding(bottom = 12.dp, start = 12.dp, end = 12.dp).fillMaxWidth()
+                .height(50.dp)
                 .align(Alignment.BottomCenter),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
-                modifier = Modifier.fillMaxHeight().width(5.dp)
+                modifier = Modifier.fillMaxHeight().width(1.dp)
                     .clip(RoundedCornerShape(bottomStart = 8.dp, topStart = 8.dp))
                     .border(
                         width = 1.dp,
@@ -61,12 +65,34 @@ fun WorkOutCard(modifier: Modifier = Modifier) {
 
             ) { }
 
-            Column(modifier = Modifier.fillMaxHeight()) {
+            Column(modifier = Modifier.padding(start = 8.dp, top = 4.dp, bottom = 4.dp).fillMaxHeight()) {
                 Text(
-                    "Jumping Jacks",
+                    modifier = Modifier.weight(1f),
+                   text =  "Jumping Jacks",
                     style = Theme.textStyle.title.largeBold16,
                     color = Theme.color.brand.primary
                 )
+                Row(
+                    modifier = Modifier.padding(top = 8.dp).wrapContentHeight().weight(1f),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "30 sec",
+                        style = Theme.textStyle.label.smallRegular12,
+                        color = Theme.color.surfaces.onSurfaceContainer
+                    )
+                    Column(
+                        modifier = Modifier.padding(horizontal = 8.dp).fillMaxHeight()
+                            .width(1.dp)
+                            .background(Theme.color.surfaces.onSurfaceContainer)
+
+                    ) { }
+                    Text(
+                        "Full Body",
+                        style = Theme.textStyle.label.smallRegular12,
+                        color = Theme.color.surfaces.onSurfaceContainer
+                    )
+                }
             }
         }
 
