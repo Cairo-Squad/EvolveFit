@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.design_system.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,10 +20,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Button(
+    text: String,
     modifier: Modifier = Modifier,
     backgroundColor: Color = Theme.color.brand.primary,
-    borderColor: Color = Theme.color.brand.primary,
-    text: String = "Get Started",
     textColor: Color = Theme.color.brand.onPrimary,
     textStyle: TextStyle = Theme.textStyle.body.mediumMedium14,
 ) {
@@ -32,7 +30,6 @@ fun Button(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
-            .border(1.dp, borderColor, shape = RoundedCornerShape(24.dp))
             .background(backgroundColor),
         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
     ) {
@@ -47,32 +44,24 @@ fun Button(
 
 @Preview
 @Composable
-private fun ButtonPrev1() {
-    Button(
-        borderColor = Theme.color.brand.primary,
-        backgroundColor = Theme.color.brand.primary,
-        textColor = Theme.color.brand.onPrimary
-    )
-}
-
-@Preview
-@Composable
-private fun ButtonPrev2() {
-    Button(
-        borderColor = Theme.color.surfaces.outlineVariant,
-        backgroundColor = Theme.color.surfaces.outlineVariant,
-        textColor = Theme.color.surfaces.outline
-    )
-}
-
-@Preview
-@Composable
-private fun ButtonPrev3() {
-    AppTheme(isDarkTheme = false) {
+private fun EnabledButtonPreview() {
+    AppTheme(isDarkTheme = true) {
         Button(
-            borderColor = Theme.color.brand.primary,
-            backgroundColor = Color.Transparent,
+            text = "Get Started",
+            backgroundColor = Theme.color.brand.primary,
             textColor = Theme.color.brand.onPrimary
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun DisabledButtonPreview() {
+    AppTheme(isDarkTheme = true) {
+        Button(
+            text = "Get Started",
+            backgroundColor = Theme.color.surfaces.outlineVariant,
+            textColor = Theme.color.surfaces.outline
         )
     }
 }
