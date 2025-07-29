@@ -1,13 +1,15 @@
 package com.cairosquad.evolvefit.design_system.component
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,20 +21,34 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun Button(
+fun PrimaryButton(
     text: String,
     modifier: Modifier = Modifier,
-    backgroundColor: Color = Theme.color.brand.primary,
-    textColor: Color = Theme.color.brand.onPrimary,
+    isEnabled: Boolean = true,
+    enabledContainerColor: Color = Theme.color.brand.primary,
+    disabledContainerColor: Color = Theme.color.surfaces.outlineVariant,
+    enabledTextColor: Color = Theme.color.brand.onPrimary,
+    disabledTextColor: Color =  Theme.color.surfaces.outline,
     textStyle: TextStyle = Theme.textStyle.body.mediumMedium14,
+    onClick : ()-> Unit
 ) {
-    Row(
+    val containerColor by animateColorAsState(
+        targetValue = if (isEnabled) enabledContainerColor else disabledContainerColor,
+        label = "ContainerColorAnimation"
+    )
+
+    val textColor by animateColorAsState(
+        targetValue = if (isEnabled) enabledTextColor else disabledTextColor,
+        label = "TextColorAnimation"
+    )
+
+    Box(
         modifier = modifier
             .fillMaxWidth()
             .clip(CircleShape)
-            .background(backgroundColor),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+            .background(containerColor)
+            .clickable(enabled = isEnabled, onClick = onClick),
+        contentAlignment = Alignment.Center
     ) {
         Text(
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 12.dp),
@@ -47,11 +63,11 @@ fun Button(
 @Composable
 private fun EnabledButtonPreview() {
     AppTheme(isDarkTheme = true) {
-        Button(
+        PrimaryButton(
             text = "Get Started",
-            backgroundColor = Theme.color.brand.primary,
-            textColor = Theme.color.brand.onPrimary
-        )
+        ){
+
+        }
     }
 }
 
@@ -59,10 +75,11 @@ private fun EnabledButtonPreview() {
 @Composable
 private fun DisabledButtonPreview() {
     AppTheme(isDarkTheme = true) {
-        Button(
+        PrimaryButton(
             text = "Get Started",
-            backgroundColor = Theme.color.surfaces.outlineVariant,
-            textColor = Theme.color.surfaces.outline
-        )
+           isEnabled = false
+        ){
+
+        }
     }
 }
