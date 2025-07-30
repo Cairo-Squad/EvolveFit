@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,10 +21,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_fire
 import evolvefit.composeapp.generated.resources.ic_plus
+import evolvefit.composeapp.generated.resources.ic_water_drop
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -48,24 +49,22 @@ fun CircularPercentageIndicator(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
             .background(backgroundColor)
-            .size(width = 160.dp, height = 180.dp)
     ) {
         Column(
-            modifier = modifier
-                .fillMaxSize()
+            modifier = Modifier
                 .padding(vertical = 12.dp, horizontal = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Row(
+                modifier = Modifier.padding(bottom = 8.dp),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    painter = icon,
-                    contentDescription = null,
                     modifier = Modifier
                         .size(20.dp)
                         .padding(end = 4.dp),
+                    painter = icon,
+                    contentDescription = "Icon description",
                     tint = iconColor
                 )
 
@@ -76,7 +75,9 @@ fun CircularPercentageIndicator(
                 )
             }
             Column(
-                modifier = modifier.align(Alignment.CenterHorizontally)
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 12.dp)
             ) {
                 CircularProgressCard(
                     percentage = percentage,
@@ -89,18 +90,19 @@ fun CircularPercentageIndicator(
             }
 
             Row(
-                modifier = modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "$currentValue / $totalValue $unit",
+                    modifier = Modifier.padding(vertical = 9.dp),
+                    text = "${currentValue.formatForDisplay()} / ${totalValue.formatForDisplay()} $unit",
                     color = Theme.color.surfaces.outline,
                     style = Theme.textStyle.body.mediumMedium12
                 )
                 if (buttonClickable) {
-                    Spacer(modifier = modifier.weight(1f))
+                    Spacer(modifier = Modifier.weight(1f))
                     Box(
-                        modifier = modifier
+                        modifier = Modifier
                             .size(32.dp)
                             .clip(CircleShape)
                             .background(Theme.color.system.info)
@@ -110,8 +112,8 @@ fun CircularPercentageIndicator(
                     ) {
                         Icon(
                             painter = painterResource(Res.drawable.ic_plus),
-                            contentDescription = null,
-                            modifier = modifier.size(20.dp),
+                            contentDescription = "Icon description",
+                            modifier = Modifier.size(20.dp),
                             tint = Theme.color.surfaces.textColor
                         )
                     }
@@ -121,15 +123,100 @@ fun CircularPercentageIndicator(
     }
 }
 
+fun Float.formatForDisplay(): String {
+    val rounded = (this * 10).toInt() / 10f
+    val isWholeNumber = rounded % 1 == 0f
+
+    val numberStr = if (isWholeNumber) {
+        rounded.toInt().toString()
+    } else {
+        rounded.toString()
+    }
+    return addThousandSeparators(numberStr)
+}
+
+private fun addThousandSeparators(number: String): String {
+    val parts = number.split(".")
+    val intPart = parts[0]
+    val decimalPart = if (parts.size > 1) parts[1] else null
+
+    val withCommas = intPart.reversed()
+        .chunked(3)
+        .joinToString(",")
+        .reversed()
+    return if (decimalPart != null) "$withCommas.$decimalPart" else withCommas
+}
+
 @Preview
 @Composable
-fun CircularPercentageIndicatorPreview() {
-    CircularPercentageIndicator(
-        title = "Calories",
-        currentValue = 1f,
-        totalValue = 2f,
-        unit = "kcal",
-        progressColor = Color.Blue,
-        buttonClickable = false
-    )
+fun Preview_Dark() {
+    AppTheme(isDarkTheme = true) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            CircularPercentageIndicator(
+                modifier = Modifier.weight(1f),
+                title = "Calories",
+                currentValue = 200f,
+                totalValue = 1000f,
+                unit = "L",
+                icon = painterResource(Res.drawable.ic_fire),
+                iconColor = Color.Green,
+                progressColor = Color(0xFF2196F3),
+                buttonClickable = false
+            )
+
+            CircularPercentageIndicator(
+                modifier = Modifier.weight(1f),
+                title = "Water",
+                currentValue = 1.5f,
+                totalValue = 3.0f,
+                unit = "L",
+                icon = painterResource(Res.drawable.ic_water_drop),
+                iconColor = Color(0xFF2196F3),
+                progressColor = Color(0xFF2196F3),
+                buttonClickable = true
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun Preview_Light() {
+    AppTheme(isDarkTheme = false) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            CircularPercentageIndicator(
+                modifier = Modifier.weight(1f),
+                title = "Calories",
+                currentValue = 2000f,
+                totalValue = 100000f,
+                unit = "L",
+                icon = painterResource(Res.drawable.ic_fire),
+                iconColor = Color.Green,
+                progressColor = Color(0xFF2196F3),
+                buttonClickable = false
+            )
+
+            CircularPercentageIndicator(
+                modifier = Modifier.weight(1f),
+                title = "Water",
+                currentValue = 1.5856f,
+                totalValue = 3.10f,
+                unit = "L",
+                icon = painterResource(Res.drawable.ic_water_drop),
+                iconColor = Color(0xFF2196F3),
+                progressColor = Color(0xFF2196F3),
+                buttonClickable = true
+            )
+        }
+    }
 }
