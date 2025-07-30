@@ -1,7 +1,7 @@
 <resources>
     <string name="dashboard">Dashboard</string>
     <string name="nutrition">Nutrition</string>
-    <string name="workout">Workout</string>
+    <string name="workouts">Workouts</string>
     <string name="reports">Reports</string>
     <string name="more">More</string>
 </resources>
