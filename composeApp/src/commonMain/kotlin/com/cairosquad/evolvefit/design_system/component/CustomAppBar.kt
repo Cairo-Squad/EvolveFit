@@ -106,6 +106,7 @@ private fun LanguageSelectorAppBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        Spacer(modifier = Modifier.weight(1f))
         LanguageDropdown(
             selectedLanguage = selectedLanguage,
             onLanguageSelected = onLanguageSelected
@@ -409,7 +410,5 @@ fun View(){
     CustomAppBar(
         type = AppBarType.LANGUAGE_SELECTOR,
     )
-    CustomAppBar(
-        type = AppBarType.USER_GREETING,
-    )
+
 }
