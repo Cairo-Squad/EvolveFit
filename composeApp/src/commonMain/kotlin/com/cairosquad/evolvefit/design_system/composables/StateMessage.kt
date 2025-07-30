@@ -12,10 +12,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.im_no_internet
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.vectorResource
-
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun StateMessage(
@@ -49,6 +52,18 @@ fun StateMessage(
             color = Theme.color.surfaces.onSurfaceVariant,
             style = Theme.textStyle.label.smallRegular12,
             textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Preview
+@Composable
+fun StateMessagePreview() {
+    AppTheme {
+        StateMessage(
+            image = Res.drawable.im_no_internet,
+            title = "Error Title",
+            description = "This is a detailed description of the error."
         )
     }
 }
