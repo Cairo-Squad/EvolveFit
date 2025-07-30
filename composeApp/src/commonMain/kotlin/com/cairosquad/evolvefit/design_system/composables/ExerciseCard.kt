@@ -18,17 +18,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.im_default_image
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ExerciseCard(title: String, time: String, modifier: Modifier = Modifier) {
+fun ExerciseCard(
+    title: String,
+    time: String,
+    img: DrawableResource = Res.drawable.im_default_image,
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = modifier.fillMaxWidth().height(68.dp),
         horizontalArrangement = Arrangement.Start
     ) {
         Image(
-            painter = painterResource(Res.drawable.im_default_image),
+            painter = painterResource(img),
             contentDescription = "Exercise Image",
             Modifier
                 .width(88.dp)
