@@ -30,14 +30,15 @@ fun ExerciseCard(title: String, time: String, modifier: Modifier = Modifier) {
         Image(
             painter = painterResource(Res.drawable.im_default_image),
             contentDescription = "Exercise Image",
-            modifier
+            Modifier
                 .width(88.dp)
                 .clip(RoundedCornerShape(16.dp))
         )
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.weight(1f)
+
                 .padding(start = 12.dp, top = 12.5.dp, bottom = 12.5.dp),
-            Arrangement.SpaceEvenly
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(text = title, fontSize = 14.sp, fontWeight = FontWeight.Medium)
             Text(text = time, fontSize = 12.sp, fontWeight = FontWeight.Normal)
