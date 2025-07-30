@@ -11,16 +11,12 @@ class RegisterViewModel: ViewModel(), RegisterInteractionListener {
     val state = _state.asStateFlow()
 
     override fun onClickNext() {
-        println("currentStep onClickNext before: ${state.value.currentStep}")
         _state.update { it.copy(currentStep = (it.currentStep + 1) % MAX_STEPS) }
-        println("currentStep onClickNext after: ${state.value.currentStep}")
     }
 
     override fun onClickBack() {
-        println("currentStep onClickBack: ${state.value.currentStep}")
         _state.update { it.copy(currentStep = (it.currentStep - 1) % MAX_STEPS) }
     }
-
 
     companion object {
         const val MAX_STEPS = 8
