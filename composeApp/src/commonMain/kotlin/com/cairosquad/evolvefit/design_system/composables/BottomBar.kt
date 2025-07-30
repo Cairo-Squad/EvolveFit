@@ -1,6 +1,12 @@
 package com.cairosquad.evolvefit.design_system.composables
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +42,9 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 data class BottomNavItem(
-    val icon: Painter, val labelId: StringResource
+    val outlinedIcon: Painter,
+    val filledIcon: Painter,
+    val label: StringResource
 )
 
 @Composable
@@ -71,8 +79,8 @@ private fun NavigationItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val label = stringResource(navItem.labelId)
-    val selectedItemColor by animateColorAsState(
+    val icon = if (isSelected) navItem.filledIcon else navItem.outlinedIcon
+    val textColor by animateColorAsState(
         targetValue = if (isSelected) Theme.color.brand.primary else Theme.color.surfaces.onSurfaceVariant,
         label = "icon and text color animation"
     )
@@ -80,17 +88,24 @@ private fun NavigationItem(
         modifier = modifier.clickable { onClick() },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Icon(
-            painter = navItem.icon,
-            contentDescription = label,
-            modifier = Modifier.size(24.dp),
-            tint = selectedItemColor
-        )
+        AnimatedContent(
+            targetState = icon,
+            transitionSpec = {
+                (fadeIn(tween(450))).togetherWith(fadeOut(tween(450)))
+            },
+            label = "Icon Animation"
+        ) {
+            Image(
+                painter = icon,
+                contentDescription = stringResource(navItem.label),
+                modifier = Modifier.size(24.dp),
+            )
+        }
         Text(
-            text = label,
+            text = stringResource(navItem.label),
             style = Theme.textStyle.body.smallRegular10,
             modifier = Modifier.padding(top = 4.dp),
-            color = selectedItemColor
+            color = textColor
         )
     }
 }
