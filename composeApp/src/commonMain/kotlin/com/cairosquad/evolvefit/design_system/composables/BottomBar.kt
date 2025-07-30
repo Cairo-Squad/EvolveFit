@@ -35,7 +35,16 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.dashboard
+import evolvefit.composeapp.generated.resources.dashboard_filled
 import evolvefit.composeapp.generated.resources.ic_dashboard
+import evolvefit.composeapp.generated.resources.more
+import evolvefit.composeapp.generated.resources.more_filled
+import evolvefit.composeapp.generated.resources.nutrition
+import evolvefit.composeapp.generated.resources.nutrition_filled
+import evolvefit.composeapp.generated.resources.reports
+import evolvefit.composeapp.generated.resources.reports_filled
+import evolvefit.composeapp.generated.resources.workouts
+import evolvefit.composeapp.generated.resources.workouts_filled
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -108,4 +117,49 @@ private fun NavigationItem(
             color = textColor
         )
     }
+}
+
+@Preview
+@Composable
+private fun NavigationBarPreview() {
+    val selectedItem: MutableState<Int> = mutableIntStateOf(0)
+    AppTheme(
+        isDarkTheme = true
+    ) {
+        Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
+            NavigationBar(
+                selectedItem = selectedItem.value, onItemClick = {
+                    selectedItem.value = it
+                }, navigationItems = listOf(
+                    BottomNavItem(
+                        outlinedIcon = painterResource(Res.drawable.dashboard),
+                        filledIcon = painterResource(Res.drawable.dashboard_filled),
+                        label = Res.string.dashboard
+                    ),
+                    BottomNavItem(
+                        outlinedIcon = painterResource(Res.drawable.nutrition),
+                        filledIcon = painterResource(Res.drawable.nutrition_filled),
+                        label = Res.string.nutrition
+                    ),
+                    BottomNavItem(
+                        outlinedIcon = painterResource(Res.drawable.workouts),
+                        filledIcon = painterResource(Res.drawable.workouts_filled),
+                        label = Res.string.workouts
+                    ),
+                    BottomNavItem(
+                        outlinedIcon = painterResource(Res.drawable.reports),
+                        filledIcon = painterResource(Res.drawable.reports_filled),
+                        label = Res.string.reports
+                    ),
+                    BottomNavItem(
+                        outlinedIcon = painterResource(Res.drawable.more),
+                        filledIcon = painterResource(Res.drawable.more_filled),
+                        label = Res.string.more
+                    ),
+
+                    ), modifier = Modifier.align(Alignment.Center)
+            )
+        }
+    }
+
 }
