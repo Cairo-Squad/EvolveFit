@@ -13,9 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.cairosquad.evolvefit.design_system.text_styles.TextStyle
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.im_default_image
 import org.jetbrains.compose.resources.DrawableResource
@@ -46,8 +45,8 @@ fun ExerciseCard(
                 .padding(start = 12.dp, top = 12.5.dp, bottom = 12.5.dp),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(text = title, fontSize = 14.sp, fontWeight = FontWeight.Medium)
-            Text(text = time, fontSize = 12.sp, fontWeight = FontWeight.Normal)
+            Text(text = title, style = TextStyle().title.mediumMedium14)
+            Text(text = time, style = TextStyle().label.smallRegular12)
         }
     }
 }
