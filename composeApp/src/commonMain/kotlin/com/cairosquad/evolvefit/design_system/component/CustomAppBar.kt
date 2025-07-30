@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -42,7 +44,7 @@ fun CustomAppBar(
     onBackClick: () -> Unit = {},
     userName: String = "",
     greetingMessage: String = "Have a nice day!",
-    userAvatarEmoji: String = "👨",
+    userProfile: DrawableResource = Res.drawable.ic_profile,
     title: String = "",
     onActionClick: () -> Unit = {},
     onBookmarkClick: () -> Unit = {},
@@ -72,8 +74,8 @@ fun CustomAppBar(
             AppBarType.USER_GREETING -> UserGreetingAppBar(
                 userName = userName,
                 greetingMessage = greetingMessage,
-                userAvatarEmoji = userAvatarEmoji,
-                contentColor = contentColor
+                contentColor = contentColor,
+                userProfile = userProfile
             )
 
             AppBarType.SIMPLE_TITLE -> CenteredTitleAppBar(title, contentColor)
@@ -174,8 +176,8 @@ private fun ProgressAppBar(
 private fun UserGreetingAppBar(
     userName: String,
     greetingMessage: String,
-    userAvatarEmoji: String,
-    contentColor: Color
+    contentColor: Color,
+    userProfile: DrawableResource = Res.drawable.ic_profile
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -187,7 +189,11 @@ private fun UserGreetingAppBar(
                 .background(Color.Transparent, CircleShape),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = userAvatarEmoji, fontSize = 16.sp)
+            Image(
+                painter = painterResource(resource = userProfile),
+                contentDescription = "User Profile",
+                modifier = Modifier.size(40.dp),
+            )
         }
 
         Spacer(modifier = Modifier.width(12.dp))
