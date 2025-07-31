@@ -28,7 +28,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun UserGreetingBar(
     userName: String,
     greetingMessage: String,
-    contentColor: Color,
+    contentColor: Color= Theme.color.surfaces.onSurface,
     modifier: Modifier= Modifier,
     userProfile: DrawableResource = Res.drawable.ic_profile,
 ) {
@@ -70,7 +70,6 @@ fun UserGreetingBarPreview() {
         UserGreetingBar(
             userName = "Menna",
             greetingMessage = "Let’s start your workout!",
-            contentColor = Color(0xFF5B82E9),
             userProfile = Res.drawable.ic_profile,
         )
 
