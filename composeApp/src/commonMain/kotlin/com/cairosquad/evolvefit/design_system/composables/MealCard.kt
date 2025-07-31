@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.text_styles.TextStyle
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_fire
@@ -29,14 +28,15 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun MealCard(
     title: String,
-    subtitle: String,
+    mealType: String,
     calories: Int,
-    image: DrawableResource = Res.drawable.im_default_image,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    calorieUnit: String = "Kcal",
+    image: DrawableResource = Res.drawable.im_default_image
 ) {
     Column(
         modifier = modifier
-            .width(158.dp)
+            .width(148.dp)
     ) {
         Box(
             modifier = Modifier.height(124.dp)
@@ -46,15 +46,15 @@ fun MealCard(
                 contentDescription = "Meal Image",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
+                    .clip(RoundedCornerShape(8.dp))
             )
             Row(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(16.dp))
+                    .padding(end = 4.dp, top = 4.dp)
+                    .clip(RoundedCornerShape(24.dp))
                     .background(Theme.color.brand.onPrimary),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.ic_fire),
@@ -63,8 +63,8 @@ fun MealCard(
                     modifier = Modifier.padding(start = 8.dp, end = 4.dp, top = 4.dp, bottom = 4.dp)
                 )
                 Text(
-                    text = "$calories kcal",
-                    style = TextStyle().body.smallRegular10,
+                    text = "$calories $calorieUnit",
+                    style = Theme.textStyle.body.smallRegular10,
                     color = Theme.color.brand.primary,
                     modifier = Modifier.padding(end = 8.dp)
                 )
@@ -72,13 +72,13 @@ fun MealCard(
         }
         Text(
             text = title,
-            style = TextStyle().label.mediumMedium14,
+            style = Theme.textStyle.label.mediumMedium14,
             color = Theme.color.surfaces.onSurface,
             modifier = Modifier.padding(bottom = 4.dp, top = 8.dp)
         )
         Text(
-            text = subtitle,
-            style = TextStyle().label.smallRegular12,
+            text = mealType,
+            style = Theme.textStyle.label.smallRegular12,
             color = Theme.color.surfaces.onSurfaceVariant,
         )
     }
@@ -89,7 +89,7 @@ fun MealCard(
 private fun MealCardPreview() {
     MealCard(
         title = "Avocado Toast",
-        subtitle = "Breakfast",
+        mealType = "Breakfast",
         calories = 350
     )
 }
