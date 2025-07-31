@@ -1,0 +1,7 @@
+<resources>
+    <string name="dashboard">الرئيسية</string>
+    <string name="nutrition">التغذية</string>
+    <string name="workouts">التمارين</string>
+    <string name="reports">التقارير</string>
+    <string name="more">المزيد</string>
+</resources>

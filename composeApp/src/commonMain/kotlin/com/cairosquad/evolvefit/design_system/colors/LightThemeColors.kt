@@ -4,18 +4,18 @@ import androidx.compose.ui.graphics.Color
 
 val lightThemeColors = ThemeColors(
     brand = Brand(
-        primary = Color(0xFFA4E845),
+        primary = Color(0xFF9BE03A),
         onPrimary = Color(0xFF161B07),
         primaryContainer = Color(0xFFF3FAD1),
         onPrimaryContainer = Color(0xFFD0F898),
     ),
     surfaces = Surfaces(
-        surface = Color(0xFFFFFFFF),
+        surface = Color(0xFFFDFDFD),
         onSurface = Color(0xFF2C2C2C),
-        surfaceContainer = Color(0xFFF9F9F9),
+        surfaceContainer = Color(0xFFF8F8F8),
         onSurfaceContainer = Color(0xFF333333),
         textColor = Color(0xFFFFFFFF),
-        surfaceVariant = Color(0xFFF3F3F3),
+        surfaceVariant = Color(0xFFFFFFFF),
         onSurfaceVariant = Color(0xFF929292),
         outline = Color(0xFF989898),
         outlineVariant = Color(0xFFE6E9DB),
