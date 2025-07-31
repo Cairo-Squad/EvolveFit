@@ -4,12 +4,12 @@ import android.app.Application
 import com.cairosquad.evolvefit.di.initKoin
 import org.koin.android.ext.koin.androidContext
 
-class MovioApp : Application() {
+class EvolveFitApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
         initKoin {
-            androidContext(this@MovioApp)
+            androidContext(this@EvolveFitApp)
         }
     }
 }

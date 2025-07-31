@@ -9,11 +9,6 @@ plugins {
     kotlin("plugin.serialization") version "2.0.21"
 }
 
-repositories {
-    google()
-    mavenCentral()
-}
-
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -51,7 +46,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.lifecycle.viewmodel)
             implementation(libs.lifecycle.viewmodel)
 
             // navigation
