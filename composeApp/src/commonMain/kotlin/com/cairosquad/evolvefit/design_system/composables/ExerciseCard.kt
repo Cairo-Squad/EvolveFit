@@ -4,9 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,14 +28,14 @@ fun ExerciseCard(
     img: DrawableResource = Res.drawable.im_default_image
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().height(68.dp),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = painterResource(img),
             contentDescription = "Exercise Image",
-            Modifier
-                .width(88.dp)
+            modifier = Modifier
+                .size(width = 88.dp, height = 68.dp)
                 .clip(RoundedCornerShape(8.dp))
         )
         Column(
