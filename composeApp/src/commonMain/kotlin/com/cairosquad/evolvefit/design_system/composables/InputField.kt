@@ -204,7 +204,7 @@ private fun PreviewInputFieldSuccess() {
         value = "Gehad",
         onValueChange = {},
         placeholder = "Enter your name",
-        trailingIcon = Res.drawable.trueIcon, 
+        trailingIcon = Res.drawable.ic_check_mark,
         modifier = Modifier.padding(16.dp)
     )
 }
