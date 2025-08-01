@@ -98,15 +98,36 @@ private fun IndicatorBarPreview() {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
-            listOf(false, true).forEach { isDark ->
-                AppTheme(isDarkTheme = isDark) {
-                    IndicatorBar(
-                        currentStep = 2,
-                        totalSteps = 8,
-                        onBackClick = { },
-                        contentColor = Theme.color.surfaces.onSurface
-                    )
-                }
+
+            AppTheme(isDarkTheme = false) {
+                IndicatorBar(
+                    currentStep = 2,
+                    totalSteps = 8,
+                    onBackClick = { },
+                    contentColor = Theme.color.surfaces.onSurface
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun IndicatorBarDarkPreview() {
+    AppTheme {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(32.dp)
+        ) {
+            AppTheme(isDarkTheme = true) {
+                IndicatorBar(
+                    currentStep = 2,
+                    totalSteps = 8,
+                    onBackClick = { },
+                    contentColor = Theme.color.surfaces.onSurface
+                )
             }
         }
     }
