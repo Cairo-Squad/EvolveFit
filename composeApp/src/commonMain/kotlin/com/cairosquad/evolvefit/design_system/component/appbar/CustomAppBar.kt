@@ -30,17 +30,19 @@ fun CustomAppBar(
     title: String,
     modifier: Modifier = Modifier,
     contentColor: Color = Theme.color.surfaces.onSurface,
-    navigationIcon: (@Composable (() -> Unit))? = null,
-    tailIcons: (@Composable RowScope.() -> Unit)? = null
+    header: (@Composable (() -> Unit)) = { Box(modifier = Modifier) },
+    tail: (@Composable RowScope.() -> Unit) = { Box(modifier = Modifier) }
 ) {
-    Box(
+    Row(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        header()
         Text(
             modifier = Modifier
-                .align(Alignment.Center)
+                .align(Alignment.CenterVertically).weight(1f)
                 .padding(vertical = 4.dp),
             text = title,
             color = contentColor,
@@ -48,26 +50,14 @@ fun CustomAppBar(
         )
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.Center),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            if (navigationIcon != null) {
-                navigationIcon()
-            } else {
-                Box(modifier = Modifier)
-            }
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            content = tail
+        )
 
-            if (tailIcons != null) {
-                Row(content = tailIcons)
-            } else {
-                Box(modifier = Modifier)
-            }
-        }
     }
 }
+
 @Preview
 @Composable
 private fun CustomAppBarPreview() {
@@ -97,7 +87,7 @@ private fun CustomAppBarPreview() {
 
                     CustomAppBar(
                         title = "With Back",
-                        navigationIcon = {
+                        header = {
                             ActionIconButton(
                                 icon = painterResource(Res.drawable.ic_back),
                                 contentDescription = "Back",
@@ -109,7 +99,7 @@ private fun CustomAppBarPreview() {
 
                     CustomAppBar(
                         title = "With Actions",
-                        tailIcons = {
+                        tail = {
                             ActionIconButton(
                                 icon = painterResource(Res.drawable.ic_share),
                                 contentDescription = "Share",
@@ -121,7 +111,7 @@ private fun CustomAppBarPreview() {
 
                     CustomAppBar(
                         title = "Back & One Action",
-                        navigationIcon = {
+                        header = {
                             ActionIconButton(
                                 icon = painterResource(Res.drawable.ic_back),
                                 contentDescription = "Back",
@@ -129,7 +119,7 @@ private fun CustomAppBarPreview() {
                                 onClick = {}
                             )
                         },
-                        tailIcons = {
+                        tail = {
                             ActionIconButton(
                                 icon = painterResource(Res.drawable.ic_group),
                                 contentDescription = "Group",
@@ -141,7 +131,7 @@ private fun CustomAppBarPreview() {
 
                     CustomAppBar(
                         title = "Back & Actions",
-                        navigationIcon = {
+                        header = {
                             ActionIconButton(
                                 icon = painterResource(Res.drawable.ic_back),
                                 contentDescription = "Back",
@@ -149,7 +139,7 @@ private fun CustomAppBarPreview() {
                                 onClick = {}
                             )
                         },
-                        tailIcons = {
+                        tail = {
                             ActionIconButton(
                                 icon = painterResource(Res.drawable.ic_bookmark),
                                 contentDescription = "Bookmark",
