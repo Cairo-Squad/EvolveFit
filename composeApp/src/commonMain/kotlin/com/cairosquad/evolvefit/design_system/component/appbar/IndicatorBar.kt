@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -31,7 +32,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun IndecatorBar(
+fun IndicatorBar(
     currentStep: Int,
     totalSteps: Int,
     onBackClick: () -> Unit,
@@ -68,7 +69,7 @@ fun IndecatorBar(
                     )
                     Box(
                         modifier = Modifier
-                            .width(32.dp)
+                            .weight(1f)
                             .height(4.dp)
                             .background(stepColor, RoundedCornerShape(2.dp))
                     )
@@ -80,7 +81,8 @@ fun IndecatorBar(
             Text(
                 text = "$currentStep/$totalSteps",
                 color = Theme.color.surfaces.onSurfaceVariant,
-                style = Theme.textStyle.label.smallRegular12
+                style = Theme.textStyle.label.smallRegular12,
+                modifier = Modifier.size(40.dp)
             )
         }
     }
@@ -88,7 +90,7 @@ fun IndecatorBar(
 
 @Preview
 @Composable
-private fun IndecatorBarPreview() {
+private fun IndicatorBarPreview() {
     AppTheme {
         Column(
             modifier = Modifier
@@ -98,7 +100,7 @@ private fun IndecatorBarPreview() {
         ) {
             listOf(false, true).forEach { isDark ->
                 AppTheme(isDarkTheme = isDark) {
-                    IndecatorBar(
+                    IndicatorBar(
                         currentStep = 2,
                         totalSteps = 8,
                         onBackClick = { },
