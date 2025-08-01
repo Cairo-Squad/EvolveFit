@@ -16,7 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_fire
@@ -44,6 +46,7 @@ fun MealCard(
             Image(
                 painter = painterResource(image),
                 contentDescription = "Meal Image",
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
@@ -87,9 +90,16 @@ fun MealCard(
 @Preview
 @Composable
 private fun MealCardPreview() {
-    MealCard(
-        title = "Avocado Toast",
-        mealType = "Breakfast",
-        calories = 350
-    )
+    AppTheme {
+        Box(
+            Modifier
+                .background(Theme.color.surfaces.surface)
+                .padding(16.dp)
+        )
+        MealCard(
+            title = "Avocado Toast",
+            mealType = "Breakfast",
+            calories = 350
+        )
+    }
 }
