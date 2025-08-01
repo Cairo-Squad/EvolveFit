@@ -1,0 +1,11 @@
+package com.cairosquad.evolvefit.di
+
+import org.koin.core.module.Module
+import org.koin.dsl.module
+
+actual val platformModule: Module
+    get() = module {
+        includes(
+            // TODO: Put IOS specific modules
+        )
+    }

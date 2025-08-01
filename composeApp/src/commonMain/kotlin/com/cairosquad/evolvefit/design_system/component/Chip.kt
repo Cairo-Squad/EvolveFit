@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -24,27 +25,30 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun Chip(
     title: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     isSelected: Boolean = false,
+    isEnabled: Boolean = true,
     textStyle: TextStyle = Theme.textStyle.body.mediumMedium14,
-    isEnable: Boolean = true,
-    onClick: () -> Unit = {}
+    selectedContainerColor: Color = Theme.color.brand.primary,
+    unselectedContainerColor: Color = Theme.color.surfaces.surfaceContainer,
+    selectedTextColor: Color = Theme.color.brand.onPrimary,
+    unselectedTextColor: Color = Theme.color.surfaces.onSurfaceContainer
 ) {
-
     val containerColor by animateColorAsState(
-        targetValue = if (isSelected) Theme.color.brand.primary else Theme.color.surfaces.surfaceContainer,
+        targetValue = if (isSelected) selectedContainerColor else unselectedContainerColor,
         label = "ContainerColorAnimation"
     )
 
     val textColor by animateColorAsState(
-        targetValue = if (isSelected) Theme.color.brand.onPrimary else Theme.color.surfaces.onSurfaceContainer,
+        targetValue = if (isSelected) selectedTextColor else unselectedTextColor,
         label = "TextColorAnimation"
     )
     Row(
         modifier = modifier
             .height(40.dp)
             .clip(CircleShape)
-            .clickable(onClick = onClick, enabled = isEnable)
+            .clickable(onClick = onClick, enabled = isEnabled)
             .background(color = containerColor, shape = CircleShape),
         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
     ) {
@@ -63,7 +67,7 @@ fun Chip(
 @Composable
 private fun SelectedArabicChipPreview() {
     AppTheme(isDarkTheme = true) {
-        Chip(title = "الكل", isSelected = true)
+        Chip(title = "الكل", isSelected = true, onClick = {})
     }
 }
 
@@ -71,7 +75,7 @@ private fun SelectedArabicChipPreview() {
 @Composable
 private fun UnSelectedArabicChipPreview() {
     AppTheme(isDarkTheme = true) {
-        Chip(title = "الكل", isSelected = false)
+        Chip(title = "الكل", isSelected = false, onClick = {})
     }
 }
 
@@ -79,7 +83,7 @@ private fun UnSelectedArabicChipPreview() {
 @Composable
 private fun SelectedEnglishChipPreview() {
     AppTheme(isDarkTheme = true) {
-        Chip(title = "All", isSelected = true)
+        Chip(title = "All", isSelected = true, onClick = {})
     }
 }
 
@@ -87,7 +91,7 @@ private fun SelectedEnglishChipPreview() {
 @Composable
 private fun UnSelectedEnglishChipPreview() {
     AppTheme(isDarkTheme = true) {
-        Chip(title = "All", isSelected = false)
+        Chip(title = "All", isSelected = false, onClick = {})
     }
 }
 
