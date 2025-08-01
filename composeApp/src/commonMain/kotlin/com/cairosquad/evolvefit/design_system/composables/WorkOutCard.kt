@@ -2,7 +2,7 @@ package com.cairosquad.evolvefit.design_system.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,34 +20,46 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.BlurredEdgeTreatment
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.ic_image
 import evolvefit.composeapp.generated.resources.ic_play
-import evolvefit.composeapp.generated.resources.works
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun WorkOutCard(modifier: Modifier = Modifier) {
+fun WorkOutCard(
+    title: String,
+    duration: String,
+    category: String,
+    modifier: Modifier = Modifier,
+    imageRes: Painter = painterResource(Res.drawable.ic_image),
+    onCardClick: () -> Unit = {},
+) {
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(140.dp)
-            .clip(RoundedCornerShape(8.dp))
+        modifier = modifier.fillMaxWidth().height(140.dp).clip(RoundedCornerShape(8.dp))
+            .clickable { onCardClick() }) {
+//        Image(
+//            modifier = Modifier.fillMaxSize(),
+//            contentScale = ContentScale.Crop,
+//            painter = imageRes,
+//            contentDescription = "Workout Image"
+//        )
+        Box(
+            modifier = Modifier.fillMaxSize() .background(Color(0xFF242424)),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
 
-    ) {
-        Image(
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop,
-            painter = painterResource(Res.drawable.works),
-            contentDescription = null
-        )
+                painter = imageRes,
+                contentDescription = "Workout Image"
+            )
+        }
 
         Row(
             modifier = Modifier
@@ -60,66 +72,61 @@ fun WorkOutCard(modifier: Modifier = Modifier) {
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .width(1.dp)
-                    .clip(RoundedCornerShape(bottomStart = 8.dp, topStart = 8.dp))
-                    .border(
-                        width = 1.dp,
-                        color = Theme.color.brand.primary,
-                        shape = RoundedCornerShape(bottomStart = 8.dp, topStart = 8.dp)
-                    )
+                    .width(2.dp)
+                    .clip(CircleShape)
                     .background(Theme.color.brand.primary)
-
-            ) { }
+            ) {}
             Column(
-                modifier = Modifier.weight(1f).padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 12.dp, top = 4.dp, bottom = 4.dp)
                     .fillMaxHeight()
             ) {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = "Jumping Jacks",
+                    text = title,
                     style = Theme.textStyle.title.largeBold16,
                     color = Theme.color.brand.primary
                 )
                 Row(
-                    modifier = Modifier.padding(top = 8.dp).wrapContentHeight().weight(1f),
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .wrapContentHeight()
+                        .weight(1f),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        "30 sec",
+                        duration,
                         style = Theme.textStyle.label.smallRegular12,
                         color = Theme.color.surfaces.onSurfaceContainer
                     )
                     Column(
-                        modifier = Modifier.padding(horizontal = 8.dp).fillMaxHeight()
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .fillMaxHeight()
                             .width(1.dp)
                             .background(Theme.color.surfaces.onSurfaceContainer)
-
                     ) { }
                     Text(
-                        "Full Body",
+                        category,
                         style = Theme.textStyle.label.smallRegular12,
                         color = Theme.color.surfaces.onSurfaceContainer
                     )
                 }
             }
+
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .padding(end = 3.5.dp)
-                    .clip(CircleShape)
+                modifier = modifier
+                    .padding(end = 4.dp)
+                    .clip(CircleShape).background(Theme.color.surfaces.onSurfaceAt2)
+
             ) {
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .blur(10.dp, edgeTreatment = BlurredEdgeTreatment.Unbounded)
-                        .background(
-                            Theme.color.surfaces.onSurfaceAt4)
-                )
                 Icon(
                     modifier = Modifier.padding(10.dp),
                     tint = Theme.color.brand.primary,
                     painter = painterResource(Res.drawable.ic_play),
-                    contentDescription = null
+                    contentDescription = "Play Button"
                 )
             }
 
@@ -132,6 +139,10 @@ fun WorkOutCard(modifier: Modifier = Modifier) {
 @Composable
 fun WorkOutCardPrev() {
     AppTheme(isDarkTheme = true) {
-        WorkOutCard()
+        WorkOutCard(
+            title = "Jumping Jacks",
+            duration = "30 sec",
+            category = "Full Body",
+        )
     }
 }
