@@ -23,6 +23,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun PrimaryButton(
     text: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
     enabledContainerColor: Color = Theme.color.brand.primary,
@@ -30,7 +31,6 @@ fun PrimaryButton(
     enabledTextColor: Color = Theme.color.brand.onPrimary,
     disabledTextColor: Color = Theme.color.surfaces.outline,
     textStyle: TextStyle = Theme.textStyle.body.mediumMedium14,
-    onClick: () -> Unit
 ) {
     val containerColor by animateColorAsState(
         targetValue = if (isEnabled) enabledContainerColor else disabledContainerColor,
@@ -64,10 +64,8 @@ fun PrimaryButton(
 private fun EnabledButtonPreview() {
     AppTheme(isDarkTheme = true) {
         PrimaryButton(
-            text = "Get Started",
-        ) {
-
-        }
+            text = "Get Started", onClick = {}
+        )
     }
 }
 
@@ -77,9 +75,7 @@ private fun DisabledButtonPreview() {
     AppTheme(isDarkTheme = true) {
         PrimaryButton(
             text = "Get Started",
-            isEnabled = false
-        ) {
-            
-        }
+            isEnabled = false, onClick = {}
+        )
     }
 }
