@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_arrow_down
@@ -140,9 +141,10 @@ private fun LanguageDropdown(
 @Composable
 fun LanguageSelectorPreview() {
     var selectedLanguage by remember { mutableStateOf("English") }
-
-    LanguageSelector(
-        selectedLanguage = selectedLanguage,
-        onLanguageSelected = { selectedLanguage = it }
-    )
+    AppTheme {
+        LanguageSelector(
+            selectedLanguage = selectedLanguage,
+            onLanguageSelected = { selectedLanguage = it }
+        )
+    }
 }

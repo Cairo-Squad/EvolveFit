@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_profile
@@ -67,10 +68,11 @@ fun UserGreetingBar(
 @Preview
 @Composable
 fun UserGreetingBarPreview() {
+    AppTheme {
         UserGreetingBar(
             userName = "Menna",
             greetingMessage = "Let’s start your workout!",
             userProfile = Res.drawable.ic_profile,
         )
-
+    }
 }

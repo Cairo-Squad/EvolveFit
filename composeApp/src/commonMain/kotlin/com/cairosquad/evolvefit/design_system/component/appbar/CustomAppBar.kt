@@ -1,8 +1,15 @@
 package com.cairosquad.evolvefit.design_system.component.appbar
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -10,7 +17,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import evolvefit.composeapp.generated.resources.*
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.ic_bookmark
+import evolvefit.composeapp.generated.resources.ic_group
+import evolvefit.composeapp.generated.resources.ic_share
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -20,7 +31,7 @@ fun CustomAppBar(
     modifier: Modifier = Modifier,
     contentColor: Color = Theme.color.surfaces.onSurface,
     navigationIcon: (@Composable (() -> Unit))? = null,
-    actions: (@Composable RowScope.() -> Unit)? = null
+    tailIcons: (@Composable RowScope.() -> Unit)? = null
 ) {
     Box(
         modifier = modifier
@@ -49,178 +60,112 @@ fun CustomAppBar(
                 Box(modifier = Modifier)
             }
 
-            if (actions != null) {
-                Row(content = actions)
+            if (tailIcons != null) {
+                Row(content = tailIcons)
             } else {
                 Box(modifier = Modifier)
             }
         }
     }
 }
-
 @Preview
 @Composable
 private fun CustomAppBarPreview() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Gray)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(32.dp)
+    ) {
+        listOf(false, true).forEach { isDark ->
+            AppTheme(isDarkTheme = isDark) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Theme.color.surfaces.surface)
+                        .padding(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text(
+                        text = if (isDark) "Dark Mode" else "Light Mode",
+                        style = Theme.textStyle.title.mediumMedium16,
+                        color = Theme.color.surfaces.onSurface
+                    )
 
+                    CustomAppBar(title = "Title Only")
 
-        AppTheme(isDarkTheme = false) {
-            Row  (
-                modifier = Modifier.background(Theme.color.surfaces.surface),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
+                    CustomAppBar(
+                        title = "With Back",
+                        navigationIcon = {
+                            ActionIconButton(
+                                icon = painterResource(Res.drawable.ic_back),
+                                contentDescription = "Back",
+                                tint = Theme.color.surfaces.onSurface,
+                                onClick = {}
+                            )
+                        }
+                    )
 
-                CustomAppBar(title = "Title Only")
+                    CustomAppBar(
+                        title = "With Actions",
+                        tailIcons = {
+                            ActionIconButton(
+                                icon = painterResource(Res.drawable.ic_share),
+                                contentDescription = "Share",
+                                tint = Theme.color.surfaces.onSurface,
+                                onClick = {}
+                            )
+                        }
+                    )
 
-                CustomAppBar(
-                    title = "With Back",
-                    navigationIcon = {
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_back),
-                            contentDescription = "Back",
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = {}
-                        )
-                    }
-                )
+                    CustomAppBar(
+                        title = "Back & One Action",
+                        navigationIcon = {
+                            ActionIconButton(
+                                icon = painterResource(Res.drawable.ic_back),
+                                contentDescription = "Back",
+                                tint = Theme.color.surfaces.onSurface,
+                                onClick = {}
+                            )
+                        },
+                        tailIcons = {
+                            ActionIconButton(
+                                icon = painterResource(Res.drawable.ic_group),
+                                contentDescription = "Group",
+                                tint = Theme.color.surfaces.onSurface,
+                                onClick = {}
+                            )
+                        }
+                    )
 
-                CustomAppBar(
-                    title = "With Actions",
-                    actions = {
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_share),
-                            contentDescription = "Share",
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = {}
-                        )
-                    }
-                )
-
-                CustomAppBar(
-                    title = "Back & One Action",
-                    navigationIcon = {
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_back),
-                            contentDescription = "Back",
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = {}
-                        )
-                    },
-                    actions = {
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_group),
-                            contentDescription = "Group",
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = {}
-                        )
-                    }
-                )
-
-                CustomAppBar(
-                    title = "Back & Multi Actions",
-                    navigationIcon = {
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_back),
-                            contentDescription = "Back",
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = {}
-                        )
-                    },
-                    actions = {
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_bookmark),
-                            contentDescription = "Bookmark",
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = {}
-                        )
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_share),
-                            contentDescription = "Share",
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = {}
-                        )
-                    }
-                )
+                    CustomAppBar(
+                        title = "Back & Actions",
+                        navigationIcon = {
+                            ActionIconButton(
+                                icon = painterResource(Res.drawable.ic_back),
+                                contentDescription = "Back",
+                                tint = Theme.color.surfaces.onSurface,
+                                onClick = {}
+                            )
+                        },
+                        tailIcons = {
+                            ActionIconButton(
+                                icon = painterResource(Res.drawable.ic_bookmark),
+                                contentDescription = "Bookmark",
+                                tint = Theme.color.surfaces.onSurface,
+                                onClick = {}
+                            )
+                            ActionIconButton(
+                                icon = painterResource(Res.drawable.ic_share),
+                                contentDescription = "Share",
+                                tint = Theme.color.surfaces.onSurface,
+                                onClick = {}
+                            )
+                        }
+                    )
+                }
             }
         }
-
-        AppTheme(isDarkTheme = true) {
-            Row(
-                modifier = Modifier.background(Theme.color.surfaces.surface),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-
-                CustomAppBar(title = "Title Only")
-
-                CustomAppBar(
-                    title = "With Back",
-                    navigationIcon = {
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_back),
-                            contentDescription = "Back",
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = {}
-                        )
-                    }
-                )
-
-                CustomAppBar(
-                    title = "With Actions",
-                    actions = {
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_share),
-                            contentDescription = "Share",
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = {}
-                        )
-                    }
-                )
-
-                CustomAppBar(
-                    title = "Back & One Action",
-                    navigationIcon = {
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_back),
-                            contentDescription = "Back",
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = {}
-                        )
-                    },
-                    actions = {
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_group),
-                            contentDescription = "Group",
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = {}
-                        )
-                    }
-                )
-
-                CustomAppBar(
-                    title = "Back & Multi Actions",
-                    navigationIcon = {
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_back),
-                            contentDescription = "Back",
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = {}
-                        )
-                    },
-                    actions = {
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_bookmark),
-                            contentDescription = "Bookmark",
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = {}
-                        )
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_share),
-                            contentDescription = "Share",
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = {}
-                        )
-                    }
-                )
-            }
-        }
+    }
 }
-

@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_back
@@ -86,10 +87,12 @@ fun IndecatorBar(
 @Preview
 @Composable
 private fun IndecatorBarPreview() {
-    IndecatorBar(
-        currentStep = 2,
-        totalSteps = 5,
-        onBackClick = {  },
-        contentColor = Theme.color.surfaces.onSurface
-    )
+    AppTheme {
+        IndecatorBar(
+            currentStep = 2,
+            totalSteps = 8,
+            onBackClick = { },
+            contentColor = Theme.color.surfaces.onSurface
+        )
+    }
 }
