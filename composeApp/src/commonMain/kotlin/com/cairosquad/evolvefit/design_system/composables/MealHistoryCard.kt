@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.text_styles.TextStyle
+import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_coffee
@@ -96,11 +97,18 @@ fun MealHistoryCard(
 @Preview
 @Composable
 private fun MealHistoryCardPreview() {
-    MealHistoryCard(
-        title = "Oatmeal with Fruits Squats",
-        dateTime = "Today, 7:30 AM",
-        calories = 320,
-        mealType = "Breakfast",
-        icon = Res.drawable.ic_coffee,
-    )
+    AppTheme {
+        Box(
+            Modifier
+                .background(Theme.color.surfaces.surface)
+                .padding(16.dp)
+        )
+        MealHistoryCard(
+            title = "Oatmeal with Fruits Squats",
+            dateTime = "Today, 7:30 AM",
+            calories = 320,
+            mealType = "Breakfast",
+            icon = Res.drawable.ic_coffee,
+        )
+    }
 }
