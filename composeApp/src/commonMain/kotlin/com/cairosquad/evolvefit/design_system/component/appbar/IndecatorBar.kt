@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.design_system.component
+package com.cairosquad.evolvefit.design_system.component.appbar
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
