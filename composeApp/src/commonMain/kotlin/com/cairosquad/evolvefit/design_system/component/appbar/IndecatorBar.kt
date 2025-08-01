@@ -5,8 +5,10 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -88,11 +90,22 @@ fun IndecatorBar(
 @Composable
 private fun IndecatorBarPreview() {
     AppTheme {
-        IndecatorBar(
-            currentStep = 2,
-            totalSteps = 8,
-            onBackClick = { },
-            contentColor = Theme.color.surfaces.onSurface
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(32.dp)
+        ) {
+            listOf(false, true).forEach { isDark ->
+                AppTheme(isDarkTheme = isDark) {
+                    IndecatorBar(
+                        currentStep = 2,
+                        totalSteps = 8,
+                        onBackClick = { },
+                        contentColor = Theme.color.surfaces.onSurface
+                    )
+                }
+            }
+        }
     }
 }

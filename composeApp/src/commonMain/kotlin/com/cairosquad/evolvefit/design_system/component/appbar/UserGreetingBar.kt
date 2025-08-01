@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -67,12 +68,23 @@ fun UserGreetingBar(
 }
 @Preview
 @Composable
-fun UserGreetingBarPreview() {
+private fun UserGreetingBarPreview() {
     AppTheme {
-        UserGreetingBar(
-            userName = "Menna",
-            greetingMessage = "Let’s start your workout!",
-            userProfile = Res.drawable.ic_profile,
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(32.dp)
+        ) {
+            listOf(false, true).forEach { isDark ->
+                AppTheme(isDarkTheme = isDark) {
+                    UserGreetingBar(
+                        userName = "Menna",
+                        greetingMessage = "Let’s start your workout!",
+                        userProfile = Res.drawable.ic_profile,
+                    )
+                }
+            }
+        }
     }
 }
