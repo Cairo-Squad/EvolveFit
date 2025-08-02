@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.design_system.composables
+package com.cairosquad.evolvefit.design_system.component
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
@@ -43,7 +43,6 @@ import evolvefit.composeapp.generated.resources.reports
 import evolvefit.composeapp.generated.resources.reports_filled
 import evolvefit.composeapp.generated.resources.workouts
 import evolvefit.composeapp.generated.resources.workouts_filled
-import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -51,7 +50,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 data class NavigationBarItem(
     val outlinedIcon: Painter,
     val filledIcon: Painter,
-    val label: StringResource
+    val label: String
 )
 
 @Composable
@@ -104,12 +103,12 @@ private fun NavigationItem(
         ) {
             Image(
                 painter = icon,
-                contentDescription = stringResource(navItem.label),
+                contentDescription = navItem.label,
                 modifier = Modifier.size(24.dp),
             )
         }
         Text(
-            text = stringResource(navItem.label),
+            text = navItem.label,
             style = Theme.textStyle.body.smallRegular10,
             modifier = Modifier.padding(top = 4.dp),
             color = textColor
@@ -132,27 +131,27 @@ private fun NavigationBarPreview() {
                     NavigationBarItem(
                         outlinedIcon = painterResource(Res.drawable.dashboard),
                         filledIcon = painterResource(Res.drawable.dashboard_filled),
-                        label = Res.string.dashboard
+                        label = stringResource(Res.string.dashboard)
                     ),
                     NavigationBarItem(
                         outlinedIcon = painterResource(Res.drawable.nutrition),
                         filledIcon = painterResource(Res.drawable.nutrition_filled),
-                        label = Res.string.nutrition
+                        label = stringResource(Res.string.nutrition)
                     ),
                     NavigationBarItem(
                         outlinedIcon = painterResource(Res.drawable.workouts),
                         filledIcon = painterResource(Res.drawable.workouts_filled),
-                        label = Res.string.workouts
+                        label = stringResource(Res.string.workouts)
                     ),
                     NavigationBarItem(
                         outlinedIcon = painterResource(Res.drawable.reports),
                         filledIcon = painterResource(Res.drawable.reports_filled),
-                        label = Res.string.reports
+                        label = stringResource(Res.string.reports)
                     ),
                     NavigationBarItem(
                         outlinedIcon = painterResource(Res.drawable.more),
                         filledIcon = painterResource(Res.drawable.more_filled),
-                        label = Res.string.more
+                        label = stringResource(Res.string.more)
                     ),
 
                     ), modifier = Modifier.align(Alignment.Center)
