@@ -14,7 +14,7 @@ import com.cairosquad.evolvefit.ui.screen.onBoarding.OnboardingScreen
 import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
 
 @Composable
-fun NavigationHost(){
+fun NavigationHost() {
 
     val navController = rememberNavController()
 
@@ -24,7 +24,7 @@ fun NavigationHost(){
             .background(color = Theme.color.surfaces.surface),
         navController = navController,
         startDestination = OnboardingRoute
-    ){
+    ) {
         composable<OnboardingRoute> {
             OnboardingScreen(
                 navigateToLogin = { navController.navigate(LoginRoute) },
@@ -39,7 +39,16 @@ fun NavigationHost(){
         }
 
         composable<RegisterRoute> {
-            RegisterScreen()
+            RegisterScreen(
+                navigateToApp = {
+                    navController.navigate(AppRoute) {
+                        popUpTo(OnboardingRoute) {
+                            inclusive = true
+                        }
+                    }
+                },
+                navigateBack = { navController.popBackStack() }
+            )
         }
 
         composable<AppRoute> {

@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.register.content
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,19 +9,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.component.PrimaryButton
+import com.cairosquad.evolvefit.design_system.component.appbar.IndicatorBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
 import com.cairosquad.evolvefit.viewmodel.register.RegisterViewModel
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.next
+import evolvefit.composeapp.generated.resources.start_now
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RegisterScreenContent(
@@ -30,15 +34,33 @@ fun RegisterScreenContent(
     listener: RegisterInteractionListener,
 ) {
 
-    val pagerState =
-        rememberPagerState(state.currentStep, pageCount = { RegisterViewModel.MAX_STEPS })
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        pageCount = { RegisterViewModel.MAX_STEPS }
+    )
 
-    LaunchedEffect(state.currentStep) {
-        if (state.currentStep == pagerState.currentPage) return@LaunchedEffect
-        pagerState.animateScrollToPage(state.currentStep)
+    var previousPage by remember { mutableStateOf(0) }
+
+    val currentStepIndex = state.currentStep - 1
+
+    LaunchedEffect(currentStepIndex) {
+        if (currentStepIndex == pagerState.currentPage) return@LaunchedEffect
+        if (currentStepIndex == previousPage) return@LaunchedEffect
+        if (pagerState.currentPage != previousPage) return@LaunchedEffect
+        try {
+            pagerState.animateScrollToPage(currentStepIndex)
+        } finally {
+            previousPage = currentStepIndex
+        }
     }
-    LaunchedEffect(pagerState.currentPage) {
-        if (state.currentStep == pagerState.currentPage) return@LaunchedEffect
+
+    LaunchedEffect(pagerState.isScrollInProgress) {
+        if (pagerState.isScrollInProgress) return@LaunchedEffect
+        if (currentStepIndex == pagerState.currentPage) return@LaunchedEffect
+        if (currentStepIndex != previousPage) return@LaunchedEffect
+        if (pagerState.currentPage == previousPage) return@LaunchedEffect
+        previousPage = pagerState.currentPage
+        listener.onSelectStep(pagerState.currentPage + 1)
     }
 
     Column(
@@ -48,12 +70,12 @@ fun RegisterScreenContent(
             .statusBarsPadding()
             .navigationBarsPadding(),
     ) {
-        Button(
-            modifier = Modifier.padding(12.dp),
-            onClick = listener::onClickBack
-        ) {
-            Text("Back")
-        }
+        IndicatorBar(
+            currentStep = state.currentStep,
+            totalSteps = RegisterViewModel.MAX_STEPS,
+            onBackClick = listener::onClickBack,
+            onClickStep = listener::onSelectStep
+        )
 
         HorizontalPager(
             modifier = Modifier
@@ -73,24 +95,18 @@ fun RegisterScreenContent(
             }
         }
 
-        Text(
+        PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 24.dp)
-                .clip(CircleShape)
-                .clickable(
-                    onClick = listener::onClickNext,
-                    enabled = state.nextButtonEnabled
-                )
-                .background(
-                    color = if (state.nextButtonEnabled) Theme.color.brand.primary
-                    else Theme.color.surfaces.outlineVariant
-                )
-                .padding(15.5.dp),
-            text = "Next",
-            textAlign = TextAlign.Center,
-            color = Theme.color.brand.onPrimary
+                .padding(bottom = 24.dp),
+            text =
+                if (state.currentStep == 8) stringResource(Res.string.start_now)
+                else stringResource(Res.string.next),
+            onClick =
+                if (state.currentStep == 8) listener::onClickStartNow
+                else listener::onClickNext,
+            isEnabled = state.nextButtonEnabled
         )
     }
 }

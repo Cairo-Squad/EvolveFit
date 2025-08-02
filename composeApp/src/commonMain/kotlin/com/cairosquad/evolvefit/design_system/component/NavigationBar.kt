@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -36,7 +35,6 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.dashboard
 import evolvefit.composeapp.generated.resources.dashboard_filled
-import evolvefit.composeapp.generated.resources.ic_dashboard
 import evolvefit.composeapp.generated.resources.more
 import evolvefit.composeapp.generated.resources.more_filled
 import evolvefit.composeapp.generated.resources.nutrition
@@ -50,7 +48,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-data class BottomNavItem(
+data class NavigationBarItem(
     val outlinedIcon: Painter,
     val filledIcon: Painter,
     val label: StringResource
@@ -59,7 +57,7 @@ data class BottomNavItem(
 @Composable
 fun NavigationBar(
     onItemClick: (Int) -> Unit,
-    navigationItems: List<BottomNavItem>,
+    navigationItems: List<NavigationBarItem>,
     modifier: Modifier = Modifier,
     selectedItem: Int = 0,
 ) {
@@ -83,7 +81,7 @@ fun NavigationBar(
 
 @Composable
 private fun NavigationItem(
-    navItem: BottomNavItem,
+    navItem: NavigationBarItem,
     isSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -131,27 +129,27 @@ private fun NavigationBarPreview() {
                 selectedItem = selectedItem.value, onItemClick = {
                     selectedItem.value = it
                 }, navigationItems = listOf(
-                    BottomNavItem(
+                    NavigationBarItem(
                         outlinedIcon = painterResource(Res.drawable.dashboard),
                         filledIcon = painterResource(Res.drawable.dashboard_filled),
                         label = Res.string.dashboard
                     ),
-                    BottomNavItem(
+                    NavigationBarItem(
                         outlinedIcon = painterResource(Res.drawable.nutrition),
                         filledIcon = painterResource(Res.drawable.nutrition_filled),
                         label = Res.string.nutrition
                     ),
-                    BottomNavItem(
+                    NavigationBarItem(
                         outlinedIcon = painterResource(Res.drawable.workouts),
                         filledIcon = painterResource(Res.drawable.workouts_filled),
                         label = Res.string.workouts
                     ),
-                    BottomNavItem(
+                    NavigationBarItem(
                         outlinedIcon = painterResource(Res.drawable.reports),
                         filledIcon = painterResource(Res.drawable.reports_filled),
                         label = Res.string.reports
                     ),
-                    BottomNavItem(
+                    NavigationBarItem(
                         outlinedIcon = painterResource(Res.drawable.more),
                         filledIcon = painterResource(Res.drawable.more_filled),
                         label = Res.string.more
