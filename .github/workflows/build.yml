@@ -40,4 +40,4 @@ jobs:
           distribution: 'adopt'
 
       - name: Build with Xcode
-        run: xcodebuild -allowProvisioningUpdates -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphoneos -destination name='iPhone 16'
+        run: ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
