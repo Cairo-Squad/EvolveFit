@@ -39,8 +39,8 @@ fun WorkOutCard(
     duration: String,
     category: String,
     model: String,
+    onCardClick: () -> Unit,
     modifier: Modifier = Modifier,
-    onCardClick: () -> Unit = {},
 ) {
     Box(
         modifier = modifier.fillMaxWidth().height(140.dp).clip(RoundedCornerShape(8.dp))
@@ -54,9 +54,7 @@ fun WorkOutCard(
             )
         } else {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0xFF242424)),
+                modifier = Modifier.fillMaxSize().background(Color(0xFF242424)),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
@@ -66,24 +64,16 @@ fun WorkOutCard(
             }
         }
         Row(
-            modifier = Modifier
-                .padding(bottom = 12.dp, start = 12.dp, end = 12.dp)
-                .height(50.dp)
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter),
+            modifier = Modifier.padding(bottom = 12.dp, start = 12.dp, end = 12.dp).height(50.dp)
+                .fillMaxWidth().align(Alignment.BottomCenter),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(2.dp)
-                    .clip(CircleShape)
+                modifier = Modifier.fillMaxHeight().width(2.dp).clip(CircleShape)
                     .background(Theme.color.brand.primary)
             ) {}
             Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 12.dp, top = 4.dp, bottom = 4.dp)
+                modifier = Modifier.weight(1f).padding(start = 12.dp, top = 4.dp, bottom = 4.dp)
                     .fillMaxHeight()
             ) {
                 Text(
@@ -93,10 +83,7 @@ fun WorkOutCard(
                     color = Theme.color.brand.primary
                 )
                 Row(
-                    modifier = Modifier
-                        .padding(top = 8.dp)
-                        .wrapContentHeight()
-                        .weight(1f),
+                    modifier = Modifier.padding(top = 8.dp).wrapContentHeight().weight(1f),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -105,10 +92,7 @@ fun WorkOutCard(
                         color = Theme.color.surfaces.onSurfaceContainer
                     )
                     Column(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-                            .fillMaxHeight()
-                            .width(1.dp)
+                        modifier = Modifier.padding(horizontal = 8.dp).fillMaxHeight().width(1.dp)
                             .background(Theme.color.surfaces.onSurfaceContainer)
                     ) { }
                     Text(
@@ -120,11 +104,9 @@ fun WorkOutCard(
             }
 
             Box(
-                modifier = modifier
-                    .padding(end = 4.dp)
-                    .clip(CircleShape)
+                modifier = modifier.padding(end = 4.dp).clip(CircleShape)
                     .background(Theme.color.surfaces.onSurfaceAt2),
-                        contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center
             ) {
                 Icon(
                     modifier = Modifier.padding(10.dp),
@@ -147,7 +129,8 @@ fun WorkOutCardPrev() {
             title = "Jumping Jacks",
             duration = "30 sec",
             category = "Full Body",
-            model = ""
+            model = "",
+            onCardClick = {}
         )
     }
 }
