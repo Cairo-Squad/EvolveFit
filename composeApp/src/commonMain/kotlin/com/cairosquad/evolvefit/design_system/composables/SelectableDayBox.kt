@@ -36,7 +36,6 @@ fun SelectableDayBox(
                 color = backgroundColor,
                 shape = RoundedCornerShape(8.dp)
             )
-            .width(101.33.dp)
             .height(48.dp)
             .clickable { onClick() },
         contentAlignment = Alignment.Center
@@ -53,24 +52,26 @@ fun SelectableDayBox(
 
 @Preview()
 @Composable
-fun SelectableBoxPreview() {
+private fun SelectableBoxPreview() {
     AppTheme(isDarkTheme = true) {
         SelectableDayBox(
             textDay = "Wednesday",
             isSelected = true,
-            onClick = {}
+            onClick = {},
+            modifier = Modifier.width(103.dp)
         )
     }
 }
 
 @Preview()
 @Composable
-fun SelectableBoxPreview2() {
+private fun SelectableBoxPreview2() {
     AppTheme(isDarkTheme = true) {
         SelectableDayBox(
             textDay = "Sunday",
             isSelected = true,
-            onClick = {}
+            onClick = {},
+            modifier = Modifier.width(103.dp)
         )
     }
 }
