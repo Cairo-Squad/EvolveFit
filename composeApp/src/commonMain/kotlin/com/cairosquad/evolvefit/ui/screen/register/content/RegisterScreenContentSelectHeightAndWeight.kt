@@ -153,7 +153,7 @@ private fun measureSection(
         BasicText(
             text = measureType,
             style = Theme.textStyle.headline.mediumMedium18.copy(
-                color = Theme.color.surfaces.surface
+                color = Theme.color.surfaces.onSurface
             ),
             modifier = Modifier.padding(bottom = 8.dp, start = 16.dp)
         )
@@ -227,12 +227,13 @@ private fun Ruler(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(120.dp)
+            .height(79.dp)
     ) {
 
         Canvas(
             modifier = Modifier
-                .size(16.dp)
+                .width(15.dp)
+                .height(12.dp)
                 .align(Alignment.TopCenter)
                 .offset(y = (-8).dp)
         ) {
