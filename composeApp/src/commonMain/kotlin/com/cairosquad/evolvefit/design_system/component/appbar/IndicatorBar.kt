@@ -61,7 +61,7 @@ fun IndicatorBar(
         }
 
         Row(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).padding(start = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(
