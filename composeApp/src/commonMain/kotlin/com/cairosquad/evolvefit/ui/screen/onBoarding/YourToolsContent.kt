@@ -4,15 +4,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun NotificationSettingsContent(modifier: Modifier = Modifier) {
+fun YourToolsContent(modifier: Modifier= Modifier){
     Column(modifier = modifier.fillMaxSize()) {
         OnboardingHeader(
-            title = "Notification Settings",
-            description = "Select the notifications you want to receive"
+            title = "Your Tools",
+            description = "Select with tools you have, and we’ll tailor your custom plan to reflect this."
         )
 
     }
@@ -20,8 +19,6 @@ fun NotificationSettingsContent(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun NotificationSettingsContentPreview() {
-    AppTheme(isDarkTheme = true) {
-        NotificationSettingsContent()
-    }
+fun YourToolsContentPreview(){
+    YourToolsContent()
 }

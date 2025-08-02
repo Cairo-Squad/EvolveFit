@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.Chip
+import com.cairosquad.evolvefit.design_system.composables.SelectableDayBox
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -39,17 +40,11 @@ fun WorkoutDaysContent(modifier: Modifier = Modifier) {
             .padding(horizontal = 16.dp)
             .fillMaxSize()
     ) {
-        Text(
-            text = "Workout Days",
-            color = Theme.color.surfaces.onSurface,
-            style = Theme.textStyle.headline.mediumMedium18,
+        OnboardingHeader(
+            title = "Workout Days",
+            description = "How often would you like to workout?"
         )
-        Text(
-            modifier = Modifier.padding(top = 8.dp),
-            text = "How often would you like to workout?",
-            color = Theme.color.surfaces.onSurfaceVariant,
-            style = Theme.textStyle.label.smallRegular14,
-        )
+
         LazyVerticalGrid(
             modifier = modifier.padding(top = 24.dp).fillMaxSize(),
             columns = GridCells.Adaptive(minSize = 101.33.dp),
@@ -57,7 +52,7 @@ fun WorkoutDaysContent(modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(weekdays) {
-
+                SelectableDayBox(textDay = it, isSelected = true, onClick = {})
             }
         }
     }
@@ -66,6 +61,7 @@ fun WorkoutDaysContent(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun WorkoutDaysContentPreview() {
-    AppTheme (isDarkTheme = true) {
+    AppTheme(isDarkTheme = true) {
         WorkoutDaysContent()
-    }}
+    }
+}
