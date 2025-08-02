@@ -29,6 +29,7 @@ fun ExerciseCard(
     title: String,
     time: String,
     modifier: Modifier = Modifier,
+    unit: String = "Seconds",
     img: DrawableResource = Res.drawable.im_default_image
 ) {
     Row(
@@ -53,7 +54,7 @@ fun ExerciseCard(
                 color = Theme.color.surfaces.onSurfaceContainer
             )
             Text(
-                text = time,
+                text = "$time $unit",
                 style = Theme.textStyle.label.smallRegular12,
                 color = Theme.color.surfaces.onSurfaceVariant,
                 modifier = Modifier.padding(top = 12.dp)
@@ -65,12 +66,13 @@ fun ExerciseCard(
 @Preview
 @Composable
 private fun ExerciseCardPreview() {
-    AppTheme {
+    AppTheme(isDarkTheme = false) {
         Box(
             Modifier
                 .background(Theme.color.surfaces.surface)
-                .padding(16.dp)
-        )
-        ExerciseCard(title = "Bodyweight Squats", time = "30 sec")
+                .padding(top = 32.dp, start = 16.dp)
+        ) {
+            ExerciseCard(title = "Bodyweight Squats", time = "30")
+        }
     }
 }
