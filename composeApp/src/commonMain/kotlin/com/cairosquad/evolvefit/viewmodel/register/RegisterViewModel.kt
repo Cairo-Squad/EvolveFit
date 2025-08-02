@@ -17,6 +17,14 @@ class RegisterViewModel: ViewModel(), RegisterInteractionListener {
     override fun onClickBack() {
         _state.update { it.copy(currentStep = (it.currentStep - 1) % MAX_STEPS) }
     }
+    override fun onHeightChanged(height: Float) {
+        _state.update { it.copy(selectedHeight = height) }
+    }
+
+    override fun onWeightChanged(weight: Float) {
+        _state.update { it.copy(selectedWeight = weight) }
+    }
+
 
     companion object {
         const val MAX_STEPS = 8
