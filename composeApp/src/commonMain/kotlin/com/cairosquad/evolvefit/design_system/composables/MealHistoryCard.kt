@@ -16,13 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.text_styles.TextStyle
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_coffee
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -32,7 +31,7 @@ fun MealHistoryCard(
     dateTime: String,
     calories: Int,
     mealType: String,
-    icon: DrawableResource,
+    icon: Painter,
     modifier: Modifier = Modifier,
     calorieUnit: String = "Kcal"
 ) {
@@ -54,7 +53,7 @@ fun MealHistoryCard(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                painter = painterResource(icon),
+                painter = icon,
                 contentDescription = "Meal Type",
                 modifier = Modifier.padding(12.dp),
                 tint = Theme.color.brand.primary
@@ -66,14 +65,14 @@ fun MealHistoryCard(
         ) {
             Text(
                 text = title,
-                style = TextStyle().title.largeBold14,
+                style = Theme.textStyle.title.largeBold14,
                 color = Theme.color.surfaces.onSurface
             )
             Text(
                 text = dateTime,
-                style = TextStyle().label.smallRegular12,
-                color = Theme.color.surfaces.onSurfaceVariant,
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp),
+                style = Theme.textStyle.label.smallRegular12,
+                color = Theme.color.surfaces.onSurfaceVariant
             )
         }
         Column(
@@ -86,9 +85,9 @@ fun MealHistoryCard(
             )
             Text(
                 text = mealType,
+                modifier = Modifier.padding(top = 4.dp),
                 style = Theme.textStyle.body.smallRegular10,
-                color = Theme.color.surfaces.onSurfaceVariant,
-                modifier = Modifier.padding(top = 4.dp)
+                color = Theme.color.surfaces.onSurfaceVariant
             )
         }
     }
@@ -97,18 +96,19 @@ fun MealHistoryCard(
 @Preview
 @Composable
 private fun MealHistoryCardPreview() {
-    AppTheme {
+    AppTheme(isDarkTheme = false) {
         Box(
             Modifier
                 .background(Theme.color.surfaces.surface)
                 .padding(16.dp)
-        )
-        MealHistoryCard(
-            title = "Oatmeal with Fruits Squats",
-            dateTime = "Today, 7:30 AM",
-            calories = 320,
-            mealType = "Breakfast",
-            icon = Res.drawable.ic_coffee,
-        )
+        ) {
+            MealHistoryCard(
+                title = "Oatmeal with Fruits",
+                dateTime = "Today, 7:30 AM",
+                calories = 320,
+                mealType = "Breakfast",
+                icon = painterResource(Res.drawable.ic_coffee),
+            )
+        }
     }
 }
