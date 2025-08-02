@@ -31,11 +31,11 @@ class RegisterViewModel:
         sendEffect(RegisterEffect.NavigateToHome)
     }
     override fun onHeightChanged(height: Float) {
-        _state.update { it.copy(selectedHeight = height) }
+        updateState{ it.copy(selectedHeight = height) }
     }
 
     override fun onWeightChanged(weight: Float) {
-        _state.update { it.copy(selectedWeight = weight) }
+        updateState { it.copy(selectedWeight = weight) }
     }
 
 
