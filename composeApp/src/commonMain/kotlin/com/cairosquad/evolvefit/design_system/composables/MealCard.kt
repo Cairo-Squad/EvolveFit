@@ -95,11 +95,12 @@ private fun MealCardPreview() {
             Modifier
                 .background(Theme.color.surfaces.surface)
                 .padding(16.dp)
-        )
-        MealCard(
-            title = "Avocado Toast",
-            mealType = "Breakfast",
-            calories = 350
-        )
+        ) {
+            MealCard(
+                title = "Avocado Toast",
+                mealType = "Breakfast",
+                calories = 350
+            )
+        }
     }
 }
