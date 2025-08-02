@@ -19,9 +19,7 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.im_no_internet
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -65,7 +63,7 @@ fun StateMessage(
 @Composable
 private fun StateMessagePreview() {
     AppTheme(isDarkTheme = true) {
-        Box(modifier = Modifier.background(Theme.color.surfaces.surface)){
+        Box(modifier = Modifier.background(Theme.color.surfaces.surface)) {
             StateMessage(
                 image = painterResource(Res.drawable.im_no_internet),
                 title = "Error Title",
