@@ -6,4 +6,6 @@
     <string name="more">المزيد</string>
     <string name="start_now">ابدأ الآن</string>
     <string name="next">التالي</string>
+    <string name="internet_is_not_available">الإنترنت غير متوفر</string>
+    <string name="please_make_sure_you_are_connected_to_the_internet_and_try_again">يرجى التأكد من أنك متصل بالإنترنت وحاول مرة أخرى.</string>
 </resources>
