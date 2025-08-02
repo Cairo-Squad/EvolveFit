@@ -27,7 +27,7 @@ jobs:
         run: ./gradlew clean build test --parallel
 
   build-ios:
-    runs-on: macos-14
+    runs-on: macos-latest
 
     steps:
       - name: Checkout
