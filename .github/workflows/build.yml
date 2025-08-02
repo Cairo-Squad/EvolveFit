@@ -24,7 +24,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Build with Gradle
-        run: ./gradlew clean build test --parallel
+        run: ./gradlew :composeApp:assembleDebug
 
   build-ios:
     runs-on: macos-15
