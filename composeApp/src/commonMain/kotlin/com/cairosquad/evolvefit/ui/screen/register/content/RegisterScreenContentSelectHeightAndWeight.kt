@@ -37,9 +37,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.cairosquad.evolvefit.design_system.component.PrimaryButton
-import com.cairosquad.evolvefit.design_system.component.appbar.IndicatorBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
@@ -48,7 +45,6 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.height
 import evolvefit.composeapp.generated.resources.ic_ruler
 import evolvefit.composeapp.generated.resources.ic_scale
-import evolvefit.composeapp.generated.resources.next
 import evolvefit.composeapp.generated.resources.select_measurement
 import evolvefit.composeapp.generated.resources.weight
 import org.jetbrains.compose.resources.painterResource
@@ -219,6 +215,9 @@ private fun Ruler(
     var currentValue by remember(selectedValue) { mutableFloatStateOf(selectedValue) }
     val density = LocalDensity.current
     val textMeasurer = rememberTextMeasurer()
+    val indicatorColor = Theme.color.surfaces.onSurfaceVariant
+    val outlineColor=Theme.color.surfaces.outline
+    val textStyle=Theme.textStyle.body.smallRegular10
 
     LaunchedEffect(selectedValue) {
         currentValue = selectedValue
@@ -243,14 +242,13 @@ private fun Ruler(
                 lineTo(size.width, 0f)
                 close()
             }
-            drawPath(path, Color.White)
+            drawPath(path, indicatorColor)
         }
-
 
         Canvas(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(80.dp)
+                .height(51.dp)
                 .align(Alignment.Center)
                 .pointerInput(Unit) {
                     detectDragGestures { _, dragAmount ->
@@ -262,12 +260,15 @@ private fun Ruler(
                     }
                 }
         ) {
+
             drawRuler(
                 selectedValue = currentValue,
                 minValue = minValue,
                 maxValue = maxValue,
                 textMeasurer = textMeasurer,
-                density = density
+                density = density,
+                outlineColor=outlineColor,
+                textStyle=textStyle
             )
         }
     }
@@ -280,7 +281,9 @@ private fun DrawScope.drawRuler(
     minValue: Float,
     maxValue: Float,
     textMeasurer: TextMeasurer,
-    density: androidx.compose.ui.unit.Density
+    density: androidx.compose.ui.unit.Density,
+    outlineColor: Color,
+    textStyle: TextStyle
 ) {
     val canvasWidth = size.width
     val canvasHeight = size.height
@@ -291,6 +294,7 @@ private fun DrawScope.drawRuler(
 
     val startValue = selectedValue - (canvasWidth / pixelsPerUnit) / 2
     val endValue = selectedValue + (canvasWidth / pixelsPerUnit) / 2
+
 
     for (i in startValue.toInt()..endValue.toInt()) {
         if (i < minValue || i > maxValue) continue
@@ -307,32 +311,31 @@ private fun DrawScope.drawRuler(
             }
         }
 
-        val strokeWidth = if (isMajorMark) 2.dp.toPx() else 1.dp.toPx()
+        val strokeWidth = 2.dp.toPx()
         val alpha = 1f - (abs(x - centerX) / (canvasWidth / 2)) * 0.7f
 
         drawLine(
-            color = Color.White.copy(alpha = alpha.coerceAtLeast(0.3f)),
-            start = Offset(x, canvasHeight - markHeight),
-            end = Offset(x, canvasHeight),
+            color = outlineColor.copy(alpha = alpha.coerceIn(0.3f, 1f)),
+            start = Offset(x, 0f),
+            end = Offset(x, markHeight),
             strokeWidth = strokeWidth
         )
 
-        if (isMajorMark && abs(x - centerX) < canvasWidth / 3) {
-            val textStyle = TextStyle(
-                color = Color.White.copy(alpha = alpha.coerceAtLeast(0.3f)),
-                fontSize = 12.sp
+        if (isMajorMark && abs(x - centerX) < canvasWidth / 3f) {
+            val finalTextStyle = textStyle.copy(
+                color = outlineColor.copy(alpha = alpha.coerceIn(0.5f, 1f))
             )
 
             val textLayoutResult = textMeasurer.measure(
                 text = i.toString(),
-                style = textStyle
+                style = finalTextStyle
             )
 
             drawText(
                 textLayoutResult = textLayoutResult,
                 topLeft = Offset(
                     x - textLayoutResult.size.width / 2,
-                    canvasHeight - markHeight - with(density) { 20.dp.toPx() }
+                    markHeight + with(density) { 8.dp.toPx() }
                 )
             )
         }
