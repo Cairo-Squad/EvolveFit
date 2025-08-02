@@ -36,7 +36,7 @@ fun MealHistoryCard(
     calorieUnit: String = "Kcal"
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().padding(16.dp),
+        modifier = modifier.padding(vertical = 16.dp).fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
