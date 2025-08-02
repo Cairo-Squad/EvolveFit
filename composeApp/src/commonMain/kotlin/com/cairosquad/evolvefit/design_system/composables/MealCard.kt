@@ -38,7 +38,7 @@ fun MealCard(
 ) {
     Column(
         modifier = modifier
-            .width(148.dp)
+            .width(158.dp)
     ) {
         Box(
             modifier = Modifier.height(124.dp)
