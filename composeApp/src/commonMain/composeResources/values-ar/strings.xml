@@ -6,4 +6,7 @@
     <string name="more">المزيد</string>
     <string name="start_now">ابدأ الآن</string>
     <string name="next">التالي</string>
+    <string name="select_measurement">يرجى اختيار قياس ل%1$s</string>
+    <string name="height">الطول</string>
+    <string name="weight">الوزن</string>
 </resources>
