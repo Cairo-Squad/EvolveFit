@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.register.content
 
+import RegisterScreenContentSelectHeightAndWeight
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

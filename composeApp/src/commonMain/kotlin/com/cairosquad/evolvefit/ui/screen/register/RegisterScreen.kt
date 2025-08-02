@@ -15,13 +15,13 @@ fun RegisterScreen(
     navigateBack: () -> Unit,
     viewModel: RegisterViewModel = koinViewModel()
 ) {
-
     val state by viewModel.screenState.collectAsState()
 
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
             RegisterEffect.NavigateBack -> navigateBack()
             RegisterEffect.NavigateToHome -> navigateToApp()
+            RegisterEffect.NavigateToNextScreen -> navigateToApp()
         }
     }
 
@@ -30,3 +30,4 @@ fun RegisterScreen(
         listener = viewModel
     )
 }
+

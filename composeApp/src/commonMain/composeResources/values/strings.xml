@@ -4,7 +4,7 @@
     <string name="workouts">Workouts</string>
     <string name="reports">Reports</string>
     <string name="more">More</string>
-    <string name="select_measurement">Please select a measurement for your %1$s</string>
+    <string name="select_measurement">Please select a measurement for your </string>
     <string name="height">Height</string>
     <string name="weight">Weight</string>
 
