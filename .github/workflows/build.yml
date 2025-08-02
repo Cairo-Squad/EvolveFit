@@ -40,4 +40,4 @@ jobs:
           distribution: 'adopt'
 
       - name: Build with Xcode
-        run: xcodebuild -workspace iosApp/iosApp.xcodeproj/project.xcworkspace -configuration Debug -scheme alkaa -sdk iphonesimulator
+        run: xcodebuild -workspace iosApp.xcworkspace -scheme iosApp -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 15' build
