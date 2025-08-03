@@ -10,7 +10,7 @@ class RegisterViewModel :
         updateState { current ->
             val nextStep = current.currentStep + 1
             val newState = current.copy(currentStep = nextStep)
-            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
@@ -31,7 +31,7 @@ class RegisterViewModel :
         updateState {
             val gender = if (checked) RegisterScreenState.Gender.Female else null
             val newState = it.copy(selectedGender = gender)
-            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
@@ -39,7 +39,7 @@ class RegisterViewModel :
         updateState {
             val gender = if (checked) RegisterScreenState.Gender.Male else null
             val newState = it.copy(selectedGender = gender)
-            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
@@ -47,7 +47,7 @@ class RegisterViewModel :
         updateState {
             val unit = if (checked) RegisterScreenState.MeasurementUnit.Metric else null
             val newState = it.copy(selectedMeasurementUnit = unit)
-            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
@@ -55,7 +55,7 @@ class RegisterViewModel :
         updateState {
             val unit = if (checked) RegisterScreenState.MeasurementUnit.Imperial else null
             val newState = it.copy(selectedMeasurementUnit = unit)
-            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
@@ -63,7 +63,7 @@ class RegisterViewModel :
         updateState {
             val goal = if (checked) RegisterScreenState.Goal.LoseWeight else null
             val newState = it.copy(selectedGoal = goal)
-            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
@@ -71,7 +71,7 @@ class RegisterViewModel :
         updateState {
             val goal = if (checked) RegisterScreenState.Goal.GainWeight else null
             val newState = it.copy(selectedGoal = goal)
-            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
@@ -79,11 +79,11 @@ class RegisterViewModel :
         updateState {
             val goal = if (checked) RegisterScreenState.Goal.StayInShape else null
             val newState = it.copy(selectedGoal = goal)
-            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
-    private fun isNextButtonEnabled(state: RegisterScreenState): Boolean {
+    private fun updateNextButtonEnableState(state: RegisterScreenState): Boolean {
         return when (state.currentStep) {
             1 -> state.selectedGender != null
             2 -> state.selectedMeasurementUnit != null
