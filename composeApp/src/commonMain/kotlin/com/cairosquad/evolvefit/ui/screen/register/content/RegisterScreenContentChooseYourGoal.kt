@@ -15,6 +15,16 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.onBoarding.OnboardingHeader
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.gain_weight
+import evolvefit.composeapp.generated.resources.gain_weight_desc
+import evolvefit.composeapp.generated.resources.lose_weight
+import evolvefit.composeapp.generated.resources.lose_weight_desc
+import evolvefit.composeapp.generated.resources.select_goal_description
+import evolvefit.composeapp.generated.resources.select_goal_title
+import evolvefit.composeapp.generated.resources.stay_in_shape
+import evolvefit.composeapp.generated.resources.stay_in_shape_desc
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RegisterScreenContentChooseYourGoal(
@@ -29,32 +39,30 @@ fun RegisterScreenContentChooseYourGoal(
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         OnboardingHeader(
-            title = "What is your main goal?",
-            description = "Select your goal to personalize your training program."
+            title = stringResource(Res.string.select_goal_title),
+            description = stringResource(Res.string.select_goal_description)
         )
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            CheckboxItem(
-                text = "Lose weight",
-                isChecked = state.selectedGoal == RegisterScreenState.Goal.LoseWeight,
-                onCheckedChange = listener::onLossWeightCheckedChange,
-                description = "Get into your dream shape."
-            )
-            CheckboxItem(
-                text = "Gain weight",
-                isChecked = state.selectedGoal == RegisterScreenState.Goal.GainWeight,
-                onCheckedChange = listener::onGainWeightCheckedChange,
-                description = "Bulk up and build muscles."
-            )
-            CheckboxItem(
-                text = "Stay in shape",
-                isChecked = state.selectedGoal == RegisterScreenState.Goal.StayInShape,
-                onCheckedChange = listener::onStayInShapeCheckedChange,
-                description = "Get a toned and leaner body."
-            )
+            RegisterScreenState.Goal.entries.forEach { goal ->
+                CheckboxItem(
+                    text = when (goal) {
+                        RegisterScreenState.Goal.LoseWeight -> stringResource(Res.string.lose_weight)
+                        RegisterScreenState.Goal.GainWeight -> stringResource(Res.string.gain_weight)
+                        RegisterScreenState.Goal.StayInShape -> stringResource(Res.string.stay_in_shape)
+                    },
+                    description = when (goal) {
+                        RegisterScreenState.Goal.LoseWeight -> stringResource(Res.string.lose_weight_desc)
+                        RegisterScreenState.Goal.GainWeight -> stringResource(Res.string.gain_weight_desc)
+                        RegisterScreenState.Goal.StayInShape -> stringResource(Res.string.stay_in_shape_desc)
 
+                    },
+                    isChecked = state.selectedGoal == goal,
+                    onCheckedChange = { listener.onGoalClicked(goal) },
+                )
+            }
         }
 
     }

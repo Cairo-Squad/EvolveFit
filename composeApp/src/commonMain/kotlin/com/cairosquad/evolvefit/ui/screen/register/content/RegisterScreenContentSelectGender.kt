@@ -15,6 +15,12 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.onBoarding.OnboardingHeader
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.female
+import evolvefit.composeapp.generated.resources.male
+import evolvefit.composeapp.generated.resources.select_gender_description
+import evolvefit.composeapp.generated.resources.select_gender_title
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RegisterScreenContentSelectGender(
@@ -29,23 +35,23 @@ fun RegisterScreenContentSelectGender(
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         OnboardingHeader(
-            title = "What’s your gender?",
-            description = "This will be used to calibrate your custom plan."
+            title = stringResource(Res.string.select_gender_title),
+            description = stringResource(Res.string.select_gender_description)
         )
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            CheckboxItem(
-                text = "Female",
-                isChecked = state.selectedGender == RegisterScreenState.Gender.Female,
-                onCheckedChange = listener::onFemaleCheckedChange,
-            )
-            CheckboxItem(
-                text = "Male",
-                isChecked = state.selectedGender == RegisterScreenState.Gender.Male,
-                onCheckedChange = listener::onMaleCheckedChange,
-            )
+            RegisterScreenState.Gender.entries.forEach { gender ->
+                CheckboxItem(
+                    text = when (gender) {
+                        RegisterScreenState.Gender.Male -> stringResource(Res.string.male)
+                        RegisterScreenState.Gender.Female -> stringResource(Res.string.female)
+                    },
+                    isChecked = state.selectedGender == gender,
+                    onCheckedChange = { listener.onGenderClicked(gender) },
+                )
+            }
 
         }
 

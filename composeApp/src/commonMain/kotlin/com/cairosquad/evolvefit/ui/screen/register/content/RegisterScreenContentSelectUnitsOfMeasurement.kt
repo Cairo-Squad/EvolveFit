@@ -15,13 +15,19 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.onBoarding.OnboardingHeader
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.select_unit_description
+import evolvefit.composeapp.generated.resources.select_unit_title
+import evolvefit.composeapp.generated.resources.unit_imperial
+import evolvefit.composeapp.generated.resources.unit_metric
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RegisterScreenContentSelectUnitsOfMeasurement(
     state: RegisterScreenState,
     listener: RegisterInteractionListener,
     modifier: Modifier = Modifier
-){
+) {
     Column(
         modifier = modifier.fillMaxSize().background(Theme.color.surfaces.surface)
             .padding(horizontal = 16.dp),
@@ -29,25 +35,24 @@ fun RegisterScreenContentSelectUnitsOfMeasurement(
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         OnboardingHeader(
-            title = "Choose your units of measurement",
-            description = "You can change the units of measurement at any time through the app settings."
+            title = stringResource(Res.string.select_unit_title),
+            description = stringResource(Res.string.select_unit_description)
         )
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            CheckboxItem(
-                text = "Metric (cm/kg)",
-                isChecked = state.selectedMeasurementUnit == RegisterScreenState.MeasurementUnit.Metric,
-                onCheckedChange = listener::onMetricCheckedChange,
-            )
-            CheckboxItem(
-                text = "Imperial (ft/lb)",
-                isChecked = state.selectedMeasurementUnit == RegisterScreenState.MeasurementUnit.Imperial,
-                onCheckedChange = listener::onImperialCheckedChange,
-            )
+            RegisterScreenState.MeasurementUnit.entries.forEach { unit ->
+                CheckboxItem(
+                    text = when (unit) {
+                        RegisterScreenState.MeasurementUnit.Metric -> stringResource(Res.string.unit_metric)
+                        RegisterScreenState.MeasurementUnit.Imperial -> stringResource(Res.string.unit_imperial)
+                    },
+                    isChecked = state.selectedMeasurementUnit == unit,
+                    onCheckedChange = { listener.onMeasurementUnitClicked(unit) },
+                )
+            }
 
         }
-
     }
 }
