@@ -32,11 +32,12 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CircularPercentageIndicator(
-    modifier: Modifier = Modifier,
     title: String,
     currentValue: Float,
     totalValue: Float,
     unit: String = "",
+    modifier: Modifier = Modifier,
+    onAddWaterClick: () -> Unit = {},
     icon: Painter = painterResource(Res.drawable.ic_fire),
     iconColor: Color = Color.Blue,
     progressColor: Color = Color(0xFF8BC34A),
@@ -106,7 +107,7 @@ fun CircularPercentageIndicator(
                             .size(32.dp)
                             .clip(CircleShape)
                             .background(Theme.color.system.info)
-                            .clickable { },
+                            .clickable(onClick = { onAddWaterClick() }, enabled = buttonClickable),
                         contentAlignment = Alignment.Center
 
                     ) {
