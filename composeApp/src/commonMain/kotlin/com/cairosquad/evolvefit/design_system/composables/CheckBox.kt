@@ -1,10 +1,13 @@
 package com.cairosquad.evolvefit.design_system.composables
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,7 +28,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
@@ -95,11 +97,14 @@ fun CustomTick(
     modifier: Modifier = Modifier
 ) {
     val backgroundColor by animateColorAsState(
-        targetValue = if (isChecked) Theme.color.surfaces.surfaceContainer else Color.Transparent,
+        targetValue =
+            if (isChecked) Theme.color.surfaces.surfaceContainer
+            else Theme.color.surfaces.surfaceContainer.copy(alpha = 0.0f),
         animationSpec = tween(300)
     )
     val boxModifier = modifier
         .size(24.dp)
+        .clip(CircleShape)
         .background(
             color = backgroundColor,
             shape = CircleShape
@@ -118,7 +123,11 @@ fun CustomTick(
         modifier = boxModifier,
         contentAlignment = Alignment.Center
     ) {
-        if (isChecked) {
+        AnimatedVisibility(
+            visible = isChecked,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
             Icon(
                 painter = painterResource(Res.drawable.ic_green_check_circle),
                 contentDescription = null,
@@ -154,7 +163,7 @@ fun CustomSwitch(
     Box(
         modifier = modifier
             .size(trackWidth, trackHeight)
-            .clip(RoundedCornerShape(50))
+            .clip(CircleShape)
             .background(color = trackColor)
             .clickable(enabled = enabled) { onCheckedChange(!isChecked) },
         contentAlignment = Alignment.CenterStart
