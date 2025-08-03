@@ -7,7 +7,11 @@ class RegisterViewModel :
     RegisterInteractionListener {
 
     override fun onClickNext() {
-        updateState { it.copy(currentStep = it.currentStep + 1) }
+        updateState { current ->
+            val nextStep = current.currentStep + 1
+            val newState = current.copy(currentStep = nextStep)
+            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
+        }
     }
 
     override fun onClickBack() {
@@ -19,7 +23,10 @@ class RegisterViewModel :
     }
 
     override fun onSelectStep(step: Int) {
-        updateState { it.copy(currentStep = step) }
+        updateState { it.copy(currentStep = step,
+            nextButtonEnabled = isNextButtonEnabled(it.copy(currentStep = step))
+        )
+        }
     }
 
     override fun onClickStartNow() {
@@ -112,6 +119,16 @@ class RegisterViewModel :
             newState.copy(
                 nextButtonEnabled = newState.isLoseWeightChecked || newState.isGainWeightChecked || newState.isStayInShapeChecked
             )
+        }
+    }
+    private fun isNextButtonEnabled(state: RegisterScreenState): Boolean {
+        return when (state.currentStep) {
+            1 -> state.isFemaleChecked || state.isMaleChecked
+            2 -> state.isMetricChecked || state.isImperialChecked
+            3 -> true
+            4 -> state.isLoseWeightChecked || state.isGainWeightChecked || state.isStayInShapeChecked
+             5, 6, 7 -> true
+            else -> false
         }
     }
 

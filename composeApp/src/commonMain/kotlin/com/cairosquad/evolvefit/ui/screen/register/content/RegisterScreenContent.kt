@@ -74,7 +74,8 @@ fun RegisterScreenContent(
             currentStep = state.currentStep,
             totalSteps = RegisterViewModel.MAX_STEPS,
             onBackClick = listener::onClickBack,
-            onClickStep = listener::onSelectStep
+            onClickStep = listener::onSelectStep,
+            selectStepEnabled = state.nextButtonEnabled
         )
 
         HorizontalPager(
