@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.design_system.composables
+package com.cairosquad.evolvefit.design_system.component
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background

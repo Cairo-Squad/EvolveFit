@@ -34,17 +34,22 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun WorkOutCard(
+fun WorkoutCard(
     title: String,
     duration: String,
-    category: String,
+    bodyPart: String,
     model: String,
     onCardClick: () -> Unit,
+    onClickPlayButton: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier.fillMaxWidth().height(140.dp).clip(RoundedCornerShape(8.dp))
-            .clickable { onCardClick() }) {
+        modifier = modifier
+            .fillMaxWidth()
+            .height(140.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .clickable { onCardClick() }
+    ) {
         if (model.isNotBlank()) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
@@ -64,7 +69,9 @@ fun WorkOutCard(
             }
         }
         Row(
-            modifier = Modifier.padding(bottom = 12.dp, start = 12.dp, end = 12.dp).height(50.dp)
+            modifier = Modifier
+                .padding(bottom = 12.dp, start = 12.dp, end = 12.dp)
+                .height(50.dp)
                 .fillMaxWidth().align(Alignment.BottomCenter),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -83,7 +90,8 @@ fun WorkOutCard(
                     color = Theme.color.brand.primary
                 )
                 Row(
-                    modifier = Modifier.padding(top = 8.dp).wrapContentHeight().weight(1f),
+                    modifier = Modifier.padding(top = 8.dp)
+                        .wrapContentHeight().weight(1f),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -91,12 +99,15 @@ fun WorkOutCard(
                         style = Theme.textStyle.label.smallRegular12,
                         color = Theme.color.surfaces.onSurfaceContainer
                     )
-                    Column(
-                        modifier = Modifier.padding(horizontal = 8.dp).fillMaxHeight().width(1.dp)
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .fillMaxHeight()
+                            .width(1.dp)
                             .background(Theme.color.surfaces.onSurfaceContainer)
-                    ) { }
+                    )
                     Text(
-                        category,
+                        bodyPart,
                         style = Theme.textStyle.label.smallRegular12,
                         color = Theme.color.surfaces.onSurfaceContainer
                     )
@@ -104,8 +115,11 @@ fun WorkOutCard(
             }
 
             Box(
-                modifier = modifier.padding(end = 4.dp).clip(CircleShape)
-                    .background(Theme.color.surfaces.onSurfaceAt2),
+                modifier = Modifier
+                    .padding(end = 4.dp)
+                    .clip(CircleShape)
+                    .background(Theme.color.surfaces.onSurfaceAt2)
+                    .clickable(onClick = onClickPlayButton),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -123,14 +137,15 @@ fun WorkOutCard(
 
 @Preview
 @Composable
-fun WorkOutCardPrev() {
+fun WorkoutCardPrev() {
     AppTheme(isDarkTheme = true) {
-        WorkOutCard(
+        WorkoutCard(
             title = "Jumping Jacks",
             duration = "30 sec",
-            category = "Full Body",
+            bodyPart = "Full Body",
             model = "",
-            onCardClick = {}
+            onCardClick = {},
+            onClickPlayButton = {}
         )
     }
 }

@@ -1,11 +1,11 @@
-package com.cairosquad.evolvefit.design_system.composables
+package com.cairosquad.evolvefit.design_system.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
@@ -33,19 +34,22 @@ fun MealCard(
     title: String,
     mealType: String,
     calories: Int,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     calorieUnit: String = "Kcal",
-    image: DrawableResource = Res.drawable.im_default_image
+    enableClick: Boolean = true,
+    image: Painter = painterResource(Res.drawable.im_default_image)
 ) {
     Column(
         modifier = modifier
-            .width(158.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .clickable(onClick = onClick, enabled = enableClick),
     ) {
         Box(
             modifier = Modifier.height(124.dp)
         ) {
             Image(
-                painter = painterResource(image),
+                painter = image,
                 contentDescription = "Meal Image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -98,9 +102,11 @@ private fun MealCardPreview() {
                 .padding(16.dp)
         ) {
             MealCard(
+                modifier = Modifier.width(158.dp),
                 title = "Avocado Toast",
                 mealType = "Breakfast",
-                calories = 350
+                calories = 350,
+                onClick = {}
             )
         }
     }

@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.design_system.composables
+package com.cairosquad.evolvefit.design_system.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -70,7 +70,7 @@ private fun ExerciseCardPreview() {
         Box(
             Modifier
                 .background(Theme.color.surfaces.surface)
-                .padding(top = 32.dp, start = 16.dp)
+                .padding(16.dp)
         ) {
             ExerciseCard(title = "Bodyweight Squats", time = "30")
         }
