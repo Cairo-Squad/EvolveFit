@@ -37,6 +37,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun WorkOutCard(
     title: String,
     duration: String,
+    unit: String,
     category: String,
     model: String,
     onCardClick: () -> Unit,
@@ -87,7 +88,7 @@ fun WorkOutCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        duration,
+                        text = "$duration $unit",
                         style = Theme.textStyle.label.smallRegular12,
                         color = Theme.color.surfaces.onSurfaceContainer
                     )
@@ -127,7 +128,8 @@ fun WorkOutCardPrev() {
     AppTheme(isDarkTheme = true) {
         WorkOutCard(
             title = "Jumping Jacks",
-            duration = "30 sec",
+            duration = "30",
+            unit = "sec",
             category = "Full Body",
             model = "",
             onCardClick = {}
