@@ -1,28 +1,56 @@
-name: Build
+name: Build Android and iOS Apps
+
 on:
-  pull_request:
   push:
-    branches: [ main, develop ]
-  workflow_dispatch:
+  pull_request:
 
 jobs:
-  build:
-    runs-on: macos-latest
+  build-android:
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout source code
+      - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
-          distribution: 'corretto'
+          java-version: '17'
+          distribution: 'temurin'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Build with Gradle
+        run: ./gradlew assemble
 
-      - name: Check, Assemble Android and compile iOS
-        run: ./gradlew :composeApp:assembleDebug :composeApp:compileKotlinIosSimulatorArm64 --no-daemon
+      - name: Store build outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-build-outputs
+          path: composeApp/build/outputs/
+
+  build-ios:
+    runs-on: macos-14
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build iOS binaries
+        run: ./gradlew composeApp:iosArm64Binaries
+
+      - name: Store iOS binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-binaries
+          path: composeApp/build/bin/iosArm64
