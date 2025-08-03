@@ -30,21 +30,23 @@ class RegisterViewModel :
 
     override fun onGenderClicked(gender: RegisterScreenState.Gender) {
         updateState {
-            val newState = it.copy(selectedGender = gender)
+            val newState =
+                it.copy(selectedGender = if (it.selectedGender == gender) null else gender)
             newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
     override fun onMeasurementUnitClicked(unit: RegisterScreenState.MeasurementUnit) {
         updateState {
-            val newState = it.copy(selectedMeasurementUnit = unit)
+            val newState =
+                it.copy(selectedMeasurementUnit = if (it.selectedMeasurementUnit == unit) null else unit)
             newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
     override fun onGoalClicked(goal: Goal) {
         updateState {
-            val newState = it.copy(selectedGoal = goal)
+            val newState = it.copy(selectedGoal = if (it.selectedGoal == goal) null else goal)
             newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
