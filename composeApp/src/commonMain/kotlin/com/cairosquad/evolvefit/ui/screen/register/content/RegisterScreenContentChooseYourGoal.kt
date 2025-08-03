@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,20 +38,20 @@ fun RegisterScreenContentChooseYourGoal(
         ) {
             CheckboxItem(
                 text = "Lose weight",
-                isChecked = state.isFemaleChecked,
-                onCheckedChange = listener::onFemaleCheckedChange,
+                isChecked = state.isLoseWeightChecked,
+                onCheckedChange = listener::onLossWeightCheckedChange,
                 description = "Get into your dream shape."
             )
             CheckboxItem(
                 text = "Gain weight",
-                isChecked = state.isMaleChecked,
-                onCheckedChange = listener::onMaleCheckedChange,
+                isChecked = state.isGainWeightChecked,
+                onCheckedChange = listener::onGainWeightCheckedChange,
                 description = "Bulk up and build muscles."
             )
             CheckboxItem(
                 text = "Stay in shape",
-                isChecked = state.isMaleChecked,
-                onCheckedChange = listener::onMaleCheckedChange,
+                isChecked = state.isStayInShapeChecked,
+                onCheckedChange = listener::onStayInShapeCheckedChange,
                 description = "Get a toned and leaner body."
             )
 

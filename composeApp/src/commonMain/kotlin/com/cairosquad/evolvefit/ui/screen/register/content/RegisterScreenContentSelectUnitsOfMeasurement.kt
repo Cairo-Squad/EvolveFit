@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,13 +38,13 @@ fun RegisterScreenContentSelectUnitsOfMeasurement(
         ) {
             CheckboxItem(
                 text = "Metric (cm/kg)",
-                isChecked = state.isFemaleChecked,
-                onCheckedChange = listener::onFemaleCheckedChange,
+                isChecked = state.isMetricChecked,
+                onCheckedChange = listener::onMetricCheckedChange,
             )
             CheckboxItem(
                 text = "Imperial (ft/lb)",
-                isChecked = state.isMaleChecked,
-                onCheckedChange = listener::onMaleCheckedChange,
+                isChecked = state.isImperialChecked,
+                onCheckedChange = listener::onImperialCheckedChange,
             )
 
         }
