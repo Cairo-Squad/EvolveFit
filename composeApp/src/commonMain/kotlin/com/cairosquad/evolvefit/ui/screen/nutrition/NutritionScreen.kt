@@ -86,7 +86,6 @@ fun NutritionScreen() {
             ),
         )
     }
-    val scroll = rememberScrollState()
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -110,17 +109,7 @@ fun NutritionScreen() {
         item {
             CaloriesAndWaterBox()
             ScanMeal()
-            Row(
-                modifier = Modifier.padding(horizontal = 16.dp).padding(top = 32.dp, bottom = 12.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start
-            ) {
-                Text(
-                    text = "Today's Meals",
-                    style = Theme.textStyle.title.largeBold16,
-                    color = Theme.color.surfaces.onSurface
-                )
-            }
+            TodayMealsHeader()
             TodayMeals(meals = meals)
             SuggestedMeals()
         }
@@ -133,15 +122,15 @@ fun NutritionScreen() {
         items(meals) {
             MealHistoryItem(meal = it)
         }
-
-
     }
 }
 
 @Composable
 private fun CaloriesAndWaterBox(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -153,15 +142,14 @@ private fun CaloriesAndWaterBox(modifier: Modifier = Modifier) {
             CircularPercentageIndicator(
                 modifier = Modifier.weight(1f),
                 title = "Calories",
-                currentValue = 2000f,
-                totalValue = 100000f,
-                unit = "L",
+                currentValue = 1200f,
+                totalValue = 2000f,
+                unit = "kcal",
                 icon = painterResource(Res.drawable.ic_fire),
                 iconColor = Color.Green,
-                progressColor = Color(0xFF2196F3),
+                progressColor = Color(0xFF2DAD58),
                 buttonClickable = false
             )
-
             CircularPercentageIndicator(
                 modifier = Modifier.weight(1f),
                 title = "Water",
@@ -206,7 +194,10 @@ private fun ScanMeal(modifier: Modifier = Modifier) {
             )
         }
         Column(
-            modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth().weight(1f),
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .fillMaxWidth()
+                .weight(1f),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
@@ -254,7 +245,10 @@ private fun TodayMeals(modifier: Modifier = Modifier, meals: List<Meal>) {
                 .clip(CircleShape)
                 .background(Theme.color.surfaces.outlineVariant)
         ) { }
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = "Remaining",
@@ -268,7 +262,9 @@ private fun TodayMeals(modifier: Modifier = Modifier, meals: List<Meal>) {
                 )
             }
             Icon(
-                modifier = Modifier.padding(horizontal = 8.dp),
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .size(20.dp),
                 painter = painterResource(Res.drawable.ic_plus),
                 contentDescription = null,
                 tint = Theme.color.brand.primary
@@ -283,10 +279,29 @@ private fun TodayMeals(modifier: Modifier = Modifier, meals: List<Meal>) {
 }
 
 @Composable
+private fun TodayMealsHeader(modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .padding(top = 32.dp, bottom = 12.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Start
+    ) {
+        Text(
+            text = "Today's Meals",
+            style = Theme.textStyle.title.largeBold16,
+            color = Theme.color.surfaces.onSurface
+        )
+    }
+}
+
+@Composable
 private fun SuggestedMeals(modifier: Modifier = Modifier) {
     SeeAll(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .padding(top = 32.dp, bottom = 12.dp),
         sectionTitle = "Suggested Meals",
-        modifier = Modifier.padding(horizontal = 16.dp).padding(top = 32.dp, bottom = 12.dp)
     )
     LazyRow(
         modifier = modifier.fillMaxWidth(),
@@ -374,17 +389,15 @@ fun MealHistoryItem(
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
-                .background(Theme.color.surfaces.surfaceVariant),
+                .background(Theme.color.surfaces.outlineVariant),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 painter = painterResource(meal.icon),
                 contentDescription = null,
-                tint = Color.Unspecified,
+                tint = Theme.color.brand.primary,
             )
         }
-
-        // Meal name + time
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -393,11 +406,11 @@ fun MealHistoryItem(
         ) {
             Text(
                 text = meal.name,
-                style = Theme.textStyle.title.mediumMedium14,
-                color = Theme.color.surfaces.onSurfaceContainer
+                style = Theme.textStyle.title.largeBold14,
+                color = Theme.color.surfaces.onSurface
             )
             Text(
-                text = meal.date, // Example: "Today, 12:15 PM"
+                text = meal.date,
                 style = Theme.textStyle.label.smallRegular12,
                 color = Theme.color.surfaces.onSurfaceVariant
             )
@@ -408,12 +421,12 @@ fun MealHistoryItem(
         ) {
             Text(
                 text = "${meal.calories} kcal",
-                style = Theme.textStyle.title.mediumMedium14,
-                color = Theme.color.surfaces.onSurfaceContainer
+                style = Theme.textStyle.title.largeBold14,
+                color = Theme.color.brand.primary
             )
             Text(
                 text = meal.type.displayName,
-                style = Theme.textStyle.label.smallRegular12,
+                style = Theme.textStyle.body.smallRegular10,
                 color = Theme.color.surfaces.onSurfaceVariant
             )
         }
