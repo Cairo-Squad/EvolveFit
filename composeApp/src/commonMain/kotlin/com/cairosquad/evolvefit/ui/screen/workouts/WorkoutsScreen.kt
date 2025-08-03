@@ -3,7 +3,6 @@ package com.cairosquad.evolvefit.ui.screen.workouts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -44,7 +43,7 @@ fun WorkoutsScreen(
             Text("go to community workouts")
         }
 
-        LazyRow (
+        LazyRow(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {

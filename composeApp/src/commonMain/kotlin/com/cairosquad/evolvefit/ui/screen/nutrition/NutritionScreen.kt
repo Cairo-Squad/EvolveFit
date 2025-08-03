@@ -2,15 +2,12 @@ package com.cairosquad.evolvefit.ui.screen.nutrition
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,17 +49,17 @@ fun NutritionScreen(
             Text("Meals History")
         }
 
-        LazyRow (
+        LazyRow(
 
             horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ){
+        ) {
             items(20) { index ->
                 MealCard(
                     modifier = Modifier.width(158.dp),
                     title = "Meal ${index + 1}",
                     mealType = "Lunch",
                     calories = 350,
-                    onClick = { navigateToMealDetails((index+1).toLong()) }
+                    onClick = { navigateToMealDetails((index + 1).toLong()) }
                 )
             }
         }
