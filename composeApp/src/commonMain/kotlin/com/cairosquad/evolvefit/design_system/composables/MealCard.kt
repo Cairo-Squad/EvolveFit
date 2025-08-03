@@ -42,22 +42,19 @@ fun MealCard(
             .width(158.dp)
     ) {
         Box(
-            modifier = Modifier.height(124.dp)
+            modifier = Modifier.height(124.dp).clip(RoundedCornerShape(8.dp))
+
         ) {
             Image(
                 painter = painterResource(image),
                 contentDescription = "Meal Image",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp))
+                modifier = Modifier.fillMaxWidth()
             )
             Box(
                 modifier = Modifier
                     .matchParentSize()
-                    .clip(RoundedCornerShape(8.dp))
                     .background(Color(0x99242424))
-
             )
             Row(
                 modifier = Modifier
