@@ -27,7 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -42,19 +44,29 @@ fun SnackBar(
     text: String,
     isVisible: Boolean,
     modifier: Modifier = Modifier,
+    paddingBottom: Dp =12.dp,
     icon: Painter = painterResource(Res.drawable.ic_green_check_circle),
     backgroundColor: Color = Theme.color.surfaces.surface,
     textColor: Color = Theme.color.surfaces.onSurface,
     textStyle: TextStyle = Theme.textStyle.label.mediumMedium14,
 ) {
+    val density = LocalDensity.current
     AnimatedVisibility(
         modifier = modifier
             .navigationBarsPadding()
-            .padding(bottom = 24.dp, start = 16.dp, end = 16.dp),
+            .padding( start = 16.dp, end = 16.dp),
         visible = isVisible,
-        enter = fadeIn() + slideInVertically { it*2 },
-        exit = fadeOut() + slideOutVertically { it*2 }
-    ) {
+        enter = slideInVertically {
+            with(density) {
+                it + paddingBottom.roundToPx()
+            }
+        } + fadeIn(),
+        exit = slideOutVertically {
+            with(density) {
+                it + paddingBottom.roundToPx()
+            }
+        } + fadeOut()
+    ){
         Row(
             modifier = Modifier
                 .fillMaxWidth()
