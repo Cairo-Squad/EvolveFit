@@ -48,17 +48,8 @@ fun RegisterScreenContentChooseYourGoal(
         ) {
             RegisterScreenState.Goal.entries.forEach { goal ->
                 CheckboxItem(
-                    text = when (goal) {
-                        RegisterScreenState.Goal.LoseWeight -> stringResource(Res.string.lose_weight)
-                        RegisterScreenState.Goal.GainWeight -> stringResource(Res.string.gain_weight)
-                        RegisterScreenState.Goal.StayInShape -> stringResource(Res.string.stay_in_shape)
-                    },
-                    description = when (goal) {
-                        RegisterScreenState.Goal.LoseWeight -> stringResource(Res.string.lose_weight_desc)
-                        RegisterScreenState.Goal.GainWeight -> stringResource(Res.string.gain_weight_desc)
-                        RegisterScreenState.Goal.StayInShape -> stringResource(Res.string.stay_in_shape_desc)
-
-                    },
+                    text = determineGoal(goal),
+                    description = determineGoalDescription(goal),
                     isChecked = state.selectedGoal == goal,
                     onCheckedChange = { listener.onGoalClicked(goal) },
                 )
@@ -66,4 +57,19 @@ fun RegisterScreenContentChooseYourGoal(
         }
 
     }
+}
+
+@Composable
+private fun determineGoal(goal: RegisterScreenState.Goal): String = when (goal) {
+    RegisterScreenState.Goal.LoseWeight -> stringResource(Res.string.lose_weight)
+    RegisterScreenState.Goal.GainWeight -> stringResource(Res.string.gain_weight)
+    RegisterScreenState.Goal.StayInShape -> stringResource(Res.string.stay_in_shape)
+}
+
+@Composable
+private fun determineGoalDescription(goal: RegisterScreenState.Goal): String = when (goal) {
+    RegisterScreenState.Goal.LoseWeight -> stringResource(Res.string.lose_weight_desc)
+    RegisterScreenState.Goal.GainWeight -> stringResource(Res.string.gain_weight_desc)
+    RegisterScreenState.Goal.StayInShape -> stringResource(Res.string.stay_in_shape_desc)
+
 }
