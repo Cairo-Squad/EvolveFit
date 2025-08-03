@@ -1,10 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 
 class RegisterViewModel :
     BaseViewModel<RegisterScreenState, RegisterEffect>(RegisterScreenState()),
@@ -51,6 +47,70 @@ class RegisterViewModel :
             )
             newState.copy(
                 nextButtonEnabled = newState.isFemaleChecked || newState.isMaleChecked
+            )
+        }
+    }
+
+    override fun onMetricCheckedChange(checked: Boolean) {
+        updateState {
+            val newState = it.copy(
+                isMetricChecked = checked,
+                isImperialChecked = if (checked) false else it.isImperialChecked
+            )
+            newState.copy(
+                nextButtonEnabled = newState.isMetricChecked || newState.isImperialChecked
+            )
+        }
+    }
+
+    override fun onImperialCheckedChange(checked: Boolean) {
+        updateState {
+            val newState = it.copy(
+                isImperialChecked = checked,
+                isMetricChecked = if (checked) false else it.isMetricChecked
+            )
+            newState.copy(
+                nextButtonEnabled = newState.isMetricChecked || newState.isImperialChecked
+            )
+        }
+    }
+
+    override fun onLossWeightCheckedChange(checked: Boolean) {
+        updateState {
+            val newState = it.copy(
+                isLoseWeightChecked = checked,
+                isGainWeightChecked = if (checked) false else it.isGainWeightChecked,
+                isStayInShapeChecked = if (checked) false else it.isStayInShapeChecked
+            )
+            newState.copy(
+                nextButtonEnabled = newState.isLoseWeightChecked || newState.isGainWeightChecked || newState.isStayInShapeChecked
+            )
+        }
+    }
+
+    override fun onGainWeightCheckedChange(checked: Boolean) {
+        updateState {
+            val newState = it.copy(
+                isGainWeightChecked = checked,
+                isLoseWeightChecked = if (checked) false else it.isLoseWeightChecked,
+                isStayInShapeChecked = if (checked) false else it.isStayInShapeChecked
+
+            )
+            newState.copy(
+                nextButtonEnabled = newState.isLoseWeightChecked || newState.isGainWeightChecked || newState.isStayInShapeChecked
+            )
+        }
+    }
+
+    override fun onStayInShapeCheckedChange(checked: Boolean) {
+        updateState {
+            val newState = it.copy(
+                isStayInShapeChecked = checked,
+                isLoseWeightChecked = if (checked) false else it.isLoseWeightChecked,
+                isGainWeightChecked = if (checked) false else it.isGainWeightChecked,
+            )
+            newState.copy(
+                nextButtonEnabled = newState.isLoseWeightChecked || newState.isGainWeightChecked || newState.isStayInShapeChecked
             )
         }
     }

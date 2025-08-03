@@ -5,5 +5,10 @@ data class RegisterScreenState(
     val nextButtonEnabled: Boolean = false,
     val isFemaleChecked: Boolean = false,
     val isMaleChecked: Boolean = false,
+    val isMetricChecked: Boolean = false,
+    val isImperialChecked: Boolean = false,
+    val isLoseWeightChecked: Boolean = false,
+    val isGainWeightChecked: Boolean = false,
+    val isStayInShapeChecked: Boolean = false,
 
     )
