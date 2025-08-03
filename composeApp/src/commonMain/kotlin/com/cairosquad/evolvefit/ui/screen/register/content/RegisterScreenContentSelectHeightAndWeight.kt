@@ -59,90 +59,87 @@ fun RegisterScreenContentSelectHeightAndWeight(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color(0xFF1A1A1A))
-            .padding(24.dp),
-        verticalArrangement = Arrangement.SpaceBetween
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(32.dp)
     ) {
+        MeasureSection(
+            selectedMeasure = state.selectedHeight,
+            measureType = stringResource(Res.string.height),
+            measureIcon = painterResource(Res.drawable.ic_ruler),
+            minMeasureValue = 50F,
+            maxMeasureValue = 250F,
+            onMeasureChanged = { height ->
+                listener.onHeightChanged(height)
+            }
+        )
 
-        Column {
-
-            measureSection(
-                selectedMeasure = state.selectedHeight,
-                measureType = stringResource(Res.string.height),
-                measureIcon = painterResource(Res.drawable.ic_ruler),
-                minMeasureValue = 50F,
-                maxMeasureVlaue = 200F,
-                onMeasureChanged = { height ->
-                    listener.onHeightChanged(height)
-                }
-            )
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            measureSection(
-                selectedMeasure = state.selectedWeight,
-                measureType = stringResource(Res.string.weight),
-                measureIcon = painterResource(Res.drawable.ic_scale),
-                minMeasureValue = 1F,
-                maxMeasureVlaue = 200F,
-                onMeasureChanged = { weight ->
-                    listener.onWeightChanged(weight)
-                }
-            )
-
-        }
-
+        MeasureSection(
+            selectedMeasure = state.selectedWeight,
+            measureType = stringResource(Res.string.weight),
+            measureIcon = painterResource(Res.drawable.ic_scale),
+            minMeasureValue = 1F,
+            maxMeasureValue = 200F,
+            onMeasureChanged = { weight ->
+                listener.onWeightChanged(weight)
+            }
+        )
     }
 }
 
 @Preview()
 @Composable
 fun RegisterScreenContentSelectHeightAndWeightPreview() {
-    AppTheme {
-        RegisterScreenContentSelectHeightAndWeight(
-            state = RegisterScreenState(
-                selectedHeight = 156.0f,
-                selectedWeight = 63.0f
-            ),
-            listener = object : RegisterInteractionListener {
-                override fun onHeightChanged(height: Float) {
-                    println("Height changed to: $height")
-                }
+    AppTheme(
+        isDarkTheme = true
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Theme.color.surfaces.surface)
+        ) {
+            RegisterScreenContentSelectHeightAndWeight(
+                state = RegisterScreenState(
+                    selectedHeight = 156.0f,
+                    selectedWeight = 63.0f
+                ),
+                listener = object : RegisterInteractionListener {
+                    override fun onHeightChanged(height: Float) {
+                        println("Height changed to: $height")
+                    }
 
-                override fun onWeightChanged(weight: Float) {
-                    println("Weight changed to: $weight")
-                }
+                    override fun onWeightChanged(weight: Float) {
+                        println("Weight changed to: $weight")
+                    }
 
-                override fun onClickNext() {
-                    println("Next button clicked")
-                }
+                    override fun onClickNext() {
+                        println("Next button clicked")
+                    }
 
-                override fun onClickBack() {
-                    println("Back button clicked")
-                }
+                    override fun onClickBack() {
+                        println("Back button clicked")
+                    }
 
-                override fun onSelectStep(step: Int) {
-                    println("Step selected: $step")
-                }
+                    override fun onSelectStep(step: Int) {
+                        println("Step selected: $step")
+                    }
 
-                override fun onClickStartNow() {
-                    println("Start now clicked")
+                    override fun onClickStartNow() {
+                        println("Start now clicked")
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 }
 
 
 @Composable
-private fun measureSection(
+private fun MeasureSection(
     selectedMeasure: Float,
     measureType: String,
     measureIcon: Painter,
     minMeasureValue: Float,
-    maxMeasureVlaue: Float,
+    maxMeasureValue: Float,
     onMeasureChanged: (Float) -> Unit
 ) {
     Column {
@@ -151,20 +148,21 @@ private fun measureSection(
             style = Theme.textStyle.headline.mediumMedium18.copy(
                 color = Theme.color.surfaces.onSurface
             ),
-            modifier = Modifier.padding(bottom = 8.dp, start = 16.dp)
+            modifier = Modifier
+                .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
         )
         BasicText(
             text = stringResource(Res.string.select_measurement) + "$measureType",
             style = Theme.textStyle.label.smallRegular14.copy(
                 color = Theme.color.surfaces.onSurfaceVariant
             ),
-            modifier = Modifier.padding(bottom = 24.dp, start = 16.dp)
+            modifier = Modifier.padding(bottom = 24.dp, start = 16.dp, end = 16.dp)
         )
 
         Ruler(
             selectedValue = selectedMeasure,
             minValue = minMeasureValue,
-            maxValue = maxMeasureVlaue,
+            maxValue = maxMeasureValue,
             onValueChanged = onMeasureChanged
         )
 
@@ -175,7 +173,7 @@ private fun measureSection(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .background(
-                    Theme.color.surfaces.onSurfaceContainer,
+                    Theme.color.surfaces.surfaceContainer,
                     RoundedCornerShape(8.dp)
                 )
                 .width(116.dp).height(48.dp)
@@ -196,7 +194,6 @@ private fun measureSection(
                         color = Theme.color.surfaces.onSurfaceVariant
                     )
                 )
-
             }
         }
     }
@@ -216,8 +213,8 @@ private fun Ruler(
     val density = LocalDensity.current
     val textMeasurer = rememberTextMeasurer()
     val indicatorColor = Theme.color.surfaces.onSurfaceVariant
-    val outlineColor=Theme.color.surfaces.outline
-    val textStyle=Theme.textStyle.body.smallRegular10
+    val outlineColor = Theme.color.surfaces.outline
+    val textStyle = Theme.textStyle.body.smallRegular10
 
     LaunchedEffect(selectedValue) {
         currentValue = selectedValue
@@ -267,8 +264,8 @@ private fun Ruler(
                 maxValue = maxValue,
                 textMeasurer = textMeasurer,
                 density = density,
-                outlineColor=outlineColor,
-                textStyle=textStyle
+                outlineColor = outlineColor,
+                textStyle = textStyle
             )
         }
     }
@@ -290,7 +287,7 @@ private fun DrawScope.drawRuler(
     val centerX = canvasWidth / 2
 
     val range = maxValue - minValue
-    val pixelsPerUnit = canvasWidth / (range * 0.4f)
+    val pixelsPerUnit = canvasWidth / (range * 0.2f)
 
     val startValue = selectedValue - (canvasWidth / pixelsPerUnit) / 2
     val endValue = selectedValue + (canvasWidth / pixelsPerUnit) / 2
@@ -300,14 +297,14 @@ private fun DrawScope.drawRuler(
         if (i < minValue || i > maxValue) continue
 
         val x = centerX + (i - selectedValue) * pixelsPerUnit
-        val isMainMark = i % 5 == 0
-        val isMajorMark = i % 10 == 0
+        val isMainMark = (i % 5) % 2 == 0
+        val isMajorMark = i % 5 == 0
 
         val markHeight = with(density) {
             when {
-                isMajorMark -> 40.dp.toPx()
+                isMajorMark -> 38.dp.toPx()
                 isMainMark -> 25.dp.toPx()
-                else -> 15.dp.toPx()
+                else -> 18.dp.toPx()
             }
         }
 
