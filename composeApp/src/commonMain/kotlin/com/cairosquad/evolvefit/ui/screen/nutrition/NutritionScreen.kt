@@ -1,6 +1,10 @@
 package com.cairosquad.evolvefit.ui.screen.nutrition
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,24 +25,35 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.component.BottomSheet
+import com.cairosquad.evolvefit.design_system.component.PrimaryButton
+import com.cairosquad.evolvefit.design_system.component.SnackBar
 import com.cairosquad.evolvefit.design_system.composables.CircularPercentageIndicator
+import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.composables.MealCard
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
+import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionEffect
+import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
+import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_coffee
 import evolvefit.composeapp.generated.resources.ic_donuts
 import evolvefit.composeapp.generated.resources.ic_end_arrow
@@ -48,12 +63,23 @@ import evolvefit.composeapp.generated.resources.ic_pizza_slice
 import evolvefit.composeapp.generated.resources.ic_plus
 import evolvefit.composeapp.generated.resources.ic_scan
 import evolvefit.composeapp.generated.resources.ic_water_drop
+import evolvefit.composeapp.generated.resources.nutrition
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun NutritionScreen() {
+fun NutritionScreen(nutritionViewModel: NutritionViewModel = koinViewModel()) {
+    val state by nutritionViewModel.screenState.collectAsState()
+    ObserveAsEffect(nutritionViewModel.effect) { effect ->
+        when (effect) {
+            NutritionEffect.NavigateToMealHistory -> TODO()
+            is NutritionEffect.NavigateToSuggestedMealDetails -> TODO()
+            NutritionEffect.NavigateToSuggestedMeals -> TODO()
+        }
+    }
     val meals = remember {
         listOf(
             Meal(
@@ -86,51 +112,153 @@ fun NutritionScreen() {
             ),
         )
     }
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Theme.color.surfaces.surface)
-    ) {
-        stickyHeader {
-            Row(
-                modifier = Modifier.padding(bottom = 16.dp).fillMaxWidth()
-                    .background(Theme.color.surfaces.surface),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars)
-                        .padding(vertical = 14.5.dp),
-                    text = "Nutrition",
-                    style = Theme.textStyle.title.largeBold16,
-                    color = Theme.color.surfaces.onSurface
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().background(Theme.color.surfaces.surface)
+        ) {
+            stickyHeader {
+                Row(
+                    modifier = Modifier.padding(bottom = 16.dp).fillMaxWidth()
+                        .background(Theme.color.surfaces.surface),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars)
+                            .padding(vertical = 14.5.dp),
+                        text = "Nutrition",
+                        style = Theme.textStyle.title.largeBold16,
+                        color = Theme.color.surfaces.onSurface
+                    )
+                }
+            }
+            item {
+                CaloriesAndWaterBox(listener = nutritionViewModel)
+                ScanMeal()
+                TodayMealsHeader()
+                TodayMeals(meals = meals, listener = nutritionViewModel)
+                SuggestedMeals(listener = nutritionViewModel)
+            }
+            item {
+                SeeAll(
+                    onViewAllClick = nutritionViewModel::onViewAllMealHistoryClicked,
+                    sectionTitle = "Meal History",
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                        .padding(top = 32.dp, bottom = 12.dp)
                 )
             }
+            items(meals) {
+                MealHistoryItem(meal = it)
+            }
         }
-        item {
-            CaloriesAndWaterBox()
-            ScanMeal()
-            TodayMealsHeader()
-            TodayMeals(meals = meals)
-            SuggestedMeals()
+        LaunchedEffect(state.isAddMealSnackBarVisible) {
+            if (!state.isAddMealSnackBarVisible) return@LaunchedEffect
+            delay(2000)
+           nutritionViewModel.onSnackBarHided()
         }
-        item {
-            SeeAll(
-                sectionTitle = "Meal History",
-                modifier = Modifier.padding(horizontal = 16.dp).padding(top = 32.dp, bottom = 12.dp)
-            )
+        SnackBar(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            text = "Meal added to your history.", isVisible =state.isAddMealSnackBarVisible )
+        AnimatedVisibility(
+            modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
+            visible = state.isAddWaterSheetVisible,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            BottomSheet(
+                isVisible = state.isAddWaterSheetVisible,
+                onDismiss = { nutritionViewModel.onDismissWaterClicked() }) {
+                Column(
+                    modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Enter Water Intake",
+                        style = Theme.textStyle.title.largeBold14,
+                        color = Theme.color.surfaces.onSurfaceContainer
+                    )
+                    Text(
+                        text = "Help us track your daily water intake to keep you hydrated.",
+                        style = Theme.textStyle.body.mediumMedium12,
+                        color = Theme.color.surfaces.outline
+                    )
+                    InputField(
+                        modifier = Modifier.padding(top = 16.dp),
+                        value = "",
+                        onValueChange = {},
+                        placeholder = "e.g., 1.5 L",
+                        leadingIcon = Res.drawable.ic_water_drop
+                    )
+                    PrimaryButton(
+                        modifier = Modifier.padding(top = 40.dp, bottom = 16.dp),
+                        text = "Add",
+                        isEnabled = false,
+                        onClick = {})
+                }
+            }
         }
-        items(meals) {
-            MealHistoryItem(meal = it)
+        AnimatedVisibility(
+            modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
+            visible = state.isAddMealSheetVisible,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            BottomSheet(
+                isVisible = state.isAddMealSheetVisible,
+                onDismiss = { nutritionViewModel.onDismissMealClicked() }) {
+                Column(
+                    modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Add New Meal",
+                        style = Theme.textStyle.title.largeBold14,
+                        color = Theme.color.surfaces.onSurfaceContainer
+                    )
+                    Text(
+                        text = "Log your meal details to track your daily calorie intake.",
+                        style = Theme.textStyle.body.mediumMedium12,
+                        color = Theme.color.surfaces.outline
+                    )
+                    InputField(
+                        modifier = Modifier.padding(top = 16.dp),
+                        value = "",
+                        onValueChange = {},
+                        placeholder = "Meal name",
+                        leadingIcon = Res.drawable.nutrition
+                    )
+                    Row (modifier = Modifier.padding(top = 12.dp).fillMaxWidth()){
+                        InputField(
+                            modifier = Modifier.padding(end = 8.dp).weight(1f),
+                            value = "",
+                            onValueChange = {},
+                            placeholder = "250 kcal",
+                            leadingIcon = Res.drawable.ic_fire
+                        )
+                        InputField(
+                            modifier = Modifier.weight(1f),
+                            value = "Breakfast",
+                            onValueChange = {},
+                            trailingIcon = Res.drawable.ic_arrow_down,
+                            onTrailingIconClick = {}
+                        )
+                    }
+                    PrimaryButton(
+                        modifier = Modifier.padding(top = 40.dp, bottom = 16.dp),
+                        text = "Add",
+                        isEnabled = true,
+                        onClick = {nutritionViewModel.onConfirmAddMealClicked()})
+                }
+            }
         }
     }
 }
 
 @Composable
-private fun CaloriesAndWaterBox(modifier: Modifier = Modifier) {
+private fun CaloriesAndWaterBox(
+    listener: NutritionInteractionListener, modifier: Modifier = Modifier
+) {
     Column(
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxWidth(),
+        modifier = modifier.padding(horizontal = 16.dp).fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -153,12 +281,13 @@ private fun CaloriesAndWaterBox(modifier: Modifier = Modifier) {
             CircularPercentageIndicator(
                 modifier = Modifier.weight(1f),
                 title = "Water",
+                onAddWaterClick = { listener.onAddWaterClicked() },
                 currentValue = 1.5856f,
                 totalValue = 3.10f,
                 unit = "L",
                 icon = painterResource(Res.drawable.ic_water_drop),
                 iconColor = Theme.color.system.info,
-                progressColor =  Theme.color.system.info,
+                progressColor = Theme.color.system.info,
                 buttonClickable = true
             )
         }
@@ -168,21 +297,15 @@ private fun CaloriesAndWaterBox(modifier: Modifier = Modifier) {
 @Composable
 private fun ScanMeal(modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .padding(top = 12.dp)
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .background(Theme.color.surfaces.surfaceContainer)
+        modifier = modifier.padding(horizontal = 16.dp).padding(top = 12.dp).fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp)).background(Theme.color.surfaces.surfaceContainer)
             .padding(vertical = 12.dp, horizontal = 8.dp),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
 
     ) {
         Row(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
+            modifier = Modifier.size(40.dp).clip(CircleShape)
                 .background(Theme.color.surfaces.surfaceVariant),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
@@ -194,10 +317,7 @@ private fun ScanMeal(modifier: Modifier = Modifier) {
             )
         }
         Column(
-            modifier = Modifier
-                .padding(horizontal = 8.dp)
-                .fillMaxWidth()
-                .weight(1f),
+            modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth().weight(1f),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
@@ -220,13 +340,12 @@ private fun ScanMeal(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun TodayMeals(modifier: Modifier = Modifier, meals: List<Meal>) {
+private fun TodayMeals(
+   listener: NutritionInteractionListener,
+    modifier: Modifier = Modifier, meals: List<Meal>) {
     Column(
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .background(Theme.color.surfaces.surfaceContainer)
+        modifier = modifier.padding(horizontal = 16.dp).fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp)).background(Theme.color.surfaces.surfaceContainer)
             .padding(vertical = 16.dp, horizontal = 12.dp)
     ) {
         LazyVerticalGrid(
@@ -238,16 +357,11 @@ private fun TodayMeals(modifier: Modifier = Modifier, meals: List<Meal>) {
             }
         }
         Row(
-            modifier = Modifier
-                .padding(top = 20.dp, bottom = 8.dp)
-                .fillMaxWidth()
-                .height(1.dp)
-                .clip(CircleShape)
-                .background(Theme.color.surfaces.outlineVariant)
+            modifier = Modifier.padding(top = 20.dp, bottom = 8.dp).fillMaxWidth().height(1.dp)
+                .clip(CircleShape).background(Theme.color.surfaces.outlineVariant)
         ) { }
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
@@ -262,14 +376,13 @@ private fun TodayMeals(modifier: Modifier = Modifier, meals: List<Meal>) {
                 )
             }
             Icon(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .size(20.dp),
+                modifier = Modifier.padding(horizontal = 8.dp).size(20.dp),
                 painter = painterResource(Res.drawable.ic_plus),
                 contentDescription = null,
                 tint = Theme.color.brand.primary
             )
             Text(
+                modifier = Modifier.clickable(onClick = {listener.onShowAddMealSheetClicked()}),
                 text = "Add Meal",
                 style = Theme.textStyle.body.mediumMedium14,
                 color = Theme.color.brand.primary
@@ -281,11 +394,8 @@ private fun TodayMeals(modifier: Modifier = Modifier, meals: List<Meal>) {
 @Composable
 private fun TodayMealsHeader(modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .padding(top = 32.dp, bottom = 12.dp)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start
+        modifier = modifier.padding(horizontal = 16.dp).padding(top = 32.dp, bottom = 12.dp)
+            .fillMaxWidth(), horizontalArrangement = Arrangement.Start
     ) {
         Text(
             text = "Today's Meals",
@@ -296,11 +406,12 @@ private fun TodayMealsHeader(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun SuggestedMeals(modifier: Modifier = Modifier) {
+private fun SuggestedMeals(
+    listener: NutritionInteractionListener,
+    modifier: Modifier = Modifier) {
     SeeAll(
-        modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .padding(top = 32.dp, bottom = 12.dp),
+        onViewAllClick = { listener.onViewAllSuggestedMealsClicked() },
+        modifier = Modifier.padding(horizontal = 16.dp).padding(top = 32.dp, bottom = 12.dp),
         sectionTitle = "Suggested Meals",
     )
     LazyRow(
@@ -315,7 +426,9 @@ private fun SuggestedMeals(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun SeeAll(sectionTitle: String, modifier: Modifier = Modifier) {
+private fun SeeAll(
+    onViewAllClick:()-> Unit,
+    sectionTitle: String, modifier: Modifier = Modifier) {
     Row(modifier = modifier) {
         Text(
             modifier = Modifier.weight(1f),
@@ -324,12 +437,13 @@ private fun SeeAll(sectionTitle: String, modifier: Modifier = Modifier) {
             color = Theme.color.surfaces.onSurface
         )
         Text(
+            modifier= Modifier.clickable(onClick = {onViewAllClick()}),
             text = "View All",
             style = Theme.textStyle.body.mediumMedium14,
             color = Theme.color.surfaces.onSurfaceVariant
         )
         Icon(
-            modifier = Modifier.padding(start = 4.dp),
+            modifier = Modifier.padding(start = 4.dp).clickable(onClick = {onViewAllClick()}),
             painter = painterResource(Res.drawable.ic_end_arrow),
             contentDescription = null,
             tint = Color.Unspecified
@@ -340,13 +454,10 @@ private fun SeeAll(sectionTitle: String, modifier: Modifier = Modifier) {
 @Composable
 private fun MealItem(modifier: Modifier = Modifier, meal: Meal) {
     Column(
-        modifier = modifier.wrapContentHeight(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
+            modifier = Modifier.size(40.dp).clip(CircleShape)
                 .background(Theme.color.surfaces.surfaceVariant),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
@@ -373,22 +484,17 @@ private fun MealItem(modifier: Modifier = Modifier, meal: Meal) {
 
 @Composable
 fun MealHistoryItem(
-    modifier: Modifier = Modifier,
-    meal: Meal
+    modifier: Modifier = Modifier, meal: Meal
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 16.dp),
+        modifier = modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
 
 
         Box(
-            modifier = Modifier
-                .size(48.dp)
-                .clip(CircleShape)
+            modifier = Modifier.size(48.dp).clip(CircleShape)
                 .background(Theme.color.surfaces.outlineVariant),
             contentAlignment = Alignment.Center
         ) {
@@ -399,9 +505,7 @@ fun MealHistoryItem(
             )
         }
         Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 12.dp),
+            modifier = Modifier.weight(1f).padding(start = 12.dp),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
@@ -442,10 +546,7 @@ data class Meal(
 )
 
 enum class MealType(val displayName: String) {
-    Breakfast("Breakfast"),
-    Lunch("Lunch"),
-    Dinner("Dinner"),
-    Snacks("Snacks")
+    Breakfast("Breakfast"), Lunch("Lunch"), Dinner("Dinner"), Snacks("Snacks")
 }
 
 @Preview
