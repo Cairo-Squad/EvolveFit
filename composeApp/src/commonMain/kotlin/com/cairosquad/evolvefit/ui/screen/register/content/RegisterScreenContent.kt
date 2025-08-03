@@ -79,7 +79,8 @@ fun RegisterScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
-            state = pagerState
+            state = pagerState,
+            userScrollEnabled = false
         ) { pageIndex ->
             when (pageIndex) {
                 0 -> RegisterScreenContentSelectGender(state, listener)
