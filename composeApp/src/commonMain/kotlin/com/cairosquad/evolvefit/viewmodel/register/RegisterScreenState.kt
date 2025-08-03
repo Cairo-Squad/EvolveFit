@@ -5,13 +5,21 @@ data class RegisterScreenState(
 
     val nextButtonEnabled: Boolean = false,
 
-    val isFemaleChecked: Boolean = false,
-    val isMaleChecked: Boolean = false,
+    val selectedGender: Gender? = null,
 
-    val isMetricChecked: Boolean = false,
-    val isImperialChecked: Boolean = false,
+    val selectedMeasurementUnit: MeasurementUnit? = null,
 
-    val isLoseWeightChecked: Boolean = false,
-    val isGainWeightChecked: Boolean = false,
-    val isStayInShapeChecked: Boolean = false
-    )
+    val selectedGoal: Goal? = null
+    ){
+    enum class Gender {
+        Female, Male
+    }
+
+    enum class MeasurementUnit {
+        Metric, Imperial
+    }
+
+    enum class Goal {
+        LoseWeight, GainWeight, StayInShape
+    }
+}

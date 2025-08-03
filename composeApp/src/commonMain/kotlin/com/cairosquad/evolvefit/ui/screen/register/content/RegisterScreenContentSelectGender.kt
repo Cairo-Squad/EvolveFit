@@ -38,12 +38,12 @@ fun RegisterScreenContentSelectGender(
         ) {
             CheckboxItem(
                 text = "Female",
-                isChecked = state.isFemaleChecked,
+                isChecked = state.selectedGender == RegisterScreenState.Gender.Female,
                 onCheckedChange = listener::onFemaleCheckedChange,
             )
             CheckboxItem(
                 text = "Male",
-                isChecked = state.isMaleChecked,
+                isChecked = state.selectedGender == RegisterScreenState.Gender.Male,
                 onCheckedChange = listener::onMaleCheckedChange,
             )
 

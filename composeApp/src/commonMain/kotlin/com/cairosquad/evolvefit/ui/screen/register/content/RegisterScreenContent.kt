@@ -60,7 +60,6 @@ fun RegisterScreenContent(
         if (currentStepIndex != previousPage) return@LaunchedEffect
         if (pagerState.currentPage == previousPage) return@LaunchedEffect
         previousPage = pagerState.currentPage
-        listener.onSelectStep(pagerState.currentPage + 1)
     }
 
     Column(
@@ -74,8 +73,6 @@ fun RegisterScreenContent(
             currentStep = state.currentStep,
             totalSteps = RegisterViewModel.MAX_STEPS,
             onBackClick = listener::onClickBack,
-            onClickStep = listener::onSelectStep,
-            selectStepEnabled = state.nextButtonEnabled
         )
 
         HorizontalPager(

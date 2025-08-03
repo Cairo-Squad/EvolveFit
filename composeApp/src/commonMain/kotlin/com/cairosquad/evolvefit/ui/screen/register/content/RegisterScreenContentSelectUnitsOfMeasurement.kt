@@ -38,12 +38,12 @@ fun RegisterScreenContentSelectUnitsOfMeasurement(
         ) {
             CheckboxItem(
                 text = "Metric (cm/kg)",
-                isChecked = state.isMetricChecked,
+                isChecked = state.selectedMeasurementUnit == RegisterScreenState.MeasurementUnit.Metric,
                 onCheckedChange = listener::onMetricCheckedChange,
             )
             CheckboxItem(
                 text = "Imperial (ft/lb)",
-                isChecked = state.isImperialChecked,
+                isChecked = state.selectedMeasurementUnit == RegisterScreenState.MeasurementUnit.Imperial,
                 onCheckedChange = listener::onImperialCheckedChange,
             )
 

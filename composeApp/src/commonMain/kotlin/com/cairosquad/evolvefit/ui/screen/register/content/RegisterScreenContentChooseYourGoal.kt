@@ -38,19 +38,19 @@ fun RegisterScreenContentChooseYourGoal(
         ) {
             CheckboxItem(
                 text = "Lose weight",
-                isChecked = state.isLoseWeightChecked,
+                isChecked = state.selectedGoal == RegisterScreenState.Goal.LoseWeight,
                 onCheckedChange = listener::onLossWeightCheckedChange,
                 description = "Get into your dream shape."
             )
             CheckboxItem(
                 text = "Gain weight",
-                isChecked = state.isGainWeightChecked,
+                isChecked = state.selectedGoal == RegisterScreenState.Goal.GainWeight,
                 onCheckedChange = listener::onGainWeightCheckedChange,
                 description = "Bulk up and build muscles."
             )
             CheckboxItem(
                 text = "Stay in shape",
-                isChecked = state.isStayInShapeChecked,
+                isChecked = state.selectedGoal == RegisterScreenState.Goal.StayInShape,
                 onCheckedChange = listener::onStayInShapeCheckedChange,
                 description = "Get a toned and leaner body."
             )

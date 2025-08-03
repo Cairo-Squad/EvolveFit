@@ -22,112 +22,74 @@ class RegisterViewModel :
         }
     }
 
-    override fun onSelectStep(step: Int) {
-        updateState { it.copy(currentStep = step,
-            nextButtonEnabled = isNextButtonEnabled(it.copy(currentStep = step))
-        )
-        }
-    }
-
-    override fun onClickStartNow() {
+   override fun onClickStartNow() {
         // TODO: call the register use case and Navigate to home screen if register is successful
         sendEffect(RegisterEffect.NavigateToHome)
     }
 
     override fun onFemaleCheckedChange(checked: Boolean) {
         updateState {
-            val newState = it.copy(
-                isFemaleChecked = checked,
-                isMaleChecked = if (checked) false else it.isMaleChecked
-            )
-            newState.copy(
-                nextButtonEnabled = newState.isFemaleChecked || newState.isMaleChecked
-            )
+            val gender = if (checked) RegisterScreenState.Gender.Female else null
+            val newState = it.copy(selectedGender = gender)
+            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
         }
     }
 
     override fun onMaleCheckedChange(checked: Boolean) {
         updateState {
-            val newState = it.copy(
-                isMaleChecked = checked,
-                isFemaleChecked = if (checked) false else it.isFemaleChecked
-            )
-            newState.copy(
-                nextButtonEnabled = newState.isFemaleChecked || newState.isMaleChecked
-            )
+            val gender = if (checked) RegisterScreenState.Gender.Male else null
+            val newState = it.copy(selectedGender = gender)
+            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
         }
     }
 
     override fun onMetricCheckedChange(checked: Boolean) {
         updateState {
-            val newState = it.copy(
-                isMetricChecked = checked,
-                isImperialChecked = if (checked) false else it.isImperialChecked
-            )
-            newState.copy(
-                nextButtonEnabled = newState.isMetricChecked || newState.isImperialChecked
-            )
+            val unit = if (checked) RegisterScreenState.MeasurementUnit.Metric else null
+            val newState = it.copy(selectedMeasurementUnit = unit)
+            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
         }
     }
 
     override fun onImperialCheckedChange(checked: Boolean) {
         updateState {
-            val newState = it.copy(
-                isImperialChecked = checked,
-                isMetricChecked = if (checked) false else it.isMetricChecked
-            )
-            newState.copy(
-                nextButtonEnabled = newState.isMetricChecked || newState.isImperialChecked
-            )
+            val unit = if (checked) RegisterScreenState.MeasurementUnit.Imperial else null
+            val newState = it.copy(selectedMeasurementUnit = unit)
+            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
         }
     }
 
     override fun onLossWeightCheckedChange(checked: Boolean) {
         updateState {
-            val newState = it.copy(
-                isLoseWeightChecked = checked,
-                isGainWeightChecked = if (checked) false else it.isGainWeightChecked,
-                isStayInShapeChecked = if (checked) false else it.isStayInShapeChecked
-            )
-            newState.copy(
-                nextButtonEnabled = newState.isLoseWeightChecked || newState.isGainWeightChecked || newState.isStayInShapeChecked
-            )
+            val goal = if (checked) RegisterScreenState.Goal.LoseWeight else null
+            val newState = it.copy(selectedGoal = goal)
+            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
         }
     }
 
     override fun onGainWeightCheckedChange(checked: Boolean) {
         updateState {
-            val newState = it.copy(
-                isGainWeightChecked = checked,
-                isLoseWeightChecked = if (checked) false else it.isLoseWeightChecked,
-                isStayInShapeChecked = if (checked) false else it.isStayInShapeChecked
-
-            )
-            newState.copy(
-                nextButtonEnabled = newState.isLoseWeightChecked || newState.isGainWeightChecked || newState.isStayInShapeChecked
-            )
+            val goal = if (checked) RegisterScreenState.Goal.GainWeight else null
+            val newState = it.copy(selectedGoal = goal)
+            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
         }
     }
 
     override fun onStayInShapeCheckedChange(checked: Boolean) {
         updateState {
-            val newState = it.copy(
-                isStayInShapeChecked = checked,
-                isLoseWeightChecked = if (checked) false else it.isLoseWeightChecked,
-                isGainWeightChecked = if (checked) false else it.isGainWeightChecked,
-            )
-            newState.copy(
-                nextButtonEnabled = newState.isLoseWeightChecked || newState.isGainWeightChecked || newState.isStayInShapeChecked
-            )
+            val goal = if (checked) RegisterScreenState.Goal.StayInShape else null
+            val newState = it.copy(selectedGoal = goal)
+            newState.copy(nextButtonEnabled = isNextButtonEnabled(newState))
         }
     }
+
     private fun isNextButtonEnabled(state: RegisterScreenState): Boolean {
         return when (state.currentStep) {
-            1 -> state.isFemaleChecked || state.isMaleChecked
-            2 -> state.isMetricChecked || state.isImperialChecked
+            1 -> state.selectedGender != null
+            2 -> state.selectedMeasurementUnit != null
             3 -> true
-            4 -> state.isLoseWeightChecked || state.isGainWeightChecked || state.isStayInShapeChecked
-             5, 6, 7 -> true
+            4 -> state.selectedGoal != null
+            5, 6, 7 -> true
             else -> false
         }
     }
