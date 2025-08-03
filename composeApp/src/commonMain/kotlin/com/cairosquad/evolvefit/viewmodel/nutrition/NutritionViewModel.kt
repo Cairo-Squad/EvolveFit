@@ -6,11 +6,27 @@ class NutritionViewModel() : BaseViewModel<NutritionScreenState, NutritionEffect
     NutritionScreenState()
 ), NutritionInteractionListener {
     override fun onAddWaterClicked() {
-        TODO("Not yet implemented")
+      updateState { it.copy(isAddWaterSheetVisible = true) }
     }
 
-    override fun onAddMealClicked() {
-        TODO("Not yet implemented")
+    override fun onDismissWaterClicked() {
+        updateState { it.copy(isAddWaterSheetVisible = false) }
+    }
+
+    override fun onShowAddMealSheetClicked() {
+        updateState { it.copy(isAddMealSheetVisible = true) }
+    }
+
+    override fun onConfirmAddMealClicked() {
+        updateState { it.copy(isAddMealSnackBarVisible = true, isAddMealSheetVisible = false) }
+    }
+
+    override fun onDismissMealClicked() {
+        updateState { it.copy(isAddMealSheetVisible = false) }
+    }
+
+    override fun onSnackBarHided() {
+        updateState { it.copy(isAddMealSnackBarVisible = false) }
     }
 
     override fun onViewAllSuggestedMealsClicked() {
