@@ -13,6 +13,7 @@ data class NutritionScreenState(
     val mealHistory: List<MealHistoryItem> = emptyList(),
     val isAddWaterSheetVisible: Boolean = false,
     val isAddMealSheetVisible: Boolean = false,
+    val isAddMealSnackBarVisible: Boolean = false,
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
 ) {
