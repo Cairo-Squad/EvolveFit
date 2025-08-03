@@ -107,7 +107,7 @@ jobs:
           mkdir -p "$TARGET_BUILD_DIR"
           
           # Run the Gradle task with Xcode environment
-          ./gradlew :shared:embedAndSignAppleFrameworkForXcode
+          ./gradlew :composeApp:embedAndSignAppleFrameworkForXcode
       
       - name: Cache SwiftGen generated files
         uses: actions/cache@v4
