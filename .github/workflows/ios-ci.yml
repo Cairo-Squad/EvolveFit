@@ -34,53 +34,53 @@ jobs:
     #   - name: Create local.properties
         # run: echo "sdk.dir=$ANDROID_HOME" > ./local.properties
       
-      - name: Cache Kotlin Multiplatform builds
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.konan
-            composeApp/build
-            composeApp/.gradle
-          key: ${{ runner.os }}-kmp-${{ hashFiles('composeApp/**/*.kt', 'composeApp/build.gradle.kts', 'gradle/libs.versions.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-kmp-
+    #   - name: Cache Kotlin Multiplatform builds
+    #     uses: actions/cache@v4
+    #     with:
+    #       path: |
+    #         ~/.konan
+    #         composeApp/build
+    #         composeApp/.gradle
+    #       key: ${{ runner.os }}-kmp-${{ hashFiles('composeApp/**/*.kt', 'composeApp/build.gradle.kts', 'gradle/libs.versions.toml') }}
+    #       restore-keys: |
+    #         ${{ runner.os }}-kmp-
       
-      - name: Cache Homebrew
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/Library/Caches/Homebrew
-            /usr/local/Homebrew
-          key: ${{ runner.os }}-homebrew-${{ hashFiles('**/Brewfile') }}
-          restore-keys: |
-            ${{ runner.os }}-homebrew-
+    #   - name: Cache Homebrew
+    #     uses: actions/cache@v4
+    #     with:
+    #       path: |
+    #         ~/Library/Caches/Homebrew
+    #         /usr/local/Homebrew
+    #       key: ${{ runner.os }}-homebrew-${{ hashFiles('**/Brewfile') }}
+    #       restore-keys: |
+    #         ${{ runner.os }}-homebrew-
       
-      - name: Cache SwiftGen
-        uses: actions/cache@v4
-        with:
-          path: /usr/local/bin/swiftgen
-          key: ${{ runner.os }}-swiftgen-${{ hashFiles('iosApp/iosApp/SwiftGen/swiftgen.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-swiftgen-
+    #   - name: Cache SwiftGen
+    #     uses: actions/cache@v4
+    #     with:
+    #       path: /usr/local/bin/swiftgen
+    #       key: ${{ runner.os }}-swiftgen-${{ hashFiles('iosApp/iosApp/SwiftGen/swiftgen.yml') }}
+    #       restore-keys: |
+    #         ${{ runner.os }}-swiftgen-
       
-      - name: Install SwiftGen
-        run: |
-          if ! command -v swiftgen &> /dev/null; then
-            brew install swiftgen
-          else
-            echo "SwiftGen already installed"
-          fi
+    #   - name: Install SwiftGen
+    #     run: |
+    #       if ! command -v swiftgen &> /dev/null; then
+    #         brew install swiftgen
+    #       else
+    #         echo "SwiftGen already installed"
+    #       fi
       
-      - name: Cache Xcode DerivedData
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/Library/Developer/Xcode/DerivedData
-            build
-          key: ${{ runner.os }}-xcode-deriveddata-${{ hashFiles('iosApp/iosApp.xcodeproj/project.pbxproj') }}-${{ hashFiles('composeApp/**/*.kt') }}
-          restore-keys: |
-            ${{ runner.os }}-xcode-deriveddata-${{ hashFiles('iosApp/iosApp.xcodeproj/project.pbxproj') }}-
-            ${{ runner.os }}-xcode-deriveddata-
+    #   - name: Cache Xcode DerivedData
+    #     uses: actions/cache@v4
+    #     with:
+    #       path: |
+    #         ~/Library/Developer/Xcode/DerivedData
+    #         build
+    #       key: ${{ runner.os }}-xcode-deriveddata-${{ hashFiles('iosApp/iosApp.xcodeproj/project.pbxproj') }}-${{ hashFiles('composeApp/**/*.kt') }}
+    #       restore-keys: |
+    #         ${{ runner.os }}-xcode-deriveddata-${{ hashFiles('iosApp/iosApp.xcodeproj/project.pbxproj') }}-
+    #         ${{ runner.os }}-xcode-deriveddata-
       
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
@@ -107,25 +107,25 @@ jobs:
     #       # Run the Gradle task with Xcode environment
     #       ./gradlew :composeApp:embedAndSignAppleFrameworkForXcode
       
-      - name: Cache SwiftGen generated files
-        uses: actions/cache@v4
-        with:
-          path: |
-            iosApp/iosApp/SwiftGen/Strings.swift
-            iosApp/iosApp/SwiftGen/Assets.swift
-          key: ${{ runner.os }}-swiftgen-generated-${{ hashFiles('iosApp/iosApp/Resources/**/*', 'iosApp/iosApp/SwiftGen/swiftgen.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-swiftgen-generated-
+    #   - name: Cache SwiftGen generated files
+    #     uses: actions/cache@v4
+    #     with:
+    #       path: |
+    #         iosApp/iosApp/SwiftGen/Strings.swift
+    #         iosApp/iosApp/SwiftGen/Assets.swift
+    #       key: ${{ runner.os }}-swiftgen-generated-${{ hashFiles('iosApp/iosApp/Resources/**/*', 'iosApp/iosApp/SwiftGen/swiftgen.yml') }}
+    #       restore-keys: |
+    #         ${{ runner.os }}-swiftgen-generated-
       
-      - name: Generate SwiftGen files
-        working-directory: iosApp/iosApp/SwiftGen
-        run: |
-          if [ ! -f "Strings.swift" ] || [ ! -f "Assets.swift" ]; then
-            echo "Generating SwiftGen files..."
-            swiftgen config run
-          else
-            echo "SwiftGen files already exist and are cached"
-          fi
+    #   - name: Generate SwiftGen files
+    #     working-directory: iosApp/iosApp/SwiftGen
+    #     run: |
+    #       if [ ! -f "Strings.swift" ] || [ ! -f "Assets.swift" ]; then
+    #         echo "Generating SwiftGen files..."
+    #         swiftgen config run
+    #       else
+    #         echo "SwiftGen files already exist and are cached"
+    #       fi
       
       - name: List available schemes
         run: |
@@ -148,7 +148,7 @@ jobs:
             -project iosApp/iosApp.xcodeproj \
             -scheme "iosApp" \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.3.1' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.3' \
             -derivedDataPath build \
             build \
             CODE_SIGNING_ALLOWED=NO \
