@@ -146,8 +146,8 @@ private fun CaloriesAndWaterBox(modifier: Modifier = Modifier) {
                 totalValue = 2000f,
                 unit = "kcal",
                 icon = painterResource(Res.drawable.ic_fire),
-                iconColor = Color.Green,
-                progressColor = Color(0xFF2DAD58),
+                iconColor = Theme.color.system.success,
+                progressColor = Theme.color.system.success,
                 buttonClickable = false
             )
             CircularPercentageIndicator(
@@ -157,8 +157,8 @@ private fun CaloriesAndWaterBox(modifier: Modifier = Modifier) {
                 totalValue = 3.10f,
                 unit = "L",
                 icon = painterResource(Res.drawable.ic_water_drop),
-                iconColor = Color(0xFF2196F3),
-                progressColor = Color(0xFF2196F3),
+                iconColor = Theme.color.system.info,
+                progressColor =  Theme.color.system.info,
                 buttonClickable = true
             )
         }
