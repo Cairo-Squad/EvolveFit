@@ -1,12 +1,10 @@
 package com.cairosquad.evolvefit.design_system.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -17,14 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_fire
-import evolvefit.composeapp.generated.resources.im_default_image
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -33,27 +29,22 @@ fun MealCard(
     title: String,
     mealType: String,
     calories: Int,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     calorieUnit: String = "Kcal",
-    enableClick: Boolean = true,
-    image: Painter = painterResource(Res.drawable.im_default_image)
+    model: String
 ) {
     Column(
-        modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
-            .clickable(onClick = onClick, enabled = enableClick),
+        modifier = modifier,
     ) {
         Box(
             modifier = Modifier.height(124.dp)
         ) {
-            Image(
-                painter = image,
-                contentDescription = "Meal Image",
-                contentScale = ContentScale.Crop,
+            NetworkImage(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp))
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(8.dp)),
+                model = model,
+                contentDescription = "Meal Image",
             )
             Row(
                 modifier = Modifier
@@ -105,7 +96,7 @@ private fun MealCardPreview() {
                 title = "Avocado Toast",
                 mealType = "Breakfast",
                 calories = 350,
-                onClick = {}
+                model = "",
             )
         }
     }

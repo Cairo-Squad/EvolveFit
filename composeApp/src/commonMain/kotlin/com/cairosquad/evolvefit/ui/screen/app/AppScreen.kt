@@ -37,7 +37,6 @@ fun AppScreen(
     navigateToCreateWorkout: () -> Unit,
     navigateToCommunityWorkout: () -> Unit,
     navigateToWorkoutDetails: (Long) -> Unit,
-    navigateToPlayWorkout: (Long) -> Unit,
     navigateToSuggestedMeals: () -> Unit,
     navigateToMealDetails: (Long) -> Unit,
     navigateToMealsHistory: () -> Unit
@@ -91,7 +90,6 @@ fun AppScreen(
                     navigateToCreateWorkout = navigateToCreateWorkout,
                     navigateToCommunityWorkout = navigateToCommunityWorkout,
                     navigateToWorkoutDetails = navigateToWorkoutDetails,
-                    navigateToPlayWorkout = navigateToPlayWorkout
                 )
             }
         }

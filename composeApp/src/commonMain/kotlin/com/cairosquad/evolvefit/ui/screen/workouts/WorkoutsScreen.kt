@@ -1,17 +1,20 @@
 package com.cairosquad.evolvefit.ui.screen.workouts
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.composables.WorkoutCard
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -21,7 +24,6 @@ fun WorkoutsScreen(
     navigateToCreateWorkout: () -> Unit,
     navigateToCommunityWorkout: () -> Unit,
     navigateToWorkoutDetails: (Long) -> Unit,
-    navigateToPlayWorkout: (Long) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -56,33 +58,36 @@ fun WorkoutsScreen(
         }
 
         WorkoutCard(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .clickable(onClick = { navigateToWorkoutDetails(1) }),
             title = "Workout 1",
             duration = "25 min",
             bodyPart = "Chest",
             model = "",
-            onCardClick = { navigateToWorkoutDetails(1) },
-            onClickPlayButton = { navigateToPlayWorkout(1) }
         )
 
         WorkoutCard(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .clickable(onClick = { navigateToWorkoutDetails(2) }),
             title = "Workout 2",
             duration = "25 min",
             bodyPart = "Chest",
             model = "",
-            onCardClick = { navigateToWorkoutDetails(2) },
-            onClickPlayButton = { navigateToPlayWorkout(2) }
         )
 
         WorkoutCard(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .clickable(onClick = { navigateToWorkoutDetails(3) }),
             title = "Workout 3",
             duration = "25 min",
             bodyPart = "Chest",
             model = "",
-            onCardClick = { navigateToWorkoutDetails(3) },
-            onClickPlayButton = { navigateToPlayWorkout(3) }
         )
 
         Button(

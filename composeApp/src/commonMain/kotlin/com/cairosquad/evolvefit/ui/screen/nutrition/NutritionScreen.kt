@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.ui.screen.nutrition
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -55,11 +56,14 @@ fun NutritionScreen(
         ) {
             items(20) { index ->
                 MealCard(
-                    modifier = Modifier.width(158.dp),
+                    modifier = Modifier
+                        .width(158.dp)
+                        .clickable(onClick = { navigateToMealDetails((index + 1).toLong()) })
+                    ,
                     title = "Meal ${index + 1}",
                     mealType = "Lunch",
                     calories = 350,
-                    onClick = { navigateToMealDetails((index + 1).toLong()) }
+                    model = ""
                 )
             }
         }
