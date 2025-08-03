@@ -61,7 +61,8 @@ fun MealHistoryCard(
         }
         Column(
             modifier = Modifier.weight(1f)
-                .padding(start = 12.dp, top = 4.5.dp, bottom = 4.5.dp),
+                .padding(start = 12.dp),
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = title,
@@ -76,7 +77,9 @@ fun MealHistoryCard(
             )
         }
         Column(
-            modifier = Modifier.padding(start = 8.dp, top = 11.5.dp, bottom = 11.5.dp)
+            modifier = Modifier.padding(start = 8.dp),
+            verticalArrangement = Arrangement.Center
+
         ) {
             Text(
                 text = "$calories $calorieUnit",
