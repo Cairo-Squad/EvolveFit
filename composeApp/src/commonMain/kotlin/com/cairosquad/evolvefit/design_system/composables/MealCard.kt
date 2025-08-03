@@ -23,7 +23,7 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_fire
-import evolvefit.composeapp.generated.resources.im_default_image
+import evolvefit.composeapp.generated.resources.ic_placeholder
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -35,26 +35,24 @@ fun MealCard(
     calories: Int,
     modifier: Modifier = Modifier,
     calorieUnit: String = "Kcal",
-    image: DrawableResource = Res.drawable.im_default_image
+    image: DrawableResource = Res.drawable.ic_placeholder
 ) {
     Column(
         modifier = modifier
             .width(158.dp)
     ) {
         Box(
-            modifier = Modifier.height(124.dp).clip(RoundedCornerShape(8.dp))
+            modifier = Modifier.height(124.dp)
+                .clip(RoundedCornerShape(8.dp))
+
 
         ) {
             Image(
                 painter = painterResource(image),
                 contentDescription = "Meal Image",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .background(Color(0x99242424))
+                modifier = Modifier.fillMaxWidth().background(Color(0xFF242424))
+
             )
             Row(
                 modifier = Modifier
