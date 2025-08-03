@@ -91,21 +91,21 @@ jobs:
       - name: Show available simulators
         run: xcrun simctl list devices available
       
-      - name: Build shared framework
-        run: |
-          # Set required Xcode environment variables for the Gradle task
-          export SDK_NAME=iphonesimulator
-          export CONFIGURATION=Debug
-          export TARGET_BUILD_DIR=${{ github.workspace }}/build/ios
-          export BUILT_PRODUCTS_DIR=${{ github.workspace }}/build/ios
-          export FRAMEWORKS_FOLDER_PATH=Frameworks
-          export ARCHS=arm64
+    #   - name: Build shared framework
+    #     run: |
+    #       # Set required Xcode environment variables for the Gradle task
+    #       export SDK_NAME=iphonesimulator
+    #       export CONFIGURATION=Debug
+    #       export TARGET_BUILD_DIR=${{ github.workspace }}/build/ios
+    #       export BUILT_PRODUCTS_DIR=${{ github.workspace }}/build/ios
+    #       export FRAMEWORKS_FOLDER_PATH=Frameworks
+    #       export ARCHS=arm64
           
-          # Create the target directory
-          mkdir -p "$TARGET_BUILD_DIR"
+    #       # Create the target directory
+    #       mkdir -p "$TARGET_BUILD_DIR"
           
-          # Run the Gradle task with Xcode environment
-          ./gradlew :composeApp:embedAndSignAppleFrameworkForXcode
+    #       # Run the Gradle task with Xcode environment
+    #       ./gradlew :composeApp:embedAndSignAppleFrameworkForXcode
       
       - name: Cache SwiftGen generated files
         uses: actions/cache@v4
