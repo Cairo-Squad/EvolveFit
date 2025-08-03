@@ -14,3 +14,32 @@ data object RegisterRoute
 
 @Serializable
 data object AppRoute
+
+@Serializable
+data object CreateWorkoutRoute
+
+@Serializable
+data object CreateExerciseRoute
+
+@Serializable
+data object CommunityWorkoutRoute
+
+@Serializable
+data class WorkoutDetailsRoute(
+    val workoutId: Long
+)
+@Serializable
+data class PlayWorkoutRoute(
+    val workoutId: Long
+)
+
+@Serializable
+data object SuggestedMealsRoute
+
+@Serializable
+data class MealDetailsRoute(
+    val mealId: Long
+)
+
+@Serializable
+data object MealsHistoryRoute

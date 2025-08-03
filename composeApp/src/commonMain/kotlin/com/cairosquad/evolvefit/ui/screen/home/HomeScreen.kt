@@ -10,9 +10,7 @@ import androidx.compose.ui.Modifier
 import com.cairosquad.evolvefit.design_system.theme.Theme
 
 @Composable
-fun HomeScreen(
-
-) {
+fun HomeScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()

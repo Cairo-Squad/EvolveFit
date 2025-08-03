@@ -15,7 +15,7 @@ import com.cairosquad.evolvefit.design_system.component.NavigationBar
 import com.cairosquad.evolvefit.design_system.component.NavigationBarItem
 import com.cairosquad.evolvefit.ui.screen.home.HomeScreen
 import com.cairosquad.evolvefit.ui.screen.nutrition.NutritionScreen
-import com.cairosquad.evolvefit.ui.screen.workout.WorkoutScreen
+import com.cairosquad.evolvefit.ui.screen.workouts.WorkoutsScreen
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.dashboard
 import evolvefit.composeapp.generated.resources.dashboard_filled
@@ -34,7 +34,13 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AppScreen(
-
+    navigateToCreateWorkout: () -> Unit,
+    navigateToCommunityWorkout: () -> Unit,
+    navigateToWorkoutDetails: (Long) -> Unit,
+    navigateToPlayWorkout: (Long) -> Unit,
+    navigateToSuggestedMeals: () -> Unit,
+    navigateToMealDetails: (Long) -> Unit,
+    navigateToMealsHistory: () -> Unit
 ) {
     var selectedScreenIndex by rememberSaveable { mutableIntStateOf(0) }
 
@@ -76,8 +82,17 @@ fun AppScreen(
         ) {
             when (selectedScreenIndex) {
                 0 -> HomeScreen()
-                1 -> NutritionScreen()
-                2 -> WorkoutScreen()
+                1 -> NutritionScreen(
+                    navigateToSuggestedMeals = navigateToSuggestedMeals,
+                    navigateToMealDetails = navigateToMealDetails,
+                    navigateToMealsHistory = navigateToMealsHistory
+                )
+                2 -> WorkoutsScreen(
+                    navigateToCreateWorkout = navigateToCreateWorkout,
+                    navigateToCommunityWorkout = navigateToCommunityWorkout,
+                    navigateToWorkoutDetails = navigateToWorkoutDetails,
+                    navigateToPlayWorkout = navigateToPlayWorkout
+                )
             }
         }
 
