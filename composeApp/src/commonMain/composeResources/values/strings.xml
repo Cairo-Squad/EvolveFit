@@ -4,4 +4,8 @@
     <string name="workouts">Workouts</string>
     <string name="reports">Reports</string>
     <string name="more">More</string>
+    <string name="start_now">Start Now</string>
+    <string name="next">Next</string>
+    <string name="internet_is_not_available">Internet is not available</string>
+    <string name="please_make_sure_you_are_connected_to_the_internet_and_try_again">Please make sure you are connected to the internet and try again.</string>
 </resources>
