@@ -105,7 +105,7 @@ fun RegisterScreenContentSelectHeightAndWeight(
             measureType = stringResource(Res.string.height),
             measureIcon = painterResource(Res.drawable.ic_ruler),
             minMeasureValue = minHeight,
-            maxMeasureValue =maxHeight,
+            maxMeasureValue = maxHeight,
             onMeasureChanged = { height ->
                 listener.onHeightChanged(height)
             },
@@ -427,12 +427,11 @@ private object HeightWeightConstants {
     const val MIN_HEIGHT_CM = 50f
     const val MAX_HEIGHT_CM = 250f
 
-    const val MIN_HEIGHT_FT = MIN_HEIGHT_CM / 30.48f
-    const val MAX_HEIGHT_FT = MAX_HEIGHT_CM / 30.48f
-
+    const val MIN_HEIGHT_FT = 50f
+    const val MAX_HEIGHT_FT = 250f
     const val MIN_WEIGHT_KG = 1f
     const val MAX_WEIGHT_KG = 200f
 
-    const val MIN_WEIGHT_LB = MIN_WEIGHT_KG / 0.453592f
-    const val MAX_WEIGHT_LB = MAX_WEIGHT_KG / 0.453592f
+    const val MIN_WEIGHT_LB = 1f
+    const val MAX_WEIGHT_LB = 200f
 }
