@@ -108,7 +108,7 @@ fun TodayMeals(
                 )
                 Text(
                     modifier = Modifier
-                        .clickable(onClick = { listener.onShowAddMealSheetClicked() }),
+                        .clickable(onClick = { listener.onAddMealSheetClicked() }),
                     text =  stringResource(Res.string.add_meal),
                     style = Theme.textStyle.body.mediumMedium14,
                     color = Theme.color.brand.primary

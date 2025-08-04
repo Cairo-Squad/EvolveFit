@@ -23,6 +23,7 @@ data class NutritionScreenState(
         val name: String = "",
         val type: MealType = MealType.Breakfast,
         val calories: Int = 0,
+        val imageUrl: String = ""
     )
 
     data class MealHistory(

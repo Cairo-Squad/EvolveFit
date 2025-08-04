@@ -26,10 +26,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
@@ -90,7 +94,8 @@ fun NutritionScreenContent(nutritionViewModel: NutritionViewModel) {
                 )
                 SuggestedMeals(
                     state = state,
-                    listener = nutritionViewModel)
+                    listener = nutritionViewModel
+                )
                 SeeAll(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
@@ -120,7 +125,7 @@ fun NutritionScreenContent(nutritionViewModel: NutritionViewModel) {
         }
         SnackBar(
             modifier = Modifier.align(Alignment.BottomCenter),
-            text =  stringResource(Res.string.meal_added_snackbar),
+            text = stringResource(Res.string.meal_added_snackbar),
             isVisible = state.isAddMealSnackBarVisible
         )
     }
@@ -196,7 +201,7 @@ fun SeeAll(
             modifier = Modifier.clickable(
                 onClick = { onViewAllClick() }
             ),
-            text =  stringResource(Res.string.view_all),
+            text = stringResource(Res.string.view_all),
             style = Theme.textStyle.body.mediumMedium14,
             color = Theme.color.surfaces.onSurfaceVariant
         )
@@ -216,6 +221,11 @@ private fun AddWaterIntakeBottomSheet(
     listener: NutritionInteractionListener,
     modifier: Modifier = Modifier
 ) {
+    var waterAmount by remember { mutableStateOf("") }
+    var buttonIsEnabled by remember { mutableStateOf(false) }
+    LaunchedEffect(waterAmount) {
+        buttonIsEnabled = waterAmount.isNotBlank()
+    }
     AnimatedVisibility(
         modifier = modifier.fillMaxWidth(),
         visible = state.isAddWaterSheetVisible,
@@ -243,16 +253,20 @@ private fun AddWaterIntakeBottomSheet(
                 )
                 InputField(
                     modifier = Modifier.padding(top = 16.dp),
-                    value = "",
-                    onValueChange = {},
+                    value = waterAmount,
+                    onValueChange = { waterAmount = it },
+                    keyboardType = KeyboardType.Number,
                     placeholder = "e.g., 1.5 L",
                     leadingIcon = Res.drawable.ic_water_drop
                 )
                 PrimaryButton(
                     modifier = Modifier.padding(top = 40.dp, bottom = 16.dp),
                     text = stringResource(Res.string.add_button),
-                    isEnabled = false,
-                    onClick = {})
+                    isEnabled = buttonIsEnabled,
+                    onClick = {
+                        listener.onConfirmAddWaterClicked(waterAmount.toFloat())
+                        waterAmount = ""
+                    })
             }
         }
     }

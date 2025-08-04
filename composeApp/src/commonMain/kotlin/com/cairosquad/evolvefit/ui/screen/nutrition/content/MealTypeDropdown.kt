@@ -22,11 +22,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
+import com.cairosquad.evolvefit.design_system.component.CheckboxItem
+import com.cairosquad.evolvefit.design_system.component.CheckboxStyle
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
-import com.cairosquad.evolvefit.design_system.composables.CheckboxItem
-import com.cairosquad.evolvefit.design_system.composables.CheckboxStyle
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
@@ -39,6 +40,7 @@ import evolvefit.composeapp.generated.resources.calories
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_fire
 import evolvefit.composeapp.generated.resources.log_meal_details
+import evolvefit.composeapp.generated.resources.meal_name_placeholder
 import evolvefit.composeapp.generated.resources.nutrition
 import org.jetbrains.compose.resources.stringResource
 
@@ -86,6 +88,7 @@ fun MealTypeDropdown(
                     modifier = Modifier.padding(top = 16.dp),
                     value = mealName,
                     onValueChange = { mealName = it },
+                    placeholder = stringResource(Res.string.meal_name_placeholder),
                     leadingIcon = Res.drawable.nutrition
                 )
                 Row(
@@ -98,6 +101,7 @@ fun MealTypeDropdown(
                             .padding(end = 8.dp)
                             .weight(1f),
                         value = mealCalories,
+                        keyboardType = KeyboardType.Number,
                         onValueChange = {
                             mealCalories = it
                         },
@@ -137,7 +141,13 @@ fun MealTypeDropdown(
                     text = stringResource(Res.string.add_button),
                     isEnabled = buttonIsEnabled,
                     onClick = {
-                        nutritionViewModel.onConfirmAddMealClicked()
+                        nutritionViewModel.onConfirmAddMealClicked(
+                            NutritionScreenState.MealHistory(
+                                name = mealName,
+                                type = state.mealTypeSelected,
+                                calories = mealCalories.toInt()
+                            )
+                        )
                         mealName = ""
                         mealCalories = ""
                     })
@@ -166,12 +176,14 @@ fun DropdownMenu(
                 .clip(RoundedCornerShape(8.dp))
                 .background(Theme.color.surfaces.surfaceContainer).padding(8.dp)
         ) {
-            val options = remember {   listOf(
-                NutritionScreenState.MealType.Breakfast,
-                NutritionScreenState.MealType.Lunch,
-                NutritionScreenState.MealType.Dinner,
-                NutritionScreenState.MealType.Snacks,
-            )}
+            val options = remember {
+                listOf(
+                    NutritionScreenState.MealType.Breakfast,
+                    NutritionScreenState.MealType.Lunch,
+                    NutritionScreenState.MealType.Dinner,
+                    NutritionScreenState.MealType.Snacks,
+                )
+            }
             options.forEach { item ->
                 CheckboxItem(
                     text = item.displayName,

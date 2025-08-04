@@ -9,7 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.composables.MealCard
+import com.cairosquad.evolvefit.design_system.component.MealCard
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -33,7 +33,7 @@ fun SuggestedMeals(
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
         items(state.suggestedMeals) {
-            MealCard(title = it.name, mealType = it.type.displayName, calories = it.calories)
+            MealCard(title = it.name, mealType = it.type.displayName, calories = it.calories, model = it.imageUrl)
         }
     }
 }
