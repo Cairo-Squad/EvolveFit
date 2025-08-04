@@ -7,8 +7,8 @@ import com.cairosquad.evolvefit.entity.User
 class LoginUseCase(
     private val repository: AuthRepository
 ) {
-    suspend  fun login(username: String, password: String): AuthTokens {
-        return repository.login(username, password)
+    suspend  fun login(email: String, password: String): AuthTokens {
+        return repository.login(email, password)
     }
 
     suspend  fun isUserLoggedIn(): Boolean {
