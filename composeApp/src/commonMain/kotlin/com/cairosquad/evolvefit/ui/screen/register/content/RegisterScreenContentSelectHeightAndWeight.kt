@@ -424,15 +424,15 @@ fun formatToOneDecimal(value: Float): String {
     return (kotlin.math.round(value * 10) / 10f).toString()
 }
 private object HeightWeightConstants {
-    const val MIN_HEIGHT_CM = 1f
-    const val MAX_HEIGHT_CM = 250f
+    const val MIN_HEIGHT_CM =50f
+    const val MAX_HEIGHT_CM = 200f
 
     const val MIN_HEIGHT_FT =50f
     const val MAX_HEIGHT_FT = 200f
 
-    const val MIN_WEIGHT_KG = 50f
+    const val MIN_WEIGHT_KG = 5f
     const val MAX_WEIGHT_KG = 200f
 
-    const val MIN_WEIGHT_LB = 1f
+    const val MIN_WEIGHT_LB = 5f
     const val MAX_WEIGHT_LB = 250f
 }
