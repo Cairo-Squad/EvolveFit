@@ -53,7 +53,7 @@ fun OnboardingScreen(
     viewmodel: OnBoardingViewModel = koinViewModel(),
     navController: NavController
 ) {
-    val state by viewmodel.state.collectAsStateWithLifecycle()
+    val state by viewmodel.screenState.collectAsStateWithLifecycle()
     ObserveAsEffect(viewmodel.effect) { effect ->
         when (effect) {
             OnboardingScreenEffect.NavigateToLogin -> {
