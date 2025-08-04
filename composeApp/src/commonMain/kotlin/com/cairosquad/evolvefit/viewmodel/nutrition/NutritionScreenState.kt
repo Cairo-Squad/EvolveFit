@@ -7,26 +7,32 @@ data class NutritionScreenState(
     val caloriesGoal: Int = 2000,
     val waterConsumedLiters: Float = 0f,
     val waterGoalLiters: Float = 2f,
-    val remainingCalories: Float=0f,
+    val remainingCalories: Float = 0f,
     val mealsToday: List<Meal> = emptyList(),
     val suggestedMeals: List<SuggestedMeal> = emptyList(),
     val mealHistory: List<MealHistoryItem> = emptyList(),
     val isAddWaterSheetVisible: Boolean = false,
     val isAddMealSheetVisible: Boolean = false,
     val isAddMealSnackBarVisible: Boolean = false,
+    val isDroppedMenuVisible: Boolean = false,
+    val mealTypeSelected: MealType = MealType.Breakfast,
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
 ) {
     data class SuggestedMeal(
-        val name: String="",
-        val type: String="",
-        val calories: Int=0,
-        )
+        val name: String = "",
+        val type: String = "",
+        val calories: Int = 0,
+    )
 
     data class MealHistoryItem(
-        val name: String="",
-        val type: String="",
-        val calories: Int=0,
-        val date: String=""
+        val name: String = "",
+        val type: String = "",
+        val calories: Int = 0,
+        val date: String = ""
     )
+
+    enum class MealType(val displayName: String) {
+        Breakfast("Breakfast"), Lunch("Lunch"), Dinner("Dinner"), Snacks("Snacks")
+    }
 }
