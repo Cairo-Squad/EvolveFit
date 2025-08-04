@@ -90,7 +90,7 @@ fun RegisterScreenContentSelectHeightAndWeight(
 
 @Preview()
 @Composable
-fun RegisterScreenContentSelectHeightAndWeightPreview() {
+private fun RegisterScreenContentSelectHeightAndWeightPreview() {
     AppTheme(
         isDarkTheme = true
     ) {
