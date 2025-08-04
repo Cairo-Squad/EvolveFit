@@ -30,13 +30,6 @@ data class Tool(
     val name: String
 )
 
-//data class NotificationSettings(
-//    val workoutReminder: Boolean,
-//    val waterReminder: Boolean,
-//    val weightReminder: Boolean,
-//    val achievementsReminder: Boolean
-//)
-
 enum class WorkoutDay {
     MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
 }
