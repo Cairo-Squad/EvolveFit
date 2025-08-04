@@ -51,16 +51,17 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun OnboardingScreen(
     viewmodel: OnBoardingViewModel = koinViewModel(),
-    navController: NavController
+    navigateToRegister : () -> Unit,
+    navigateToLogin : () -> Unit,
 ) {
     val state by viewmodel.screenState.collectAsStateWithLifecycle()
     ObserveAsEffect(viewmodel.effect) { effect ->
         when (effect) {
             OnboardingScreenEffect.NavigateToLogin -> {
-                navController.navigate(LoginRoute)
+                navigateToLogin()
             }
             OnboardingScreenEffect.NavigateToRegister -> {
-                navController.navigate(RegisterRoute)
+                navigateToRegister()
             }
         }
     }

@@ -36,7 +36,8 @@ fun NavigationHost() {
     ) {
         composable<OnboardingRoute> {
             OnboardingScreen(
-                navController = navController
+                navigateToLogin = { navController.navigate(LoginRoute) },
+                navigateToRegister = { navController.navigate(RegisterRoute) },
             )
         }
 
