@@ -11,5 +11,4 @@ interface RegisterInteractionListener {
     fun onGenderClicked(gender: Gender)
     fun onMeasurementUnitClicked(unit: MeasurementUnit)
     fun onGoalClicked(goal: Goal)
-
 }
