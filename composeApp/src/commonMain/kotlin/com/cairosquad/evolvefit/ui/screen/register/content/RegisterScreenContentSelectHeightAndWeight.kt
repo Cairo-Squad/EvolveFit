@@ -1,3 +1,11 @@
+import HeightWeightConstants.MAX_HEIGHT_CM
+import HeightWeightConstants.MAX_HEIGHT_FT
+import HeightWeightConstants.MAX_WEIGHT_KG
+import HeightWeightConstants.MAX_WEIGHT_LB
+import HeightWeightConstants.MIN_HEIGHT_CM
+import HeightWeightConstants.MIN_HEIGHT_FT
+import HeightWeightConstants.MIN_WEIGHT_KG
+import HeightWeightConstants.MIN_WEIGHT_LB
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -70,15 +78,27 @@ fun RegisterScreenContentSelectHeightAndWeight(
         val measureUnit = state.selectedMeasurementUnit
         var heightMeasureUnit =""
         var weightMeasureUnit =""
+        var minHeight = 0f
+        var maxHeight = 0f
+        var minWeight = 0f
+        var maxWeight = 0f
 
         if (measureUnit == RegisterScreenState.MeasurementUnit.Metric) {
-            heightMeasureUnit=stringResource(Res.string.cm)
-            weightMeasureUnit=stringResource(Res.string.kg)
+            heightMeasureUnit = stringResource(Res.string.cm)
+            weightMeasureUnit = stringResource(Res.string.kg)
 
+            minHeight = MIN_HEIGHT_CM
+            maxHeight = MAX_HEIGHT_CM
+            minWeight = MIN_WEIGHT_KG
+            maxWeight = MAX_WEIGHT_KG
+        } else {
+            heightMeasureUnit = stringResource(Res.string.ft)
+            weightMeasureUnit = stringResource(Res.string.lb)
 
-        } else if (measureUnit == RegisterScreenState.MeasurementUnit.Imperial) {
-            heightMeasureUnit=stringResource(Res.string.ft)
-            weightMeasureUnit=stringResource(Res.string.lb)
+            minHeight = MIN_HEIGHT_FT
+            maxHeight = MAX_HEIGHT_FT
+            minWeight = MIN_WEIGHT_LB
+            maxWeight = MAX_WEIGHT_LB
         }
         MeasureSection(
             selectedMeasure = state.selectedHeight,
@@ -402,4 +422,17 @@ private fun DrawScope.drawRuler(
 }
 fun formatToOneDecimal(value: Float): String {
     return (kotlin.math.round(value * 10) / 10f).toString()
+}
+private object HeightWeightConstants {
+    const val MIN_HEIGHT_CM = 50f
+    const val MAX_HEIGHT_CM = 250f
+
+    const val MIN_HEIGHT_FT = MIN_HEIGHT_CM / 30.48f
+    const val MAX_HEIGHT_FT = MAX_HEIGHT_CM / 30.48f
+
+    const val MIN_WEIGHT_KG = 1f
+    const val MAX_WEIGHT_KG = 200f
+
+    const val MIN_WEIGHT_LB = MIN_WEIGHT_KG / 0.453592f
+    const val MAX_WEIGHT_LB = MAX_WEIGHT_KG / 0.453592f
 }
