@@ -4,8 +4,8 @@ import com.cairosquad.evolvefit.entity.AuthTokens
 import com.cairosquad.evolvefit.entity.User
 
 interface AuthRepository {
-    suspend fun register(user: User): AuthTokens
-    suspend fun login(email: String, password: String): AuthTokens
+    suspend fun register(user: User)
+    suspend fun login(email: String, password: String)
     suspend fun isUserLoggedIn(): Boolean
     suspend fun logout()
 }

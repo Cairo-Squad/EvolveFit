@@ -8,20 +8,18 @@ class FakeAuthRepository : AuthRepository {
 
     private var tokens: AuthTokens? = null
 
-    override suspend fun register(user: User): AuthTokens {
+    override suspend fun register(user: User) {
         tokens = AuthTokens(
             accessToken = "fake_access_token",
             refreshToken = "fake_refresh_token"
         )
-        return tokens!!
     }
 
-    override suspend fun login(email: String, password: String): AuthTokens {
+    override suspend fun login(email: String, password: String) {
         tokens = AuthTokens(
             accessToken = "fake_access_token",
             refreshToken = "fake_refresh_token"
         )
-        return tokens!!
     }
 
     override suspend fun isUserLoggedIn(): Boolean {

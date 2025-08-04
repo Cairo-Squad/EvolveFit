@@ -1,13 +1,13 @@
 package com.cairosquad.evolvefit.domain.usecase.authentication
 
 import com.cairosquad.evolvefit.domain.AuthRepository
-import com.cairosquad.evolvefit.entity.AuthTokens
 import com.cairosquad.evolvefit.entity.User
 
-class LoginUseCase(
+class AuthUseCase(
     private val repository: AuthRepository
 ) {
-    suspend  fun login(email: String, password: String): AuthTokens {
+
+    suspend  fun login(email: String, password: String) {
         return repository.login(email, password)
     }
 
@@ -18,5 +18,8 @@ class LoginUseCase(
     suspend  fun logout() {
         repository.logout()
     }
-}
+    suspend  fun register(user: User) {
+        return repository.register(user)
+    }
 
+}
