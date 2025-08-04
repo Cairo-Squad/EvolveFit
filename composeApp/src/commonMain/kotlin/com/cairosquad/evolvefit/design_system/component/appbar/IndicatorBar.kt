@@ -36,17 +36,24 @@ fun IndicatorBar(
     currentStep: Int,
     totalSteps: Int,
     onBackClick: () -> Unit,
-    contentColor: Color
+    modifier: Modifier = Modifier,
+    backButtonEnabled: Boolean = true,
+    backIconColor: Color = Theme.color.surfaces.onSurface,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(onClick = onBackClick) {
+        IconButton(
+            onClick = onBackClick,
+            enabled = backButtonEnabled,
+            modifier = Modifier.size(40.dp)
+        ) {
             Icon(
+                modifier = Modifier.size(24.dp),
                 painter = painterResource(Res.drawable.ic_back),
                 contentDescription = "Back",
-                tint = contentColor
+                tint = backIconColor
             )
         }
 
@@ -78,12 +85,16 @@ fun IndicatorBar(
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            Text(
-                text = "$currentStep/$totalSteps",
-                color = Theme.color.surfaces.onSurfaceVariant,
-                style = Theme.textStyle.label.smallRegular12,
-                modifier = Modifier.size(40.dp)
-            )
+            Box(
+                modifier = Modifier.size(40.dp),
+                contentAlignment = Alignment.Center
+            ){
+                Text(
+                    text = "$currentStep/$totalSteps",
+                    color = Theme.color.surfaces.onSurfaceVariant,
+                    style = Theme.textStyle.label.smallRegular12,
+                )
+            }
         }
     }
 }
@@ -103,7 +114,7 @@ private fun IndicatorBarPreview() {
                 currentStep = 2,
                 totalSteps = 8,
                 onBackClick = { },
-                contentColor = Theme.color.surfaces.onSurface
+                backIconColor = Theme.color.surfaces.onSurface,
             )
         }
     }
@@ -123,7 +134,7 @@ private fun IndicatorBarDarkPreview() {
                 currentStep = 2,
                 totalSteps = 8,
                 onBackClick = { },
-                contentColor = Theme.color.surfaces.onSurface
+                backIconColor = Theme.color.surfaces.onSurface,
             )
         }
     }

@@ -1,21 +1,65 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal
 
-class RegisterViewModel: ViewModel(), RegisterInteractionListener {
-
-    private val _state = MutableStateFlow(RegisterScreenState())
-    val state = _state.asStateFlow()
+class RegisterViewModel :
+    BaseViewModel<RegisterScreenState, RegisterEffect>(RegisterScreenState()),
+    RegisterInteractionListener {
 
     override fun onClickNext() {
-        _state.update { it.copy(currentStep = (it.currentStep + 1) % MAX_STEPS) }
+        updateState { current ->
+            val nextStep = current.currentStep + 1
+            val newState = current.copy(currentStep = nextStep)
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+        }
     }
 
     override fun onClickBack() {
-        _state.update { it.copy(currentStep = (it.currentStep - 1) % MAX_STEPS) }
+        if (screenState.value.currentStep == 1) {
+            sendEffect(RegisterEffect.NavigateBack)
+        } else {
+            updateState { it.copy(currentStep = it.currentStep - 1) }
+        }
+    }
+
+    override fun onClickStartNow() {
+        // TODO: call the register use case and Navigate to home screen if register is successful
+        sendEffect(RegisterEffect.NavigateToHome)
+    }
+
+    override fun onGenderClicked(gender: RegisterScreenState.Gender) {
+        updateState {
+            val newState =
+                it.copy(selectedGender = if (it.selectedGender == gender) null else gender)
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+        }
+    }
+
+    override fun onMeasurementUnitClicked(unit: RegisterScreenState.MeasurementUnit) {
+        updateState {
+            val newState =
+                it.copy(selectedMeasurementUnit = if (it.selectedMeasurementUnit == unit) null else unit)
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+        }
+    }
+
+    override fun onGoalClicked(goal: Goal) {
+        updateState {
+            val newState = it.copy(selectedGoal = if (it.selectedGoal == goal) null else goal)
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+        }
+    }
+
+    private fun updateNextButtonEnableState(state: RegisterScreenState): Boolean {
+        return when (state.currentStep) {
+            1 -> state.selectedGender != null
+            2 -> state.selectedMeasurementUnit != null
+            3 -> true
+            4 -> state.selectedGoal != null
+            5, 6, 7 -> true
+            else -> false
+        }
     }
 
     companion object {

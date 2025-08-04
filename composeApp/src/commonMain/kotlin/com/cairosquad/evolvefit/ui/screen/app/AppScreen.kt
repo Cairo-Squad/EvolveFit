@@ -1,72 +1,119 @@
 package com.cairosquad.evolvefit.ui.screen.app
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.cairosquad.evolvefit.design_system.component.NavigationBar
+import com.cairosquad.evolvefit.design_system.component.NavigationBarItem
 import com.cairosquad.evolvefit.ui.screen.home.HomeScreen
 import com.cairosquad.evolvefit.ui.screen.nutrition.NutritionScreen
-import com.cairosquad.evolvefit.ui.screen.workout.WorkoutScreen
+import com.cairosquad.evolvefit.ui.screen.workouts.WorkoutsScreen
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.dashboard
+import evolvefit.composeapp.generated.resources.dashboard_filled
+import evolvefit.composeapp.generated.resources.more
+import evolvefit.composeapp.generated.resources.more_filled
+import evolvefit.composeapp.generated.resources.nutrition
+import evolvefit.composeapp.generated.resources.nutrition_filled
+import evolvefit.composeapp.generated.resources.reports
+import evolvefit.composeapp.generated.resources.reports_filled
+import evolvefit.composeapp.generated.resources.workouts
+import evolvefit.composeapp.generated.resources.workouts_filled
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AppScreen(
-
+    navigateToCreateWorkout: () -> Unit,
+    navigateToCommunityWorkout: () -> Unit,
+    navigateToWorkoutDetails: (Long) -> Unit,
+    navigateToSuggestedMeals: () -> Unit,
+    navigateToMealDetails: (Long) -> Unit,
+    navigateToMealsHistory: () -> Unit
 ) {
     var selectedScreenIndex by rememberSaveable { mutableIntStateOf(0) }
 
+    val navigationItemsRes = remember {
+        listOf(
+            NavigationItemRes(
+                outlinedIconRes = Res.drawable.dashboard,
+                filledIconRes = Res.drawable.dashboard_filled,
+                labelRes = Res.string.dashboard
+            ),
+            NavigationItemRes(
+                outlinedIconRes = Res.drawable.nutrition,
+                filledIconRes = Res.drawable.nutrition_filled,
+                labelRes = Res.string.nutrition
+            ),
+            NavigationItemRes(
+                outlinedIconRes = Res.drawable.workouts,
+                filledIconRes = Res.drawable.workouts_filled,
+                labelRes = Res.string.workouts
+            ),
+            NavigationItemRes(
+                outlinedIconRes = Res.drawable.reports,
+                filledIconRes = Res.drawable.reports_filled,
+                labelRes = Res.string.reports
+            ),
+            NavigationItemRes(
+                outlinedIconRes = Res.drawable.more,
+                filledIconRes = Res.drawable.more_filled,
+                labelRes = Res.string.more
+            )
+        )
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
-    ){
+    ) {
         Box(
             modifier = Modifier.weight(1f)
         ) {
             when (selectedScreenIndex) {
                 0 -> HomeScreen()
-                1 -> NutritionScreen()
-                2 -> WorkoutScreen()
+                1 -> NutritionScreen(
+                    navigateToSuggestedMeals = navigateToSuggestedMeals,
+                    navigateToMealDetails = navigateToMealDetails,
+                    navigateToMealsHistory = navigateToMealsHistory
+                )
+                2 -> WorkoutsScreen(
+                    navigateToCreateWorkout = navigateToCreateWorkout,
+                    navigateToCommunityWorkout = navigateToCommunityWorkout,
+                    navigateToWorkoutDetails = navigateToWorkoutDetails,
+                )
             }
         }
-        TempNavigationBar(
-            selectedScreenIndex = selectedScreenIndex,
-            onItemSelected = { selectedScreenIndex = it }
+
+        NavigationBar(
+            modifier = Modifier.navigationBarsPadding(),
+            selectedItem = selectedScreenIndex,
+            onItemClick = { selectedScreenIndex = it },
+            navigationItems = navigationItemsRes.map { it.toNavigationBarItem() }
         )
     }
 }
 
-@Composable
-private fun TempNavigationBar(
-    selectedScreenIndex: Int,
-    onItemSelected: (Int) -> Unit
+private data class NavigationItemRes(
+    val outlinedIconRes: DrawableResource,
+    val filledIconRes: DrawableResource,
+    val labelRes: StringResource
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceAround
-    ) {
-
-        Button(
-            onClick = { onItemSelected(0) }
-        ){
-            Text("home")
-        }
-        Button(
-            onClick = { onItemSelected(1) }
-        ){
-            Text("Nutrition")
-        }
-        Button(
-            onClick = { onItemSelected(2) }
-        ){
-            Text("Workouts")
-        }
+    @Composable
+    fun toNavigationBarItem(): NavigationBarItem {
+        return NavigationBarItem(
+            outlinedIcon = painterResource(outlinedIconRes),
+            filledIcon = painterResource(filledIconRes),
+            label = stringResource(labelRes)
+        )
     }
 }
