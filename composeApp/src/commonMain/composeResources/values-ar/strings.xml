@@ -30,4 +30,12 @@
     <string name="meal_image">صورة وجبة</string>
     <string name="calories_icon">ايقونة كالوريز</string>
     <string name="kcal">كالوريز</string>
+    <string name="ready_to_start">مستعد للبدء</string>
+    <string name="do_you_have_an_account">هل لديك حساب؟</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="choose_language" >اختر اللغة</string>
+    <string name="language_selection_description">سيتم استخدام هذه اللغة في جميع أنحاء التطبيق.</string>
+    <string name="arabic">العربية</string>
+    <string name="english">الإنجليزية</string>
+    <string name="confirm">تأكيد</string>
 </resources>
