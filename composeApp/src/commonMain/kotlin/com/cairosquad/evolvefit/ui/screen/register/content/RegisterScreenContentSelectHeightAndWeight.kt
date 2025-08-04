@@ -63,7 +63,8 @@ fun RegisterScreenContentSelectHeightAndWeight(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize()
+            .padding(top=16.dp),
         verticalArrangement = Arrangement.spacedBy(32.dp)
     ) {
         val measureUnit = state.selectedMeasurementUnit
