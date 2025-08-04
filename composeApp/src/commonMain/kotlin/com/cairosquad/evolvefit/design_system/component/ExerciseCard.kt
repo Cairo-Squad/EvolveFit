@@ -17,6 +17,10 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.exercise_image
+import evolvefit.composeapp.generated.resources.seconds
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -24,7 +28,7 @@ fun ExerciseCard(
     title: String,
     time: String,
     modifier: Modifier = Modifier,
-    unit: String = "Seconds",
+    unit: String = stringResource(Res.string.seconds),
     model: String
 ) {
     Row(
@@ -36,7 +40,7 @@ fun ExerciseCard(
                 .size(width = 88.dp, height = 68.dp)
                 .clip(RoundedCornerShape(8.dp)),
             model = model,
-            contentDescription = "Exercise Image",
+            contentDescription = stringResource(Res.string.exercise_image),
         )
         Column(
             modifier = Modifier.weight(1f)

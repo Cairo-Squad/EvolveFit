@@ -20,8 +20,12 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.calories_icon
 import evolvefit.composeapp.generated.resources.ic_fire
+import evolvefit.composeapp.generated.resources.kcal
+import evolvefit.composeapp.generated.resources.meal_image
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -30,7 +34,7 @@ fun MealCard(
     mealType: String,
     calories: Int,
     modifier: Modifier = Modifier,
-    calorieUnit: String = "Kcal",
+    calorieUnit: String = stringResource(Res.string.kcal),
     model: String
 ) {
     Column(
@@ -44,7 +48,7 @@ fun MealCard(
                     .fillMaxSize()
                     .clip(RoundedCornerShape(8.dp)),
                 model = model,
-                contentDescription = "Meal Image",
+                contentDescription = stringResource(Res.string.meal_image),
             )
             Row(
                 modifier = Modifier
@@ -56,7 +60,7 @@ fun MealCard(
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.ic_fire),
-                    contentDescription = "Fire Icon",
+                    contentDescription = stringResource(Res.string.calories_icon),
                     tint = Theme.color.brand.primary,
                     modifier = Modifier.padding(start = 8.dp, end = 4.dp, top = 4.dp, bottom = 4.dp)
                 )

@@ -18,7 +18,9 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_default_image
+import evolvefit.composeapp.generated.resources.placeholder_image
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -51,7 +53,8 @@ fun NetworkImage(
                             ?: Modifier.fillMaxSize()
                     ),
                 painter = painterResource(Res.drawable.ic_default_image),
-                contentDescription = "Placeholder Image of $contentDescription",
+                contentDescription =
+                    stringResource(Res.string.placeholder_image) + " :$contentDescription",
                 tint = Theme.color.surfaces.onSurfaceVariant
             )
         }

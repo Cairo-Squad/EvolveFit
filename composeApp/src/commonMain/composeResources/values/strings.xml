@@ -8,4 +8,10 @@
     <string name="next">Next</string>
     <string name="internet_is_not_available">Internet is not available</string>
     <string name="please_make_sure_you_are_connected_to_the_internet_and_try_again">Please make sure you are connected to the internet and try again.</string>
+    <string name="exercise_image">Exercise Image</string>
+    <string name="seconds">Seconds</string>
+    <string name="placeholder_image">Placeholder Image</string>
+    <string name="meal_image">Meal Image</string>
+    <string name="calories_icon">Calories Icon</string>
+    <string name="kcal">Kcal</string>
 </resources>

@@ -52,16 +52,16 @@ fun CheckboxItem(
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(color = Theme.color.surfaces.surfaceContainer )
+            .background(color = Theme.color.surfaces.surfaceContainer)
             .fillMaxWidth()
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Column(
-            modifier = Modifier.
-            clip(RoundedCornerShape(8.dp))
-                . background(color = Theme.color.surfaces.surfaceContainer )
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(color = Theme.color.surfaces.surfaceContainer)
                 .weight(1f)
         ) {
             Text(
@@ -80,8 +80,9 @@ fun CheckboxItem(
         }
         when (style) {
             CheckboxStyle.Tick -> {
-                CustomTick(isChecked = isChecked,onCheckedChange =onCheckedChange)
+                CustomTick(isChecked = isChecked, onCheckedChange = onCheckedChange)
             }
+
             CheckboxStyle.Switch -> {
                 CustomSwitch(
                     isChecked = isChecked,
@@ -99,7 +100,7 @@ private fun CheckboxItemPreview() {
     AppTheme(
         isDarkTheme = true
     ) {
-        Column (
+        Column(
             modifier = Modifier
                 .background(Theme.color.surfaces.surface)
                 .padding(16.dp),
@@ -134,10 +135,12 @@ private fun CheckboxItemPreview() {
         }
     }
 }
+
 enum class CheckboxStyle {
     Tick,
     Switch
 }
+
 @Composable
 fun CustomTick(
     isChecked: Boolean,
@@ -185,6 +188,7 @@ fun CustomTick(
         }
     }
 }
+
 @Composable
 fun CustomSwitch(
     isChecked: Boolean,
