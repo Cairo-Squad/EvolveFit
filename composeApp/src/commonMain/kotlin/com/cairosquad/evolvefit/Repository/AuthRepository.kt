@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.Repository
 
 import com.cairosquad.evolvefit.domain.AuthRepository
-import com.cairosquad.evolvefit.entity.AuthTokens
+import com.cairosquad.evolvefit.Repository.model.AuthTokens
 import com.cairosquad.evolvefit.entity.User
 
 class FakeAuthRepository : AuthRepository {
