@@ -50,7 +50,7 @@ import evolvefit.composeapp.generated.resources.weight
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlin.math.abs
+
 
 @Composable
 fun RegisterScreenContentSelectHeightAndWeight(
@@ -121,12 +121,21 @@ fun RegisterScreenContentSelectHeightAndWeightPreview() {
                         println("Back button clicked")
                     }
 
-                    override fun onSelectStep(step: Int) {
-                        println("Step selected: $step")
-                    }
 
                     override fun onClickStartNow() {
                         println("Start now clicked")
+                    }
+
+                    override fun onGenderClicked(gender: RegisterScreenState.Gender) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onMeasurementUnitClicked(unit: RegisterScreenState.MeasurementUnit) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onGoalClicked(goal: RegisterScreenState.Goal) {
+                        TODO("Not yet implemented")
                     }
                 }
             )
