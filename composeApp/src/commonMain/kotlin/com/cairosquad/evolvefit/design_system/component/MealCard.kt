@@ -1,12 +1,10 @@
-package com.cairosquad.evolvefit.design_system.composables
+package com.cairosquad.evolvefit.design_system.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -17,15 +15,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.calories_icon
 import evolvefit.composeapp.generated.resources.ic_fire
-import evolvefit.composeapp.generated.resources.im_default_image
-import org.jetbrains.compose.resources.DrawableResource
+import evolvefit.composeapp.generated.resources.kcal
+import evolvefit.composeapp.generated.resources.meal_image
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -34,23 +34,21 @@ fun MealCard(
     mealType: String,
     calories: Int,
     modifier: Modifier = Modifier,
-    calorieUnit: String = "Kcal",
-    image: DrawableResource = Res.drawable.im_default_image
+    calorieUnit: String = stringResource(Res.string.kcal),
+    model: String
 ) {
     Column(
-        modifier = modifier
-            .width(158.dp)
+        modifier = modifier,
     ) {
         Box(
             modifier = Modifier.height(124.dp)
         ) {
-            Image(
-                painter = painterResource(image),
-                contentDescription = "Meal Image",
-                contentScale = ContentScale.Crop,
+            NetworkImage(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp))
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(8.dp)),
+                model = model,
+                contentDescription = stringResource(Res.string.meal_image),
             )
             Row(
                 modifier = Modifier
@@ -62,7 +60,7 @@ fun MealCard(
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.ic_fire),
-                    contentDescription = "Fire Icon",
+                    contentDescription = stringResource(Res.string.calories_icon),
                     tint = Theme.color.brand.primary,
                     modifier = Modifier.padding(start = 8.dp, end = 4.dp, top = 4.dp, bottom = 4.dp)
                 )
@@ -98,9 +96,11 @@ private fun MealCardPreview() {
                 .padding(16.dp)
         ) {
             MealCard(
+                modifier = Modifier.width(158.dp),
                 title = "Avocado Toast",
                 mealType = "Breakfast",
-                calories = 350
+                calories = 350,
+                model = "",
             )
         }
     }

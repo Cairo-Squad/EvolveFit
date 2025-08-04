@@ -3,7 +3,6 @@ package com.cairosquad.evolvefit.design_system.component.appbar
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,10 +36,8 @@ fun IndicatorBar(
     currentStep: Int,
     totalSteps: Int,
     onBackClick: () -> Unit,
-    onClickStep: (Int) -> Unit,
     modifier: Modifier = Modifier,
     backButtonEnabled: Boolean = true,
-    selectStepEnabled: Boolean = true,
     backIconColor: Color = Theme.color.surfaces.onSurface,
 ) {
     Row(
@@ -82,10 +79,6 @@ fun IndicatorBar(
                             .weight(1f)
                             .height(4.dp)
                             .background(stepColor, RoundedCornerShape(2.dp))
-                            .clickable(
-                                onClick = { onClickStep(index + 1) },
-                                enabled = selectStepEnabled
-                            )
                     )
                 }
             }
@@ -122,7 +115,6 @@ private fun IndicatorBarPreview() {
                 totalSteps = 8,
                 onBackClick = { },
                 backIconColor = Theme.color.surfaces.onSurface,
-                onClickStep = { },
             )
         }
     }
@@ -143,7 +135,6 @@ private fun IndicatorBarDarkPreview() {
                 totalSteps = 8,
                 onBackClick = { },
                 backIconColor = Theme.color.surfaces.onSurface,
-                onClickStep = { },
             )
         }
     }

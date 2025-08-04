@@ -1,17 +1,18 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal
 
-class RegisterViewModel:
+class RegisterViewModel :
     BaseViewModel<RegisterScreenState, RegisterEffect>(RegisterScreenState()),
     RegisterInteractionListener {
 
     override fun onClickNext() {
-        updateState { it.copy(currentStep = it.currentStep + 1) }
+        updateState { current ->
+            val nextStep = current.currentStep + 1
+            val newState = current.copy(currentStep = nextStep)
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+        }
     }
 
     override fun onClickBack() {
@@ -20,10 +21,6 @@ class RegisterViewModel:
         } else {
             updateState { it.copy(currentStep = it.currentStep - 1) }
         }
-    }
-
-    override fun onSelectStep(step: Int) {
-        updateState { it.copy(currentStep = step) }
     }
 
     override fun onClickStartNow() {
@@ -38,6 +35,40 @@ class RegisterViewModel:
         updateState { it.copy(selectedWeight = weight) }
     }
 
+
+    override fun onGenderClicked(gender: RegisterScreenState.Gender) {
+        updateState {
+            val newState =
+                it.copy(selectedGender = if (it.selectedGender == gender) null else gender)
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+        }
+    }
+
+    override fun onMeasurementUnitClicked(unit: RegisterScreenState.MeasurementUnit) {
+        updateState {
+            val newState =
+                it.copy(selectedMeasurementUnit = if (it.selectedMeasurementUnit == unit) null else unit)
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+        }
+    }
+
+    override fun onGoalClicked(goal: Goal) {
+        updateState {
+            val newState = it.copy(selectedGoal = if (it.selectedGoal == goal) null else goal)
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+        }
+    }
+
+    private fun updateNextButtonEnableState(state: RegisterScreenState): Boolean {
+        return when (state.currentStep) {
+            1 -> state.selectedGender != null
+            2 -> state.selectedMeasurementUnit != null
+            3 -> true
+            4 -> state.selectedGoal != null
+            5, 6, 7 -> true
+            else -> false
+        }
+    }
 
     companion object {
         const val MAX_STEPS = 8

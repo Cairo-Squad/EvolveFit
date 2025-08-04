@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.nutrition
+package com.cairosquad.evolvefit.ui.screen.suggestedMeals
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,10 +19,9 @@ import com.cairosquad.evolvefit.design_system.component.MealCard
 import com.cairosquad.evolvefit.design_system.theme.Theme
 
 @Composable
-fun NutritionScreen(
-    navigateToSuggestedMeals: () -> Unit,
-    navigateToMealDetails: (Long) -> Unit,
-    navigateToMealsHistory: () -> Unit
+fun SuggestedMealsScreen(
+    navigateBack: () -> Unit,
+    navigateToMealDetails: (Long) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -35,25 +34,18 @@ fun NutritionScreen(
 
         Text(
             modifier = Modifier.padding(12.dp),
-            text = "this is the nutrition screen", color = Theme.color.surfaces.onSurface
+            text = "Suggested Meals Screen", color = Theme.color.surfaces.onSurface
         )
 
         Button(
-            onClick = navigateToSuggestedMeals
+            onClick = navigateBack
         ) {
-            Text("Suggested Meals")
+            Text("navigate back")
         }
 
-        Button(
-            onClick = navigateToMealsHistory
-        ) {
-            Text("Meals History")
-        }
-
-        LazyRow(
-
+        LazyRow (
             horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
+        ){
             items(20) { index ->
                 MealCard(
                     modifier = Modifier
