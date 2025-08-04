@@ -1,13 +1,12 @@
 package com.cairosquad.evolvefit.domain
 
+import com.cairosquad.evolvefit.entity.AuthTokens
 import com.cairosquad.evolvefit.entity.User
 
 interface AuthRepository {
-    suspend fun register(data: User): Result<Unit>
-
-    suspend fun login(username: String, password: String) : Result<User>
-
+    suspend fun register(user: User): AuthTokens
+    suspend fun login(username: String, password: String): AuthTokens
     suspend fun isUserLoggedIn(): Boolean
-
     suspend fun logout()
 }
+
