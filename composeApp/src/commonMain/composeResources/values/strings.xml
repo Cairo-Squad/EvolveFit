@@ -4,6 +4,10 @@
     <string name="workouts">Workouts</string>
     <string name="reports">Reports</string>
     <string name="more">More</string>
+    <string name="select_measurement">Please select a measurement for your </string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+
     <string name="start_now">Start Now</string>
     <string name="next">Next</string>
     <string name="internet_is_not_available">Internet is not available</string>
@@ -30,4 +34,9 @@
     <string name="meal_image">Meal Image</string>
     <string name="calories_icon">Calories Icon</string>
     <string name="kcal">Kcal</string>
+    <string name="cm">cm</string>
+    <string name="kg">kg</string>
+    <string name="ft">ft</string>
+    <string name="lb">lb</string>
+
 </resources>
