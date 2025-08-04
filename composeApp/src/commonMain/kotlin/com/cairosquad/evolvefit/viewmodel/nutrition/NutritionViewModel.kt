@@ -29,6 +29,18 @@ class NutritionViewModel() : BaseViewModel<NutritionScreenState, NutritionEffect
         updateState { it.copy(isAddMealSnackBarVisible = false) }
     }
 
+    override fun onDroppedMenuClick() {
+        updateState { it.copy(isDroppedMenuVisible = true) }
+    }
+
+    override fun onMenuItemClick() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMealTypeSelected(mealType:  NutritionScreenState.MealType) {
+        updateState { it.copy(mealTypeSelected = mealType) }
+    }
+
     override fun onViewAllSuggestedMealsClicked() {
         sendEffect(NutritionEffect.NavigateToSuggestedMeals)
     }
