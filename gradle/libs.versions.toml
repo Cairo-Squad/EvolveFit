@@ -51,7 +51,6 @@ coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.re
 #ktor
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
-ktor-client-java = { group = "io.ktor", name = "ktor-client-java", version.ref = "ktor" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
