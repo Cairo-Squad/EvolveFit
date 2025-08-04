@@ -33,4 +33,8 @@
     <string name="meal_image">صورة وجبة</string>
     <string name="calories_icon">ايقونة كالوريز</string>
     <string name="kcal">كالوريز</string>
+    <string name="cm">سم</string>
+    <string name="kg">كجم</string>
+    <string name="ft">قدم</string>
+    <string name="lb">رطل</string>
 </resources>

@@ -34,4 +34,9 @@
     <string name="meal_image">Meal Image</string>
     <string name="calories_icon">Calories Icon</string>
     <string name="kcal">Kcal</string>
+    <string name="cm">cm</string>
+    <string name="kg">kg</string>
+    <string name="ft">ft</string>
+    <string name="lb">lb</string>
+
 </resources>

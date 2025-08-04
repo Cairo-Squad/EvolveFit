@@ -42,9 +42,13 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.cm
+import evolvefit.composeapp.generated.resources.ft
 import evolvefit.composeapp.generated.resources.height
 import evolvefit.composeapp.generated.resources.ic_ruler
 import evolvefit.composeapp.generated.resources.ic_scale
+import evolvefit.composeapp.generated.resources.kg
+import evolvefit.composeapp.generated.resources.lb
 import evolvefit.composeapp.generated.resources.select_measurement
 import evolvefit.composeapp.generated.resources.weight
 import org.jetbrains.compose.resources.painterResource
@@ -62,6 +66,19 @@ fun RegisterScreenContentSelectHeightAndWeight(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(32.dp)
     ) {
+        val measureUnit = state.selectedMeasurementUnit
+        var heightMeasureUnit =""
+        var weightMeasureUnit =""
+
+        if (measureUnit == RegisterScreenState.MeasurementUnit.Metric) {
+            heightMeasureUnit=stringResource(Res.string.cm)
+            weightMeasureUnit=stringResource(Res.string.kg)
+
+
+        } else if (measureUnit == RegisterScreenState.MeasurementUnit.Imperial) {
+            heightMeasureUnit=stringResource(Res.string.ft)
+            weightMeasureUnit=stringResource(Res.string.lb)
+        }
         MeasureSection(
             selectedMeasure = state.selectedHeight,
             measureType = stringResource(Res.string.height),
@@ -71,7 +88,7 @@ fun RegisterScreenContentSelectHeightAndWeight(
             onMeasureChanged = { height ->
                 listener.onHeightChanged(height)
             },
-            measureUnit = "cm"
+            measureUnit = heightMeasureUnit
         )
 
         MeasureSection(
@@ -83,7 +100,7 @@ fun RegisterScreenContentSelectHeightAndWeight(
             onMeasureChanged = { weight ->
                 listener.onWeightChanged(weight)
             },
-            measureUnit = "Kg"
+            measureUnit =  weightMeasureUnit
         )
     }
 }
@@ -203,7 +220,7 @@ private fun MeasureSection(
                 )
                 BasicText(
 
-                    text = ((selectedMeasure * 10).toInt() / 10f).toString()+" "+measureUnit,
+                    text = formatToOneDecimal(selectedMeasure)+" "+measureUnit,
                     style = Theme.textStyle.label.smallRegular14.copy(
                         color = Theme.color.surfaces.onSurfaceVariant
                     )
