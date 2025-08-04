@@ -194,7 +194,7 @@ private fun MeasureSection(
                 )
                 BasicText(
 
-                    text = formatToOneDecimal(selectedMeasure)+" "+measureUnit,
+                    text = ((selectedMeasure * 10).toInt() / 10f).toString()+" "+measureUnit,
                     style = Theme.textStyle.label.smallRegular14.copy(
                         color = Theme.color.surfaces.onSurfaceVariant
                     )
@@ -276,7 +276,6 @@ private fun Ruler(
     }
 }
 
-
 @OptIn(ExperimentalTextApi::class)
 private fun DrawScope.drawRuler(
     selectedValue: Float,
@@ -287,18 +286,34 @@ private fun DrawScope.drawRuler(
     outlineColor: Color,
     textStyle: TextStyle
 ) {
+    val effectiveSelectedValue = if (selectedValue in minValue..maxValue) {
+        selectedValue
+    } else {
+        (minValue + maxValue) / 2f
+    }
     val canvasWidth = size.width
     val centerX = canvasWidth / 2
 
     val range = maxValue - minValue
     val pixelsPerUnit = canvasWidth / (range * 0.2f)
 
-    var startValue = selectedValue - (canvasWidth / pixelsPerUnit) / 2
-    var endValue = selectedValue + (canvasWidth / pixelsPerUnit) / 2
-    for (i in startValue.toInt()..endValue.toInt()) {
-        if (i < minValue || i > maxValue) continue
+    var startValue = effectiveSelectedValue  - (canvasWidth / pixelsPerUnit) / 2
+    var endValue = effectiveSelectedValue  + (canvasWidth / pixelsPerUnit) / 2
 
-        val x = centerX + (i - selectedValue) * pixelsPerUnit
+
+    val step = 0.5f
+    startValue = (startValue / step).toInt() * step
+    endValue = (endValue / step).toInt() * step + step
+
+    var currentValue = startValue
+    while (currentValue <= endValue) {
+        val i = currentValue.toInt()
+        if (currentValue < minValue || currentValue > maxValue) {
+            currentValue += step
+            continue
+        }
+
+        val x = centerX + (i - effectiveSelectedValue ) * pixelsPerUnit
         val isMainMark = (i % 5) % 2 == 0
         val isMajorMark = i % 5 == 0
 
@@ -311,18 +326,19 @@ private fun DrawScope.drawRuler(
         }
 
         val strokeWidth = 2.dp.toPx()
-        val alpha = 1f - (abs(x - centerX) / (canvasWidth / 2)) * 0.7f
+
+
 
         drawLine(
-            color = outlineColor.copy(alpha = alpha.coerceIn(0.3f, 1f)),
+            color = outlineColor,
             start = Offset(x, 0f),
             end = Offset(x, markHeight),
             strokeWidth = strokeWidth
         )
 
-        if (isMajorMark && abs(x - centerX) < canvasWidth / 3f) {
+        if (isMajorMark) {
             val finalTextStyle = textStyle.copy(
-                color = outlineColor.copy(alpha = alpha.coerceIn(0.5f, 1f))
+                color = outlineColor
             )
 
             val valueText = formatToOneDecimal(i.toFloat())
@@ -332,15 +348,22 @@ private fun DrawScope.drawRuler(
                 style = finalTextStyle
             )
 
+            val textX = x - textLayoutResult.size.width / 2
+            val clampedTextX = textX.coerceIn(
+                0f,
+                canvasWidth - textLayoutResult.size.width
+            )
+
             drawText(
                 textLayoutResult = textLayoutResult,
                 topLeft = Offset(
-                    x - textLayoutResult.size.width / 2,
+                    clampedTextX,
                     markHeight + with(density) { 8.dp.toPx() }
                 )
             )
         }
 
+        currentValue += step
     }
 }
 fun formatToOneDecimal(value: Float): String {
