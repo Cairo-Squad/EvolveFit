@@ -21,7 +21,6 @@ fun RegisterScreen(
         when (effect) {
             RegisterEffect.NavigateBack -> navigateBack()
             RegisterEffect.NavigateToHome -> navigateToApp()
-            RegisterEffect.NavigateToNextScreen -> navigateToApp()
         }
     }
 
