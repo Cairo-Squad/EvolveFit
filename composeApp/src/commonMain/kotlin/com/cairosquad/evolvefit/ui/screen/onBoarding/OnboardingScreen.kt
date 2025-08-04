@@ -100,7 +100,7 @@ fun OnboardingScreenContent(
             horizontalArrangement = Arrangement.End
         ) {
             Text(
-                text = state.selectedLanguage.displayName,
+                text = stringResource(state.selectedLanguage.displayNameRes),
                 style = Theme.textStyle.label.mediumMedium16,
                 color = Theme.color.surfaces.textColor,
                 modifier = Modifier.padding(top = 14.5.dp, bottom = 14.5.dp, end = 8.dp)
@@ -178,7 +178,7 @@ fun OnboardingScreenContent(
                     )
                     OnboardingScreenState.Language.entries.forEach { language ->
                         CheckboxItem(
-                            text = language.displayName,
+                            text = stringResource(language.displayNameRes),
                             isChecked = language == state.bottomSheetSelectedLanguage,
                             onCheckedChange = { onLanguageSelected(language) },
                             style = CheckboxStyle.Tick,
