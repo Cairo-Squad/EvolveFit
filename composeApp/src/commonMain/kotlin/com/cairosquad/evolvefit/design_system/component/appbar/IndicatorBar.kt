@@ -41,7 +41,8 @@ fun IndicatorBar(
     backIconColor: Color = Theme.color.surfaces.onSurface,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        modifier = modifier.fillMaxWidth()
+                           .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
@@ -58,7 +59,8 @@ fun IndicatorBar(
         }
 
         Row(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f)
+                               .padding(start = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(
