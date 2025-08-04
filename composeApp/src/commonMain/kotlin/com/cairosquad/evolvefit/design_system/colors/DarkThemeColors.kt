@@ -8,7 +8,8 @@ val darkThemeColors = ThemeColors(
         onPrimary = Color(0xFF181B14),
         primaryContainer = Color(0xFF151814),
         onPrimaryContainer = Color(0xFFBDDF8C),
-    ), surfaces = Surfaces(
+    ),
+    surfaces = Surfaces(
         surface = Color(0xFF090A09),
         onSurface = Color(0xFFF7F7F7),
         surfaceContainer = Color(0xFF1C1C1C),
@@ -22,7 +23,8 @@ val darkThemeColors = ThemeColors(
         onSurfaceAt2 = Color(0xAD0B0B0B),
         onSurfaceAt3 = Color(0x61000000),
         onSurfaceAt4 = Color(0x1F000000)
-    ), system = System(
+    ),
+    system = System(
         warning = Color(0xFFF5D02D),
         success = Color(0xFF2DAD58),
         info = Color(0xFF2B60D3),

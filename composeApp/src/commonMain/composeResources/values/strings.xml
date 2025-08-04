@@ -24,4 +24,10 @@
     <string name="select_gender_description">This will be used to calibrate your custom plan.</string>
     <string name="select_goal_title">What is your main goal?</string>
     <string name="select_goal_description">Select your goal to personalize your training program.</string>
+    <string name="exercise_image">Exercise Image</string>
+    <string name="seconds">Seconds</string>
+    <string name="placeholder_image">Placeholder Image</string>
+    <string name="meal_image">Meal Image</string>
+    <string name="calories_icon">Calories Icon</string>
+    <string name="kcal">Kcal</string>
 </resources>

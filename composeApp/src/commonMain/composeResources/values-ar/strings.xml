@@ -24,4 +24,10 @@
     <string name="select_gender_description">سيُستخدم هذا لتخصيص خطتك بدقة.</string>
     <string name="select_goal_title">ما هو هدفك؟</string>
     <string name="select_goal_description">اختر هدفك لتخصيص برنامجك التدريبي.</string>
+    <string name="exercise_image">صورة التمرين</string>
+    <string name="seconds">ثانية</string>
+    <string name="placeholder_image">صورة نائبة</string>
+    <string name="meal_image">صورة وجبة</string>
+    <string name="calories_icon">ايقونة كالوريز</string>
+    <string name="kcal">كالوريز</string>
 </resources>
