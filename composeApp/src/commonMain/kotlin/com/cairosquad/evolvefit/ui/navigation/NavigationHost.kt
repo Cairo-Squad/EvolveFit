@@ -12,6 +12,7 @@ import com.cairosquad.evolvefit.ui.screen.app.AppScreen
 import com.cairosquad.evolvefit.ui.screen.login.LoginScreen
 import com.cairosquad.evolvefit.ui.screen.onBoarding.OnboardingScreen
 import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
+import com.cairosquad.evolvefit.ui.screen.splash.SplashScreen
 
 @Composable
 fun NavigationHost() {
@@ -23,8 +24,25 @@ fun NavigationHost() {
             .fillMaxSize()
             .background(color = Theme.color.surfaces.surface),
         navController = navController,
-        startDestination = OnboardingRoute
+        startDestination = SplashRoute
     ) {
+        composable<SplashRoute> {
+            SplashScreen(
+                onFinished = {
+                    navController.navigate(OnboardingRoute) {
+                        popUpTo(SplashRoute) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+        }
+        composable<OnboardingRoute> {
+            OnboardingScreen(
+                navigateToLogin = { navController.navigate(LoginRoute) },
+                navigateToRegister = { navController.navigate(RegisterRoute) },
+            )
+        }
         composable<OnboardingRoute> {
             OnboardingScreen(
                 navigateToLogin = { navController.navigate(LoginRoute) },
