@@ -8,16 +8,21 @@ class NutritionViewModel() : BaseViewModel<NutritionScreenState, NutritionEffect
     override fun onAddWaterClicked() {
       updateState { it.copy(isAddWaterSheetVisible = true) }
     }
+    override fun onConfirmAddWaterClicked(waterAmount:Float) {
+        //TODO link with use case
+        updateState { it.copy(isAddWaterSheetVisible = false) }
+    }
 
     override fun onDismissWaterClicked() {
         updateState { it.copy(isAddWaterSheetVisible = false) }
     }
 
-    override fun onShowAddMealSheetClicked() {
+    override fun onAddMealSheetClicked() {
         updateState { it.copy(isAddMealSheetVisible = true) }
     }
 
-    override fun onConfirmAddMealClicked() {
+    override fun onConfirmAddMealClicked(mealHistory: NutritionScreenState.MealHistory) {
+        //TODO link with use case
         updateState { it.copy(isAddMealSnackBarVisible = true, isAddMealSheetVisible = false) }
     }
 
