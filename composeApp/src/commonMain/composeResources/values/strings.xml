@@ -30,4 +30,6 @@
     <string name="meal_image">Meal Image</string>
     <string name="calories_icon">Calories Icon</string>
     <string name="kcal">Kcal</string>
+    <string name="user_profile">User Profile</string>
+    <string name="user_profile_description">Enter your name, date of birth, and add your photo to get started.</string>
 </resources>

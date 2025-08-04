@@ -30,4 +30,6 @@
     <string name="meal_image">صورة وجبة</string>
     <string name="calories_icon">ايقونة كالوريز</string>
     <string name="kcal">كالوريز</string>
+    <string name="user_profile">معلومات المستخدم</string>
+    <string name="user_profile_description">أدخل اسمك، تاريخ ميلادك، وأضف صورتك كي نبدأ</string>
 </resources>
