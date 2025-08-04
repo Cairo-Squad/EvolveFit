@@ -249,10 +249,6 @@ private fun Ruler(
     val outlineColor = Theme.color.surfaces.outline
     val textStyle = Theme.textStyle.body.smallRegular10
 
-    LaunchedEffect(selectedValue) {
-        currentValue = selectedValue
-    }
-
     Box(
         modifier = modifier
             .fillMaxWidth()
