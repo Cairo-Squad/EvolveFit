@@ -1,16 +1,16 @@
 package com.cairosquad.evolvefit.viewmodel.nutrition
 
-import com.cairosquad.evolvefit.ui.screen.nutrition.Meal
+import org.jetbrains.compose.resources.DrawableResource
 
 data class NutritionScreenState(
     val caloriesConsumed: Int = 0,
-    val caloriesGoal: Int = 2000,
+    val caloriesGoal: Int = 0,
     val waterConsumedLiters: Float = 0f,
-    val waterGoalLiters: Float = 2f,
+    val waterGoalLiters: Float = 0f,
     val remainingCalories: Float = 0f,
-    val mealsToday: List<Meal> = emptyList(),
+    val todayMeals: List<TodayMeal> = emptyList(),
     val suggestedMeals: List<SuggestedMeal> = emptyList(),
-    val mealHistory: List<MealHistoryItem> = emptyList(),
+    val mealHistory: List<MealHistory> = emptyList(),
     val isAddWaterSheetVisible: Boolean = false,
     val isAddMealSheetVisible: Boolean = false,
     val isAddMealSnackBarVisible: Boolean = false,
@@ -21,15 +21,21 @@ data class NutritionScreenState(
 ) {
     data class SuggestedMeal(
         val name: String = "",
-        val type: String = "",
+        val type: MealType = MealType.Breakfast,
         val calories: Int = 0,
     )
 
-    data class MealHistoryItem(
+    data class MealHistory(
         val name: String = "",
-        val type: String = "",
+        val type: MealType = MealType.Breakfast,
         val calories: Int = 0,
         val date: String = ""
+    )
+
+    data class TodayMeal(
+        val type: MealType = MealType.Breakfast,
+        val calories: Int = 0,
+        val icon: DrawableResource
     )
 
     enum class MealType(val displayName: String) {
