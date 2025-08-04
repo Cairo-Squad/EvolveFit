@@ -156,7 +156,7 @@ private fun MeasureSection(
                 .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
         )
         BasicText(
-            text = stringResource(Res.string.select_measurement) +measureType.lowercase(),
+            text = stringResource(Res.string.select_measurement) +measureType.replaceFirstChar { it.lowercase() },
             style = Theme.textStyle.label.smallRegular14.copy(
                 color = Theme.color.surfaces.onSurfaceVariant
             ),
@@ -193,7 +193,8 @@ private fun MeasureSection(
                         .size(20.dp)
                 )
                 BasicText(
-                    text = "${selectedMeasure.toInt()}"+measureUnit,
+
+                    text = formatToOneDecimal(selectedMeasure)+" "+measureUnit,
                     style = Theme.textStyle.label.smallRegular14.copy(
                         color = Theme.color.surfaces.onSurfaceVariant
                     )
@@ -287,16 +288,13 @@ private fun DrawScope.drawRuler(
     textStyle: TextStyle
 ) {
     val canvasWidth = size.width
-    val canvasHeight = size.height
     val centerX = canvasWidth / 2
 
     val range = maxValue - minValue
     val pixelsPerUnit = canvasWidth / (range * 0.2f)
 
-    val startValue = selectedValue - (canvasWidth / pixelsPerUnit) / 2
-    val endValue = selectedValue + (canvasWidth / pixelsPerUnit) / 2
-
-
+    var startValue = selectedValue - (canvasWidth / pixelsPerUnit) / 2
+    var endValue = selectedValue + (canvasWidth / pixelsPerUnit) / 2
     for (i in startValue.toInt()..endValue.toInt()) {
         if (i < minValue || i > maxValue) continue
 
@@ -327,8 +325,10 @@ private fun DrawScope.drawRuler(
                 color = outlineColor.copy(alpha = alpha.coerceIn(0.5f, 1f))
             )
 
+            val valueText = formatToOneDecimal(i.toFloat())
+
             val textLayoutResult = textMeasurer.measure(
-                text = i.toString(),
+                text = valueText,
                 style = finalTextStyle
             )
 
@@ -340,5 +340,9 @@ private fun DrawScope.drawRuler(
                 )
             )
         }
+
     }
+}
+fun formatToOneDecimal(value: Float): String {
+    return (kotlin.math.round(value * 10) / 10f).toString()
 }
