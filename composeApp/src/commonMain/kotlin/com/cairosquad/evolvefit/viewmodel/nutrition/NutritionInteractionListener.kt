@@ -8,7 +8,6 @@ interface NutritionInteractionListener {
     fun onDismissMealClicked()
     fun onSnackBarHided()
     fun onDroppedMenuClick()
-    fun onMenuItemClick()
     fun onMealTypeSelected(mealType: NutritionScreenState.MealType)
     fun onViewAllSuggestedMealsClicked()
     fun onSuggestedMealClicked(mealId: Long)
