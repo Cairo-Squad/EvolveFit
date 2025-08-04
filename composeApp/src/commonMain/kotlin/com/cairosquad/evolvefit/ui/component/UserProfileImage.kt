@@ -18,6 +18,7 @@ import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 fun UserProfileImage(
     image: UiImage,
     isImagePickerOpen: Boolean,
+    onImagePickerDismiss: () -> Unit,
     onImagePickerClick: () -> Unit,
     onImageRetrieved: (UiImage) -> Unit,
     modifier: Modifier = Modifier
@@ -37,6 +38,7 @@ fun UserProfileImage(
                 image = image,
                 contentDescription = "Profile picture", // TODO
                 isImagePickerOpen = isImagePickerOpen,
+                onImagePickerDismiss = onImagePickerDismiss,
                 onImageRetrieved = onImageRetrieved,
                 defaultImageSize = 32.dp
             )

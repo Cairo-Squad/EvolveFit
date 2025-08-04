@@ -21,12 +21,14 @@ fun UiImageDisplayer(
     contentDescription: String,
     isImagePickerOpen: Boolean,
     onImageRetrieved: (UiImage) -> Unit,
+    onImagePickerDismiss: () -> Unit,
     defaultImageSize: Dp = 32.dp,
     modifier: Modifier = Modifier
 ) {
     if (isImagePickerOpen) {
         ImagePicker(
-            onImageRetrieved = onImageRetrieved
+            onImageRetrieved = onImageRetrieved,
+            onImagePickerDismiss = onImagePickerDismiss
         )
     }
 

@@ -21,6 +21,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun UserProfileStep(
     image: UiImage,
     isImagePickerOpen: Boolean,
+    onImagePickerDismiss: () -> Unit,
     onImagePickerClick: () -> Unit,
     onImageRetrieved: (UiImage) -> Unit,
     modifier: Modifier = Modifier
@@ -40,6 +41,7 @@ fun UserProfileStep(
         UserProfileImage(
             image = image,
             isImagePickerOpen = isImagePickerOpen,
+            onImagePickerDismiss = onImagePickerDismiss,
             onImagePickerClick = onImagePickerClick,
             onImageRetrieved = onImageRetrieved,
             modifier = Modifier
@@ -81,7 +83,8 @@ fun PreviewUserProfileStep() {
             image = UiImage.ImageUrl(""),
             isImagePickerOpen = false,
             onImagePickerClick = {},
-            onImageRetrieved = {}
+            onImageRetrieved = {},
+            onImagePickerDismiss = {}
         )
     }
 }

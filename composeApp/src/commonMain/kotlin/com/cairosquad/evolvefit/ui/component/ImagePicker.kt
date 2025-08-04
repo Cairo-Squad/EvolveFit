@@ -12,17 +12,19 @@ import io.github.vinceglb.filekit.dialogs.compose.rememberFilePickerLauncher
 @Composable
 fun ImagePicker(
     onImageRetrieved: (UiImage) -> Unit,
+    onImagePickerDismiss: () -> Unit
 ) {
 
     val launcher = rememberFilePickerLauncher(
         mode = FileKitMode.Single,
-        type = FileKitType.Image
+        type = FileKitType.Image,
+
     ) { file ->
         file?.let {
-        onImageRetrieved(
-            UiImage.ImageFile(file)
-        )
-            }
+            onImageRetrieved(
+                UiImage.ImageFile(file)
+            )
+        } ?: onImagePickerDismiss()
     }
 
     LaunchedEffect(true) {
