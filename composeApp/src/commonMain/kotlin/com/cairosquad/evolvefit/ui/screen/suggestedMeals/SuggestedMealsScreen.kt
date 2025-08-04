@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.nutrition
+package com.cairosquad.evolvefit.ui.screen.suggestedMeals
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,29 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.composables.MealCard
+import com.cairosquad.evolvefit.design_system.component.MealCard
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.screen.nutrition.content.NutritionScreenContent
-import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
-import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionEffect
-import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun NutritionScreen(
-    navigateToSuggestedMeals: () -> Unit,
-    navigateToMealDetails: (Long) -> Unit,
-    navigateToMealsHistory: () -> Unit,
-    nutritionViewModel: NutritionViewModel = koinViewModel()) {
-    ObserveAsEffect(nutritionViewModel.effect) { effect ->
-        when (effect) {
-            NutritionEffect.NavigateToMealHistory -> {}
-            is NutritionEffect.NavigateToSuggestedMealDetails -> {}
-            NutritionEffect.NavigateToSuggestedMeals -> {}
-        }
-    }
-    NutritionScreenContent(nutritionViewModel)
-
+fun SuggestedMealsScreen(
+    navigateBack: () -> Unit,
+    navigateToMealDetails: (Long) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -49,25 +34,18 @@ fun NutritionScreen(
 
         Text(
             modifier = Modifier.padding(12.dp),
-            text = "this is the nutrition screen", color = Theme.color.surfaces.onSurface
+            text = "Suggested Meals Screen", color = Theme.color.surfaces.onSurface
         )
 
         Button(
-            onClick = navigateToSuggestedMeals
+            onClick = navigateBack
         ) {
-            Text("Suggested Meals")
+            Text("navigate back")
         }
 
-        Button(
-            onClick = navigateToMealsHistory
-        ) {
-            Text("Meals History")
-        }
-
-        LazyRow(
-
+        LazyRow (
             horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
+        ){
             items(20) { index ->
                 MealCard(
                     modifier = Modifier
@@ -77,7 +55,9 @@ fun NutritionScreen(
                     title = "Meal ${index + 1}",
                     mealType = "Lunch",
                     calories = 350,
+                    model = ""
                 )
             }
         }
-}}
+    }
+}

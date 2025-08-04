@@ -1,6 +1,5 @@
-package com.cairosquad.evolvefit.design_system.composables
+package com.cairosquad.evolvefit.design_system.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,14 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.im_default_image
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
+import evolvefit.composeapp.generated.resources.exercise_image
+import evolvefit.composeapp.generated.resources.seconds
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -29,20 +28,19 @@ fun ExerciseCard(
     title: String,
     time: String,
     modifier: Modifier = Modifier,
-    unit: String = "Seconds",
-    img: DrawableResource = Res.drawable.im_default_image
+    unit: String = stringResource(Res.string.seconds),
+    model: String
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(img),
-            contentDescription = "Exercise Image",
-            contentScale = ContentScale.Crop,
+        NetworkImage(
             modifier = Modifier
                 .size(width = 88.dp, height = 68.dp)
-                .clip(RoundedCornerShape(8.dp))
+                .clip(RoundedCornerShape(8.dp)),
+            model = model,
+            contentDescription = stringResource(Res.string.exercise_image),
         )
         Column(
             modifier = Modifier.weight(1f)
@@ -66,13 +64,13 @@ fun ExerciseCard(
 @Preview
 @Composable
 private fun ExerciseCardPreview() {
-    AppTheme(isDarkTheme = false) {
+    AppTheme(isDarkTheme = true) {
         Box(
             Modifier
                 .background(Theme.color.surfaces.surface)
-                .padding(top = 32.dp, start = 16.dp)
+                .padding(16.dp)
         ) {
-            ExerciseCard(title = "Bodyweight Squats", time = "30")
+            ExerciseCard(title = "Bodyweight Squats", time = "30", model = "")
         }
     }
 }

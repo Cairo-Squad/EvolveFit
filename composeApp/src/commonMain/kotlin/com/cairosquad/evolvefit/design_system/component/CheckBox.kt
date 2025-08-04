@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.design_system.composables
+package com.cairosquad.evolvefit.design_system.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor
@@ -25,14 +25,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_green_check_circle
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
 @Composable
@@ -47,16 +52,16 @@ fun CheckboxItem(
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(color = Theme.color.surfaces.surfaceContainer )
+            .background(color = Theme.color.surfaces.surfaceContainer)
             .fillMaxWidth()
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Column(
-            modifier = Modifier.
-            clip(RoundedCornerShape(8.dp))
-                . background(color = Theme.color.surfaces.surfaceContainer )
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(color = Theme.color.surfaces.surfaceContainer)
                 .weight(1f)
         ) {
             Text(
@@ -75,8 +80,9 @@ fun CheckboxItem(
         }
         when (style) {
             CheckboxStyle.Tick -> {
-                CustomTick(isChecked = isChecked,onCheckedChange =onCheckedChange)
+                CustomTick(isChecked = isChecked, onCheckedChange = onCheckedChange)
             }
+
             CheckboxStyle.Switch -> {
                 CustomSwitch(
                     isChecked = isChecked,
@@ -86,10 +92,55 @@ fun CheckboxItem(
         }
     }
 }
+
+@Preview
+@Composable
+private fun CheckboxItemPreview() {
+    var isChecked by remember { mutableStateOf(false) }
+    AppTheme(
+        isDarkTheme = true
+    ) {
+        Column(
+            modifier = Modifier
+                .background(Theme.color.surfaces.surface)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            CheckboxItem(
+                text = "This is a Switch Button",
+                isChecked = isChecked,
+                onCheckedChange = { isChecked = !isChecked },
+                style = CheckboxStyle.Switch
+            )
+            CheckboxItem(
+                text = "This is a Switch Button",
+                description = "this is a Description",
+                isChecked = !isChecked,
+                onCheckedChange = { isChecked = !isChecked },
+                style = CheckboxStyle.Switch
+            )
+            CheckboxItem(
+                text = "This is a Tick Button",
+                description = "this is a Description",
+                isChecked = isChecked,
+                onCheckedChange = { isChecked = !isChecked },
+                style = CheckboxStyle.Tick
+            )
+            CheckboxItem(
+                text = "This is a Tick Button",
+                isChecked = !isChecked,
+                onCheckedChange = { isChecked = !isChecked },
+                style = CheckboxStyle.Tick
+            )
+        }
+    }
+}
+
 enum class CheckboxStyle {
     Tick,
     Switch
 }
+
 @Composable
 fun CustomTick(
     isChecked: Boolean,
@@ -137,6 +188,7 @@ fun CustomTick(
         }
     }
 }
+
 @Composable
 fun CustomSwitch(
     isChecked: Boolean,
