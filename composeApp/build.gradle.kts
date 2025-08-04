@@ -58,10 +58,10 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
 
             // File kit
-            implementation("io.github.vinceglb:filekit-core:0.10.0")
-            implementation("io.github.vinceglb:filekit-dialogs:0.10.0")
-            implementation("io.github.vinceglb:filekit-dialogs-compose:0.10.0")
-            implementation("io.github.vinceglb:filekit-coil:0.10.0")
+            implementation(libs.filekit.core)
+            implementation(libs.filekit.dialogs)
+            implementation(libs.filekit.dialogs.compose)
+            implementation(libs.filekit.coil)
 
 
         }
