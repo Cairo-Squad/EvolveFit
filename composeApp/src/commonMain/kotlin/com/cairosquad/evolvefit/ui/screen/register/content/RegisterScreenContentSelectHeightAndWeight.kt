@@ -70,7 +70,8 @@ fun RegisterScreenContentSelectHeightAndWeight(
             maxMeasureValue = 250F,
             onMeasureChanged = { height ->
                 listener.onHeightChanged(height)
-            }
+            },
+            measureUnit = "cm"
         )
 
         MeasureSection(
@@ -81,7 +82,8 @@ fun RegisterScreenContentSelectHeightAndWeight(
             maxMeasureValue = 200F,
             onMeasureChanged = { weight ->
                 listener.onWeightChanged(weight)
-            }
+            },
+            measureUnit = "Kg"
         )
     }
 }
@@ -140,7 +142,9 @@ private fun MeasureSection(
     measureIcon: Painter,
     minMeasureValue: Float,
     maxMeasureValue: Float,
-    onMeasureChanged: (Float) -> Unit
+    onMeasureChanged: (Float) -> Unit,
+    measureUnit:String,
+    modifier: Modifier=Modifier
 ) {
     Column {
         BasicText(
@@ -189,7 +193,7 @@ private fun MeasureSection(
                         .size(20.dp)
                 )
                 BasicText(
-                    text = "${selectedMeasure.toInt()}.0 cm",
+                    text = "${selectedMeasure.toInt()}"+measureUnit,
                     style = Theme.textStyle.label.smallRegular14.copy(
                         color = Theme.color.surfaces.onSurfaceVariant
                     )
