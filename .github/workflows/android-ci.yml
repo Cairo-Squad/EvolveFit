@@ -14,7 +14,7 @@ env:
 
 jobs:
   android-build:
-    name: Android Build & Test
+    name: Android Build
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
