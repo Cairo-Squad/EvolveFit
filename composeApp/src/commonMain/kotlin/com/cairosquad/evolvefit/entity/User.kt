@@ -11,7 +11,6 @@ data class User(
     val weight: Float,
     val goal: FitnessGoal,
     val tools: List<Tool>,
-    val notifications: NotificationSettings,
     val workoutDays: List<WorkoutDay>
 )
 enum class Gender {
@@ -26,16 +25,17 @@ enum class FitnessGoal {
     LOSE_WEIGHT, GAIN_WEIGHT, STAY_IN_SHAPE
 }
 
-enum class Tool {
-    DUMBBELL, MAT, RESISTANCE_BAND, NONE // add more if needed
-}
-
-data class NotificationSettings(
-    val workoutReminder: Boolean,
-    val waterReminder: Boolean,
-    val weightReminder: Boolean,
-    val achievementsReminder: Boolean
+data class Tool(
+    val id: Int,
+    val name: String
 )
+
+//data class NotificationSettings(
+//    val workoutReminder: Boolean,
+//    val waterReminder: Boolean,
+//    val weightReminder: Boolean,
+//    val achievementsReminder: Boolean
+//)
 
 enum class WorkoutDay {
     MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
