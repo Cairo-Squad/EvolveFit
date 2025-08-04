@@ -152,7 +152,7 @@ private fun MeasureSection(
                 .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
         )
         BasicText(
-            text = stringResource(Res.string.select_measurement) + "$measureType",
+            text = stringResource(Res.string.select_measurement) +measureType.lowercase(),
             style = Theme.textStyle.label.smallRegular14.copy(
                 color = Theme.color.surfaces.onSurfaceVariant
             ),
