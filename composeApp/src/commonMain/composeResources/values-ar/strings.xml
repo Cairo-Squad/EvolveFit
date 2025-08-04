@@ -6,6 +6,9 @@
     <string name="more">المزيد</string>
     <string name="start_now">ابدأ الآن</string>
     <string name="next">التالي</string>
+    <string name="select_measurement">يرجى اختيار قياس ل</string>
+    <string name="height">الطول</string>
+    <string name="weight">الوزن</string>
     <string name="internet_is_not_available">الإنترنت غير متوفر</string>
     <string name="please_make_sure_you_are_connected_to_the_internet_and_try_again">يرجى التأكد من أنك متصل بالإنترنت وحاول مرة أخرى.</string>
     <string name="lose_weight">خسارة الوزن</string>
@@ -30,4 +33,8 @@
     <string name="meal_image">صورة وجبة</string>
     <string name="calories_icon">ايقونة كالوريز</string>
     <string name="kcal">كالوريز</string>
+    <string name="cm">سم</string>
+    <string name="kg">كجم</string>
+    <string name="ft">قدم</string>
+    <string name="lb">رطل</string>
 </resources>
