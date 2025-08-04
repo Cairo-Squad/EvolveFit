@@ -2,6 +2,10 @@ name: iOS CI
 
 on:
   push:
+    branches:
+      - main
+      - develop
+      - feature/android-ios-ci
   pull_request:
   workflow_dispatch:
 
@@ -17,122 +21,35 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: ${{ env.JAVA_VERSION }}
-      
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: wrapper
           cache-read-only: 'true'
           cache-cleanup: on-success
-      
-    #   - name: Create local.properties
-        # run: echo "sdk.dir=$ANDROID_HOME" > ./local.properties
-      
-    #   - name: Cache Kotlin Multiplatform builds
-    #     uses: actions/cache@v4
-    #     with:
-    #       path: |
-    #         ~/.konan
-    #         composeApp/build
-    #         composeApp/.gradle
-    #       key: ${{ runner.os }}-kmp-${{ hashFiles('composeApp/**/*.kt', 'composeApp/build.gradle.kts', 'gradle/libs.versions.toml') }}
-    #       restore-keys: |
-    #         ${{ runner.os }}-kmp-
-      
-    #   - name: Cache Homebrew
-    #     uses: actions/cache@v4
-    #     with:
-    #       path: |
-    #         ~/Library/Caches/Homebrew
-    #         /usr/local/Homebrew
-    #       key: ${{ runner.os }}-homebrew-${{ hashFiles('**/Brewfile') }}
-    #       restore-keys: |
-    #         ${{ runner.os }}-homebrew-
-      
-    #   - name: Cache SwiftGen
-    #     uses: actions/cache@v4
-    #     with:
-    #       path: /usr/local/bin/swiftgen
-    #       key: ${{ runner.os }}-swiftgen-${{ hashFiles('iosApp/iosApp/SwiftGen/swiftgen.yml') }}
-    #       restore-keys: |
-    #         ${{ runner.os }}-swiftgen-
-      
-    #   - name: Install SwiftGen
-    #     run: |
-    #       if ! command -v swiftgen &> /dev/null; then
-    #         brew install swiftgen
-    #       else
-    #         echo "SwiftGen already installed"
-    #       fi
-      
-    #   - name: Cache Xcode DerivedData
-    #     uses: actions/cache@v4
-    #     with:
-    #       path: |
-    #         ~/Library/Developer/Xcode/DerivedData
-    #         build
-    #       key: ${{ runner.os }}-xcode-deriveddata-${{ hashFiles('iosApp/iosApp.xcodeproj/project.pbxproj') }}-${{ hashFiles('composeApp/**/*.kt') }}
-    #       restore-keys: |
-    #         ${{ runner.os }}-xcode-deriveddata-${{ hashFiles('iosApp/iosApp.xcodeproj/project.pbxproj') }}-
-    #         ${{ runner.os }}-xcode-deriveddata-
-      
+
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
-      
+
       - name: Show Xcode version
         run: xcodebuild -version
-      
+
       - name: Show available simulators
         run: xcrun simctl list devices available
-      
-    #   - name: Build shared framework
-    #     run: |
-    #       # Set required Xcode environment variables for the Gradle task
-    #       export SDK_NAME=iphonesimulator
-    #       export CONFIGURATION=Debug
-    #       export TARGET_BUILD_DIR=${{ github.workspace }}/build/ios
-    #       export BUILT_PRODUCTS_DIR=${{ github.workspace }}/build/ios
-    #       export FRAMEWORKS_FOLDER_PATH=Frameworks
-    #       export ARCHS=arm64
-          
-    #       # Create the target directory
-    #       mkdir -p "$TARGET_BUILD_DIR"
-          
-    #       # Run the Gradle task with Xcode environment
-    #       ./gradlew :composeApp:embedAndSignAppleFrameworkForXcode
-      
-    #   - name: Cache SwiftGen generated files
-    #     uses: actions/cache@v4
-    #     with:
-    #       path: |
-    #         iosApp/iosApp/SwiftGen/Strings.swift
-    #         iosApp/iosApp/SwiftGen/Assets.swift
-    #       key: ${{ runner.os }}-swiftgen-generated-${{ hashFiles('iosApp/iosApp/Resources/**/*', 'iosApp/iosApp/SwiftGen/swiftgen.yml') }}
-    #       restore-keys: |
-    #         ${{ runner.os }}-swiftgen-generated-
-      
-    #   - name: Generate SwiftGen files
-    #     working-directory: iosApp/iosApp/SwiftGen
-    #     run: |
-    #       if [ ! -f "Strings.swift" ] || [ ! -f "Assets.swift" ]; then
-    #         echo "Generating SwiftGen files..."
-    #         swiftgen config run
-    #       else
-    #         echo "SwiftGen files already exist and are cached"
-    #       fi
-      
+
       - name: List available schemes
         run: |
           echo "Listing project schemes and targets..."
           xcodebuild -project iosApp/iosApp.xcodeproj -list
           echo "Project listing complete."
-      
+
       - name: Resolve Swift Package Dependencies
         run: |
           echo "Resolving Swift Package dependencies..."
@@ -155,3 +72,9 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             PROVISIONING_PROFILE=""
+
+      - name: Upload iOS App Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-app-simulator
+          path: build/Build/Products/Debug-iphonesimulator/*.app
