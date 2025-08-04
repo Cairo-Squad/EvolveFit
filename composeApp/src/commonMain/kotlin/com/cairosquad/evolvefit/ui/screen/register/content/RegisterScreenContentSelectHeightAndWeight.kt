@@ -104,8 +104,8 @@ fun RegisterScreenContentSelectHeightAndWeight(
             selectedMeasure = state.selectedHeight,
             measureType = stringResource(Res.string.height),
             measureIcon = painterResource(Res.drawable.ic_ruler),
-            minMeasureValue = 50F,
-            maxMeasureValue = 250F,
+            minMeasureValue = minHeight,
+            maxMeasureValue =maxHeight,
             onMeasureChanged = { height ->
                 listener.onHeightChanged(height)
             },
@@ -116,8 +116,8 @@ fun RegisterScreenContentSelectHeightAndWeight(
             selectedMeasure = state.selectedWeight,
             measureType = stringResource(Res.string.weight),
             measureIcon = painterResource(Res.drawable.ic_scale),
-            minMeasureValue = 1F,
-            maxMeasureValue = 200F,
+            minMeasureValue = minWeight,
+            maxMeasureValue = maxWeight,
             onMeasureChanged = { weight ->
                 listener.onWeightChanged(weight)
             },
