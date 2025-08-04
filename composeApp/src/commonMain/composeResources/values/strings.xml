@@ -24,4 +24,25 @@
     <string name="select_gender_description">This will be used to calibrate your custom plan.</string>
     <string name="select_goal_title">What is your main goal?</string>
     <string name="select_goal_description">Select your goal to personalize your training program.</string>
+    <string name="calories">Calories</string>
+    <string name="water">Water</string>
+    <string name="kcal_unit">Kcal</string>
+    <string name="liter_unit">L</string>
+    <string name="add_new_meal">Add New Meal</string>
+    <string name="log_meal_details">Log your meal details to track your daily calorie intake.</string>
+    <string name="meal_name_placeholder">Meal name</string>
+    <string name="add_button">Add</string>
+    <string name="meal_type_breakfast">Breakfast</string>
+    <string name="meal_type_lunch">Lunch</string>
+    <string name="meal_type_dinner">Dinner</string>
+    <string name="meal_type_snacks">Snacks</string>
+    <string name="suggested_meals">Suggested Meals</string>
+    <string name="todays_meals">Today's Meals</string>
+    <string name="remaining">Remaining</string>
+    <string name="add_meal">Add Meal</string>
+    <string name="meal_history">Meal History</string>
+    <string name="view_all">View All</string>
+    <string name="enter_water_intake">Enter Water Intake</string>
+    <string name="track_water_intake">Help us track your daily water intake to keep you hydrated.</string>
+    <string name="meal_added_snackbar">Meal added to your history.</string>
 </resources>

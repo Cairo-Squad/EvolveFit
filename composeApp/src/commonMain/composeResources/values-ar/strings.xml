@@ -24,4 +24,25 @@
     <string name="select_gender_description">سيُستخدم هذا لتخصيص خطتك بدقة.</string>
     <string name="select_goal_title">ما هو هدفك؟</string>
     <string name="select_goal_description">اختر هدفك لتخصيص برنامجك التدريبي.</string>
+    <string name="calories">السعرات الحرارية</string>
+    <string name="water">المياه</string>
+    <string name="kcal_unit">كالوري</string>
+    <string name="liter_unit">لتر</string>
+    <string name="add_new_meal">إضافة وجبة جديدة</string>
+    <string name="log_meal_details">سجّل تفاصيل وجبتك لتتبع استهلاكك اليومي من السعرات الحرارية.</string>
+    <string name="meal_name_placeholder">اسم الوجبة</string>
+    <string name="add_button">اضافة</string>
+    <string name="meal_type_breakfast">فطور</string>
+    <string name="meal_type_lunch">غداء</string>
+    <string name="meal_type_dinner">عشاء</string>
+    <string name="meal_type_snacks">وجبات خفيفة</string>
+    <string name="suggested_meals">الوجبات المقترحة</string>
+    <string name="todays_meals">وجبات اليوم</string>
+    <string name="remaining">المتبقي</string>
+    <string name="add_meal">إضافة وجبة</string>
+    <string name="meal_history">سجل الوجبات</string>
+    <string name="view_all">عرض الكل</string>
+    <string name="enter_water_intake">أدخل كمية الماء</string>
+    <string name="track_water_intake">ساعدنا على تتبع استهلاكك اليومي للماء للحفاظ على ترطيبك.</string>
+    <string name="meal_added_snackbar">تمت إضافة الوجبة إلى السجل.</string>
 </resources>
