@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,6 +28,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
@@ -34,15 +37,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.SnackBar
+import com.cairosquad.evolvefit.design_system.composables.CheckboxItem
+import com.cairosquad.evolvefit.design_system.composables.CheckboxStyle
 import com.cairosquad.evolvefit.design_system.composables.CircularPercentageIndicator
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.composables.MealCard
@@ -51,6 +62,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionEffect
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
+import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_arrow_down
@@ -73,6 +85,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun NutritionScreen(nutritionViewModel: NutritionViewModel = koinViewModel()) {
     val state by nutritionViewModel.screenState.collectAsState()
+
     ObserveAsEffect(nutritionViewModel.effect) { effect ->
         when (effect) {
             NutritionEffect.NavigateToMealHistory -> TODO()
@@ -87,28 +100,28 @@ fun NutritionScreen(nutritionViewModel: NutritionViewModel = koinViewModel()) {
                 Res.drawable.ic_coffee,
                 "320",
                 date = "Today, 12:15 PM",
-                type = MealType.Breakfast
+                type = NutritionScreenState.MealType.Breakfast
             ),
             Meal(
                 "Lunch",
                 Res.drawable.ic_launch,
                 "540",
                 date = "Today, 12:15 PM",
-                type = MealType.Breakfast
+                type = NutritionScreenState.MealType.Breakfast
             ),
             Meal(
                 "Dinner",
                 Res.drawable.ic_pizza_slice,
                 "320",
                 date = "Today, 12:15 PM",
-                type = MealType.Breakfast
+                type = NutritionScreenState.MealType.Breakfast
             ),
             Meal(
                 "Snacks",
                 Res.drawable.ic_donuts,
                 "150",
                 date = "Today, 12:15 PM",
-                type = MealType.Breakfast
+                type = NutritionScreenState.MealType.Breakfast
             ),
         )
     }
@@ -153,11 +166,12 @@ fun NutritionScreen(nutritionViewModel: NutritionViewModel = koinViewModel()) {
         LaunchedEffect(state.isAddMealSnackBarVisible) {
             if (!state.isAddMealSnackBarVisible) return@LaunchedEffect
             delay(2000)
-           nutritionViewModel.onSnackBarHided()
+            nutritionViewModel.onSnackBarHided()
         }
         SnackBar(
             modifier = Modifier.align(Alignment.BottomCenter),
-            text = "Meal added to your history.", isVisible =state.isAddMealSnackBarVisible )
+            text = "Meal added to your history.", isVisible = state.isAddMealSnackBarVisible
+        )
         AnimatedVisibility(
             modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
             visible = state.isAddWaterSheetVisible,
@@ -196,58 +210,147 @@ fun NutritionScreen(nutritionViewModel: NutritionViewModel = koinViewModel()) {
                 }
             }
         }
-        AnimatedVisibility(
-            modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
-            visible = state.isAddMealSheetVisible,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            BottomSheet(
-                isVisible = state.isAddMealSheetVisible,
-                onDismiss = { nutritionViewModel.onDismissMealClicked() }) {
-                Column(
-                    modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth(),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "Add New Meal",
-                        style = Theme.textStyle.title.largeBold14,
-                        color = Theme.color.surfaces.onSurfaceContainer
-                    )
-                    Text(
-                        text = "Log your meal details to track your daily calorie intake.",
-                        style = Theme.textStyle.body.mediumMedium12,
-                        color = Theme.color.surfaces.outline
-                    )
+        dropDownMenu(
+            state = state, nutritionViewModel = nutritionViewModel, Modifier.align(
+                Alignment.BottomCenter
+            )
+        )
+
+    }
+}
+
+@Composable
+fun dropDownMenu(
+    state: NutritionScreenState,
+    nutritionViewModel: NutritionViewModel,
+    modifier: Modifier = Modifier
+) {
+
+    var expanded by remember { mutableStateOf(false) }
+    var buttonIsEnabled by remember { mutableStateOf(false) }
+    var mealName by remember { mutableStateOf("") }
+    var mealCalories by remember { mutableStateOf("") }
+    LaunchedEffect(mealName, mealCalories, state.mealTypeSelected) {
+        buttonIsEnabled = mealName.isNotBlank() &&
+                mealCalories.isNotBlank()
+    }
+    AnimatedVisibility(
+        modifier = modifier.fillMaxWidth(),
+        visible = state.isAddMealSheetVisible,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        BottomSheet(
+            isVisible = state.isAddMealSheetVisible,
+            onDismiss = { nutritionViewModel.onDismissMealClicked() }) {
+            Column(
+                modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth(),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Add New Meal",
+                    style = Theme.textStyle.title.largeBold14,
+                    color = Theme.color.surfaces.onSurfaceContainer
+                )
+                Text(
+                    text = "Log your meal details to track your daily calorie intake.",
+                    style = Theme.textStyle.body.mediumMedium12,
+                    color = Theme.color.surfaces.outline
+                )
+                InputField(
+                    modifier = Modifier.padding(top = 16.dp),
+                    value = mealName,
+                    onValueChange = { mealName = it },
+                    placeholder = "Meal name",
+                    leadingIcon = Res.drawable.nutrition
+                )
+                Row(modifier = Modifier.padding(top = 12.dp).fillMaxWidth()) {
                     InputField(
-                        modifier = Modifier.padding(top = 16.dp),
-                        value = "",
-                        onValueChange = {},
-                        placeholder = "Meal name",
-                        leadingIcon = Res.drawable.nutrition
+                        modifier = Modifier.padding(end = 8.dp).weight(1f),
+                        value = mealCalories,
+                        onValueChange = {mealCalories = it},
+                        placeholder = "250 kcal",
+                        leadingIcon = Res.drawable.ic_fire
                     )
-                    Row (modifier = Modifier.padding(top = 12.dp).fillMaxWidth()){
+
+                    Box(modifier = Modifier.weight(1f)) {
                         InputField(
-                            modifier = Modifier.padding(end = 8.dp).weight(1f),
-                            value = "",
-                            onValueChange = {},
-                            placeholder = "250 kcal",
-                            leadingIcon = Res.drawable.ic_fire
-                        )
-                        InputField(
-                            modifier = Modifier.weight(1f),
-                            value = "Breakfast",
+                            value = state.mealTypeSelected.displayName,
                             onValueChange = {},
                             trailingIcon = Res.drawable.ic_arrow_down,
-                            onTrailingIconClick = {}
+                            onTrailingIconClick = { expanded = !expanded },
+                            readOnly = true,
+                            modifier = Modifier.clickable {
+                                expanded = !expanded
+                            }
+                        )
+
+                        MealTypeDropdown(
+                            selectedItem = state.mealTypeSelected.displayName,
+                            onItemSelected = {
+                                expanded = false
+                            },
+                            expanded = expanded,
+                            listener = nutritionViewModel,
+                            onDismissRequest = { expanded = false },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .fillMaxWidth()
+                                .padding(top = 48.dp)
                         )
                     }
-                    PrimaryButton(
-                        modifier = Modifier.padding(top = 40.dp, bottom = 16.dp),
-                        text = "Add",
-                        isEnabled = true,
-                        onClick = {nutritionViewModel.onConfirmAddMealClicked()})
+
                 }
+                PrimaryButton(
+                    modifier = Modifier.padding(top = 40.dp, bottom = 16.dp),
+                    text = "Add",
+                    isEnabled = buttonIsEnabled,
+                    onClick = { nutritionViewModel.onConfirmAddMealClicked() })
+            }
+        }
+    }
+
+
+}
+
+@Composable
+fun MealTypeDropdown(
+    listener: NutritionInteractionListener,
+    selectedItem: String?,
+    onItemSelected: () -> Unit,
+    expanded: Boolean,
+    onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    AnimatedVisibility(
+        visible = expanded,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .background(Theme.color.surfaces.surfaceContainer)
+                .padding(8.dp)
+        ) {
+            val options = listOf(
+                NutritionScreenState.MealType.Breakfast,
+                NutritionScreenState.MealType.Lunch,
+                NutritionScreenState.MealType.Dinner,
+                NutritionScreenState.MealType.Snacks,
+            )
+            options.forEach { item ->
+                CheckboxItem(
+                    text = item.displayName,
+                    isChecked = selectedItem == item.displayName,
+                    onCheckedChange = {
+                        listener.onMealTypeSelected(item)
+                        onItemSelected()
+                        onDismissRequest()
+                    },
+                    style = CheckboxStyle.Tick
+                )
             }
         }
     }
@@ -341,8 +444,9 @@ private fun ScanMeal(modifier: Modifier = Modifier) {
 
 @Composable
 private fun TodayMeals(
-   listener: NutritionInteractionListener,
-    modifier: Modifier = Modifier, meals: List<Meal>) {
+    listener: NutritionInteractionListener,
+    modifier: Modifier = Modifier, meals: List<Meal>
+) {
     Column(
         modifier = modifier.padding(horizontal = 16.dp).fillMaxWidth()
             .clip(RoundedCornerShape(8.dp)).background(Theme.color.surfaces.surfaceContainer)
@@ -382,7 +486,7 @@ private fun TodayMeals(
                 tint = Theme.color.brand.primary
             )
             Text(
-                modifier = Modifier.clickable(onClick = {listener.onShowAddMealSheetClicked()}),
+                modifier = Modifier.clickable(onClick = { listener.onShowAddMealSheetClicked() }),
                 text = "Add Meal",
                 style = Theme.textStyle.body.mediumMedium14,
                 color = Theme.color.brand.primary
@@ -408,7 +512,8 @@ private fun TodayMealsHeader(modifier: Modifier = Modifier) {
 @Composable
 private fun SuggestedMeals(
     listener: NutritionInteractionListener,
-    modifier: Modifier = Modifier) {
+    modifier: Modifier = Modifier
+) {
     SeeAll(
         onViewAllClick = { listener.onViewAllSuggestedMealsClicked() },
         modifier = Modifier.padding(horizontal = 16.dp).padding(top = 32.dp, bottom = 12.dp),
@@ -427,8 +532,9 @@ private fun SuggestedMeals(
 
 @Composable
 private fun SeeAll(
-    onViewAllClick:()-> Unit,
-    sectionTitle: String, modifier: Modifier = Modifier) {
+    onViewAllClick: () -> Unit,
+    sectionTitle: String, modifier: Modifier = Modifier
+) {
     Row(modifier = modifier) {
         Text(
             modifier = Modifier.weight(1f),
@@ -437,13 +543,13 @@ private fun SeeAll(
             color = Theme.color.surfaces.onSurface
         )
         Text(
-            modifier= Modifier.clickable(onClick = {onViewAllClick()}),
+            modifier = Modifier.clickable(onClick = { onViewAllClick() }),
             text = "View All",
             style = Theme.textStyle.body.mediumMedium14,
             color = Theme.color.surfaces.onSurfaceVariant
         )
         Icon(
-            modifier = Modifier.padding(start = 4.dp).clickable(onClick = {onViewAllClick()}),
+            modifier = Modifier.padding(start = 4.dp).clickable(onClick = { onViewAllClick() }),
             painter = painterResource(Res.drawable.ic_end_arrow),
             contentDescription = null,
             tint = Color.Unspecified
@@ -542,12 +648,9 @@ data class Meal(
     val icon: DrawableResource,
     val calories: String,
     val date: String = "",
-    val type: MealType
+    val type: NutritionScreenState.MealType
 )
 
-enum class MealType(val displayName: String) {
-    Breakfast("Breakfast"), Lunch("Lunch"), Dinner("Dinner"), Snacks("Snacks")
-}
 
 @Preview
 @Composable
