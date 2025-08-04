@@ -117,7 +117,7 @@ fun RegisterScreenContentSelectHeightAndWeight(
             measureType = stringResource(Res.string.weight),
             measureIcon = painterResource(Res.drawable.ic_scale),
             minMeasureValue = minWeight,
-            maxMeasureValue = maxWeight,
+            maxMeasureValue =maxWeight,
             onMeasureChanged = { weight ->
                 listener.onWeightChanged(weight)
             },
@@ -424,14 +424,15 @@ fun formatToOneDecimal(value: Float): String {
     return (kotlin.math.round(value * 10) / 10f).toString()
 }
 private object HeightWeightConstants {
-    const val MIN_HEIGHT_CM = 50f
+    const val MIN_HEIGHT_CM = 1f
     const val MAX_HEIGHT_CM = 250f
 
-    const val MIN_HEIGHT_FT = 50f
-    const val MAX_HEIGHT_FT = 250f
-    const val MIN_WEIGHT_KG = 1f
+    const val MIN_HEIGHT_FT =50f
+    const val MAX_HEIGHT_FT = 200f
+
+    const val MIN_WEIGHT_KG = 50f
     const val MAX_WEIGHT_KG = 200f
 
     const val MIN_WEIGHT_LB = 1f
-    const val MAX_WEIGHT_LB = 200f
+    const val MAX_WEIGHT_LB = 250f
 }

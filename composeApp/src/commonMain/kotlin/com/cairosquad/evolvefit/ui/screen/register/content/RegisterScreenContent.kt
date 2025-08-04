@@ -28,22 +28,17 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.next
 import evolvefit.composeapp.generated.resources.start_now
 import org.jetbrains.compose.resources.stringResource
-
 @Composable
 fun RegisterScreenContent(
     state: RegisterScreenState,
     listener: RegisterInteractionListener,
 ) {
-
     val pagerState = rememberPagerState(
         initialPage = 0,
         pageCount = { RegisterViewModel.MAX_STEPS }
     )
-
     var previousPage by remember { mutableStateOf(0) }
-
     val currentStepIndex = state.currentStep - 1
-
     LaunchedEffect(currentStepIndex) {
         if (currentStepIndex == pagerState.currentPage) return@LaunchedEffect
         if (currentStepIndex == previousPage) return@LaunchedEffect
@@ -54,7 +49,6 @@ fun RegisterScreenContent(
             previousPage = currentStepIndex
         }
     }
-
     LaunchedEffect(pagerState.isScrollInProgress) {
         if (pagerState.isScrollInProgress) return@LaunchedEffect
         if (currentStepIndex == pagerState.currentPage) return@LaunchedEffect
@@ -62,7 +56,6 @@ fun RegisterScreenContent(
         if (pagerState.currentPage == previousPage) return@LaunchedEffect
         previousPage = pagerState.currentPage
     }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -75,7 +68,6 @@ fun RegisterScreenContent(
             totalSteps = RegisterViewModel.MAX_STEPS,
             onBackClick = listener::onClickBack,
         )
-
         HorizontalPager(
             modifier = Modifier
                 .fillMaxWidth()
@@ -94,7 +86,6 @@ fun RegisterScreenContent(
                 7 -> RegisterScreenContentUserNamePasswordDateOfBirth(state, listener)
             }
         }
-
         PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
