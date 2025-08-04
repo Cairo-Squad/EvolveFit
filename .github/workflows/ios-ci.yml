@@ -5,7 +5,6 @@ on:
     branches:
       - main
       - develop
-      - feature/android-ios-ci
   pull_request:
   workflow_dispatch:
 
