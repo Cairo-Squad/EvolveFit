@@ -242,12 +242,22 @@ private fun Ruler(
     maxValue: Float,
     onValueChanged: (Float) -> Unit
 ) {
+    val initialValue = if (selectedValue in minValue..maxValue) {
+        selectedValue
+    } else {
+        (minValue + maxValue) / 2f
+    }
     var currentValue by remember(selectedValue) { mutableFloatStateOf(selectedValue) }
     val density = LocalDensity.current
     val textMeasurer = rememberTextMeasurer()
     val indicatorColor = Theme.color.surfaces.onSurfaceVariant
     val outlineColor = Theme.color.surfaces.outline
     val textStyle = Theme.textStyle.body.smallRegular10
+    LaunchedEffect(Unit) {
+        if (selectedValue != initialValue) {
+            onValueChanged(initialValue)
+        }
+    }
 
     Box(
         modifier = modifier
