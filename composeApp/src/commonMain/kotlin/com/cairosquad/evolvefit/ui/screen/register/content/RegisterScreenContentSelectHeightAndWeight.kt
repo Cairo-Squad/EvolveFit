@@ -64,7 +64,7 @@ fun RegisterScreenContentSelectHeightAndWeight(
 ) {
     Column(
         modifier = modifier.fillMaxSize()
-            .padding(top=16.dp),
+                           .padding(top=16.dp),
         verticalArrangement = Arrangement.spacedBy(32.dp)
     ) {
         val measureUnit = state.selectedMeasurementUnit
@@ -207,7 +207,8 @@ private fun MeasureSection(
                     Theme.color.surfaces.surfaceContainer,
                     RoundedCornerShape(8.dp)
                 )
-                .width(116.dp).height(48.dp)
+                .width(116.dp)
+                .height(48.dp)
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
