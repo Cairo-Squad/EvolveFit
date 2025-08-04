@@ -50,7 +50,7 @@ kotlin {
             implementation(libs.lifecycle.viewmodel)
 
             // navigation
-            implementation(libs.androidx.navigation.compose)
+            implementation(libs.navigation.compose)
 
             // koin
             api(libs.koin.core)
