@@ -110,7 +110,8 @@ private fun BottomActionSection(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
