@@ -55,7 +55,6 @@ fun OnboardingScreen(
             OnboardingScreenEffect.NavigateToLogin -> {
                 navigateToLogin()
             }
-
             OnboardingScreenEffect.NavigateToRegister -> {
                 navigateToRegister()
             }
