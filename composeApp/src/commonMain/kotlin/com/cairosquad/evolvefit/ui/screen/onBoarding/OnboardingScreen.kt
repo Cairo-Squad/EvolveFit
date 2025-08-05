@@ -113,10 +113,12 @@ private fun BottomActionSection(
         modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 24.dp)
-                .clip(RoundedCornerShape(24.dp)).height(48.dp).background(
-                    Theme.color.brand.primary,
-                ).fillMaxWidth().noRippleClickable(onClick = { onSignUpClicked() }),
+            modifier = Modifier
+                .padding(start = 16.dp, end = 16.dp, bottom = 24.dp)
+                .clip(RoundedCornerShape(24.dp))
+                .height(48.dp).background(Theme.color.brand.primary)
+                .fillMaxWidth()
+                .noRippleClickable(onClick = { onSignUpClicked() }),
             contentAlignment = Alignment.Center
         ) {
             Text(
