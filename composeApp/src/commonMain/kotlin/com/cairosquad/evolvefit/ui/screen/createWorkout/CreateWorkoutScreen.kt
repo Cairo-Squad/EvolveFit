@@ -17,7 +17,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 @Composable
 fun CreateWorkoutScreen(
     navigateBack: () -> Unit,
-    navigateToCreateExercise: ((onExerciseCreationSuccess: () -> Unit) -> Unit)
+    navigateToCreateExercise: ((onExerciseCreationSuccess: (() -> Unit)?) -> Unit)
 ){
 
     // Temp function, this should be a function in the view model

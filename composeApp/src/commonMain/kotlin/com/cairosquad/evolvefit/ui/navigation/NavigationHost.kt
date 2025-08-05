@@ -80,7 +80,7 @@ fun NavigationHost() {
 
         composable<CreateWorkoutRoute> {
 
-            val navigateToCreateExercise = { onExerciseCreationSuccess: () -> Unit ->
+            val navigateToCreateExercise = { onExerciseCreationSuccess: (() -> Unit)? ->
                 navController.navigate(CreateExerciseRoute)
                 navController
                     .getBackStackEntry(CreateExerciseRoute)
@@ -95,10 +95,10 @@ fun NavigationHost() {
 
         composable<CreateExerciseRoute> {
 
-            val onExerciseCreationSuccess = remember {
+            val onExerciseCreationSuccess: (() -> Unit)? = remember {
                 navController
                     .getBackStackEntry(CreateExerciseRoute)
-                    .savedStateHandle["onExerciseCreationSuccess"] ?: {  }
+                    .savedStateHandle["onExerciseCreationSuccess"]
             }
 
             CreateExerciseScreen(
