@@ -27,6 +27,14 @@ class RegisterViewModel :
         // TODO: call the register use case and Navigate to home screen if register is successful
         sendEffect(RegisterEffect.NavigateToHome)
     }
+    override fun onHeightChanged(height: Float) {
+        updateState{ it.copy(selectedHeight = height) }
+    }
+
+    override fun onWeightChanged(weight: Float) {
+        updateState { it.copy(selectedWeight = weight) }
+    }
+
 
     override fun onGenderClicked(gender: RegisterScreenState.Gender) {
         updateState {

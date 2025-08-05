@@ -4,6 +4,10 @@
     <string name="workouts">Workouts</string>
     <string name="reports">Reports</string>
     <string name="more">More</string>
+    <string name="select_measurement">Please select a measurement for your </string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+
     <string name="start_now">Start Now</string>
     <string name="next">Next</string>
     <string name="internet_is_not_available">Internet is not available</string>
@@ -30,6 +34,20 @@
     <string name="meal_image">Meal Image</string>
     <string name="calories_icon">Calories Icon</string>
     <string name="kcal">Kcal</string>
+    <string name="ready_to_start">Ready to Start</string>
+    <string name="do_you_have_an_account">Do you have an account?</string>
+    <string name="login">Login</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="language_selection_description">This language will be used throughout the app.</string>
+    <string name="arabic">Arabic</string>
+    <string name="english">English</string>
+    <string name="confirm">Confirm</string>
+
+    <string name="cm">cm</string>
+    <string name="kg">kg</string>
+    <string name="ft">ft</string>
+    <string name="lb">lb</string>
+
     <string name="user_profile">User Profile</string>
     <string name="user_profile_description">Enter your name, date of birth, and add your photo to get started.</string>
     <string name="upload_image">Upload image</string>

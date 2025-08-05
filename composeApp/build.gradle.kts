@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    kotlin("plugin.serialization") version "2.0.21"
+    kotlin("plugin.serialization") version libs.versions.kotlin
 }
 
 kotlin {
@@ -36,6 +36,9 @@ kotlin {
 
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+            implementation(libs.ktor.client.android)
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -50,12 +53,16 @@ kotlin {
             implementation(libs.lifecycle.viewmodel)
 
             // navigation
-            implementation(libs.androidx.navigation.compose)
+            implementation(libs.navigation.compose)
 
             // koin
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
+
 
             // File kit
             implementation(libs.filekit.core)
@@ -67,6 +74,11 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+
         }
     }
 }
