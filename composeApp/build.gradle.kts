@@ -64,6 +64,13 @@ kotlin {
             implementation(libs.coil.network.ktor)
 
 
+            // File kit
+            implementation(libs.filekit.core)
+            implementation(libs.filekit.dialogs)
+            implementation(libs.filekit.dialogs.compose)
+            implementation(libs.filekit.coil)
+
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

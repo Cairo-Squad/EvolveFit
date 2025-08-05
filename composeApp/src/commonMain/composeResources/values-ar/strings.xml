@@ -45,4 +45,7 @@
     <string name="arabic">العربية</string>
     <string name="english">الإنجليزية</string>
     <string name="confirm">تأكيد</string>
+    <string name="user_profile">معلومات المستخدم</string>
+    <string name="user_profile_description">أدخل اسمك، تاريخ ميلادك، وأضف صورتك كي نبدأ</string>
+    <string name="upload_image">ارفع صورة</string>
 </resources>
