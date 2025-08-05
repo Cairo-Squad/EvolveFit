@@ -105,7 +105,9 @@ fun OnboardingScreenContent(
 
 @Composable
 private fun BottomActionSection(
-    onLoginClicked: () -> Unit, onSignUpClicked: () -> Unit, modifier: Modifier = Modifier
+    onLoginClicked: () -> Unit,
+    onSignUpClicked: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally
