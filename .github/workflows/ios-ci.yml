@@ -1,0 +1,82 @@
+name: iOS CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  JAVA_VERSION: 21
+
+jobs:
+  ios-build:
+    name: iOS Build Check
+    runs-on: macos-15
+    timeout-minutes: 30
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: wrapper
+
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Show available simulators
+        run: xcrun simctl list devices available
+
+      - name: List available schemes
+        run: |
+          echo "Listing project schemes and targets..."
+          xcodebuild -project iosApp/iosApp.xcodeproj -list
+          echo "Project listing complete."
+
+      - name: Resolve Swift Package Dependencies
+        run: |
+          echo "Resolving Swift Package dependencies..."
+          xcodebuild \
+            -project iosApp/iosApp.xcodeproj \
+            -resolvePackageDependencies
+          echo "Package dependencies resolved."
+
+      - name: Build iOS App for Simulator
+        run: |
+          echo "Starting iOS build..."
+          xcodebuild \
+            -project iosApp/iosApp.xcodeproj \
+            -scheme "iosApp" \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.3.1' \
+            -derivedDataPath build \
+            build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            PROVISIONING_PROFILE=""
+
+      - name: Upload iOS App Artifact
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-app-simulator
+          path: ~/Library/Developer/Xcode/DerivedData/Build/Products/Debug-iphonesimulator/*.app

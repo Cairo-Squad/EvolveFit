@@ -15,7 +15,6 @@ fun RegisterScreen(
     navigateBack: () -> Unit,
     viewModel: RegisterViewModel = koinViewModel()
 ) {
-
     val state by viewModel.screenState.collectAsState()
 
     ObserveAsEffect(viewModel.effect) { effect ->
@@ -30,3 +29,4 @@ fun RegisterScreen(
         listener = viewModel
     )
 }
+
