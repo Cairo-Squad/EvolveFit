@@ -27,12 +27,41 @@ class RegisterViewModel :
         // TODO: call the register use case and Navigate to home screen if register is successful
         sendEffect(RegisterEffect.NavigateToHome)
     }
+
     override fun onHeightChanged(height: Float) {
-        updateState{ it.copy(selectedHeight = height) }
+        updateState { it.copy(selectedHeight = height) }
     }
 
     override fun onWeightChanged(weight: Float) {
         updateState { it.copy(selectedWeight = weight) }
+    }
+
+    override fun onWorkoutReminderToggled(enabled: Boolean) {
+        updateState { it.copy(isWorkoutReminderEnabled = enabled) }
+    }
+
+    override fun onWaterReminderToggled(enabled: Boolean) {
+        updateState { it.copy(isWaterReminderEnabled = enabled) }
+    }
+
+    override fun onBodyWeightReminderToggled(enabled: Boolean) {
+        updateState { it.copy(isBodyWeightReminderEnabled = enabled) }
+    }
+
+    override fun onChallengesReminderToggled(enabled: Boolean) {
+        updateState { it.copy(isChallengesReminderEnabled = enabled) }
+    }
+
+    override fun onWorkoutDaySelected(day: RegisterScreenState.WorkoutDay) {
+        updateState {
+            val currentDays = it.selectedWorkoutDays
+            val updatedDays = if (day in currentDays) {
+                currentDays - day
+            } else {
+                currentDays + day
+            }
+            it.copy(selectedWorkoutDays = updatedDays)
+        }
     }
 
 

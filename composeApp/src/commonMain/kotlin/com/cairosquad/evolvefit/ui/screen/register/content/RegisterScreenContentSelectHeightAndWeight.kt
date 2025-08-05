@@ -151,6 +151,26 @@ private fun RegisterScreenContentSelectHeightAndWeightPreview() {
                         println("Weight changed to: $weight")
                     }
 
+                    override fun onWorkoutReminderToggled(enabled: Boolean) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onWaterReminderToggled(enabled: Boolean) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onBodyWeightReminderToggled(enabled: Boolean) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onChallengesReminderToggled(enabled: Boolean) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onWorkoutDaySelected(day: RegisterScreenState.WorkoutDay) {
+                        TODO("Not yet implemented")
+                    }
+
                     override fun onClickNext() {
                         println("Next button clicked")
                     }

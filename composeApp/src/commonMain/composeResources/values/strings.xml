@@ -38,5 +38,18 @@
     <string name="kg">kg</string>
     <string name="ft">ft</string>
     <string name="lb">lb</string>
-
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="balance_trainer">Balance Trainer</string>
+    <string name="bench">Bench</string>
+    <string name="dumbbell">Dumbbell</string>
+    <string name="elastic_ball">Elastic Ball</string>
+    <string name="exercise_ball">Exercise Ball</string>
+    <string name="jump_rope">Jump Rope</string>
+    <string name="suspension_trainer">Suspension Trainer</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.onBoarding
+package com.cairosquad.evolvefit.ui.screen.register.content
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

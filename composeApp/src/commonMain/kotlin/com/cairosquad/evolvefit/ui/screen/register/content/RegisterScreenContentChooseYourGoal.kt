@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.screen.onBoarding.OnboardingHeader
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
 import evolvefit.composeapp.generated.resources.Res
