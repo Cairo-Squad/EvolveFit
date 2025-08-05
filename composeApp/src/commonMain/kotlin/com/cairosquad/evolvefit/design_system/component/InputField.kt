@@ -65,6 +65,7 @@ fun InputField(
     maxCharacters: Int? = 100,
     leadingIcon: DrawableResource? = null,
     trailingIcon: DrawableResource? = null,
+    trailingIconModifier: Modifier = Modifier,
     onTrailingIconClick: (() -> Unit)? = null,
 ) {
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
@@ -138,7 +139,7 @@ fun InputField(
                     }
                     TextFieldIcon(
                         trailingIcon,
-                        modifier = Modifier.padding(start = 8.dp),
+                        modifier = trailingIconModifier.padding(start = 8.dp),
                         error = error.isNotBlank(),
                         onTrailingIconClick,
                     )
