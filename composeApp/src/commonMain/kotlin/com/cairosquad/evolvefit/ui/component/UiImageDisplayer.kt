@@ -17,19 +17,9 @@ import org.jetbrains.compose.resources.painterResource
 fun UiImageDisplayer(
     image: UiImage,
     contentDescription: String,
-    isImagePickerOpen: Boolean,
-    onImageRetrieved: (UiImage) -> Unit,
-    onImagePickerDismiss: () -> Unit,
     defaultImageSize: Dp = 32.dp,
     modifier: Modifier = Modifier
 ) {
-    if (isImagePickerOpen) {
-        ImagePicker(
-            onImageRetrieved = onImageRetrieved,
-            onImagePickerDismiss = onImagePickerDismiss
-        )
-    }
-
     when (image) {
         is UiImage.ImageFile -> {
             FileImageDisplayer(

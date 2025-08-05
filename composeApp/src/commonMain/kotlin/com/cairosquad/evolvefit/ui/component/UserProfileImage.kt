@@ -41,12 +41,16 @@ fun UserProfileImage(
                 .clickable(onClick = onImagePickerClick),
             contentAlignment = Alignment.Center
         ) {
+            if (isImagePickerOpen) {
+                ImagePicker(
+                    onImageRetrieved = onImageRetrieved,
+                    onImagePickerDismiss = onImagePickerDismiss
+                )
+            }
+
             UiImageDisplayer(
                 image = image,
                 contentDescription = "Profile picture", // TODO
-                isImagePickerOpen = isImagePickerOpen,
-                onImagePickerDismiss = onImagePickerDismiss,
-                onImageRetrieved = onImageRetrieved,
                 defaultImageSize = 32.dp
             )
         }

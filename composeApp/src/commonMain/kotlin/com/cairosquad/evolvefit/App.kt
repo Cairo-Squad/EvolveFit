@@ -16,7 +16,7 @@ import coil3.ImageLoader
 import coil3.compose.setSingletonImageLoaderFactory
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.screen.onBoarding.userProfileStep.UserProfileStep
+import com.cairosquad.evolvefit.ui.screen.register.userProfileStep.UserProfileStep
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import io.github.vinceglb.filekit.coil.addPlatformFileSupport
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -42,20 +42,20 @@ fun App() {
                 .padding(16.dp),
             contentAlignment = Alignment.Center
         ) {
-            UserProfileStep(
-                image = image,
-                isImagePickerOpen = isImagePickerOpen,
-                onImagePickerClick = {
-                    isImagePickerOpen = true
-                },
-                onImagePickerDismiss = {
-                    isImagePickerOpen = false
-                },
-                onImageRetrieved = {
-                    image = it
-                    isImagePickerOpen = false
-                }
-            )
+//            UserProfileStep(
+//                image = image,
+//                isImagePickerOpen = isImagePickerOpen,
+//                onImagePickerClick = {
+//                    isImagePickerOpen = true
+//                },
+//                onImagePickerDismiss = {
+//                    isImagePickerOpen = false
+//                },
+//                onImageRetrieved = {
+//                    image = it
+//                    isImagePickerOpen = false
+//                }
+//            )
         }
     }
 }

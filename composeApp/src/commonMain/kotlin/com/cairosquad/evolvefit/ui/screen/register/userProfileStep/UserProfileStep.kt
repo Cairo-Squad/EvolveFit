@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.onBoarding.userProfileStep
+package com.cairosquad.evolvefit.ui.screen.register.userProfileStep
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -62,9 +62,9 @@ fun UserProfileStep(
                 )
         )
 
-        UserProfileForm(
-
-        )
+//        UserProfileForm(
+//
+//        )
     }
 }
 
@@ -102,7 +102,18 @@ fun PreviewUserProfileStep() {
             isImagePickerOpen = false,
             onImagePickerClick = {},
             onImageRetrieved = {},
-            onImagePickerDismiss = {}
+            onImagePickerDismiss = {},
+            userName = "",
+            onUserNameChange = {},
+            userEmail = "",
+            onUserEmailChange = {},
+            userPassword = "",
+            onUserPasswordChange = {},
+            isPasswordVisible = false,
+            onPasswordVisibilityClick = {},
+            dateOfBirth = "",
+            onDateOfBirthChange = {},
+            onStartNowClick = {}
         )
     }
 }
