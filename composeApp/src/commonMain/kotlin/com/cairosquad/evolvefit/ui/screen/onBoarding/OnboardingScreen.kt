@@ -68,7 +68,9 @@ fun OnboardingScreen(
 
 @Composable
 fun OnboardingScreenContent(
-    state: OnboardingScreenState, modifier: Modifier = Modifier, listener: OnboardingScreenListener
+    state: OnboardingScreenState,
+    listener: OnboardingScreenListener,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier.fillMaxSize()
