@@ -60,7 +60,41 @@ class RegisterViewModel :
             } else {
                 currentDays + day
             }
-            it.copy(selectedWorkoutDays = updatedDays)
+            val newState = it.copy(selectedWorkoutDays = updatedDays)
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+        }
+    }
+
+    override fun onNoEquipmentSelected() {
+        updateState {
+            val isSelected = !it.isNoEquipmentSelected
+            it.copy(
+                isNoEquipmentSelected = isSelected,
+                selectedEquipments = if (isSelected) emptyList() else it.selectedEquipments,
+                nextButtonEnabled = updateNextButtonEnableState(
+                    it.copy(
+                        isNoEquipmentSelected = isSelected,
+                        selectedEquipments = if (isSelected) emptyList() else it.selectedEquipments
+                    )
+                )
+            )
+        }
+    }
+
+    override fun onEquipmentToggled(equipmentId: String) {
+        updateState {
+            val updatedSelection = it.selectedEquipments.toMutableList()
+            if (equipmentId in updatedSelection) {
+                updatedSelection.remove(equipmentId)
+            } else {
+                updatedSelection.add(equipmentId)
+            }
+
+            val newState = it.copy(
+                isNoEquipmentSelected = false,
+                selectedEquipments = updatedSelection
+            )
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
@@ -94,7 +128,9 @@ class RegisterViewModel :
             2 -> state.selectedMeasurementUnit != null
             3 -> true
             4 -> state.selectedGoal != null
-            5, 6, 7 -> true
+            5->state.isNoEquipmentSelected || state.selectedEquipments.isNotEmpty()
+            6->true
+            7 -> state.selectedWorkoutDays.isNotEmpty()
             else -> false
         }
     }

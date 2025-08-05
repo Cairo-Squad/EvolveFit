@@ -171,6 +171,14 @@ private fun RegisterScreenContentSelectHeightAndWeightPreview() {
                         TODO("Not yet implemented")
                     }
 
+                    override fun onNoEquipmentSelected() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onEquipmentToggled(equipmentId: String) {
+                        TODO("Not yet implemented")
+                    }
+
                     override fun onClickNext() {
                         println("Next button clicked")
                     }

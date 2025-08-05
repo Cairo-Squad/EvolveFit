@@ -18,4 +18,6 @@ interface RegisterInteractionListener {
     fun onBodyWeightReminderToggled(enabled: Boolean)
     fun onChallengesReminderToggled(enabled: Boolean)
     fun onWorkoutDaySelected(day: RegisterScreenState.WorkoutDay)
+    fun onNoEquipmentSelected()
+    fun onEquipmentToggled(equipmentId: String)
 }

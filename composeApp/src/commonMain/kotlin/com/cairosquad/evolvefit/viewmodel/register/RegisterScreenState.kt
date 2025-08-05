@@ -22,7 +22,7 @@ data class RegisterScreenState(
     val selectedHeight: Float = 0F,
     val selectedWeight: Float = 0F,
     val nextButtonEnabled: Boolean = true,
-    val selectedGender: Gender? = null,
+    val selectedGender: Gender? = Gender.Male,
     val selectedMeasurementUnit: MeasurementUnit? = null,
     val selectedGoal: Goal? = null,
     val isWaterReminderEnabled: Boolean = false,
@@ -30,7 +30,9 @@ data class RegisterScreenState(
     val isBodyWeightReminderEnabled: Boolean = false,
     val isChallengesReminderEnabled: Boolean = false,
     val selectedWorkoutDays: List<WorkoutDay> = emptyList(),
-    val selectedEquipments: List<Equipment> = emptyList()
+    val isNoEquipmentSelected: Boolean = false,
+    val availableEquipments: List<Equipment> = listOf(Equipment(name = "Balance Trainer"),Equipment(name = "Bench"),Equipment(name = "Dumbbell"),),
+    val selectedEquipments: List<String> = emptyList()
 ) {
     enum class Gender {
         Female, Male
@@ -53,13 +55,9 @@ data class RegisterScreenState(
         FRIDAY(Res.string.friday),
         SATURDAY(Res.string.saturday);
     }
-    enum class Equipment(val resId: StringResource) {
-        BALANCE_TRAINER(Res.string.balance_trainer),
-        BENCH(Res.string.bench),
-        DUMBBELL(Res.string.dumbbell),
-        ELASTIC_BALL(Res.string.elastic_ball),
-        EXERCISE_BALL(Res.string.exercise_ball),
-        JUMP_ROPE(Res.string.jump_rope),
-        SUSPENSION_TRAINER(Res.string.suspension_trainer)
-    }
+
+    data class Equipment(
+        val name: String = "",
+        val isSelected: Boolean = false
+    )
 }

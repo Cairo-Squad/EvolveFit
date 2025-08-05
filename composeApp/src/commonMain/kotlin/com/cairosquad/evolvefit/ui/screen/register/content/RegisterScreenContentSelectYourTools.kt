@@ -29,7 +29,7 @@ fun RegisterScreenContentSelectYourTools(
     listener: RegisterInteractionListener,
     modifier: Modifier = Modifier
 ){
-    val equipments = remember { RegisterScreenState.Equipment.entries.toList() }
+    //val equipments = remember { RegisterScreenState.Equipment.entries.toList() }
     Column(
         modifier = modifier
             .padding(top = 16.dp)
@@ -43,8 +43,8 @@ fun RegisterScreenContentSelectYourTools(
             modifier = Modifier.padding(horizontal = 16.dp).padding(top = 16.dp),
             text = "No tools",
             description = "Show me bodyweight - only workouts.",
-            isChecked = state.isBodyWeightReminderEnabled,
-            onCheckedChange = { listener.onBodyWeightReminderToggled(enabled = !state.isBodyWeightReminderEnabled) },
+            isChecked = state.isNoEquipmentSelected,
+            onCheckedChange = { listener.onNoEquipmentSelected() },
             style = CheckboxStyle.Switch
         )
 
@@ -62,13 +62,18 @@ fun RegisterScreenContentSelectYourTools(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(vertical = 12.dp)
         ) {
-            items(equipments) { equipment ->
-                val isSelected = state.selectedEquipments.contains(equipment)
+            items(state.availableEquipments) { equipment ->
+                val isSelected = state.selectedEquipments.contains(equipment.name)
+                val isEnabled = !state.isNoEquipmentSelected
                 CheckboxItem(
                     modifier = Modifier.padding(top = 8.dp),
-                    text = stringResource(equipment.resId),
-                    isChecked = state.isBodyWeightReminderEnabled,
-                    onCheckedChange = { listener.onBodyWeightReminderToggled(enabled = !state.isBodyWeightReminderEnabled) },
+                    text =  equipment.name,
+                    isChecked = isSelected,
+                    onCheckedChange = {
+                        if (isEnabled) {
+                            listener.onEquipmentToggled(equipment.name)
+                        }
+                    },
                     style = CheckboxStyle.Switch
                 )
             }
