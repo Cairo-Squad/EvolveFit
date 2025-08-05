@@ -10,8 +10,6 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
-import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.ic_default_image
 import io.github.vinceglb.filekit.PlatformFile
 import org.jetbrains.compose.resources.painterResource
 
@@ -43,21 +41,12 @@ fun UiImageDisplayer(
         }
 
         is UiImage.ImageUrl -> {
-            if (image.url.isNotBlank()) {
-                NetworkImage(
-                    model = image.url,
-                    contentDescription = contentDescription,
-                    placeholderImageSize = DpSize(defaultImageSize, defaultImageSize),
-                    modifier = modifier
-                )
-            } else {
-                Image(
-                    painter = painterResource(Res.drawable.ic_default_image),
-                    contentDescription = contentDescription,
-                    modifier = modifier
-                        .size(defaultImageSize)
-                )
-            }
+            NetworkImage(
+                model = image.url,
+                contentDescription = contentDescription,
+                placeholderImageSize = DpSize(defaultImageSize, defaultImageSize),
+                modifier = modifier
+            )
         }
 
         is UiImage.ImageResource -> {
