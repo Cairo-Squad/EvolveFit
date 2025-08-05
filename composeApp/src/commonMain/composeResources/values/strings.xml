@@ -4,8 +4,51 @@
     <string name="workouts">Workouts</string>
     <string name="reports">Reports</string>
     <string name="more">More</string>
+    <string name="select_measurement">Please select a measurement for your </string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+
     <string name="start_now">Start Now</string>
     <string name="next">Next</string>
     <string name="internet_is_not_available">Internet is not available</string>
     <string name="please_make_sure_you_are_connected_to_the_internet_and_try_again">Please make sure you are connected to the internet and try again.</string>
+    <string name="lose_weight">Lose weight</string>
+    <string name="lose_weight_desc">Get into your dream shape.</string>
+    <string name="gain_weight">Gain weight</string>
+    <string name="gain_weight_desc">Bulk up and build muscles.</string>
+    <string name="stay_in_shape">Stay in shape</string>
+    <string name="stay_in_shape_desc">Get a toned and leaner body.</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="select_unit_title">Choose your units of measurement</string>
+    <string name="select_unit_description">You can change the units of measurement at any time through the app settings.</string>
+    <string name="unit_metric">Metric (cm/kg)</string>
+    <string name="unit_imperial">Imperial (ft/lb)</string>
+    <string name="select_gender_title">What’s your gender?</string>
+    <string name="select_gender_description">This will be used to calibrate your custom plan.</string>
+    <string name="select_goal_title">What is your main goal?</string>
+    <string name="select_goal_description">Select your goal to personalize your training program.</string>
+    <string name="exercise_image">Exercise Image</string>
+    <string name="seconds">Seconds</string>
+    <string name="placeholder_image">Placeholder Image</string>
+    <string name="meal_image">Meal Image</string>
+    <string name="calories_icon">Calories Icon</string>
+    <string name="kcal">Kcal</string>
+    <string name="ready_to_start">Ready to Start</string>
+    <string name="do_you_have_an_account">Do you have an account?</string>
+    <string name="login">Login</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="language_selection_description">This language will be used throughout the app.</string>
+    <string name="arabic">Arabic</string>
+    <string name="english">English</string>
+    <string name="confirm">Confirm</string>
+
+    <string name="cm">cm</string>
+    <string name="kg">kg</string>
+    <string name="ft">ft</string>
+    <string name="lb">lb</string>
+
+    <string name="user_profile">User Profile</string>
+    <string name="user_profile_description">Enter your name, date of birth, and add your photo to get started.</string>
+    <string name="upload_image">Upload image</string>
 </resources>
