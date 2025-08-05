@@ -3,6 +3,7 @@ package com.cairosquad.evolvefit.ui.navigation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -78,15 +79,31 @@ fun NavigationHost() {
         }
 
         composable<CreateWorkoutRoute> {
+
+            val navigateToCreateExercise = { onExerciseCreationSuccess: () -> Unit ->
+                navController.navigate(CreateExerciseRoute)
+                navController
+                    .getBackStackEntry(CreateExerciseRoute)
+                    .savedStateHandle["onExerciseCreationSuccess"] = onExerciseCreationSuccess
+            }
+
             CreateWorkoutScreen(
                 navigateBack = navController::popBackStack,
-                navigateToCreateExercise = { navController.navigate(CreateExerciseRoute) }
+                navigateToCreateExercise = navigateToCreateExercise
             )
         }
 
         composable<CreateExerciseRoute> {
+
+            val onExerciseCreationSuccess = remember {
+                navController
+                    .getBackStackEntry(CreateExerciseRoute)
+                    .savedStateHandle["onExerciseCreationSuccess"] ?: {  }
+            }
+
             CreateExerciseScreen(
-                navigateBack = navController::popBackStack
+                navigateBack = navController::popBackStack,
+                onExerciseCreationSuccess = onExerciseCreationSuccess
             )
         }
 

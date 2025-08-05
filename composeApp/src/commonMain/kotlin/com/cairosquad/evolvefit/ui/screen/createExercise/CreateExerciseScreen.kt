@@ -17,6 +17,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 @Composable
 fun CreateExerciseScreen(
     navigateBack: () -> Unit,
+    onExerciseCreationSuccess: () -> Unit
 ){
     Column(
         modifier = Modifier
@@ -33,7 +34,10 @@ fun CreateExerciseScreen(
         )
 
         Button(
-            onClick = navigateBack
+            onClick = {
+                onExerciseCreationSuccess()
+                navigateBack()
+            }
         ) {
             Text("finish creating the exercise")
         }
