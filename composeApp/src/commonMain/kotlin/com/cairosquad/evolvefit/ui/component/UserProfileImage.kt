@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,6 +15,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.upload_image
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun UserProfileImage(
@@ -24,10 +29,12 @@ fun UserProfileImage(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
+                .padding(bottom = 8.dp)
                 .clip(CircleShape)
                 .size(100.dp)
                 .background(Theme.color.surfaces.surfaceContainer)
@@ -43,5 +50,11 @@ fun UserProfileImage(
                 defaultImageSize = 32.dp
             )
         }
+
+        Text(
+            text = stringResource(Res.string.upload_image),
+            style = Theme.textStyle.label.mediumMedium14,
+            color = Theme.color.surfaces.onSurfaceVariant
+        )
     }
 }

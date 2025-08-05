@@ -24,6 +24,17 @@ fun UserProfileStep(
     onImagePickerDismiss: () -> Unit,
     onImagePickerClick: () -> Unit,
     onImageRetrieved: (UiImage) -> Unit,
+    userName: String,
+    onUserNameChange: (String) -> Unit,
+    userEmail: String,
+    onUserEmailChange: (String) -> Unit,
+    userPassword: String,
+    onUserPasswordChange: (String) -> Unit,
+    isPasswordVisible: Boolean,
+    onPasswordVisibilityClick: () -> Unit,
+    dateOfBirth: String,
+    onDateOfBirthChange: (String) -> Unit, // TODO: change date handling?
+    onStartNowClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -46,9 +57,14 @@ fun UserProfileStep(
             onImageRetrieved = onImageRetrieved,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
+                .padding(
+                    bottom = 32.dp
+                )
         )
 
+        UserProfileForm(
 
+        )
     }
 }
 
