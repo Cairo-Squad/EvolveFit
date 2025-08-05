@@ -35,6 +35,12 @@ fun App() {
 //        NavigationHost()
         var image by remember { mutableStateOf<UiImage>(UiImage.ImageUrl("")) }
         var isImagePickerOpen by remember { mutableStateOf(false) }
+        var userName by remember { mutableStateOf("") }
+        var userEmail by remember { mutableStateOf("") }
+        var userPassword by remember { mutableStateOf("") }
+        var isPasswordVisible by remember { mutableStateOf(false) }
+        var dateOfBirth by remember { mutableStateOf("") }
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -42,20 +48,40 @@ fun App() {
                 .padding(16.dp),
             contentAlignment = Alignment.Center
         ) {
-//            UserProfileStep(
-//                image = image,
-//                isImagePickerOpen = isImagePickerOpen,
-//                onImagePickerClick = {
-//                    isImagePickerOpen = true
-//                },
-//                onImagePickerDismiss = {
-//                    isImagePickerOpen = false
-//                },
-//                onImageRetrieved = {
-//                    image = it
-//                    isImagePickerOpen = false
-//                }
-//            )
+            UserProfileStep(
+                image = image,
+                isImagePickerOpen = isImagePickerOpen,
+                onImagePickerClick = {
+                    isImagePickerOpen = true
+                },
+                onImagePickerDismiss = {
+                    isImagePickerOpen = false
+                },
+                onImageRetrieved = {
+                    image = it
+                    isImagePickerOpen = false
+                },
+                userName = userName,
+                onUserNameChange = {
+                    userName = it
+                },
+                userEmail = userEmail,
+                onUserEmailChange = {
+                    userEmail = it
+                },
+                userPassword = userPassword,
+                onUserPasswordChange = {
+                    userPassword = it
+                },
+                isPasswordVisible = isPasswordVisible,
+                onPasswordVisibilityClick = {
+                    isPasswordVisible = !isPasswordVisible
+                },
+                dateOfBirth = dateOfBirth,
+                onDateOfBirthChange = {
+                    dateOfBirth = it
+                },
+            )
         }
     }
 }

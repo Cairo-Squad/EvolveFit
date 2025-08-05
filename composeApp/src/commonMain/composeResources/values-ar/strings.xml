@@ -48,4 +48,8 @@
     <string name="user_profile">معلومات المستخدم</string>
     <string name="user_profile_description">أدخل اسمك، تاريخ ميلادك، وأضف صورتك كي نبدأ</string>
     <string name="upload_image">ارفع صورة</string>
+
+    <string name="enter_your_name">أدخل اسمك</string>
+    <string name="enter_your_email">أدخل بريدك الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
 </resources>

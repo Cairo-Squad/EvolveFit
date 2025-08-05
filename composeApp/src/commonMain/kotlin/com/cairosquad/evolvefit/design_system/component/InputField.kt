@@ -62,6 +62,7 @@ fun InputField(
     leadingIcon: DrawableResource? = null,
     trailingIcon: DrawableResource? = null,
     onTrailingIconClick: (() -> Unit)? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
@@ -94,6 +95,7 @@ fun InputField(
             textStyle = Theme.textStyle.label.smallRegular14.copy(
                 color = Theme.color.surfaces.onSurfaceContainer
             ),
+            keyboardOptions = keyboardOptions,
             decorationBox = { innerTextField ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),

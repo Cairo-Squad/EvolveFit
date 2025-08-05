@@ -51,4 +51,8 @@
     <string name="user_profile">User Profile</string>
     <string name="user_profile_description">Enter your name, date of birth, and add your photo to get started.</string>
     <string name="upload_image">Upload image</string>
+
+    <string name="enter_your_name">Enter your name</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="password">Password</string>
 </resources>
