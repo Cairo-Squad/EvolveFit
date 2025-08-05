@@ -48,10 +48,10 @@ fun MealCard(
 
         ) {
             Image(
+                modifier = Modifier.fillMaxWidth().background(Color(0xFF242424)),
                 painter = painterResource(image),
                 contentDescription = "Meal Image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxWidth().background(Color(0xFF242424))
+                contentScale = ContentScale.Crop
 
             )
             Row(
@@ -63,24 +63,24 @@ fun MealCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
+                    modifier = Modifier.padding(start = 8.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
                     painter = painterResource(Res.drawable.ic_fire),
                     contentDescription = "Fire Icon",
-                    tint = Theme.color.brand.primary,
-                    modifier = Modifier.padding(start = 8.dp, end = 4.dp, top = 4.dp, bottom = 4.dp)
+                    tint = Theme.color.brand.primary
                 )
                 Text(
+                    modifier = Modifier.padding(end = 8.dp),
                     text = "$calories $calorieUnit",
                     style = Theme.textStyle.body.smallRegular10,
-                    color = Theme.color.brand.primary,
-                    modifier = Modifier.padding(end = 8.dp)
+                    color = Theme.color.brand.primary
                 )
             }
         }
         Text(
+            modifier = Modifier.padding(bottom = 4.dp, top = 8.dp),
             text = title,
             style = Theme.textStyle.label.mediumMedium14,
-            color = Theme.color.surfaces.onSurface,
-            modifier = Modifier.padding(bottom = 4.dp, top = 8.dp)
+            color = Theme.color.surfaces.onSurface
         )
         Text(
             text = mealType,
