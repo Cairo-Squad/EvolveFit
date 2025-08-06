@@ -1,6 +1,11 @@
 package com.cairosquad.evolvefit.viewmodel.nutrition
 
+import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class NutritionViewModel() : BaseViewModel<NutritionScreenState, NutritionEffect>(
     NutritionScreenState()
@@ -41,7 +46,6 @@ class NutritionViewModel() : BaseViewModel<NutritionScreenState, NutritionEffect
         //TODO link with use case
         updateState {
             it.copy(
-                isAddMealSnackBarVisible = true,
                 isAddMealSheetVisible = false,
                 isAddButtonEnabled = false,
                 mealCaloriesInput = "",
@@ -49,55 +53,65 @@ class NutritionViewModel() : BaseViewModel<NutritionScreenState, NutritionEffect
                 selectedMeal = NutritionScreenState.MealType.Breakfast
             )
         }
+        showMealAddedSnackBar()
     }
 
-    override fun onDismissMealClicked() {
-        updateState { it.copy(isAddMealSheetVisible = false) }
-    }
-
-    override fun onMealNameChanged(name: String) {
-        updateState {
-            it.copy(
-                mealNameInput = name,
-                isAddButtonEnabled = name.isNotBlank() && it.mealCaloriesInput.isNotBlank()
-            )
+   private fun showMealAddedSnackBar() {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateState { it.copy(isAddMealSnackBarVisible = true) }
+            delay(2000)
+            updateState { it.copy(isAddMealSnackBarVisible = false) }
         }
     }
 
-    override fun onMealCaloriesChanged(calories: String) {
-        updateState {
-            it.copy(
-                mealCaloriesInput = calories,
-                isAddButtonEnabled = calories.isNotBlank() && it.mealNameInput.isNotBlank()
-            )
-        }
-    }
 
-    override fun onMealTypeSelected(mealType: NutritionScreenState.MealType) {
-        updateState { it.copy(selectedMeal = mealType) }
-    }
+override fun onDismissMealClicked() {
+    updateState { it.copy(isAddMealSheetVisible = false) }
+}
 
-    override fun onToggleMealTypeMenu() {
-        updateState { it.copy(isMealTypeMenuExpanded = !it.isMealTypeMenuExpanded) }
+override fun onMealNameChanged(name: String) {
+    updateState {
+        it.copy(
+            mealNameInput = name,
+            isAddButtonEnabled = name.isNotBlank() && it.mealCaloriesInput.isNotBlank()
+        )
     }
+}
 
-    override fun onViewAllSuggestedMealsClicked() {
-        sendEffect(NutritionEffect.NavigateToSuggestedMeals)
+override fun onMealCaloriesChanged(calories: String) {
+    updateState {
+        it.copy(
+            mealCaloriesInput = calories,
+            isAddButtonEnabled = calories.isNotBlank() && it.mealNameInput.isNotBlank()
+        )
     }
+}
 
-    override fun onSuggestedMealClicked(mealId: Long) {
-        sendEffect(NutritionEffect.NavigateToSuggestedMealDetails(mealId = mealId))
-    }
+override fun onMealTypeSelected(mealType: NutritionScreenState.MealType) {
+    updateState { it.copy(selectedMeal = mealType) }
+}
 
-    override fun onViewAllMealHistoryClicked() {
-        sendEffect(NutritionEffect.NavigateToMealHistory)
-    }
+override fun onToggleMealTypeMenu() {
+    updateState { it.copy(isMealTypeMenuExpanded = !it.isMealTypeMenuExpanded) }
+}
 
-    override fun onDroppedMenuClick() {
-        updateState { it.copy(isDroppedMenuVisible = true) }
-    }
+override fun onViewAllSuggestedMealsClicked() {
+    sendEffect(NutritionEffect.NavigateToSuggestedMeals)
+}
 
-    override fun onSnackBarHided() {
-        updateState { it.copy(isAddMealSnackBarVisible = false) }
-    }
+override fun onSuggestedMealClicked(mealId: Long) {
+    sendEffect(NutritionEffect.NavigateToSuggestedMealDetails(mealId = mealId))
+}
+
+override fun onViewAllMealHistoryClicked() {
+    sendEffect(NutritionEffect.NavigateToMealHistory)
+}
+
+override fun onDroppedMenuClick() {
+    updateState { it.copy(isDroppedMenuVisible = true) }
+}
+
+override fun onSnackBarHided() {
+    updateState { it.copy(isAddMealSnackBarVisible = false) }
+}
 }
