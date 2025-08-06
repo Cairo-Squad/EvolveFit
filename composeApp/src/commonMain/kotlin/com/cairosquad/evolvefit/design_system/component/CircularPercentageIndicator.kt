@@ -35,11 +35,11 @@ fun CircularPercentageIndicator(
     title: String,
     currentValue: Float,
     totalValue: Float,
-    iconColor: Color ,
+    iconColor: Color,
     progressColor: Color,
     unit: String = "",
     modifier: Modifier = Modifier,
-    onAddWaterClick: () -> Unit = {},
+    onActionButtonClicked: () -> Unit = {},
     icon: Painter = painterResource(Res.drawable.ic_fire),
     backgroundColor: Color = Theme.color.surfaces.surfaceContainer,
     buttonClickable: Boolean = false
@@ -110,7 +110,7 @@ fun CircularPercentageIndicator(
                             .size(32.dp)
                             .clip(CircleShape)
                             .background(Theme.color.system.info)
-                            .clickable(onClick = { onAddWaterClick() }, enabled = buttonClickable),
+                            .clickable(onClick = { onActionButtonClicked() }, enabled = buttonClickable),
                         contentAlignment = Alignment.Center
 
                     ) {

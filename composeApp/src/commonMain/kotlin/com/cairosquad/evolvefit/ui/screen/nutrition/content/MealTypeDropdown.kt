@@ -33,6 +33,7 @@ import com.cairosquad.evolvefit.design_system.component.CheckboxStyle
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
 import evolvefit.composeapp.generated.resources.Res
@@ -49,7 +50,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun MealTypeDropdownMenu(
     state: NutritionScreenState,
-    nutritionViewModel: NutritionViewModel,
+    listener: NutritionInteractionListener,
     modifier: Modifier = Modifier
 ) {
     val mealTypeOptions = NutritionScreenState.MealType.entries.associateWith {
@@ -64,92 +65,87 @@ fun MealTypeDropdownMenu(
         rotationZ = rotation
         transformOrigin = TransformOrigin(0.5f, 0.5f)
     }
-    AnimatedVisibility(
-        modifier = modifier.fillMaxWidth(),
-        visible = state.isAddMealSheetVisible,
-        enter = fadeIn(),
-        exit = fadeOut()
-    ) {
-        BottomSheet(
-            isVisible = state.isAddMealSheetVisible, onDismiss = {
-                nutritionViewModel.onDismissMealClicked()
-            }) {
-            Column(
+    BottomSheet(
+        isVisible = state.isAddMealSheetVisible, onDismiss = {
+            listener.onDismissMealClicked()
+        }) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(24.dp))
+                .padding(horizontal = 8.dp),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = stringResource(Res.string.add_new_meal),
+                style = Theme.textStyle.title.largeBold14,
+                color = Theme.color.surfaces.onSurfaceContainer
+            )
+            Text(
+                text = stringResource(Res.string.log_meal_details),
+                style = Theme.textStyle.body.mediumMedium12,
+                color = Theme.color.surfaces.outline
+            )
+            MealNameInputField(
+                modifier = Modifier.padding(top = 16.dp),
+                mealName = state.mealNameInput,
+                onValueChange = listener::onMealNameChanged
+            )
+
+            Row(
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.Center
+                    .padding(top = 12.dp)
+                    .fillMaxWidth()
             ) {
-                Text(
-                    text = stringResource(Res.string.add_new_meal),
-                    style = Theme.textStyle.title.largeBold14,
-                    color = Theme.color.surfaces.onSurfaceContainer
-                )
-                Text(
-                    text = stringResource(Res.string.log_meal_details),
-                    style = Theme.textStyle.body.mediumMedium12,
-                    color = Theme.color.surfaces.outline
-                )
-                MealNameInputField(
-                    modifier = Modifier.padding(top = 16.dp),
-                    mealName = state.mealNameInput,
-                    onValueChange = nutritionViewModel::onMealNameChanged
-                )
 
-                Row(
+                MealCaloriesInputField(
                     modifier = Modifier
-                        .padding(top = 12.dp)
-                        .fillMaxWidth()
-                ) {
+                        .padding(end = 8.dp)
+                        .weight(1f),
+                    mealCalories = state.mealCaloriesInput,
+                    onValueChange = listener::onMealCaloriesChanged
+                )
 
-                    MealCaloriesInputField(
+                Box(modifier = Modifier.weight(1f)) {
+                    InputField(
+                        value = stringResource(state.selectedMeal.displayName),
+                        onValueChange = {},
+                        trailingIcon = Res.drawable.ic_arrow_down,
+                        onTrailingIconClick = listener::onToggleMealTypeMenu,
+                        trailingIconModifier = arrowRotationModifier,
+                        readOnly = true
+                    )
+                    DropdownMenu(
+                        items = mealTypeOptions.values.toList(),
+                        selectedItem = mealTypeOptions[state.selectedMeal] ?: "",
+                        expanded = state.isMealTypeMenuExpanded,
+                        onItemClicked = { selected ->
+                            val selectedType =
+                                mealTypeOptions.entries.first { it.value == selected }.key
+                            listener.onMealTypeSelected(selectedType)
+                        },
+                        onDismissRequest = {},
                         modifier = Modifier
-                            .padding(end = 8.dp)
-                            .weight(1f),
-                        mealCalories = state.mealCaloriesInput,
-                        onValueChange = nutritionViewModel::onMealCaloriesChanged)
-
-                    Box(modifier = Modifier.weight(1f)) {
-                        InputField(
-                            value = stringResource(state.selectedMeal.displayName),
-                            onValueChange = {},
-                            trailingIcon = Res.drawable.ic_arrow_down,
-                            onTrailingIconClick = nutritionViewModel::onToggleMealTypeMenu,
-                            trailingIconModifier = arrowRotationModifier,
-                            readOnly = true
-                        )
-                        DropdownMenu(
-                            items = mealTypeOptions.values.toList(),
-                            selectedItem = mealTypeOptions[state.selectedMeal] ?: "",
-                            expanded = state.isMealTypeMenuExpanded,
-                            onItemClicked = { selected ->
-                                val selectedType =
-                                    mealTypeOptions.entries.first { it.value == selected }.key
-                                nutritionViewModel.onMealTypeSelected(selectedType)
-                            },
-                            onDismissRequest = {},
-                            modifier = Modifier
-                                .align(Alignment.TopStart)
-                                .fillMaxWidth()
-                                .padding(top = 48.dp)
-                        )
-                    }
+                            .align(Alignment.TopStart)
+                            .fillMaxWidth()
+                            .padding(top = 48.dp)
+                    )
                 }
-                PrimaryButton(
-                    modifier = Modifier
-                        .padding(top = 40.dp, bottom = 16.dp),
-                    text = stringResource(Res.string.add_button),
-                    isEnabled = state.isAddButtonEnabled,
-                    onClick = {
-                        nutritionViewModel.onConfirmAddMealClicked(
-                            NutritionScreenState.MealHistory(
-                                name = state.mealNameInput,
-                                type = state.selectedMeal,
-                                calories = state.mealCaloriesInput.toInt()
-                            )
-                        )
-                    })
             }
+            PrimaryButton(
+                modifier = Modifier
+                    .padding(top = 40.dp, bottom = 16.dp),
+                text = stringResource(Res.string.add_button),
+                isEnabled = state.isAddButtonEnabled,
+                onClick = {
+                    listener.onConfirmAddMealClicked(
+                        NutritionScreenState.MealHistory(
+                            name = state.mealNameInput,
+                            type = state.selectedMeal,
+                            calories = state.mealCaloriesInput.toInt()
+                        )
+                    )
+                })
         }
     }
 }

@@ -77,6 +77,7 @@ fun NutritionScreen(
     navigateToMealsHistory: () -> Unit,
     nutritionViewModel: NutritionViewModel = koinViewModel()
 ) {
+    val state by nutritionViewModel.screenState.collectAsState()
     ObserveAsEffect(nutritionViewModel.effect) { effect ->
         when (effect) {
             NutritionEffect.NavigateToMealHistory -> {
@@ -92,12 +93,14 @@ fun NutritionScreen(
             }
         }
     }
-    NutritionScreenContent(nutritionViewModel)
+    NutritionScreenContent(state = state, listener = nutritionViewModel)
 }
 
 @Composable
-private fun NutritionScreenContent(nutritionViewModel: NutritionViewModel) {
-    val state by nutritionViewModel.screenState.collectAsState()
+private fun NutritionScreenContent(
+    state: NutritionScreenState,
+    listener: NutritionInteractionListener
+) {
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier
@@ -105,36 +108,24 @@ private fun NutritionScreenContent(nutritionViewModel: NutritionViewModel) {
                 .background(Theme.color.surfaces.surface)
         ) {
             stickyHeader {
-                Row(
-                    modifier = Modifier
-                        .padding(bottom = 16.dp)
-                        .fillMaxWidth()
-                        .background(Theme.color.surfaces.surface),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .windowInsetsPadding(WindowInsets.statusBars)
-                            .padding(vertical = 14.5.dp),
-                        text = stringResource(Res.string.nutrition),
-                        style = Theme.textStyle.title.largeBold16,
-                        color = Theme.color.surfaces.onSurface
-                    )
-                }
+                NutritionHeader()
             }
+            item { NutritionSummaryCard(listener = listener, state = state) }
+            item { ScanMeal() }
             item {
-                NutritionSummaryCard(listener = nutritionViewModel, state = state)
-                ScanMeal()
                 TodayMeals(
                     state = state,
-                    listener = nutritionViewModel
+                    listener = listener
                 )
+            }
+            item {
                 SuggestedMeals(
                     state = state,
-                    listener = nutritionViewModel
+                    listener = listener
                 )
-                MealHistoryViewAll(listener = nutritionViewModel)
-
+            }
+            item {
+                MealHistoryViewAll(listener = listener)
             }
             if (state.mealHistory.isNotEmpty()) {
                 items(state.mealHistory) { mealHistory ->
@@ -155,20 +146,40 @@ private fun NutritionScreenContent(nutritionViewModel: NutritionViewModel) {
         }
         AddWaterIntakeBottomSheet(
             modifier = Modifier.align(Alignment.BottomCenter),
-            listener = nutritionViewModel,
+            listener = listener,
             state = state
         )
         MealTypeDropdownMenu(
-            state = state, nutritionViewModel = nutritionViewModel, Modifier.align(
-                Alignment.BottomCenter
-            )
+            state = state,
+            listener = listener,
+            Modifier
+                .align(Alignment.BottomCenter)
         )
         MealAddedSnackBar(
             modifier = Modifier.align(Alignment.BottomCenter),
             isVisible = state.isAddMealSnackBarVisible,
-            listener = nutritionViewModel
         )
 
+    }
+}
+
+@Composable
+private fun NutritionHeader() {
+    Row(
+        modifier = Modifier
+            .padding(bottom = 16.dp)
+            .fillMaxWidth()
+            .background(Theme.color.surfaces.surface),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier
+                .windowInsetsPadding(WindowInsets.statusBars),
+            text = stringResource(Res.string.nutrition),
+            style = Theme.textStyle.title.largeBold16,
+            color = Theme.color.surfaces.onSurface
+        )
     }
 }
 
@@ -206,32 +217,44 @@ private fun ScanMeal(modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .clip(CircleShape)
+                    .background(Theme.color.surfaces.surfaceVariant),
                 painter = painterResource(Res.drawable.ic_scan),
                 contentDescription = null,
                 tint = Color.Unspecified
             )
         }
-        Column(
+        ScanMealTextBlock(
             modifier = Modifier
                 .padding(horizontal = 8.dp)
-                .fillMaxWidth().weight(1f),
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = "Scan Meal",
-                style = Theme.textStyle.title.largeBold14,
-                color = Theme.color.surfaces.onSurfaceContainer
-            )
-            Text(
-                text = "Take a picture of your meal to count calories.",
-                style = Theme.textStyle.body.mediumMedium12,
-                color = Theme.color.surfaces.outline
-            )
-        }
+                .fillMaxWidth()
+                .weight(1f),
+        )
         Icon(
             painter = painterResource(Res.drawable.ic_end_arrow),
             contentDescription = null,
             tint = Color.Unspecified
+        )
+    }
+}
+
+@Composable
+fun ScanMealTextBlock(modifier: Modifier) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Scan Meal",
+            style = Theme.textStyle.title.largeBold14,
+            color = Theme.color.surfaces.onSurfaceContainer
+        )
+        Text(
+            text = "Take a picture of your meal to count calories.",
+            style = Theme.textStyle.body.mediumMedium12,
+            color = Theme.color.surfaces.outline
         )
     }
 }
@@ -258,8 +281,9 @@ fun SeeAll(
             color = Theme.color.surfaces.onSurfaceVariant
         )
         Icon(
-            modifier = Modifier.padding(start = 4.dp)
-                .clickable(onClick = { onViewAllClick() }),
+            modifier = Modifier
+                .clickable(onClick = { onViewAllClick() })
+                .padding(start = 4.dp),
             painter = painterResource(Res.drawable.ic_end_arrow),
             contentDescription = null,
             tint = Color.Unspecified
@@ -273,64 +297,50 @@ private fun AddWaterIntakeBottomSheet(
     listener: NutritionInteractionListener,
     modifier: Modifier = Modifier
 ) {
-
-    AnimatedVisibility(
-        modifier = modifier.fillMaxWidth(),
-        visible = state.isAddWaterSheetVisible,
-        enter = fadeIn(),
-        exit = fadeOut()
-    ) {
-        BottomSheet(
-            isVisible = state.isAddWaterSheetVisible,
-            onDismiss = { listener.onDismissWaterClicked() }) {
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = stringResource(Res.string.enter_water_intake),
-                    style = Theme.textStyle.title.largeBold14,
-                    color = Theme.color.surfaces.onSurfaceContainer
-                )
-                Text(
-                    text = stringResource(Res.string.track_water_intake),
-                    style = Theme.textStyle.body.mediumMedium12,
-                    color = Theme.color.surfaces.outline
-                )
-                InputField(
-                    modifier = Modifier.padding(top = 16.dp),
-                    value = state.waterAmountInput,
-                    onValueChange =listener::onWaterAmountChange,
-                    keyboardType = KeyboardType.Number,
-                    placeholder = "e.g., 1.5 L",
-                    leadingIcon = Res.drawable.ic_water_drop
-                )
-                PrimaryButton(
-                    modifier = Modifier.padding(top = 40.dp, bottom = 16.dp),
-                    text = stringResource(Res.string.add_button),
-                    isEnabled = state.isAddButtonEnabled,
-                    onClick = {
-                        listener.onConfirmAddWaterClicked(state.waterAmountInput.toFloat())
-                    })
-            }
+    BottomSheet(
+        isVisible = state.isAddWaterSheetVisible,
+        onDismiss = { listener.onDismissWaterClicked() }) {
+        Column(
+            modifier = modifier
+                .padding(horizontal = 8.dp)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = stringResource(Res.string.enter_water_intake),
+                style = Theme.textStyle.title.largeBold14,
+                color = Theme.color.surfaces.onSurfaceContainer
+            )
+            Text(
+                text = stringResource(Res.string.track_water_intake),
+                style = Theme.textStyle.body.mediumMedium12,
+                color = Theme.color.surfaces.outline
+            )
+            InputField(
+                modifier = Modifier.padding(top = 16.dp),
+                value = state.waterAmountInput,
+                onValueChange = listener::onWaterAmountChange,
+                keyboardType = KeyboardType.Number,
+                placeholder = "e.g., 1.5 L",
+                leadingIcon = Res.drawable.ic_water_drop
+            )
+            PrimaryButton(
+                modifier = Modifier.padding(top = 40.dp, bottom = 16.dp),
+                text = stringResource(Res.string.add_button),
+                isEnabled = state.isAddButtonEnabled,
+                onClick = {
+                    listener.onConfirmAddWaterClicked(state.waterAmountInput.toFloat())
+                })
         }
     }
+
 }
 
 @Composable
 private fun MealAddedSnackBar(
     isVisible: Boolean,
-    listener: NutritionInteractionListener,
     modifier: Modifier = Modifier
 ) {
-    LaunchedEffect(isVisible) {
-        if (!isVisible) return@LaunchedEffect
-        delay(2000)
-        listener.onSnackBarHided()
-    }
-
     SnackBar(
         modifier = modifier,
         text = stringResource(Res.string.meal_added_snackbar),
