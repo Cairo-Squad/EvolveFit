@@ -22,7 +22,7 @@ data class RegisterScreenState(
     val selectedHeight: Float = 0F,
     val selectedWeight: Float = 0F,
     val nextButtonEnabled: Boolean = true,
-    val selectedGender: Gender? = Gender.Male,
+    val selectedGender: Gender? = null,
     val selectedMeasurementUnit: MeasurementUnit? = null,
     val selectedGoal: Goal? = null,
     val isWaterReminderEnabled: Boolean = false,

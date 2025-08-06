@@ -36,20 +36,21 @@ class RegisterViewModel :
         updateState { it.copy(selectedWeight = weight) }
     }
 
-    override fun onWorkoutReminderToggled(enabled: Boolean) {
-        updateState { it.copy(isWorkoutReminderEnabled = enabled) }
-    }
-
-    override fun onWaterReminderToggled(enabled: Boolean) {
-        updateState { it.copy(isWaterReminderEnabled = enabled) }
-    }
-
-    override fun onBodyWeightReminderToggled(enabled: Boolean) {
-        updateState { it.copy(isBodyWeightReminderEnabled = enabled) }
-    }
-
-    override fun onChallengesReminderToggled(enabled: Boolean) {
-        updateState { it.copy(isChallengesReminderEnabled = enabled) }
+    override fun onNotificationToggled(type: NotificationType) {
+        when (type) {
+            is NotificationType.Workout -> {
+                updateState { it.copy(isWorkoutReminderEnabled = !it.isWorkoutReminderEnabled) }
+            }
+            is NotificationType.Water -> {
+                updateState { it.copy(isWaterReminderEnabled = !it.isWaterReminderEnabled) }
+            }
+            is NotificationType.BodyWeight -> {
+                updateState { it.copy(isBodyWeightReminderEnabled = !it.isBodyWeightReminderEnabled) }
+            }
+            is NotificationType.Challenges -> {
+                updateState { it.copy(isChallengesReminderEnabled = !it.isChallengesReminderEnabled) }
+            }
+        }
     }
 
     override fun onWorkoutDaySelected(day: RegisterScreenState.WorkoutDay) {
