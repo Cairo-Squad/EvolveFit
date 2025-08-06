@@ -34,6 +34,7 @@ fun RegisterScreenContentSelectGender(
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         RegisterHeader(
+            modifier = Modifier.padding(top = 16.dp),
             title = stringResource(Res.string.select_gender_title),
             description = stringResource(Res.string.select_gender_description)
         )

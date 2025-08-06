@@ -47,7 +47,6 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.viewmodel.register.NotificationType
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -152,7 +151,7 @@ private fun RegisterScreenContentSelectHeightAndWeightPreview() {
                         println("Weight changed to: $weight")
                     }
 
-                    override fun onNotificationToggled(type: NotificationType) {
+                    override fun onNotificationToggled(type: RegisterScreenState.NotificationType) {
                         TODO("Not yet implemented")
                     }
 

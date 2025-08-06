@@ -29,52 +29,66 @@ fun RegisterScreenContentSelectYourTools(
     state: RegisterScreenState,
     listener: RegisterInteractionListener,
     modifier: Modifier = Modifier
-){
+) {
     Column(
         modifier = modifier
             .padding(top = 16.dp)
+            .padding(horizontal = 16.dp)
             .fillMaxSize()
     ) {
         RegisterHeader(
-            title =stringResource(Res.string.your_tools_title),
+            title = stringResource(Res.string.your_tools_title),
             description = stringResource(Res.string.your_tools_description)
         )
         CheckboxItem(
-            modifier = Modifier.padding(horizontal = 16.dp).padding(top = 16.dp),
-            text =stringResource(Res.string.no_tools_title),
-            description =stringResource(Res.string.no_tools_description),
+            modifier = Modifier.padding(top = 16.dp),
+            text = stringResource(Res.string.no_tools_title),
+            description = stringResource(Res.string.no_tools_description),
             isChecked = state.isNoEquipmentSelected,
             onCheckedChange = { listener.onNoEquipmentSelected() },
             style = CheckboxStyle.Tick
         )
 
         Text(
-            modifier = Modifier.padding(horizontal = 16.dp).padding(top = 24.dp, bottom = 12.dp),
+            modifier = Modifier.padding(top = 24.dp, bottom = 12.dp),
             text = stringResource(Res.string.or_select_one_or_more),
-            color =Theme.color.surfaces.onSurfaceVariant,
+            color = Theme.color.surfaces.onSurfaceVariant,
             style = Theme.textStyle.label.smallRegular14,
         )
-        LazyColumn(
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(bottom = 12.dp)
-        ) {
-            items(state.availableEquipments) { equipment ->
-                val isSelected = state.selectedEquipments.contains(equipment.name)
-                val isEnabled = !state.isNoEquipmentSelected
-                CheckboxItem(
-                    text =  equipment.name,
-                    isChecked = isSelected,
-                    onCheckedChange = {
-                        if (isEnabled) {
-                            listener.onEquipmentToggled(equipment.name)
-                        }
-                    },
-                    style = CheckboxStyle.Tick
-                )
-            }
+        EquipmentsSection(
+            modifier = modifier.fillMaxSize(),
+            listener = listener,
+            state = state,
+        )
+
+    }
+}
+
+@Composable
+fun EquipmentsSection(
+    state: RegisterScreenState,
+    listener: RegisterInteractionListener,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(bottom = 12.dp)
+    ) {
+        items(state.availableEquipments) { equipment ->
+            val isSelected = state.selectedEquipments.contains(equipment.name)
+            val isEnabled = !state.isNoEquipmentSelected
+            CheckboxItem(
+                text = equipment.name,
+                isChecked = isSelected,
+                onCheckedChange = {
+                    if (isEnabled) {
+                        listener.onEquipmentToggled(equipment.name)
+                    }
+                },
+                style = CheckboxStyle.Tick
+            )
         }
     }
 }

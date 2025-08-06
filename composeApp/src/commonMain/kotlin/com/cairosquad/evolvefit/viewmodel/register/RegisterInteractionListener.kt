@@ -13,7 +13,7 @@ interface RegisterInteractionListener {
     fun onGoalClicked(goal: Goal)
     fun onHeightChanged(height: Float)
     fun onWeightChanged(weight: Float)
-    fun onNotificationToggled(type: NotificationType)
+    fun onNotificationToggled(type: RegisterScreenState.NotificationType)
     fun onWorkoutDaySelected(day: RegisterScreenState.WorkoutDay)
     fun onNoEquipmentSelected()
     fun onEquipmentToggled(equipmentId: String)

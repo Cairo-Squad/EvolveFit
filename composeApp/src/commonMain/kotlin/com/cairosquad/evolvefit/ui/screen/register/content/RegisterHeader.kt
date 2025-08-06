@@ -24,7 +24,7 @@ fun RegisterHeader(
     descriptionStyle: TextStyle = Theme.textStyle.label.smallRegular14
 ) {
     Column(
-        modifier = modifier.padding(horizontal = 16.dp).fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Text(
             text = title,

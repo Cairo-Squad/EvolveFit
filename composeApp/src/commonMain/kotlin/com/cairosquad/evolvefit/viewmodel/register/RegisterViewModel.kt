@@ -36,20 +36,31 @@ class RegisterViewModel :
         updateState { it.copy(selectedWeight = weight) }
     }
 
-    override fun onNotificationToggled(type: NotificationType) {
-        when (type) {
-            is NotificationType.Workout -> {
-                updateState { it.copy(isWorkoutReminderEnabled = !it.isWorkoutReminderEnabled) }
+    override  fun onNotificationToggled(type: RegisterScreenState.NotificationType) {
+        updateState { state ->
+            val updatedSettings = when (type) {
+                is RegisterScreenState.NotificationType.Workout -> {
+                    state.notificationSettings.copy(
+                        isWorkoutReminderEnabled = !state.notificationSettings.isWorkoutReminderEnabled
+                    )
+                }
+                is RegisterScreenState.NotificationType.Water -> {
+                    state.notificationSettings.copy(
+                        isWaterReminderEnabled = !state.notificationSettings.isWaterReminderEnabled
+                    )
+                }
+                is RegisterScreenState.NotificationType.BodyWeight -> {
+                    state.notificationSettings.copy(
+                        isBodyWeightReminderEnabled = !state.notificationSettings.isBodyWeightReminderEnabled
+                    )
+                }
+                is RegisterScreenState.NotificationType.Challenges -> {
+                    state.notificationSettings.copy(
+                        isChallengesReminderEnabled = !state.notificationSettings.isChallengesReminderEnabled
+                    )
+                }
             }
-            is NotificationType.Water -> {
-                updateState { it.copy(isWaterReminderEnabled = !it.isWaterReminderEnabled) }
-            }
-            is NotificationType.BodyWeight -> {
-                updateState { it.copy(isBodyWeightReminderEnabled = !it.isBodyWeightReminderEnabled) }
-            }
-            is NotificationType.Challenges -> {
-                updateState { it.copy(isChallengesReminderEnabled = !it.isChallengesReminderEnabled) }
-            }
+            state.copy(notificationSettings = updatedSettings)
         }
     }
 
@@ -129,8 +140,8 @@ class RegisterViewModel :
             2 -> state.selectedMeasurementUnit != null
             3 -> true
             4 -> state.selectedGoal != null
-            5->state.isNoEquipmentSelected || state.selectedEquipments.isNotEmpty()
-            6->true
+            5 -> state.isNoEquipmentSelected || state.selectedEquipments.isNotEmpty()
+            6 -> true
             7 -> state.selectedWorkoutDays.isNotEmpty()
             else -> false
         }

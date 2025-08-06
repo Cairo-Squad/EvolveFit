@@ -38,6 +38,7 @@ fun RegisterScreenContentChooseYourGoal(
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         RegisterHeader(
+            modifier = Modifier.padding(top = 16.dp),
             title = stringResource(Res.string.select_goal_title),
             description = stringResource(Res.string.select_goal_description)
         )

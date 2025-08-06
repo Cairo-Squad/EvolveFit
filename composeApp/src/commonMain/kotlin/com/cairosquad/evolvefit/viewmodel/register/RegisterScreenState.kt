@@ -25,10 +25,7 @@ data class RegisterScreenState(
     val selectedGender: Gender? = null,
     val selectedMeasurementUnit: MeasurementUnit? = null,
     val selectedGoal: Goal? = null,
-    val isWaterReminderEnabled: Boolean = false,
-    val isWorkoutReminderEnabled: Boolean = false,
-    val isBodyWeightReminderEnabled: Boolean = false,
-    val isChallengesReminderEnabled: Boolean = false,
+    val notificationSettings: NotificationSettings = NotificationSettings(),
     val selectedWorkoutDays: List<WorkoutDay> = emptyList(),
     val isNoEquipmentSelected: Boolean = false,
     val availableEquipments: List<Equipment> = emptyList(),
@@ -60,4 +57,19 @@ data class RegisterScreenState(
         val name: String = "",
         val isSelected: Boolean = false
     )
+
+    data class NotificationSettings(
+        val isWaterReminderEnabled: Boolean = false,
+        val isWorkoutReminderEnabled: Boolean = false,
+        val isBodyWeightReminderEnabled: Boolean = false,
+        val isChallengesReminderEnabled: Boolean = false,
+    )
+
+    sealed class NotificationType {
+        object Workout : NotificationType()
+        object Water : NotificationType()
+        object BodyWeight : NotificationType()
+        object Challenges : NotificationType()
+    }
+
 }

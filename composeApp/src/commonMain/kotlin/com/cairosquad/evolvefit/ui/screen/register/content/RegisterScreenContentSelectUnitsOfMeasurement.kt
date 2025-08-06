@@ -34,6 +34,7 @@ fun RegisterScreenContentSelectUnitsOfMeasurement(
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         RegisterHeader(
+            modifier = Modifier.padding(top = 16.dp),
             title = stringResource(Res.string.select_unit_title),
             description = stringResource(Res.string.select_unit_description)
         )
