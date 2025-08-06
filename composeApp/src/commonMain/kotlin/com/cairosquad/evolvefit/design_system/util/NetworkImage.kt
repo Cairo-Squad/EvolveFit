@@ -17,7 +17,7 @@ import coil3.compose.AsyncImage
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.ic_default_image
+import evolvefit.composeapp.generated.resources.im_img
 import evolvefit.composeapp.generated.resources.placeholder_image
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -52,7 +52,7 @@ fun NetworkImage(
                             ?.let { Modifier.size(it) }
                             ?: Modifier.fillMaxSize()
                     ),
-                painter = painterResource(Res.drawable.ic_default_image),
+                painter = painterResource(Res.drawable.im_img),
                 contentDescription =
                     stringResource(Res.string.placeholder_image) + " :$contentDescription",
                 tint = Theme.color.surfaces.onSurfaceVariant

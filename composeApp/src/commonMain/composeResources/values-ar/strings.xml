@@ -76,4 +76,7 @@
     <string name="challenges_reminder_desc">إشعارات بالإنجازات والتحديات الجديدة.</string>
     <string name="workout_days_title">أيام التمرين</string>
     <string name="workout_days_description">كم مرة تود أن تتمرن؟</string>
+    <string name="user_profile">معلومات المستخدم</string>
+    <string name="user_profile_description">أدخل اسمك، تاريخ ميلادك، وأضف صورتك كي نبدأ</string>
+    <string name="upload_image">ارفع صورة</string>
 </resources>

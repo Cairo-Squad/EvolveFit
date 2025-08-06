@@ -78,4 +78,8 @@
     <string name="challenges_reminder_desc">About new achievements and challenges.</string>
     <string name="workout_days_title">Workout Days</string>
     <string name="workout_days_description">How often would you like to workout?</string>
+
+    <string name="user_profile">User Profile</string>
+    <string name="user_profile_description">Enter your name, date of birth, and add your photo to get started.</string>
+    <string name="upload_image">Upload image</string>
 </resources>
