@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.design_system.colors
 
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 data class ThemeColors(

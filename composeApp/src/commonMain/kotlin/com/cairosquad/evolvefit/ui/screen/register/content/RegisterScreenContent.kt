@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.register.content
 
+import RegisterScreenContentSelectHeightAndWeight
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,22 +28,17 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.next
 import evolvefit.composeapp.generated.resources.start_now
 import org.jetbrains.compose.resources.stringResource
-
 @Composable
 fun RegisterScreenContent(
     state: RegisterScreenState,
     listener: RegisterInteractionListener,
 ) {
-
     val pagerState = rememberPagerState(
         initialPage = 0,
         pageCount = { RegisterViewModel.MAX_STEPS }
     )
-
     var previousPage by remember { mutableStateOf(0) }
-
     val currentStepIndex = state.currentStep - 1
-
     LaunchedEffect(currentStepIndex) {
         if (currentStepIndex == pagerState.currentPage) return@LaunchedEffect
         if (currentStepIndex == previousPage) return@LaunchedEffect
@@ -53,16 +49,13 @@ fun RegisterScreenContent(
             previousPage = currentStepIndex
         }
     }
-
     LaunchedEffect(pagerState.isScrollInProgress) {
         if (pagerState.isScrollInProgress) return@LaunchedEffect
         if (currentStepIndex == pagerState.currentPage) return@LaunchedEffect
         if (currentStepIndex != previousPage) return@LaunchedEffect
         if (pagerState.currentPage == previousPage) return@LaunchedEffect
         previousPage = pagerState.currentPage
-        listener.onSelectStep(pagerState.currentPage + 1)
     }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -74,14 +67,13 @@ fun RegisterScreenContent(
             currentStep = state.currentStep,
             totalSteps = RegisterViewModel.MAX_STEPS,
             onBackClick = listener::onClickBack,
-            onClickStep = listener::onSelectStep
         )
-
         HorizontalPager(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
-            state = pagerState
+            state = pagerState,
+            userScrollEnabled = false
         ) { pageIndex ->
             when (pageIndex) {
                 0 -> RegisterScreenContentSelectGender(state, listener)
@@ -94,7 +86,6 @@ fun RegisterScreenContent(
                 7 -> RegisterScreenContentUserNamePasswordDateOfBirth(state, listener)
             }
         }
-
         PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
