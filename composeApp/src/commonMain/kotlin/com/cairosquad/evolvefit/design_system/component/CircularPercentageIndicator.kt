@@ -44,7 +44,10 @@ fun CircularPercentageIndicator(
     backgroundColor: Color = Theme.color.surfaces.surfaceContainer,
     buttonClickable: Boolean = false
 ) {
-    val percentage = (currentValue / totalValue).coerceIn(0f, 1f)
+    val percentage = (currentValue / totalValue)
+        .takeIf { it.isFinite() }
+        ?.coerceIn(0f, 1f)
+        ?: 0f
 
     Box(
         modifier = modifier

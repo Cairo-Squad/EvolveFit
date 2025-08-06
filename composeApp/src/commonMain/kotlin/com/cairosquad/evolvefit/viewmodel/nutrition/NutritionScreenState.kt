@@ -21,10 +21,21 @@ data class NutritionScreenState(
     val isAddMealSheetVisible: Boolean = false,
     val isAddMealSnackBarVisible: Boolean = false,
     val isDroppedMenuVisible: Boolean = false,
-    val mealTypeSelected: MealType = MealType.Breakfast,
+    val isMealTypeMenuExpanded: Boolean = false,
+    val isAddButtonEnabled: Boolean = false,
     val isLoading: Boolean = false,
+    val mealNameInput: String = "",
+    val mealCaloriesInput: String = "",
+    val waterAmountInput: String = "",
+    val selectedMeal: MealType = MealType.Breakfast,
     val errorMessage: String? = null,
 ) {
+    data class TodayMeal(
+        val type: MealType = MealType.Breakfast,
+        val calories: Int = 0,
+        val icon: DrawableResource
+    )
+
     data class SuggestedMeal(
         val name: String = "",
         val type: MealType = MealType.Breakfast,
@@ -37,12 +48,6 @@ data class NutritionScreenState(
         val type: MealType = MealType.Breakfast,
         val calories: Int = 0,
         val date: String = ""
-    )
-
-    data class TodayMeal(
-        val type: MealType = MealType.Breakfast,
-        val calories: Int = 0,
-        val icon: DrawableResource
     )
 
     enum class MealType(val displayName: StringResource) {

@@ -24,7 +24,9 @@ fun SuggestedMeals(
     modifier: Modifier = Modifier
 ) {
     SeeAll(
-        onViewAllClick = { listener.onViewAllSuggestedMealsClicked() },
+        onViewAllClick = {
+            listener.onViewAllSuggestedMealsClicked()
+        },
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .padding(top = 32.dp, bottom = 12.dp),

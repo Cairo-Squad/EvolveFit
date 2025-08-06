@@ -273,11 +273,7 @@ private fun AddWaterIntakeBottomSheet(
     listener: NutritionInteractionListener,
     modifier: Modifier = Modifier
 ) {
-    var waterAmount by remember { mutableStateOf("") }
-    var buttonIsEnabled by remember { mutableStateOf(false) }
-    LaunchedEffect(waterAmount) {
-        buttonIsEnabled = waterAmount.isNotBlank()
-    }
+
     AnimatedVisibility(
         modifier = modifier.fillMaxWidth(),
         visible = state.isAddWaterSheetVisible,
@@ -305,8 +301,8 @@ private fun AddWaterIntakeBottomSheet(
                 )
                 InputField(
                     modifier = Modifier.padding(top = 16.dp),
-                    value = waterAmount,
-                    onValueChange = { waterAmount = it },
+                    value = state.waterAmountInput,
+                    onValueChange =listener::onWaterAmountChange,
                     keyboardType = KeyboardType.Number,
                     placeholder = "e.g., 1.5 L",
                     leadingIcon = Res.drawable.ic_water_drop
@@ -314,10 +310,9 @@ private fun AddWaterIntakeBottomSheet(
                 PrimaryButton(
                     modifier = Modifier.padding(top = 40.dp, bottom = 16.dp),
                     text = stringResource(Res.string.add_button),
-                    isEnabled = buttonIsEnabled,
+                    isEnabled = state.isAddButtonEnabled,
                     onClick = {
-                        listener.onConfirmAddWaterClicked(waterAmount.toFloat())
-                        waterAmount = ""
+                        listener.onConfirmAddWaterClicked(state.waterAmountInput.toFloat())
                     })
             }
         }
