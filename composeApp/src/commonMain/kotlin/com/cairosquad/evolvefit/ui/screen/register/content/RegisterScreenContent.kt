@@ -81,7 +81,7 @@ fun RegisterScreenContent(
                 2 -> RegisterScreenContentSelectHeightAndWeight(state, listener)
                 3 -> RegisterScreenContentChooseYourGoal(state, listener)
                 4 -> RegisterScreenContentSelectYourTools(state, listener)
-                5 -> RegisterScreenContentSelectNotificationSittings(state, listener)
+                5 -> RegisterScreenContentSelectNotificationSettings(state, listener)
                 6 -> RegisterScreenContentSelectWorkoutDays(state, listener)
                 7 -> RegisterScreenContentUserNamePasswordDateOfBirth(state, listener)
             }
