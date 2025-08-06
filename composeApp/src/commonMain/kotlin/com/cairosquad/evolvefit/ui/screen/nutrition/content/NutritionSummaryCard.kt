@@ -55,7 +55,7 @@ fun NutritionSummaryCard(
             CircularPercentageIndicator(
                 modifier = Modifier.weight(1f),
                 title = stringResource(Res.string.water),
-                onAddWaterClick = { listener.onAddWaterClicked() },
+                onActionButtonClicked = { listener.onAddWaterClicked() },
                 currentValue =state.waterConsumedLiters,
                 totalValue = state.waterGoalLiters,
                 unit = stringResource(Res.string.liter_unit),
