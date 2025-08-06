@@ -59,4 +59,9 @@
     <string name="exercise_ball">كرة التمارين</string>
     <string name="jump_rope">حبل القفز</string>
     <string name="suspension_trainer">حبال التعليق</string>
+    <string name="your_tools_title">معداتك</string>
+    <string name="your_tools_description">اختر المعدات التي تمتلكها وسنخصص خطة تدريبك بناءً على ذلك.</string>
+    <string name="no_tools_title">بدون معدات</string>
+    <string name="no_tools_description">اعرض لي تمارين تعتمد على وزن الجسم فقط.</string>
+    <string name="or_select_one_or_more">أو اختر واحدة أو أكثر مما يلي:</string>
 </resources>

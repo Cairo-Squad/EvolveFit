@@ -61,4 +61,9 @@
     <string name="exercise_ball">Exercise Ball</string>
     <string name="jump_rope">Jump Rope</string>
     <string name="suspension_trainer">Suspension Trainer</string>
+    <string name="your_tools_title">Your Tools</string>
+    <string name="your_tools_description">Select which tools you have, and we’ll tailor your custom plan to reflect this.</string>
+    <string name="no_tools_title">No tools</string>
+    <string name="no_tools_description">Show me bodyweight - only workouts.</string>
+    <string name="or_select_one_or_more">Or select one or more of the following:</string>
 </resources>
