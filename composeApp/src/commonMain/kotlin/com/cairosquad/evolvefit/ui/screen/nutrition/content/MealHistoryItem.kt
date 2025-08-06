@@ -36,19 +36,15 @@ fun MealHistoryItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Box(
-            modifier = Modifier
-                .size(48.dp)
-                .clip(CircleShape)
-                .background(Theme.color.surfaces.outlineVariant),
-            contentAlignment = Alignment.Center
-        ) {
             Icon(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .background(Theme.color.surfaces.outlineVariant)
+                    .padding(10.dp),
                 painter = painterResource(meal.type.toMealIcon()),
                 contentDescription = null,
                 tint = Theme.color.brand.primary,
             )
-        }
         Column(
             modifier = Modifier
                 .weight(1f)
