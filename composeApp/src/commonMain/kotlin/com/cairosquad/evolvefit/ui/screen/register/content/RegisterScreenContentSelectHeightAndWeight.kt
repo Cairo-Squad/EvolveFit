@@ -151,6 +151,22 @@ private fun RegisterScreenContentSelectHeightAndWeightPreview() {
                         println("Weight changed to: $weight")
                     }
 
+                    override fun onNotificationToggled(type: RegisterScreenState.NotificationType) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onWorkoutDaySelected(day: RegisterScreenState.WorkoutDay) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onNoEquipmentSelected() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onEquipmentToggled(equipmentId: String) {
+                        TODO("Not yet implemented")
+                    }
+
                     override fun onClickNext() {
                         println("Next button clicked")
                     }

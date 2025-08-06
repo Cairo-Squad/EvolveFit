@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.onBoarding
+package com.cairosquad.evolvefit.ui.screen.register.content
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +14,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun OnboardingHeader(
+fun RegisterHeader(
     title: String,
     description: String,
     modifier: Modifier = Modifier,
@@ -24,7 +24,7 @@ fun OnboardingHeader(
     descriptionStyle: TextStyle = Theme.textStyle.label.smallRegular14
 ) {
     Column(
-        modifier = modifier.padding(horizontal = 16.dp).fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Text(
             text = title,
@@ -44,7 +44,7 @@ fun OnboardingHeader(
 @Composable
 private fun OnboardingHeaderPreview() {
     AppTheme(isDarkTheme = true) {
-        OnboardingHeader(
+        RegisterHeader(
             title = "Workout Days", description = "How often would you like to workout?"
         )
     }

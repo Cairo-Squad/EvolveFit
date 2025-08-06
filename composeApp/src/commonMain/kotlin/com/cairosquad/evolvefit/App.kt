@@ -1,23 +1,10 @@
 package com.cairosquad.evolvefit
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import coil3.compose.setSingletonImageLoaderFactory
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
-import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.screen.register.userProfileStep.UserProfileStep
-import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
+import com.cairosquad.evolvefit.ui.navigation.NavigationHost
 import io.github.vinceglb.filekit.coil.addPlatformFileSupport
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -32,30 +19,6 @@ fun App() {
             .build()
     }
     AppTheme {
-//        NavigationHost()
-        var image by remember { mutableStateOf<UiImage>(UiImage.ImageUrl("")) }
-        var isImagePickerOpen by remember { mutableStateOf(false) }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Theme.color.surfaces.surface)
-                .padding(16.dp),
-            contentAlignment = Alignment.Center
-        ) {
-//            UserProfileStep(
-//                image = image,
-//                isImagePickerOpen = isImagePickerOpen,
-//                onImagePickerClick = {
-//                    isImagePickerOpen = true
-//                },
-//                onImagePickerDismiss = {
-//                    isImagePickerOpen = false
-//                },
-//                onImageRetrieved = {
-//                    image = it
-//                    isImagePickerOpen = false
-//                }
-//            )
-        }
+        NavigationHost()
     }
 }

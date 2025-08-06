@@ -27,12 +27,87 @@ class RegisterViewModel :
         // TODO: call the register use case and Navigate to home screen if register is successful
         sendEffect(RegisterEffect.NavigateToHome)
     }
+
     override fun onHeightChanged(height: Float) {
-        updateState{ it.copy(selectedHeight = height) }
+        updateState { it.copy(selectedHeight = height) }
     }
 
     override fun onWeightChanged(weight: Float) {
         updateState { it.copy(selectedWeight = weight) }
+    }
+
+    override  fun onNotificationToggled(type: RegisterScreenState.NotificationType) {
+        updateState { state ->
+            val updatedSettings = when (type) {
+                is RegisterScreenState.NotificationType.Workout -> {
+                    state.notificationSettings.copy(
+                        isWorkoutReminderEnabled = !state.notificationSettings.isWorkoutReminderEnabled
+                    )
+                }
+                is RegisterScreenState.NotificationType.Water -> {
+                    state.notificationSettings.copy(
+                        isWaterReminderEnabled = !state.notificationSettings.isWaterReminderEnabled
+                    )
+                }
+                is RegisterScreenState.NotificationType.BodyWeight -> {
+                    state.notificationSettings.copy(
+                        isBodyWeightReminderEnabled = !state.notificationSettings.isBodyWeightReminderEnabled
+                    )
+                }
+                is RegisterScreenState.NotificationType.Challenges -> {
+                    state.notificationSettings.copy(
+                        isChallengesReminderEnabled = !state.notificationSettings.isChallengesReminderEnabled
+                    )
+                }
+            }
+            state.copy(notificationSettings = updatedSettings)
+        }
+    }
+
+    override fun onWorkoutDaySelected(day: RegisterScreenState.WorkoutDay) {
+        updateState {
+            val currentDays = it.selectedWorkoutDays
+            val updatedDays = if (day in currentDays) {
+                currentDays - day
+            } else {
+                currentDays + day
+            }
+            val newState = it.copy(selectedWorkoutDays = updatedDays)
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+        }
+    }
+
+    override fun onNoEquipmentSelected() {
+        updateState {
+            val isSelected = !it.isNoEquipmentSelected
+            it.copy(
+                isNoEquipmentSelected = isSelected,
+                selectedEquipments = if (isSelected) emptyList() else it.selectedEquipments,
+                nextButtonEnabled = updateNextButtonEnableState(
+                    it.copy(
+                        isNoEquipmentSelected = isSelected,
+                        selectedEquipments = if (isSelected) emptyList() else it.selectedEquipments
+                    )
+                )
+            )
+        }
+    }
+
+    override fun onEquipmentToggled(equipmentId: String) {
+        updateState {
+            val updatedSelection = it.selectedEquipments.toMutableList()
+            if (equipmentId in updatedSelection) {
+                updatedSelection.remove(equipmentId)
+            } else {
+                updatedSelection.add(equipmentId)
+            }
+
+            val newState = it.copy(
+                isNoEquipmentSelected = false,
+                selectedEquipments = updatedSelection
+            )
+            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+        }
     }
 
 
@@ -65,7 +140,9 @@ class RegisterViewModel :
             2 -> state.selectedMeasurementUnit != null
             3 -> true
             4 -> state.selectedGoal != null
-            5, 6, 7 -> true
+            5 -> state.isNoEquipmentSelected || state.selectedEquipments.isNotEmpty()
+            6 -> true
+            7 -> state.selectedWorkoutDays.isNotEmpty()
             else -> false
         }
     }
