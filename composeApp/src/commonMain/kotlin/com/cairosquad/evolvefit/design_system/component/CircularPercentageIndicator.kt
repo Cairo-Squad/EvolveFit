@@ -32,18 +32,22 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CircularPercentageIndicator(
-    modifier: Modifier = Modifier,
     title: String,
     currentValue: Float,
     totalValue: Float,
+    iconColor: Color,
+    progressColor: Color,
     unit: String = "",
+    modifier: Modifier = Modifier,
+    onActionButtonClicked: () -> Unit = {},
     icon: Painter = painterResource(Res.drawable.ic_fire),
-    iconColor: Color = Color.Blue,
-    progressColor: Color = Color(0xFF8BC34A),
     backgroundColor: Color = Theme.color.surfaces.surfaceContainer,
     buttonClickable: Boolean = false
 ) {
-    val percentage = (currentValue / totalValue).coerceIn(0f, 1f)
+    val percentage = (currentValue / totalValue)
+        .takeIf { it.isFinite() }
+        ?.coerceIn(0f, 1f)
+        ?: 0f
 
     Box(
         modifier = modifier
@@ -106,7 +110,7 @@ fun CircularPercentageIndicator(
                             .size(32.dp)
                             .clip(CircleShape)
                             .background(Theme.color.system.info)
-                            .clickable { },
+                            .clickable(onClick = { onActionButtonClicked() }, enabled = buttonClickable),
                         contentAlignment = Alignment.Center
 
                     ) {
