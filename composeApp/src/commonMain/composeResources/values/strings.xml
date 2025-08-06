@@ -66,4 +66,16 @@
     <string name="no_tools_title">No tools</string>
     <string name="no_tools_description">Show me bodyweight - only workouts.</string>
     <string name="or_select_one_or_more">Or select one or more of the following:</string>
+    <string name="notification_settings_title">Notification Settings</string>
+    <string name="notification_settings_description">Select the notifications you want to receive</string>
+    <string name="workout_reminder_title">Workout Reminder</string>
+    <string name="workout_reminder_desc">A reminder for your next workout session.</string>
+    <string name="water_reminder_title">Water Reminder</string>
+    <string name="water_reminder_desc">A reminder to drink water regularly.</string>
+    <string name="weight_reminder_title">Body Weight Reminder</string>
+    <string name="weight_reminder_desc">A reminder to log your weight weekly.</string>
+    <string name="challenges_reminder_title">Achievements &amp; Challenges</string>
+    <string name="challenges_reminder_desc">About new achievements and challenges.</string>
+    <string name="workout_days_title">Workout Days</string>
+    <string name="workout_days_description">How often would you like to workout?</string>
 </resources>

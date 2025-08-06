@@ -14,6 +14,9 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.SelectableDayBox
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.workout_days_description
+import evolvefit.composeapp.generated.resources.workout_days_title
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -29,8 +32,8 @@ fun RegisterScreenContentSelectWorkoutDays(
             .fillMaxSize()
     ) {
         RegisterHeader(
-            title = "Workout Days",
-            description = "How often would you like to workout?"
+            title = stringResource(Res.string.workout_days_title),
+            description = stringResource(Res.string.workout_days_description)
         )
 
         LazyVerticalGrid(

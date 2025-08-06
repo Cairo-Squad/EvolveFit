@@ -64,4 +64,16 @@
     <string name="no_tools_title">بدون معدات</string>
     <string name="no_tools_description">اعرض لي تمارين تعتمد على وزن الجسم فقط.</string>
     <string name="or_select_one_or_more">أو اختر واحدة أو أكثر مما يلي:</string>
+    <string name="notification_settings_title">إعدادات الإشعارات</string>
+    <string name="notification_settings_description">اختر الإشعارات التي ترغب في تلقيها</string>
+    <string name="workout_reminder_title">تذكير التمرين</string>
+    <string name="workout_reminder_desc">تذكير بجلسة التمرين القادمة.</string>
+    <string name="water_reminder_title">تذكير شرب الماء</string>
+    <string name="water_reminder_desc">تذكير بشرب الماء بانتظام.</string>
+    <string name="weight_reminder_title">تذكير الوزن</string>
+    <string name="weight_reminder_desc">تذكير بتسجيل الوزن أسبوعيًا.</string>
+    <string name="challenges_reminder_title">الإنجازات والتحديات</string>
+    <string name="challenges_reminder_desc">إشعارات بالإنجازات والتحديات الجديدة.</string>
+    <string name="workout_days_title">أيام التمرين</string>
+    <string name="workout_days_description">كم مرة تود أن تتمرن؟</string>
 </resources>
