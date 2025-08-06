@@ -36,7 +36,6 @@ fun MealHistoryItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-
         Box(
             modifier = Modifier
                 .size(48.dp)
@@ -67,7 +66,6 @@ fun MealHistoryItem(
                 color = Theme.color.surfaces.onSurfaceVariant
             )
         }
-
         Column(
             horizontalAlignment = Alignment.End
         ) {
@@ -77,7 +75,7 @@ fun MealHistoryItem(
                 color = Theme.color.brand.primary
             )
             Text(
-                text =stringResource( meal.type.displayName),
+                text = stringResource(meal.type.displayName),
                 style = Theme.textStyle.body.smallRegular10,
                 color = Theme.color.surfaces.onSurfaceVariant
             )

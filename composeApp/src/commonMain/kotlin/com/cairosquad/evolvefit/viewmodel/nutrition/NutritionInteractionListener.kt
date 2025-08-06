@@ -2,7 +2,7 @@ package com.cairosquad.evolvefit.viewmodel.nutrition
 
 interface NutritionInteractionListener {
     fun onAddWaterClicked()
-    fun onConfirmAddWaterClicked(waterAmount:Float)
+    fun onConfirmAddWaterClicked(waterAmount: Float)
     fun onDismissWaterClicked()
     fun onAddMealSheetClicked()
     fun onConfirmAddMealClicked(mealHistory: NutritionScreenState.MealHistory)
@@ -13,5 +13,4 @@ interface NutritionInteractionListener {
     fun onViewAllSuggestedMealsClicked()
     fun onSuggestedMealClicked(mealId: Long)
     fun onViewAllMealHistoryClicked()
-
 }

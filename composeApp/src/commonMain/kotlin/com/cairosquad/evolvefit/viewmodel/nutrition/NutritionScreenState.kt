@@ -9,8 +9,8 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 
 data class NutritionScreenState(
-    val caloriesConsumed: Int = 0,
-    val caloriesGoal: Int = 0,
+    val caloriesConsumed: Float = 0f,
+    val caloriesGoal: Float = 0f,
     val waterConsumedLiters: Float = 0f,
     val waterGoalLiters: Float = 0f,
     val remainingCalories: Float = 0f,

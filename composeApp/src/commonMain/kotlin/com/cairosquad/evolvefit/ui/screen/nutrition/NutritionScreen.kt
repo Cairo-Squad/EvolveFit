@@ -123,7 +123,7 @@ private fun NutritionScreenContent(nutritionViewModel: NutritionViewModel) {
                 }
             }
             item {
-                NutritionSummaryCard(listener = nutritionViewModel)
+                NutritionSummaryCard(listener = nutritionViewModel, state = state)
                 ScanMeal()
                 TodayMeals(
                     state = state,
@@ -147,7 +147,7 @@ private fun NutritionScreenContent(nutritionViewModel: NutritionViewModel) {
                             modifier = Modifier.padding(top = 16.dp, bottom = 12.dp),
                             image = painterResource(Res.drawable.im_no_meals_recorded),
                             title = stringResource(Res.string.no_meals_title),
-                            description =  stringResource(Res.string.no_meals_description)
+                            description = stringResource(Res.string.no_meals_description)
                         )
                     }
                 }

@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.composables.CircularPercentageIndicator
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
+import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.calories
 import evolvefit.composeapp.generated.resources.ic_fire
@@ -24,6 +25,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun NutritionSummaryCard(
+    state: NutritionScreenState,
     listener: NutritionInteractionListener,
     modifier: Modifier = Modifier,
 ) {
@@ -42,8 +44,8 @@ fun NutritionSummaryCard(
             CircularPercentageIndicator(
                 modifier = Modifier.weight(1f),
                 title = stringResource(Res.string.calories),
-                currentValue = 1200f,
-                totalValue = 2000f,
+                currentValue = state.caloriesConsumed,
+                totalValue = state.caloriesGoal,
                 unit = stringResource(Res.string.kcal_unit),
                 icon = painterResource(Res.drawable.ic_fire),
                 iconColor = Theme.color.system.success,
@@ -54,8 +56,8 @@ fun NutritionSummaryCard(
                 modifier = Modifier.weight(1f),
                 title = stringResource(Res.string.water),
                 onAddWaterClick = { listener.onAddWaterClicked() },
-                currentValue = 1.5856f,
-                totalValue = 3.10f,
+                currentValue =state.waterConsumedLiters,
+                totalValue = state.waterGoalLiters,
                 unit = stringResource(Res.string.liter_unit),
                 icon = painterResource(Res.drawable.ic_water_drop),
                 iconColor = Theme.color.system.info,

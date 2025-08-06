@@ -199,10 +199,6 @@ private fun MealCaloriesInputField(
     )
 }
 @Composable
-private fun MealTypeInputField(){
-
-}
-@Composable
 fun DropdownMenu(
     items: List<String>,
     selectedItem: String?,

@@ -54,7 +54,7 @@ fun SnackBar(
     AnimatedVisibility(
         modifier = modifier
             .navigationBarsPadding()
-            .padding( start = 16.dp, end = 16.dp),
+            .padding( horizontal = 16.dp),
         visible = isVisible,
         enter = slideInVertically {
             with(density) {
