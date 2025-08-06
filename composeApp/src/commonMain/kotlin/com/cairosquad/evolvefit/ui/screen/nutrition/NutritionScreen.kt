@@ -208,24 +208,16 @@ private fun ScanMeal(modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically
 
     ) {
-        Row(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(Theme.color.surfaces.surfaceVariant),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+
             Icon(
                 modifier = Modifier
-                    .padding(10.dp)
                     .clip(CircleShape)
-                    .background(Theme.color.surfaces.surfaceVariant),
+                    .background(Theme.color.surfaces.surfaceVariant)
+                    .padding(10.dp),
                 painter = painterResource(Res.drawable.ic_scan),
                 contentDescription = null,
                 tint = Color.Unspecified
             )
-        }
         ScanMealTextBlock(
             modifier = Modifier
                 .padding(horizontal = 8.dp)
