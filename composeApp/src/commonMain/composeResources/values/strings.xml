@@ -59,9 +59,21 @@
     <string name="no_meals_description">
     Start logging your meals to keep track of your daily calories and improve your nutrition habits.
 </string>
+    <string name="ready_to_start">Ready to Start</string>
+    <string name="do_you_have_an_account">Do you have an account?</string>
+    <string name="login">Login</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="language_selection_description">This language will be used throughout the app.</string>
+    <string name="arabic">Arabic</string>
+    <string name="english">English</string>
+    <string name="confirm">Confirm</string>
+
     <string name="cm">cm</string>
     <string name="kg">kg</string>
     <string name="ft">ft</string>
     <string name="lb">lb</string>
 
+    <string name="user_profile">User Profile</string>
+    <string name="user_profile_description">Enter your name, date of birth, and add your photo to get started.</string>
+    <string name="upload_image">Upload image</string>
 </resources>
