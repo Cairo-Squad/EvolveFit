@@ -37,7 +37,7 @@ fun RegisterScreenContentChooseYourGoal(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        OnboardingHeader(
+        RegisterHeader(
             title = stringResource(Res.string.select_goal_title),
             description = stringResource(Res.string.select_goal_description)
         )

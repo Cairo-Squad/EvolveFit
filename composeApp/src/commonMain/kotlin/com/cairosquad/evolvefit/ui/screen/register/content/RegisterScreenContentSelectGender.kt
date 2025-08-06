@@ -33,7 +33,7 @@ fun RegisterScreenContentSelectGender(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        OnboardingHeader(
+        RegisterHeader(
             title = stringResource(Res.string.select_gender_title),
             description = stringResource(Res.string.select_gender_description)
         )

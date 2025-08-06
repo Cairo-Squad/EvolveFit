@@ -8,10 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
 import com.cairosquad.evolvefit.design_system.component.CheckboxStyle
-import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun RegisterScreenContentSelectNotificationSittings(
@@ -20,7 +18,7 @@ fun RegisterScreenContentSelectNotificationSittings(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.padding(top = 16.dp).fillMaxSize()) {
-        OnboardingHeader(
+        RegisterHeader(
             title = "Notification Settings",
             description = "Select the notifications you want to receive"
         )

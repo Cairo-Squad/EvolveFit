@@ -28,7 +28,7 @@ fun RegisterScreenContentSelectWorkoutDays(
             .padding(top = 16.dp)
             .fillMaxSize()
     ) {
-        OnboardingHeader(
+        RegisterHeader(
             title = "Workout Days",
             description = "How often would you like to workout?"
         )

@@ -14,7 +14,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun OnboardingHeader(
+fun RegisterHeader(
     title: String,
     description: String,
     modifier: Modifier = Modifier,
@@ -44,7 +44,7 @@ fun OnboardingHeader(
 @Composable
 private fun OnboardingHeaderPreview() {
     AppTheme(isDarkTheme = true) {
-        OnboardingHeader(
+        RegisterHeader(
             title = "Workout Days", description = "How often would you like to workout?"
         )
     }
