@@ -77,7 +77,7 @@ fun MealHistoryItem(
                 color = Theme.color.brand.primary
             )
             Text(
-                text = meal.type.displayName,
+                text =stringResource( meal.type.displayName),
                 style = Theme.textStyle.body.smallRegular10,
                 color = Theme.color.surfaces.onSurfaceVariant
             )

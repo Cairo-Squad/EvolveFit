@@ -1,6 +1,12 @@
 package com.cairosquad.evolvefit.viewmodel.nutrition
 
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.meal_type_breakfast
+import evolvefit.composeapp.generated.resources.meal_type_dinner
+import evolvefit.composeapp.generated.resources.meal_type_lunch
+import evolvefit.composeapp.generated.resources.meal_type_snacks
 import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
 
 data class NutritionScreenState(
     val caloriesConsumed: Int = 0,
@@ -39,7 +45,10 @@ data class NutritionScreenState(
         val icon: DrawableResource
     )
 
-    enum class MealType(val displayName: String) {
-        Breakfast("Breakfast"), Lunch("Lunch"), Dinner("Dinner"), Snacks("Snacks")
+    enum class MealType(val displayName: StringResource) {
+        Breakfast(Res.string.meal_type_breakfast),
+        Lunch(Res.string.meal_type_lunch),
+        Dinner(Res.string.meal_type_dinner),
+        Snacks(Res.string.meal_type_snacks)
     }
 }

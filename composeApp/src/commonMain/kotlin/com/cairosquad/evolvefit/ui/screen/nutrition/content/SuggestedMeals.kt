@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.MealCard
+import com.cairosquad.evolvefit.ui.screen.nutrition.SeeAll
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -24,7 +25,9 @@ fun SuggestedMeals(
 ) {
     SeeAll(
         onViewAllClick = { listener.onViewAllSuggestedMealsClicked() },
-        modifier = Modifier.padding(horizontal = 16.dp).padding(top = 32.dp, bottom = 12.dp),
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .padding(top = 32.dp, bottom = 12.dp),
         sectionTitle = stringResource(Res.string.suggested_meals),
     )
     LazyRow(
@@ -33,7 +36,12 @@ fun SuggestedMeals(
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
         items(state.suggestedMeals) {
-            MealCard(title = it.name, mealType = it.type.displayName, calories = it.calories, model = it.imageUrl)
+            MealCard(
+                title = it.name,
+                mealType = stringResource(it.type.displayName),
+                calories = it.calories,
+                model = it.imageUrl
+            )
         }
     }
 }

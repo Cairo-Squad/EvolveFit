@@ -55,6 +55,10 @@
     <string name="enter_water_intake">Enter Water Intake</string>
     <string name="track_water_intake">Help us track your daily water intake to keep you hydrated.</string>
     <string name="meal_added_snackbar">Meal added to your history.</string>
+    <string name="no_meals_title">No meals recorded yet</string>
+    <string name="no_meals_description">
+    Start logging your meals to keep track of your daily calories and improve your nutrition habits.
+</string>
     <string name="cm">cm</string>
     <string name="kg">kg</string>
     <string name="ft">ft</string>

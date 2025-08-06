@@ -6,7 +6,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +33,6 @@ import com.cairosquad.evolvefit.design_system.component.CheckboxStyle
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
 import evolvefit.composeapp.generated.resources.Res
@@ -49,17 +47,14 @@ import evolvefit.composeapp.generated.resources.nutrition
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun MealTypeDropdown(
+fun MealTypeDropdownMenu(
     state: NutritionScreenState,
     nutritionViewModel: NutritionViewModel,
     modifier: Modifier = Modifier
 ) {
-    val options = listOf(
-        NutritionScreenState.MealType.Breakfast.displayName,
-        NutritionScreenState.MealType.Lunch.displayName,
-        NutritionScreenState.MealType.Dinner.displayName,
-        NutritionScreenState.MealType.Snacks.displayName,
-    )
+    val mealTypeOptions = NutritionScreenState.MealType.entries.associateWith {
+        stringResource(it.displayName)
+    }
     var isMealTypeMenuExpanded by remember { mutableStateOf(false) }
     var isAddButtonEnabled by remember { mutableStateOf(false) }
     var mealNameInput by remember { mutableStateOf("") }
@@ -79,7 +74,9 @@ fun MealTypeDropdown(
                 nutritionViewModel.onDismissMealClicked()
             }) {
             Column(
-                modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth(),
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth(),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
@@ -98,11 +95,15 @@ fun MealTypeDropdown(
                     onValueChange = { mealNameInput = it })
 
                 Row(
-                    modifier = Modifier.padding(top = 12.dp).fillMaxWidth()
+                    modifier = Modifier
+                        .padding(top = 12.dp)
+                        .fillMaxWidth()
                 ) {
 
                     MealCaloriesInputField(
-                        modifier = Modifier.padding(end = 8.dp).weight(1f),
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .weight(1f),
                         mealCalories = mealCaloriesInput,
                         onValueChange = { mealCaloriesInput = it })
 
@@ -118,7 +119,7 @@ fun MealTypeDropdown(
                             transformOrigin = TransformOrigin(0.5f, 0.5f)
                         }
                         InputField(
-                            value = selectedMeal.displayName,
+                            value =stringResource( selectedMeal.displayName),
                             onValueChange = {},
                             trailingIcon = Res.drawable.ic_arrow_down,
                             onTrailingIconClick = {
@@ -128,25 +129,27 @@ fun MealTypeDropdown(
                             readOnly = true
                         )
                         DropdownMenu(
-                            items = options,
-                            selectedItem = selectedMeal.displayName,
+                            items = mealTypeOptions.values.toList(),
+                            selectedItem = mealTypeOptions[selectedMeal] ?: "",
                             expanded = isMealTypeMenuExpanded,
                             onItemClicked = { selected ->
-                                val selectedType = NutritionScreenState.MealType.entries
-                                    .first { it.displayName == selected }
+                                val selectedType = mealTypeOptions.entries.first { it.value == selected }.key
                                 nutritionViewModel.onMealTypeSelected(selectedType)
                                 selectedMeal = selectedType
                             },
                             onDismissRequest = {
                                 isMealTypeMenuExpanded = false
                             },
-                            modifier = Modifier.align(Alignment.TopStart).fillMaxWidth()
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .fillMaxWidth()
                                 .padding(top = 48.dp)
                         )
                     }
                 }
                 PrimaryButton(
-                    modifier = Modifier.padding(top = 40.dp, bottom = 16.dp),
+                    modifier = Modifier
+                        .padding(top = 40.dp, bottom = 16.dp),
                     text = stringResource(Res.string.add_button),
                     isEnabled = isAddButtonEnabled,
                     onClick = {

@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.nutrition.content
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +17,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -70,7 +70,7 @@ fun TodayMeals(
                     .heightIn(max = 100.dp),
             ) {
                 items(state.todayMeals) { meal ->
-                    TodayMealItem(meal =meal)
+                    TodayMealItem(meal = meal)
                 }
             }
             Row(
@@ -88,40 +88,45 @@ fun TodayMeals(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text =  stringResource(Res.string.todays_meals),
+                        text = stringResource(Res.string.todays_meals),
                         style = Theme.textStyle.title.mediumMedium14,
                         color = Theme.color.surfaces.onSurfaceContainer
                     )
                     Text(
-                        text = "${state.remainingCalories} "+ stringResource(Res.string.kcal_unit),
+                        text = "${state.remainingCalories} " + stringResource(Res.string.kcal_unit),
                         style = Theme.textStyle.body.mediumMedium12,
                         color = Theme.color.surfaces.outline
                     )
                 }
-                Icon(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .size(20.dp),
-                    painter = painterResource(Res.drawable.ic_plus),
-                    contentDescription = null,
-                    tint = Theme.color.brand.primary
-                )
-                Text(
-                    modifier = Modifier
-                        .clickable(onClick = { listener.onAddMealSheetClicked() }),
-                    text =  stringResource(Res.string.add_meal),
-                    style = Theme.textStyle.body.mediumMedium14,
-                    color = Theme.color.brand.primary
-                )
+               AddMealButton(listener = listener)
             }
         }
     }
 }
-
+@Composable
+private fun AddMealButton(listener: NutritionInteractionListener){
+    TextButton(
+        onClick = { listener.onAddMealSheetClicked() }
+    ) {
+        Icon(
+            modifier = Modifier
+                .padding(horizontal = 8.dp),
+            painter = painterResource(Res.drawable.ic_plus),
+            contentDescription = null,
+            tint = Theme.color.brand.primary
+        )
+        Text(
+            text = stringResource(Res.string.add_meal),
+            style = Theme.textStyle.body.mediumMedium14,
+            color = Theme.color.brand.primary
+        )
+    }
+}
 @Composable
 fun TodayMealItem(
     meal: NutritionScreenState.TodayMeal,
-    modifier: Modifier = Modifier) {
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier.wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -141,12 +146,12 @@ fun TodayMealItem(
         }
         Text(
             modifier = Modifier.padding(vertical = 8.dp),
-            text = meal.type.displayName,
+            text = stringResource(meal.type.displayName),
             style = Theme.textStyle.title.mediumMedium14,
             color = Theme.color.surfaces.onSurfaceContainer
         )
         Text(
-            text ="${meal.calories} "+ stringResource(Res.string.kcal_unit),
+            text = "${meal.calories} " + stringResource(Res.string.kcal_unit),
             style = Theme.textStyle.label.smallRegular12,
             color = Theme.color.surfaces.onSurfaceVariant
         )
