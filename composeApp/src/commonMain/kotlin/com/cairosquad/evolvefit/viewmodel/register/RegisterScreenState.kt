@@ -31,7 +31,7 @@ data class RegisterScreenState(
     val isChallengesReminderEnabled: Boolean = false,
     val selectedWorkoutDays: List<WorkoutDay> = emptyList(),
     val isNoEquipmentSelected: Boolean = false,
-    val availableEquipments: List<Equipment> = listOf(Equipment(name = "Balance Trainer"),Equipment(name = "Bench"),Equipment(name = "Dumbbell"),),
+    val availableEquipments: List<Equipment> = emptyList(),
     val selectedEquipments: List<String> = emptyList()
 ) {
     enum class Gender {
