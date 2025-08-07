@@ -15,11 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,7 +31,6 @@ import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
-import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.add_button
 import evolvefit.composeapp.generated.resources.add_new_meal
@@ -53,7 +48,7 @@ fun MealTypeDropdownMenu(
     listener: NutritionInteractionListener,
     modifier: Modifier = Modifier
 ) {
-    val mealTypeOptions = NutritionScreenState.MealType.entries.associateWith {
+    val mealTypeUiStateOptions = NutritionScreenState.MealTypeUiState.entries.associateWith {
         stringResource(it.displayName)
     }
     val rotation by animateFloatAsState(
@@ -116,12 +111,12 @@ fun MealTypeDropdownMenu(
                         readOnly = true
                     )
                     DropdownMenu(
-                        items = mealTypeOptions.values.toList(),
-                        selectedItem = mealTypeOptions[state.selectedMeal] ?: "",
+                        items = mealTypeUiStateOptions.values.toList(),
+                        selectedItem = mealTypeUiStateOptions[state.selectedMeal] ?: "",
                         expanded = state.isMealTypeMenuExpanded,
                         onItemClicked = { selected ->
                             val selectedType =
-                                mealTypeOptions.entries.first { it.value == selected }.key
+                                mealTypeUiStateOptions.entries.first { it.value == selected }.key
                             listener.onMealTypeSelected(selectedType)
                         },
                         onDismissRequest = {},
