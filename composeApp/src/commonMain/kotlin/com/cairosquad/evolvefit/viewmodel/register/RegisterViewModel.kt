@@ -11,7 +11,7 @@ class RegisterViewModel :
         updateState { current ->
             val nextStep = current.currentStep + 1
             val newState = current.copy(currentStep = nextStep)
-            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+            newState.copy(isNextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
@@ -73,7 +73,7 @@ class RegisterViewModel :
                 currentDays + day
             }
             val newState = it.copy(selectedWorkoutDays = updatedDays)
-            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+            newState.copy(isNextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
@@ -83,7 +83,7 @@ class RegisterViewModel :
             it.copy(
                 isNoEquipmentSelected = isSelected,
                 selectedEquipments = if (isSelected) emptyList() else it.selectedEquipments,
-                nextButtonEnabled = updateNextButtonEnableState(
+                isNextButtonEnabled = updateNextButtonEnableState(
                     it.copy(
                         isNoEquipmentSelected = isSelected,
                         selectedEquipments = if (isSelected) emptyList() else it.selectedEquipments
@@ -106,7 +106,7 @@ class RegisterViewModel :
                 isNoEquipmentSelected = false,
                 selectedEquipments = updatedSelection
             )
-            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+            newState.copy(isNextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
@@ -115,7 +115,7 @@ class RegisterViewModel :
         updateState {
             val newState =
                 it.copy(selectedGender = if (it.selectedGender == gender) null else gender)
-            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+            newState.copy(isNextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
@@ -123,14 +123,14 @@ class RegisterViewModel :
         updateState {
             val newState =
                 it.copy(selectedMeasurementUnit = if (it.selectedMeasurementUnit == unit) null else unit)
-            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+            newState.copy(isNextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
     override fun onGoalClicked(goal: Goal) {
         updateState {
             val newState = it.copy(selectedGoal = if (it.selectedGoal == goal) null else goal)
-            newState.copy(nextButtonEnabled = updateNextButtonEnableState(newState))
+            newState.copy(isNextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
 
