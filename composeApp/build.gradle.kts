@@ -70,7 +70,7 @@ kotlin {
             implementation(libs.filekit.dialogs.compose)
             implementation(libs.filekit.coil)
 
-
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
