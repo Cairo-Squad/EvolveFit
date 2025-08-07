@@ -17,10 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,37 +29,44 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.composables.WorkoutCard
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
+import com.cairosquad.evolvefit.viewmodel.workouts.WorkoutsEffect
+import com.cairosquad.evolvefit.viewmodel.workouts.WorkoutsInteractionListener
+import com.cairosquad.evolvefit.viewmodel.workouts.WorkoutsScreenState
+import com.cairosquad.evolvefit.viewmodel.workouts.WorkoutsViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_group
 import evolvefit.composeapp.generated.resources.ic_plus
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
+
 
 @Composable
 fun WorkoutsScreen(
     navigateToCreateWorkout: () -> Unit,
     navigateToCommunityWorkout: () -> Unit,
     navigateToWorkoutDetails: (Long) -> Unit,
+    viewModel: WorkoutsViewModel = koinViewModel()
 ) {
+    val state by viewModel.screenState.collectAsState()
 
-    val bodyParts = listOf("All", "Arm", "Chest", "Back", "Shoulder")
-    var selectedBodyPart by remember { mutableStateOf("All") }
-
-    val allWorkouts = listOf(
-        Workout(1, "Workout 1", "25 min", "Chest"),
-        Workout(2, "Workout 2", "30 min", "Arm"),
-        Workout(3, "Workout 3", "20 min", "Back"),
-        Workout(4, "Workout 4", "35 min", "Shoulder"),
-        Workout(5, "Workout 5", "40 min", "Chest"),
-        Workout(6, "Workout 6", "35 min", "Shoulder")
-    )
-
-    val filteredWorkouts = if (selectedBodyPart == "All") {
-        allWorkouts
-    } else {
-        allWorkouts.filter { it.bodyPart == selectedBodyPart }
+    ObserveAsEffect(viewModel.effect) { effect ->
+        when (effect) {
+            is WorkoutsEffect.NavigateToWorkoutDetails -> navigateToWorkoutDetails(effect.workoutId)
+            WorkoutsEffect.NavigateToCommunityWorkout -> navigateToCommunityWorkout()
+            WorkoutsEffect.NavigateToCreateWorkout -> navigateToCreateWorkout()
+        }
     }
 
+    WorkoutsScreenContent(state = state, listener = viewModel)
+}
+
+@Composable
+fun WorkoutsScreenContent(
+    state: WorkoutsScreenState,
+    listener: WorkoutsInteractionListener
+) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -72,21 +77,21 @@ fun WorkoutsScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            AppBar(navigateToCommunityWorkout)
+            AppBar(listener)
 
             BodyPartsFilter(
-                bodyParts = bodyParts,
-                selectedBodyPart = selectedBodyPart,
-                onSelect = { selectedBodyPart = it }
+                bodyParts = listOf("All", "Arm", "Chest", "Back", "Shoulder"),
+                selectedBodyPart = state.selectedBodyPart,
+                onSelect = listener::onBodyPartSelected
             )
 
             Workouts(
-                workouts = filteredWorkouts,
-                navigateToWorkoutDetails = navigateToWorkoutDetails
+                workouts = getFilteredWorkouts(state),
+                onWorkoutClick = listener::onWorkoutClicked
             )
         }
         FloatingActionButton(
-            onClick = navigateToCreateWorkout,
+            onClick = listener::onAddWorkoutClicked,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(24.dp),
@@ -102,8 +107,16 @@ fun WorkoutsScreen(
     }
 }
 
+private fun getFilteredWorkouts(state: WorkoutsScreenState): List<WorkoutsScreenState.WorkoutUiModel> {
+    return if (state.selectedBodyPart == "All") {
+        state.allWorkouts
+    } else {
+        state.allWorkouts.filter { it.bodyPart == state.selectedBodyPart }
+    }
+}
+
 @Composable
-fun AppBar(navigateToCommunityWorkout: () -> Unit) {
+fun AppBar(listener: WorkoutsInteractionListener) {
     CustomAppBar(
 
         title = "Workouts",
@@ -112,16 +125,16 @@ fun AppBar(navigateToCommunityWorkout: () -> Unit) {
                 icon = painterResource(Res.drawable.ic_group),
                 contentDescription = "Community",
                 tint = Theme.color.surfaces.onSurface,
-                onClick = navigateToCommunityWorkout
+                onClick = listener::onCommunityClicked
             )
         }
     )
 }
 
 @Composable
-private fun Workouts(
-    workouts: List<Workout>,
-    navigateToWorkoutDetails: (Long) -> Unit
+fun Workouts(
+    workouts: List<WorkoutsScreenState.WorkoutUiModel>,
+    onWorkoutClick: (Long) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.padding(vertical = 12.dp),
@@ -132,7 +145,7 @@ private fun Workouts(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable { navigateToWorkoutDetails(workout.id) },
+                    .clickable { onWorkoutClick(workout.id) },
                 title = workout.title,
                 duration = workout.duration,
                 bodyPart = workout.bodyPart,
@@ -143,7 +156,7 @@ private fun Workouts(
 }
 
 @Composable
-private fun BodyPartsFilter(
+fun BodyPartsFilter(
     bodyParts: List<String>,
     selectedBodyPart: String,
     onSelect: (String) -> Unit
@@ -176,10 +189,3 @@ private fun WorkoutsScreenPreview() {
         )
     }
 }
-
-data class Workout(
-    val id: Long,
-    val title: String,
-    val duration: String,
-    val bodyPart: String
-)
