@@ -1,5 +1,8 @@
 package com.cairosquad.evolvefit.viewmodel.nutrition
 
+import com.cairosquad.evolvefit.entity.Meal
+import com.cairosquad.evolvefit.entity.MealType
+import com.cairosquad.evolvefit.entity.SuggestedMeal
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_coffee
 import evolvefit.composeapp.generated.resources.ic_donuts
@@ -7,11 +10,43 @@ import evolvefit.composeapp.generated.resources.ic_launch
 import evolvefit.composeapp.generated.resources.ic_pizza_slice
 import org.jetbrains.compose.resources.DrawableResource
 
-fun NutritionScreenState.MealType.toMealIcon(): DrawableResource {
+fun NutritionScreenState.MealTypeUiState.toMealIcon(): DrawableResource {
    return when(this) {
-        NutritionScreenState.MealType.Breakfast -> Res.drawable.ic_coffee
-        NutritionScreenState.MealType.Lunch -> Res.drawable.ic_launch
-        NutritionScreenState.MealType.Dinner -> Res.drawable.ic_pizza_slice
-        NutritionScreenState.MealType.Snacks -> Res.drawable.ic_donuts
+        NutritionScreenState.MealTypeUiState.Breakfast -> Res.drawable.ic_coffee
+        NutritionScreenState.MealTypeUiState.Lunch -> Res.drawable.ic_launch
+        NutritionScreenState.MealTypeUiState.Dinner -> Res.drawable.ic_pizza_slice
+        NutritionScreenState.MealTypeUiState.Snacks -> Res.drawable.ic_donuts
     }
+}
+fun NutritionScreenState.MealTypeUiState.toMealType(): MealType {
+    return when (this) {
+        NutritionScreenState.MealTypeUiState.Breakfast -> MealType.BREAKFAST
+        NutritionScreenState.MealTypeUiState.Lunch -> MealType.LUNCH
+        NutritionScreenState.MealTypeUiState.Dinner -> MealType.DINNER
+        NutritionScreenState.MealTypeUiState.Snacks -> MealType.SNACK
+    }
+}
+fun MealType.toMealUiState(): NutritionScreenState.MealTypeUiState {
+    return when (this) {
+        MealType.BREAKFAST -> NutritionScreenState.MealTypeUiState.Breakfast
+        MealType.LUNCH ->  NutritionScreenState.MealTypeUiState.Lunch
+        MealType.DINNER ->NutritionScreenState.MealTypeUiState.Dinner
+        MealType.SNACK -> NutritionScreenState.MealTypeUiState.Snacks
+    }
+}
+fun Meal.toMealHistoryUi(): NutritionScreenState.MealHistory {
+    return NutritionScreenState.MealHistory(
+        name = this.name,
+        type = this.type.toMealUiState(),
+        calories = this.calories,
+        date = this.dateTime
+    )
+}
+fun SuggestedMeal.toSuggestedMealUi(): NutritionScreenState.SuggestedMeal {
+    return NutritionScreenState.SuggestedMeal(
+        name = this.name,
+        type = this.type.toMealUiState(),
+        calories = this.calories,
+        imageUrl = this.imageUrl
+    )
 }
