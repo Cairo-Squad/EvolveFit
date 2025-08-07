@@ -1,27 +1,91 @@
 package com.cairosquad.evolvefit.viewmodel.nutrition
 
 import androidx.lifecycle.viewModelScope
+import com.cairosquad.evolvefit.domain.usecases.MealUseCase
+import com.cairosquad.evolvefit.entity.Meal
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import com.cairosquad.evolvefit.viewmodel.utils.getTodayDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class NutritionViewModel() : BaseViewModel<NutritionScreenState, NutritionEffect>(
-    NutritionScreenState()
-), NutritionInteractionListener {
+class NutritionViewModel(private val mealUseCase: MealUseCase) :
+    BaseViewModel<NutritionScreenState, NutritionEffect>(
+        NutritionScreenState()
+    ), NutritionInteractionListener {
+
+    init {
+        loadSuggestedMeals()
+        loadMealHistory()
+    }
+
+    fun loadSuggestedMeals() {
+        tryToCall(
+            block = { mealUseCase.getSuggestedMeals() },
+            onStart = { updateState { it.copy(isLoading = true) } },
+            onSuccess = { meals ->
+                val uiMeals = meals.map { it.toSuggestedMealUi() }
+                updateState { it.copy(suggestedMeals = uiMeals) }
+            },
+            onError = { e ->
+                updateState { it.copy(errorMessage = e.message) }
+            },
+            onEnd = {
+                updateState { it.copy(isLoading = false) }
+            }
+        )
+    }
+
+    fun loadMealHistory() {
+        tryToCall(
+            block = { mealUseCase.getMealHistoryForToday() },
+            onSuccess = { meals ->
+                val history = meals.map { it.toMealHistoryUi() }
+                updateState { it.copy(mealHistory = history) }
+            },
+            onError = { e ->
+                updateState { it.copy(errorMessage = e.message) }
+            }
+        )
+    }
+
     override fun onAddWaterClicked() {
         updateState { it.copy(isAddWaterSheetVisible = true) }
     }
 
     override fun onConfirmAddWaterClicked(waterAmount: Float) {
         //TODO link with use case
-        updateState {
-            it.copy(
-                isAddWaterSheetVisible = false,
-                isAddButtonEnabled = false,
-                waterAmountInput = ""
+//        updateState {
+//            it.copy(
+//                isAddWaterSheetVisible = false,
+//                isAddButtonEnabled = false,
+//                waterAmountInput = ""
+//            )
+//        }
+        viewModelScope.launch {
+            val meal = Meal(
+                name = screenState.value.mealNameInput,
+                type = screenState.value.selectedMeal.toMealType(),
+                calories = screenState.value.mealCaloriesInput.toIntOrNull() ?: 0,
+                dateTime = getTodayDate(),
+                id = 0
             )
+
+            val success = mealUseCase.addMeal(meal)
+            if (success) {
+                loadMealHistory()
+                showMealAddedSnackBar()
+            }
+            updateState {
+                it.copy(
+                    isAddMealSheetVisible = false,
+                    isAddButtonEnabled = false,
+                    mealCaloriesInput = "",
+                    mealNameInput = "",
+                    selectedMeal = NutritionScreenState.MealTypeUiState.Breakfast
+                )
+            }
         }
     }
 
@@ -50,13 +114,13 @@ class NutritionViewModel() : BaseViewModel<NutritionScreenState, NutritionEffect
                 isAddButtonEnabled = false,
                 mealCaloriesInput = "",
                 mealNameInput = "",
-                selectedMeal = NutritionScreenState.MealType.Breakfast
+                selectedMeal = NutritionScreenState.MealTypeUiState.Breakfast
             )
         }
         showMealAddedSnackBar()
     }
 
-   private fun showMealAddedSnackBar() {
+    private fun showMealAddedSnackBar() {
         viewModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(isAddMealSnackBarVisible = true) }
             delay(2000)
@@ -65,53 +129,53 @@ class NutritionViewModel() : BaseViewModel<NutritionScreenState, NutritionEffect
     }
 
 
-override fun onDismissMealClicked() {
-    updateState { it.copy(isAddMealSheetVisible = false) }
-}
-
-override fun onMealNameChanged(name: String) {
-    updateState {
-        it.copy(
-            mealNameInput = name,
-            isAddButtonEnabled = name.isNotBlank() && it.mealCaloriesInput.isNotBlank()
-        )
+    override fun onDismissMealClicked() {
+        updateState { it.copy(isAddMealSheetVisible = false) }
     }
-}
 
-override fun onMealCaloriesChanged(calories: String) {
-    updateState {
-        it.copy(
-            mealCaloriesInput = calories,
-            isAddButtonEnabled = calories.isNotBlank() && it.mealNameInput.isNotBlank()
-        )
+    override fun onMealNameChanged(name: String) {
+        updateState {
+            it.copy(
+                mealNameInput = name,
+                isAddButtonEnabled = name.isNotBlank() && it.mealCaloriesInput.isNotBlank()
+            )
+        }
     }
-}
 
-override fun onMealTypeSelected(mealType: NutritionScreenState.MealType) {
-    updateState { it.copy(selectedMeal = mealType) }
-}
+    override fun onMealCaloriesChanged(calories: String) {
+        updateState {
+            it.copy(
+                mealCaloriesInput = calories,
+                isAddButtonEnabled = calories.isNotBlank() && it.mealNameInput.isNotBlank()
+            )
+        }
+    }
 
-override fun onToggleMealTypeMenu() {
-    updateState { it.copy(isMealTypeMenuExpanded = !it.isMealTypeMenuExpanded) }
-}
+    override fun onMealTypeSelected(mealTypeUiState: NutritionScreenState.MealTypeUiState) {
+        updateState { it.copy(selectedMeal = mealTypeUiState) }
+    }
 
-override fun onViewAllSuggestedMealsClicked() {
-    sendEffect(NutritionEffect.NavigateToSuggestedMeals)
-}
+    override fun onToggleMealTypeMenu() {
+        updateState { it.copy(isMealTypeMenuExpanded = !it.isMealTypeMenuExpanded) }
+    }
 
-override fun onSuggestedMealClicked(mealId: Long) {
-    sendEffect(NutritionEffect.NavigateToSuggestedMealDetails(mealId = mealId))
-}
+    override fun onViewAllSuggestedMealsClicked() {
+        sendEffect(NutritionEffect.NavigateToSuggestedMeals)
+    }
 
-override fun onViewAllMealHistoryClicked() {
-    sendEffect(NutritionEffect.NavigateToMealHistory)
-}
+    override fun onSuggestedMealClicked(mealId: Long) {
+        sendEffect(NutritionEffect.NavigateToSuggestedMealDetails(mealId = mealId))
+    }
 
-override fun onDroppedMenuClick() {
-    updateState { it.copy(isDroppedMenuVisible = true) }
-}
+    override fun onViewAllMealHistoryClicked() {
+        sendEffect(NutritionEffect.NavigateToMealHistory)
+    }
 
-override fun onSnackBarHided() {
-    updateState { it.copy(isAddMealSnackBarVisible = false) }
-}
+    override fun onDroppedMenuClick() {
+        updateState { it.copy(isDroppedMenuVisible = true) }
+    }
+
+    override fun onSnackBarHided() {
+        updateState { it.copy(isAddMealSnackBarVisible = false) }
+    }
 }
