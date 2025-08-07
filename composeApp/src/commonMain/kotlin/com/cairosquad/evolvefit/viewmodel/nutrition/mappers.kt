@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.nutrition
 
+import com.cairosquad.evolvefit.entity.DailySummary
 import com.cairosquad.evolvefit.entity.Meal
 import com.cairosquad.evolvefit.entity.MealType
 import com.cairosquad.evolvefit.entity.SuggestedMeal
@@ -9,7 +10,8 @@ import evolvefit.composeapp.generated.resources.ic_donuts
 import evolvefit.composeapp.generated.resources.ic_launch
 import evolvefit.composeapp.generated.resources.ic_pizza_slice
 import org.jetbrains.compose.resources.DrawableResource
-
+import kotlinx.datetime.*
+import kotlin.time.*
 fun NutritionScreenState.MealTypeUiState.toMealIcon(): DrawableResource {
    return when(this) {
         NutritionScreenState.MealTypeUiState.Breakfast -> Res.drawable.ic_coffee
@@ -48,5 +50,12 @@ fun SuggestedMeal.toSuggestedMealUi(): NutritionScreenState.SuggestedMeal {
         type = this.type.toMealUiState(),
         calories = this.calories,
         imageUrl = this.imageUrl
+    )
+}
+fun Meal.toTodayMealUi(): NutritionScreenState.TodayMealUiState {
+    return NutritionScreenState.TodayMealUiState(
+        type = this.type.toMealUiState(),
+        calories = this.calories,
+        icon = this.type.toMealUiState().toMealIcon()
     )
 }

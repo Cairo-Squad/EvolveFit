@@ -44,8 +44,8 @@ fun NutritionSummaryCard(
             CircularPercentageIndicator(
                 modifier = Modifier.weight(1f),
                 title = stringResource(Res.string.calories),
-                currentValue = state.caloriesConsumed,
-                totalValue = state.caloriesGoal,
+                currentValue = state.caloriesGoal,
+                totalValue = state.caloriesConsumed,
                 unit = stringResource(Res.string.kcal_unit),
                 icon = painterResource(Res.drawable.ic_fire),
                 iconColor = Theme.color.system.success,

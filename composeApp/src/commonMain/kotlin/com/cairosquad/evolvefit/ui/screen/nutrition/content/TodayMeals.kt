@@ -31,6 +31,7 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.add_meal
 import evolvefit.composeapp.generated.resources.ic_plus
 import evolvefit.composeapp.generated.resources.kcal_unit
+import evolvefit.composeapp.generated.resources.remaining
 import evolvefit.composeapp.generated.resources.todays_meals
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -67,9 +68,9 @@ fun TodayMeals(
                 columns = GridCells.Adaptive(minSize = 100.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(max = 100.dp)
+                    .heightIn(max = 76.dp)
             ) {
-                items(state.todayMeals) { meal ->
+                items(state.todayMealUiStates) { meal ->
                     TodayMealItem(meal = meal)
                 }
             }
@@ -88,7 +89,7 @@ fun TodayMeals(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = stringResource(Res.string.todays_meals),
+                        text = stringResource(Res.string.remaining),
                         style = Theme.textStyle.title.mediumMedium14,
                         color = Theme.color.surfaces.onSurfaceContainer
                     )
@@ -124,7 +125,7 @@ private fun AddMealButton(listener: NutritionInteractionListener){
 }
 @Composable
 fun TodayMealItem(
-    meal: NutritionScreenState.TodayMeal,
+    meal: NutritionScreenState.TodayMealUiState,
     modifier: Modifier = Modifier
 ) {
     Column(

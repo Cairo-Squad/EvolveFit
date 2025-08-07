@@ -14,7 +14,7 @@ data class NutritionScreenState(
     val waterConsumedLiters: Float = 0f,
     val waterGoalLiters: Float = 0f,
     val remainingCalories: Float = 0f,
-    val todayMeals: List<TodayMeal> = emptyList(),
+    val todayMealUiStates: List<TodayMealUiState> = emptyList(),
     val suggestedMeals: List<SuggestedMeal> = emptyList(),
     val mealHistory: List<MealHistory> = emptyList(),
     val isAddWaterSheetVisible: Boolean = false,
@@ -30,7 +30,7 @@ data class NutritionScreenState(
     val selectedMeal: MealTypeUiState = MealTypeUiState.Breakfast,
     val errorMessage: String? = null,
 ) {
-    data class TodayMeal(
+    data class TodayMealUiState(
         val type: MealTypeUiState = MealTypeUiState.Breakfast,
         val calories: Int = 0,
         val icon: DrawableResource
