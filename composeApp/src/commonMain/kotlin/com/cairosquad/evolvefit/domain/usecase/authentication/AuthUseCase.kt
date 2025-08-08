@@ -21,5 +21,4 @@ class AuthUseCase(
     suspend  fun register(user: User) {
         return repository.register(user)
     }
-
 }
