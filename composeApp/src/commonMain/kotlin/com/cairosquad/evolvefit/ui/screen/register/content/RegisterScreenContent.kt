@@ -97,7 +97,7 @@ fun RegisterScreenContent(
             onClick =
                 if (state.currentStep == 8) listener::onClickStartNow
                 else listener::onClickNext,
-            isEnabled = state.nextButtonEnabled
+            isEnabled = state.isNextButtonEnabled
         )
     }
 }
