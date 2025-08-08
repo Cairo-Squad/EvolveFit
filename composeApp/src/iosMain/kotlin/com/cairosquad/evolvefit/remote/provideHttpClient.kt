@@ -9,12 +9,13 @@ import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
+import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 actual fun provideHttpClient(
     authPreferences: AuthPreferences,
-    authRemoteDataSource: AuthRemoteDataSource
+    //authRemoteDataSource: AuthRemoteDataSource
 ): HttpClient {
     return HttpClient(Darwin) {
         install(ContentNegotiation) {
@@ -22,7 +23,7 @@ actual fun provideHttpClient(
         }
         defaultRequest {
             url("https://evolve-fit-dev.the-chance.net/")
-        }
+                  }
         install(Auth) {
             bearer {
                 loadTokens {
@@ -35,9 +36,10 @@ actual fun provideHttpClient(
                 refreshTokens {
                     val refreshToken = authPreferences.getRefreshToken()
                     if (refreshToken != null) {
-                        val newTokens = authRemoteDataSource.refreshToken(refreshToken)
-                        authPreferences.saveTokens(newTokens.accessToken, newTokens.refreshToken)
-                        BearerTokens(newTokens.accessToken, newTokens.refreshToken)
+                        TODO()
+//                        val newTokens = authRemoteDataSource.refreshToken(refreshToken)
+//                        authPreferences.saveTokens(newTokens.accessToken, newTokens.refreshToken)
+//                        BearerTokens(newTokens.accessToken, newTokens.refreshToken)
                     } else {
                         null
                     }

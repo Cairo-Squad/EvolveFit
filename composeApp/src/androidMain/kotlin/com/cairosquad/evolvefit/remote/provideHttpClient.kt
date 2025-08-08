@@ -10,12 +10,13 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 actual fun provideHttpClient(
     authPreferences: AuthPreferences,
-    authRemoteDataSource: AuthRemoteDataSource
+   // authRemoteDataSource: AuthRemoteDataSource
 ): HttpClient {
     return HttpClient {
         install(ContentNegotiation) {
@@ -39,9 +40,10 @@ actual fun provideHttpClient(
                 refreshTokens {
                     val refreshToken = authPreferences.getRefreshToken()
                     if (refreshToken != null) {
-                        val newTokens = authRemoteDataSource.refreshToken(refreshToken)
-                        authPreferences.saveTokens(newTokens.accessToken, newTokens.refreshToken)
-                        BearerTokens(newTokens.accessToken, newTokens.refreshToken)
+                        TODO()
+//                        val newTokens = authRemoteDataSource.refreshToken(refreshToken)
+//                        authPreferences.saveTokens(newTokens.accessToken, newTokens.refreshToken)
+//                        BearerTokens(newTokens.accessToken, newTokens.refreshToken)
                     } else {
                         null
                     }

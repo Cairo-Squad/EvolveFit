@@ -52,7 +52,8 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun getEquipments(): List<Tool> {
-        return remote.getEquipments().map { it.toDomain() }
+        //return remote.getEquipments().map { it.toDomain() }
+        TODO()
     }
 }
 

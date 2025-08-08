@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.domain.usecase
 
 import com.cairosquad.evolvefit.domain.AuthRepository
-import com.cairosquad.evolvefit.domain.WorkoutRepository
 import com.cairosquad.evolvefit.entity.Tool
 
 class GetEquipmentsUseCase(

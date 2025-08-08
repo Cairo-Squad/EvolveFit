@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.di
 
+import com.cairosquad.evolvefit.remote.provideHttpClient
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
