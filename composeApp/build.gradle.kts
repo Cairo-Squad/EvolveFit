@@ -51,6 +51,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.coil.compose)
             implementation(libs.lifecycle.viewmodel)
+            implementation(libs.core.splashscreen)
 
             // navigation
             implementation(libs.navigation.compose)
