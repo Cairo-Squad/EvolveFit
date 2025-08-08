@@ -42,13 +42,13 @@ fun RegisterScreenContentSelectUnitsOfMeasurement(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            RegisterScreenState.MeasurementUnit.entries.forEach { unit ->
+            RegisterScreenState.MeasurementStandard.entries.forEach { unit ->
                 CheckboxItem(
                     text = when (unit) {
-                        RegisterScreenState.MeasurementUnit.Metric -> stringResource(Res.string.unit_metric)
-                        RegisterScreenState.MeasurementUnit.Imperial -> stringResource(Res.string.unit_imperial)
+                        RegisterScreenState.MeasurementStandard.Metric -> stringResource(Res.string.unit_metric)
+                        RegisterScreenState.MeasurementStandard.Imperial -> stringResource(Res.string.unit_imperial)
                     },
-                    isChecked = state.selectedMeasurementUnit == unit,
+                    isChecked = state.selectedMeasurementStandard == unit,
                     onCheckedChange = { listener.onMeasurementUnitClicked(unit) },
                 )
             }
