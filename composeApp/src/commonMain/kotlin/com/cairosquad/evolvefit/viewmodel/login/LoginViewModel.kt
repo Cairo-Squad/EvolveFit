@@ -56,7 +56,7 @@ class LoginViewModel(
     }
 
     override fun onBackClicked() {
-        TODO("Not yet implemented")
+        sendEffect(LoginEffect.NavigateBack)
     }
 
     override fun onJoinNowClicked() {

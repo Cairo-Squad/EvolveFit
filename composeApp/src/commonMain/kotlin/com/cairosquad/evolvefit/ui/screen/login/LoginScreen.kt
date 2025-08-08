@@ -45,6 +45,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun LoginScreen(
+    navigateBack: () -> Unit,
     navigateToRegister: () -> Unit,
     navigateToApp: () -> Unit,
     loginViewModel: LoginViewModel = koinViewModel()
@@ -58,6 +59,10 @@ fun LoginScreen(
 
             LoginEffect.NavigateToRegister -> {
                 navigateToRegister()
+            }
+
+            LoginEffect.NavigateBack -> {
+                navigateBack()
             }
         }
     }
