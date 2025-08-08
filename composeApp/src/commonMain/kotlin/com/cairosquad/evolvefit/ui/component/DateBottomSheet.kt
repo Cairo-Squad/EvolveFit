@@ -24,33 +24,36 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DateBottomSheet(
+    maxDate: String,
     dateOfBirth: String,
     isDatePickerBottomSheetOpen: Boolean,
     onDatePickerDismiss: () -> Unit,
     onDateChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val day = getDayFromDate(dateOfBirth)
+    val date = dateOfBirth.ifBlank { maxDate }
+    val day = getDayFromDate(date)
     val dayPagerState = rememberPagerState(
         initialPage = day.toInt() - 1,
         pageCount = {
             getNumberOfDaysInMonth(
-                year = getYearFromDate(dateOfBirth).toInt(),
-                month = getMonthAsInt(getMonthFromDate(dateOfBirth))
+                year = getYearFromDate(date).toInt(),
+                month = getMonthAsInt(getMonthFromDate(date))
             )
         }
     )
 
     val monthPagerState = rememberPagerState(
-        initialPage = getMonthAsInt(getMonthFromDate(dateOfBirth)) - 1,
+        initialPage = getMonthAsInt(getMonthFromDate(date)) - 1,
         pageCount = { 12 }
     )
 
-    val currentYear = getYearFromDate(dateOfBirth).toInt()
+    val currentYear = getYearFromDate(date).toInt()
+    val maxYear = getYearFromDate(maxDate).toInt()
 
     val yearPagerState = rememberPagerState(
         initialPage = currentYear - FIRST_YEAR,
-        pageCount = { currentYear - FIRST_YEAR + 1 }
+        pageCount = { maxYear - FIRST_YEAR + 1 }
     )
 
     BottomSheet(
@@ -132,6 +135,7 @@ fun DateBottomSheetContent(
 fun PreviewDateBottomSheet() {
     AppTheme {
         DateBottomSheet(
+            maxDate = "2023-08-06",
             dateOfBirth = "2023-08-06",
             onDateChange = {},
             isDatePickerBottomSheetOpen = true,

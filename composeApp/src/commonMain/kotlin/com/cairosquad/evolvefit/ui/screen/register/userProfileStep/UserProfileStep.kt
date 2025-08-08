@@ -52,6 +52,7 @@ fun UserProfileStep(
     onUserPasswordChange: (String) -> Unit,
     isPasswordVisible: Boolean,
     onPasswordVisibilityClick: () -> Unit,
+    maxDate: String,
     dateOfBirth: String,
     onDateOfBirthChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -91,6 +92,7 @@ fun UserProfileStep(
             isPasswordVisible = isPasswordVisible,
             onPasswordVisibilityClick = onPasswordVisibilityClick,
             dateOfBirth = dateOfBirth,
+            maxDate = maxDate,
             onDateOfBirthChange = onDateOfBirthChange,
         )
     }
@@ -129,6 +131,7 @@ private fun UserProfileForm(
     onUserPasswordChange: (String) -> Unit,
     isPasswordVisible: Boolean,
     onPasswordVisibilityClick: () -> Unit,
+    maxDate: String,
     dateOfBirth: String,
     onDateOfBirthChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -198,6 +201,7 @@ private fun UserProfileForm(
     }
 
     DateBottomSheet(
+        maxDate = maxDate,
         dateOfBirth = dateOfBirth,
         onDateChange = onDateOfBirthChange,
         isDatePickerBottomSheetOpen = isDatePickerBottomSheetOpen,

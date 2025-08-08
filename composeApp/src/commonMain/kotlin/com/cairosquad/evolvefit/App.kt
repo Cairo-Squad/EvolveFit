@@ -39,7 +39,7 @@ fun App() {
         var userEmail by remember { mutableStateOf("") }
         var userPassword by remember { mutableStateOf("") }
         var isPasswordVisible by remember { mutableStateOf(false) }
-        var dateOfBirth by remember { mutableStateOf("2023-08-09") }
+        var dateOfBirth by remember { mutableStateOf("") }
 
         Box(
             modifier = Modifier
@@ -77,6 +77,7 @@ fun App() {
                 onPasswordVisibilityClick = {
                     isPasswordVisible = !isPasswordVisible
                 },
+                maxDate = "2023-08-06",
                 dateOfBirth = dateOfBirth,
                 onDateOfBirthChange = {
                     dateOfBirth = it
