@@ -2,7 +2,6 @@ package com.cairosquad.evolvefit.ui.screen.onBoarding
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,18 +23,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
 import com.cairosquad.evolvefit.design_system.component.CheckboxStyle
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
-import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.navigation.LoginRoute
-import com.cairosquad.evolvefit.ui.navigation.RegisterRoute
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.ui.util.noRippleClickable
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import evolvefit.composeapp.generated.resources.Onboarding
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arrow_down
@@ -46,13 +40,14 @@ import evolvefit.composeapp.generated.resources.login
 import evolvefit.composeapp.generated.resources.ready_to_start
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun OnboardingScreen(
     viewmodel: OnBoardingViewModel = koinViewModel(),
-    navigateToRegister : () -> Unit,
-    navigateToLogin : () -> Unit,
+    navigateToRegister: () -> Unit,
+    navigateToLogin: () -> Unit,
 ) {
     val state by viewmodel.screenState.collectAsStateWithLifecycle()
     ObserveAsEffect(viewmodel.effect) { effect ->
@@ -66,24 +61,15 @@ fun OnboardingScreen(
         }
     }
     OnboardingScreenContent(
-        state = state,
-        onSignupClick = viewmodel::onSignUpClicked,
-        onLoginClick = viewmodel::onLoginClicked,
-        onToggleBottomSheet = viewmodel::toggleBottomSheet,
-        onLanguageSelected = viewmodel::onChangeLanguage,
-        onConfirmClick = viewmodel::onConfirmClicked
+        state = state, listener = viewmodel
     )
 }
 
 @Composable
 fun OnboardingScreenContent(
     state: OnboardingScreenState,
-    modifier: Modifier = Modifier,
-    onSignupClick: () -> Unit,
-    onLoginClick: () -> Unit,
-    onToggleBottomSheet: (isOpen: Boolean) -> Unit,
-    onLanguageSelected: (language: OnboardingScreenState.Language) -> Unit,
-    onConfirmClick: () -> Unit
+    listener: OnboardingScreenListener,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier.fillMaxSize()
@@ -94,129 +80,175 @@ fun OnboardingScreenContent(
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillBounds
         )
-        Row(
-            modifier = Modifier.align(Alignment.TopEnd).statusBarsPadding().height(48.dp)
-                .wrapContentWidth()
-                .noRippleClickable { onToggleBottomSheet(state.isBottomSheetOpen.not()) },
-            horizontalArrangement = Arrangement.End
-        ) {
-            Text(
-                text = stringResource(state.selectedLanguage.displayNameRes),
-                style = Theme.textStyle.label.mediumMedium16,
-                color = Theme.color.surfaces.textColor,
-                modifier = Modifier.padding(top = 14.5.dp, bottom = 14.5.dp, end = 8.dp)
-            )
-            Image(
-                painter = painterResource(Res.drawable.arrow_down),
-                contentDescription = "arrow down",
-                modifier = Modifier.padding(
-                    end = 16.dp, top = 14.5.dp, bottom = 14.5.dp
-                ).size(20.dp)
-            )
-        }
-        //bottom section [ready to start - login]
-        Column(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Box(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 24.dp)
-                    .clip(RoundedCornerShape(24.dp))
-                    .height(48.dp).background(
-                        Theme.color.brand.primary,
-                    ).fillMaxWidth().noRippleClickable(onClick = onSignupClick),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = stringResource(Res.string.ready_to_start),
-                    style = Theme.textStyle.body.mediumMedium14,
-                    color = Theme.color.brand.onPrimary
-                )
-            }
-
-            Row(
-                modifier = Modifier.padding(bottom = 24.dp).fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(Res.string.do_you_have_an_account),
-                    style = Theme.textStyle.label.mediumMedium14,
-                    color = Theme.color.surfaces.textColor,
-                    modifier = Modifier.padding(end = 4.dp)
-                )
-                Text(
-                    text = stringResource(Res.string.login),
-                    style = Theme.textStyle.label.mediumMedium16,
-                    color = Theme.color.brand.primary,
-                    modifier = Modifier.padding(end = 4.dp).noRippleClickable(onClick = onLoginClick)
-                )
-
-            }
-
-        }
-
-        BottomSheet(
-            isVisible = state.isBottomSheetOpen,
-            onDismiss = {
-                onToggleBottomSheet(false)
-            },
-            content = {
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Text(
-                        text = stringResource(Res.string.choose_language),
-                        style = Theme.textStyle.label.mediumMedium16,
-                        color = Theme.color.surfaces.onSurface,
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
-                    Text(
-                        text = stringResource(Res.string.language_selection_description),
-                        style = Theme.textStyle.label.mediumMedium12,
-                        color = Theme.color.surfaces.onSurfaceVariant,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
-                    OnboardingScreenState.Language.entries.forEach { language ->
-                        CheckboxItem(
-                            text = stringResource(language.displayNameRes),
-                            isChecked = language == state.bottomSheetSelectedLanguage,
-                            onCheckedChange = { onLanguageSelected(language) },
-                            style = CheckboxStyle.Tick,
-                            modifier = modifier.padding(
-                                bottom = 12.dp
-                            )
-                        )
-                    }
-                    PrimaryButton(
-                        text = "Confirm",
-                        onClick = { onConfirmClick() },
-                        modifier = Modifier.padding(
-                            start = 16.dp, end = 16.dp, bottom = 16.dp , top = 28.dp
-                        )
-                    )
-                }
-            },
+        LanguageSelectionButton(
+            state = state,
+            onToggleBottomSheet = listener::toggleBottomSheet,
+            modifier = Modifier.align(Alignment.TopEnd)
+        )
+        BottomActionSection(
+            onLoginClicked = listener::onLoginClicked,
+            onSignUpClicked = listener::onSignUpClicked,
+            modifier = Modifier.align(Alignment.BottomCenter)
         )
 
+        LanguageBottomSheet(
+            isVisible = state.isBottomSheetOpen,
+            selectedLanguage = state.selectedLanguage,
+            onDismiss = { listener.toggleBottomSheet(false) },
+            onLanguageSelected = listener::onChangeLanguage,
+            onConfirmClick = listener::onConfirmClicked,
+            modifier = Modifier
+        )
     }
+}
+
+@Composable
+private fun BottomActionSection(
+    onLoginClicked: () -> Unit,
+    onSignUpClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(start = 16.dp, end = 16.dp, bottom = 24.dp)
+                .clip(RoundedCornerShape(24.dp))
+                .height(48.dp).background(Theme.color.brand.primary)
+                .fillMaxWidth()
+                .noRippleClickable(onClick = { onSignUpClicked() }),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = stringResource(Res.string.ready_to_start),
+                style = Theme.textStyle.body.mediumMedium14,
+                color = Theme.color.brand.onPrimary
+            )
+        }
+
+        Row(
+            modifier = Modifier.padding(bottom = 24.dp).fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(Res.string.do_you_have_an_account),
+                style = Theme.textStyle.label.mediumMedium14,
+                color = Theme.color.surfaces.textColor,
+                modifier = Modifier.padding(end = 4.dp)
+            )
+            Text(
+                text = stringResource(Res.string.login),
+                style = Theme.textStyle.label.mediumMedium16,
+                color = Theme.color.brand.primary,
+                modifier = Modifier.padding(end = 4.dp)
+                    .noRippleClickable(onClick = { onLoginClicked() })
+            )
+        }
+    }
+}
+
+@Composable
+private fun LanguageSelectionButton(
+    state: OnboardingScreenState,
+    onToggleBottomSheet: (isOpen: Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier.statusBarsPadding().height(48.dp).wrapContentWidth()
+            .noRippleClickable { onToggleBottomSheet(state.isBottomSheetOpen.not()) },
+        horizontalArrangement = Arrangement.End
+    ) {
+        Text(
+            text = stringResource(state.selectedLanguage.displayNameRes),
+            style = Theme.textStyle.label.mediumMedium16,
+            color = Theme.color.surfaces.textColor,
+            modifier = Modifier.padding(top = 14.5.dp, bottom = 14.5.dp, end = 8.dp)
+        )
+        Image(
+            painter = painterResource(Res.drawable.arrow_down),
+            contentDescription = "arrow down",
+            modifier = Modifier.padding(end = 16.dp, top = 14.5.dp, bottom = 14.5.dp).size(20.dp)
+        )
+    }
+}
+
+
+@Composable
+private fun LanguageBottomSheet(
+    isVisible: Boolean,
+    selectedLanguage: OnboardingScreenState.Language,
+    onDismiss: () -> Unit,
+    onLanguageSelected: (language: OnboardingScreenState.Language) -> Unit,
+    onConfirmClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    BottomSheet(
+        isVisible = isVisible,
+        onDismiss = onDismiss,
+        content = {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(
+                    text = stringResource(Res.string.choose_language),
+                    style = Theme.textStyle.label.mediumMedium16,
+                    color = Theme.color.surfaces.onSurface,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Text(
+                    text = stringResource(Res.string.language_selection_description),
+                    style = Theme.textStyle.label.mediumMedium12,
+                    color = Theme.color.surfaces.onSurfaceVariant,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                OnboardingScreenState.Language.entries.forEach { language ->
+                    CheckboxItem(
+                        text = stringResource(language.displayNameRes),
+                        isChecked = language == selectedLanguage,
+                        onCheckedChange = { onLanguageSelected(language) },
+                        style = CheckboxStyle.Tick,
+                        modifier = modifier.padding(bottom = 12.dp)
+                    )
+                }
+                PrimaryButton(
+                    text = "Confirm", onClick = onConfirmClick, modifier = Modifier.padding(
+                        start = 16.dp, end = 16.dp, bottom = 16.dp, top = 28.dp
+                    )
+                )
+            }
+        },
+    )
 }
 
 @Preview
 @Composable
-fun OnboardingScreenContentPreview() {
-    var state = OnboardingScreenState().copy(isBottomSheetOpen = true,)
-    AppTheme(
-        isDarkTheme = true
-    ) {
-        OnboardingScreenContent(
-            state,
-            onSignupClick = { },
-            onLoginClick = { },
-            onToggleBottomSheet = {state.isBottomSheetOpen.not()},
-            onLanguageSelected = {  },
-            onConfirmClick = {}
-        )
-    }
+private fun OnboardingScreenPreview() {
+    OnboardingScreenContent(
+        state = OnboardingScreenState(),
+        listener = object : OnboardingScreenListener{
+            override fun onChangeLanguage(language: OnboardingScreenState.Language) {
+                TODO("Not yet implemented")
+            }
 
+            override fun toggleBottomSheet(isOpen: Boolean) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSignUpClicked() {
+                TODO("Not yet implemented")
+            }
+
+            override fun onLoginClicked() {
+                TODO("Not yet implemented")
+            }
+
+            override fun onConfirmClicked() {
+                TODO("Not yet implemented")
+            }
+
+        }
+    )
 }

@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -36,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -55,12 +57,15 @@ fun InputField(
     modifier: Modifier = Modifier,
     placeholder: String = "",
     error: String = "",
+    readOnly: Boolean = false,
+    keyboardType: KeyboardType = KeyboardType.Text,
     isErrorMessageShown: Boolean = true,
     isSingleLine: Boolean = true,
     isPasswordField: Boolean = false,
     maxCharacters: Int? = 100,
     leadingIcon: DrawableResource? = null,
     trailingIcon: DrawableResource? = null,
+    trailingIconModifier: Modifier = Modifier,
     onTrailingIconClick: (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
@@ -68,25 +73,39 @@ fun InputField(
         mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
     }
 
+    LaunchedEffect(value) {
+        if (value != textFieldValue.text) {
+            textFieldValue = TextFieldValue(
+                text = value,
+                selection = TextRange(value.length)
+            )
+        }
+    }
+
     Column(
         modifier = modifier
     ) {
         BasicTextField(
+            readOnly =readOnly,
             value = textFieldValue,
             onValueChange = { newValue ->
-                val filteredValue = if (maxCharacters != null && newValue.text.length > maxCharacters) {
-                    val truncatedText = newValue.text.take(maxCharacters)
-                    newValue.copy(
-                        text = truncatedText,
-                        selection = TextRange(truncatedText.length.coerceAtMost(newValue.selection.start))
-                    )
-                } else {
-                    newValue
-                }
+                val filteredValue =
+                    if (maxCharacters != null && newValue.text.length > maxCharacters) {
+                        val truncatedText = newValue.text.take(maxCharacters)
+                        newValue.copy(
+                            text = truncatedText,
+                            selection = TextRange(truncatedText.length.coerceAtMost(newValue.selection.start))
+                        )
+                    } else {
+                        newValue
+                    }
 
                 textFieldValue = filteredValue
                 onValueChange(filteredValue.text)
             },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = keyboardType
+            ),
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
                 .background(Theme.color.surfaces.surfaceContainer)
@@ -122,7 +141,7 @@ fun InputField(
                     }
                     TextFieldIcon(
                         trailingIcon,
-                        modifier = Modifier.padding(start = 8.dp),
+                        modifier = trailingIconModifier.padding(start = 8.dp),
                         error = error.isNotBlank(),
                         onTrailingIconClick,
                     )
@@ -136,6 +155,7 @@ fun InputField(
 
     }
 }
+
 @Composable
 private fun TextFieldIcon(
     icon: DrawableResource? = null,
@@ -146,7 +166,7 @@ private fun TextFieldIcon(
     val tintColor = if (error) {
         Theme.color.system.warning
     } else {
-         Theme.color.surfaces.onSurfaceVariant
+        Theme.color.surfaces.onSurfaceVariant
     }
 
     if (icon != null) {
@@ -159,7 +179,7 @@ private fun TextFieldIcon(
             Icon(
                 painter = painterResource(it),
                 contentDescription = null,
-                tint=tintColor,
+                tint = tintColor,
                 modifier = modifier
                     .size(20.dp)
                     .then(
@@ -169,7 +189,7 @@ private fun TextFieldIcon(
                             Modifier
                         }
                     )
-                    
+
             )
         }
     }
@@ -221,10 +241,11 @@ private fun PreviewPasswordInputField() {
         isPasswordField = true,
         leadingIcon = Res.drawable.ic_arrow_down,
         trailingIcon = Res.drawable.ic_arrow_down,
-        onTrailingIconClick = {  },
+        onTrailingIconClick = { },
         modifier = Modifier.padding(16.dp)
     )
 }
+
 @Composable
 @Preview
 private fun PreviewDropdownInputField() {
@@ -236,6 +257,7 @@ private fun PreviewDropdownInputField() {
         modifier = Modifier.padding(16.dp)
     )
 }
+
 @Composable
 @Preview
 private fun PreviewMultilineInputField() {
@@ -249,6 +271,7 @@ private fun PreviewMultilineInputField() {
             .height(100.dp)
     )
 }
+
 @Composable
 @Preview
 private fun PreviewInputFieldArabicTyping() {

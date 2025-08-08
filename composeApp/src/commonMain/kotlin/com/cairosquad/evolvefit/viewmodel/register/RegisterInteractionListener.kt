@@ -1,16 +1,20 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Gender
-import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.MeasurementUnit
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal
+import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.MeasurementStandard
 
 interface RegisterInteractionListener {
     fun onClickNext()
     fun onClickBack()
     fun onClickStartNow()
     fun onGenderClicked(gender: Gender)
-    fun onMeasurementUnitClicked(unit: MeasurementUnit)
+    fun onMeasurementUnitClicked(unit: MeasurementStandard)
     fun onGoalClicked(goal: Goal)
-    fun onHeightChanged(height : Float )
-    fun onWeightChanged(weight : Float)
+    fun onHeightChanged(height: Float)
+    fun onWeightChanged(weight: Float)
+    fun onNotificationToggled(type: RegisterScreenState.NotificationType)
+    fun onWorkoutDaySelected(day: RegisterScreenState.WorkoutDay)
+    fun onNoEquipmentSelected()
+    fun onEquipmentToggled(equipmentId: String)
 }

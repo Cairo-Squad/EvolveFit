@@ -9,13 +9,11 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
@@ -28,34 +26,24 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.next
 import evolvefit.composeapp.generated.resources.start_now
 import org.jetbrains.compose.resources.stringResource
+
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun RegisterScreenContent(
     state: RegisterScreenState,
     listener: RegisterInteractionListener,
 ) {
+
     val pagerState = rememberPagerState(
         initialPage = 0,
         pageCount = { RegisterViewModel.MAX_STEPS }
     )
-    var previousPage by remember { mutableStateOf(0) }
-    val currentStepIndex = state.currentStep - 1
-    LaunchedEffect(currentStepIndex) {
-        if (currentStepIndex == pagerState.currentPage) return@LaunchedEffect
-        if (currentStepIndex == previousPage) return@LaunchedEffect
-        if (pagerState.currentPage != previousPage) return@LaunchedEffect
-        try {
-            pagerState.animateScrollToPage(currentStepIndex)
-        } finally {
-            previousPage = currentStepIndex
-        }
-    }
-    LaunchedEffect(pagerState.isScrollInProgress) {
-        if (pagerState.isScrollInProgress) return@LaunchedEffect
-        if (currentStepIndex == pagerState.currentPage) return@LaunchedEffect
-        if (currentStepIndex != previousPage) return@LaunchedEffect
-        if (pagerState.currentPage == previousPage) return@LaunchedEffect
-        previousPage = pagerState.currentPage
-    }
+
+    SyncPageWithScreenState(
+        state = state,
+        pagerState = pagerState
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -81,7 +69,7 @@ fun RegisterScreenContent(
                 2 -> RegisterScreenContentSelectHeightAndWeight(state, listener)
                 3 -> RegisterScreenContentChooseYourGoal(state, listener)
                 4 -> RegisterScreenContentSelectYourTools(state, listener)
-                5 -> RegisterScreenContentSelectNotificationSittings(state, listener)
+                5 -> RegisterScreenContentSelectNotificationSettings(state, listener)
                 6 -> RegisterScreenContentSelectWorkoutDays(state, listener)
                 7 -> RegisterScreenContentUserNamePasswordDateOfBirth(state, listener)
             }
@@ -97,7 +85,21 @@ fun RegisterScreenContent(
             onClick =
                 if (state.currentStep == 8) listener::onClickStartNow
                 else listener::onClickNext,
-            isEnabled = state.nextButtonEnabled
+            isEnabled = state.isNextButtonEnabled
         )
+    }
+}
+
+@Composable
+private fun SyncPageWithScreenState(
+    state: RegisterScreenState,
+    pagerState: PagerState
+) {
+    val currentStepIndex = state.currentStep - 1
+    LaunchedEffect(currentStepIndex) {
+        if (currentStepIndex == pagerState.currentPage) return@LaunchedEffect
+        try {
+            pagerState.animateScrollToPage(currentStepIndex)
+        } catch (_: Exception) {  }
     }
 }

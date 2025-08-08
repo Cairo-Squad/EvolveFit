@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.screen.onBoarding.OnboardingHeader
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -34,7 +33,8 @@ fun RegisterScreenContentSelectUnitsOfMeasurement(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        OnboardingHeader(
+        RegisterHeader(
+            modifier = Modifier.padding(top = 16.dp),
             title = stringResource(Res.string.select_unit_title),
             description = stringResource(Res.string.select_unit_description)
         )
@@ -42,13 +42,13 @@ fun RegisterScreenContentSelectUnitsOfMeasurement(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            RegisterScreenState.MeasurementUnit.entries.forEach { unit ->
+            RegisterScreenState.MeasurementStandard.entries.forEach { unit ->
                 CheckboxItem(
                     text = when (unit) {
-                        RegisterScreenState.MeasurementUnit.Metric -> stringResource(Res.string.unit_metric)
-                        RegisterScreenState.MeasurementUnit.Imperial -> stringResource(Res.string.unit_imperial)
+                        RegisterScreenState.MeasurementStandard.Metric -> stringResource(Res.string.unit_metric)
+                        RegisterScreenState.MeasurementStandard.Imperial -> stringResource(Res.string.unit_imperial)
                     },
-                    isChecked = state.selectedMeasurementUnit == unit,
+                    isChecked = state.selectedMeasurementStandard == unit,
                     onCheckedChange = { listener.onMeasurementUnitClicked(unit) },
                 )
             }
