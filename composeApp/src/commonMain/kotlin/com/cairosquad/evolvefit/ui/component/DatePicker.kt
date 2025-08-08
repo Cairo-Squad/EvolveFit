@@ -2,7 +2,6 @@ package com.cairosquad.evolvefit.ui.component
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -24,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -48,6 +46,14 @@ fun DatePicker(
     modifier: Modifier = Modifier
 ) {
 
+    val days = remember {
+        (1..getNumberOfDaysInMonth(
+            year = yearPagerState.currentPage,
+            month = monthPagerState.currentPage
+        )).map { number ->
+            if (number < 10) "0$number" else number.toString()
+        }
+    }
 
     Box(
         modifier = modifier
@@ -67,12 +73,7 @@ fun DatePicker(
             // Day
             VerticalDatePicker(
                 state = dayPagerState,
-                content = (1..getNumberOfDaysInMonth(
-                    year = yearPagerState.currentPage,
-                    month = monthPagerState.currentPage
-                )).map { number ->
-                    if (number < 10) "0$number" else number.toString()
-                },
+                content = days,
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(1f)
@@ -123,7 +124,7 @@ private fun VerticalDatePicker(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         pageSpacing = 4.dp,
-        contentPadding = PaddingValues(106.dp),
+        contentPadding = PaddingValues(vertical = 106.dp),
         pageSize = PageSize.Fixed(40.dp),
     ) { page ->
         val animatedContentColor by animateColorAsState(
@@ -132,10 +133,7 @@ private fun VerticalDatePicker(
 
         Box(
             modifier = Modifier
-                .fillMaxHeight()
-                .background(
-                    color = if (page == state.currentPage) Theme.color.surfaces.surfaceContainer else Color.Transparent
-                ),
+                .fillMaxHeight(),
             contentAlignment = Alignment.Center
         ) {
             Text(
