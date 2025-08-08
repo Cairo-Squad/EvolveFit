@@ -174,10 +174,10 @@ class RegisterViewModel(
         }
     }
 
-    override fun onMeasurementUnitClicked(unit: RegisterScreenState.MeasurementUnit) {
+    override fun onMeasurementUnitClicked(unit: RegisterScreenState.MeasurementStandard) {
         updateState {
             val newState =
-                it.copy(selectedMeasurementUnit = if (it.selectedMeasurementUnit == unit) null else unit)
+                it.copy(selectedMeasurementStandard = if (it.selectedMeasurementStandard == unit) null else unit)
             newState.copy(isNextButtonEnabled = updateNextButtonEnableState(newState))
         }
     }
@@ -192,7 +192,7 @@ class RegisterViewModel(
     private fun updateNextButtonEnableState(state: RegisterScreenState): Boolean {
         return when (state.currentStep) {
             1 -> state.selectedGender != null
-            2 -> state.selectedMeasurementUnit != null
+            2 -> state.selectedMeasurementStandard != null
             3 -> true
             4 -> state.selectedGoal != null
             5 -> state.isNoEquipmentSelected || state.selectedEquipments.isNotEmpty()
