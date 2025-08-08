@@ -16,7 +16,7 @@ data class RegisterScreenState(
     val selectedWeight: Float = 0F,
     val isNextButtonEnabled: Boolean =false,
     val selectedGender: Gender? = null,
-    val selectedMeasurementUnit: MeasurementUnit? = null,
+    val selectedMeasurementStandard: MeasurementStandard? = null,
     val selectedGoal: Goal? = null,
     val notificationSettings: NotificationSettings = NotificationSettings(),
     val selectedWorkoutDays: List<WorkoutDay> = emptyList(),
@@ -28,8 +28,9 @@ data class RegisterScreenState(
         Female, Male
     }
 
-    enum class MeasurementUnit {
-        Metric, Imperial
+    enum class MeasurementStandard {
+        Metric,
+        Imperial
     }
 
     enum class Goal {
