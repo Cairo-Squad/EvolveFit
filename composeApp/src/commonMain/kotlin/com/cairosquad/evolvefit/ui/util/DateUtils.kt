@@ -87,6 +87,8 @@ fun getMonthName(month: Int): String {
 }
 
 fun getDateFromYearMonthDay(year: Int, month: Int, day: Int): String {
-    // TODO
-    return "2023-08-06"
+    val month = if (month < 10) "0$month" else month.toString()
+    val day = if (day < 10) "0$day" else day.toString()
+
+    return "$year-$month-$day"
 }
