@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.util.FIRST_YEAR
 import com.cairosquad.evolvefit.ui.util.getMonthAsInt
 import com.cairosquad.evolvefit.ui.util.getMonthFromDate
 import com.cairosquad.evolvefit.ui.util.getMonthName
@@ -43,8 +44,8 @@ fun DatePicker(
 
     val days = remember {
         (1..getNumberOfDaysInMonth(
-            year = yearPagerState.currentPage,
-            month = monthPagerState.currentPage
+            year = yearPagerState.currentPage + FIRST_YEAR,
+            month = monthPagerState.currentPage + 1
         )).map { number ->
             if (number < 10) "0$number" else number.toString()
         }
