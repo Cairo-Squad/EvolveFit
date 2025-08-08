@@ -39,7 +39,7 @@ fun App() {
         var userEmail by remember { mutableStateOf("") }
         var userPassword by remember { mutableStateOf("") }
         var isPasswordVisible by remember { mutableStateOf(false) }
-        var dateOfBirth by remember { mutableStateOf("2023-08-08") }
+        var dateOfBirth by remember { mutableStateOf("2023-08-09") }
 
         Box(
             modifier = Modifier

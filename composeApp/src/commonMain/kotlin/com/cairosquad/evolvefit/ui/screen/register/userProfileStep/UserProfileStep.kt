@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.ui.screen.register.userProfileStep
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,7 +17,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.composables.InputField
-import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.DateBottomSheet
 import com.cairosquad.evolvefit.ui.component.UserProfileImage
@@ -38,7 +36,6 @@ import evolvefit.composeapp.generated.resources.password
 import evolvefit.composeapp.generated.resources.user_profile
 import evolvefit.composeapp.generated.resources.user_profile_description
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun UserProfileStep(
@@ -56,7 +53,7 @@ fun UserProfileStep(
     isPasswordVisible: Boolean,
     onPasswordVisibilityClick: () -> Unit,
     dateOfBirth: String,
-    onDateOfBirthChange: (String) -> Unit, // TODO: change date handling?
+    onDateOfBirthChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
