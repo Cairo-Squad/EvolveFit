@@ -26,17 +26,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.util.getDayFromDate
 import com.cairosquad.evolvefit.ui.util.getMonthAsInt
 import com.cairosquad.evolvefit.ui.util.getMonthFromDate
 import com.cairosquad.evolvefit.ui.util.getMonthName
 import com.cairosquad.evolvefit.ui.util.getNumberOfDaysInMonth
 import com.cairosquad.evolvefit.ui.util.getYearFromDate
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
-const val MIN_YEAR = 1900
-const val MAX_YEAR = 2100
-const val INITIAL_DATE = "2025-08-06"
 
 @Composable
 fun DatePicker(
@@ -71,27 +66,27 @@ fun DatePicker(
                 .padding(horizontal = 32.dp),
         ) {
             // Day
-            VerticalDatePicker(
+            VerticalPicker(
                 state = dayPagerState,
-                content = days,
+                options = days,
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(1f)
             )
 
             // Month
-            VerticalDatePicker(
+            VerticalPicker(
                 state = monthPagerState,
-                content = (1..12).map { getMonthName(it) },
+                options = (1..12).map { getMonthName(it) },
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(1f)
             )
 
             // Year
-            VerticalDatePicker(
+            VerticalPicker(
                 state = yearPagerState,
-                content = (MIN_YEAR..MAX_YEAR).map { it.toString() },
+                options = (MIN_YEAR..MAX_YEAR).map { it.toString() },
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(1f)
@@ -114,9 +109,9 @@ private fun ChoiceIndicator(
 }
 
 @Composable
-private fun VerticalDatePicker(
+private fun VerticalPicker(
     state: PagerState,
-    content: List<String>,
+    options: List<String>,
     modifier: Modifier = Modifier
 ) {
     VerticalPager(
@@ -137,7 +132,7 @@ private fun VerticalDatePicker(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = content.getOrNull(page) ?: "",
+                text = options.getOrNull(page) ?: "",
                 style = Theme.textStyle.body.mediumMedium14, // TODO: There is a missing text style when not selected (Poppins/Title 14 Regular)
                 color = animatedContentColor,
                 modifier = Modifier
@@ -146,11 +141,14 @@ private fun VerticalDatePicker(
     }
 }
 
+private const val MIN_YEAR = 1900
+private const val MAX_YEAR = 2100
+private const val INITIAL_DATE = "2025-08-06"
+
 @Preview
 @Composable
 fun PreviewDatePicker() {
 
-    val day by remember { mutableStateOf(getDayFromDate(INITIAL_DATE)) }
     val month by remember { mutableStateOf(getMonthFromDate(INITIAL_DATE)) }
     val year by remember { mutableStateOf(getYearFromDate(INITIAL_DATE)) }
 
