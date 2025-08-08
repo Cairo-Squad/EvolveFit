@@ -39,7 +39,7 @@ class RegisterViewModel(
             password = state.password,
             gender = state.selectedGender?.toDomain() ?: Gender.MALE,
             dateOfBirth = state.dateOfBirth,
-            unit = state.selectedMeasurementUnit?.toDomain() ?: MeasurementUnit.METRIC,
+            unit = state.selectedMeasurementStandard?.toDomain() ?: MeasurementUnit.METRIC,
             goal = state.selectedGoal?.toDomain() ?: FitnessGoal.STAY_IN_SHAPE,
             height = state.selectedHeight,
             weight = state.selectedWeight,

@@ -34,10 +34,10 @@ fun RegisterScreenState.Goal.toDomain(): FitnessGoal {
     }
 }
 
-fun RegisterScreenState.MeasurementUnit.toDomain(): MeasurementUnit {
+fun RegisterScreenState.MeasurementStandard.toDomain(): MeasurementUnit {
     return when (this) {
-        RegisterScreenState.MeasurementUnit.Metric -> MeasurementUnit.METRIC
-        RegisterScreenState.MeasurementUnit.Imperial -> MeasurementUnit.IMPERIAL
+        RegisterScreenState.MeasurementStandard.Metric -> MeasurementUnit.METRIC
+        RegisterScreenState.MeasurementStandard.Imperial -> MeasurementUnit.IMPERIAL
     }
 }
 
