@@ -113,4 +113,6 @@
     <string name="password_placeholder">Password</string>
     <string name="logo_description">Logo Icon</string>
     <string name="arrow_back_description">Arrow Back Icon</string>
+    <string name="join_now">Join now</string>
+    <string name="do_not_have_an_account">Don’t have an account?</string>
 </resources>

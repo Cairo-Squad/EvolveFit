@@ -110,4 +110,7 @@
     <string name="password_placeholder">كلمة المرور</string>
     <string name="logo_description">أيقونة الشعار</string>
     <string name="arrow_back_description">أيقونة الرجوع للخلف</string>
+    <string name="join_now">انضم الآن</string>
+    <string name="do_not_have_an_account">ليس لديك حساب؟</string>
+
 </resources>
