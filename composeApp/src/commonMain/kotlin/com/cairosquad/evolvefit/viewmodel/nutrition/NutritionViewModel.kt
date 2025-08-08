@@ -3,6 +3,7 @@ package com.cairosquad.evolvefit.viewmodel.nutrition
 import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.usecases.MealUseCase
 import com.cairosquad.evolvefit.entity.Meal
+import com.cairosquad.evolvefit.entity.MealType
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.utils.getTodayDate
 import kotlinx.coroutines.Dispatchers
@@ -16,65 +17,80 @@ class NutritionViewModel(private val mealUseCase: MealUseCase) :
     ), NutritionInteractionListener {
 
     init {
-      updateNutritionScreenData()
+        updateNutritionScreenData()
     }
-    private fun updateNutritionScreenData(){
+
+    private fun updateNutritionScreenData() {
+        loadTodayMeals()
         loadDailySummary()
         loadSuggestedMeals()
-        loadMealHistory()
     }
+
     fun loadSuggestedMeals() {
         tryToCall(
             block = { mealUseCase.getSuggestedMeals() },
-            onStart = { updateState { it.copy(isLoading = true) } },
+            onStart = { updateState { it.copy(dataRequestState = NutritionScreenState.DataRequestState.LOADING) } },
             onSuccess = { meals ->
                 val uiMeals = meals.map { it.toSuggestedMealUi() }
-                println("meals : ${uiMeals.toString()}")
-                updateState { it.copy(suggestedMeals = uiMeals) }
+                updateState { it.copy(suggestedMeals = uiMeals, dataRequestState = NutritionScreenState.DataRequestState.SUCCESS) }
             },
             onError = { e ->
-                updateState { it.copy(errorMessage = e.message) }
-            },
-            onEnd = {
-                updateState { it.copy(isLoading = false) }
+                updateState { it.copy(errorMessage = e.message, dataRequestState = NutritionScreenState.DataRequestState.FAIL) }
             }
         )
     }
 
-    fun loadMealHistory() {
+    private fun loadTodayMeals() {
         tryToCall(
-            block = { mealUseCase.getMealHistoryForToday() },
+            { mealUseCase.getMealHistoryForToday() },
             onSuccess = { meals ->
-                val history = meals.map { it.toMealHistoryUi() }
-                val todayMeal = meals
-                    .groupBy { it.type }
-                    .map { (type, mealsOfType) ->
-                        NutritionScreenState.TodayMealUiState(
-                            type = type.toMealUiState(),
-                            calories = mealsOfType.sumOf { it.calories },
-                            icon = type.toMealUiState().toMealIcon()
-                        )
-                    }
-                println("history : ${history.toString()}")
-                updateState { it.copy(mealHistory = history, todayMealUiStates = todayMeal) }
+                val grouped = meals.groupBy { it.type }
+
+                val todayMeals = defaultTypes.map { type ->
+                    val mealsOfType = grouped[type].orEmpty()
+                    NutritionScreenState.TodayMealUiState(
+                        type = type.toMealUiState(),
+                        calories = mealsOfType.sumOf { (it.calories.toInt()) }.toFloat(),
+                        icon = type.toMealUiState().toMealIcon()
+                    )
+                }
+
+                updateState { it.copy(todayMealUiStates = todayMeals) }
             },
-            onError = { e ->
-                updateState { it.copy(errorMessage = e.message) }
+            onError = {
+                updateState { it.copy(todayMealUiStates = getDefaultTodayMeals()) }
             }
         )
     }
+
     fun loadDailySummary() {
         tryToCall(
             block = { mealUseCase.getDailySummary() },
             onSuccess = { meals ->
                 val remainingCalories = (meals.totalCalories - meals.calorieGoal).toFloat()
-                updateState { it.copy(caloriesGoal = meals.calorieGoal.toFloat(), caloriesConsumed = meals.totalCalories.toFloat(), remainingCalories =remainingCalories ) }
+                updateState {
+                    it.copy(
+                        caloriesGoal = meals.calorieGoal.toFloat(),
+                        caloriesConsumed = meals.totalCalories.toFloat(),
+                        remainingCalories = remainingCalories
+                    )
+                }
             },
             onError = { e ->
                 updateState { it.copy(errorMessage = e.message) }
             }
         )
     }
+    private fun getDefaultTodayMeals(): List<NutritionScreenState.TodayMealUiState> {
+        return NutritionScreenState.MealTypeUiState.entries.map { mealType ->
+            NutritionScreenState.TodayMealUiState(
+                type = mealType,
+                calories = 0.0f,
+                icon = mealType.toMealIcon()
+            )
+        }
+    }
+
     override fun onAddWaterClicked() {
         updateState { it.copy(isAddWaterSheetVisible = true) }
     }
@@ -119,7 +135,7 @@ class NutritionViewModel(private val mealUseCase: MealUseCase) :
             println("meal added : ${meal.toString()}")
             val success = mealUseCase.addMeal(meal)
             if (success) {
-               updateNutritionScreenData()
+                updateNutritionScreenData()
                 showMealAddedSnackBar()
             }
             updateState {
@@ -191,5 +207,14 @@ class NutritionViewModel(private val mealUseCase: MealUseCase) :
 
     override fun onSnackBarHided() {
         updateState { it.copy(isAddMealSnackBarVisible = false) }
+    }
+
+    private companion object {
+        val defaultTypes = listOf(
+            MealType.BREAKFAST,
+            MealType.LUNCH,
+            MealType.DINNER,
+            MealType.SNACK
+        )
     }
 }

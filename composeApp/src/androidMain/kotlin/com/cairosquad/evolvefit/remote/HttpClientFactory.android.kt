@@ -24,9 +24,9 @@ actual fun createHttpClient(): HttpClient {
         }
         install(Logging) {
             logger = Logger.SIMPLE
-            level = LogLevel.ALL // هذا يطبع كل شيء: headers + body
+            level = LogLevel.ALL
         }
     }
 }
 
-val access="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwNDE5NzBlNC1lNmJhLTRjYmUtYjBjYS0zM2U2ODBlNmQzNjMiLCJpYXQiOjE3NTQ1Nzk5NTEsImV4cCI6MTc1NDU4MzU1MX0.6Lpo-wmjFTDBTTQhEqHKeHD555XDWaQazblZZ26lHkKGxmuSUOp5d6afzWYHTYg9hMdialAe1Cjjc3RYNumlLA"
+val access="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwNDE5NzBlNC1lNmJhLTRjYmUtYjBjYS0zM2U2ODBlNmQzNjMiLCJpYXQiOjE3NTQ2NTYwMDksImV4cCI6MTc1NDY1OTYwOX0.-qu_fqF_kOPcgJaK24w4t6hriuXh1tV5a4wdpQfQ22afNaRYZaUGtkhlG1z3V3KoaS1ltcypwGSCKkaye0FBNw"

@@ -65,10 +65,11 @@ fun TodayMeals(
                 .padding(vertical = 16.dp, horizontal = 12.dp)
         ) {
             LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 100.dp),
+                columns = GridCells.Fixed(4),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(max = 76.dp)
+                  .heightIn(max = 84.dp),
+                userScrollEnabled = false
             ) {
                 items(state.todayMealUiStates) { meal ->
                     TodayMealItem(meal = meal)

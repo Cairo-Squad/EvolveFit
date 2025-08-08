@@ -118,11 +118,13 @@ private fun NutritionScreenContent(
                     listener = listener
                 )
             }
-            item {
-                SuggestedMeals(
-                    state = state,
-                    listener = listener
-                )
+            if (state.suggestedMeals.isNotEmpty()){
+                item {
+                    SuggestedMeals(
+                        state = state,
+                        listener = listener
+                    )
+                }
             }
             item {
                 MealHistoryViewAll(listener = listener)

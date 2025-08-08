@@ -55,7 +55,7 @@ fun SuggestedMeal.toSuggestedMealUi(): NutritionScreenState.SuggestedMeal {
 fun Meal.toTodayMealUi(): NutritionScreenState.TodayMealUiState {
     return NutritionScreenState.TodayMealUiState(
         type = this.type.toMealUiState(),
-        calories = this.calories,
+        calories = this.calories.toFloat(),
         icon = this.type.toMealUiState().toMealIcon()
     )
 }
