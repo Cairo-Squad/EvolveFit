@@ -72,6 +72,7 @@ fun DateBottomSheet(
                     )
                 )
             },
+            onDatePickerDismiss = onDatePickerDismiss,
             modifier = Modifier
                 .padding(16.dp)
         )
@@ -84,6 +85,7 @@ fun DateBottomSheetContent(
     monthPagerState: PagerState,
     yearPagerState: PagerState,
     onDateChange: () -> Unit,
+    onDatePickerDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -117,7 +119,10 @@ fun DateBottomSheetContent(
 
         PrimaryButton(
             text = "Save", // TODO
-            onClick = { onDateChange() }
+            onClick = {
+                onDateChange()
+                onDatePickerDismiss()
+            }
         )
     }
 }
