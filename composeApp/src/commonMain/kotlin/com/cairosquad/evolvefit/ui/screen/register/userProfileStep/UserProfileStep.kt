@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.component.DatePicker
 import com.cairosquad.evolvefit.ui.component.UserProfileImage
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
@@ -160,6 +161,7 @@ private fun UserProfileForm(
         )
 
         // TODO: date of birth composable
+
 
         InputField(
             value = userPassword,

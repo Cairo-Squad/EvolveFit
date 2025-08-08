@@ -24,3 +24,8 @@ fun getNumberOfDaysInMonth(year: Int, month: Int): Int {
     // TODO
     return 31
 }
+
+fun getMonthName(month: Int): String {
+    // TODO
+    return "January"
+}
