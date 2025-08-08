@@ -26,7 +26,7 @@ enum class FitnessGoal {
 }
 
 data class Tool(
-    val id: Int,
+    val id: String,
     val name: String
 )
 
