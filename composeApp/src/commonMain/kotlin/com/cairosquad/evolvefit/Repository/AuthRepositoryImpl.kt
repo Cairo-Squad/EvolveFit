@@ -1,10 +1,11 @@
 package com.cairosquad.evolvefit.Repository
 
-import com.cairosquad.evolvefit.domain.AuthRepository
 import com.cairosquad.evolvefit.domain.AuthRemoteDataSource
-import com.cairosquad.evolvefit.remote.model.RegisterRequest
+import com.cairosquad.evolvefit.domain.AuthRepository
+import com.cairosquad.evolvefit.entity.Tool
 import com.cairosquad.evolvefit.entity.User
 import com.cairosquad.evolvefit.local.AuthPreferences
+import com.cairosquad.evolvefit.remote.model.RegisterRequest
 import com.cairosquad.evolvefit.remote.safeApiCall
 
 class AuthRepositoryImpl(
@@ -48,6 +49,10 @@ class AuthRepositoryImpl(
 
     override suspend fun isUserLoggedIn(): Boolean {
         return prefs.getAccessToken()?.isNotEmpty() == true
+    }
+
+    override suspend fun getEquipments(): List<Tool> {
+        return remote.getEquipments().map { it.toDomain() }
     }
 }
 

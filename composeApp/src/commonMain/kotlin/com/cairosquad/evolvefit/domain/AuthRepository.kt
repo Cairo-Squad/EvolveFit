@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.domain
 
 import com.cairosquad.evolvefit.Repository.model.AuthTokens
+import com.cairosquad.evolvefit.entity.Tool
 import com.cairosquad.evolvefit.entity.User
 
 // domain/repository/AuthRepositoryImpl.kt
@@ -10,5 +11,6 @@ interface AuthRepository {
     suspend fun refreshToken()
     suspend fun logout()
     suspend fun isUserLoggedIn(): Boolean
+    suspend fun getEquipments(): List<Tool>
 }
 
