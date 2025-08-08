@@ -107,4 +107,12 @@
     <string name="user_profile">User Profile</string>
     <string name="user_profile_description">Enter your name, date of birth, and add your photo to get started.</string>
     <string name="upload_image">Upload image</string>
+    <string name="welcome_back_title">Welcome Back!</string>
+    <string name="welcome_back_description">Log in to continue your fitness journey, track your progress, and stay motivated every day.</string>
+    <string name="email_placeholder">Enter your name</string>
+    <string name="password_placeholder">Password</string>
+    <string name="logo_description">Logo Icon</string>
+    <string name="arrow_back_description">Arrow Back Icon</string>
+    <string name="join_now">Join now</string>
+    <string name="do_not_have_an_account">Don’t have an account?</string>
 </resources>
