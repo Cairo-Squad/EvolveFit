@@ -44,7 +44,7 @@ fun RegisterScreenContent(
         pageCount = { RegisterViewModel.MAX_STEPS }
     )
 
-    ManagePageSynchronizationWithScreenState(
+    SyncPageWithScreenState(
         state = state,
         pagerState = pagerState
     )
@@ -96,7 +96,7 @@ fun RegisterScreenContent(
 }
 
 @Composable
-private fun ManagePageSynchronizationWithScreenState(
+private fun SyncPageWithScreenState(
     state: RegisterScreenState,
     pagerState: PagerState
 ) {
