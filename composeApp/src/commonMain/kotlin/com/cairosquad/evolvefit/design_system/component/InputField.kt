@@ -1,16 +1,13 @@
 package com.cairosquad.evolvefit.design_system.composables
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -28,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -42,9 +39,13 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import org.jetbrains.compose.resources.painterResource
-import evolvefit.composeapp.generated.resources.*
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.ic_arrow_down
+import evolvefit.composeapp.generated.resources.ic_check_mark
+import evolvefit.composeapp.generated.resources.ic_date
+import evolvefit.composeapp.generated.resources.ic_profile
 import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -55,6 +56,7 @@ fun InputField(
     modifier: Modifier = Modifier,
     placeholder: String = "",
     error: String = "",
+    readOnly: Boolean = false,
     isErrorMessageShown: Boolean = true,
     isSingleLine: Boolean = true,
     isPasswordField: Boolean = false,
@@ -63,26 +65,41 @@ fun InputField(
     trailingIcon: DrawableResource? = null,
     onTrailingIconClick: (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    onClick: (() -> Unit)? = null
 ) {
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
     }
 
+    val interactionSource = remember { MutableInteractionSource() }
+
     Column(
         modifier = modifier
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = onClick
+                    )
+                } else {
+                    Modifier
+                }
+            )
     ) {
         BasicTextField(
             value = textFieldValue,
             onValueChange = { newValue ->
-                val filteredValue = if (maxCharacters != null && newValue.text.length > maxCharacters) {
-                    val truncatedText = newValue.text.take(maxCharacters)
-                    newValue.copy(
-                        text = truncatedText,
-                        selection = TextRange(truncatedText.length.coerceAtMost(newValue.selection.start))
-                    )
-                } else {
-                    newValue
-                }
+                val filteredValue =
+                    if (maxCharacters != null && newValue.text.length > maxCharacters) {
+                        val truncatedText = newValue.text.take(maxCharacters)
+                        newValue.copy(
+                            text = truncatedText,
+                            selection = TextRange(truncatedText.length.coerceAtMost(newValue.selection.start))
+                        )
+                    } else {
+                        newValue
+                    }
 
                 textFieldValue = filteredValue
                 onValueChange(filteredValue.text)
@@ -96,7 +113,9 @@ fun InputField(
                 color = Theme.color.surfaces.onSurfaceContainer
             ),
             keyboardOptions = keyboardOptions,
+            readOnly = readOnly,
             decorationBox = { innerTextField ->
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -104,25 +123,72 @@ fun InputField(
                     TextFieldIcon(
                         leadingIcon,
                         error = error.isNotBlank(),
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Box(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        innerTextField()
-
-                        if (textFieldValue.text.isEmpty()) {
-                            Text(
-                                text = placeholder,
-                                style = Theme.textStyle.label.smallRegular14.copy(
-                                    color = Theme.color.surfaces.onSurfaceVariant
-                                )
+                        modifier = Modifier
+                            .then(
+                                if (onClick != null) {
+                                    Modifier.clickable(
+                                        interactionSource = interactionSource,
+                                        indication = null,
+                                        onClick = onClick
+                                    )
+                                } else {
+                                    Modifier
+                                }
                             )
+                            .padding(end = 8.dp)
+                    )
+                    if (onClick != null) {
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clickable(
+                                    interactionSource = interactionSource,
+                                    indication = null,
+                                    onClick = onClick
+                                )
+                        ) {
+                            innerTextField()
+
+                            if (textFieldValue.text.isEmpty()) {
+                                Text(
+                                    text = placeholder,
+                                    style = Theme.textStyle.label.smallRegular14.copy(
+                                        color = Theme.color.surfaces.onSurfaceVariant
+                                    )
+                                )
+                            }
+                        }
+                    } else {
+                        Box(
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            innerTextField()
+
+                            if (textFieldValue.text.isEmpty()) {
+                                Text(
+                                    text = placeholder,
+                                    style = Theme.textStyle.label.smallRegular14.copy(
+                                        color = Theme.color.surfaces.onSurfaceVariant
+                                    )
+                                )
+                            }
                         }
                     }
                     TextFieldIcon(
                         trailingIcon,
-                        modifier = Modifier.padding(start = 8.dp),
+                        modifier = Modifier
+                            .then(
+                                if (onClick != null) {
+                                    Modifier.clickable(
+                                        interactionSource = interactionSource,
+                                        indication = null,
+                                        onClick = onClick
+                                    )
+                                } else {
+                                    Modifier
+                                }
+                            )
+                            .padding(start = 8.dp),
                         error = error.isNotBlank(),
                         onTrailingIconClick,
                     )
@@ -133,9 +199,9 @@ fun InputField(
             ),
             visualTransformation = if (isPasswordField) PasswordVisualTransformation() else VisualTransformation.None,
         )
-
     }
 }
+
 @Composable
 private fun TextFieldIcon(
     icon: DrawableResource? = null,
@@ -146,7 +212,7 @@ private fun TextFieldIcon(
     val tintColor = if (error) {
         Theme.color.system.warning
     } else {
-         Theme.color.surfaces.onSurfaceVariant
+        Theme.color.surfaces.onSurfaceVariant
     }
 
     if (icon != null) {
@@ -159,7 +225,7 @@ private fun TextFieldIcon(
             Icon(
                 painter = painterResource(it),
                 contentDescription = null,
-                tint=tintColor,
+                tint = tintColor,
                 modifier = modifier
                     .size(20.dp)
                     .then(
@@ -169,7 +235,7 @@ private fun TextFieldIcon(
                             Modifier
                         }
                     )
-                    
+
             )
         }
     }
@@ -221,10 +287,11 @@ private fun PreviewPasswordInputField() {
         isPasswordField = true,
         leadingIcon = Res.drawable.ic_arrow_down,
         trailingIcon = Res.drawable.ic_arrow_down,
-        onTrailingIconClick = {  },
+        onTrailingIconClick = { },
         modifier = Modifier.padding(16.dp)
     )
 }
+
 @Composable
 @Preview
 private fun PreviewDropdownInputField() {
@@ -236,6 +303,7 @@ private fun PreviewDropdownInputField() {
         modifier = Modifier.padding(16.dp)
     )
 }
+
 @Composable
 @Preview
 private fun PreviewMultilineInputField() {
@@ -249,6 +317,7 @@ private fun PreviewMultilineInputField() {
             .height(100.dp)
     )
 }
+
 @Composable
 @Preview
 private fun PreviewInputFieldArabicTyping() {

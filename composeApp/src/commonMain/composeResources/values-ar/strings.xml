@@ -65,4 +65,6 @@
     <string name="month_october">أكتوبر</string>
     <string name="month_november">نوفمبر</string>
     <string name="month_december">ديسمبر</string>
+
+    <string name="date_of_birth">تاريخ الميلاد</string>
 </resources>

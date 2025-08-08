@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.register.userProfileStep
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,6 +8,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
@@ -19,8 +24,11 @@ import com.cairosquad.evolvefit.ui.component.DateBottomSheet
 import com.cairosquad.evolvefit.ui.component.UserProfileImage
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.date_of_birth
 import evolvefit.composeapp.generated.resources.enter_your_email
 import evolvefit.composeapp.generated.resources.enter_your_name
+import evolvefit.composeapp.generated.resources.ic_date
+import evolvefit.composeapp.generated.resources.ic_end_arrow
 import evolvefit.composeapp.generated.resources.ic_lock
 import evolvefit.composeapp.generated.resources.ic_mail
 import evolvefit.composeapp.generated.resources.ic_profile
@@ -125,9 +133,11 @@ private fun UserProfileForm(
     isPasswordVisible: Boolean,
     onPasswordVisibilityClick: () -> Unit,
     dateOfBirth: String,
-    onDateOfBirthChange: (String) -> Unit, // TODO: change date handling?
+    onDateOfBirthChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var isDatePickerBottomSheetOpen by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
             .fillMaxWidth(),
@@ -159,8 +169,19 @@ private fun UserProfileForm(
                 .fillMaxWidth()
         )
 
-        // TODO: date of birth composable
-
+        InputField(
+            value = dateOfBirth,
+            onValueChange = onDateOfBirthChange,
+            placeholder = stringResource(Res.string.date_of_birth),
+            leadingIcon = Res.drawable.ic_date,
+            trailingIcon = Res.drawable.ic_end_arrow,
+            readOnly = true,
+            onClick = {
+                isDatePickerBottomSheetOpen = true
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+        )
 
         InputField(
             value = userPassword,
@@ -182,34 +203,10 @@ private fun UserProfileForm(
     DateBottomSheet(
         dateOfBirth = dateOfBirth,
         onDateChange = onDateOfBirthChange,
-        isDatePickerBottomSheetOpen = true,
-        onDatePickerDismiss = {},
+        isDatePickerBottomSheetOpen = isDatePickerBottomSheetOpen,
+        onDatePickerDismiss = {
+            isDatePickerBottomSheetOpen = false
+        },
         modifier = Modifier
     )
-}
-
-@Preview
-@Composable
-fun PreviewUserProfileStep() {
-//    AppTheme(
-//        isDarkTheme = true
-//    ) {
-//        UserProfileStep(
-//            image = UiImage.ImageUrl(""),
-//            isImagePickerOpen = false,
-//            onImagePickerClick = {},
-//            onImageRetrieved = {},
-//            onImagePickerDismiss = {},
-//            userName = "",
-//            onUserNameChange = {},
-//            userEmail = "",
-//            onUserEmailChange = {},
-//            userPassword = "",
-//            onUserPasswordChange = {},
-//            isPasswordVisible = false,
-//            onPasswordVisibilityClick = {},
-//            dateOfBirth = "",
-//            onDateOfBirthChange = {},
-//        )
-//    }
 }
