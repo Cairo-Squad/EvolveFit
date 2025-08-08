@@ -15,13 +15,12 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.component.DatePicker
+import com.cairosquad.evolvefit.ui.component.DateBottomSheet
 import com.cairosquad.evolvefit.ui.component.UserProfileImage
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.enter_your_email
 import evolvefit.composeapp.generated.resources.enter_your_name
-import evolvefit.composeapp.generated.resources.ic_date
 import evolvefit.composeapp.generated.resources.ic_lock
 import evolvefit.composeapp.generated.resources.ic_mail
 import evolvefit.composeapp.generated.resources.ic_profile
@@ -179,6 +178,11 @@ private fun UserProfileForm(
                 .fillMaxWidth(),
         )
     }
+
+    DateBottomSheet(
+        dateOfBirth = dateOfBirth,
+        onDateChange = onDateOfBirthChange
+    )
 }
 
 @Preview

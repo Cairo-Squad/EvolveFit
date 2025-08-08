@@ -16,6 +16,8 @@ import evolvefit.composeapp.generated.resources.month_september
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.getString
 
+const val FIRST_YEAR = 1900
+
 fun getDayFromDate(date: String): String {
     return (date.split("-")[2].toInt()).toString()
 }
@@ -82,4 +84,9 @@ fun getMonthName(month: Int): String {
             else -> throw IllegalArgumentException("Invalid month number: $month")
         }
     }
+}
+
+fun getDateFromYearMonthDay(year: Int, month: Int, day: Int): String {
+    // TODO
+    return "2023-08-06"
 }
