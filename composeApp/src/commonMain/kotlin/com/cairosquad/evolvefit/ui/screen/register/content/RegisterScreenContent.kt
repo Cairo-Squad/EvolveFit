@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.register.content
 
 import RegisterScreenContentSelectHeightAndWeight
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,10 +33,6 @@ fun RegisterScreenContent(
     state: RegisterScreenState,
     listener: RegisterInteractionListener,
 ) {
-
-    BackHandler(enabled = true) {
-        listener.onClickBack()
-    }
 
     val pagerState = rememberPagerState(
         initialPage = 0,
