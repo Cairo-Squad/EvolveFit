@@ -59,6 +59,10 @@ class LoginViewModel(
         TODO("Not yet implemented")
     }
 
+    override fun onJoinNowClicked() {
+        TODO("Not yet implemented")
+    }
+
     private fun isSubmitAllowed(uiState: LoginScreenUiState): Boolean {
         return uiState.email.isNotBlank() &&
                 uiState.password.isNotBlank() &&

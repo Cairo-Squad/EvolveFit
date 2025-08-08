@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.login.content
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -15,7 +16,9 @@ import evolvefit.composeapp.generated.resources.join_now
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
- fun SignUpPromptRow() {
+fun SignUpPromptRow(
+    onJoinNowClicked: () -> Unit
+) {
     Row(
         modifier = Modifier
             .padding(horizontal = 74.dp)
@@ -29,6 +32,7 @@ import org.jetbrains.compose.resources.stringResource
             color = Theme.color.surfaces.onSurfaceVariant,
         )
         Text(
+            modifier = Modifier.clickable(onClick = onJoinNowClicked),
             text = stringResource(Res.string.join_now),
             style = Theme.textStyle.label.mediumMedium16,
             color = Theme.color.brand.primary,

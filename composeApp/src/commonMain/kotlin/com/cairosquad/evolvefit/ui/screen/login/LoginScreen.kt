@@ -130,6 +130,6 @@ private fun LoginScreenContent(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        SignUpPromptRow()
+        SignUpPromptRow(onJoinNowClicked = listener::onJoinNowClicked)
     }
 }

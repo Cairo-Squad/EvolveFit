@@ -6,4 +6,5 @@ interface LoginInteractionListener {
     fun onPasswordChanged(newPassword: String)
     fun onTogglePasswordVisibility()
     fun onBackClicked()
+    fun onJoinNowClicked()
 }
