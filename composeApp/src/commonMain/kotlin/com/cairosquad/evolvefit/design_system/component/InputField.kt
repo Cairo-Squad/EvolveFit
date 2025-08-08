@@ -7,6 +7,7 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -65,6 +67,7 @@ fun InputField(
     trailingIconModifier: Modifier = Modifier,
     onTrailingIconClick: (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    onClick: (() -> Unit)? = null
 ) {
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
@@ -79,8 +82,21 @@ fun InputField(
         }
     }
 
+    val interactionSource = remember { MutableInteractionSource() }
+
     Column(
         modifier = modifier
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = onClick
+                    )
+                } else {
+                    Modifier
+                }
+            )
     ) {
         BasicTextField(
             modifier = Modifier
@@ -110,6 +126,7 @@ fun InputField(
             keyboardOptions = keyboardOptions,
             singleLine = isSingleLine,
             decorationBox = { innerTextField ->
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -117,25 +134,72 @@ fun InputField(
                     TextFieldIcon(
                         leadingIcon,
                         error = error.isNotBlank(),
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Box(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        innerTextField()
-
-                        if (textFieldValue.text.isEmpty()) {
-                            Text(
-                                text = placeholder,
-                                style = Theme.textStyle.label.smallRegular14.copy(
-                                    color = Theme.color.surfaces.onSurfaceVariant
-                                )
+                        modifier = Modifier
+                            .then(
+                                if (onClick != null) {
+                                    Modifier.clickable(
+                                        interactionSource = interactionSource,
+                                        indication = null,
+                                        onClick = onClick
+                                    )
+                                } else {
+                                    Modifier
+                                }
                             )
+                            .padding(end = 8.dp)
+                    )
+                    if (onClick != null) {
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clickable(
+                                    interactionSource = interactionSource,
+                                    indication = null,
+                                    onClick = onClick
+                                )
+                        ) {
+                            innerTextField()
+
+                            if (textFieldValue.text.isEmpty()) {
+                                Text(
+                                    text = placeholder,
+                                    style = Theme.textStyle.label.smallRegular14.copy(
+                                        color = Theme.color.surfaces.onSurfaceVariant
+                                    )
+                                )
+                            }
+                        }
+                    } else {
+                        Box(
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            innerTextField()
+
+                            if (textFieldValue.text.isEmpty()) {
+                                Text(
+                                    text = placeholder,
+                                    style = Theme.textStyle.label.smallRegular14.copy(
+                                        color = Theme.color.surfaces.onSurfaceVariant
+                                    )
+                                )
+                            }
                         }
                     }
                     TextFieldIcon(
                         trailingIcon,
-                        modifier = trailingIconModifier.padding(start = 8.dp),
+                        modifier = trailingIconModifier
+                            .then(
+                                if (onClick != null) {
+                                    Modifier.clickable(
+                                        interactionSource = interactionSource,
+                                        indication = null,
+                                        onClick = onClick
+                                    )
+                                } else {
+                                    Modifier
+                                }
+                            )
+                            .padding(start = 8.dp),
                         error = error.isNotBlank(),
                         onTrailingIconClick,
                     )

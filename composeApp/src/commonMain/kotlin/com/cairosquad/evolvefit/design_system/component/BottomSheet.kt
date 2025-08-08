@@ -26,7 +26,7 @@ fun BottomSheet(
     scrimColor: Color = Theme.color.surfaces.onSurfaceAt2,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var isBottomSheetVisible by remember { mutableStateOf(isVisible) }
     LaunchedEffect(isVisible) {
         if (isVisible) {

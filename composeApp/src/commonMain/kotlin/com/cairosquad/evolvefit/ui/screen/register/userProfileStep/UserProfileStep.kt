@@ -7,20 +7,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.composables.InputField
-import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.component.DateBottomSheet
 import com.cairosquad.evolvefit.ui.component.UserProfileImage
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.date_of_birth
 import evolvefit.composeapp.generated.resources.enter_your_email
 import evolvefit.composeapp.generated.resources.enter_your_name
 import evolvefit.composeapp.generated.resources.ic_date
+import evolvefit.composeapp.generated.resources.ic_end_arrow
 import evolvefit.composeapp.generated.resources.ic_lock
 import evolvefit.composeapp.generated.resources.ic_mail
 import evolvefit.composeapp.generated.resources.ic_profile
@@ -30,7 +36,6 @@ import evolvefit.composeapp.generated.resources.password
 import evolvefit.composeapp.generated.resources.user_profile
 import evolvefit.composeapp.generated.resources.user_profile_description
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun UserProfileStep(
@@ -47,8 +52,9 @@ fun UserProfileStep(
     onUserPasswordChange: (String) -> Unit,
     isPasswordVisible: Boolean,
     onPasswordVisibilityClick: () -> Unit,
+    maxDate: String,
     dateOfBirth: String,
-    onDateOfBirthChange: (String) -> Unit, // TODO: change date handling?
+    onDateOfBirthChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -86,6 +92,7 @@ fun UserProfileStep(
             isPasswordVisible = isPasswordVisible,
             onPasswordVisibilityClick = onPasswordVisibilityClick,
             dateOfBirth = dateOfBirth,
+            maxDate = maxDate,
             onDateOfBirthChange = onDateOfBirthChange,
         )
     }
@@ -124,10 +131,13 @@ private fun UserProfileForm(
     onUserPasswordChange: (String) -> Unit,
     isPasswordVisible: Boolean,
     onPasswordVisibilityClick: () -> Unit,
+    maxDate: String,
     dateOfBirth: String,
-    onDateOfBirthChange: (String) -> Unit, // TODO: change date handling?
+    onDateOfBirthChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var isDatePickerBottomSheetOpen by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
             .fillMaxWidth(),
@@ -159,7 +169,19 @@ private fun UserProfileForm(
                 .fillMaxWidth()
         )
 
-        // TODO: date of birth composable
+        InputField(
+            value = dateOfBirth,
+            onValueChange = onDateOfBirthChange,
+            placeholder = stringResource(Res.string.date_of_birth),
+            leadingIcon = Res.drawable.ic_date,
+            trailingIcon = Res.drawable.ic_end_arrow,
+            readOnly = true,
+            onClick = {
+                isDatePickerBottomSheetOpen = true
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+        )
 
         InputField(
             value = userPassword,
@@ -177,30 +199,15 @@ private fun UserProfileForm(
                 .fillMaxWidth(),
         )
     }
-}
 
-@Preview
-@Composable
-fun PreviewUserProfileStep() {
-    AppTheme(
-        isDarkTheme = true
-    ) {
-        UserProfileStep(
-            image = UiImage.ImageUrl(""),
-            isImagePickerOpen = false,
-            onImagePickerClick = {},
-            onImageRetrieved = {},
-            onImagePickerDismiss = {},
-            userName = "",
-            onUserNameChange = {},
-            userEmail = "",
-            onUserEmailChange = {},
-            userPassword = "",
-            onUserPasswordChange = {},
-            isPasswordVisible = false,
-            onPasswordVisibilityClick = {},
-            dateOfBirth = "",
-            onDateOfBirthChange = {},
-        )
-    }
+    DateBottomSheet(
+        maxDate = maxDate,
+        dateOfBirth = dateOfBirth,
+        onDateChange = onDateOfBirthChange,
+        isDatePickerBottomSheetOpen = isDatePickerBottomSheetOpen,
+        onDatePickerDismiss = {
+            isDatePickerBottomSheetOpen = false
+        },
+        modifier = Modifier
+    )
 }

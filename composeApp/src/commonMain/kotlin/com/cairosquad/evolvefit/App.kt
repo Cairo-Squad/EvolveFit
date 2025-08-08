@@ -77,6 +77,7 @@ fun App() {
                 onPasswordVisibilityClick = {
                     isPasswordVisible = !isPasswordVisible
                 },
+                maxDate = "2023-08-06",
                 dateOfBirth = dateOfBirth,
                 onDateOfBirthChange = {
                     dateOfBirth = it
