@@ -181,32 +181,35 @@ private fun UserProfileForm(
 
     DateBottomSheet(
         dateOfBirth = dateOfBirth,
-        onDateChange = onDateOfBirthChange
+        onDateChange = onDateOfBirthChange,
+        isDatePickerBottomSheetOpen = true,
+        onDatePickerDismiss = {},
+        modifier = Modifier
     )
 }
 
 @Preview
 @Composable
 fun PreviewUserProfileStep() {
-    AppTheme(
-        isDarkTheme = true
-    ) {
-        UserProfileStep(
-            image = UiImage.ImageUrl(""),
-            isImagePickerOpen = false,
-            onImagePickerClick = {},
-            onImageRetrieved = {},
-            onImagePickerDismiss = {},
-            userName = "",
-            onUserNameChange = {},
-            userEmail = "",
-            onUserEmailChange = {},
-            userPassword = "",
-            onUserPasswordChange = {},
-            isPasswordVisible = false,
-            onPasswordVisibilityClick = {},
-            dateOfBirth = "",
-            onDateOfBirthChange = {},
-        )
-    }
+//    AppTheme(
+//        isDarkTheme = true
+//    ) {
+//        UserProfileStep(
+//            image = UiImage.ImageUrl(""),
+//            isImagePickerOpen = false,
+//            onImagePickerClick = {},
+//            onImageRetrieved = {},
+//            onImagePickerDismiss = {},
+//            userName = "",
+//            onUserNameChange = {},
+//            userEmail = "",
+//            onUserEmailChange = {},
+//            userPassword = "",
+//            onUserPasswordChange = {},
+//            isPasswordVisible = false,
+//            onPasswordVisibilityClick = {},
+//            dateOfBirth = "",
+//            onDateOfBirthChange = {},
+//        )
+//    }
 }

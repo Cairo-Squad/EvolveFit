@@ -5,13 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
@@ -19,6 +14,7 @@ import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.util.FIRST_YEAR
+import com.cairosquad.evolvefit.ui.util.getDateFromYearMonthDay
 import com.cairosquad.evolvefit.ui.util.getDayFromDate
 import com.cairosquad.evolvefit.ui.util.getMonthAsInt
 import com.cairosquad.evolvefit.ui.util.getMonthFromDate
@@ -29,10 +25,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun DateBottomSheet(
     dateOfBirth: String,
+    isDatePickerBottomSheetOpen: Boolean,
+    onDatePickerDismiss: () -> Unit,
     onDateChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var isDatePickerBottomSheetOpen by remember { mutableStateOf(false) }
     val day = getDayFromDate(dateOfBirth)
     val dayPagerState = rememberPagerState(
         initialPage = day.toInt() - 1,
@@ -58,9 +55,7 @@ fun DateBottomSheet(
 
     BottomSheet(
         isVisible = isDatePickerBottomSheetOpen,
-        onDismiss = {
-            isDatePickerBottomSheetOpen = false
-        },
+        onDismiss = onDatePickerDismiss,
         modifier = modifier
             .fillMaxWidth()
     ) {
@@ -69,7 +64,13 @@ fun DateBottomSheet(
             monthPagerState = monthPagerState,
             yearPagerState = yearPagerState,
             onDateChange = {
-
+                onDateChange(
+                    getDateFromYearMonthDay(
+                        year = yearPagerState.currentPage + FIRST_YEAR,
+                        month = monthPagerState.currentPage + 1,
+                        day = dayPagerState.currentPage + 1
+                    )
+                )
             },
             modifier = Modifier
                 .padding(16.dp)
@@ -128,6 +129,8 @@ fun PreviewDateBottomSheet() {
         DateBottomSheet(
             dateOfBirth = "2023-08-06",
             onDateChange = {},
+            isDatePickerBottomSheetOpen = true,
+            onDatePickerDismiss = {},
             modifier = Modifier
                 .padding(16.dp)
         )
