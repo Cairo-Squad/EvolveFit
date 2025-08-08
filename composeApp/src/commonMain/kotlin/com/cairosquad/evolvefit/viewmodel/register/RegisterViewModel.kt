@@ -1,12 +1,19 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
+import com.cairosquad.evolvefit.domain.usecase.GetEquipmentsUseCase
+import com.cairosquad.evolvefit.domain.usecase.authentication.AuthUseCase
+import com.cairosquad.evolvefit.entity.FitnessGoal
+import com.cairosquad.evolvefit.entity.Gender
+import com.cairosquad.evolvefit.entity.MeasurementUnit
+import com.cairosquad.evolvefit.entity.User
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal
 
-class RegisterViewModel :
-    BaseViewModel<RegisterScreenState, RegisterEffect>(RegisterScreenState()),
+class RegisterViewModel(
+    private val authUseCase: AuthUseCase,
+    private val getEquipmentsUseCase: GetEquipmentsUseCase
+) : BaseViewModel<RegisterScreenState, RegisterEffect>(RegisterScreenState()),
     RegisterInteractionListener {
-
     override fun onClickNext() {
         updateState { current ->
             val nextStep = current.currentStep + 1
@@ -24,8 +31,56 @@ class RegisterViewModel :
     }
 
     override fun onClickStartNow() {
-        // TODO: call the register use case and Navigate to home screen if register is successful
-        sendEffect(RegisterEffect.NavigateToHome)
+        val state = screenState.value
+
+        val user = User(
+            name = state.name,
+            email = state.email,
+            password = state.password,
+            gender = state.selectedGender?.toDomain() ?: Gender.MALE,
+            dateOfBirth = state.dateOfBirth,
+            unit = state.selectedMeasurementUnit?.toDomain() ?: MeasurementUnit.METRIC,
+            goal = state.selectedGoal?.toDomain() ?: FitnessGoal.STAY_IN_SHAPE,
+            height = state.selectedHeight,
+            weight = state.selectedWeight,
+            tools = state.selectedEquipments.toToolsDomain(state),
+            workoutDays = state.selectedWorkoutDays.map { it.toDomain() }
+        )
+
+        tryToCall(
+            block = { authUseCase.register(user) },
+            onSuccess = {
+                sendEffect(RegisterEffect.NavigateToHome)
+            },
+            onError = { error ->
+                updateState { it.copy(errorMessage = error.message ?: "Registration failed") }
+            },
+            onStart = {
+                updateState { it.copy(isLoading = true) }
+            },
+            onEnd = {
+                updateState { it.copy(isLoading = false) }
+            }
+        )
+    }
+
+
+    private fun getEquipments() {
+        tryToCall(
+            block = { getEquipmentsUseCase.getEquipments() },
+            onSuccess = { tools ->
+                val equipments = tools.map { tool ->
+                    RegisterScreenState.Equipment(
+                        name = tool.name,
+                        isSelected = false
+                    )
+                }
+                updateState { it.copy(availableEquipments = equipments) }
+            },
+            onError = {
+                updateState { it.copy(errorMessage = "") }
+            }
+        )
     }
 
     override fun onHeightChanged(height: Float) {
@@ -146,7 +201,6 @@ class RegisterViewModel :
             else -> false
         }
     }
-
     companion object {
         const val MAX_STEPS = 8
     }
