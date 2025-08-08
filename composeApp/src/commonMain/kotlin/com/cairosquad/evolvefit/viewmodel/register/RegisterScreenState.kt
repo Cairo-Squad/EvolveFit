@@ -14,6 +14,10 @@ data class RegisterScreenState(
     val currentStep: Int = 1,
     val selectedHeight: Float = 0F,
     val selectedWeight: Float = 0F,
+    val name: String = "",
+    val email: String = "",
+    val password: String = "",
+    val dateOfBirth: String = "",
     val isNextButtonEnabled: Boolean =false,
     val selectedGender: Gender? = null,
     val selectedMeasurementUnit: MeasurementUnit? = null,
@@ -22,8 +26,10 @@ data class RegisterScreenState(
     val selectedWorkoutDays: List<WorkoutDay> = emptyList(),
     val isNoEquipmentSelected: Boolean = false,
     val availableEquipments: List<Equipment> = emptyList(),
-    val selectedEquipments: List<String> = emptyList()
-) {
+    val selectedEquipments: List<String> = emptyList(),
+    val isLoading: Boolean = false,
+    val errorMessage: String? = null,
+    ) {
     enum class Gender {
         Female, Male
     }
@@ -64,5 +70,4 @@ data class RegisterScreenState(
         object BodyWeight : NotificationType()
         object Challenges : NotificationType()
     }
-
 }
