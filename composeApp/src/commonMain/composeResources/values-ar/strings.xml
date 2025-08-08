@@ -52,4 +52,17 @@
     <string name="enter_your_name">أدخل اسمك</string>
     <string name="enter_your_email">أدخل بريدك الإلكتروني</string>
     <string name="password">كلمة المرور</string>
+
+    <string name="month_january">يناير</string>
+    <string name="month_february">فبراير</string>
+    <string name="month_march">مارس</string>
+    <string name="month_april">أبريل</string>
+    <string name="month_may">مايو</string>
+    <string name="month_june">يونيو</string>
+    <string name="month_july">يوليو</string>
+    <string name="month_august">أغسطس</string>
+    <string name="month_september">سبتمبر</string>
+    <string name="month_october">أكتوبر</string>
+    <string name="month_november">نوفمبر</string>
+    <string name="month_december">ديسمبر</string>
 </resources>
