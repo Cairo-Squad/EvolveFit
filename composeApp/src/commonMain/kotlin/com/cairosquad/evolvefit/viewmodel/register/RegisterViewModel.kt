@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal
 
 class RegisterViewModel :
@@ -108,6 +109,38 @@ class RegisterViewModel :
             )
             newState.copy(isNextButtonEnabled = updateNextButtonEnableState(newState))
         }
+    }
+
+    override fun onImagePickerClick() {
+        updateState { it.copy(isImagePickerOpen = true) }
+    }
+
+    override fun onImagePickerDismiss() {
+        updateState { it.copy(isImagePickerOpen = false) }
+    }
+
+    override fun onImageRetrieved(image: UiImage) {
+        updateState { it.copy(image = image, isImagePickerOpen = false) }
+    }
+
+    override fun onUserNameChange(userName: String) {
+        updateState { it.copy(userName = userName) }
+    }
+
+    override fun onUserEmailChange(userEmail: String) {
+        updateState { it.copy(userEmail = userEmail) }
+    }
+
+    override fun onUserPasswordChange(userPassword: String) {
+        updateState { it.copy(userPassword = userPassword) }
+    }
+
+    override fun onPasswordVisibilityClick() {
+        updateState { it.copy(isPasswordVisible = !it.isPasswordVisible) }
+    }
+
+    override fun onDateOfBirthChange(dateOfBirth: String) {
+        updateState { it.copy(dateOfBirth = dateOfBirth) }
     }
 
 
