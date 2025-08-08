@@ -57,8 +57,6 @@ fun InputField(
     modifier: Modifier = Modifier,
     placeholder: String = "",
     error: String = "",
-    readOnly: Boolean = false,
-    keyboardType: KeyboardType = KeyboardType.Text,
     isErrorMessageShown: Boolean = true,
     isSingleLine: Boolean = true,
     isPasswordField: Boolean = false,
@@ -67,6 +65,8 @@ fun InputField(
     trailingIcon: DrawableResource? = null,
     trailingIconModifier: Modifier = Modifier,
     onTrailingIconClick: (() -> Unit)? = null,
+    readOnly: Boolean = false,
+    keyboardType: KeyboardType = KeyboardType.Text,
 ) {
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
@@ -260,10 +260,12 @@ private fun PreviewDropdownInputField() {
 @Preview
 private fun PreviewMultilineInputField() {
     InputField(
-        value = "This is a longer text that spans multiple lines to show how the input field behaves with multi-line content.",
+        value = "This is a longer text that spans multiple lines to show how the input" +
+                " field behaves with multi-line content skdfhjdskfhejkdhgfejhgfjerhgejhfbkjfkjehfjbdjbfjdffhjdhfdj" +
+                "hfekhguedhfkdjfnvkjdhfvudfhvdjkfvnkjdfvhdvhjdjvdkjvnd.",
         onValueChange = {},
         isSingleLine = false,
-        maxCharacters = 200,
+        maxCharacters = 3000,
         modifier = Modifier
             .padding(16.dp)
             .height(100.dp)
