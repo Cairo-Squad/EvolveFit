@@ -1,7 +1,9 @@
 package com.cairosquad.evolvefit.ui.screen.login
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -12,11 +14,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.screen.login.content.SignUpPromptRow
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.login.LoginEffect
@@ -62,12 +64,12 @@ private fun LoginScreenContent(
     state: LoginScreenUiState,
     listener: LoginInteractionListener
 ) {
-    // handle it as interaction listener in viewmodel
     val visibilityIcon = if (state.isPasswordVisible) {
         Res.drawable.ic_visibility_on
     } else {
         Res.drawable.ic_visibility_off
     }
+
     Column(
         modifier = Modifier.fillMaxSize()
             .statusBarsPadding()
@@ -78,7 +80,8 @@ private fun LoginScreenContent(
             modifier = Modifier
                 .padding(8.dp)
                 .size(24.dp)
-                .align(Alignment.Start),
+                .align(Alignment.Start)
+                .clickable(onClick = listener::onBackClicked),
             painter = painterResource(Res.drawable.ic_back),
             contentDescription = stringResource(Res.string.arrow_back_description),
         )
@@ -118,10 +121,15 @@ private fun LoginScreenContent(
             trailingIcon = visibilityIcon,
             onTrailingIconClick = listener::onTogglePasswordVisibility,
         )
+
         PrimaryButton(
             text = stringResource(Res.string.login),
             isEnabled = state.canSubmit,
             onClick = listener::onLoginClicked
         )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        SignUpPromptRow()
     }
 }
