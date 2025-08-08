@@ -66,5 +66,4 @@ class LoginViewModel(
                 uiState.passwordError == null &&
                 !uiState.isLoading
     }
-
 }
