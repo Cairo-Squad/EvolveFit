@@ -60,7 +60,7 @@ class LoginViewModel(
     }
 
     override fun onJoinNowClicked() {
-        TODO("Not yet implemented")
+        sendEffect(LoginEffect.NavigateToRegister)
     }
 
     private fun isSubmitAllowed(uiState: LoginScreenUiState): Boolean {
