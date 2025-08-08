@@ -43,6 +43,8 @@ fun NavigationHost() {
 
         composable<LoginRoute> {
             LoginScreen(
+                navigateToRegister = { navController.navigate(RegisterRoute) },
+                navigateBack = navController::popBackStack,
                 navigateToApp = {
                     navController.navigate(AppRoute) {
                         popUpTo(OnboardingRoute) {
