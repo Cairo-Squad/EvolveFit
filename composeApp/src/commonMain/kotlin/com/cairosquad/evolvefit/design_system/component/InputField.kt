@@ -1,16 +1,12 @@
 package com.cairosquad.evolvefit.design_system.composables
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -37,16 +32,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import org.jetbrains.compose.resources.painterResource
-import evolvefit.composeapp.generated.resources.*
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.ic_arrow_down
+import evolvefit.composeapp.generated.resources.ic_check_mark
+import evolvefit.composeapp.generated.resources.ic_date
+import evolvefit.composeapp.generated.resources.ic_profile
 import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -58,7 +56,6 @@ fun InputField(
     placeholder: String = "",
     error: String = "",
     readOnly: Boolean = false,
-    keyboardType: KeyboardType = KeyboardType.Text,
     isErrorMessageShown: Boolean = true,
     isSingleLine: Boolean = true,
     isPasswordField: Boolean = false,
@@ -86,7 +83,10 @@ fun InputField(
         modifier = modifier
     ) {
         BasicTextField(
-            readOnly =readOnly,
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(Theme.color.surfaces.surfaceContainer)
+                .padding(horizontal = 12.dp, vertical = 20.dp),
             value = textFieldValue,
             onValueChange = { newValue ->
                 val filteredValue =
@@ -103,18 +103,12 @@ fun InputField(
                 textFieldValue = filteredValue
                 onValueChange(filteredValue.text)
             },
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = keyboardType
-            ),
-            modifier = Modifier
-                .clip(RoundedCornerShape(8.dp))
-                .background(Theme.color.surfaces.surfaceContainer)
-                .padding(horizontal = 12.dp, vertical = 20.dp),
-            singleLine = isSingleLine,
+            readOnly = readOnly,
             textStyle = Theme.textStyle.label.smallRegular14.copy(
                 color = Theme.color.surfaces.onSurfaceContainer
             ),
             keyboardOptions = keyboardOptions,
+            singleLine = isSingleLine,
             decorationBox = { innerTextField ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -152,7 +146,6 @@ fun InputField(
             ),
             visualTransformation = if (isPasswordField) PasswordVisualTransformation() else VisualTransformation.None,
         )
-
     }
 }
 
