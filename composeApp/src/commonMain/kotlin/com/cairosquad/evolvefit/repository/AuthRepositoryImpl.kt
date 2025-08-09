@@ -1,12 +1,12 @@
-package com.cairosquad.evolvefit.Repository
+package com.cairosquad.evolvefit.repository
 
-import com.cairosquad.evolvefit.domain.AuthRemoteDataSource
 import com.cairosquad.evolvefit.domain.AuthRepository
 import com.cairosquad.evolvefit.entity.Tool
 import com.cairosquad.evolvefit.entity.User
 import com.cairosquad.evolvefit.local.AuthPreferences
-import com.cairosquad.evolvefit.remote.model.RegisterRequest
 import com.cairosquad.evolvefit.remote.safeApiCall
+import com.cairosquad.evolvefit.repository.remote.AuthRemoteDataSource
+import com.cairosquad.evolvefit.repository.remote.auth.RegisterRequest
 
 class AuthRepositoryImpl(
     private val remote: AuthRemoteDataSource,
@@ -40,7 +40,7 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun refreshToken() = safeApiCall{
-        val newToken = remote.refreshToken(prefs.getRefreshToken() ?: throw Exception("No refresh token"))
+        val newToken = remote.getRefreshToken(prefs.getRefreshToken() ?: throw Exception("No refresh token"))
         prefs.saveTokens(newToken.accessToken, newToken.refreshToken)
     }
 
@@ -53,8 +53,7 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun getEquipments(): List<Tool> {
-        //return remote.getEquipments().map { it.toDomain() }
-        TODO()
+        return emptyList() // TODO
     }
 }
 

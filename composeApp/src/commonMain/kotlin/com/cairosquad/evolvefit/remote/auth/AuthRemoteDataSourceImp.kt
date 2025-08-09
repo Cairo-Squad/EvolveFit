@@ -1,12 +1,12 @@
-package com.cairosquad.evolvefit.remote.Auth
+package com.cairosquad.evolvefit.remote.auth
 
+import com.cairosquad.evolvefit.remote.safeApiCall
 import com.cairosquad.evolvefit.repository.remote.AuthRemoteDataSource
 import com.cairosquad.evolvefit.repository.remote.auth.AuthResponse
 import com.cairosquad.evolvefit.repository.remote.auth.EquipmentDto
 import com.cairosquad.evolvefit.repository.remote.auth.LoginRequest
 import com.cairosquad.evolvefit.repository.remote.auth.RefreshRequest
 import com.cairosquad.evolvefit.repository.remote.auth.RegisterRequest
-import com.cairosquad.evolvefit.remote.safeApiCall
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
