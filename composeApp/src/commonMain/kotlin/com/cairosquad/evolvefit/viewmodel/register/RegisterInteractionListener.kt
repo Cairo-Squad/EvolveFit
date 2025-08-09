@@ -17,7 +17,7 @@ interface RegisterInteractionListener {
     fun onNotificationToggled(type: RegisterScreenState.NotificationType)
     fun onWorkoutDaySelected(day: RegisterScreenState.WorkoutDay)
     fun onNoEquipmentSelected()
-    fun onEquipmentToggled(equipmentId: Long)
+    fun onEquipmentToggled(equipmentId: String)
 
     fun onImagePickerClick()
     fun onImagePickerDismiss()

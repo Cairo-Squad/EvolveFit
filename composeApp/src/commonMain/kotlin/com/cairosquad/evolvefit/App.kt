@@ -4,12 +4,13 @@ import androidx.compose.runtime.Composable
 import coil3.ImageLoader
 import coil3.compose.setSingletonImageLoaderFactory
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
-import com.cairosquad.evolvefit.local.AuthPreferences
 import com.cairosquad.evolvefit.ui.navigation.NavigationHost
 import io.github.vinceglb.filekit.coil.addPlatformFileSupport
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun App(authPreferences: AuthPreferences, initialAccessToken: String?) {
+@Preview
+fun App() {
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)
             .components {
@@ -18,6 +19,6 @@ fun App(authPreferences: AuthPreferences, initialAccessToken: String?) {
             .build()
     }
     AppTheme {
-        NavigationHost(authPreferences = authPreferences, initialAccessToken = initialAccessToken)
+        NavigationHost()
     }
 }

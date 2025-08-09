@@ -15,10 +15,6 @@ data class RegisterScreenState(
     val currentStep: Int = 1,
     val selectedHeight: Float = 0F,
     val selectedWeight: Float = 0F,
-    val userNameInput: String = "",
-    val userEmailInput: String = "",
-    val userPasswordInput: String = "",
-    val dateOfBirthInput: String = "",
     val isNextButtonEnabled: Boolean =false,
     val selectedGender: Gender? = null,
     val selectedMeasurementStandard: MeasurementStandard? = null,
@@ -27,14 +23,16 @@ data class RegisterScreenState(
     val selectedWorkoutDays: List<WorkoutDay> = emptyList(),
     val isNoEquipmentSelected: Boolean = false,
     val availableEquipments: List<Equipment> = emptyList(),
-    val selectedEquipments: List<Long> = emptyList(),
-    val isLoading: Boolean = false,
-    val errorMessage: String? = null,
+    val selectedEquipments: List<String> = emptyList(),
+
     val image: UiImage = UiImage.ImageUrl(""),
     val isImagePickerOpen: Boolean = false,
+    val userName: String = "",
+    val userEmail: String = "",
+    val userPassword: String = "",
     val isPasswordVisible: Boolean = false,
+    val dateOfBirth: String = "",
 ) {
-
     enum class Gender {
         Female, Male
     }
@@ -59,11 +57,9 @@ data class RegisterScreenState(
     }
 
     data class Equipment(
-        val toolName: String="",
-        val toolId: Long ,
+        val name: String = "",
         val isSelected: Boolean = false
     )
-
 
     data class NotificationSettings(
         val isWaterReminderEnabled: Boolean = false,
@@ -77,5 +73,6 @@ data class RegisterScreenState(
         object Water : NotificationType()
         object BodyWeight : NotificationType()
         object Challenges : NotificationType()
-        }
+    }
+
 }

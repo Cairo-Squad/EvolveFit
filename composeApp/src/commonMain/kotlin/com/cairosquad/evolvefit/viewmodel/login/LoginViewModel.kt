@@ -5,10 +5,9 @@ import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 
 class LoginViewModel(
     private val authUseCase: AuthUseCase
-) : BaseViewModel<LoginScreenUiState, LoginScreenEffect>(
+) : BaseViewModel<LoginScreenUiState, LoginEffect>(
     LoginScreenUiState()
 ), LoginInteractionListener {
-
     override fun onLoginClicked() {
         val current = screenState.value
         if (!current.canSubmit) return
@@ -23,7 +22,7 @@ class LoginViewModel(
                     val updated = it.copy(isLoading = false)
                     updated.copy(canSubmit = isSubmitAllowed(updated))
                 }
-                sendEffect(LoginScreenEffect.NavigateToApp)
+                sendEffect(LoginEffect.NavigateToHome)
             },
             onError = { error ->
                 updateState {
@@ -57,11 +56,11 @@ class LoginViewModel(
     }
 
     override fun onBackClicked() {
-        sendEffect(LoginScreenEffect.NavigateBack)
+        sendEffect(LoginEffect.NavigateBack)
     }
 
     override fun onJoinNowClicked() {
-        sendEffect(LoginScreenEffect.NavigateToRegister)
+        sendEffect(LoginEffect.NavigateToRegister)
     }
 
     private fun isSubmitAllowed(uiState: LoginScreenUiState): Boolean {
