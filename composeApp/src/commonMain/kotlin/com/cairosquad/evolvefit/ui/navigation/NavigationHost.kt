@@ -96,7 +96,6 @@ fun NavigationHost() {
             CommunityWorkoutScreen(
                 navigateBack = navController::popBackStack,
                 navigateToWorkoutDetails = { workoutId -> navController.navigate(WorkoutDetailsRoute(workoutId)) },
-                navigateToPlayWorkout = { workoutId -> navController.navigate(PlayWorkoutRoute(workoutId)) }
             )
         }
 

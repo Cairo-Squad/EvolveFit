@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.workouts
+package com.cairosquad.evolvefit.ui.screen.workout
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,12 +29,12 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.composables.WorkoutCard
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.domain.model.BodyPart
+import com.cairosquad.evolvefit.entity.BodyPart
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
-import com.cairosquad.evolvefit.viewmodel.workouts.WorkoutsEffect
-import com.cairosquad.evolvefit.viewmodel.workouts.WorkoutsInteractionListener
-import com.cairosquad.evolvefit.viewmodel.workouts.WorkoutsScreenState
-import com.cairosquad.evolvefit.viewmodel.workouts.WorkoutsViewModel
+import com.cairosquad.evolvefit.viewmodel.workout.WorkoutEffect
+import com.cairosquad.evolvefit.viewmodel.workout.WorkoutInteractionListener
+import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
+import com.cairosquad.evolvefit.viewmodel.workout.WorkoutViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_group
 import evolvefit.composeapp.generated.resources.ic_plus
@@ -43,19 +43,19 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun WorkoutsScreen(
+fun WorkoutScreen(
     navigateToCreateWorkout: () -> Unit,
     navigateToCommunityWorkout: () -> Unit,
     navigateToWorkoutDetails: (Long) -> Unit,
-    viewModel: WorkoutsViewModel = koinViewModel()
+    viewModel: WorkoutViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
 
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
-            is WorkoutsEffect.NavigateToWorkoutDetails -> navigateToWorkoutDetails(effect.workoutId)
-            WorkoutsEffect.NavigateToCommunityWorkout -> navigateToCommunityWorkout()
-            WorkoutsEffect.NavigateToCreateWorkout -> navigateToCreateWorkout()
+            is WorkoutEffect.NavigateToWorkoutDetails -> navigateToWorkoutDetails(effect.workoutId)
+            WorkoutEffect.NavigateToCommunityWorkout -> navigateToCommunityWorkout()
+            WorkoutEffect.NavigateToCreateWorkout -> navigateToCreateWorkout()
         }
     }
 
@@ -63,9 +63,9 @@ fun WorkoutsScreen(
 }
 
 @Composable
-fun WorkoutsScreenContent(
-    state: WorkoutsScreenState,
-    listener: WorkoutsInteractionListener
+private fun WorkoutsScreenContent(
+    state: WorkoutScreenState,
+    listener: WorkoutInteractionListener
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -108,14 +108,6 @@ fun WorkoutsScreenContent(
     }
 }
 
-//private fun getFilteredWorkouts(state: WorkoutsScreenState): List<WorkoutsScreenState.WorkoutUiModel> {
-//    return if (state.selectedBodyPart == BodyPart.All) {
-//        state.allWorkouts
-//    } else {
-//        state.allWorkouts.filter { it.bodyPart == state.selectedBodyPart }
-//    }
-//} //todo: remove if usecases worked fine
-
 @Composable
 private fun AppBar(onCommunityClick: () -> Unit) {
     CustomAppBar(
@@ -133,7 +125,7 @@ private fun AppBar(onCommunityClick: () -> Unit) {
 
 @Composable
 private fun Workouts(
-    workouts: List<WorkoutsScreenState.WorkoutUiModel>,
+    workouts: List<WorkoutScreenState.WorkoutUiModel>,
     onClickWorkout: (Long) -> Unit
 ) {
     LazyColumn(
@@ -181,7 +173,7 @@ private fun BodyPartsFilter(
 @Composable
 private fun WorkoutsScreenPreview() {
     AppTheme(isDarkTheme = true) {
-        WorkoutsScreen(
+        WorkoutScreen(
             navigateToCreateWorkout = {},
             navigateToCommunityWorkout = {},
             navigateToWorkoutDetails = {}

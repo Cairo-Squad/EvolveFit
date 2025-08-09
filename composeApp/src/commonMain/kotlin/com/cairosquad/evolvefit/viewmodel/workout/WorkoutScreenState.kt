@@ -1,8 +1,8 @@
-package com.cairosquad.evolvefit.viewmodel.workouts
+package com.cairosquad.evolvefit.viewmodel.workout
 
-import com.cairosquad.evolvefit.domain.model.BodyPart
+import com.cairosquad.evolvefit.entity.BodyPart
 
-data class WorkoutsScreenState(
+data class WorkoutScreenState(
     val selectedBodyPart: BodyPart = BodyPart.All,
     val allWorkouts: List<WorkoutUiModel> = emptyList(),
     val bodyParts: List<BodyPart> = BodyPart.entries

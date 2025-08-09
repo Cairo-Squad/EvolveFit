@@ -1,6 +1,6 @@
-package com.cairosquad.evolvefit.domain.model
+package com.cairosquad.evolvefit.entity
 
-data class WorkoutModel(
+data class Workout(
     val id: Long,
     val title: String,
     val duration: String,
