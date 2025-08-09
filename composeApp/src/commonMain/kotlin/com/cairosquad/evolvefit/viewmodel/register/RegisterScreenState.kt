@@ -27,16 +27,14 @@ data class RegisterScreenState(
     val selectedWorkoutDays: List<WorkoutDay> = emptyList(),
     val isNoEquipmentSelected: Boolean = false,
     val availableEquipments: List<Equipment> = emptyList(),
-    val selectedEquipments: List<String> = emptyList(),
-
+    val selectedEquipments: List<Long> = emptyList(),
+    val isLoading: Boolean = false,
+    val errorMessage: String? = null,
     val image: UiImage = UiImage.ImageUrl(""),
     val isImagePickerOpen: Boolean = false,
     val isPasswordVisible: Boolean = false,
 ) {
-    val selectedEquipments: List<String> = emptyList(),
-    val isLoading: Boolean = false,
-    val errorMessage: String? = null,
-    ) {
+
     enum class Gender {
         Female, Male
     }
@@ -61,9 +59,11 @@ data class RegisterScreenState(
     }
 
     data class Equipment(
-        val name: String = "",
+        val toolName: String="",
+        val toolId: Long ,
         val isSelected: Boolean = false
     )
+
 
     data class NotificationSettings(
         val isWaterReminderEnabled: Boolean = false,
@@ -77,5 +77,5 @@ data class RegisterScreenState(
         object Water : NotificationType()
         object BodyWeight : NotificationType()
         object Challenges : NotificationType()
-    }
+        }
 }

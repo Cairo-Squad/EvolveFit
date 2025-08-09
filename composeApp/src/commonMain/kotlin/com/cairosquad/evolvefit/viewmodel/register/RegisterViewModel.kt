@@ -34,9 +34,9 @@ class RegisterViewModel(
         val state = screenState.value
 
         val user = User(
-            name = state.name,
-            email = state.email,
-            password = state.password,
+            name = state.userName,
+            email = state.userEmail,
+            password = state.userPassword,
             gender = state.selectedGender?.toDomain() ?: Gender.MALE,
             dateOfBirth = state.dateOfBirth,
             unit = state.selectedMeasurementStandard?.toDomain() ?: MeasurementUnit.METRIC,
@@ -64,14 +64,13 @@ class RegisterViewModel(
         )
     }
 
-
     private fun getEquipments() {
         tryToCall(
             block = { getEquipmentsUseCase.getEquipments() },
             onSuccess = { tools ->
                 val equipments = tools.map { tool ->
                     RegisterScreenState.Equipment(
-                        name = tool.name,
+                        toolId = tool.id,
                         isSelected = false
                     )
                 }
@@ -143,7 +142,7 @@ class RegisterViewModel(
         updateNextButtonEnableState()
     }
 
-    override fun onEquipmentToggled(equipmentId: String) {
+    override fun onEquipmentToggled(equipmentId: Long) {
         updateState {
             val updatedSelection = it.selectedEquipments.toMutableList()
             if (equipmentId in updatedSelection) {
@@ -159,6 +158,7 @@ class RegisterViewModel(
         }
         updateNextButtonEnableState()
     }
+
 
     override fun onImagePickerClick() {
         updateState { it.copy(isImagePickerOpen = true) }
