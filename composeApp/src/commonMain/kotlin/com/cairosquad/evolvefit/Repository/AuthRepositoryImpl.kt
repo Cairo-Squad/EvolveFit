@@ -20,21 +20,22 @@ class AuthRepositoryImpl(
 
     override suspend fun register(user: User)  {
         val request = RegisterRequest(
-            name = user.name,
+            fullName = user.name,
             email = user.email,
-            dateOfBirth = user.dateOfBirth,
+            birthdate = user.dateOfBirth,
             password = user.password,
-            gender = user.gender.name.lowercase(),
-            unit = user.unit.name.lowercase(),
+            gender = user.gender.name,
+            measurementType = user.unit.name,
             height = user.height,
             weight = user.weight,
-            goal = user.goal.name.lowercase(),
-            tools = user.tools.map { it.name.lowercase() },
-            workoutDays = user.workoutDays.map { it.name.lowercase() }
+            goal = user.goal.name,
+            gymEquipments = user.tools.map { it.id },
+            workoutDays = user.workoutDays.map { it.name }
         )
 
         safeApiCall {
-            remote.register(request)
+            val response=remote.register(request)
+            prefs.saveTokens(response.accessToken, response.refreshToken)
         }
     }
 
