@@ -14,8 +14,7 @@ data class User(
     val workoutDays: List<WorkoutDay>
 )
 enum class Gender {
-    MALE, FEMALE
-}
+    MALE, FEMALE}
 
 enum class MeasurementUnit {
     METRIC, IMPERIAL
@@ -26,7 +25,7 @@ enum class FitnessGoal {
 }
 
 data class Tool(
-    val id: String,
+    val id: Long,
     val name: String
 )
 
