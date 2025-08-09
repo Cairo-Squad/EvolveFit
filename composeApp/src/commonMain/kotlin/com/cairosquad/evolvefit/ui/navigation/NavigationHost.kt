@@ -75,7 +75,8 @@ fun NavigationHost() {
                 navigateToWorkoutDetails = { workoutId -> navController.navigate(WorkoutDetailsRoute(workoutId)) },
                 navigateToSuggestedMeals = { navController.navigate(SuggestedMealsRoute) },
                 navigateToMealDetails = { mealId -> navController.navigate(MealDetailsRoute(mealId)) },
-                navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) }
+                navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) },
+                navigateToWorkoutHistory = { navController.navigate(WorkoutHistoryRoute) }
             )
         }
 
