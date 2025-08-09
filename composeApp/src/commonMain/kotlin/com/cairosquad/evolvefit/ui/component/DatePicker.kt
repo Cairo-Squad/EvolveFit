@@ -66,7 +66,6 @@ fun DatePicker(
                 .fillMaxSize()
                 .padding(horizontal = 32.dp),
         ) {
-            // Day
             VerticalPicker(
                 state = dayPagerState,
                 options = days,
@@ -75,7 +74,6 @@ fun DatePicker(
                     .weight(1f)
             )
 
-            // Month
             VerticalPicker(
                 state = monthPagerState,
                 options = (1..12).map { getMonthName(it) },
@@ -84,7 +82,6 @@ fun DatePicker(
                     .weight(1f)
             )
 
-            // Year
             VerticalPicker(
                 state = yearPagerState,
                 options = (MIN_YEAR..MAX_YEAR).map { it.toString() },
@@ -134,7 +131,7 @@ private fun VerticalPicker(
         ) {
             Text(
                 text = options.getOrNull(page) ?: "",
-                style = Theme.textStyle.body.mediumMedium14, // TODO: There is a missing text style when not selected (Poppins/Title 14 Regular)
+                style = Theme.textStyle.body.mediumMedium14,
                 color = animatedContentColor,
                 modifier = Modifier
             )

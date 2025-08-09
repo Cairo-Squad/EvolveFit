@@ -132,4 +132,8 @@
     <string name="arrow_back_description">Arrow Back Icon</string>
     <string name="join_now">Join now</string>
     <string name="do_not_have_an_account">Don’t have an account?</string>
+    <string name="birthday">Birthday</string>
+    <string name="please_select_your_birthday">Please select your birthday</string>
+    <string name="save">Save</string>
+
 </resources>
