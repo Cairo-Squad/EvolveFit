@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">EvolveFit</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="welcome_description">Log in to continue your fitness journey, track your progress, and stay motivated every day.</string>
+    <string name="email_placeholder">Email</string>
+    <string name="password_placeholder">Password</string>
+    <string name="login">Log In</string>
+    <string name="arrow_back">Back</string>
+    <string name="logo">App Logo</string>
 </resources>

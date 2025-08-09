@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.di
 
 import com.cairosquad.evolvefit.ui.screen.onBoarding.OnBoardingViewModel
+import com.cairosquad.evolvefit.viewmodel.login.LoginViewModel
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
 import com.cairosquad.evolvefit.viewmodel.register.RegisterViewModel
 import com.cairosquad.evolvefit.viewmodel.workouts.WorkoutsViewModel
@@ -12,4 +13,5 @@ val viewModelModule = module {
     viewModelOf(::OnBoardingViewModel)
     viewModelOf(::NutritionViewModel)
     viewModelOf(::WorkoutsViewModel)
+    viewModelOf(::LoginViewModel)
 }
