@@ -9,11 +9,10 @@ class RegisterViewModel :
     RegisterInteractionListener {
 
     override fun onClickNext() {
-        updateState { current ->
-            val nextStep = current.currentStep + 1
-            val newState = current.copy(currentStep = nextStep)
-            newState.copy(isNextButtonEnabled = updateNextButtonEnableState(newState))
+        updateState {
+            it.copy(currentStep = it.currentStep + 1)
         }
+        updateNextButtonEnableState()
     }
 
     override fun onClickBack() {
@@ -73,9 +72,9 @@ class RegisterViewModel :
             } else {
                 currentDays + day
             }
-            val newState = it.copy(selectedWorkoutDays = updatedDays)
-            newState.copy(isNextButtonEnabled = updateNextButtonEnableState(newState))
+            it.copy(selectedWorkoutDays = updatedDays)
         }
+        updateNextButtonEnableState()
     }
 
     override fun onNoEquipmentSelected() {
@@ -84,14 +83,9 @@ class RegisterViewModel :
             it.copy(
                 isNoEquipmentSelected = isSelected,
                 selectedEquipments = if (isSelected) emptyList() else it.selectedEquipments,
-                isNextButtonEnabled = updateNextButtonEnableState(
-                    it.copy(
-                        isNoEquipmentSelected = isSelected,
-                        selectedEquipments = if (isSelected) emptyList() else it.selectedEquipments
-                    )
-                )
             )
         }
+        updateNextButtonEnableState()
     }
 
     override fun onEquipmentToggled(equipmentId: String) {
@@ -103,12 +97,12 @@ class RegisterViewModel :
                 updatedSelection.add(equipmentId)
             }
 
-            val newState = it.copy(
+            it.copy(
                 isNoEquipmentSelected = false,
                 selectedEquipments = updatedSelection
             )
-            newState.copy(isNextButtonEnabled = updateNextButtonEnableState(newState))
         }
+        updateNextButtonEnableState()
     }
 
     override fun onImagePickerClick() {
@@ -121,18 +115,22 @@ class RegisterViewModel :
 
     override fun onImageRetrieved(image: UiImage) {
         updateState { it.copy(image = image, isImagePickerOpen = false) }
+        updateNextButtonEnableState()
     }
 
     override fun onUserNameChange(userName: String) {
         updateState { it.copy(userName = userName) }
+        updateNextButtonEnableState()
     }
 
     override fun onUserEmailChange(userEmail: String) {
         updateState { it.copy(userEmail = userEmail) }
+        updateNextButtonEnableState()
     }
 
     override fun onUserPasswordChange(userPassword: String) {
         updateState { it.copy(userPassword = userPassword) }
+        updateNextButtonEnableState()
     }
 
     override fun onPasswordVisibilityClick() {
@@ -141,34 +139,38 @@ class RegisterViewModel :
 
     override fun onDateOfBirthChange(dateOfBirth: String) {
         updateState { it.copy(dateOfBirth = dateOfBirth) }
+        updateNextButtonEnableState()
     }
 
 
     override fun onGenderClicked(gender: RegisterScreenState.Gender) {
         updateState {
-            val newState =
-                it.copy(selectedGender = if (it.selectedGender == gender) null else gender)
-            newState.copy(isNextButtonEnabled = updateNextButtonEnableState(newState))
+            it.copy(selectedGender = if (it.selectedGender == gender) null else gender)
         }
+        updateNextButtonEnableState()
     }
 
     override fun onMeasurementUnitClicked(unit: RegisterScreenState.MeasurementStandard) {
         updateState {
-            val newState =
-                it.copy(selectedMeasurementStandard = if (it.selectedMeasurementStandard == unit) null else unit)
-            newState.copy(isNextButtonEnabled = updateNextButtonEnableState(newState))
+            it.copy(
+                selectedMeasurementStandard =
+                    if (it.selectedMeasurementStandard == unit) null
+                    else unit
+            )
         }
+        updateNextButtonEnableState()
     }
 
     override fun onGoalClicked(goal: Goal) {
         updateState {
-            val newState = it.copy(selectedGoal = if (it.selectedGoal == goal) null else goal)
-            newState.copy(isNextButtonEnabled = updateNextButtonEnableState(newState))
+            it.copy(selectedGoal = if (it.selectedGoal == goal) null else goal)
         }
+        updateNextButtonEnableState()
     }
 
-    private fun updateNextButtonEnableState(state: RegisterScreenState): Boolean {
-        return when (state.currentStep) {
+    private fun updateNextButtonEnableState() {
+        val state = screenState.value
+        val isNextButtonEnabled = when (state.currentStep) {
             1 -> state.selectedGender != null
             2 -> state.selectedMeasurementStandard != null
             3 -> true
@@ -176,8 +178,17 @@ class RegisterViewModel :
             5 -> state.isNoEquipmentSelected || state.selectedEquipments.isNotEmpty()
             6 -> true
             7 -> state.selectedWorkoutDays.isNotEmpty()
-            else -> false
+            else -> isCredentialsValid()
         }
+        updateState { it.copy(isNextButtonEnabled = isNextButtonEnabled) }
+    }
+
+    private fun isCredentialsValid(): Boolean {
+        val state = screenState.value
+        return state.userName.isNotEmpty()
+                && state.userEmail.isNotEmpty()
+                && state.userPassword.isNotEmpty()
+                && state.dateOfBirth.isNotEmpty()
     }
 
     companion object {
