@@ -65,7 +65,9 @@ fun LoginScreen(
                 navigateBack()
             }
 
-            is LoginScreenEffect.ShowError -> TODO()
+            is LoginScreenEffect.ShowError -> {
+                // TODO()
+            }
         }
     }
     LoginScreenContent(state = state, listener = loginViewModel)

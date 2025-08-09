@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.remote.Auth.model
+package com.cairosquad.evolvefit.repository.remote.auth
 
 import kotlinx.serialization.Serializable
 
