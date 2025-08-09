@@ -1,119 +1,145 @@
 package com.cairosquad.evolvefit.ui.screen.login
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.composables.InputField
-import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.screen.login.content.SignUpPromptRow
+import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
+import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
+import com.cairosquad.evolvefit.viewmodel.login.LoginEffect
 import com.cairosquad.evolvefit.viewmodel.login.LoginInteractionListener
-import com.cairosquad.evolvefit.viewmodel.login.LoginScreenEffect
-import com.cairosquad.evolvefit.viewmodel.login.LoginScreenState
+import com.cairosquad.evolvefit.viewmodel.login.LoginScreenUiState
 import com.cairosquad.evolvefit.viewmodel.login.LoginViewModel
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.arrow_back_description
+import evolvefit.composeapp.generated.resources.email_placeholder
+import evolvefit.composeapp.generated.resources.ic_app_logo
+import evolvefit.composeapp.generated.resources.ic_back
 import evolvefit.composeapp.generated.resources.ic_lock
 import evolvefit.composeapp.generated.resources.ic_profile
 import evolvefit.composeapp.generated.resources.ic_visibility_off
 import evolvefit.composeapp.generated.resources.ic_visibility_on
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import evolvefit.composeapp.generated.resources.login
+import evolvefit.composeapp.generated.resources.logo_description
+import evolvefit.composeapp.generated.resources.password_placeholder
+import evolvefit.composeapp.generated.resources.welcome_back_description
+import evolvefit.composeapp.generated.resources.welcome_back_title
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun LoginScreen(
+    navigateBack: () -> Unit,
+    navigateToRegister: () -> Unit,
     navigateToApp: () -> Unit,
-    viewModel: LoginViewModel = koinViewModel()
+    loginViewModel: LoginViewModel = koinViewModel()
 ) {
-    val state by viewModel.screenState.collectAsState()
+    val state by loginViewModel.screenState.collectAsState()
+    ObserveAsEffect(loginViewModel.effect) { effect ->
+        when (effect) {
+            LoginEffect.NavigateToHome -> {
+                navigateToApp()
+            }
 
-    LaunchedEffect(Unit) {
-        viewModel.effect.collect { effect ->
-            when (effect) {
-                is LoginScreenEffect.NavigateToApp -> navigateToApp()
-                is LoginScreenEffect.ShowError -> {}
+            LoginEffect.NavigateToRegister -> {
+                navigateToRegister()
+            }
+
+            LoginEffect.NavigateBack -> {
+                navigateBack()
             }
         }
     }
-
-    LoginScreenContent(
-        state = state,
-        listener = viewModel
-    )
+    LoginScreenContent(state = state, listener = loginViewModel)
 }
 
-
 @Composable
-fun LoginScreenContent(
-    state: LoginScreenState,
+private fun LoginScreenContent(
+    state: LoginScreenUiState,
     listener: LoginInteractionListener
 ) {
-    var passwordVisible by remember { mutableStateOf(false) }
-
+    val visibilityIcon = if (state.isPasswordVisible) {
+        Res.drawable.ic_visibility_on
+    } else {
+        Res.drawable.ic_visibility_off
+    }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Theme.color.surfaces.surface)
-            .statusBarsPadding(),
-        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxSize()
+            .statusBarsPadding()
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            InputField(
-                value = state.email,
-                onValueChange = listener::onEmailChanged,
-                placeholder = "Enter your email",
-                error = state.emailError ?: "",
-                leadingIcon = Res.drawable.ic_profile,
-                keyboardType = KeyboardType.Email
-            )
-            InputField(
-                value = state.password,
-                onValueChange = listener::onPasswordChanged,
-                placeholder = "Enter your password",
-                error = state.passwordError ?: "",
-                leadingIcon = Res.drawable.ic_lock,
-                trailingIcon = if (passwordVisible) Res.drawable.ic_visibility_on else Res.drawable.ic_visibility_off,
-                onTrailingIconClick = { passwordVisible = !passwordVisible },
-                isPasswordField = !passwordVisible
-            )
-        }
-        PrimaryButton(
-            text = if (state.isLoading) "Loading..." else "Login",
-            onClick = listener::onLoginClicked,
+        Image(
             modifier = Modifier
-                .padding(bottom = 24.dp)
-                .padding(horizontal = 16.dp)
-                .fillMaxWidth()
-                .height(48.dp)
+                .padding(8.dp)
+                .size(24.dp)
+                .align(Alignment.Start)
+                .clickable(onClick = listener::onBackClicked),
+            painter = painterResource(Res.drawable.ic_back),
+            contentDescription = stringResource(Res.string.arrow_back_description),
         )
-    }
-}
 
-@Preview()
-@Composable
-fun LoginScreenContentPreview() {
-    AppTheme {
-        LoginScreen(
-            navigateToApp = TODO(),
+        Icon(
+            modifier = Modifier
+                .padding(bottom = 24.dp, top = 20.dp),
+            painter = painterResource(Res.drawable.ic_app_logo),
+            contentDescription = stringResource(Res.string.logo_description),
+            tint = Theme.color.brand.primary,
         )
+
+        RegisterHeader(
+            modifier = Modifier
+                .padding(bottom = 24.dp),
+            title = stringResource(Res.string.welcome_back_title),
+            description = stringResource(Res.string.welcome_back_description),
+        )
+
+        InputField(
+            modifier = Modifier
+                .padding(bottom = 12.dp),
+            value = state.email,
+            onValueChange = listener::onEmailChanged,
+            placeholder = stringResource(Res.string.email_placeholder),
+            leadingIcon = Res.drawable.ic_profile,
+        )
+
+        InputField(
+            modifier = Modifier
+                .padding(bottom = 68.dp),
+            value = state.password,
+            onValueChange = listener::onPasswordChanged,
+            placeholder = stringResource(Res.string.password_placeholder),
+            isPasswordField = !state.isPasswordVisible,
+            leadingIcon = Res.drawable.ic_lock,
+            trailingIcon = visibilityIcon,
+            onTrailingIconClick = listener::onTogglePasswordVisibility,
+        )
+
+        PrimaryButton(
+            text = stringResource(Res.string.login),
+            isEnabled = state.canSubmit,
+            onClick = listener::onLoginClicked
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        SignUpPromptRow(onJoinNowClicked = listener::onJoinNowClicked)
     }
 }

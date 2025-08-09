@@ -11,6 +11,5 @@ val viewModelModule = module {
     viewModelOf(::RegisterViewModel)
     viewModelOf(::OnBoardingViewModel)
     viewModelOf(::NutritionViewModel)
-    //viewModelOf(::CreateWorkoutViewModel)
     viewModelOf(::LoginViewModel)
 }

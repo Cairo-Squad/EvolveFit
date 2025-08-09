@@ -4,56 +4,70 @@ import com.cairosquad.evolvefit.domain.usecase.authentication.AuthUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 
 class LoginViewModel(
-    private val loginUseCase: AuthUseCase
-) : BaseViewModel<LoginScreenState, LoginScreenEffect>(LoginScreenState()),
-    LoginInteractionListener {
+    private val authUseCase: AuthUseCase
+) : BaseViewModel<LoginScreenUiState, LoginEffect>(
+    LoginScreenUiState()
+), LoginInteractionListener {
+    override fun onLoginClicked() {
+        val current = screenState.value
+        if (!current.canSubmit) return
+
+        updateState { it.copy(isLoading = true, canSubmit = false) }
+        tryToCall(
+            block = {
+                authUseCase.login(current.email, current.password)
+            },
+            onSuccess = {
+                updateState {
+                    val updated = it.copy(isLoading = false)
+                    updated.copy(canSubmit = isSubmitAllowed(updated))
+                }
+                sendEffect(LoginEffect.NavigateToHome)
+            },
+            onError = { error ->
+                updateState {
+                    val updated = it.copy(
+                        isLoading = false,
+                        emailError = "Invalid credentials",
+                        passwordError = "Invalid credentials"
+                    )
+                    updated.copy(canSubmit = isSubmitAllowed(updated))
+                }
+            }
+        )
+    }
 
     override fun onEmailChanged(newEmail: String) {
-        updateState { it.copy(email = newEmail, emailError = null) }
+        updateState {
+            val updated = it.copy(email = newEmail, emailError = null)
+            updated.copy(canSubmit = isSubmitAllowed(updated))
+        }
     }
 
     override fun onPasswordChanged(newPassword: String) {
-        updateState { it.copy(password = newPassword, passwordError = null) }
-    }
-
-    override fun onLoginClicked() {
-        login()
-    }
-
-    fun login() {
-        val email = screenState.value.email.trim()
-        val password = screenState.value.password.trim()
-
-        println("Trying to login with email: $email") // عشان تشوفي القيم اللي داخلة
-
-        val emailError = if (email.isEmpty()) "Email is required" else null
-        val passwordError = if (password.isEmpty()) "Password is required" else null
-
-        if (emailError != null || passwordError != null) {
-            updateState { it.copy(emailError = emailError, passwordError = passwordError) }
-            println("Validation failed: $emailError $passwordError")
-            return
+        updateState {
+            val updated = it.copy(password = newPassword, passwordError = null)
+            updated.copy(canSubmit = isSubmitAllowed(updated))
         }
+    }
 
-        tryToCall(
-            block = {
-                println("Calling loginUseCase...")
-                loginUseCase.login(email, password)
-            },
-            onSuccess = {
-                println("Login success!")
-                sendEffect(LoginScreenEffect.NavigateToApp)
-            },
-            onError = { throwable ->
-                println("Login failed: ${throwable.message}")
-                sendEffect(LoginScreenEffect.ShowError(throwable.message ?: "Unexpected error"))
-            },
-            onStart = {
-                updateState { it.copy(isLoading = true) }
-            },
-            onEnd = {
-                updateState { it.copy(isLoading = false) }
-            }
-        )
+    override fun onTogglePasswordVisibility() {
+        updateState { it.copy(isPasswordVisible = !it.isPasswordVisible) }
+    }
+
+    override fun onBackClicked() {
+        sendEffect(LoginEffect.NavigateBack)
+    }
+
+    override fun onJoinNowClicked() {
+        sendEffect(LoginEffect.NavigateToRegister)
+    }
+
+    private fun isSubmitAllowed(uiState: LoginScreenUiState): Boolean {
+        return uiState.email.isNotBlank() &&
+                uiState.password.isNotBlank() &&
+                uiState.emailError == null &&
+                uiState.passwordError == null &&
+                !uiState.isLoading
     }
 }
