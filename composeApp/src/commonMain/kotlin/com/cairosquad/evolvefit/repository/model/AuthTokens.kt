@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.Repository.model
+package com.cairosquad.evolvefit.repository.model
 
 data class AuthTokens(
     val accessToken: String,

@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.domain
 
-import com.cairosquad.evolvefit.Repository.model.AuthTokens
 import com.cairosquad.evolvefit.entity.User
 
 interface AuthRepository {

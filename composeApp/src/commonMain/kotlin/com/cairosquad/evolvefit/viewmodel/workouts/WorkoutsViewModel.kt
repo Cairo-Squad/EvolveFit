@@ -1,33 +1,51 @@
 package com.cairosquad.evolvefit.viewmodel.workouts
 
+import androidx.lifecycle.viewModelScope
+import com.cairosquad.evolvefit.domain.model.BodyPart
+import com.cairosquad.evolvefit.domain.usecase.workout.GetAllWorkoutsUseCase
+import com.cairosquad.evolvefit.domain.usecase.workout.GetWorkoutsByBodyPartUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import kotlinx.coroutines.launch
 
-class WorkoutsViewModel : BaseViewModel<WorkoutsScreenState, WorkoutsEffect>(
-    WorkoutsScreenState(
-        allWorkouts = listOf(
-            WorkoutsScreenState.WorkoutUiModel(1, "Workout 1", "25 min", "Chest"),
-            WorkoutsScreenState.WorkoutUiModel(2, "Workout 2", "30 min", "Arm"),
-            WorkoutsScreenState.WorkoutUiModel(3, "Workout 3", "20 min", "Back"),
-            WorkoutsScreenState.WorkoutUiModel(4, "Workout 4", "35 min", "Shoulder"),
-            WorkoutsScreenState.WorkoutUiModel(5, "Workout 5", "40 min", "Chest"),
-            WorkoutsScreenState.WorkoutUiModel(6, "Workout 6", "30 min", "Chest"),
-        )
-    )
+class WorkoutsViewModel(
+    private val getAllWorkouts: GetAllWorkoutsUseCase,
+    private val getWorkoutsByBodyPart: GetWorkoutsByBodyPartUseCase
+) : BaseViewModel<WorkoutsScreenState, WorkoutsEffect>(
+    WorkoutsScreenState()
 ), WorkoutsInteractionListener {
-
-    override fun onBodyPartSelected(bodyPart: String) {
-        updateState { it.copy(selectedBodyPart = bodyPart) }
+    init {
+        loadAllWorkouts()
     }
 
-    override fun onWorkoutClicked(id: Long) {
+    private fun loadAllWorkouts() = viewModelScope.launch {
+        val list = getAllWorkouts()
+        updateState { st -> st.copy(allWorkouts = list.map { it.toUi() }) }
+    }
+
+    private fun loadWorkoutsByBodyPart(bodyPart: BodyPart) = viewModelScope.launch {
+        val list = getWorkoutsByBodyPart(bodyPart)
+        updateState { st -> st.copy(allWorkouts = list.map { it.toUi() }) }
+    }
+
+    override fun onSelectBodyPart(bodyPart: BodyPart) {
+        updateState { it.copy(selectedBodyPart = bodyPart) }
+
+        if (bodyPart == BodyPart.All) {
+            loadAllWorkouts()
+        } else {
+            loadWorkoutsByBodyPart(bodyPart)
+        }
+    }
+
+    override fun onClickWorkout(id: Long) {
         sendEffect(WorkoutsEffect.NavigateToWorkoutDetails(id))
     }
 
-    override fun onAddWorkoutClicked() {
+    override fun onClickAddWorkout() {
         sendEffect(WorkoutsEffect.NavigateToCreateWorkout)
     }
 
-    override fun onCommunityClicked() {
+    override fun onClickCommunity() {
         sendEffect(WorkoutsEffect.NavigateToCommunityWorkout)
     }
 }

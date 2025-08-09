@@ -29,6 +29,7 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.composables.WorkoutCard
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.domain.model.BodyPart
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.workouts.WorkoutsEffect
 import com.cairosquad.evolvefit.viewmodel.workouts.WorkoutsInteractionListener
@@ -40,7 +41,6 @@ import evolvefit.composeapp.generated.resources.ic_plus
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
-
 
 @Composable
 fun WorkoutsScreen(
@@ -77,21 +77,22 @@ fun WorkoutsScreenContent(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            AppBar(listener)
+            AppBar(listener::onClickCommunity)
 
             BodyPartsFilter(
-                bodyParts = listOf("All", "Arm", "Chest", "Back", "Shoulder"),
+                bodyParts = state.bodyParts,
                 selectedBodyPart = state.selectedBodyPart,
-                onSelect = listener::onBodyPartSelected
+                onSelect = listener::onSelectBodyPart
             )
 
             Workouts(
-                workouts = getFilteredWorkouts(state),
-                onWorkoutClick = listener::onWorkoutClicked
+                workouts = state.allWorkouts,
+                onClickWorkout = listener::onClickWorkout
             )
+
         }
         FloatingActionButton(
-            onClick = listener::onAddWorkoutClicked,
+            onClick = listener::onClickAddWorkout,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(24.dp),
@@ -107,34 +108,33 @@ fun WorkoutsScreenContent(
     }
 }
 
-private fun getFilteredWorkouts(state: WorkoutsScreenState): List<WorkoutsScreenState.WorkoutUiModel> {
-    return if (state.selectedBodyPart == "All") {
-        state.allWorkouts
-    } else {
-        state.allWorkouts.filter { it.bodyPart == state.selectedBodyPart }
-    }
-}
+//private fun getFilteredWorkouts(state: WorkoutsScreenState): List<WorkoutsScreenState.WorkoutUiModel> {
+//    return if (state.selectedBodyPart == BodyPart.All) {
+//        state.allWorkouts
+//    } else {
+//        state.allWorkouts.filter { it.bodyPart == state.selectedBodyPart }
+//    }
+//} //todo: remove if usecases worked fine
 
 @Composable
-fun AppBar(listener: WorkoutsInteractionListener) {
+private fun AppBar(onCommunityClick: () -> Unit) {
     CustomAppBar(
-
         title = "Workouts",
         tail = {
             ActionIconButton(
                 icon = painterResource(Res.drawable.ic_group),
                 contentDescription = "Community",
                 tint = Theme.color.surfaces.onSurface,
-                onClick = listener::onCommunityClicked
+                onClick = onCommunityClick
             )
         }
     )
 }
 
 @Composable
-fun Workouts(
+private fun Workouts(
     workouts: List<WorkoutsScreenState.WorkoutUiModel>,
-    onWorkoutClick: (Long) -> Unit
+    onClickWorkout: (Long) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.padding(vertical = 12.dp),
@@ -145,21 +145,21 @@ fun Workouts(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable { onWorkoutClick(workout.id) },
+                    .clickable { onClickWorkout(workout.id) },
                 title = workout.title,
                 duration = workout.duration,
-                bodyPart = workout.bodyPart,
-                model = "",
+                bodyPart = workout.bodyPart.displayName,
+                model = workout.imageUrl,
             )
         }
     }
 }
 
 @Composable
-fun BodyPartsFilter(
-    bodyParts: List<String>,
-    selectedBodyPart: String,
-    onSelect: (String) -> Unit
+private fun BodyPartsFilter(
+    bodyParts: List<BodyPart>,
+    selectedBodyPart: BodyPart,
+    onSelect: (BodyPart) -> Unit
 ) {
     LazyRow(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
@@ -169,14 +169,13 @@ fun BodyPartsFilter(
         items(bodyParts.size) { index ->
             val bodyPart = bodyParts[index]
             Chip(
-                title = bodyPart,
+                title = bodyPart.displayName,
                 isSelected = selectedBodyPart == bodyPart,
                 onClick = { onSelect(bodyPart) }
             )
         }
     }
 }
-
 
 @Preview
 @Composable
