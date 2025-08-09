@@ -1,11 +1,45 @@
 package com.cairosquad.evolvefit.ui.screen.register.content
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.component.DateBottomSheet
+import com.cairosquad.evolvefit.ui.component.UserProfileImage
+import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.date_of_birth
+import evolvefit.composeapp.generated.resources.enter_your_email
+import evolvefit.composeapp.generated.resources.enter_your_name
+import evolvefit.composeapp.generated.resources.ic_date
+import evolvefit.composeapp.generated.resources.ic_end_arrow
+import evolvefit.composeapp.generated.resources.ic_lock
+import evolvefit.composeapp.generated.resources.ic_mail
+import evolvefit.composeapp.generated.resources.ic_profile
+import evolvefit.composeapp.generated.resources.ic_visibility_off
+import evolvefit.composeapp.generated.resources.ic_visibility_on
+import evolvefit.composeapp.generated.resources.password
+import evolvefit.composeapp.generated.resources.user_profile
+import evolvefit.composeapp.generated.resources.user_profile_description
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RegisterScreenContentUserNamePasswordDateOfBirth(
@@ -13,5 +47,197 @@ fun RegisterScreenContentUserNamePasswordDateOfBirth(
     listener: RegisterInteractionListener,
     modifier: Modifier = Modifier
 ){
-    Text("RegisterScreenContentUserNamePasswordDateOfBirth", color = Theme.color.surfaces.onSurface)
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(top = 16.dp),
+    ) {
+        UserProfileStep(
+            image = state.image,
+            maxDate = "2023-08-06",
+            dateOfBirth = state.dateOfBirth,
+            userName = state.userName,
+            userEmail = state.userEmail,
+            userPassword = state.userPassword,
+            isImagePickerOpen = state.isImagePickerOpen,
+            isPasswordVisible = state.isPasswordVisible,
+            onImagePickerClick = listener::onImagePickerClick,
+            onImagePickerDismiss = listener::onImagePickerDismiss,
+            onImageRetrieved = listener::onImageRetrieved,
+            onUserNameChange = listener::onUserNameChange,
+            onUserEmailChange = listener::onUserEmailChange,
+            onUserPasswordChange = listener::onUserPasswordChange,
+            onPasswordVisibilityClick = listener::onPasswordVisibilityClick,
+            onDateOfBirthChange = listener::onDateOfBirthChange,
+        )
+    }
+}
+
+
+@Composable
+private fun UserProfileStep(
+    image: UiImage,
+    isImagePickerOpen: Boolean,
+    userName: String,
+    userEmail: String,
+    userPassword: String,
+    isPasswordVisible: Boolean,
+    maxDate: String,
+    dateOfBirth: String,
+    onImagePickerDismiss: () -> Unit,
+    onImagePickerClick: () -> Unit,
+    onImageRetrieved: (UiImage) -> Unit,
+    onUserNameChange: (String) -> Unit,
+    onUserEmailChange: (String) -> Unit,
+    onUserPasswordChange: (String) -> Unit,
+    onPasswordVisibilityClick: () -> Unit,
+    onDateOfBirthChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+    ) {
+        UserProfileStepHeader(
+            modifier = Modifier
+                .padding(bottom = 24.dp)
+        )
+
+        UserProfileImage(
+            image = image,
+            isImagePickerOpen = isImagePickerOpen,
+            onImagePickerDismiss = onImagePickerDismiss,
+            onImagePickerClick = onImagePickerClick,
+            onImageRetrieved = onImageRetrieved,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(
+                    bottom = 32.dp
+                )
+        )
+
+        UserProfileForm(
+            userName = userName,
+            onUserNameChange = onUserNameChange,
+            userEmail = userEmail,
+            onUserEmailChange = onUserEmailChange,
+            userPassword = userPassword,
+            onUserPasswordChange = onUserPasswordChange,
+            isPasswordVisible = isPasswordVisible,
+            onPasswordVisibilityClick = onPasswordVisibilityClick,
+            dateOfBirth = dateOfBirth,
+            maxDate = maxDate,
+            onDateOfBirthChange = onDateOfBirthChange,
+        )
+    }
+}
+
+@Composable
+private fun UserProfileStepHeader(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+    ) {
+        Text(
+            text = stringResource(Res.string.user_profile),
+            style = Theme.textStyle.headline.mediumMedium18,
+            color = Theme.color.surfaces.onSurface,
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+        )
+
+        Text(
+            text = stringResource(Res.string.user_profile_description),
+            style = Theme.textStyle.label.smallRegular14,
+            color = Theme.color.surfaces.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
+private fun UserProfileForm(
+    userName: String,
+    onUserNameChange: (String) -> Unit,
+    userEmail: String,
+    onUserEmailChange: (String) -> Unit,
+    userPassword: String,
+    onUserPasswordChange: (String) -> Unit,
+    isPasswordVisible: Boolean,
+    onPasswordVisibilityClick: () -> Unit,
+    maxDate: String,
+    dateOfBirth: String,
+    onDateOfBirthChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var isDatePickerBottomSheetOpen by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        InputField(
+            modifier = Modifier.fillMaxWidth(),
+            value = userName,
+            onValueChange = onUserNameChange,
+            placeholder = stringResource(Res.string.enter_your_name),
+            leadingIcon = Res.drawable.ic_profile,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            ),
+        )
+
+        InputField(
+            modifier = Modifier.fillMaxWidth(),
+            value = userEmail,
+            onValueChange = onUserEmailChange,
+            placeholder = stringResource(Res.string.enter_your_email),
+            leadingIcon = Res.drawable.ic_mail,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next
+            ),
+        )
+
+        InputField(
+            modifier = Modifier.fillMaxWidth(),
+            value = dateOfBirth,
+            onValueChange = onDateOfBirthChange,
+            placeholder = stringResource(Res.string.date_of_birth),
+            leadingIcon = Res.drawable.ic_date,
+            trailingIcon = Res.drawable.ic_end_arrow,
+            readOnly = true,
+            onClick = {
+                isDatePickerBottomSheetOpen = true
+            },
+        )
+
+        InputField(
+            modifier = Modifier.fillMaxWidth(),
+            value = userPassword,
+            onValueChange = onUserPasswordChange,
+            placeholder = stringResource(Res.string.password),
+            leadingIcon = Res.drawable.ic_lock,
+            trailingIcon = if (isPasswordVisible) Res.drawable.ic_visibility_on else Res.drawable.ic_visibility_off,
+            onTrailingIconClick = onPasswordVisibilityClick,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            ),
+            isPasswordField = !isPasswordVisible,
+        )
+    }
+
+    DateBottomSheet(
+        maxDate = maxDate,
+        dateOfBirth = dateOfBirth,
+        onDateChange = onDateOfBirthChange,
+        isDatePickerBottomSheetOpen = isDatePickerBottomSheetOpen,
+        onDatePickerDismiss = {
+            isDatePickerBottomSheetOpen = false
+        },
+        modifier = Modifier
+    )
 }

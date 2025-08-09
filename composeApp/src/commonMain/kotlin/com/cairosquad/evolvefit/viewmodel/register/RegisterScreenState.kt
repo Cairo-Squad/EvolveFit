@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
+import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.friday
 import evolvefit.composeapp.generated.resources.monday
@@ -22,7 +23,15 @@ data class RegisterScreenState(
     val selectedWorkoutDays: List<WorkoutDay> = emptyList(),
     val isNoEquipmentSelected: Boolean = false,
     val availableEquipments: List<Equipment> = emptyList(),
-    val selectedEquipments: List<String> = emptyList()
+    val selectedEquipments: List<String> = emptyList(),
+
+    val image: UiImage = UiImage.ImageUrl(""),
+    val isImagePickerOpen: Boolean = false,
+    val userName: String = "",
+    val userEmail: String = "",
+    val userPassword: String = "",
+    val isPasswordVisible: Boolean = false,
+    val dateOfBirth: String = "",
 ) {
     enum class Gender {
         Female, Male

@@ -54,6 +54,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -188,6 +189,38 @@ private fun RegisterScreenContentSelectHeightAndWeightPreview() {
                     }
 
                     override fun onEquipmentToggled(equipmentId: String) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onImagePickerClick() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onImagePickerDismiss() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onImageRetrieved(image: UiImage) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onUserNameChange(userName: String) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onUserEmailChange(userEmail: String) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onUserPasswordChange(userPassword: String) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onPasswordVisibilityClick() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onDateOfBirthChange(dateOfBirth: String) {
                         TODO("Not yet implemented")
                     }
 
