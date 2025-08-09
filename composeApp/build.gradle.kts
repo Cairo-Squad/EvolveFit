@@ -1,4 +1,3 @@
-import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -39,6 +38,7 @@ kotlin {
             implementation(libs.koin.androidx.compose)
 
             implementation(libs.ktor.client.android)
+            implementation(libs.core.splashscreen)
 
         }
         commonMain.dependencies {
@@ -52,7 +52,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.coil.compose)
             implementation(libs.lifecycle.viewmodel)
-            implementation(libs.core.splashscreen)
 
             // navigation
             implementation(libs.navigation.compose)

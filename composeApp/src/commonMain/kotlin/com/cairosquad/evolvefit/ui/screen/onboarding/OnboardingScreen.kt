@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.onBoarding
+package com.cairosquad.evolvefit.ui.screen.onboarding
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,6 +31,10 @@ import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.ui.util.noRippleClickable
+import com.cairosquad.evolvefit.viewmodel.onboarding.OnBoardingViewModel
+import com.cairosquad.evolvefit.viewmodel.onboarding.OnboardingScreenEffect
+import com.cairosquad.evolvefit.viewmodel.onboarding.OnboardingScreenListener
+import com.cairosquad.evolvefit.viewmodel.onboarding.OnboardingScreenState
 import evolvefit.composeapp.generated.resources.Onboarding
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arrow_down
@@ -231,7 +235,7 @@ private fun LanguageBottomSheet(
 private fun OnboardingScreenPreview() {
     OnboardingScreenContent(
         state = OnboardingScreenState(),
-        listener = object : OnboardingScreenListener{
+        listener = object : OnboardingScreenListener {
             override fun onChangeLanguage(language: OnboardingScreenState.Language) {
                 TODO("Not yet implemented")
             }

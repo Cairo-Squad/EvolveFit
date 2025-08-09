@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.onBoarding
+package com.cairosquad.evolvefit.viewmodel.onboarding
 
 sealed class OnboardingScreenEffect {
     object NavigateToLogin : OnboardingScreenEffect()
