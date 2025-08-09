@@ -21,10 +21,8 @@ fun SignUpPromptRow(
 ) {
     Row(
         modifier = Modifier
-            .padding(horizontal = 74.dp)
-            .padding(bottom = 24.dp),
+            .padding(bottom = 40.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
-        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = stringResource(Res.string.do_not_have_an_account),

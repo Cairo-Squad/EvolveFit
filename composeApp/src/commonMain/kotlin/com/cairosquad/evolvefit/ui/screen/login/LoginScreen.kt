@@ -2,9 +2,11 @@ package com.cairosquad.evolvefit.ui.screen.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -83,65 +85,70 @@ private fun LoginScreenContent(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize()
-            .statusBarsPadding()
-            .padding(horizontal = 16.dp),
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            modifier = Modifier
-                .padding(8.dp)
-                .size(24.dp)
-                .align(Alignment.Start)
-                .clickable(onClick = listener::onBackClicked),
-            painter = painterResource(Res.drawable.ic_back),
-            contentDescription = stringResource(Res.string.arrow_back_description),
-        )
+        Column(
+            modifier = Modifier.fillMaxWidth()
+                .statusBarsPadding()
+                .padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .size(24.dp)
+                    .align(Alignment.Start)
+                    .clickable(onClick = listener::onBackClicked),
+                painter = painterResource(Res.drawable.ic_back),
+                contentDescription = stringResource(Res.string.arrow_back_description),
+            )
 
-        Icon(
-            modifier = Modifier
-                .padding(bottom = 24.dp, top = 20.dp),
-            painter = painterResource(Res.drawable.ic_app_logo),
-            contentDescription = stringResource(Res.string.logo_description),
-            tint = Theme.color.brand.primary,
-        )
+            Icon(
+                modifier = Modifier
+                    .padding(bottom = 24.dp, top = 20.dp),
+                painter = painterResource(Res.drawable.ic_app_logo),
+                contentDescription = stringResource(Res.string.logo_description),
+                tint = Theme.color.brand.primary,
+            )
 
-        RegisterHeader(
-            modifier = Modifier
-                .padding(bottom = 24.dp),
-            title = stringResource(Res.string.welcome_back_title),
-            description = stringResource(Res.string.welcome_back_description),
-        )
+            RegisterHeader(
+                modifier = Modifier
+                    .padding(bottom = 24.dp),
+                title = stringResource(Res.string.welcome_back_title),
+                description = stringResource(Res.string.welcome_back_description),
+            )
 
-        InputField(
-            modifier = Modifier
-                .padding(bottom = 12.dp),
-            value = state.email,
-            onValueChange = listener::onEmailChanged,
-            placeholder = stringResource(Res.string.email_placeholder),
-            leadingIcon = Res.drawable.ic_profile,
-        )
+            InputField(
+                modifier = Modifier
+                    .padding(bottom = 12.dp),
+                value = state.email,
+                onValueChange = listener::onEmailChanged,
+                placeholder = stringResource(Res.string.email_placeholder),
+                leadingIcon = Res.drawable.ic_profile,
+            )
 
-        InputField(
-            modifier = Modifier
-                .padding(bottom = 68.dp),
-            value = state.password,
-            onValueChange = listener::onPasswordChanged,
-            placeholder = stringResource(Res.string.password_placeholder),
-            isPasswordField = !state.isPasswordVisible,
-            leadingIcon = Res.drawable.ic_lock,
-            trailingIcon = visibilityIcon,
-            onTrailingIconClick = listener::onTogglePasswordVisibility,
-        )
+            InputField(
+                modifier = Modifier
+                    .padding(bottom = 40.dp),
+                value = state.password,
+                onValueChange = listener::onPasswordChanged,
+                placeholder = stringResource(Res.string.password_placeholder),
+                isPasswordField = !state.isPasswordVisible,
+                leadingIcon = Res.drawable.ic_lock,
+                trailingIcon = visibilityIcon,
+                onTrailingIconClick = listener::onTogglePasswordVisibility,
+            )
 
-        PrimaryButton(
-            text = stringResource(Res.string.login),
-            isEnabled = state.canSubmit,
-            onClick = listener::onLoginClicked
-        )
+            PrimaryButton(
+                text = stringResource(Res.string.login),
+                isEnabled = state.canSubmit,
+                onClick = listener::onLoginClicked
+            )
+        }
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        SignUpPromptRow(onJoinNowClicked = listener::onJoinNowClicked)
+            SignUpPromptRow(onJoinNowClicked = listener::onJoinNowClicked)
     }
+
 }
