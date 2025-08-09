@@ -76,8 +76,8 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.logging)
-            implementation("com.russhwolf:multiplatform-settings-no-arg:1.3.0")
-            implementation("io.ktor:ktor-client-auth:2.3.2")
+            implementation(libs.multiplatform.settings.no.arg)
+            implementation(libs.ktor.client.auth)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
