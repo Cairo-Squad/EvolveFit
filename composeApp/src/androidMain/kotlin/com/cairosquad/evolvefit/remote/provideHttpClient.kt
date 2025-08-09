@@ -16,7 +16,7 @@ import kotlinx.serialization.json.Json
 
 actual fun provideHttpClient(
     authPreferences: AuthPreferences,
-   // authRemoteDataSource: AuthRemoteDataSource
+    refreshTokenProvider: suspend (String) -> BearerTokens?
 ): HttpClient {
     return HttpClient {
         install(ContentNegotiation) {
@@ -31,22 +31,15 @@ actual fun provideHttpClient(
         install(Auth) {
             bearer {
                 loadTokens {
-                    authPreferences.getAccessToken()?.let { accessToken ->
-                        authPreferences.getRefreshToken()?.let { refreshToken ->
-                            BearerTokens(accessToken, refreshToken)
+                    authPreferences.getAccessToken()?.let { access ->
+                        authPreferences.getRefreshToken()?.let { refresh ->
+                            BearerTokens(access, refresh)
                         }
                     }
                 }
                 refreshTokens {
-                    val refreshToken = authPreferences.getRefreshToken()
-                    if (refreshToken != null) {
-                        TODO()
-//                        val newTokens = authRemoteDataSource.refreshToken(refreshToken)
-//                        authPreferences.saveTokens(newTokens.accessToken, newTokens.refreshToken)
-//                        BearerTokens(newTokens.accessToken, newTokens.refreshToken)
-                    } else {
-                        null
-                    }
+                    val refresh = authPreferences.getRefreshToken()
+                    refresh?.let { refreshTokenProvider(it) }
                 }
             }
         }
