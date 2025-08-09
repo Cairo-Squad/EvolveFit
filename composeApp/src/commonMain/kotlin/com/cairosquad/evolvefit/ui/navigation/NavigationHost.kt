@@ -149,8 +149,3 @@ fun NavigationHost(authPreferences: AuthPreferences, initialAccessToken: String?
         }
     }
 }
-
-@Composable
-fun Settings() {
-    TODO("Not yet implemented")
-}

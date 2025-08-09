@@ -4,6 +4,7 @@ import com.cairosquad.evolvefit.entity.FitnessGoal
 import com.cairosquad.evolvefit.entity.Gender
 import com.cairosquad.evolvefit.entity.MeasurementUnit
 import com.cairosquad.evolvefit.entity.Tool
+import com.cairosquad.evolvefit.entity.User
 import com.cairosquad.evolvefit.entity.WorkoutDay
 
 fun List<Long>.toToolsDomain(state: RegisterScreenState): List<Tool> {
@@ -47,3 +48,20 @@ fun RegisterScreenState.Gender.toDomain(): Gender {
         RegisterScreenState.Gender.Female -> Gender.FEMALE
     }
 }
+
+fun RegisterScreenState.toDomain(): User {
+    return User(
+        name = this.userNameInput,
+        email = this.userEmailInput,
+        password = this.userPasswordInput,
+        gender = this.selectedGender?.toDomain() ?: Gender.MALE,
+        dateOfBirth = this.dateOfBirthInput,
+        unit = this.selectedMeasurementStandard?.toDomain() ?: MeasurementUnit.METRIC,
+        goal = this.selectedGoal?.toDomain() ?: FitnessGoal.STAY_IN_SHAPE,
+        height = this.selectedHeight,
+        weight = this.selectedWeight,
+        tools = this.selectedEquipments.toToolsDomain(this),
+        workoutDays = this.selectedWorkoutDays.map { it.toDomain() }
+    )
+}
+

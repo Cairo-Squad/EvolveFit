@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.remote.model
+package com.cairosquad.evolvefit.remote.Auth.model
 
 import kotlinx.serialization.Serializable
 
@@ -7,7 +7,6 @@ data class LoginRequest(
     val email: String,
     val password: String
 )
-
 
 @Serializable
 data class AuthResponse(

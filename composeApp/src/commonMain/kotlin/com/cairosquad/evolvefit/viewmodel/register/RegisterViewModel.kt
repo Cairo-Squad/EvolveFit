@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
-import com.cairosquad.evolvefit.domain.usecase.GetEquipmentsUseCase
 import com.cairosquad.evolvefit.domain.usecase.authentication.AuthUseCase
 import com.cairosquad.evolvefit.entity.FitnessGoal
 import com.cairosquad.evolvefit.entity.Gender
@@ -12,7 +11,6 @@ import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal
 
 class RegisterViewModel(
     private val authUseCase: AuthUseCase,
-    private val getEquipmentsUseCase: GetEquipmentsUseCase
 ) : BaseViewModel<RegisterScreenState, RegisterEffect>(RegisterScreenState()),
     RegisterInteractionListener {
     override fun onClickNext() {
@@ -31,21 +29,7 @@ class RegisterViewModel(
     }
 
     override fun onClickStartNow() {
-        val state = screenState.value
-
-        val user = User(
-            name = state.userName,
-            email = state.userEmail,
-            password = state.userPassword,
-            gender = state.selectedGender?.toDomain() ?: Gender.MALE,
-            dateOfBirth = state.dateOfBirth,
-            unit = state.selectedMeasurementStandard?.toDomain() ?: MeasurementUnit.METRIC,
-            goal = state.selectedGoal?.toDomain() ?: FitnessGoal.STAY_IN_SHAPE,
-            height = state.selectedHeight,
-            weight = state.selectedWeight,
-            tools = state.selectedEquipments.toToolsDomain(state),
-            workoutDays = state.selectedWorkoutDays.map { it.toDomain() }
-        )
+        val user = screenState.value.toDomain()
 
         tryToCall(
             block = { authUseCase.register(user) },
@@ -64,9 +48,10 @@ class RegisterViewModel(
         )
     }
 
+
     private fun getEquipments() {
         tryToCall(
-            block = { getEquipmentsUseCase.getEquipments() },
+            block = { authUseCase.getEquipments() },
             onSuccess = { tools ->
                 val equipments = tools.map { tool ->
                     RegisterScreenState.Equipment(
@@ -174,17 +159,17 @@ class RegisterViewModel(
     }
 
     override fun onUserNameChange(userName: String) {
-        updateState { it.copy(userName = userName) }
+        updateState { it.copy(userNameInput = userName) }
         updateNextButtonEnableState()
     }
 
     override fun onUserEmailChange(userEmail: String) {
-        updateState { it.copy(userEmail = userEmail) }
+        updateState { it.copy(userEmailInput = userEmail) }
         updateNextButtonEnableState()
     }
 
     override fun onUserPasswordChange(userPassword: String) {
-        updateState { it.copy(userPassword = userPassword) }
+        updateState { it.copy(userPasswordInput = userPassword) }
         updateNextButtonEnableState()
     }
 
@@ -193,7 +178,7 @@ class RegisterViewModel(
     }
 
     override fun onDateOfBirthChange(dateOfBirth: String) {
-        updateState { it.copy(dateOfBirth = dateOfBirth) }
+        updateState { it.copy(dateOfBirthInput = dateOfBirth) }
         updateNextButtonEnableState()
     }
 
@@ -240,10 +225,10 @@ class RegisterViewModel(
 
     private fun isCredentialsValid(): Boolean {
         val state = screenState.value
-        return state.userName.isNotEmpty()
-                && state.userEmail.isNotEmpty()
-                && state.userPassword.isNotEmpty()
-                && state.dateOfBirth.isNotEmpty()
+        return state.userNameInput.isNotEmpty()
+                && state.userEmailInput.isNotEmpty()
+                && state.userPasswordInput.isNotEmpty()
+                && state.dateOfBirthInput.isNotEmpty()
     }
     companion object {
         const val MAX_STEPS = 8

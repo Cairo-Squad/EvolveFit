@@ -11,4 +11,3 @@ interface AuthRepository {
     suspend fun isUserLoggedIn(): Boolean
     suspend fun getEquipments(): List<Tool>
 }
-

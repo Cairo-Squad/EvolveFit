@@ -1,6 +1,6 @@
 package com.cairosquad.evolvefit.remote
 
-import com.cairosquad.evolvefit.domain.AuthRemoteDataSource
+import com.cairosquad.evolvefit.repository.remote.AuthRemoteDataSource
 import com.cairosquad.evolvefit.local.AuthPreferences
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.auth.Auth

@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.remote
 
-import com.cairosquad.evolvefit.domain.AuthRemoteDataSource
 import com.cairosquad.evolvefit.local.AuthPreferences
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.darwin.Darwin
@@ -9,7 +8,6 @@ import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
-import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 

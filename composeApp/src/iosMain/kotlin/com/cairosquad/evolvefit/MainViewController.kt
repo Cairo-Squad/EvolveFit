@@ -7,4 +7,9 @@ fun MainViewController() = ComposeUIViewController(
     configure = {
         initKoin()
     }
-) { App() }
+) {
+    App(
+        authPreferences = TODO(),
+        initialAccessToken = TODO()
+    )
+}

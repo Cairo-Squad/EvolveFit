@@ -1,11 +1,11 @@
 package com.cairosquad.evolvefit.remote.Auth
 
-import com.cairosquad.evolvefit.domain.AuthRemoteDataSource
-import com.cairosquad.evolvefit.remote.model.AuthResponse
-import com.cairosquad.evolvefit.remote.model.EquipmentDto
-import com.cairosquad.evolvefit.remote.model.LoginRequest
-import com.cairosquad.evolvefit.remote.model.RefreshRequest
-import com.cairosquad.evolvefit.remote.model.RegisterRequest
+import com.cairosquad.evolvefit.repository.remote.AuthRemoteDataSource
+import com.cairosquad.evolvefit.repository.remote.auth.AuthResponse
+import com.cairosquad.evolvefit.repository.remote.auth.EquipmentDto
+import com.cairosquad.evolvefit.repository.remote.auth.LoginRequest
+import com.cairosquad.evolvefit.repository.remote.auth.RefreshRequest
+import com.cairosquad.evolvefit.repository.remote.auth.RegisterRequest
 import com.cairosquad.evolvefit.remote.safeApiCall
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -30,7 +30,7 @@ class AuthRemoteDataSourceImp(private val client: HttpClient) : AuthRemoteDataSo
         }.body<AuthResponse>()
     }
 
-    override suspend fun refreshToken(refreshToken: String): AuthResponse {
+    override suspend fun getRefreshToken(refreshToken: String): AuthResponse {
         return client.post("auth/refresh") {
             contentType(ContentType.Application.Json)
             setBody(RefreshRequest(refreshToken))
