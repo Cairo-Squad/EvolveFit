@@ -40,17 +40,26 @@ class LoginViewModel(
 
     override fun onEmailChanged(newEmail: String) {
         updateState {
-            val updated = it.copy(email = newEmail, emailError = null)
+            val updated = it.copy(
+                email = newEmail,
+                emailError = null,
+                passwordError = it.passwordError
+            )
             updated.copy(canSubmit = isSubmitAllowed(updated))
         }
     }
 
     override fun onPasswordChanged(newPassword: String) {
         updateState {
-            val updated = it.copy(password = newPassword, passwordError = null)
+            val updated = it.copy(
+                password = newPassword,
+                passwordError = null,
+                emailError = it.emailError
+            )
             updated.copy(canSubmit = isSubmitAllowed(updated))
         }
     }
+
 
     override fun onTogglePasswordVisibility() {
         updateState { it.copy(isPasswordVisible = !it.isPasswordVisible) }
@@ -65,10 +74,15 @@ class LoginViewModel(
     }
 
     private fun isSubmitAllowed(uiState: LoginScreenUiState): Boolean {
-        return uiState.email.isNotBlank() &&
-                uiState.password.isNotBlank() &&
-                uiState.emailError == null &&
-                uiState.passwordError == null &&
-                !uiState.isLoading
+        val hasEmail = uiState.email.isNotBlank()
+        val hasPassword = uiState.password.isNotBlank()
+        val isLoading = uiState.isLoading
+
+        val noErrors = uiState.emailError == null && uiState.passwordError == null
+
+        if (noErrors && hasEmail && hasPassword && !isLoading) {
+            return true
+        }
+        return hasEmail && hasPassword && !isLoading
     }
 }
