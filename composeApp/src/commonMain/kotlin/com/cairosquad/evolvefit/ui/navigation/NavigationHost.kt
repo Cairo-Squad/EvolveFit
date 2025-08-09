@@ -3,8 +3,6 @@ package com.cairosquad.evolvefit.ui.navigation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,15 +22,16 @@ import com.cairosquad.evolvefit.ui.screen.playWorkout.PlayWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
 import com.cairosquad.evolvefit.ui.screen.suggestedMeals.SuggestedMealsScreen
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.WorkoutDetailsScreen
+import org.koin.compose.koinInject
 
 @Composable
-fun NavigationHost(authPreferences: AuthPreferences, initialAccessToken: String?) {
+fun NavigationHost(
+    authPreferences: AuthPreferences = koinInject(),
+) {
+    val isUserLoggedIn = authPreferences.getAccessToken().isNullOrBlank().not()
+    val startDestination = if (isUserLoggedIn) AppRoute else OnboardingRoute
+
     val navController = rememberNavController()
-
-    val accessToken by authPreferences.accessTokenFlow.collectAsState(initial = initialAccessToken)
-
-    val startDestination = if (accessToken.isNullOrEmpty()) OnboardingRoute else AppRoute
-
     NavHost(
         modifier = Modifier
             .fillMaxSize()
