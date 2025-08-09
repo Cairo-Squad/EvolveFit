@@ -8,24 +8,25 @@ data class LoginRequest(
     val password: String
 )
 
+
 @Serializable
-data class LoginResponse(
+data class AuthResponse(
     val accessToken: String,
     val refreshToken: String
 )
 
 @Serializable
 data class RegisterRequest(
-    val name: String,
+    val fullName: String,
     val email: String,
-    val dateOfBirth: String,
+    val birthdate: String,
     val password: String,
     val gender: String,
-    val unit: String,
+    val measurementType: String,
     val height: Float,
     val weight: Float,
     val goal: String,
-    val tools: List<String>,
+    val gymEquipments: List<Long>,
     val workoutDays: List<String>
 )
 
