@@ -1,10 +1,8 @@
 package com.cairosquad.evolvefit.domain
 
-import com.cairosquad.evolvefit.Repository.model.AuthTokens
 import com.cairosquad.evolvefit.entity.Tool
 import com.cairosquad.evolvefit.entity.User
 
-// domain/repository/AuthRepositoryImpl.kt
 interface AuthRepository {
     suspend fun login(email: String, password: String)
     suspend fun register(user: User)
