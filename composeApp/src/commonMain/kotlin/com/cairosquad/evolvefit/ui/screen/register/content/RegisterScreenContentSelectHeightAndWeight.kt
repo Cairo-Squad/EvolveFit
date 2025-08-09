@@ -188,7 +188,7 @@ private fun RegisterScreenContentSelectHeightAndWeightPreview() {
                         TODO("Not yet implemented")
                     }
 
-                    override fun onEquipmentToggled(equipmentId: String) {
+                    override fun onEquipmentToggled(equipmentId: Long) {
                         TODO("Not yet implemented")
                     }
 

@@ -319,10 +319,12 @@ private fun PreviewDropdownInputField() {
 @Preview
 private fun PreviewMultilineInputField() {
     InputField(
-        value = "This is a longer text that spans multiple lines to show how the input field behaves with multi-line content.",
+        value = "This is a longer text that spans multiple lines to show how the input" +
+                " field behaves with multi-line content skdfhjdskfhejkdhgfejhgfjerhgejhfbkjfkjehfjbdjbfjdffhjdhfdj" +
+                "hfekhguedhfkdjfnvkjdhfvudfhvdjkfvnkjdfvhdvhjdjvdkjvnd.",
         onValueChange = {},
         isSingleLine = false,
-        maxCharacters = 200,
+        maxCharacters = 3000,
         modifier = Modifier
             .padding(16.dp)
             .height(100.dp)

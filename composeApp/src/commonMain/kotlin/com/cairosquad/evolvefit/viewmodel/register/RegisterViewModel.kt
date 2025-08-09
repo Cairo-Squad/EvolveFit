@@ -1,13 +1,18 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
+import com.cairosquad.evolvefit.domain.usecase.authentication.AuthUseCase
+import com.cairosquad.evolvefit.entity.FitnessGoal
+import com.cairosquad.evolvefit.entity.Gender
+import com.cairosquad.evolvefit.entity.MeasurementUnit
+import com.cairosquad.evolvefit.entity.User
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal
 
-class RegisterViewModel :
-    BaseViewModel<RegisterScreenState, RegisterEffect>(RegisterScreenState()),
+class RegisterViewModel(
+    private val authUseCase: AuthUseCase,
+) : BaseViewModel<RegisterScreenState, RegisterEffect>(RegisterScreenState()),
     RegisterInteractionListener {
-
     override fun onClickNext() {
         updateState {
             it.copy(currentStep = it.currentStep + 1)
@@ -24,8 +29,42 @@ class RegisterViewModel :
     }
 
     override fun onClickStartNow() {
-        // TODO: call the register use case and Navigate to home screen if register is successful
-        sendEffect(RegisterEffect.NavigateToHome)
+        val user = screenState.value.toDomain()
+
+        tryToCall(
+            block = { authUseCase.register(user) },
+            onSuccess = {
+                sendEffect(RegisterEffect.NavigateToHome)
+            },
+            onError = { error ->
+                updateState { it.copy(errorMessage = error.message ?: "Registration failed") }
+            },
+            onStart = {
+                updateState { it.copy(isLoading = true) }
+            },
+            onEnd = {
+                updateState { it.copy(isLoading = false) }
+            }
+        )
+    }
+
+
+    private fun getEquipments() {
+        tryToCall(
+            block = { authUseCase.getEquipments() },
+            onSuccess = { tools ->
+                val equipments = tools.map { tool ->
+                    RegisterScreenState.Equipment(
+                        toolId = tool.id,
+                        isSelected = false
+                    )
+                }
+                updateState { it.copy(availableEquipments = equipments) }
+            },
+            onError = {
+                updateState { it.copy(errorMessage = "") }
+            }
+        )
     }
 
     override fun onHeightChanged(height: Float) {
@@ -88,7 +127,7 @@ class RegisterViewModel :
         updateNextButtonEnableState()
     }
 
-    override fun onEquipmentToggled(equipmentId: String) {
+    override fun onEquipmentToggled(equipmentId: Long) {
         updateState {
             val updatedSelection = it.selectedEquipments.toMutableList()
             if (equipmentId in updatedSelection) {
@@ -105,6 +144,7 @@ class RegisterViewModel :
         updateNextButtonEnableState()
     }
 
+
     override fun onImagePickerClick() {
         updateState { it.copy(isImagePickerOpen = true) }
     }
@@ -119,17 +159,17 @@ class RegisterViewModel :
     }
 
     override fun onUserNameChange(userName: String) {
-        updateState { it.copy(userName = userName) }
+        updateState { it.copy(userNameInput = userName) }
         updateNextButtonEnableState()
     }
 
     override fun onUserEmailChange(userEmail: String) {
-        updateState { it.copy(userEmail = userEmail) }
+        updateState { it.copy(userEmailInput = userEmail) }
         updateNextButtonEnableState()
     }
 
     override fun onUserPasswordChange(userPassword: String) {
-        updateState { it.copy(userPassword = userPassword) }
+        updateState { it.copy(userPasswordInput = userPassword) }
         updateNextButtonEnableState()
     }
 
@@ -138,7 +178,7 @@ class RegisterViewModel :
     }
 
     override fun onDateOfBirthChange(dateOfBirth: String) {
-        updateState { it.copy(dateOfBirth = dateOfBirth) }
+        updateState { it.copy(dateOfBirthInput = dateOfBirth) }
         updateNextButtonEnableState()
     }
 
@@ -185,12 +225,11 @@ class RegisterViewModel :
 
     private fun isCredentialsValid(): Boolean {
         val state = screenState.value
-        return state.userName.isNotEmpty()
-                && state.userEmail.isNotEmpty()
-                && state.userPassword.isNotEmpty()
-                && state.dateOfBirth.isNotEmpty()
+        return state.userNameInput.isNotEmpty()
+                && state.userEmailInput.isNotEmpty()
+                && state.userPasswordInput.isNotEmpty()
+                && state.dateOfBirthInput.isNotEmpty()
     }
-
     companion object {
         const val MAX_STEPS = 8
     }
