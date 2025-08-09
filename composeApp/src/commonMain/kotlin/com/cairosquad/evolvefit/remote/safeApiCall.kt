@@ -5,5 +5,6 @@ suspend inline fun <T> safeApiCall(apiCall: () -> T): T {
         return apiCall()
     } catch (e: Exception) {
         throw e
+        //TODO we will map exceptions later
     }
 }
