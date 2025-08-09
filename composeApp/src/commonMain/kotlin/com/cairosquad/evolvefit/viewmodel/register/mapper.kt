@@ -6,10 +6,10 @@ import com.cairosquad.evolvefit.entity.MeasurementUnit
 import com.cairosquad.evolvefit.entity.Tool
 import com.cairosquad.evolvefit.entity.WorkoutDay
 
-fun List<String>.toToolsDomain(state: RegisterScreenState): List<Tool> {
+fun List<Long>.toToolsDomain(state: RegisterScreenState): List<Tool> {
     return this.mapNotNull { selectedId ->
-        state.availableEquipments.find { it.name == selectedId }?.let {
-            Tool(id = selectedId, name = it.name)
+        state.availableEquipments.find { it.toolId == selectedId }?.let {
+            Tool(id = selectedId, name = it.toolName)
         }
     }
 }
