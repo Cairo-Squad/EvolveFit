@@ -21,8 +21,8 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.login.content.SignUpPromptRow
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
-import com.cairosquad.evolvefit.viewmodel.login.LoginEffect
 import com.cairosquad.evolvefit.viewmodel.login.LoginInteractionListener
+import com.cairosquad.evolvefit.viewmodel.login.LoginScreenEffect
 import com.cairosquad.evolvefit.viewmodel.login.LoginScreenUiState
 import com.cairosquad.evolvefit.viewmodel.login.LoginViewModel
 import evolvefit.composeapp.generated.resources.Res
@@ -53,17 +53,19 @@ fun LoginScreen(
     val state by loginViewModel.screenState.collectAsState()
     ObserveAsEffect(loginViewModel.effect) { effect ->
         when (effect) {
-            LoginEffect.NavigateToHome -> {
+            LoginScreenEffect.NavigateToApp -> {
                 navigateToApp()
             }
 
-            LoginEffect.NavigateToRegister -> {
+            LoginScreenEffect.NavigateToRegister -> {
                 navigateToRegister()
             }
 
-            LoginEffect.NavigateBack -> {
+            LoginScreenEffect.NavigateBack -> {
                 navigateBack()
             }
+
+            is LoginScreenEffect.ShowError -> TODO()
         }
     }
     LoginScreenContent(state = state, listener = loginViewModel)
