@@ -1,21 +1,26 @@
 package com.cairosquad.evolvefit.domain.usecases
 
 import com.cairosquad.evolvefit.domain.repository.MealRepository
-import com.cairosquad.evolvefit.entity.DailySummary
-import com.cairosquad.evolvefit.entity.Meal
+import com.cairosquad.evolvefit.entity.DailyCalorieSummary
+import com.cairosquad.evolvefit.entity.ConsumedMeal
 import com.cairosquad.evolvefit.entity.SuggestedMeal
 
 class MealUseCase( private val mealRepository: MealRepository) {
     suspend  fun getSuggestedMeals(): List<SuggestedMeal> {
         return mealRepository.getSuggestedMeals()
     }
-    suspend  fun getMealHistoryForToday(): List<Meal> {
-        return mealRepository.getMealHistoryForToday()
+    suspend  fun getConsumedMealsForToday(): List<ConsumedMeal> {
+        val meals= mealRepository.getMealsHistoryForToday()
+        return meals
     }
-    suspend  fun addMeal(meal: Meal): Boolean {
-        return mealRepository.addMeal(meal)
+    suspend  fun getAllMealsHistory(): List<ConsumedMeal> {
+        val meals= mealRepository.getAllMealsHistory()
+        return meals
     }
-    suspend  fun getDailySummary(): DailySummary {
+    suspend  fun addMeal(consumedMeal: ConsumedMeal): Boolean {
+        return mealRepository.addMeal(consumedMeal)
+    }
+    suspend  fun getDailyCalorieSummary(): DailyCalorieSummary {
         return mealRepository.getDailySummary()
     }
 }
