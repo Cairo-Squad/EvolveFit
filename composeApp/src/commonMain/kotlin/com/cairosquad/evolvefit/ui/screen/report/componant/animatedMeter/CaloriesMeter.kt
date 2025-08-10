@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.report.componant
+package com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter
 
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -50,14 +50,14 @@ fun CaloriesMeter(
     val animateCurrentPercentage by animateFloatAsState(
         targetValue = if (hasAnimationPlayed) progress else 0f,
         animationSpec = tween(
-            durationMillis = 2000,
+            durationMillis = 1200,
             easing = LinearOutSlowInEasing
         )
     )
     val rotationState by animateFloatAsState(
         targetValue = if (hasAnimationPlayed) 95f else 85f,
         animationSpec = tween(
-            durationMillis = 2000,
+            durationMillis = 1200,
             easing = LinearOutSlowInEasing
         )
     )
@@ -65,7 +65,7 @@ fun CaloriesMeter(
     val xOffset by animateFloatAsState(
         targetValue = if (hasAnimationPlayed) 0f else -0.5f,
         animationSpec = tween(
-            durationMillis = 2000,
+            durationMillis = 1200,
             easing = LinearOutSlowInEasing
         )
     )

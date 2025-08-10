@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.report.componant
+package com.cairosquad.evolvefit.ui.screen.report.componant.cards
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.screen.report.componant.CardHeaderSection
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_time
 import evolvefit.composeapp.generated.resources.time_spent

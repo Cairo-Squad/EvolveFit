@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.report.componant
+package com.cairosquad.evolvefit.ui.screen.report.componant.cards
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +15,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.screen.report.componant.CardHeaderSection
+import com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter.CaloriesMeter
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.calories
 import evolvefit.composeapp.generated.resources.ic_fire

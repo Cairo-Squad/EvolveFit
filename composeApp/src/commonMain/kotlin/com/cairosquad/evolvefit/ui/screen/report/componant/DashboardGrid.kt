@@ -14,6 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
+import com.cairosquad.evolvefit.ui.screen.report.componant.cards.CaloriesCard
+import com.cairosquad.evolvefit.ui.screen.report.componant.cards.TimeSpendCard
+import com.cairosquad.evolvefit.ui.screen.report.componant.cards.TotalWorkoutCard
+import com.cairosquad.evolvefit.ui.screen.report.componant.cards.WaterCard
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
