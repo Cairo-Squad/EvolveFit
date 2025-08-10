@@ -1,8 +1,5 @@
 package com.cairosquad.evolvefit.ui.screen.nutrition
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +10,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,12 +19,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.SnackBar
-import com.cairosquad.evolvefit.design_system.component.StateMessage
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.nutrition.content.MealHistoryItem
@@ -57,15 +48,11 @@ import evolvefit.composeapp.generated.resources.enter_water_intake
 import evolvefit.composeapp.generated.resources.ic_end_arrow
 import evolvefit.composeapp.generated.resources.ic_scan
 import evolvefit.composeapp.generated.resources.ic_water_drop
-import evolvefit.composeapp.generated.resources.im_no_meals_recorded
 import evolvefit.composeapp.generated.resources.meal_added_snackbar
 import evolvefit.composeapp.generated.resources.meal_history
-import evolvefit.composeapp.generated.resources.no_meals_description
-import evolvefit.composeapp.generated.resources.no_meals_title
 import evolvefit.composeapp.generated.resources.nutrition
 import evolvefit.composeapp.generated.resources.track_water_intake
 import evolvefit.composeapp.generated.resources.view_all
-import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -118,7 +105,7 @@ private fun NutritionScreenContent(
                     listener = listener
                 )
             }
-            if (state.suggestedMeals.isNotEmpty()){
+            if (state.suggestedMeals.isNotEmpty()) {
                 item {
                     SuggestedMeals(
                         state = state,
@@ -126,25 +113,26 @@ private fun NutritionScreenContent(
                     )
                 }
             }
-            item {
-                MealHistoryViewAll(listener = listener)
-            }
-            if (state.mealHistory.isNotEmpty()) {
-                items(state.mealHistory) { mealHistory ->
+
+           // if (state.mealHistory.isNotEmpty()) {
+                item {
+                    MealHistoryViewAll(listener = listener)
+                }
+                items(state.mealsHistoryForDay) { mealHistory ->
                     MealHistoryItem(meal = mealHistory)
                 }
-            } else {
-                item {
-                    Box(contentAlignment = Alignment.Center) {
-                        StateMessage(
-                            modifier = Modifier.padding(top = 16.dp, bottom = 12.dp),
-                            image = painterResource(Res.drawable.im_no_meals_recorded),
-                            title = stringResource(Res.string.no_meals_title),
-                            description = stringResource(Res.string.no_meals_description)
-                        )
-                    }
-                }
-            }
+//            } else {
+//                item {
+//                    Box(contentAlignment = Alignment.Center) {
+//                        StateMessage(
+//                            modifier = Modifier.padding(top = 16.dp, bottom = 12.dp),
+//                            image = painterResource(Res.drawable.im_no_meals_recorded),
+//                            title = stringResource(Res.string.no_meals_title),
+//                            description = stringResource(Res.string.no_meals_description)
+//                        )
+//                    }
+//                }
+//            }
         }
         AddWaterIntakeBottomSheet(
             modifier = Modifier.align(Alignment.BottomCenter),
@@ -211,15 +199,15 @@ private fun ScanMeal(modifier: Modifier = Modifier) {
 
     ) {
 
-            Icon(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(Theme.color.surfaces.surfaceVariant)
-                    .padding(10.dp),
-                painter = painterResource(Res.drawable.ic_scan),
-                contentDescription = null,
-                tint = Color.Unspecified
-            )
+        Icon(
+            modifier = Modifier
+                .clip(CircleShape)
+                .background(Theme.color.surfaces.surfaceVariant)
+                .padding(10.dp),
+            painter = painterResource(Res.drawable.ic_scan),
+            contentDescription = null,
+            tint = Color.Unspecified
+        )
         ScanMealTextBlock(
             modifier = Modifier
                 .padding(horizontal = 8.dp)

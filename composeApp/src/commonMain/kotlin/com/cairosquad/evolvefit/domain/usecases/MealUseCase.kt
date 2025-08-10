@@ -10,7 +10,7 @@ class MealUseCase( private val mealRepository: MealRepository) {
         return mealRepository.getSuggestedMeals()
     }
     suspend  fun getConsumedMealsForToday(): List<ConsumedMeal> {
-        val meals= mealRepository.getMealsHistoryForToday()
+        val meals= mealRepository.getConsumedMealsForToday()
         return meals
     }
     suspend  fun getAllMealsHistory(): List<ConsumedMeal> {
@@ -18,9 +18,9 @@ class MealUseCase( private val mealRepository: MealRepository) {
         return meals
     }
     suspend  fun addMeal(consumedMeal: ConsumedMeal): Boolean {
-        return mealRepository.addMeal(consumedMeal)
+        return mealRepository.addConsumedMeal(consumedMeal)
     }
     suspend  fun getDailyCalorieSummary(): DailyCalorieSummary {
-        return mealRepository.getDailySummary()
+        return mealRepository.getDailyCalorieSummary()
     }
 }

@@ -1,14 +1,14 @@
 package com.cairosquad.evolvefit.domain.usecases
 
-import com.cairosquad.evolvefit.domain.repository.NutritionWaterRepository
+import com.cairosquad.evolvefit.domain.repository.WaterIntakeRepository
 import com.cairosquad.evolvefit.entity.DailyWaterIntake
 
-class WaterIntakeUseCase(private val nutritionWaterRepository: NutritionWaterRepository) {
+class WaterIntakeUseCase(private val waterIntakeRepository: WaterIntakeRepository) {
      suspend fun addWaterIntake(waterAmount : Float): Boolean {
-        return nutritionWaterRepository.addWaterIntake(waterAmount)
+        return waterIntakeRepository.recordWaterIntake(waterAmount)
     }
 
      suspend fun getDailyWaterIntake(): DailyWaterIntake {
-        return nutritionWaterRepository.getTotalWaterIntake()
+        return waterIntakeRepository.getDailyWaterIntake()
     }
 }

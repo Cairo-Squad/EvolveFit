@@ -1,51 +1,53 @@
 package com.cairosquad.evolvefit.repository
 
 import com.cairosquad.evolvefit.domain.repository.MealRepository
-import com.cairosquad.evolvefit.entity.DailySummary
-import com.cairosquad.evolvefit.entity.Meal
+import com.cairosquad.evolvefit.entity.DailyCalorieSummary
+import com.cairosquad.evolvefit.entity.ConsumedMeal
 import com.cairosquad.evolvefit.entity.SuggestedMeal
 import com.cairosquad.evolvefit.remote.RemoteMealDataSource
-import com.cairosquad.evolvefit.remote.toEntity
-import com.cairosquad.evolvefit.remote.toRequestDto
+import com.cairosquad.evolvefit.remote.mapper.toEntity
+import com.cairosquad.evolvefit.remote.mapper.toRequestDto
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-class MealRepositoryImpl(  private val remote: RemoteMealDataSource): MealRepository {
+class MealRepositoryImpl(private val remote: RemoteMealDataSource) : MealRepository {
     override suspend fun getSuggestedMeals(): List<SuggestedMeal> {
         return remote.getSuggestedMeals()
     }
 
-    override suspend fun getMealHistoryForToday(): List<Meal> {
+    override suspend fun getConsumedMealsForToday(): List<ConsumedMeal> {
         val currentMoment = Clock.System.now()
         val localDateTime = currentMoment.toLocalDateTime(TimeZone.currentSystemDefault())
-        val startDate = "${localDateTime.date}T00:00:00"
-        val endDate = "${localDateTime.date}T23:59:59"
-
-        return remote.getMeals(startDate, endDate)
+        val startDate = "2025-08-01${startDayTime}"
+        val endDate = "${localDateTime.date}${endDayTime}"
+        val meals = remote.getMealsHistoryForToday(startDate, endDate)
             .map { it.toEntity() }
+        println("grouped  repo: ${meals.toString()}")
+        return meals
     }
 
-    override suspend fun addMeal(meal: Meal): Boolean {
-        return remote.addMeal(meal.toRequestDto())
+    override suspend fun getAllMealsHistory(): List<ConsumedMeal> {
+        val currentMoment = Clock.System.now()
+        val localDateTime = currentMoment.toLocalDateTime(TimeZone.currentSystemDefault())
+        val startDate = "${oldDate}${startDayTime}"
+        val endDate = "${localDateTime.date}${endDayTime}"
+        val meals = remote.getMealsHistoryForToday(startDate, endDate)
+            .map { it.toEntity() }
+        return meals
     }
 
-    override suspend fun getDailySummary(): DailySummary {
+    override suspend fun addConsumedMeal(consumedMeal: ConsumedMeal): Boolean {
+        return remote.addMeal(consumedMeal.toRequestDto())
+    }
+
+    override suspend fun getDailyCalorieSummary(): DailyCalorieSummary {
         return remote.getDailySummary().toEntity()
     }
-    fun formatKotlinxDateTime(dateTime: kotlinx.datetime.LocalDateTime): String {
-        return buildString {
-            append(dateTime.year.toString().padStart(4, '0'))
-            append("-")
-            append(dateTime.monthNumber.toString().padStart(2, '0'))
-            append("-")
-            append(dateTime.dayOfMonth.toString().padStart(2, '0'))
-            append("T")
-            append(dateTime.hour.toString().padStart(2, '0'))
-            append(":")
-            append(dateTime.minute.toString().padStart(2, '0'))
-            append(":")
-            append(dateTime.second.toString().padStart(2, '0'))
-        }
+
+    private companion object {
+        const val oldDate="2025-07-01"
+        const val startDayTime = "T00:00:00"
+        const val endDayTime = "T23:59:59"
     }
 }

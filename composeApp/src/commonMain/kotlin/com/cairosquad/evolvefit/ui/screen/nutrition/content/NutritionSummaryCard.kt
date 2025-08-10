@@ -57,7 +57,7 @@ fun NutritionSummaryCard(
                 title = stringResource(Res.string.water),
                 onActionButtonClicked = { listener.onAddWaterClicked() },
                 currentValue =state.waterConsumedLiters,
-                totalValue = state.waterGoalLiters,
+                totalValue = 4f,
                 unit = stringResource(Res.string.liter_unit),
                 icon = painterResource(Res.drawable.ic_water_drop),
                 iconColor = Theme.color.system.info,
