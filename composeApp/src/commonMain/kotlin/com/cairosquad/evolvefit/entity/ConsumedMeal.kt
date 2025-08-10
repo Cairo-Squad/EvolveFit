@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.entity
 
-data class Meal(
-    val id: Long,
+data class ConsumedMeal(
+    val id: String,
     val name: String,
     val type: MealType,
     val dateTime: String,
