@@ -2,7 +2,6 @@ package com.cairosquad.evolvefit.viewmodel.exercise
 
 import com.cairosquad.evolvefit.domain.usecase.workOut.ExerciseUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
-import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.Equipment
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.FocusArea
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.MeasurementType
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
@@ -12,17 +11,15 @@ class CreateExerciseViewModel(
 ) : BaseViewModel<CreateExerciseState, CreateExerciseEffect>(CreateExerciseState()),
     CreateExerciseInteractionListener {
 
+    init {
+        getEquipments()
+    }
+
     private fun getEquipments() {
         tryToCall(
             block = { exerciseUseCase.getEquipments() },
             onSuccess = { tools ->
-                val equipments = tools.map { tool ->
-                    Equipment(
-                        toolId = tool.id,
-                        toolName = tool.name
-                    )
-                }
-                updateState { it.copy(availableEquipments = equipments) }
+                updateState { it.copy(availableEquipments = tools.toEquipments()) }
             },
             onError = {
                 updateState { it.copy(errorMessage = "Failed to load equipments") }
@@ -52,7 +49,7 @@ class CreateExerciseViewModel(
 
     override fun onFocusAreaToggled(focusArea: FocusArea) {
         updateState {
-            val updatedSelection = it.selectedFocusAreas.toMutableSet()
+            val updatedSelection = it.selectedFocusAreas.toMutableList()
             if (focusArea in updatedSelection) {
                 updatedSelection.remove(focusArea)
             } else {
@@ -79,17 +76,12 @@ class CreateExerciseViewModel(
     }
 
     override fun onMeasurementValueChanged(value: Int) {
-        updateState { it.copy(measurementValue = value) }
+        updateState { it.copy(measurementInputValue = value) }
     }
 
     override fun onSaveClicked() {
-        val state = screenState.value
         tryToCall(
-            block = {
-                exerciseUseCase.createExercise(
-                    state.toDomainExercise()
-                )
-            },
+            block = ::saveExercise,
             onSuccess = {
                 sendEffect(CreateExerciseEffect.NavigateToAllExercises)
             },
@@ -97,13 +89,16 @@ class CreateExerciseViewModel(
                 sendEffect(CreateExerciseEffect.ShowError(e.message ?: "Unknown error"))
             },
             onStart = {
-                updateState { it.copy(isSaving = true) }
+                updateState { it.copy(isExerciseSaved = true) }
             },
             onEnd = {
-                updateState { it.copy(isSaving = false) }
+                updateState { it.copy(isExerciseSaved = false) }
             }
         )
     }
+
+    private suspend fun saveExercise() =
+        exerciseUseCase.createExercise(screenState.value.toDomainExercise())
 
     override fun onExitClicked() {
         updateState { it.copy(showExitBottomSheet = true) }
