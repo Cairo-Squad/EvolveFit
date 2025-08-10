@@ -29,14 +29,14 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun CircularCounter(
-    count: Int,
+fun CircularTimer(
+    timeSeconds: Int,
     onFinish: (Float) -> Unit,
     modifier: Modifier = Modifier,
     reverse: Boolean = false,
     radius: Dp = 75.dp,
     strokeWidth: Dp = 12.dp,
-    animationDurationMilli: Int = count * 1000,
+    animationDurationMilli: Int = timeSeconds * 1000,
     animationDelay: Int = 0,
     progressColor: Color = Theme.color.brand.primary,
     textStyle: TextStyle = Theme.textStyle.title.largeBold16.copy(fontSize = 40.sp),
@@ -46,8 +46,8 @@ fun CircularCounter(
 
     var hasAnimationPlayed by remember { mutableStateOf(false) }
 
-    val startValue = if (reverse) count.toFloat() else 0f
-    val endValue = if (reverse) 0f else count.toFloat()
+    val startValue = if (reverse) timeSeconds.toFloat() else 0f
+    val endValue = if (reverse) 0f else timeSeconds.toFloat()
 
     val animateValue by animateFloatAsState(
         targetValue = if (hasAnimationPlayed) endValue else startValue,
@@ -59,9 +59,9 @@ fun CircularCounter(
         finishedListener = onFinish
     )
 
-    val progressPercent = animateValue / count
+    val progressPercent = animateValue / timeSeconds
 
-    LaunchedEffect(count) {
+    LaunchedEffect(timeSeconds) {
         hasAnimationPlayed = true
     }
 
@@ -105,8 +105,8 @@ fun CircularCounterPreview(){
                 .background(Theme.color.surfaces.surface)
                 .padding(16.dp)
         ) {
-            CircularCounter(
-                count = 15,
+            CircularTimer(
+                timeSeconds = 15,
                 onFinish = { },
                 reverse = true
             )

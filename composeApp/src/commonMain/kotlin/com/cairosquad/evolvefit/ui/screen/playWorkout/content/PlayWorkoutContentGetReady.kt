@@ -27,7 +27,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.component.CircularCounter
+import com.cairosquad.evolvefit.design_system.component.CircularTimer
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -80,11 +80,11 @@ fun PlayWorkoutContentGetReady(
             style = Theme.textStyle.display.largeBold24,
             color = Theme.color.surfaces.onSurfaceContainer,
         )
-        CircularCounter(
+        CircularTimer(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 32.dp),
-            count = PlayWorkoutViewModel.GET_READY_COUNTER_SECONDS,
+            timeSeconds = PlayWorkoutViewModel.GET_READY_COUNTER_SECONDS,
             onFinish = { listener.onGetReadyCounterFinish() },
             reverse = true
         )
