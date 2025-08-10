@@ -38,7 +38,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun WaterMeter(
+fun CaloriesMeter(
     modifier: Modifier = Modifier,
     progress: Float = 0.75f
 ) {
@@ -162,5 +162,5 @@ fun WaterMeter(
 @Preview
 @Composable
 private fun WaterMeterPreview() {
-    WaterMeter()
+    CaloriesMeter()
 }

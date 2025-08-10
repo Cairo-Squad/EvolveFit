@@ -136,4 +136,8 @@
     <string name="please_select_your_birthday">Please select your birthday</string>
     <string name="save">Save</string>
 
+    <string name="total_workouts">Total Workouts</string>
+    <string name="time_spent">Time Spent</string>
+    <string name="water_drops">Water Drops</string>
+    <string name="liters">Liters</string>
 </resources>

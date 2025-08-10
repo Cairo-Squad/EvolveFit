@@ -135,4 +135,8 @@
     <string name="please_select_your_birthday">ادخل يوم ميلادك رجاءاً</string>
     <string name="save">حفظ</string>
 
+    <string name="total_workouts">إجمالي التمارين</string>
+    <string name="time_spent">الوقت المستغرق</string>
+    <string name="water_drops">قطرات مياه</string>
+    <string name="liters">لترات</string>
 </resources>

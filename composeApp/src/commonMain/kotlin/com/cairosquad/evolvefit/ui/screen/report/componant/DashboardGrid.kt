@@ -35,15 +35,18 @@ fun DashboardGrid(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier.weight(1f)
                 ) {
-                    TimeSpendCard()
-                    TotalWorkoutCard()
+                    TimeSpendCard("32h")
+                    TotalWorkoutCard(5)
                 }
-                WaterCard(
-                    modifier = Modifier.weight(1f)
+                CaloriesCard(
+                    modifier = Modifier
+                        .weight(1f)
                         .height(262.dp)
                 )
-                CaloriesCard(
-                    modifier = Modifier.weight(1f)
+                WaterCard(
+                    waterConsumed = "05",
+                    modifier = Modifier
+                        .weight(1f)
                         .height(262.dp)
                 )
             }
@@ -56,12 +59,7 @@ fun DashboardGrid(
                 userScrollEnabled = false
             ) {
                 item {
-                    TimeSpendCard()
-                }
-                item {
-                    WaterCard(
-                        modifier = Modifier.height(214.dp)
-                    )
+                    TimeSpendCard("32h")
                 }
                 item {
                     CaloriesCard(
@@ -69,7 +67,13 @@ fun DashboardGrid(
                     )
                 }
                 item {
-                    TotalWorkoutCard()
+                    WaterCard(
+                        waterConsumed = "05",
+                        modifier = Modifier.height(214.dp)
+                    )
+                }
+                item {
+                    TotalWorkoutCard(5)
                 }
             }
         }
