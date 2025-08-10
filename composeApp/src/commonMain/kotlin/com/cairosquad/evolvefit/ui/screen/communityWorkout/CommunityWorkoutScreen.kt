@@ -121,7 +121,7 @@ private fun Workouts(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable { onClickWorkout(workout.id) }, // tap → Play effect
+                    .clickable { onClickWorkout(workout.id) },
                 title = workout.title,
                 duration = workout.duration,
                 bodyPart = workout.bodyPart.name,
