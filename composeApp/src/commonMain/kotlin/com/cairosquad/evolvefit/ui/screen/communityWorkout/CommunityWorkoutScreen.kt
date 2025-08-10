@@ -51,6 +51,8 @@ fun CommunityWorkoutScreen(
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
             is CommunityWorkoutEffect.NavigateToWorkoutDetails -> navigateToWorkoutDetails(effect.workoutId)
+            CommunityWorkoutEffect.NavigateBack -> navigateBack()
+
         }
     }
 
@@ -98,7 +100,7 @@ private fun AppBar(navigateBack: () -> Unit) {
                 icon = painterResource(Res.drawable.ic_back),
                 contentDescription = stringResource(Res.string.back),
                 tint = Theme.color.surfaces.onSurface,
-                onClick = { navigateBack }
+                onClick = navigateBack
             )
         }
     )

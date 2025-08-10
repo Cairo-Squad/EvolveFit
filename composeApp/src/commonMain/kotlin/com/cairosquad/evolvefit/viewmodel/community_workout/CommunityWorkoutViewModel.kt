@@ -40,4 +40,9 @@ class CommunityWorkoutViewModel(
     override fun onClickWorkout(id: Long) {
         sendEffect(CommunityWorkoutEffect.NavigateToWorkoutDetails(id))
     }
+
+    override fun onClickBack() {
+        sendEffect(CommunityWorkoutEffect.NavigateBack)
+    }
+
 }

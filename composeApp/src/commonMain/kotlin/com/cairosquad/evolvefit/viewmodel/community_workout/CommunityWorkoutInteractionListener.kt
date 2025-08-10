@@ -5,4 +5,5 @@ import com.cairosquad.evolvefit.entity.BodyPart
 interface CommunityWorkoutInteractionListener {
     fun onSelectBodyPart(bodyPart: BodyPart)
     fun onClickWorkout(id: Long)
+    fun onClickBack()
 }
