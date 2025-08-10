@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.onBoarding
+package com.cairosquad.evolvefit.viewmodel.onboarding
 
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 

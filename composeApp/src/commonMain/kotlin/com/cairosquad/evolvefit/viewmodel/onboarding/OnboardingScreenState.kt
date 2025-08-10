@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.onBoarding
+package com.cairosquad.evolvefit.viewmodel.onboarding
 
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arabic

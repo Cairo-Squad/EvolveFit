@@ -7,6 +7,7 @@ import com.cairosquad.evolvefit.repository.FakeAuthRepository
 import org.koin.dsl.module
 
 val useCaseModule = module {
+    factory { AuthUseCase(get()) }
     single<AuthRepository> { FakeAuthRepository() }
     single { AuthUseCase(get()) }
     single { ManageWorkoutsUseCase(get()) }

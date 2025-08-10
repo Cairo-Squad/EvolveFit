@@ -77,14 +77,14 @@ fun EquipmentsSection(
         contentPadding = PaddingValues(bottom = 12.dp)
     ) {
         items(state.availableEquipments) { equipment ->
-            val isSelected = state.selectedEquipments.contains(equipment.name)
+            val isSelected = state.selectedEquipments.contains(equipment.toolId)
             val isEnabled = !state.isNoEquipmentSelected
             CheckboxItem(
-                text = equipment.name,
+                text = equipment.toolName,
                 isChecked = isSelected,
                 onCheckedChange = {
                     if (isEnabled) {
-                        listener.onEquipmentToggled(equipment.name)
+                        listener.onEquipmentToggled(equipment.toolId)
                     }
                 },
                 style = CheckboxStyle.Tick

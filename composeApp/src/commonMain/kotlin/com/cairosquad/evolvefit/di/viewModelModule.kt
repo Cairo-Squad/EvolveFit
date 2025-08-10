@@ -4,6 +4,8 @@ import com.cairosquad.evolvefit.ui.screen.onBoarding.OnBoardingViewModel
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutViewModel
 import com.cairosquad.evolvefit.viewmodel.login.LoginViewModel
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
+import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
+import com.cairosquad.evolvefit.viewmodel.onboarding.OnBoardingViewModel
 import com.cairosquad.evolvefit.viewmodel.register.RegisterViewModel
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutViewModel
 import org.koin.core.module.dsl.viewModelOf
