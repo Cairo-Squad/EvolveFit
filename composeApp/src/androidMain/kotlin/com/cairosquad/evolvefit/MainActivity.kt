@@ -5,8 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.cairosquad.evolvefit.local.AuthPreferences
-import com.russhwolf.settings.Settings
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,11 +12,8 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         enableEdgeToEdge()
 
-        val authPreferences = AuthPreferences(Settings())
-        val initialAccessToken = authPreferences.getAccessToken()
-
         setContent {
-            App(authPreferences, initialAccessToken)
+            App()
         }
     }
 }
