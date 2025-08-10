@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -29,14 +30,19 @@ fun NetworkImage(
     contentDescription: String?,
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Crop,
+    defaultImage: Painter = painterResource(Res.drawable.im_img),
+    loadingPlaceHolder: Painter = painterResource(Res.drawable.im_img),
     placeholderImageSize: DpSize? = null,
-) {
+
+    ) {
     if (model.isNotBlank()) {
         AsyncImage(
             modifier = modifier,
             contentScale = contentScale,
             model = model,
-            contentDescription = contentDescription
+            contentDescription = contentDescription,
+            placeholder = loadingPlaceHolder,
+            error = defaultImage
         )
     } else {
         Box(
@@ -52,7 +58,7 @@ fun NetworkImage(
                             ?.let { Modifier.size(it) }
                             ?: Modifier.fillMaxSize()
                     ),
-                painter = painterResource(Res.drawable.im_img),
+                painter = defaultImage,
                 contentDescription =
                     stringResource(Res.string.placeholder_image) + " :$contentDescription",
                 tint = Theme.color.surfaces.onSurfaceVariant
