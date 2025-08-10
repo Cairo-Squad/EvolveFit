@@ -45,4 +45,8 @@ class CommunityWorkoutViewModel(
         sendEffect(CommunityWorkoutEffect.NavigateBack)
     }
 
+    override fun getCommunityWorkout() {
+        TODO("Not yet implemented")
+    }
+
 }

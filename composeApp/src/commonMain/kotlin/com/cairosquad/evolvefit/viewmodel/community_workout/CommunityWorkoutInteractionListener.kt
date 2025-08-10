@@ -6,4 +6,5 @@ interface CommunityWorkoutInteractionListener {
     fun onSelectBodyPart(bodyPart: BodyPart)
     fun onClickWorkout(id: Long)
     fun onClickBack()
+    fun getCommunityWorkout()
 }

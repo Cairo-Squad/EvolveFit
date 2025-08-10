@@ -4,7 +4,7 @@ import com.cairosquad.evolvefit.entity.BodyPart
 
 data class WorkoutScreenState(
     val selectedBodyPart: String = "All",
-    val allWorkouts: List<WorkoutUiModel> = emptyList(),
+    val allWorkouts: List<WorkoutUiState> = emptyList(),
     val bodyParts: List<BodyPart> = listOf(
         BodyPart(0, "All"),
         BodyPart(1, "Arm"),
@@ -13,7 +13,7 @@ data class WorkoutScreenState(
         BodyPart(4, "Shoulder")
     )
 ) {
-    data class WorkoutUiModel(
+    data class WorkoutUiState(
         val id: Long,
         val title: String,
         val duration: String,
