@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -32,13 +31,13 @@ import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
+import com.cairosquad.evolvefit.ui.screen.playWorkout.component.ExerciseNameAndInfoIcon
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.exercises
 import evolvefit.composeapp.generated.resources.ic_cross
-import evolvefit.composeapp.generated.resources.ic_question_mark
 import evolvefit.composeapp.generated.resources.im_default_workout
 import evolvefit.composeapp.generated.resources.start
 import org.jetbrains.compose.resources.painterResource
@@ -50,13 +49,18 @@ fun PlayWorkoutContentGetReady(
     screenState: PlayWorkoutScreenState,
     listener: PlayWorkoutInteractionListener
 ) {
-    ColumnWithBlurredBackground(
+    val firstExercise = screenState.workout.exercises
+        .getOrNull(0)
+        ?: PlayWorkoutScreenState.ExerciseUiState()
+
+    ColumnWithBackground(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         model = screenState.workout.imageUrl,
         contentDescription = screenState.workout.name,
-        contentPadding = WindowInsets.systemBars.asPaddingValues()
+        contentPadding = WindowInsets.systemBars.asPaddingValues(),
+        backgroundBlurRadius = 32.dp
     ) {
         Icon(
             modifier = Modifier
@@ -102,10 +106,8 @@ fun PlayWorkoutContentGetReady(
         )
         ExerciseNameAndInfoIcon(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            exerciseName = screenState.workout.exercises
-                .firstOrNull()?.name
-                ?: stringResource(Res.string.exercises),
-            onClickInfo = listener::onClickExerciseInfo
+            exerciseName = firstExercise.name,
+            onClickInfo = { listener.onClickExerciseInfo(firstExercise.id) }
         )
         Spacer(Modifier.weight(0.6f))
         PrimaryButton(
@@ -120,38 +122,7 @@ fun PlayWorkoutContentGetReady(
 }
 
 @Composable
-private fun ExerciseNameAndInfoIcon(
-    exerciseName: String,
-    onClickInfo: () -> Unit,
-    modifier: Modifier = Modifier,
-){
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            modifier = Modifier
-                .padding(end = 8.dp),
-            text = exerciseName,
-            style = Theme.textStyle.display.mediumMedium20,
-            color = Theme.color.surfaces.textColor,
-        )
-        Icon(
-            modifier = Modifier
-                .size(24.dp)
-                .clip(CircleShape)
-                .clickable(
-                    onClick = onClickInfo
-                ),
-            painter = painterResource(Res.drawable.ic_question_mark),
-            contentDescription = "Exercise Info",
-            tint = Theme.color.surfaces.onSurfaceVariant,
-        )
-    }
-}
-
-@Composable
-private fun ColumnWithBlurredBackground(
+private fun ColumnWithBackground(
     model: String,
     contentDescription: String?,
     modifier: Modifier = Modifier,
@@ -183,7 +154,7 @@ private fun ColumnWithBlurredBackground(
 
 @Preview
 @Composable
-fun PlayWorkoutContentGetReadyPreview() {
+private fun PlayWorkoutContentGetReadyPreview() {
     AppTheme(
         isDarkTheme = true
     ){
@@ -207,10 +178,25 @@ fun PlayWorkoutContentGetReadyPreview() {
                         TODO("Not yet implemented")
                     }
 
-                    override fun onClickExerciseInfo() {
+                    override fun onClickExerciseInfo(id: String) {
                         TODO("Not yet implemented")
                     }
 
+                    override fun onClickRestFinish() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onFinishExercise() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onClickForward() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onClickBack() {
+                        TODO("Not yet implemented")
+                    }
                 },
             )
         }
