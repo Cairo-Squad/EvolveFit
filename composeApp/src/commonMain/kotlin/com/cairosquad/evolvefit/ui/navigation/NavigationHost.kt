@@ -3,12 +3,15 @@ package com.cairosquad.evolvefit.ui.navigation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.local.AuthPreferences
 import com.cairosquad.evolvefit.ui.screen.app.AppScreen
 import com.cairosquad.evolvefit.ui.screen.communityWorkout.CommunityWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.createExercise.CreateExerciseScreen
@@ -16,23 +19,26 @@ import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.login.LoginScreen
 import com.cairosquad.evolvefit.ui.screen.mealDetails.MealDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.mealsHistory.MealsHistoryScreen
-import com.cairosquad.evolvefit.ui.screen.onBoarding.OnboardingScreen
+import com.cairosquad.evolvefit.ui.screen.onboarding.OnboardingScreen
 import com.cairosquad.evolvefit.ui.screen.playWorkout.PlayWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
 import com.cairosquad.evolvefit.ui.screen.suggestedMeals.SuggestedMealsScreen
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.WorkoutDetailsScreen
 
 @Composable
-fun NavigationHost() {
-
+fun NavigationHost(authPreferences: AuthPreferences, initialAccessToken: String?) {
     val navController = rememberNavController()
+
+    val accessToken by authPreferences.accessTokenFlow.collectAsState(initial = initialAccessToken)
+
+    val startDestination = if (accessToken.isNullOrEmpty()) OnboardingRoute else AppRoute
 
     NavHost(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Theme.color.surfaces.surface),
         navController = navController,
-        startDestination = OnboardingRoute
+        startDestination = startDestination
     ) {
         composable<OnboardingRoute> {
             OnboardingScreen(
@@ -43,6 +49,8 @@ fun NavigationHost() {
 
         composable<LoginRoute> {
             LoginScreen(
+                navigateToRegister = { navController.navigate(RegisterRoute) },
+                navigateBack = navController::popBackStack,
                 navigateToApp = {
                     navController.navigate(AppRoute) {
                         popUpTo(OnboardingRoute) {

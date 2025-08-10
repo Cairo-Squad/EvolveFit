@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -302,7 +303,9 @@ private fun AddWaterIntakeBottomSheet(
                 modifier = Modifier.padding(top = 16.dp),
                 value = state.waterAmountInput,
                 onValueChange = listener::onWaterAmountChange,
-                keyboardType = KeyboardType.Number,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number
+                ),
                 placeholder = "e.g., 1.5 L",
                 leadingIcon = Res.drawable.ic_water_drop
             )

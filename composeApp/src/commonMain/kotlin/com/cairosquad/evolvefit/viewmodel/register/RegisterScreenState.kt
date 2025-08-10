@@ -1,17 +1,11 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
+import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.balance_trainer
-import evolvefit.composeapp.generated.resources.bench
-import evolvefit.composeapp.generated.resources.dumbbell
-import evolvefit.composeapp.generated.resources.elastic_ball
-import evolvefit.composeapp.generated.resources.exercise_ball
 import evolvefit.composeapp.generated.resources.friday
-import evolvefit.composeapp.generated.resources.jump_rope
 import evolvefit.composeapp.generated.resources.monday
 import evolvefit.composeapp.generated.resources.saturday
 import evolvefit.composeapp.generated.resources.sunday
-import evolvefit.composeapp.generated.resources.suspension_trainer
 import evolvefit.composeapp.generated.resources.thursday
 import evolvefit.composeapp.generated.resources.tuesday
 import evolvefit.composeapp.generated.resources.wednesday
@@ -21,22 +15,33 @@ data class RegisterScreenState(
     val currentStep: Int = 1,
     val selectedHeight: Float = 0F,
     val selectedWeight: Float = 0F,
-    val nextButtonEnabled: Boolean = true,
+    val userNameInput: String = "",
+    val userEmailInput: String = "",
+    val userPasswordInput: String = "",
+    val dateOfBirthInput: String = "",
+    val isNextButtonEnabled: Boolean =false,
     val selectedGender: Gender? = null,
-    val selectedMeasurementUnit: MeasurementUnit? = null,
+    val selectedMeasurementStandard: MeasurementStandard? = null,
     val selectedGoal: Goal? = null,
     val notificationSettings: NotificationSettings = NotificationSettings(),
     val selectedWorkoutDays: List<WorkoutDay> = emptyList(),
     val isNoEquipmentSelected: Boolean = false,
     val availableEquipments: List<Equipment> = emptyList(),
-    val selectedEquipments: List<String> = emptyList()
+    val selectedEquipments: List<Long> = emptyList(),
+    val isLoading: Boolean = false,
+    val errorMessage: String? = null,
+    val image: UiImage = UiImage.ImageUrl(""),
+    val isImagePickerOpen: Boolean = false,
+    val isPasswordVisible: Boolean = false,
 ) {
+
     enum class Gender {
         Female, Male
     }
 
-    enum class MeasurementUnit {
-        Metric, Imperial
+    enum class MeasurementStandard {
+        Metric,
+        Imperial
     }
 
     enum class Goal {
@@ -54,9 +59,11 @@ data class RegisterScreenState(
     }
 
     data class Equipment(
-        val name: String = "",
+        val toolName: String="",
+        val toolId: Long ,
         val isSelected: Boolean = false
     )
+
 
     data class NotificationSettings(
         val isWaterReminderEnabled: Boolean = false,
@@ -70,6 +77,5 @@ data class RegisterScreenState(
         object Water : NotificationType()
         object BodyWeight : NotificationType()
         object Challenges : NotificationType()
-    }
-
+        }
 }

@@ -9,7 +9,9 @@ val sharedModule = module {
     includes(
         viewModelModule,
         repositoryModule,
-        useCaseModule
+        useCaseModule,
+        networkModule,
+        preferencesModule
         // TODO: add the rest of the modules
     )
 }

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -61,7 +62,9 @@ fun MealTypeDropdownMenu(
         transformOrigin = TransformOrigin(0.5f, 0.5f)
     }
     BottomSheet(
-        isVisible = state.isAddMealSheetVisible, onDismiss = {
+        modifier = modifier,
+        isVisible = state.isAddMealSheetVisible,
+        onDismiss = {
             listener.onDismissMealClicked()
         }) {
         Column(
@@ -169,7 +172,9 @@ private fun MealCaloriesInputField(
     InputField(
         modifier = modifier,
         value = mealCalories,
-        keyboardType = KeyboardType.Number,
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Number
+        ),
         onValueChange = onValueChange,
         placeholder = stringResource(Res.string.calories),
         leadingIcon = Res.drawable.ic_fire

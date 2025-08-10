@@ -1,16 +1,13 @@
 package com.cairosquad.evolvefit.design_system.composables
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -29,6 +25,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -37,16 +34,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import org.jetbrains.compose.resources.painterResource
-import evolvefit.composeapp.generated.resources.*
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.ic_arrow_down
+import evolvefit.composeapp.generated.resources.ic_check_mark
+import evolvefit.composeapp.generated.resources.ic_date
+import evolvefit.composeapp.generated.resources.ic_profile
 import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -58,7 +58,6 @@ fun InputField(
     placeholder: String = "",
     error: String = "",
     readOnly: Boolean = false,
-    keyboardType: KeyboardType = KeyboardType.Text,
     isErrorMessageShown: Boolean = true,
     isSingleLine: Boolean = true,
     isPasswordField: Boolean = false,
@@ -67,6 +66,8 @@ fun InputField(
     trailingIcon: DrawableResource? = null,
     trailingIconModifier: Modifier = Modifier,
     onTrailingIconClick: (() -> Unit)? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    onClick: (() -> Unit)? = null
 ) {
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
@@ -81,11 +82,27 @@ fun InputField(
         }
     }
 
+    val interactionSource = remember { MutableInteractionSource() }
+
     Column(
         modifier = modifier
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = onClick
+                    )
+                } else {
+                    Modifier
+                }
+            )
     ) {
         BasicTextField(
-            readOnly =readOnly,
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(Theme.color.surfaces.surfaceContainer)
+                .padding(horizontal = 12.dp, vertical = 20.dp),
             value = textFieldValue,
             onValueChange = { newValue ->
                 val filteredValue =
@@ -102,18 +119,14 @@ fun InputField(
                 textFieldValue = filteredValue
                 onValueChange(filteredValue.text)
             },
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = keyboardType
-            ),
-            modifier = Modifier
-                .clip(RoundedCornerShape(8.dp))
-                .background(Theme.color.surfaces.surfaceContainer)
-                .padding(horizontal = 12.dp, vertical = 20.dp),
-            singleLine = isSingleLine,
+            readOnly = readOnly,
             textStyle = Theme.textStyle.label.smallRegular14.copy(
                 color = Theme.color.surfaces.onSurfaceContainer
             ),
+            keyboardOptions = keyboardOptions,
+            singleLine = isSingleLine,
             decorationBox = { innerTextField ->
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -121,25 +134,72 @@ fun InputField(
                     TextFieldIcon(
                         leadingIcon,
                         error = error.isNotBlank(),
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Box(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        innerTextField()
-
-                        if (textFieldValue.text.isEmpty()) {
-                            Text(
-                                text = placeholder,
-                                style = Theme.textStyle.label.smallRegular14.copy(
-                                    color = Theme.color.surfaces.onSurfaceVariant
-                                )
+                        modifier = Modifier
+                            .then(
+                                if (onClick != null) {
+                                    Modifier.clickable(
+                                        interactionSource = interactionSource,
+                                        indication = null,
+                                        onClick = onClick
+                                    )
+                                } else {
+                                    Modifier
+                                }
                             )
+                            .padding(end = 8.dp)
+                    )
+                    if (onClick != null) {
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clickable(
+                                    interactionSource = interactionSource,
+                                    indication = null,
+                                    onClick = onClick
+                                )
+                        ) {
+                            innerTextField()
+
+                            if (textFieldValue.text.isEmpty()) {
+                                Text(
+                                    text = placeholder,
+                                    style = Theme.textStyle.label.smallRegular14.copy(
+                                        color = Theme.color.surfaces.onSurfaceVariant
+                                    )
+                                )
+                            }
+                        }
+                    } else {
+                        Box(
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            innerTextField()
+
+                            if (textFieldValue.text.isEmpty()) {
+                                Text(
+                                    text = placeholder,
+                                    style = Theme.textStyle.label.smallRegular14.copy(
+                                        color = Theme.color.surfaces.onSurfaceVariant
+                                    )
+                                )
+                            }
                         }
                     }
                     TextFieldIcon(
                         trailingIcon,
-                        modifier = trailingIconModifier.padding(start = 8.dp),
+                        modifier = trailingIconModifier
+                            .then(
+                                if (onClick != null) {
+                                    Modifier.clickable(
+                                        interactionSource = interactionSource,
+                                        indication = null,
+                                        onClick = onClick
+                                    )
+                                } else {
+                                    Modifier
+                                }
+                            )
+                            .padding(start = 8.dp),
                         error = error.isNotBlank(),
                         onTrailingIconClick,
                     )
@@ -150,7 +210,6 @@ fun InputField(
             ),
             visualTransformation = if (isPasswordField) PasswordVisualTransformation() else VisualTransformation.None,
         )
-
     }
 }
 
@@ -260,10 +319,12 @@ private fun PreviewDropdownInputField() {
 @Preview
 private fun PreviewMultilineInputField() {
     InputField(
-        value = "This is a longer text that spans multiple lines to show how the input field behaves with multi-line content.",
+        value = "This is a longer text that spans multiple lines to show how the input" +
+                " field behaves with multi-line content skdfhjdskfhejkdhgfejhgfjerhgejhfbkjfkjehfjbdjbfjdffhjdhfdj" +
+                "hfekhguedhfkdjfnvkjdhfvudfhvdjkfvnkjdfvhdvhjdjvdkjvnd.",
         onValueChange = {},
         isSingleLine = false,
-        maxCharacters = 200,
+        maxCharacters = 3000,
         modifier = Modifier
             .padding(16.dp)
             .height(100.dp)

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">إيفولف فت</string>
+    <string name="welcome_back">مرحبًا بعودتك!</string>
+    <string name="welcome_description">سجّل الدخول لمتابعة رحلتك في اللياقة، تتبّع تقدمك، وابقَ متحفزًا كل يوم.</string>
+    <string name="email_placeholder">البريد الإلكتروني</string>
+    <string name="password_placeholder">كلمة المرور</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="arrow_back">العودة</string>
+    <string name="logo">شعار التطبيق</string>
+
+</resources>
