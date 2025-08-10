@@ -42,7 +42,7 @@ class CreateExerciseViewModel(
         }
     }
 
-    override fun onImagePickerClick() {
+    override fun onImagePickerClicked() {
         updateState { it.copy(isImagePickerOpen = true) }
     }
 
