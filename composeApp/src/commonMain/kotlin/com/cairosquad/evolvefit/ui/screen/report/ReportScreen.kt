@@ -6,11 +6,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +28,8 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.DropdownMenu
 import com.cairosquad.evolvefit.ui.screen.report.componant.DashboardGrid
 import com.cairosquad.evolvefit.ui.screen.report.componant.WeekFilter
-import com.cairosquad.evolvefit.ui.screen.report.componant.cards.DynamicWorkoutsChartCard
+import com.cairosquad.evolvefit.ui.screen.report.componant.cards.BarChartCard
+import com.cairosquad.evolvefit.ui.screen.report.componant.cards.LineChartCard
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_export
 import org.jetbrains.compose.resources.painterResource
@@ -46,7 +48,7 @@ fun ReportScreen(
 private fun ReportScreenContent(
     navigateToWorkoutHistory: () -> Unit
 ) {
-    val data by remember { mutableStateOf(listOf(5f, 3f, 5f, 4f, 5f, 3f, 1f)) }
+    val data by remember { mutableStateOf(listOf(0f, 3f, 2f, 4f, 5f, 3f, 1f)) }
     val labels by remember {
         mutableStateOf(
             listOf(
@@ -63,8 +65,7 @@ private fun ReportScreenContent(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .systemBarsPadding()
+            .windowInsetsPadding(WindowInsets.statusBars)
             .background(Theme.color.surfaces.surface)
     ) {
         CustomAppBar(
@@ -79,9 +80,6 @@ private fun ReportScreenContent(
             }
         )
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(1f),
             contentPadding = PaddingValues(16.dp)
         ) {
             item {
@@ -124,17 +122,27 @@ private fun ReportScreenContent(
                 }
             }
             item {
-                DynamicWorkoutsChartCard(
+                BarChartCard(
+                    modifier = Modifier.padding(top = 16.dp),
                     data = data,
-                    labels = labels,
-                    modifier = Modifier.padding(top = 16.dp)
+                    labels = labels
                 )
             }
             item {
-
+                LineChartCard(
+                    modifier = Modifier.padding(top = 16.dp),
+                    data = data,
+                    labels = labels,
+                    totalTime = "2h 35min"
+                )
             }
         }
     }
+}
+
+@Composable
+fun MusclesCard() {
+
 }
 
 

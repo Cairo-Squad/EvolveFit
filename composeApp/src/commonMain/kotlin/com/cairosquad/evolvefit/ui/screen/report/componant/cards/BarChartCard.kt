@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.ui.screen.report.componant.cards
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,16 +19,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter.AnimatedBarChart
+import com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter.chartComponent.ChartGrid
 
 @Composable
-fun DynamicWorkoutsChartCard(
+fun BarChartCard(
     data: List<Float>,
     labels: List<String>,
     modifier: Modifier = Modifier,
@@ -89,26 +87,13 @@ fun DynamicWorkoutsChartCard(
             Column {
                 Box {
                     Row {
-                        Canvas(
-                            modifier = Modifier
-                                .weight(1f)
+                        ChartGrid(
+                            modifier = Modifier.weight(1f)
                                 .height(144.dp)
-                                .padding(top = 6.dp)
-                        ) {
-                            val maxHeight = size.height
-
-                            for (i in 0..steps) {
-                                val y = maxHeight - (i / steps.toFloat()) * maxHeight
-                                drawLine(
-                                    color = gridLinesColor,
-                                    start = Offset(0f, y),
-                                    end = Offset(size.width, y),
-                                    strokeWidth = 0.5.dp.toPx(),
-                                    cap = StrokeCap.Square
-                                )
-                            }
-                        }
-
+                                .padding(top = 6.dp),
+                            gridLinesColor = gridLinesColor,
+                            steps = 4
+                        )
                     }
                     AnimatedBarChart(
                         data = data,
@@ -137,6 +122,5 @@ fun DynamicWorkoutsChartCard(
                 }
             }
         }
-
     }
 }
