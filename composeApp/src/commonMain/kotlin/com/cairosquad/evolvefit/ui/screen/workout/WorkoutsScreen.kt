@@ -36,9 +36,11 @@ import com.cairosquad.evolvefit.viewmodel.workout.WorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutViewModel
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.community
 import evolvefit.composeapp.generated.resources.ic_group
 import evolvefit.composeapp.generated.resources.ic_plus
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -115,7 +117,7 @@ private fun AppBar(onCommunityClick: () -> Unit) {
         tail = {
             ActionIconButton(
                 icon = painterResource(Res.drawable.ic_group),
-                contentDescription = "Community",
+                contentDescription = stringResource(Res.string.community),
                 tint = Theme.color.surfaces.onSurface,
                 onClick = onCommunityClick
             )
@@ -140,7 +142,7 @@ private fun Workouts(
                     .clickable { onClickWorkout(workout.id) },
                 title = workout.title,
                 duration = workout.duration,
-                bodyPart = workout.bodyPart.displayName,
+                bodyPart = workout.bodyPart.name,
                 model = workout.imageUrl,
             )
         }
@@ -150,8 +152,8 @@ private fun Workouts(
 @Composable
 private fun BodyPartsFilter(
     bodyParts: List<BodyPart>,
-    selectedBodyPart: BodyPart,
-    onSelect: (BodyPart) -> Unit
+    selectedBodyPart: String,
+    onSelect: (String) -> Unit
 ) {
     LazyRow(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
@@ -159,10 +161,10 @@ private fun BodyPartsFilter(
         verticalAlignment = Alignment.CenterVertically
     ) {
         items(bodyParts.size) { index ->
-            val bodyPart = bodyParts[index]
+            val bodyPart = bodyParts[index].name
             Chip(
-                title = bodyPart.displayName,
-                isSelected = selectedBodyPart == bodyPart,
+                title = bodyPart,
+                isSelected = selectedBodyPart.equals(bodyPart, true),
                 onClick = { onSelect(bodyPart) }
             )
         }

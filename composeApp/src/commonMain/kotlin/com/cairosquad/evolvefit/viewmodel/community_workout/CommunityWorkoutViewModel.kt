@@ -22,18 +22,18 @@ class CommunityWorkoutViewModel(
         updateState { st -> st.copy(allWorkouts = list.map { it.toUiState() }) }
     }
 
-    private fun loadWorkoutsByBodyPart(bodyPart: BodyPart) = viewModelScope.launch {
-        val list = getWorkouts.getWorkoutsByBodyPart(bodyPart)
-        updateState { st -> st.copy(allWorkouts = list.map { it.toUiState() }) }
+    private fun loadWorkoutsByBodyPart(name: String) = viewModelScope.launch {
+        val list = getWorkouts.getWorkoutsByBodyPart(name)
+        updateState { it -> it.copy(allWorkouts = list.map { it.toUiState() }) }
     }
 
     override fun onSelectBodyPart(bodyPart: BodyPart) {
-        updateState { it.copy(selectedBodyPart = bodyPart) }
+        updateState { it.copy(selectedBodyPart = bodyPart.name) }
 
-        if (bodyPart == BodyPart.All) {
+        if (bodyPart.name.equals("All", ignoreCase = true)) {
             loadAllWorkouts()
         } else {
-            loadWorkoutsByBodyPart(bodyPart)
+            loadWorkoutsByBodyPart(bodyPart.name)
         }
     }
 

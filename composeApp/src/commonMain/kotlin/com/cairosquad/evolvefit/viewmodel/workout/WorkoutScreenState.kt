@@ -3,9 +3,15 @@ package com.cairosquad.evolvefit.viewmodel.workout
 import com.cairosquad.evolvefit.entity.BodyPart
 
 data class WorkoutScreenState(
-    val selectedBodyPart: BodyPart = BodyPart.All,
+    val selectedBodyPart: String = "All",
     val allWorkouts: List<WorkoutUiModel> = emptyList(),
-    val bodyParts: List<BodyPart> = BodyPart.entries
+    val bodyParts: List<BodyPart> = listOf(
+        BodyPart(0, "All"),
+        BodyPart(1, "Arm"),
+        BodyPart(2, "Chest"),
+        BodyPart(3, "Back"),
+        BodyPart(4, "Shoulder")
+    )
 ) {
     data class WorkoutUiModel(
         val id: Long,

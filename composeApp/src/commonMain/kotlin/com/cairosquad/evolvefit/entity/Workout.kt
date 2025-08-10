@@ -8,10 +8,7 @@ data class Workout(
     val imageUrl: String
 )
 
-enum class BodyPart(val displayName: String) {
-    All("All"),
-    Arm("Arm"),
-    Chest("Chest"),
-    Back("Back"),
-    Shoulder("Shoulder")
-}
+data class BodyPart(
+    val id: Long,
+    val name: String
+)

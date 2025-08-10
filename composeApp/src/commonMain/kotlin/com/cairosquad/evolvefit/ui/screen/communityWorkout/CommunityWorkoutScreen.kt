@@ -33,8 +33,10 @@ import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutInte
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutViewModel
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.back
 import evolvefit.composeapp.generated.resources.ic_back
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -94,7 +96,7 @@ private fun AppBar(navigateBack: () -> Unit) {
         header = {
             ActionIconButton(
                 icon = painterResource(Res.drawable.ic_back),
-                contentDescription = "Back",
+                contentDescription = stringResource(Res.string.back),
                 tint = Theme.color.surfaces.onSurface,
                 onClick = { navigateBack }
             )
@@ -106,7 +108,7 @@ private fun AppBar(navigateBack: () -> Unit) {
 @Composable
 private fun Workouts(
     workouts: List<WorkoutScreenState.WorkoutUiModel>,
-    onClickPlay: (Long) -> Unit
+    onClickWorkout: (Long) -> Unit
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 12.dp),
@@ -117,10 +119,10 @@ private fun Workouts(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable { onClickPlay(workout.id) }, // tap → Play effect
+                    .clickable { onClickWorkout(workout.id) }, // tap → Play effect
                 title = workout.title,
                 duration = workout.duration,
-                bodyPart = workout.bodyPart.displayName,
+                bodyPart = workout.bodyPart.name,
                 model = workout.imageUrl,
             )
         }
@@ -130,7 +132,7 @@ private fun Workouts(
 @Composable
 private fun BodyPartsFilter(
     bodyParts: List<BodyPart>,
-    selectedBodyPart: BodyPart,
+    selectedBodyPart: String,
     onSelect: (BodyPart) -> Unit
 ) {
     LazyRow(
@@ -141,8 +143,8 @@ private fun BodyPartsFilter(
         items(bodyParts.size) { index ->
             val bodyPart = bodyParts[index]
             Chip(
-                title = bodyPart.displayName,
-                isSelected = selectedBodyPart == bodyPart,
+                title = bodyPart.name,
+                isSelected = selectedBodyPart == bodyPart.name,
                 onClick = { onSelect(bodyPart) }
             )
         }

@@ -7,8 +7,13 @@ import com.cairosquad.evolvefit.entity.Workout
 class FakeWorkoutRepository : WorkoutRepository {
     override suspend fun getAllWorkouts(): List<Workout> = items
 
-    override suspend fun getWorkoutsByBodyPart(bodyPart: BodyPart): List<Workout> =
-        items.filter { it.bodyPart == bodyPart }
+    override suspend fun getWorkoutsByBodyPart(bodyPartName: String): List<Workout> {
+        val target = bodyPartName.normalize()
+        if (target == "all") return items
+        return items.filter { it.bodyPart.name.normalize() == target.normalize() }
+    }
+
+    private fun String.normalize(): String = trim().lowercase()
 
     private companion object {
         val items: List<Workout> = listOf(
@@ -16,43 +21,43 @@ class FakeWorkoutRepository : WorkoutRepository {
                 id = 1,
                 title = "Workout 1",
                 duration = "25 min",
-                bodyPart = BodyPart.Chest,
-                imageUrl = ""
+                bodyPart = BodyPart(1, "Chest"),
+                imageUrl = "https://images.unsplash.com/photo-1558611848-73f7eb4001a1?w=1200"
             ),
             Workout(
                 id = 2,
                 title = "Workout 2",
                 duration = "30 min",
-                bodyPart = BodyPart.Arm,
-                imageUrl = "https://picsum.photos/seed/workout2/800/600"
+                bodyPart = BodyPart(2, "Arm"),
+                imageUrl = "https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=1200"
             ),
             Workout(
                 id = 3,
                 title = "Workout 3",
                 duration = "20 min",
-                bodyPart = BodyPart.Back,
-                imageUrl = "https://picsum.photos/seed/workout3/800/600"
+                bodyPart = BodyPart(3, "Back"),
+                imageUrl = "https://images.unsplash.com/photo-1517963879433-6ad2b056d712?w=1200"
             ),
             Workout(
                 id = 4,
                 title = "Workout 4",
                 duration = "35 min",
-                bodyPart = BodyPart.Shoulder,
-                imageUrl = "https://picsum.photos/seed/workout4/800/600"
+                bodyPart = BodyPart(4, "Shoulder"),
+                imageUrl = "https://images.unsplash.com/photo-1534367610401-9f51e1384e96?w=1200"
             ),
             Workout(
                 id = 5,
                 title = "Workout 5",
                 duration = "40 min",
-                bodyPart = BodyPart.Chest,
+                bodyPart = BodyPart(2, "Chest"),
                 imageUrl = ""
             ),
             Workout(
                 id = 6,
                 title = "Workout 6",
                 duration = "30 min",
-                bodyPart = BodyPart.Chest,
-                imageUrl = "https://picsum.photos/seed/workout6/800/600"
+                bodyPart = BodyPart(2, "Chest"),
+                imageUrl = "https://images.unsplash.com/photo-1596357395100-25d7d9e20fc6?w=1200"
             ),
         )
     }

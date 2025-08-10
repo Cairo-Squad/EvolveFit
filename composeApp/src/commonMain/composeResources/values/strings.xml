@@ -136,4 +136,7 @@
     <string name="please_select_your_birthday">Please select your birthday</string>
     <string name="save">Save</string>
 
+    <string name="community">Community</string>
+    <string name="back">Back</string>
+
 </resources>
