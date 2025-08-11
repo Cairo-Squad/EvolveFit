@@ -37,6 +37,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -61,6 +62,7 @@ fun InputField(
     isErrorMessageShown: Boolean = true,
     isSingleLine: Boolean = true,
     isPasswordField: Boolean = false,
+    isCharacterCountVisible: Boolean = false,
     maxCharacters: Int? = 100,
     leadingIcon: DrawableResource? = null,
     trailingIcon: DrawableResource? = null,
@@ -126,7 +128,7 @@ fun InputField(
             keyboardOptions = keyboardOptions,
             singleLine = isSingleLine,
             decorationBox = { innerTextField ->
-
+                Column(modifier = Modifier.fillMaxWidth()) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -204,12 +206,26 @@ fun InputField(
                         onTrailingIconClick,
                     )
                 }
+                    if (isCharacterCountVisible && maxCharacters != null) {
+                        val remaining = maxCharacters - textFieldValue.text.length
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 4.dp, end = 8.dp),
+                            text = "$remaining character left",
+                            style = Theme.textStyle.label.smallRegular12,
+                            color = Theme.color.surfaces.onSurfaceVariant,
+                            textAlign = TextAlign.End
+                        )
+                    }
+            }
             },
             cursorBrush = SolidColor(
                 Theme.color.surfaces.onSurface
             ),
             visualTransformation = if (isPasswordField) PasswordVisualTransformation() else VisualTransformation.None,
         )
+
     }
 }
 
