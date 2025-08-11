@@ -31,6 +31,7 @@ import com.cairosquad.evolvefit.ui.component.DropdownMenu
 import com.cairosquad.evolvefit.ui.screen.report.componant.DashboardGrid
 import com.cairosquad.evolvefit.ui.screen.report.componant.WeekFilter
 import com.cairosquad.evolvefit.ui.screen.report.componant.cards.BarChartCard
+import com.cairosquad.evolvefit.ui.screen.report.componant.cards.HistoryWorkoutCard
 import com.cairosquad.evolvefit.ui.screen.report.componant.cards.LineChartCard
 import com.cairosquad.evolvefit.ui.screen.report.componant.cards.MusclesCard
 import evolvefit.composeapp.generated.resources.Res
@@ -142,6 +143,12 @@ private fun ReportScreenContent(
                     musclesName = musclesName,
                     trainedMusclesPercentage = musclesPercentage,
                     isAnimationStarted = isAnimationStarted
+                )
+            }
+            item {
+                HistoryWorkoutCard(
+                    modifier = Modifier.padding(top = 16.dp),
+                    onViewAllHistoryClicked = navigateToWorkoutHistory,
                 )
             }
         }

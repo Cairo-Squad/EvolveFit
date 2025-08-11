@@ -18,6 +18,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun HistoryWorkoutCard(
+    onViewAllHistoryClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     ReportCard(
@@ -27,7 +28,7 @@ fun HistoryWorkoutCard(
     ) {
         repeat(4) {
             HistoryWorkoutItem(
-                modifier = Modifier.padding(bottom = 12.dp),
+                modifier = Modifier.padding(vertical = 12.dp),
                 workoutName = "Bodyweight Squats",
                 workoutDate = "Today, 8:30 AM",
                 workoutImage = "",
@@ -44,7 +45,7 @@ fun HistoryWorkoutCard(
         Spacer(modifier = Modifier.height(16.dp))
         Box(modifier = Modifier
             .clip(CircleShape)
-            .clickable(onClick = {})
+            .clickable(onClick = onViewAllHistoryClicked)
             .padding(horizontal = 8.dp, vertical = 4.dp)
         ) {
             Text(
@@ -59,5 +60,5 @@ fun HistoryWorkoutCard(
 @Preview
 @Composable
 private fun HistoryWorkoutCardPreview() {
-    HistoryWorkoutCard()
+    HistoryWorkoutCard({})
 }

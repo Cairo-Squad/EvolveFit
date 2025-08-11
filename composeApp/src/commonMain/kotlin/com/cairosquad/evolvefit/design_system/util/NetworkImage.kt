@@ -3,6 +3,7 @@ package com.cairosquad.evolvefit.design_system.util
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -10,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -30,6 +33,8 @@ fun NetworkImage(
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Crop,
     placeholderImageSize: DpSize? = null,
+    placeholderImage: Painter = painterResource(Res.drawable.im_img),
+    placeholderBackgroundColor: Color = Theme.color.surfaces.onSurfaceVariant
 ) {
     if (model.isNotBlank()) {
         AsyncImage(
@@ -42,7 +47,8 @@ fun NetworkImage(
         Box(
             modifier = modifier
                 .fillMaxSize()
-                .background(Theme.color.surfaces.surfaceContainer),
+                .background(placeholderBackgroundColor)
+                .padding(horizontal = 16.dp, vertical = 12.dp),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -52,7 +58,7 @@ fun NetworkImage(
                             ?.let { Modifier.size(it) }
                             ?: Modifier.fillMaxSize()
                     ),
-                painter = painterResource(Res.drawable.im_img),
+                painter = placeholderImage,
                 contentDescription =
                     stringResource(Res.string.placeholder_image) + " :$contentDescription",
                 tint = Theme.color.surfaces.onSurfaceVariant
