@@ -15,6 +15,8 @@ data class CreateExerciseState(
     val showExitBottomSheet: Boolean = false,
     val errorMessage: String? = null,
     val isImagePickerOpen: Boolean = false,
+    val isDurationChecked: Boolean = false,
+    val isRepsChecked: Boolean = false,
 ) {
     data class Equipment(
         val toolName: String = "",
