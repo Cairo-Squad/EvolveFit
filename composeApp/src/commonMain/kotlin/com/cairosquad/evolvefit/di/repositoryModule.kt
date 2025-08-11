@@ -7,7 +7,7 @@ import com.cairosquad.evolvefit.remote.provideHttpClient
 import com.cairosquad.evolvefit.repository.AuthRepositoryImpl
 import com.cairosquad.evolvefit.repository.remote.AuthRemoteDataSource
 import io.ktor.client.plugins.auth.providers.BearerTokens
-import com.cairosquad.evolvefit.domain.WorkoutRepository
+import com.cairosquad.evolvefit.domain.WorkoutRepo
 import com.cairosquad.evolvefit.repository.FakeWorkoutRepository
 import org.koin.dsl.module
 
@@ -25,5 +25,5 @@ val repositoryModule = module {
     }
     single<AuthRemoteDataSource> { AuthRemoteDataSourceImp(get()) }
     single<AuthRepository> { AuthRepositoryImpl(get(),get()) }
-    single<WorkoutRepository> { FakeWorkoutRepository() }
+    single<WorkoutRepo> { FakeWorkoutRepository() }
 }

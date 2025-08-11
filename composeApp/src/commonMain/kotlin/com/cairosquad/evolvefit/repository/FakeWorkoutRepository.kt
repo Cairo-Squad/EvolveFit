@@ -1,10 +1,10 @@
 package com.cairosquad.evolvefit.repository
 
-import com.cairosquad.evolvefit.domain.WorkoutRepository
+import com.cairosquad.evolvefit.domain.WorkoutRepo
 import com.cairosquad.evolvefit.entity.BodyPart
 import com.cairosquad.evolvefit.entity.Workout
 
-class FakeWorkoutRepository : WorkoutRepository {
+class FakeWorkoutRepository : WorkoutRepo {
     override suspend fun getAllWorkouts(): List<Workout> = items
 
     override suspend fun getWorkoutsByBodyPart(bodyPartName: String): List<Workout> {

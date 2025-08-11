@@ -1,8 +1,9 @@
 package com.cairosquad.evolvefit.domain
 
-import com.cairosquad.evolvefit.entity.Workout
+import com.cairosquad.evolvefit.entity.Exercise
+import com.cairosquad.evolvefit.entity.Tool
 
-interface WorkoutRepository {
-    suspend fun getAllWorkouts(): List<Workout>
-    suspend fun getWorkoutsByBodyPart(bodyPartName: String): List<Workout>
+interface WorkOutRepository {
+    suspend fun getEquipments(): List<Tool>
+    suspend fun createExercise(exercise: Exercise)
 }
