@@ -55,9 +55,7 @@
     <string name="track_water_intake">ساعدنا على تتبع استهلاكك اليومي للماء للحفاظ على ترطيبك.</string>
     <string name="meal_added_snackbar">تمت إضافة الوجبة إلى السجل.</string>
     <string name="no_meals_title">لا توجد وجبات مسجلة بعد</string>
-    <string name="no_meals_description">
-        ابدأ في تسجيل وجباتك لتتبع السعرات الحرارية اليومية وتحسين عاداتك الغذائية.
-    </string>
+    <string name="no_meals_description">ابدأ في تسجيل وجباتك لتتبع السعرات الحرارية اليومية وتحسين عاداتك الغذائية.</string>
     <string name="cm">سم</string>
     <string name="kg">كجم</string>
     <string name="ft">قدم</string>
@@ -104,11 +102,9 @@
     <string name="user_profile">معلومات المستخدم</string>
     <string name="user_profile_description">أدخل اسمك، تاريخ ميلادك، وأضف صورتك كي نبدأ</string>
     <string name="upload_image">ارفع صورة</string>
-
     <string name="enter_your_name">أدخل اسمك</string>
     <string name="enter_your_email">أدخل بريدك الإلكتروني</string>
     <string name="password">كلمة المرور</string>
-
     <string name="month_january">يناير</string>
     <string name="month_february">فبراير</string>
     <string name="month_march">مارس</string>
@@ -121,7 +117,6 @@
     <string name="month_october">أكتوبر</string>
     <string name="month_november">نوفمبر</string>
     <string name="month_december">ديسمبر</string>
-
     <string name="date_of_birth">تاريخ الميلاد</string>
     <string name="welcome_back_title">مرحبًا بعودتك!</string>
     <string name="welcome_back_description">سجّل الدخول لمتابعة رحلتك في اللياقة البدنية، وتتبع تقدمك، وحافظ على تحفيزك كل يوم.</string>
@@ -134,5 +129,30 @@
     <string name="birthday">يوم الميلاد</string>
     <string name="please_select_your_birthday">ادخل يوم ميلادك رجاءاً</string>
     <string name="save">حفظ</string>
+    <string name="exercise_info">معلومات التمرين</string>
+    <string name="start">ابدأ</string>
+    <string name="exercise">تمرين</string>
+    <string name="exercises">تمارين</string>
+    <string name="cancel_workout">إلغاء التدريب</string>
+    <string name="ready_to_workout">مستعد للتدريب!</string>
 
+    <string name="skip_rest_button">تخطي الاستراحة</string>
+    <string name="seconds_label">ثانية</string>
+    <string name="congratulations_message">تهانينا</string>
+    <string name="workout_completed_message">لقد أكملت التدريب</string>
+    <string name="next_workout_button">التالي إلى تدريب آخر</string>
+    <string name="finish">إنهاء</string>
+    <string name="minute_label">دقائق</string>
+    <string name="level_label">المستوى</string>
+    <string name="primary_button">الزر الرئيسي</string>
+    <string name="back_button">رجوع</string>
+    <string name="next_movement">التمرين التالي</string>
+    <string name="end_workout_prompt">هل تريد إنهاء التدريب؟</string>
+    <string name="discard_progress_warning">الخروج الآن سيؤدي إلى فقدان تقدمك الحالي.</string>
+    <string name="stay_in_workout_button">البقاء في التدريب</string>
+    <string name="end_workout_confirm_button">إنهاء التدريب</string>
+    <string name="beginner">مبتدأ</string>
+    <string name="intermediate">متوسط</string>
+    <string name="advanced">متقدم</string>
+    <string name="take_a_rest">استراحة</string>
 </resources>

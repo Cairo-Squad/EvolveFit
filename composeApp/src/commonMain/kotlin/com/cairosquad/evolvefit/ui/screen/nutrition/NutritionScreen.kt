@@ -65,7 +65,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun NutritionScreen(
     navigateToSuggestedMeals: () -> Unit,
-    navigateToMealDetails: (Long) -> Unit,
+    navigateToMealDetails: (String) -> Unit,
     navigateToMealsHistory: () -> Unit,
     nutritionViewModel: NutritionViewModel = koinViewModel()
 ) {
