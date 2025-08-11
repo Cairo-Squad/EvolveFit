@@ -234,6 +234,9 @@ private fun SimpleNutritionCardValues(
     }
 }
 
+private const val NUTRITION_CARD_ANIMATION_DELAY = 250L
+private const val NUTRITION_CARD_ANIMATION_UNIT_DURATION = 800
+
 @Composable
 private fun SimpleNutritionCardProgressBar(
     progress: Float,
@@ -242,11 +245,11 @@ private fun SimpleNutritionCardProgressBar(
     var startAnimation by remember { mutableStateOf(false) }
     val animatedProgress by animateFloatAsState(
         targetValue = if (startAnimation) progress else 0f,
-        animationSpec = tween(durationMillis = 500),
+        animationSpec = tween(durationMillis = (NUTRITION_CARD_ANIMATION_UNIT_DURATION * progress).toInt()),
     )
 
     LaunchedEffect(progress) {
-        delay(150)
+        delay(NUTRITION_CARD_ANIMATION_DELAY)
         startAnimation = true
     }
 

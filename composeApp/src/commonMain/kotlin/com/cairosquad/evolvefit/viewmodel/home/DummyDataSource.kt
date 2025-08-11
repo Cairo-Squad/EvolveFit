@@ -25,8 +25,8 @@ object DummyDataSource {
         )
     )
 
-    val caloriesNutrition = Pair(1650.toUInt(), 2200.toUInt())
-    val waterNutrition = Pair(1.8f, 2.5f)
+    val caloriesNutrition = Pair(900.toUInt(), 2200.toUInt())
+    val waterNutrition = Pair(1.8f, 2.0f)
 
     val personalizedWorkouts = listOf(
         HomeScreenState.HomeWorkoutUiState(
