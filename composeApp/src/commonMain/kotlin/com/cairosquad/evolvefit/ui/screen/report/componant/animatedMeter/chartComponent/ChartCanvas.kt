@@ -89,39 +89,39 @@ fun ChartCanvas(
             )
         }
 
+        if (markerProgress <= 0f) return@Canvas
+        val maxIndex = data.indices.maxByOrNull { data[it] } ?: -1
+        if (maxIndex !in anchors.indices) return@Canvas
+        val anchorPoint = anchors[maxIndex]
 
+        if (maxIndex in anchors.indices) {
 
-        if (markerProgress > 0f) {
-            val maxIndex = data.indices.maxByOrNull { data[it] } ?: -1
-            if (maxIndex in anchors.indices) {
-                val anchorPoint = anchors[maxIndex]
+            val lineAlpha = markerProgress
+            val circleRadius = markerRadiusPx * markerProgress
+            val outerCircleRadius = (markerRadiusPx * 1.5f) * markerProgress
 
-                val lineAlpha = markerProgress
-                val circleRadius = markerRadiusPx * markerProgress
-                val outerCircleRadius = (markerRadiusPx * 1.5f) * markerProgress
+            drawLine(
+                color = dashedLineColor.copy(alpha = 1f * lineAlpha),
+                start = Offset(anchorPoint.x, 0f),
+                end = Offset(anchorPoint.x, canvasHeight),
+                strokeWidth = 1.dp.toPx(),
+                cap = StrokeCap.Round,
+                pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 8f), 0f)
+            )
 
-                drawLine(
-                    color = dashedLineColor.copy(alpha = 1f * lineAlpha),
-                    start = Offset(anchorPoint.x, 0f),
-                    end = Offset(anchorPoint.x, canvasHeight),
-                    strokeWidth = 1.dp.toPx(),
-                    cap = StrokeCap.Round,
-                    pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 8f), 0f)
-                )
+            drawCircle(
+                color = markerColor.copy(alpha = lineAlpha),
+                center = anchorPoint,
+                radius = circleRadius
+            )
 
-                drawCircle(
-                    color = markerColor.copy(alpha = lineAlpha),
-                    center = anchorPoint,
-                    radius = circleRadius
-                )
-
-                drawCircle(
-                    color = markerColor.copy(alpha = lineAlpha),
-                    center = anchorPoint,
-                    radius = outerCircleRadius,
-                    style = Stroke(width = 2.dp.toPx())
-                )
-            }
+            drawCircle(
+                color = markerColor.copy(alpha = lineAlpha),
+                center = anchorPoint,
+                radius = outerCircleRadius,
+                style = Stroke(width = 2.dp.toPx())
+            )
         }
+
     }
 }
