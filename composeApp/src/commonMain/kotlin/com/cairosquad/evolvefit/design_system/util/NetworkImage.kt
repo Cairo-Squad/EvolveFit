@@ -18,7 +18,7 @@ import coil3.compose.AsyncImage
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.im_img
+import evolvefit.composeapp.generated.resources.ic_default_image
 import evolvefit.composeapp.generated.resources.placeholder_image
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -30,11 +30,10 @@ fun NetworkImage(
     contentDescription: String?,
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Crop,
-    defaultImage: Painter = painterResource(Res.drawable.im_img),
-    loadingPlaceHolder: Painter = painterResource(Res.drawable.im_img),
+    defaultImage: Painter = painterResource(Res.drawable.ic_default_image),
+    loadingPlaceHolder: Painter = painterResource(Res.drawable.ic_default_image),
     placeholderImageSize: DpSize? = null,
-
-    ) {
+) {
     if (model.isNotBlank()) {
         AsyncImage(
             modifier = modifier,
@@ -72,7 +71,7 @@ fun NetworkImage(
 fun Preview() {
     AppTheme(
         isDarkTheme = true
-    ){
+    ) {
         NetworkImage(
             modifier = Modifier
                 .size(92.dp, 72.dp)

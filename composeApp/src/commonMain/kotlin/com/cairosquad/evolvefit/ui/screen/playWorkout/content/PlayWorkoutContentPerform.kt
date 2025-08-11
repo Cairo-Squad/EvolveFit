@@ -90,15 +90,13 @@ fun PlayWorkoutContentPerform(
             leadingIcon = painterResource(Res.drawable.ic_cross),
         )
         HorizontalPager(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 32.dp),
+            modifier = Modifier.fillMaxSize(),
             state = pagerState,
+            userScrollEnabled = false
         ) { pageIndex ->
             ExercisePage(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp)
                     .verticalScroll(rememberScrollState()),
                 exercise = screenState.workout.exercises[pageIndex],
                 listener = listener,
@@ -131,20 +129,25 @@ private fun ExercisePage(
             defaultImage = painterResource(Res.drawable.im_default_workout)
         )
         Text(
-            modifier = Modifier.padding(bottom = 8.dp),
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 8.dp),
             text = stringResource(Res.string.exercises) + " ${currentStep}/${totalSteps}",
             style = Theme.textStyle.label.smallRegular14,
             color = Theme.color.surfaces.outline,
         )
         ExerciseNameAndInfoIcon(
-            modifier = Modifier.padding(bottom = 24.dp),
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 24.dp),
             exerciseName = exercise.name,
             onClickInfo = { listener.onClickExerciseInfo(exercise.id) }
         )
         BottomSection(
             modifier = Modifier
-                .weight(1f)
-                .padding(bottom = 48.dp),
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 48.dp)
+                .weight(1f),
             exerciseSpec = exercise.exerciseSpec,
             onFinishExercise = listener::onFinishExercise,
             onClickForward = listener::onClickForward,
@@ -382,6 +385,30 @@ private fun PlayWorkoutContentPerformPreview() {
 
                     override fun onClickBack() {
                         step--
+                    }
+
+                    override fun onClickSkipRest() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onClickNextToAnotherWorkout() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onClickFinish() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onClinkStayInWorkout() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onClinkEnd() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onDismissExerciseInfo() {
+                        TODO("Not yet implemented")
                     }
                 },
             )

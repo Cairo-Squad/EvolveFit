@@ -1,9 +1,16 @@
 package com.cairosquad.evolvefit.viewmodel.playWorkout
 
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.start
+import org.jetbrains.compose.resources.StringResource
+
 data class PlayWorkoutScreenState(
     val stage: Stage = Stage.GET_READY,
     val workout: WorkoutUiState = WorkoutUiState(),
-    val currentStep: Int = 1
+    val currentStep: Int = 1,
+    val totalTimeMinutes: Int = 0,
+    val haseCancelWorkoutClicked: Boolean = false,
+    val showExerciseInfo: Boolean = false,
 ) {
     enum class Stage {
         GET_READY,
@@ -17,7 +24,8 @@ data class PlayWorkoutScreenState(
         val name: String = "",
         val description: String = "",
         val imageUrl: String = "",
-        val exercises: List<ExerciseUiState> = emptyList()
+        val exercises: List<ExerciseUiState> = emptyList(),
+        val level: WorkoutLevelUiState = WorkoutLevelUiState.BEGINNER
     )
 
     data class ExerciseUiState(
@@ -31,6 +39,12 @@ data class PlayWorkoutScreenState(
     sealed class ExerciseSpecUiState {
         class Reps(val reps: Int) : ExerciseSpecUiState()
         class Time(val timeSeconds: Int) : ExerciseSpecUiState()
+    }
+
+    enum class WorkoutLevelUiState(val nameResId: StringResource) {
+        BEGINNER(Res.string.start),
+        INTERMEDIATE(Res.string.start),
+        ADVANCED(Res.string.start)
     }
 
 }

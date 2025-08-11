@@ -9,4 +9,10 @@ interface PlayWorkoutInteractionListener {
     fun onFinishExercise()
     fun onClickForward()
     fun onClickBack()
+    fun onClickSkipRest()
+    fun onClickNextToAnotherWorkout()
+    fun onClickFinish()
+    fun onClinkStayInWorkout()
+    fun onClinkEnd()
+    fun onDismissExerciseInfo()
 }

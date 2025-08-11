@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.clockTimer.ClockTimer
+import com.cairosquad.evolvefit.design_system.component.clockTimer.ClockTimerState
 import com.cairosquad.evolvefit.design_system.component.clockTimer.rememberClockTimerState
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -26,7 +27,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun RestTimer(
-    initialTimeSeconds: Int,
+    timeSeconds: Int,
     onFinish: () -> Unit,
     onClickSkipRest: () -> Unit,
     modifier: Modifier = Modifier,
@@ -34,12 +35,30 @@ fun RestTimer(
     textColor: Color = Theme.color.surfaces.onSurfaceContainer,
     textStyle: TextStyle = Theme.textStyle.title.largeBold16.copy(fontSize = 48.sp),
 ) {
-
     val clockTimerState = rememberClockTimerState(
-        totalTime = initialTimeSeconds,
+        totalTime = timeSeconds,
         onFinish = onFinish
     )
 
+    RestTimer(
+        modifier = modifier,
+        clockTimerState = clockTimerState,
+        onClickSkipRest = onClickSkipRest,
+        timeIncrement = timeIncrement,
+        textColor = textColor,
+        textStyle = textStyle,
+    )
+}
+
+@Composable
+fun RestTimer(
+    clockTimerState: ClockTimerState,
+    onClickSkipRest: () -> Unit,
+    modifier: Modifier = Modifier,
+    timeIncrement: Int = 15,
+    textColor: Color = Theme.color.surfaces.onSurfaceContainer,
+    textStyle: TextStyle = Theme.textStyle.title.largeBold16.copy(fontSize = 48.sp),
+) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -79,7 +98,7 @@ private fun RestTimerPreview() {
         RestTimer(
             modifier = Modifier
                 .padding(16.dp),
-            initialTimeSeconds = 30,
+            timeSeconds = 30,
             onFinish = {},
             onClickSkipRest = {}
         )
@@ -103,7 +122,7 @@ private fun RestTimerWithBackGroundPreview() {
             RestTimer(
                 modifier = Modifier
                     .padding(16.dp),
-                initialTimeSeconds = 30,
+                timeSeconds = 30,
                 onFinish = {},
                 onClickSkipRest = {}
             )
