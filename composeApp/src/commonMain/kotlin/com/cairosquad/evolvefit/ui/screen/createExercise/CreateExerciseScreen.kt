@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -46,6 +47,7 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.add_duration
 import evolvefit.composeapp.generated.resources.add_reps
 import evolvefit.composeapp.generated.resources.back
+import evolvefit.composeapp.generated.resources.choose_available_tools
 import evolvefit.composeapp.generated.resources.create_exercise_description
 import evolvefit.composeapp.generated.resources.create_exercise_title
 import evolvefit.composeapp.generated.resources.enter_exercise_name
@@ -55,6 +57,7 @@ import evolvefit.composeapp.generated.resources.ic_back
 import evolvefit.composeapp.generated.resources.im_upload_exercises_dark
 import evolvefit.composeapp.generated.resources.im_upload_exercises_light
 import evolvefit.composeapp.generated.resources.save_exercise
+import evolvefit.composeapp.generated.resources.select_focus_area
 import evolvefit.composeapp.generated.resources.upload_image
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -92,7 +95,8 @@ fun CreateExerciseScreenContent(
             .fillMaxSize()
             .background(color = Theme.color.surfaces.surface)
             .padding(horizontal = 16.dp)
-            .statusBarsPadding(),
+            .statusBarsPadding()
+            .navigationBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         val selectedImage = state.image
@@ -102,6 +106,18 @@ fun CreateExerciseScreenContent(
             painterResource(Res.drawable.im_upload_exercises_dark)
         } else {
             painterResource(Res.drawable.im_upload_exercises_light)
+        }
+
+        val selectedEquipmentNames = if (state.selectedEquipments.isEmpty()) {
+            stringResource(Res.string.choose_available_tools)
+        } else {
+            state.selectedEquipmentNames
+        }
+
+        val selectedFocusArea = if (state.selectedFocusAreas.isEmpty()) {
+            stringResource(Res.string.select_focus_area)
+        } else {
+            state.selectedFocusAreasText
         }
 
         CustomAppBar(
@@ -180,7 +196,7 @@ fun CreateExerciseScreenContent(
             item {
                 RowWithIcon(
                     modifier = Modifier.padding(bottom = 12.dp),
-                    text = state.selectedFocusAreasText,
+                    text =  selectedFocusArea,
                     isIconClicked = state.isFocusAreaExpanded,
                     onIconClicked = listener::onFocusAreaIconClicked
                 )
@@ -249,7 +265,7 @@ fun CreateExerciseScreenContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 12.dp),
-                    text = state.selectedEquipmentNames,
+                    text = selectedEquipmentNames,
                     isIconClicked = state.isEquipmentExpanded,
                     onIconClicked = listener::onAvailableEquipmentsIconClicked
                 )
