@@ -46,8 +46,8 @@ fun CircularTimer(
 
     var hasAnimationPlayed by remember { mutableStateOf(false) }
 
-    val startValue = if (reverse) timeSeconds.toFloat() else 0f
-    val endValue = if (reverse) 0f else timeSeconds.toFloat()
+    val startValue = remember { if (reverse) timeSeconds.toFloat() else 0f }
+    val endValue = remember { if (reverse) 0f else timeSeconds.toFloat() }
 
     val animateValue by animateFloatAsState(
         targetValue = if (hasAnimationPlayed) endValue else startValue,

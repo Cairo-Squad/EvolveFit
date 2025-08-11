@@ -22,7 +22,10 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.im_default_workout
+import evolvefit.composeapp.generated.resources.seconds_label
+import evolvefit.composeapp.generated.resources.skip_rest_button
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -75,14 +78,14 @@ fun RestTimer(
         ) {
             PrimaryButton(
                 modifier = Modifier.weight(1f),
-                text = "+${timeIncrement} Sec",
+                text = "+${timeIncrement} " + stringResource(Res.string.seconds_label),
                 onClick = { clockTimerState.addSeconds(timeIncrement) },
                 enabledContainerColor = Theme.color.surfaces.onSurfaceAt3,
                 enabledTextColor = Theme.color.surfaces.textColor
             )
             PrimaryButton(
                 modifier = Modifier.weight(1f),
-                text = "Skip Rest",
+                text = stringResource(Res.string.skip_rest_button),
                 onClick = onClickSkipRest
             )
         }

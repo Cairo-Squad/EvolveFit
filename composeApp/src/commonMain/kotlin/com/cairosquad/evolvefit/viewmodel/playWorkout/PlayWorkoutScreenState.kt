@@ -1,7 +1,9 @@
 package com.cairosquad.evolvefit.viewmodel.playWorkout
 
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.start
+import evolvefit.composeapp.generated.resources.advanced
+import evolvefit.composeapp.generated.resources.beginner
+import evolvefit.composeapp.generated.resources.intermediate
 import org.jetbrains.compose.resources.StringResource
 
 data class PlayWorkoutScreenState(
@@ -42,9 +44,9 @@ data class PlayWorkoutScreenState(
     }
 
     enum class WorkoutLevelUiState(val nameResId: StringResource) {
-        BEGINNER(Res.string.start),
-        INTERMEDIATE(Res.string.start),
-        ADVANCED(Res.string.start)
+        BEGINNER(Res.string.beginner),
+        INTERMEDIATE(Res.string.intermediate),
+        ADVANCED(Res.string.advanced)
     }
 
 }

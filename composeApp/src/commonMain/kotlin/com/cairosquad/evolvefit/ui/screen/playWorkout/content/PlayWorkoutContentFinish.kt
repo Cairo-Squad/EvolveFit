@@ -36,8 +36,15 @@ import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutInteractionList
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState.WorkoutLevelUiState
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.congratulations_message
+import evolvefit.composeapp.generated.resources.exercises
+import evolvefit.composeapp.generated.resources.finish
 import evolvefit.composeapp.generated.resources.im_default_workout
 import evolvefit.composeapp.generated.resources.im_fireworks
+import evolvefit.composeapp.generated.resources.level_label
+import evolvefit.composeapp.generated.resources.minute_label
+import evolvefit.composeapp.generated.resources.next_workout_button
+import evolvefit.composeapp.generated.resources.workout_completed_message
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -62,7 +69,7 @@ fun PlayWorkoutContentFinish(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 16.dp),
-            text = "Congratulations!",
+            text = stringResource(Res.string.congratulations_message) + "!",
             style = Theme.textStyle.display.largeBold24,
             color = Theme.color.surfaces.textColor,
         )
@@ -70,7 +77,7 @@ fun PlayWorkoutContentFinish(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 64.dp),
-            text = "You have completed the workout",
+            text = stringResource(Res.string.workout_completed_message),
             style = Theme.textStyle.body.smallRegular16,
             color = Theme.color.surfaces.outline,
         )
@@ -95,7 +102,7 @@ fun PlayWorkoutContentFinish(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            text = "Next to Another Workout",
+            text = stringResource(Res.string.next_workout_button),
             onClick = listener::onClickNextToAnotherWorkout
         )
         SecondaryButton(
@@ -103,7 +110,7 @@ fun PlayWorkoutContentFinish(
                 .fillMaxWidth()
                 .padding(bottom = 24.dp)
                 .padding(horizontal = 16.dp),
-            text = "Finish",
+            text = stringResource(Res.string.finish),
             onClick = listener::onClickFinish
         )
 
@@ -129,7 +136,7 @@ private fun WorkoutStatistics(
     ) {
         SingleStat(
             value = totalExercises.toString(),
-            label = "Exercises",
+            label = stringResource(Res.string.exercises),
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 12.dp, vertical = 8.dp)
@@ -137,7 +144,7 @@ private fun WorkoutStatistics(
         StatVerticalLine()
         SingleStat(
             value = totalTimeString,
-            label = "Minute",
+            label = stringResource(Res.string.minute_label),
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 12.dp, vertical = 8.dp)
@@ -145,7 +152,7 @@ private fun WorkoutStatistics(
         StatVerticalLine()
         SingleStat(
             value = stringResource(level.nameResId),
-            label = "Level",
+            label = stringResource(Res.string.level_label),
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 12.dp, vertical = 8.dp)
@@ -225,7 +232,7 @@ private fun ColumnWithBackgroundAndFireworks(
                 .fillMaxWidth(),
             alignment = Alignment.TopCenter,
             painter = painterResource(Res.drawable.im_fireworks),
-            contentDescription = "Congratulations",
+            contentDescription = stringResource(Res.string.congratulations_message),
         )
         Column(
             modifier = Modifier

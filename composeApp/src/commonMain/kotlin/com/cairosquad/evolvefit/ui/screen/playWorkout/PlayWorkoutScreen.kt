@@ -41,6 +41,12 @@ import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState.Sta
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState.Stage.PERFORM
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState.Stage.REST
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutViewModel
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.discard_progress_warning
+import evolvefit.composeapp.generated.resources.end_workout_confirm_button
+import evolvefit.composeapp.generated.resources.end_workout_prompt
+import evolvefit.composeapp.generated.resources.stay_in_workout_button
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -180,7 +186,7 @@ fun EndWorkoutConfirmation(
                 .align(Alignment.CenterHorizontally)
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 16.dp),
-            text = "Do you want to end the workout?",
+            text = stringResource(Res.string.end_workout_prompt),
             style = Theme.textStyle.display.largeBold24,
             color = Theme.color.surfaces.textColor,
             textAlign = TextAlign.Center
@@ -190,7 +196,7 @@ fun EndWorkoutConfirmation(
                 .align(Alignment.CenterHorizontally)
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 64.dp),
-            text = "Exiting now will discard your current progress.",
+            text = stringResource(Res.string.discard_progress_warning),
             style = Theme.textStyle.body.smallRegular16,
             color = Theme.color.surfaces.outline,
             textAlign = TextAlign.Center
@@ -201,7 +207,7 @@ fun EndWorkoutConfirmation(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            text = "Stay in Workout",
+            text = stringResource(Res.string.stay_in_workout_button),
             onClick = onClinkStayInWorkout
         )
         SecondaryButton(
@@ -209,7 +215,7 @@ fun EndWorkoutConfirmation(
                 .fillMaxWidth()
                 .padding(bottom = 24.dp)
                 .padding(horizontal = 16.dp),
-            text = "End Workout",
+            text = stringResource(Res.string.end_workout_confirm_button),
             onClick = onClinkEnd
         )
     }

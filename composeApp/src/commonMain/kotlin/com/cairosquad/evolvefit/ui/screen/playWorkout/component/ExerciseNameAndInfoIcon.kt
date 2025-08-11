@@ -17,8 +17,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.exercise_info
 import evolvefit.composeapp.generated.resources.ic_question_mark
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 
 @Composable
@@ -49,7 +51,7 @@ fun ExerciseNameAndInfoIcon(
                     onClick = onClickInfo
                 ),
             painter = painterResource(Res.drawable.ic_question_mark),
-            contentDescription = "Exercise Info",
+            contentDescription = stringResource(Res.string.exercise_info),
             tint = Theme.color.surfaces.onSurfaceVariant,
         )
     }

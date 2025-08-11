@@ -32,7 +32,10 @@ import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.im_default_workout
+import evolvefit.composeapp.generated.resources.next_movement
+import evolvefit.composeapp.generated.resources.take_a_rest
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -63,7 +66,7 @@ fun PlayWorkoutContentRest(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(vertical = 16.dp),
-            text = "Take a Rest",
+            text = stringResource(Res.string.take_a_rest),
             style = Theme.textStyle.display.largeBold20,
             color = Theme.color.surfaces.textColor,
         )
@@ -83,7 +86,7 @@ fun PlayWorkoutContentRest(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 8.dp),
-            text = "Next Movement" + " (${screenState.currentStep + 1}/${screenState.workout.exercises.size})",
+            text = stringResource(Res.string.next_movement) + " (${screenState.currentStep + 1}/${screenState.workout.exercises.size})",
             style = Theme.textStyle.label.smallRegular14,
             color = Theme.color.surfaces.textColor,
         )

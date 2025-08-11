@@ -131,7 +131,27 @@
     <string name="save">Save</string>
     <string name="exercise_info">Exercise Info</string>
     <string name="start">Start</string>
+    <string name="exercise">Exercise</string>
     <string name="exercises">Exercises</string>
     <string name="cancel_workout">Cancel Workout</string>
     <string name="ready_to_workout">Ready To Workout!</string>
+    <string name="skip_rest_button">Skip Rest</string>
+    <string name="seconds_label">Sec</string>
+    <string name="congratulations_message">Congratulations</string>
+    <string name="workout_completed_message">You have completed the workout</string>
+    <string name="next_workout_button">Next to Another Workout</string>
+    <string name="finish">Finish</string>
+    <string name="minute_label">Minute</string>
+    <string name="level_label">Level</string>
+    <string name="primary_button">Primary Button</string>
+    <string name="back_button">Back</string>
+    <string name="next_movement">Next Movement</string>
+    <string name="end_workout_prompt">Do you want to end the workout?</string>
+    <string name="discard_progress_warning">Exiting now will discard your current progress.</string>
+    <string name="stay_in_workout_button">Stay in Workout</string>
+    <string name="end_workout_confirm_button">End Workout</string>
+    <string name="beginner">Beginner</string>
+    <string name="intermediate">Intermediate</string>
+    <string name="advanced">Advanced</string>
+    <string name="take_a_rest">Take a Rest</string>
 </resources>

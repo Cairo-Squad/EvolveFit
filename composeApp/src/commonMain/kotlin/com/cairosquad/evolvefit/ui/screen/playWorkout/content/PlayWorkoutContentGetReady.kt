@@ -30,8 +30,10 @@ import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutInteractionList
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutViewModel
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.exercises
+import evolvefit.composeapp.generated.resources.cancel_workout
+import evolvefit.composeapp.generated.resources.exercise
 import evolvefit.composeapp.generated.resources.ic_cross
+import evolvefit.composeapp.generated.resources.ready_to_workout
 import evolvefit.composeapp.generated.resources.start
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -65,7 +67,7 @@ fun PlayWorkoutContentGetReady(
                 )
                 .padding(12.dp),
             painter = painterResource(Res.drawable.ic_cross),
-            contentDescription = "Cancel workout",
+            contentDescription = stringResource(Res.string.cancel_workout),
             tint = Theme.color.surfaces.textColor,
         )
         Spacer(Modifier.weight(0.4f))
@@ -73,7 +75,7 @@ fun PlayWorkoutContentGetReady(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 40.dp),
-            text = "Ready To Workout!",
+            text = stringResource(Res.string.ready_to_workout),
             style = Theme.textStyle.display.largeBold24,
             color = Theme.color.surfaces.onSurfaceContainer,
         )
@@ -90,7 +92,7 @@ fun PlayWorkoutContentGetReady(
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 8.dp),
             text =
-                stringResource(Res.string.exercises) +
+                stringResource(Res.string.exercise) +
                 screenState.workout.exercises
                 .takeIf { it.isNotEmpty() }
                 .let { if (it == null) "" else " 1/${it.size}" },

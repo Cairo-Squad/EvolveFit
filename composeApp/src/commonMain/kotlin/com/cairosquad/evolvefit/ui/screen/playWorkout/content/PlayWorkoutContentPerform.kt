@@ -29,7 +29,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cairosquad.evolvefit.design_system.component.appbar.IndicatorBar
@@ -42,7 +45,8 @@ import com.cairosquad.evolvefit.ui.screen.playWorkout.component.ExerciseNameAndI
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.exercises
+import evolvefit.composeapp.generated.resources.back_button
+import evolvefit.composeapp.generated.resources.exercise
 import evolvefit.composeapp.generated.resources.ic_check_mark
 import evolvefit.composeapp.generated.resources.ic_cross
 import evolvefit.composeapp.generated.resources.ic_next_arrow
@@ -50,6 +54,8 @@ import evolvefit.composeapp.generated.resources.ic_pause
 import evolvefit.composeapp.generated.resources.ic_play
 import evolvefit.composeapp.generated.resources.ic_previous_arrow
 import evolvefit.composeapp.generated.resources.im_default_workout
+import evolvefit.composeapp.generated.resources.next
+import evolvefit.composeapp.generated.resources.primary_button
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -132,7 +138,7 @@ private fun ExercisePage(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 8.dp),
-            text = stringResource(Res.string.exercises) + " ${currentStep}/${totalSteps}",
+            text = stringResource(Res.string.exercise) + " ${currentStep}/${totalSteps}",
             style = Theme.textStyle.label.smallRegular14,
             color = Theme.color.surfaces.outline,
         )
@@ -260,6 +266,8 @@ private fun BottomButtons(
     primaryButtonIcon: Painter,
     modifier: Modifier = Modifier,
 ){
+    val isRTL = LocalLayoutDirection.current == LayoutDirection.Rtl
+
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(32.dp),
@@ -271,9 +279,10 @@ private fun BottomButtons(
                 .clip(CircleShape)
                 .clickable(onClick = onClickBack)
                 .background(Theme.color.surfaces.surfaceContainer)
-                .padding(12.dp),
+                .padding(12.dp)
+                .scale(scaleX = if (isRTL) -1f else 1f, scaleY = 1f),
             painter = painterResource(Res.drawable.ic_previous_arrow),
-            contentDescription = "Back",
+            contentDescription = stringResource(Res.string.back_button),
             tint = Theme.color.surfaces.onSurfaceContainer,
         )
         Icon(
@@ -284,7 +293,7 @@ private fun BottomButtons(
                 .background(Theme.color.brand.primary)
                 .padding(20.dp),
             painter = primaryButtonIcon,
-            contentDescription = "Primary Button",
+            contentDescription = stringResource(Res.string.primary_button),
             tint = Theme.color.brand.onPrimary,
         )
         Icon(
@@ -293,9 +302,10 @@ private fun BottomButtons(
                 .clip(CircleShape)
                 .clickable(onClick = onClickForward)
                 .background(Theme.color.surfaces.surfaceContainer)
-                .padding(12.dp),
+                .padding(12.dp)
+                .scale(scaleX = if (isRTL) -1f else 1f, scaleY = 1f),
             painter = painterResource(Res.drawable.ic_next_arrow),
-            contentDescription = "Next",
+            contentDescription = stringResource(Res.string.next),
             tint = Theme.color.surfaces.onSurfaceContainer,
         )
     }
