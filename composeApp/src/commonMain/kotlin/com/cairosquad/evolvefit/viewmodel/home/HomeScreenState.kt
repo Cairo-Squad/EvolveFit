@@ -1,8 +1,10 @@
 package com.cairosquad.evolvefit.viewmodel.home
 
+import com.cairosquad.evolvefit.viewmodel.base.ErrorState
+
 data class HomeScreenState(
     val isLoading: Boolean = false,
-    val errorMessage: String? = null,
+    val error: ErrorState? = null,
     val user: HomeUserUiState = HomeUserUiState(),
     val weeklyProgress: WeeklyProgressUiState = WeeklyProgressUiState(),
     val caloriesCount: Int = 0,

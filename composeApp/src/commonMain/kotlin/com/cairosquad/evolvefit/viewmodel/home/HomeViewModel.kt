@@ -92,6 +92,10 @@ class HomeViewModel(
         }
     }
 
+    override fun onRetryClicked() {
+        loadInitialData()
+    }
+
     private fun startLoading() {
         updateState {
             it.copy(isLoading = true)
