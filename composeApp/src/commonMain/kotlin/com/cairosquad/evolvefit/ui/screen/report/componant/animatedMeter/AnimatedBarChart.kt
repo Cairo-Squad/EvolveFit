@@ -8,11 +8,6 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -23,11 +18,11 @@ fun AnimatedBarChart(
     data: List<Float>,
     focusedBarColor: Color,
     unfocusedBarColor: Color,
+    isAnimationStarted: Boolean,
     animationDuration: Int = 1200,
     animationEasing: Easing = LinearEasing,
     onBarCentersCalculated: (List<Float>) -> Unit = {}
 ) {
-    var isAnimationStarted by remember { mutableStateOf(false) }
     val maxValue = (data.maxOrNull() ?: 0f).coerceAtLeast(1f)
     val maxIndex = data.indexOf(maxValue)
 
@@ -40,10 +35,6 @@ fun AnimatedBarChart(
             ),
             label = "barHeightAnim"
         ).value
-    }
-
-    LaunchedEffect(Unit) {
-        isAnimationStarted = true
     }
 
     Canvas(modifier = Modifier.height(144.dp).fillMaxWidth()) {

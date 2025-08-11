@@ -15,9 +15,11 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -53,6 +55,10 @@ private fun ReportScreenContent(
     val labels by remember { mutableStateOf(listOf("Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri")) }
     val musclesName = listOf("Chest", "Back", "Legs", "Arms", "Shoulders")
     val musclesPercentage = listOf(0.32f, 0.24f, 0.68f, 0.49f, 0.11f)
+    var isAnimationStarted by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        isAnimationStarted = true
+    }
 
     Column(
         modifier = Modifier
@@ -99,6 +105,7 @@ private fun ReportScreenContent(
                     DashboardGrid(
                         modifier = Modifier
                             .padding(top = 8.dp),
+                        isAnimationStarted = isAnimationStarted
                     )
                     DropdownMenu(
                         modifier = Modifier
@@ -117,6 +124,7 @@ private fun ReportScreenContent(
                     modifier = Modifier.padding(top = 16.dp),
                     data = data,
                     labels = labels,
+                    isAnimationStarted = isAnimationStarted
                 )
             }
             item {
@@ -125,6 +133,7 @@ private fun ReportScreenContent(
                     data = data,
                     labels = labels,
                     totalTime = "2h 35min",
+                    isAnimationStarted = isAnimationStarted
                 )
             }
             item {
@@ -132,6 +141,7 @@ private fun ReportScreenContent(
                     modifier = Modifier.padding(top = 16.dp),
                     musclesName = musclesName,
                     trainedMusclesPercentage = musclesPercentage,
+                    isAnimationStarted = isAnimationStarted
                 )
             }
         }

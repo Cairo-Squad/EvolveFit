@@ -37,7 +37,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun WaterCard(
     waterConsumed: String,
-    modifier: Modifier = Modifier) {
+    isAnimationStarted: Boolean,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -76,7 +78,8 @@ fun WaterCard(
                     modifier = Modifier
                         .align(Alignment.Center)
                         .scale(scaleX = -1f, scaleY = 1f),
-                    fillPercent = 0.5f
+                    fillPercent = 0.5f,
+                    isAnimationStarted = isAnimationStarted
                 )
             }
             Row(
@@ -104,9 +107,11 @@ fun WaterCard(
 @Composable
 private fun WaterCardPreview() {
     WaterCard(
-        waterConsumed = "06",
         modifier = Modifier
-            .width(160.dp).height(214.dp)
+            .width(160.dp)
+            .height(214.dp),
+        waterConsumed = "06",
+        isAnimationStarted = true
     )
 }
 
@@ -114,7 +119,10 @@ private fun WaterCardPreview() {
 @Composable
 private fun WaterCardLongPreview() {
     WaterCard(
+        modifier = Modifier
+            .width(160.dp)
+            .height(260.dp),
         waterConsumed = "08",
-        modifier = Modifier.width(160.dp).height(260.dp)
+        isAnimationStarted = true
     )
 }

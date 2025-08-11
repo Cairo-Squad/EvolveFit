@@ -28,6 +28,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun CaloriesCard(
     expectedCalories: Int,
     takenCalories: Int,
+    isAnimationStarted: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -48,6 +49,7 @@ fun CaloriesCard(
             modifier = Modifier.weight(1f),
             expectedCalories = expectedCalories,
             takenCalories = takenCalories,
+            isAnimationStarted = isAnimationStarted
         )
     }
 }
@@ -60,7 +62,8 @@ private fun CaloriesCardPreview() {
             modifier = Modifier
                 .width(200.dp).height(214.dp),
             expectedCalories = 3600,
-            takenCalories = 2000
+            takenCalories = 2000,
+            isAnimationStarted = true
         )
     }
 }
@@ -73,7 +76,8 @@ private fun CaloriesCardLongPreview() {
             modifier = Modifier
                 .width(180.dp).height(262.dp),
             expectedCalories = 3600,
-            takenCalories = 2000
+            takenCalories = 2000,
+            isAnimationStarted = false
         )
     }
 }

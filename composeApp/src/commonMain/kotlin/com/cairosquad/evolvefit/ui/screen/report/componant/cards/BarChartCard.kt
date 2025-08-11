@@ -31,6 +31,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun BarChartCard(
     data: List<Float>,
     labels: List<String>,
+    isAnimationStarted: Boolean,
     modifier: Modifier = Modifier,
     focusedBarColor: Color = Theme.color.brand.primary,
     unfocusedBarColor: Color = Theme.color.surfaces.surfaceVariant,
@@ -100,6 +101,7 @@ fun BarChartCard(
                         data = data,
                         focusedBarColor = focusedBarColor,
                         unfocusedBarColor = unfocusedBarColor,
+                        isAnimationStarted = isAnimationStarted,
                         onBarCentersCalculated = {
                             barCenters = it
                         }
@@ -145,6 +147,7 @@ private fun BarChartCardPreview() {
     }
     BarChartCard(
         data,
-        labels
+        labels,
+        true
     )
 }

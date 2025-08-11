@@ -1,19 +1,17 @@
 package com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter
 
-import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Path
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import kotlinx.coroutines.launch
 import kotlin.math.PI
 import kotlin.math.sin
 
@@ -21,6 +19,7 @@ import kotlin.math.sin
 fun RisingWaveAnimation(
     modifier: Modifier = Modifier,
     fillPercent: Float,
+    isAnimationStarted: Boolean,
     durationMillis: Int = 1200,
     easing: Easing = LinearEasing
 ) {
@@ -32,23 +31,17 @@ fun RisingWaveAnimation(
 
     val finalPhase = 25f
 
-    val animatedFill = remember { Animatable(0f) }
-    val animatedPhase = remember { Animatable(0f) }
 
-    LaunchedEffect(fillPercent, durationMillis, easing) {
-        launch {
-            animatedFill.animateTo(
-                targetValue = fillPercent,
-                animationSpec = tween(durationMillis = durationMillis, easing = easing)
-            )
-        }
-        launch {
-            animatedPhase.animateTo(
-                targetValue = finalPhase,
-                animationSpec = tween(durationMillis = durationMillis, easing = easing)
-            )
-        }
-    }
+    val animatedFillValue by animateFloatAsState(
+        targetValue = if(isAnimationStarted) fillPercent else 0f,
+        animationSpec = tween(durationMillis = durationMillis, easing = easing),
+        label = "fillAnimation"
+    )
+    val animatedPhaseValue by animateFloatAsState(
+        targetValue = if(isAnimationStarted) finalPhase else 0f,
+        animationSpec = tween(durationMillis = durationMillis, easing = easing),
+        label = "phaseAnimation"
+    )
 
     val waterColor = Theme.color.system.info
 
@@ -56,7 +49,7 @@ fun RisingWaveAnimation(
         Canvas(modifier = Modifier.fillMaxSize()) {
             val width = size.width
             val height = size.height
-            val baseY = height * (1f - animatedFill.value)
+            val baseY = height * (1f - animatedFillValue)
 
             fun drawWave(amplitude: Float, phaseShift: Float, alpha: Float, yOffset: Float = 0f) {
                 val path = Path()
@@ -64,7 +57,7 @@ fun RisingWaveAnimation(
 
                 for (x in 0..width.toInt()) {
                     val y = baseY + yOffset + amplitude *
-                            sin((x / wavelength + (animatedPhase.value + phaseShift) / 100) * (2 * PI)).toFloat()
+                            sin((x / wavelength + (animatedPhaseValue + phaseShift) / 100) * (2 * PI)).toFloat()
                     path.lineTo(x.toFloat(), y)
                 }
 

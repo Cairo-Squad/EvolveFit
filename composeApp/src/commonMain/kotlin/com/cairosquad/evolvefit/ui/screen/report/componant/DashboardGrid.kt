@@ -22,6 +22,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DashboardGrid(
+    isAnimationStarted: Boolean,
     modifier: Modifier = Modifier,
 ) {
     BoxWithConstraints(
@@ -47,13 +48,15 @@ fun DashboardGrid(
                         .weight(1f)
                         .height(262.dp),
                     expectedCalories = 2500,
-                    takenCalories = 1500
+                    takenCalories = 1500,
+                    isAnimationStarted = isAnimationStarted
                 )
                 WaterCard(
-                    waterConsumed = "05",
                     modifier = Modifier
                         .weight(1f)
-                        .height(262.dp)
+                        .height(262.dp),
+                    waterConsumed = "05",
+                    isAnimationStarted = isAnimationStarted,
                 )
             }
         } else {
@@ -72,12 +75,14 @@ fun DashboardGrid(
                         modifier = Modifier.height(214.dp),
                         expectedCalories = 2500,
                         takenCalories = 1500,
+                        isAnimationStarted = isAnimationStarted
                     )
                 }
                 item {
                     WaterCard(
                         modifier = Modifier.height(214.dp),
                         waterConsumed = "05",
+                        isAnimationStarted = isAnimationStarted
                     )
                 }
                 item {
@@ -92,6 +97,6 @@ fun DashboardGrid(
 @Composable
 private fun DashboardGridPreview() {
     AppTheme {
-        DashboardGrid()
+        DashboardGrid(true)
     }
 }

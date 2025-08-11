@@ -17,15 +17,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -43,11 +42,12 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun CaloriesMeter(
     expectedCalories: Int,
     takenCalories: Int,
-    modifier: Modifier = Modifier,
+    isAnimationStarted: Boolean,
+    modifier: Modifier = Modifier
 ) {
     val backgroundColor = Theme.color.surfaces.outlineVariant
     val progressColor = Theme.color.system.success
-    var isAnimationStarted by remember { mutableStateOf(false) }
+    val dashedArcColor = Theme.color.surfaces.outlineVariant
 
 
     val animateCurrentPercentage by animateFloatAsState(
@@ -76,10 +76,6 @@ fun CaloriesMeter(
     val sweepAngle = 180f * animateCurrentPercentage
     val strokeWidth = 13.dp
 
-    LaunchedEffect(true) {
-        isAnimationStarted = true
-    }
-
     Box(
         modifier = modifier
     ) {
@@ -93,6 +89,8 @@ fun CaloriesMeter(
                     .align(Alignment.TopCenter)
                     .width(123.dp).height((123).dp)
             ) {
+                val dashEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 8f), 0f)
+                val innerPadding = 12.dp.toPx()
                 drawArc(
                     color = backgroundColor,
                     180f,
@@ -107,7 +105,26 @@ fun CaloriesMeter(
                     useCenter = false,
                     style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Square)
                 )
+
+                drawArc(
+                    color = dashedArcColor,
+                    startAngle = 180f,
+                    sweepAngle = 180f,
+                    useCenter = true,
+                    topLeft = Offset(innerPadding, innerPadding),
+                    size = Size(
+                        width = size.width - innerPadding * 2,
+                        height = size.height - innerPadding
+                    ),
+                    style = Stroke(width = 1.dp.toPx(), pathEffect = dashEffect, cap = StrokeCap.Butt)
+                )
             }
+            Box(
+                Modifier.size(width = (123-22).dp, height = 2.dp)
+                    .align(Alignment.Center)
+                    .offset(y = 6.dp)
+                    .background(Theme.color.surfaces.surfaceContainer)
+            )
             Box(
                 modifier = Modifier
                     .align(Alignment.Center)
@@ -167,6 +184,7 @@ fun CaloriesMeter(
 private fun WaterMeterPreview() {
     CaloriesMeter(
         expectedCalories = 2500,
-        takenCalories = 1000
+        takenCalories = 1000,
+        true
     )
 }

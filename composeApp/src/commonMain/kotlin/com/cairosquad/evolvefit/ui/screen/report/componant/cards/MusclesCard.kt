@@ -16,11 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,12 +28,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun MusclesCard(
     musclesName: List<String>,
     trainedMusclesPercentage: List<Float>,
+    isAnimationStarted: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    var isAnimationStarted by remember{ mutableStateOf(false) }
-    LaunchedEffect(Unit) {
-        isAnimationStarted = true
-    }
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -96,7 +89,7 @@ private fun MuscleItem(
         Box(
             modifier = Modifier
                 .size(height = 40.dp, width = 4.dp)
-                .clip(RoundedCornerShape(topEnd = 24.dp, bottomEnd = 24.dp))
+                .clip(RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp))
                 .background(Theme.color.brand.primary)
         )
         Column(
@@ -143,6 +136,7 @@ private fun MusclesCardPreview() {
     val musclesPercentage = listOf(0.32f, 0.24f, 0.68f, 0.49f, 0.11f)
     MusclesCard(
         musclesName = musclesName,
-        trainedMusclesPercentage = musclesPercentage
+        trainedMusclesPercentage = musclesPercentage,
+        true
     )
 }

@@ -26,6 +26,7 @@ fun AnimatedLineChart(
     lineColor: Color,
     areaColor: List<Color>,
     markerColor: Color,
+    isAnimationStarted: Boolean,
     modifier: Modifier = Modifier,
     markerRadiusDp: Dp = 8.dp,
     onPointCentersCalculated: (List<Offset>) -> Unit = {}
@@ -52,6 +53,7 @@ fun AnimatedLineChart(
             markerRadiusPx = markerRadiusPx,
             dashedLineColor = Color.White,
             maxValue = maxValue,
+            isAnimationStarted = isAnimationStarted,
             onAnchorsComputed = { anchors ->
                 pointsPx.clear()
                 pointsPx.addAll(anchors)

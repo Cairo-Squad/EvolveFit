@@ -33,6 +33,7 @@ fun LineChartCard(
     data: List<Float>,
     labels: List<String>,
     totalTime: String,
+    isAnimationStarted: Boolean,
     modifier: Modifier = Modifier,
     lineColor: Color = Theme.color.brand.primary,
     areaColor: List<Color> = Theme.color.gradiant.barGradiant,
@@ -104,6 +105,7 @@ fun LineChartCard(
                         lineColor = lineColor,
                         areaColor = areaColor,
                         markerColor = markerColor,
+                        isAnimationStarted = isAnimationStarted,
                         onPointCentersCalculated = { barCenters = it }
                     )
                 }
@@ -149,6 +151,7 @@ private fun LineChartCardPreview() {
     LineChartCard(
         data = data,
         labels = labels,
-        totalTime = "2h 30min"
+        totalTime = "2h 30min",
+        true
     )
 }

@@ -8,11 +8,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -33,12 +29,12 @@ fun ChartCanvas(
     dashedLineColor: Color,
     markerRadiusPx: Float,
     maxValue: Float,
+    isAnimationStarted: Boolean,
     animationDuration: Int = 1200,
     animationEasing: Easing = LinearOutSlowInEasing,
     onAnchorsComputed: (List<Offset>) -> Unit,
     onTap: (Offset) -> Unit
 ) {
-    var isAnimationStarted by remember { mutableStateOf(false) }
     val animationProgress by animateFloatAsState(
         targetValue = if (isAnimationStarted) 1f else 0f,
         animationSpec = tween(
@@ -55,9 +51,6 @@ fun ChartCanvas(
         ),
         label = "markerAnimation"
     )
-    LaunchedEffect(Unit) {
-        isAnimationStarted = true
-    }
 
     Canvas(
         modifier = Modifier
