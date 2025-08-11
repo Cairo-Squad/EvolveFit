@@ -209,6 +209,14 @@ fun CreateExerciseScreenContent(
                 )
             }
         }
+        if (state.showExitBottomSheet) {
+            ExiteCreateExerciseBottomSheet(
+                isVisible = state.showExitBottomSheet,
+                onDismiss = listener::onExitClicked,
+                onCancelClicked = { listener.onExitOptionSelected(true) },
+                onExitWithoutSavingClicked = { listener.onExitOptionSelected(false) }
+            )
+        }
     }
 }
 
