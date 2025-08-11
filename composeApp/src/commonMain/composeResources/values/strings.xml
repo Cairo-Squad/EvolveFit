@@ -136,4 +136,16 @@
     <string name="please_select_your_birthday">Please select your birthday</string>
     <string name="save">Save</string>
 
+    <string name="create_exercise_title">Create Exercise</string>
+    <string name="create_exercise_description">Add a new exercise to personalize your workout and stay on track.</string>
+    <string name="back">Back</string>
+    <string name="enter_exercise_name">Enter exercise name</string>
+    <string name="add_duration">Add Duration</string>
+    <string name="add_reps">Add Reps</string>
+    <string name="add_duration_placeholder">Add duration</string>
+    <string name="add_reps_placeholder">Add reps</string>
+    <string name="enter_instructions">Enter instructions</string>
+    <string name="save_exercise">Save Exercise</string>
+    <string name="characters_left">%1$d character left</string>
+
 </resources>

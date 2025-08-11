@@ -43,10 +43,21 @@ import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.add_duration
+import evolvefit.composeapp.generated.resources.add_reps
+import evolvefit.composeapp.generated.resources.back
+import evolvefit.composeapp.generated.resources.create_exercise_description
+import evolvefit.composeapp.generated.resources.create_exercise_title
+import evolvefit.composeapp.generated.resources.enter_exercise_name
+import evolvefit.composeapp.generated.resources.enter_instructions
+import evolvefit.composeapp.generated.resources.exercise_image
 import evolvefit.composeapp.generated.resources.ic_back
 import evolvefit.composeapp.generated.resources.im_upload_exercises_dark
 import evolvefit.composeapp.generated.resources.im_upload_exercises_light
+import evolvefit.composeapp.generated.resources.save_exercise
+import evolvefit.composeapp.generated.resources.upload_image
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -98,7 +109,7 @@ fun CreateExerciseScreenContent(
             header = {
                 ActionIconButton(
                     icon = painterResource(Res.drawable.ic_back),
-                    contentDescription = "Back",
+                    contentDescription = stringResource(Res.string.back),
                     tint = Theme.color.surfaces.onSurface,
                     onClick = listener::onExitClicked
                 )
@@ -113,8 +124,8 @@ fun CreateExerciseScreenContent(
             item {
                 RegisterHeader(
                     modifier = Modifier.padding(bottom = 24.dp),
-                    title = "Create Exercise",
-                    description = "Add a new exercise to personalize your workout and stay on track."
+                    title = stringResource(Res.string.create_exercise_title),
+                    description = stringResource(Res.string.create_exercise_description)
                 )
             }
             item {
@@ -135,13 +146,13 @@ fun CreateExerciseScreenContent(
                     if (selectedImage != null) {
                         UiImageDisplayer(
                             image = selectedImage,
-                            contentDescription = "Exercise image",
+                            contentDescription = stringResource(Res.string.exercise_image),
                             defaultImageSize = 64.dp
                         )
                     } else {
                         Image(
                             painter = uploadExercisesImg!!,
-                            contentDescription = "Upload image"
+                            contentDescription = stringResource(Res.string.upload_image)
                         )
                     }
                 }
@@ -152,7 +163,7 @@ fun CreateExerciseScreenContent(
                     modifier = Modifier
                         .padding(bottom = 24.dp)
                         .clickable(onClick = listener::onImagePickerClicked),
-                    text = "Upload image",
+                    text = stringResource(Res.string.upload_image),
                     style = Theme.textStyle.label.smallRegular12,
                     color = Theme.color.surfaces.onSurfaceVariant
                 )
@@ -163,7 +174,7 @@ fun CreateExerciseScreenContent(
                     modifier = Modifier.padding(bottom = 12.dp),
                     value = state.name,
                     onValueChange = listener::onNameChanged,
-                    placeholder = "Enter exercise name"
+                    placeholder = stringResource(Res.string.enter_exercise_name)
                 )
             }
             item {
@@ -189,7 +200,7 @@ fun CreateExerciseScreenContent(
                 ) {
                     CheckboxItem(
                         modifier = Modifier.weight(1f),
-                        text = "Add Duration",
+                        text = stringResource(Res.string.add_duration),
                         titleColor = Theme.color.surfaces.onSurfaceVariant,
                         isChecked = state.isDurationChecked,
                         onCheckedChange = {
@@ -201,7 +212,7 @@ fun CreateExerciseScreenContent(
                     )
                     CheckboxItem(
                         modifier = Modifier.weight(1f),
-                        text = "Add Reps",
+                        text = stringResource(Res.string.add_reps),
                         titleColor = Theme.color.surfaces.onSurfaceVariant,
                         isChecked = state.isRepsChecked,
                         onCheckedChange = {
@@ -222,8 +233,11 @@ fun CreateExerciseScreenContent(
                             listener.onMeasurementValueChanged(it.toIntOrNull() ?: 0)
                         },
                         placeholder = when (state.measurementType) {
-                            CreateExerciseState.MeasurementType.DURATION -> "Add duration"
-                            CreateExerciseState.MeasurementType.REPS -> "Add reps"
+                            CreateExerciseState.MeasurementType.DURATION ->
+                                stringResource(Res.string.add_duration)
+
+                            CreateExerciseState.MeasurementType.REPS ->
+                                stringResource(Res.string.add_reps)
                         },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
@@ -232,7 +246,9 @@ fun CreateExerciseScreenContent(
 
             item {
                 RowWithIcon(
-                    modifier = Modifier.padding(bottom = 12.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp),
                     text = state.selectedEquipmentNames,
                     isIconClicked = state.isEquipmentExpanded,
                     onIconClicked = listener::onAvailableEquipmentsIconClicked
@@ -245,10 +261,9 @@ fun CreateExerciseScreenContent(
                     isChecked = state::isEquipmentSelected
                 )
             }
-
             item {
                 InputField(
-                    placeholder = "Enter instructions",
+                    placeholder = stringResource(Res.string.enter_instructions),
                     modifier = Modifier,
                     minHeight = 124.dp,
                     value = state.description,
@@ -261,7 +276,7 @@ fun CreateExerciseScreenContent(
             item {
                 PrimaryButton(
                     modifier = Modifier.padding(vertical = 40.dp),
-                    text = "Save Exercise",
+                    text = stringResource(Res.string.save_exercise),
                     onClick = listener::onSaveClicked
                 )
             }

@@ -45,12 +45,14 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.characters_left
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_check_mark
 import evolvefit.composeapp.generated.resources.ic_date
 import evolvefit.composeapp.generated.resources.ic_profile
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -218,7 +220,7 @@ fun InputField(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(top = 4.dp, end = 8.dp),
-                            text = "$remaining character left",
+                            text = stringResource(Res.string.characters_left, remaining),
                             style = Theme.textStyle.label.smallRegular12,
                             color = Theme.color.surfaces.onSurfaceVariant,
                             textAlign = TextAlign.End
