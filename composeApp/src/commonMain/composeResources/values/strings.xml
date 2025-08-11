@@ -55,6 +55,8 @@
     <string name="enter_water_intake">Enter Water Intake</string>
     <string name="track_water_intake">Help us track your daily water intake to keep you hydrated.</string>
     <string name="meal_added_snackbar">Meal added to your history.</string>
+    <string name="meal_cant_added_snackbar">You have exceeded your daily calorie goal.</string>
+    <string name="water_cant_added_snackbar">You have exceeded your daily water goal.</string>
     <string name="no_meals_title">No meals recorded yet</string>
     <string name="no_meals_description">Start logging your meals to keep track of your daily calories and improve your nutrition habits.</string>
     <string name="ready_to_start">Ready to Start</string>

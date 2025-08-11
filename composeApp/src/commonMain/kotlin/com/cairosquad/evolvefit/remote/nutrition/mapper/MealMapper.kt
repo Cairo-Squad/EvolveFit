@@ -1,9 +1,9 @@
-package com.cairosquad.evolvefit.remote.mapper
+package com.cairosquad.evolvefit.remote.nutrition.mapper
 
 import com.cairosquad.evolvefit.entity.ConsumedMeal
 import com.cairosquad.evolvefit.entity.MealType
-import com.cairosquad.evolvefit.remote.dto.nutrition.ConsumedMealDto
-import com.cairosquad.evolvefit.remote.dto.nutrition.MealRequestDto
+import com.cairosquad.evolvefit.remote.nutrition.dto.ConsumedMealDto
+import com.cairosquad.evolvefit.remote.nutrition.dto.ConsumedMealRequestDto
 
 fun ConsumedMealDto.toEntity(): ConsumedMeal {
     return ConsumedMeal(
@@ -14,10 +14,10 @@ fun ConsumedMealDto.toEntity(): ConsumedMeal {
         calories = caloriesConsumed
     )
 }
-fun ConsumedMeal.toRequestDto(): MealRequestDto {
-    return MealRequestDto(
+fun ConsumedMeal.toRequestDto(): ConsumedMealRequestDto {
+    return ConsumedMealRequestDto(
         mealName = name,
         mealType = type.name,
-        caloriesConsumed = calories
+        consumedCalories = calories
     )
 }

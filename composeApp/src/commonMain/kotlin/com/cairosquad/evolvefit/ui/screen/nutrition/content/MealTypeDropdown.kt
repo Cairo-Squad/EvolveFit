@@ -100,7 +100,7 @@ fun MealTypeDropdownMenu(
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .weight(1f),
-                    mealCalories = state.mealCaloriesInput,
+                    mealCalories = state.consumedCaloriesInput,
                     onValueChange = listener::onMealCaloriesChanged
                 )
 
@@ -111,7 +111,8 @@ fun MealTypeDropdownMenu(
                         trailingIcon = Res.drawable.ic_arrow_down,
                         onTrailingIconClick = listener::onToggleMealTypeMenu,
                         trailingIconModifier = arrowRotationModifier,
-                        readOnly = true
+                        readOnly = true,
+                        onClick =listener::onToggleMealTypeMenu
                     )
                     DropdownMenu(
                         items = mealTypeUiStateOptions.values.toList(),
@@ -140,7 +141,7 @@ fun MealTypeDropdownMenu(
                         NutritionScreenState.MealHistory(
                             name = state.mealNameInput,
                             type = state.selectedMeal,
-                            calories = state.mealCaloriesInput.toInt()
+                            calories = state.consumedCaloriesInput.toInt()
                         )
                     )
                 })

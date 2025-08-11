@@ -9,14 +9,17 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 
 data class NutritionScreenState(
-    val caloriesConsumed: Float = 0f,
-    val caloriesGoal: Float = 0.0f,
-    val waterConsumedLiters: Float = 0f,
-    val waterGoalLiters: Float = 0f,
+    val consumedCalories: Float = 0f,
+    val totalCalories: Float = 0.0f,
+
+    val consumedWater: Float = 0f,
+    val totalWater: Float = 0f,
+
     val remainingCalories: Float = 0.0f,
+
     val todayMealUiStates: List<TodayMealUiState> = emptyList(),
     val suggestedMeals: List<SuggestedMeal> = emptyList(),
-    val mealsHistoryForDay: List<MealHistory> = emptyList(),
+    val consumedMealsForToday: List<MealHistory> = emptyList(),
     val mealsHistory: List<MealHistory> = emptyList(),
     val isAddWaterSheetVisible: Boolean = false,
     val isAddMealSheetVisible: Boolean = false,
@@ -26,8 +29,8 @@ data class NutritionScreenState(
     val isAddButtonEnabled: Boolean = false,
     val dataRequestState: DataRequestState= DataRequestState.LOADING,
     val mealNameInput: String = "",
-    val mealCaloriesInput: String = "",
-    val waterAmountInput: String = "",
+    val consumedCaloriesInput: String = "",
+    val consumedWaterInput: String = "",
     val selectedMeal: MealTypeUiState = MealTypeUiState.Breakfast,
     val errorMessage: String? = null,
 ) {
@@ -58,6 +61,6 @@ data class NutritionScreenState(
         Snacks(Res.string.meal_type_snacks)
     }
     enum class DataRequestState{
-        SUCCESS,LOADING,FAIL,EMPTY
+        SUCCESS,LOADING,FAIL
     }
 }

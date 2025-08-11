@@ -1,11 +1,11 @@
-package com.cairosquad.evolvefit.remote.mapper
+package com.cairosquad.evolvefit.remote.nutrition.mapper
 
 import com.cairosquad.evolvefit.entity.DailyCalorieSummary
-import com.cairosquad.evolvefit.remote.dto.nutrition.DailyCalorieSummaryDto
+import com.cairosquad.evolvefit.remote.nutrition.dto.DailyCalorieSummaryDto
 
 fun DailyCalorieSummaryDto.toEntity(): DailyCalorieSummary {
     return DailyCalorieSummary(
         totalCalories = totalCalories,
-        caloriesConsumed = caloriesConsumed
+        consumedCalories = consumedCalories
     )
 }

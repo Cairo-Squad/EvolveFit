@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.utils
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+
+import kotlinx.datetime.*
 
 fun getTodayDate(): String {
     val currentMoment = Clock.System.now()

@@ -61,6 +61,7 @@ fun ConsumedMeal.toTodayMealUi(): NutritionScreenState.TodayMealUiState {
     )
 }
 
+
 fun formatDateTimeForDisplay(dateTimeString: String): String {
     val parsedDateTime = LocalDateTime.parse(dateTimeString)
 
@@ -73,8 +74,11 @@ fun formatDateTimeForDisplay(dateTimeString: String): String {
     val dayLabel = when (date) {
         today -> "Today"
         yesterday -> "Yesterday"
-        else -> date.dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() } // e.g., "Wednesday"
+        else -> parsedDateTime.dayOfWeek.name
+            .lowercase()
+            .replaceFirstChar { it.uppercase() } // e.g., "Wednesday"
     }
+
     val hour = parsedDateTime.hour
     val minute = parsedDateTime.minute
     val amPm = if (hour < 12) "AM" else "PM"

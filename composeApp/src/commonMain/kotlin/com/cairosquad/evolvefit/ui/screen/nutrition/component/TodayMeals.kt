@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.nutrition.content
+package com.cairosquad.evolvefit.ui.screen.nutrition.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +37,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun TodayMeals(
+fun TodayMealsSummary(
     state: NutritionScreenState,
     listener: NutritionInteractionListener,
     modifier: Modifier = Modifier
@@ -65,10 +65,10 @@ fun TodayMeals(
                 .padding(vertical = 16.dp, horizontal = 12.dp)
         ) {
             LazyVerticalGrid(
-                columns = GridCells.Fixed(4),
+                columns = GridCells.Adaptive(76.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                  .heightIn(max = 84.dp),
+                  .heightIn(max = 150.dp),
                 userScrollEnabled = false
             ) {
                 items(state.todayMealUiStates) { meal ->
@@ -108,7 +108,8 @@ fun TodayMeals(
 @Composable
 private fun AddMealButton(listener: NutritionInteractionListener){
     TextButton(
-        onClick = { listener.onAddMealSheetClicked() }
+        onClick = {
+            listener.onAddMealSheetClicked() }
     ) {
         Icon(
             modifier = Modifier
