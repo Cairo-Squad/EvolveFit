@@ -1,18 +1,5 @@
 package com.cairosquad.evolvefit.entity
 
-enum class FocusArea {
-    Quadriceps,
-    Abs,
-    Calves,
-    LowerBack,
-    Core,
-    Shoulders
-}
-
-enum class MeasurementType {
-    DURATION, REPS
-}
-
 data class Exercise(
     val id: Long = 0L,
     val name: String,
