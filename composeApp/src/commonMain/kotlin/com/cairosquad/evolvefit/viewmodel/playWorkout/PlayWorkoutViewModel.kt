@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.playWorkout
 
+import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState.Stage
 import kotlin.time.Clock
@@ -7,7 +8,8 @@ import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
 class PlayWorkoutViewModel(
-    workoutId: String
+    workoutId: String,
+    private val manageWorkoutUseCase: ManageWorkoutUseCase
 ) : PlayWorkoutInteractionListener,
     BaseViewModel<PlayWorkoutScreenState, PlayWorkoutEffect>(PlayWorkoutScreenState()) {
 
@@ -18,48 +20,19 @@ class PlayWorkoutViewModel(
     }
 
     private fun loadData(workoutID: String) {
-        updateState {
-            it.copy(
-                workout = PlayWorkoutScreenState.WorkoutUiState(
-                    name = "Upper Body",
-                    imageUrl = "https://phxgymwitham.co.uk/wp-content/uploads/2024/05/Upper-body-gym-workout-1024x681.jpg",
-                    level = PlayWorkoutScreenState.WorkoutLevelUiState.BEGINNER,
-                    exercises = listOf(
-                        PlayWorkoutScreenState.ExerciseUiState(
-                            name = "Push-up",
-                            exerciseSpec = PlayWorkoutScreenState.ExerciseSpecUiState.Reps(10),
-                            imageUrls = listOf("https://images.ctfassets.net/6ilvqec50fal/JdeBsAsNI2XepyM4IDL1U/ef2c96e26f7c3af5bce6db428cd1237f/Screenshot_2024-03-21_at_12.36.05_PM.png")
-                        ),
-                        PlayWorkoutScreenState.ExerciseUiState(
-                            name = "Running - Treadmill",
-                            exerciseSpec = PlayWorkoutScreenState.ExerciseSpecUiState.Time(30),
-                            imageUrls = listOf("https://mrtreadmill.com.au/wp-content/uploads/shutterstock_1495412588-1.jpg")
-                        ),
-                        PlayWorkoutScreenState.ExerciseUiState(
-                            name = "Push-up",
-                            exerciseSpec = PlayWorkoutScreenState.ExerciseSpecUiState.Reps(10),
-                            imageUrls = listOf("https://images.ctfassets.net/6ilvqec50fal/JdeBsAsNI2XepyM4IDL1U/ef2c96e26f7c3af5bce6db428cd1237f/Screenshot_2024-03-21_at_12.36.05_PM.png")
-                        ),
-                        PlayWorkoutScreenState.ExerciseUiState(
-                            name = "Running - Treadmill",
-                            exerciseSpec = PlayWorkoutScreenState.ExerciseSpecUiState.Time(30),
-                            imageUrls = listOf("https://mrtreadmill.com.au/wp-content/uploads/shutterstock_1495412588-1.jpg")
-                        ),
-                        PlayWorkoutScreenState.ExerciseUiState(
-                            name = "Push-up",
-                            exerciseSpec = PlayWorkoutScreenState.ExerciseSpecUiState.Reps(10),
-                            imageUrls = listOf("https://images.ctfassets.net/6ilvqec50fal/JdeBsAsNI2XepyM4IDL1U/ef2c96e26f7c3af5bce6db428cd1237f/Screenshot_2024-03-21_at_12.36.05_PM.png")
-                        ),
-                        PlayWorkoutScreenState.ExerciseUiState(
-                            name = "Running - Treadmill",
-                            exerciseSpec = PlayWorkoutScreenState.ExerciseSpecUiState.Time(30),
-                            imageUrls = listOf("https://mrtreadmill.com.au/wp-content/uploads/shutterstock_1495412588-1.jpg")
-                        ),
+        tryToCall(
+            block = { manageWorkoutUseCase.getWorkoutById(workoutID) },
+            onSuccess = { workout ->
+                updateState {
+                    it.copy(
+                        workout = workout.toUiState(),
+                        stage = Stage.GET_READY
                     )
-                ),
-                stage = Stage.GET_READY
-            )
-        }
+                }
+            },
+            onError = { }
+        )
+
         startTimeMilli = Clock.System.now().toEpochMilliseconds()
     }
 

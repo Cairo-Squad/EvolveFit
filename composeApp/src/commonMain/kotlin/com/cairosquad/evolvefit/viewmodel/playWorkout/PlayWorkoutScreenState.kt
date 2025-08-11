@@ -24,7 +24,6 @@ data class PlayWorkoutScreenState(
     data class WorkoutUiState(
         val id: String = "",
         val name: String = "",
-        val description: String = "",
         val imageUrl: String = "",
         val exercises: List<ExerciseUiState> = emptyList(),
         val level: WorkoutLevelUiState = WorkoutLevelUiState.BEGINNER
@@ -33,7 +32,6 @@ data class PlayWorkoutScreenState(
     data class ExerciseUiState(
         val id: String = "",
         val name: String = "",
-        val description: String = "",
         val imageUrls: List<String> = emptyList(),
         val exerciseSpec: ExerciseSpecUiState = ExerciseSpecUiState.Reps(0)
     )

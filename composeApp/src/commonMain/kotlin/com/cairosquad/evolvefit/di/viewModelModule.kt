@@ -15,6 +15,6 @@ val viewModelModule = module {
     viewModelOf(::NutritionViewModel)
     viewModelOf(::LoginViewModel)
     viewModel { (workoutId: String) ->
-        PlayWorkoutViewModel(workoutId)
+        PlayWorkoutViewModel(workoutId, get())
     }
 }
