@@ -146,4 +146,8 @@
     <string name="hello_user">Hello %1$s</string>
     <string name="ready_text_male">Ready for today's workout?</string>
     <string name="ready_text_female">Ready for today's workout?</string>
+    <string name="your_progress">Your Progress</string>
+    <string name="this_week">This Week</string>
+
+    <string name="completed">Completed</string>
 </resources>

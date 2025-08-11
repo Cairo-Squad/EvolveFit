@@ -21,7 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,7 +54,7 @@ fun CaloriesNutritionCard(
 ) {
     SimpleNutritionCard(
         iconRes = Res.drawable.ic_fire,
-        iconTint = Theme.color.system.success,
+        tintColor = Theme.color.system.success,
         name = stringResource(Res.string.calories),
         value = value.toFormattedString(),
         goal = goal.toFormattedString(),
@@ -74,7 +74,7 @@ fun WaterNutritionCard(
 ) {
     SimpleNutritionCard(
         iconRes = Res.drawable.ic_water_drop,
-        iconTint = Theme.color.system.info,
+        tintColor = Theme.color.system.info,
         name = stringResource(Res.string.water_consumption),
         value = value.toFormattedString(),
         goal = goal.toFormattedString(),
@@ -89,7 +89,7 @@ fun WaterNutritionCard(
 @Composable
 private fun SimpleNutritionCard(
     iconRes: DrawableResource,
-    iconTint: Color,
+    tintColor: Color,
     name: String,
     value: String,
     goal: String,
@@ -107,7 +107,7 @@ private fun SimpleNutritionCard(
     ) {
         SimpleNutritionCardHeader(
             iconRes = iconRes,
-            iconTint = iconTint,
+            iconTint = tintColor,
             name = name,
             unit = unit,
             modifier = Modifier
@@ -125,6 +125,7 @@ private fun SimpleNutritionCard(
 
         SimpleNutritionCardProgressBar(
             progress = progress,
+            progressColor = tintColor,
             modifier = Modifier
                 .padding(bottom = 8.dp)
         )
@@ -240,9 +241,10 @@ private const val NUTRITION_CARD_ANIMATION_UNIT_DURATION = 800
 @Composable
 private fun SimpleNutritionCardProgressBar(
     progress: Float,
+    progressColor: Color,
     modifier: Modifier = Modifier
 ) {
-    var startAnimation by remember { mutableStateOf(false) }
+    var startAnimation by rememberSaveable { mutableStateOf(false) }
     val animatedProgress by animateFloatAsState(
         targetValue = if (startAnimation) progress else 0f,
         animationSpec = tween(durationMillis = (NUTRITION_CARD_ANIMATION_UNIT_DURATION * progress).toInt()),
@@ -266,7 +268,7 @@ private fun SimpleNutritionCardProgressBar(
                 .clip(RoundedCornerShape(24.dp))
                 .fillMaxHeight()
                 .fillMaxWidth(animatedProgress)
-                .background(Theme.color.system.success)
+                .background(progressColor)
                 .animateContentSize()
         )
     }
@@ -280,7 +282,7 @@ private fun PreviewSimpleNutritionCard() {
     ) {
         SimpleNutritionCard(
             iconRes = Res.drawable.ic_fire,
-            iconTint = Theme.color.system.success,
+            tintColor = Theme.color.system.success,
             name = "Calories",
             value = "1,650",
             goal = "2,200",

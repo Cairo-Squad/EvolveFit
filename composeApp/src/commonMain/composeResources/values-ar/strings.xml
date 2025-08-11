@@ -145,4 +145,8 @@
     <string name="hello_user">مرحبًا %1$s</string>
     <string name="ready_text_male">مستعد لتدريب اليوم؟</string>
     <string name="ready_text_female">مستعدة لتدريب اليوم؟</string>
+    <string name="your_progress">تقدمك</string>
+    <string name="this_week">هذا الأسبوع</string>
+
+    <string name="completed">مكتمل</string>
 </resources>
