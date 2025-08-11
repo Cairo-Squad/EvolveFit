@@ -13,22 +13,3 @@ data class User(
     val tools: List<Tool>,
     val workoutDays: List<WorkoutDay>
 )
-enum class Gender {
-    MALE, FEMALE}
-
-enum class MeasurementUnit {
-    METRIC, IMPERIAL
-}
-
-enum class FitnessGoal {
-    LOSE_WEIGHT, GAIN_WEIGHT, STAY_IN_SHAPE
-}
-
-data class Tool(
-    val id: Long,
-    val name: String
-)
-
-enum class WorkoutDay {
-    MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
-}
