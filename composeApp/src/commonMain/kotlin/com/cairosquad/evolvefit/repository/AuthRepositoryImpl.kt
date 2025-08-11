@@ -1,10 +1,10 @@
 package com.cairosquad.evolvefit.repository
 
-import com.cairosquad.evolvefit.domain.AuthRepository
+import com.cairosquad.evolvefit.domain.repository.AuthRepository
 import com.cairosquad.evolvefit.entity.Tool
 import com.cairosquad.evolvefit.entity.User
 import com.cairosquad.evolvefit.local.AuthPreferences
-import com.cairosquad.evolvefit.remote.safeApiCall
+import com.cairosquad.evolvefit.remote.utils.safeApiCall
 import com.cairosquad.evolvefit.repository.remote.AuthRemoteDataSource
 import com.cairosquad.evolvefit.repository.remote.auth.RegisterRequest
 

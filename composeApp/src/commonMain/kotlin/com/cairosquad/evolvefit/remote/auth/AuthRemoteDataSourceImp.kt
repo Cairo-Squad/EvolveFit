@@ -1,6 +1,6 @@
 package com.cairosquad.evolvefit.remote.auth
 
-import com.cairosquad.evolvefit.remote.safeApiCall
+import com.cairosquad.evolvefit.remote.utils.safeApiCall
 import com.cairosquad.evolvefit.repository.remote.AuthRemoteDataSource
 import com.cairosquad.evolvefit.repository.remote.auth.AuthResponse
 import com.cairosquad.evolvefit.repository.remote.auth.EquipmentDto

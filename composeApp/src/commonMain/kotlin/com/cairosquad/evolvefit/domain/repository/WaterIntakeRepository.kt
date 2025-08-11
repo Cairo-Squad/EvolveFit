@@ -1,8 +1,8 @@
 package com.cairosquad.evolvefit.domain.repository
 
-import com.cairosquad.evolvefit.entity.DailyWaterIntake
+import com.cairosquad.evolvefit.entity.DailyWaterSummary
 
 interface WaterIntakeRepository {
-    suspend fun recordWaterIntake(amountLiters : Float): Boolean
-    suspend fun getDailyWaterIntake(): DailyWaterIntake
+    suspend fun addConsumedWater(amountLiters : Float): Boolean
+    suspend fun getDailyWaterSummary(): DailyWaterSummary
 }
