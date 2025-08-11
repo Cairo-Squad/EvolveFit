@@ -10,14 +10,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
 import com.cairosquad.evolvefit.design_system.component.CheckboxStyle
@@ -29,11 +32,15 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.ImagePicker
 import com.cairosquad.evolvefit.ui.component.UiImageDisplayer
+import com.cairosquad.evolvefit.ui.screen.createExercise.content.CustomDropdownMenu
 import com.cairosquad.evolvefit.ui.screen.createExercise.content.ExiteCreateExerciseBottomSheet
 import com.cairosquad.evolvefit.ui.screen.createExercise.content.RowWithIcon
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
+import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
+import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseEffect
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseInteractionListener
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState
+import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_back
@@ -41,13 +48,26 @@ import evolvefit.composeapp.generated.resources.im_upload_exercises_dark
 import evolvefit.composeapp.generated.resources.im_upload_exercises_light
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 
 @Composable
 fun CreateExerciseScreen(
     navigateBack: () -> Unit,
+    viewModel: CreateExerciseViewModel = koinViewModel()
 ) {
-
+    val state by viewModel.screenState.collectAsState()
+    ObserveAsEffect(viewModel.effect) { effect ->
+        when (effect) {
+            CreateExerciseEffect.CloseScreen -> {}
+            CreateExerciseEffect.NavigateToAllExercises -> {}
+            is CreateExerciseEffect.ShowError -> {}
+        }
+    }
+    CreateExerciseScreenContent(
+        state = state,
+        listener = viewModel
+    )
 }
 
 @Composable
@@ -55,6 +75,7 @@ fun CreateExerciseScreenContent(
     state: CreateExerciseState,
     listener: CreateExerciseInteractionListener,
 ) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -64,13 +85,12 @@ fun CreateExerciseScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         val selectedImage = state.image
-
         val uploadExercisesImg = if (selectedImage != null) {
             null
         } else if (isSystemInDarkTheme()) {
-            painterResource(Res.drawable.im_upload_exercises_light)
-        } else {
             painterResource(Res.drawable.im_upload_exercises_dark)
+        } else {
+            painterResource(Res.drawable.im_upload_exercises_light)
         }
 
         CustomAppBar(
@@ -85,6 +105,9 @@ fun CreateExerciseScreenContent(
             }
         )
         LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
@@ -146,9 +169,16 @@ fun CreateExerciseScreenContent(
             item {
                 RowWithIcon(
                     modifier = Modifier.padding(bottom = 12.dp),
-                    text = "Select focus area",
-                    isIconClicked = false,
-                    onIconClicked = { listener::onFocusAreaToggled }
+                    text = state.selectedFocusAreasText,
+                    isIconClicked = state.isFocusAreaExpanded,
+                    onIconClicked = listener::onFocusAreaIconClicked
+                )
+                CustomDropdownMenu(
+                    items = state.focusAreaNames,
+                    expanded = state.isFocusAreaExpanded,
+                    onDismissRequest = listener::onDismissFocusAreasDropdownMenuRequest,
+                    onItemSelected = listener::onFocusAreaNameSelected,
+                    isChecked = state::isFocusAreaSelected
                 )
             }
             item {
@@ -163,7 +193,9 @@ fun CreateExerciseScreenContent(
                         titleColor = Theme.color.surfaces.onSurfaceVariant,
                         isChecked = state.isDurationChecked,
                         onCheckedChange = {
-                            if (it) listener.onMeasurementTypeSelected(CreateExerciseState.MeasurementType.DURATION)
+                            if (it) listener.onMeasurementTypeSelected(
+                                CreateExerciseState.MeasurementType.DURATION
+                            )
                         },
                         style = CheckboxStyle.Tick
                     )
@@ -192,7 +224,8 @@ fun CreateExerciseScreenContent(
                         placeholder = when (state.measurementType) {
                             CreateExerciseState.MeasurementType.DURATION -> "Add duration"
                             CreateExerciseState.MeasurementType.REPS -> "Add reps"
-                        }
+                        },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                 }
             }
@@ -200,11 +233,19 @@ fun CreateExerciseScreenContent(
             item {
                 RowWithIcon(
                     modifier = Modifier.padding(bottom = 12.dp),
-                    text = "Choose available tools",
-                    isIconClicked = false,
-                    onIconClicked = { listener::onEquipmentToggled }
+                    text = state.selectedEquipmentNames,
+                    isIconClicked = state.isEquipmentExpanded,
+                    onIconClicked = listener::onAvailableEquipmentsIconClicked
+                )
+                CustomDropdownMenu(
+                    items = state.equipmentNames,
+                    expanded = state.isEquipmentExpanded,
+                    onDismissRequest = listener::onDismissEquipmentsDropdownMenuRequest,
+                    onItemSelected = listener::onEquipmentNameSelected,
+                    isChecked = state::isEquipmentSelected
                 )
             }
+
             item {
                 InputField(
                     placeholder = "Enter instructions",
@@ -219,7 +260,7 @@ fun CreateExerciseScreenContent(
             }
             item {
                 PrimaryButton(
-                    modifier = Modifier.padding(top = 40.dp),
+                    modifier = Modifier.padding(vertical = 40.dp),
                     text = "Save Exercise",
                     onClick = listener::onSaveClicked
                 )
@@ -253,6 +294,8 @@ private fun CreateExerciseScreenPreview() {
                 override fun onNameChanged(name: String) {}
                 override fun onImagePicked(image: com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage) {}
                 override fun onEquipmentToggled(equipmentId: Long) {}
+                override fun onFocusAreaNameSelected(name: String) {}
+                override fun onEquipmentNameSelected(toolName: String) {}
                 override fun onImagePickerClicked() {}
                 override fun onImagePickerDismiss() {}
                 override fun onImageRetrieved(image: UiImage) {}
@@ -260,6 +303,10 @@ private fun CreateExerciseScreenPreview() {
                 override fun onMeasurementValueChanged(value: Int) {}
                 override fun onFocusAreaToggled(focusArea: CreateExerciseState.FocusArea) {}
                 override fun onDescriptionChanged(description: String) {}
+                override fun onAvailableEquipmentsIconClicked() {}
+                override fun onFocusAreaIconClicked() {}
+                override fun onDismissEquipmentsDropdownMenuRequest() {}
+                override fun onDismissFocusAreasDropdownMenuRequest() {}
                 override fun onSaveClicked() {}
                 override fun onExitClicked() {}
                 override fun onExitOptionSelected(saveBeforeExit: Boolean) {}
