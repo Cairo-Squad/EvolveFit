@@ -139,4 +139,7 @@
     <string name="water_consumption">شرب الماء</string>
     <string name="liters">لتر</string>
     <string name="remaining_formatted">%1$s %2$s متبقية</string>
+    <string name="today_nutrition">تغذية اليوم</string>
+
+    <string name="profile_picture">الصورة الشخصية</string>
 </resources>

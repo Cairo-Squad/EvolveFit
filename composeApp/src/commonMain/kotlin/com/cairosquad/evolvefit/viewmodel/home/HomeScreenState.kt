@@ -5,8 +5,8 @@ import com.cairosquad.evolvefit.viewmodel.base.ErrorState
 data class HomeScreenState(
     val isLoading: Boolean = false,
     val error: ErrorState? = null,
-    val user: HomeUserUiState = HomeUserUiState(),
-    val weeklyProgress: WeeklyProgressUiState = WeeklyProgressUiState(),
+    val user: HomeUserUiState? = null,
+    val weeklyProgress: WeeklyProgressUiState? = null,
     val caloriesCount: UInt = 0.toUInt(),
     val caloriesGoal: UInt = 0.toUInt(),
     val waterCount: Float = 0f,

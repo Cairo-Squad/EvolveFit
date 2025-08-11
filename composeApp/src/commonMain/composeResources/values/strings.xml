@@ -140,4 +140,7 @@
     <string name="water_consumption">Water consumption</string>
     <string name="liters">liters</string>
     <string name="remaining_formatted">%1$s %2$s remaining</string>
+    <string name="today_nutrition">Today’s Nutrition</string>
+
+    <string name="profile_picture">Profile Picture</string>
 </resources>
