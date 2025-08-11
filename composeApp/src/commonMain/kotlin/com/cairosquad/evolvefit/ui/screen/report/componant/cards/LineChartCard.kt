@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.ui.screen.report.componant.cards
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,16 +8,13 @@ import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
@@ -48,31 +44,11 @@ fun LineChartCard(
     val maxIndex = data.indexOf(maxValue)
     var barCenters: List<Offset> by remember { mutableStateOf(emptyList()) }
 
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .background(Theme.color.surfaces.surfaceContainer)
-            .padding(horizontal = 12.dp, vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+    ReportCard(
+        modifier = modifier,
+        title = "Time Spent Training",
+        value = totalTime
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth()
-                .padding(bottom = 24.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "Time Spent Training",
-                style = Theme.textStyle.headline.largeBold16,
-                color = Theme.color.surfaces.onSurface
-            )
-            Text(
-                text = totalTime,
-                style = Theme.textStyle.label.smallRegular14,
-                color = Theme.color.brand.primary
-            )
-        }
         Row(modifier = Modifier.fillMaxWidth()) {
             Column(
                 modifier = Modifier

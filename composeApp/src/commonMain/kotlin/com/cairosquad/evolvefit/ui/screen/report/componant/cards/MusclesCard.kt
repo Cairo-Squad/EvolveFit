@@ -31,27 +31,11 @@ fun MusclesCard(
     isAnimationStarted: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .background(Theme.color.surfaces.surfaceContainer)
-            .padding(horizontal = 12.dp, vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+    ReportCard(
+        modifier = modifier,
+        title = "Most Trained Muscles",
+        value = ""
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth()
-                .padding(bottom = 24.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "Most Trained Muscles",
-                style = Theme.textStyle.headline.largeBold16,
-                color = Theme.color.surfaces.onSurface
-            )
-        }
-
         repeat(musclesName.size) {
             MuscleItem(
                 modifier = Modifier.then(
