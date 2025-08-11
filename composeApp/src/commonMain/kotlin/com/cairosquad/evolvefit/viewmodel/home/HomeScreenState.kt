@@ -27,7 +27,7 @@ data class HomeScreenState(
     )
 
     data class HomeWorkoutUiState(
-        val id: String = "",
+        val id: Long = 0,
         val name: String = "",
         val imageUrl: String = "",
         val durationInMins: Int = 0,

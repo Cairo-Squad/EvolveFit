@@ -73,11 +73,11 @@ class HomeViewModel(
         // TODO: use the use case, stop the loading state on success
     }
 
-    override fun onWorkoutClick(id: String) {
+    override fun onWorkoutClick(id: Long) {
         sendEffect(HomeScreenEffect.NavigateToWorkout(id))
     }
 
-    override fun onSavedWorkoutClick(id: String) {
+    override fun onSavedWorkoutClick(id: Long) {
         // TODO: add save workout use case and use it here, and move the state update to it's success call back
         updateState {
             it.copy(

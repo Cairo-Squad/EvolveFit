@@ -13,7 +13,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomeScreen(
-    navigateToWorkout: (String) -> Unit,
+    navigateToWorkout: (Long) -> Unit,
     homeViewModel: HomeViewModel = koinViewModel(),
 ) {
     val state by homeViewModel.screenState.collectAsState()

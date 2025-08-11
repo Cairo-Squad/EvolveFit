@@ -27,7 +27,7 @@ object DummyDataSource {
 
     val personalizedWorkouts = listOf(
         HomeScreenState.HomeWorkoutUiState(
-            id = "1",
+            id = 1,
             name = "Standard Push-ups",
             imageUrl = "https://picsum.photos/268/172",
             durationInMins = 25,
@@ -36,7 +36,7 @@ object DummyDataSource {
         ),
 
         HomeScreenState.HomeWorkoutUiState(
-            id = "2",
+            id = 2,
             name = "Full Body Blast",
             imageUrl = "https://picsum.photos/268/172",
             durationInMins = 20,
