@@ -27,10 +27,16 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.util.toFormattedString
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.calories
+import evolvefit.composeapp.generated.resources.calories_small
 import evolvefit.composeapp.generated.resources.ic_fire
 import evolvefit.composeapp.generated.resources.ic_water_drop
+import evolvefit.composeapp.generated.resources.liters
+import evolvefit.composeapp.generated.resources.remaining_formatted
+import evolvefit.composeapp.generated.resources.water_consumption
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -42,10 +48,10 @@ fun CaloriesNutritionCard(
     SimpleNutritionCard(
         iconRes = Res.drawable.ic_fire,
         iconTint = Theme.color.system.success,
-        name = "Calories", // TODO: convert to string resource
+        name = stringResource(Res.string.calories),
         value = value.toFormattedString(),
         goal = goal.toFormattedString(),
-        unit = "calories", // TODO: convert to string resource
+        unit = stringResource(Res.string.calories_small),
         progress = (value.toFloat() / goal.toFloat()),
         remaining = (goal - value).toFormattedString(),
         isUnitShownOnBar = false,
@@ -62,10 +68,10 @@ fun WaterNutritionCard(
     SimpleNutritionCard(
         iconRes = Res.drawable.ic_water_drop,
         iconTint = Theme.color.system.info,
-        name = "Water consumption", // TODO: convert to string resource
+        name = stringResource(Res.string.water_consumption),
         value = value.toFormattedString(),
         goal = goal.toFormattedString(),
-        unit = "liters", // TODO: convert to string resource
+        unit = stringResource(Res.string.liters),
         progress = (value / goal),
         remaining = (goal - value).toFormattedString(),
         isUnitShownOnBar = true,
@@ -122,7 +128,11 @@ private fun SimpleNutritionCard(
         )
 
         Text(
-            text = "$remaining $unit remaining", // TODO: convert to string resource
+            text = stringResource(
+                Res.string.remaining_formatted,
+                remaining,
+                unit
+            ),
             style = Theme.textStyle.label.smallRegular12,
             color = Theme.color.surfaces.outline
         )

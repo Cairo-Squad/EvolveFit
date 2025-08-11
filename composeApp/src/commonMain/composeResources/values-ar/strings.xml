@@ -135,4 +135,8 @@
     <string name="please_select_your_birthday">ادخل يوم ميلادك رجاءاً</string>
     <string name="save">حفظ</string>
 
+    <string name="calories_small">سعر حراري</string>
+    <string name="water_consumption">شرب الماء</string>
+    <string name="liters">لتر</string>
+    <string name="remaining_formatted">%1$s %2$s متبقية</string>
 </resources>

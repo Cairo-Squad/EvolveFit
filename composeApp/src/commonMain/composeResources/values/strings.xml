@@ -136,4 +136,8 @@
     <string name="please_select_your_birthday">Please select your birthday</string>
     <string name="save">Save</string>
 
+    <string name="calories_small">calories</string>
+    <string name="water_consumption">Water consumption</string>
+    <string name="liters">liters</string>
+    <string name="remaining_formatted">%1$s %2$s remaining</string>
 </resources>
