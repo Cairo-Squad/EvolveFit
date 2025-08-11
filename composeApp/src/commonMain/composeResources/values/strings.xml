@@ -142,4 +142,8 @@
     <string name="liters">Liters</string>
     <string name="expected_calories">"From %1$ kcal"</string>
     <string name="needle">Needle</string>
+    <string name="share">Share</string>
+    <string name="workout_report">Workout Report</string>
+    <string name="ic_arrow_down">Arrow Down Icon</string>
+    <string name="activity">Activity</string>
 </resources>
