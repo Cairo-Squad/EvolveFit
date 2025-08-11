@@ -99,8 +99,8 @@ private fun HomeContent(
         modifier = Modifier
             .fillMaxWidth()
             .background(Theme.color.surfaces.surface)
-            .verticalScroll(rememberScrollState())
             .statusBarsPadding()
+            .verticalScroll(rememberScrollState())
             .padding(vertical = 16.dp)
     ) {
         HomeUserHeader(
@@ -208,6 +208,13 @@ private fun HomeProgressBox(
             WeeklyProgressBar(
                 progressDays = progress?.progressDays ?: emptyMap()
             )
+
+            StatsRow(
+                goal = progress?.goal ?: "",
+                currentWeight = progress?.currentWeight ?: 0f,
+                weightUnit = progress?.weightUnit ?: "",
+                activityPercentage = progress?.activityPercentage ?: 0.toUInt()
+            )
         }
     }
 }
@@ -252,7 +259,7 @@ private fun WeeklyProgressBar(
     FlowRow(
         modifier = modifier
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.Center,
         verticalArrangement = Arrangement.spacedBy(8.dp),
         maxItemsInEachRow = WEEK_DAYS_NUM
     ) {
@@ -271,6 +278,27 @@ private fun WeeklyProgressBar(
                     )
             )
         }
+    }
+}
+
+@Composable
+private fun StatsRow(
+    goal: String,
+    currentWeight: Float,
+    weightUnit: String,
+    activityPercentage: UInt,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(
+                vertical = 8.dp
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
     }
 }
 
