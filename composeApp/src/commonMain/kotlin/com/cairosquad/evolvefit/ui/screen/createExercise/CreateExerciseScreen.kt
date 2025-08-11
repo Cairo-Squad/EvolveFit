@@ -181,6 +181,22 @@ fun CreateExerciseScreenContent(
                     )
                 }
             }
+            if (state.isDurationChecked || state.isRepsChecked) {
+                item {
+                    InputField(
+                        modifier = Modifier.padding(bottom = 12.dp),
+                        value = state.measurementInputValue.toString(),
+                        onValueChange = {
+                            listener.onMeasurementValueChanged(it.toIntOrNull() ?: 0)
+                        },
+                        placeholder = when (state.measurementType) {
+                            CreateExerciseState.MeasurementType.DURATION -> "Add duration"
+                            CreateExerciseState.MeasurementType.REPS -> "Add reps"
+                        }
+                    )
+                }
+            }
+
             item {
                 RowWithIcon(
                     modifier = Modifier.padding(bottom = 12.dp),
@@ -192,8 +208,8 @@ fun CreateExerciseScreenContent(
             item {
                 InputField(
                     placeholder = "Enter instructions",
-                    modifier = Modifier
-                        .height(124.dp),
+                    modifier = Modifier,
+                    minHeight = 124.dp,
                     value = state.description,
                     onValueChange = listener::onDescriptionChanged,
                     isSingleLine = false,
@@ -226,9 +242,11 @@ private fun CreateExerciseScreenPreview() {
     AppTheme(isDarkTheme = true) {
         CreateExerciseScreenContent(
             state = CreateExerciseState(
-                name = "",
-                description = "",
+                name = "Push Ups",
+                description = "A basic upper body exercise.",
                 measurementType = CreateExerciseState.MeasurementType.REPS,
+                isRepsChecked = true,
+                measurementInputValue = 10,
                 selectedFocusAreas = listOf(CreateExerciseState.FocusArea.Abs)
             ),
             listener = object : CreateExerciseInteractionListener {
