@@ -1,11 +1,10 @@
-package com.cairosquad.evolvefit.Repository
+package com.cairosquad.evolvefit.repository
 
 import com.cairosquad.evolvefit.repository.remote.WorkoutRemoteDataSource
 import com.cairosquad.evolvefit.domain.WorkoutRepository
 import com.cairosquad.evolvefit.entity.Exercise
 import com.cairosquad.evolvefit.entity.Workout
 import com.cairosquad.evolvefit.remote.safeApiCall
-import com.cairosquad.evolvefit.repository.toDomain
 
 class WorkoutRepositoryImpl(
     private val workoutRemoteDataSource: WorkoutRemoteDataSource
@@ -13,7 +12,7 @@ class WorkoutRepositoryImpl(
 
     override suspend fun createWorkout(workout: Workout) {
         safeApiCall {
-             workoutRemoteDataSource.createWorkout(workout).toDomain()
+             workoutRemoteDataSource.createWorkout(workout)
         }
     }
 

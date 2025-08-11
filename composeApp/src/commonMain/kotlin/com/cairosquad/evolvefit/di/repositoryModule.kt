@@ -1,6 +1,6 @@
 package com.cairosquad.evolvefit.di
 
-import com.cairosquad.evolvefit.Repository.WorkoutRepositoryImpl
+import com.cairosquad.evolvefit.repository.WorkoutRepositoryImpl
 import com.cairosquad.evolvefit.domain.AuthRepository
 import com.cairosquad.evolvefit.repository.remote.WorkoutRemoteDataSource
 import com.cairosquad.evolvefit.domain.WorkoutRepository
