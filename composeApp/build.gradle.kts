@@ -71,9 +71,6 @@ kotlin {
             implementation(libs.filekit.dialogs)
             implementation(libs.filekit.dialogs.compose)
             implementation(libs.filekit.coil)
-
-            // aay charts
-            implementation("io.github.thechance101:chart:1.1.0")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -22,7 +22,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DashboardGrid(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     BoxWithConstraints(
         modifier = modifier
@@ -45,7 +45,9 @@ fun DashboardGrid(
                 CaloriesCard(
                     modifier = Modifier
                         .weight(1f)
-                        .height(262.dp)
+                        .height(262.dp),
+                    expectedCalories = 2500,
+                    takenCalories = 1500
                 )
                 WaterCard(
                     waterConsumed = "05",
@@ -67,13 +69,15 @@ fun DashboardGrid(
                 }
                 item {
                     CaloriesCard(
-                        modifier = Modifier.height(214.dp)
+                        modifier = Modifier.height(214.dp),
+                        expectedCalories = 2500,
+                        takenCalories = 1500,
                     )
                 }
                 item {
                     WaterCard(
+                        modifier = Modifier.height(214.dp),
                         waterConsumed = "05",
-                        modifier = Modifier.height(214.dp)
                     )
                 }
                 item {

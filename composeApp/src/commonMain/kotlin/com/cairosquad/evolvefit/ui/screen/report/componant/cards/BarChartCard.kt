@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter.AnimatedBarChart
 import com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter.chartComponent.ChartGrid
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun BarChartCard(
@@ -34,7 +35,7 @@ fun BarChartCard(
     focusedBarColor: Color = Theme.color.brand.primary,
     unfocusedBarColor: Color = Theme.color.surfaces.surfaceVariant,
     focusedLabelColor: Color = Theme.color.surfaces.onSurface,
-    unFocusedLabelColor: Color = Theme.color.surfaces.surfaceVariant,
+    unFocusedLabelColor: Color = Theme.color.surfaces.onSurfaceVariant,
     gridLinesColor: Color = Theme.color.surfaces.outlineVariant,
     steps: Int = 4
 ) {
@@ -123,4 +124,27 @@ fun BarChartCard(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun BarChartCardPreview() {
+    val data by remember { mutableStateOf(listOf(0f, 3f, 2f, 4f, 5f, 3f, 1f)) }
+    val labels by remember {
+        mutableStateOf(
+            listOf(
+                "Sat",
+                "Sun",
+                "Mon",
+                "Tue",
+                "Wed",
+                "Thu",
+                "Fri"
+            )
+        )
+    }
+    BarChartCard(
+        data,
+        labels
+    )
 }

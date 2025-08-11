@@ -26,8 +26,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CaloriesCard(
-    progress: Float = 0.75f,
-    modifier: Modifier = Modifier
+    expectedCalories: Int,
+    takenCalories: Int,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -45,7 +46,8 @@ fun CaloriesCard(
         )
         CaloriesMeter(
             modifier = Modifier.weight(1f),
-            progress = progress,
+            expectedCalories = expectedCalories,
+            takenCalories = takenCalories,
         )
     }
 }
@@ -56,7 +58,9 @@ private fun CaloriesCardPreview() {
     AppTheme(isDarkTheme = true) {
         CaloriesCard(
             modifier = Modifier
-                .width(200.dp).height(214.dp)
+                .width(200.dp).height(214.dp),
+            expectedCalories = 3600,
+            takenCalories = 2000
         )
     }
 }
@@ -67,7 +71,9 @@ private fun CaloriesCardLongPreview() {
     AppTheme(isDarkTheme = true) {
         CaloriesCard(
             modifier = Modifier
-                .width(180.dp).height(262.dp)
+                .width(180.dp).height(262.dp),
+            expectedCalories = 3600,
+            takenCalories = 2000
         )
     }
 }

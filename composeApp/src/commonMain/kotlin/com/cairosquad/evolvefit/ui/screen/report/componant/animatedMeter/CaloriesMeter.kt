@@ -34,28 +34,31 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_meter
+import evolvefit.composeapp.generated.resources.water_drops
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CaloriesMeter(
+    expectedCalories: Int,
+    takenCalories: Int,
     modifier: Modifier = Modifier,
-    progress: Float = 0.75f
 ) {
     val backgroundColor = Theme.color.surfaces.outlineVariant
     val progressColor = Theme.color.system.success
-    var hasAnimationPlayed by remember { mutableStateOf(false) }
+    var isAnimationStarted by remember { mutableStateOf(false) }
 
 
     val animateCurrentPercentage by animateFloatAsState(
-        targetValue = if (hasAnimationPlayed) progress else 0f,
+        targetValue = if (isAnimationStarted) (takenCalories.toFloat() / expectedCalories) else 0f,
         animationSpec = tween(
             durationMillis = 1200,
             easing = LinearOutSlowInEasing
         )
     )
     val rotationState by animateFloatAsState(
-        targetValue = if (hasAnimationPlayed) 95f else 85f,
+        targetValue = if (isAnimationStarted) 85f else 85f,
         animationSpec = tween(
             durationMillis = 1200,
             easing = LinearOutSlowInEasing
@@ -63,7 +66,7 @@ fun CaloriesMeter(
     )
 
     val xOffset by animateFloatAsState(
-        targetValue = if (hasAnimationPlayed) 0f else -0.5f,
+        targetValue = if (isAnimationStarted) 0f else -0.5f,
         animationSpec = tween(
             durationMillis = 1200,
             easing = LinearOutSlowInEasing
@@ -74,7 +77,7 @@ fun CaloriesMeter(
     val strokeWidth = 13.dp
 
     LaunchedEffect(true) {
-        hasAnimationPlayed = true
+        isAnimationStarted = true
     }
 
     Box(
@@ -119,7 +122,7 @@ fun CaloriesMeter(
                 )
                 Image(
                     painter = painterResource(Res.drawable.ic_meter),
-                    contentDescription = "Water meter icon",
+                    contentDescription = stringResource(Res.string.water_drops),
                     modifier = Modifier
                         .size(40.dp)
                         .align(Alignment.TopCenter).graphicsLayer {
@@ -144,12 +147,12 @@ fun CaloriesMeter(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = "1,243",
+                text = takenCalories.toString(),
                 style = Theme.textStyle.headline.largeBold18,
                 color = Theme.color.surfaces.onSurfaceContainer
             )
             Text(
-                text = "From 2,000 kcal",
+                text = "From $expectedCalories kcal",
                 style = Theme.textStyle.label.smallRegular12,
                 color = Theme.color.surfaces.onSurfaceVariant
             )
@@ -162,5 +165,8 @@ fun CaloriesMeter(
 @Preview
 @Composable
 private fun WaterMeterPreview() {
-    CaloriesMeter()
+    CaloriesMeter(
+        expectedCalories = 2500,
+        takenCalories = 1000
+    )
 }

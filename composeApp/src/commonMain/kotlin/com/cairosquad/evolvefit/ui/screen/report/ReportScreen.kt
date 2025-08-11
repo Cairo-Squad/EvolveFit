@@ -30,6 +30,7 @@ import com.cairosquad.evolvefit.ui.screen.report.componant.DashboardGrid
 import com.cairosquad.evolvefit.ui.screen.report.componant.WeekFilter
 import com.cairosquad.evolvefit.ui.screen.report.componant.cards.BarChartCard
 import com.cairosquad.evolvefit.ui.screen.report.componant.cards.LineChartCard
+import com.cairosquad.evolvefit.ui.screen.report.componant.cards.MusclesCard
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_export
 import org.jetbrains.compose.resources.painterResource
@@ -49,19 +50,9 @@ private fun ReportScreenContent(
     navigateToWorkoutHistory: () -> Unit
 ) {
     val data by remember { mutableStateOf(listOf(0f, 3f, 2f, 4f, 5f, 3f, 1f)) }
-    val labels by remember {
-        mutableStateOf(
-            listOf(
-                "Sat",
-                "Sun",
-                "Mon",
-                "Tue",
-                "Wed",
-                "Thu",
-                "Fri"
-            )
-        )
-    }
+    val labels by remember { mutableStateOf(listOf("Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri")) }
+    val musclesName = listOf("Chest", "Back", "Legs", "Arms", "Shoulders")
+    val musclesPercentage = listOf(0.32f, 0.24f, 0.68f, 0.49f, 0.11f)
 
     Column(
         modifier = Modifier
@@ -107,7 +98,7 @@ private fun ReportScreenContent(
                 ) {
                     DashboardGrid(
                         modifier = Modifier
-                            .padding(top = 8.dp)
+                            .padding(top = 8.dp),
                     )
                     DropdownMenu(
                         modifier = Modifier
@@ -125,7 +116,7 @@ private fun ReportScreenContent(
                 BarChartCard(
                     modifier = Modifier.padding(top = 16.dp),
                     data = data,
-                    labels = labels
+                    labels = labels,
                 )
             }
             item {
@@ -133,16 +124,18 @@ private fun ReportScreenContent(
                     modifier = Modifier.padding(top = 16.dp),
                     data = data,
                     labels = labels,
-                    totalTime = "2h 35min"
+                    totalTime = "2h 35min",
+                )
+            }
+            item {
+                MusclesCard(
+                    modifier = Modifier.padding(top = 16.dp),
+                    musclesName = musclesName,
+                    trainedMusclesPercentage = musclesPercentage,
                 )
             }
         }
     }
-}
-
-@Composable
-fun MusclesCard() {
-
 }
 
 

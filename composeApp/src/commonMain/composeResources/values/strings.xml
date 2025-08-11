@@ -140,4 +140,6 @@
     <string name="time_spent">Time Spent</string>
     <string name="water_drops">Water Drops</string>
     <string name="liters">Liters</string>
+    <string name="expected_calories">"From %1$ kcal"</string>
+    <string name="needle">Needle</string>
 </resources>
