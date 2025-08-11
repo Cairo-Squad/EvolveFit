@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.component
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -17,7 +18,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +40,7 @@ import evolvefit.composeapp.generated.resources.ic_water_drop
 import evolvefit.composeapp.generated.resources.liters
 import evolvefit.composeapp.generated.resources.remaining_formatted
 import evolvefit.composeapp.generated.resources.water_consumption
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -93,11 +99,6 @@ private fun SimpleNutritionCard(
     isUnitShownOnBar: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val animatedProgress by animateFloatAsState(
-        targetValue = progress,
-        animationSpec = tween(300),
-        label = "progress"
-    )
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
@@ -123,7 +124,7 @@ private fun SimpleNutritionCard(
         )
 
         SimpleNutritionCardProgressBar(
-            progress = animatedProgress,
+            progress = progress,
             modifier = Modifier
                 .padding(bottom = 8.dp)
         )
@@ -238,19 +239,32 @@ private fun SimpleNutritionCardProgressBar(
     progress: Float,
     modifier: Modifier = Modifier
 ) {
+    var startAnimation by remember { mutableStateOf(false) }
+    val animatedProgress by animateFloatAsState(
+        targetValue = if (startAnimation) progress else 0f,
+        animationSpec = tween(durationMillis = 500),
+    )
+
+    LaunchedEffect(progress) {
+        delay(150)
+        startAnimation = true
+    }
+
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(24.dp))
             .fillMaxWidth()
             .height(8.dp)
             .background(Theme.color.surfaces.surfaceVariant)
+            .animateContentSize()
     ) {
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(24.dp))
                 .fillMaxHeight()
-                .fillMaxWidth(progress)
+                .fillMaxWidth(animatedProgress)
                 .background(Theme.color.system.success)
+                .animateContentSize()
         )
     }
 }
