@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CustomTick
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
@@ -37,42 +38,45 @@ fun CustomDropdownMenu(
     DropdownMenu(
         modifier = Modifier
             .fillMaxWidth()
-            .background(
-                Theme.color.surfaces.surfaceContainer,
-                shape = RoundedCornerShape(8.dp)
-            )
+            .background(Theme.color.surfaces.surfaceContainer)
             .padding(horizontal = 16.dp),
         expanded = expanded,
-        onDismissRequest = onDismissRequest
+        onDismissRequest = onDismissRequest,
+        offset = DpOffset(x = 0.dp, y = 8.dp),
+        shape = RoundedCornerShape(8.dp),
+        containerColor = Theme.color.surfaces.surfaceContainer
     ) {
-        items.forEach { item ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null
-                    ) {
-                        onItemSelected(item)
-                    },
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = item,
-                    style = Theme.textStyle.body.mediumMedium14,
-                    color = Theme.color.surfaces.onSurfaceContainer
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                CustomTick(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    isChecked = isChecked(item),
-                    onCheckedChange = { onItemSelected(item) }
-                )
+
+            items.forEach { item ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) {
+                            onItemSelected(item)
+                        },
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = item,
+                        style = Theme.textStyle.body.mediumMedium14,
+                        color = Theme.color.surfaces.onSurfaceContainer
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    CustomTick(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        isChecked = isChecked(item),
+                        onCheckedChange = { onItemSelected(item) }
+                    )
+                }
             }
         }
-    }
+
 }
+
 
 @Preview
 @Composable
@@ -86,33 +90,37 @@ private fun CustomDropdownMenuPrev() {
             contentAlignment = Alignment.Center
         ) {
             var selectedItem by remember { mutableStateOf<String?>(null) }
-            var expanded by remember { mutableStateOf(true) }
+            var expanded by remember { mutableStateOf(false) }
 
             Column {
-                Text(
-                    modifier = Modifier
-                        .clickable { expanded = !expanded }
-                        .padding(bottom = 8.dp),
-                    text = "Open Dropdown",
-                    style = Theme.textStyle.label.smallRegular12,
-                    color = Theme.color.surfaces.onSurfaceContainer
-                )
-                CustomDropdownMenu(
-                    items = listOf(
-                        "Upper Body",
-                        "Lower Body",
-                        "Full Body",
-                        "Upper Body1",
-                        "Lower Body1",
-                        "Full Body1"
-                    ),
-                    onItemSelected = { selectedItem = it },
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
-                    isChecked = { it == selectedItem }
-                )
+                // Anchor element for the dropdown
+                Box {
+                    RowWithIcon(
+                        text = selectedItem ?: "Select focus area",
+                        isIconClicked = expanded,
+                        onIconClicked = { expanded = !expanded }
+                    )
+
+                    // This Box acts as the anchor for DropdownMenu
+                    CustomDropdownMenu(
+                        items = listOf(
+                            "Upper Body",
+                            "Lower Body",
+                            "Full Body",
+                            "Upper Body1",
+                            "Lower Body1",
+                            "Full Body1"
+                        ),
+                        onItemSelected = {
+                            selectedItem = it
+                            expanded = false
+                        },
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        isChecked = { it == selectedItem }
+                    )
+                }
             }
         }
     }
 }
-
