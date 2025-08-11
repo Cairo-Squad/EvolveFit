@@ -51,9 +51,10 @@ fun RegisterScreenContent(
             .navigationBarsPadding(),
     ) {
         IndicatorBar(
+            modifier = Modifier.padding(horizontal = 16.dp),
             currentStep = state.currentStep,
             totalSteps = RegisterViewModel.MAX_STEPS,
-            onBackClick = listener::onClickBack,
+            onClickLeadingIcon = listener::onClickBack,
         )
         HorizontalPager(
             modifier = Modifier

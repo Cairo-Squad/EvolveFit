@@ -37,9 +37,9 @@ import org.jetbrains.compose.resources.stringResource
 fun AppScreen(
     navigateToCreateWorkout: () -> Unit,
     navigateToCommunityWorkout: () -> Unit,
-    navigateToWorkoutDetails: (Long) -> Unit,
+    navigateToWorkoutDetails: (String) -> Unit,
     navigateToSuggestedMeals: () -> Unit,
-    navigateToMealDetails: (Long) -> Unit,
+    navigateToMealDetails: (String) -> Unit,
     navigateToMealsHistory: () -> Unit,
     navigateToWorkoutHistory: () -> Unit
 ) {

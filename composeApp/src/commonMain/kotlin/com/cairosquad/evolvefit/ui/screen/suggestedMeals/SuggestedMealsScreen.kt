@@ -21,7 +21,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 @Composable
 fun SuggestedMealsScreen(
     navigateBack: () -> Unit,
-    navigateToMealDetails: (Long) -> Unit
+    navigateToMealDetails: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -50,7 +50,7 @@ fun SuggestedMealsScreen(
                 MealCard(
                     modifier = Modifier
                         .width(158.dp)
-                        .clickable(onClick = { navigateToMealDetails((index + 1).toLong()) })
+                        .clickable(onClick = { navigateToMealDetails((index + 1).toString()) })
                     ,
                     title = "Meal ${index + 1}",
                     mealType = "Lunch",

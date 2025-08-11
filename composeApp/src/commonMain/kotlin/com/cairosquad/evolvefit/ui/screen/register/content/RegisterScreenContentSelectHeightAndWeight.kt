@@ -136,7 +136,7 @@ fun RegisterScreenContentSelectHeightAndWeight(
     }
 }
 
-@Preview()
+@Preview
 @Composable
 private fun RegisterScreenContentSelectHeightAndWeightPreview() {
     AppTheme(

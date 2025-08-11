@@ -1,8 +1,8 @@
-package com.cairosquad.evolvefit.repository.remote.workOut
+package com.cairosquad.evolvefit.repository.remote.workout
 
 import com.cairosquad.evolvefit.repository.remote.auth.EquipmentDto
 
-interface WorkOutDataSource {
+interface WorkoutRemoteDataSource {
     suspend fun getEquipments(): List<EquipmentDto>
     suspend fun createExercise(exercise: ExerciseDto)
 }

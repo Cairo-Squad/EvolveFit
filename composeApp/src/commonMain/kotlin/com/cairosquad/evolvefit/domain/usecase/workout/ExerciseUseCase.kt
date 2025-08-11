@@ -1,11 +1,11 @@
-package com.cairosquad.evolvefit.domain.usecase.workOut
+package com.cairosquad.evolvefit.domain.usecase.workout
 
-import com.cairosquad.evolvefit.domain.WorkOutRepository
+import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
 import com.cairosquad.evolvefit.entity.Exercise
 import com.cairosquad.evolvefit.entity.Tool
 
 class ExerciseUseCase(
-    private val workOutRepository: WorkOutRepository
+    private val workOutRepository: WorkoutRepository
 ) {
     suspend fun getEquipments(): List<Tool> {
         return workOutRepository.getEquipments()
