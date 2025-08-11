@@ -25,14 +25,56 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.util.toFormattedString
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_fire
+import evolvefit.composeapp.generated.resources.ic_water_drop
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SimpleNutritionCard(
+fun CaloriesNutritionCard(
+    value: UInt,
+    goal: UInt,
+    modifier: Modifier = Modifier
+) {
+    SimpleNutritionCard(
+        iconRes = Res.drawable.ic_fire,
+        iconTint = Theme.color.system.success,
+        name = "Calories", // TODO: convert to string resource
+        value = value.toFormattedString(),
+        goal = goal.toFormattedString(),
+        unit = "calories", // TODO: convert to string resource
+        progress = (value.toFloat() / goal.toFloat()),
+        remaining = (goal - value).toFormattedString(),
+        isUnitShownOnBar = false,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun WaterNutritionCard(
+    value: Float,
+    goal: Float,
+    modifier: Modifier = Modifier
+) {
+    SimpleNutritionCard(
+        iconRes = Res.drawable.ic_water_drop,
+        iconTint = Theme.color.system.info,
+        name = "Water consumption", // TODO: convert to string resource
+        value = value.toFormattedString(),
+        goal = goal.toFormattedString(),
+        unit = "liters", // TODO: convert to string resource
+        progress = (value / goal),
+        remaining = (goal - value).toFormattedString(),
+        isUnitShownOnBar = true,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun SimpleNutritionCard(
     iconRes: DrawableResource,
     iconTint: Color,
     name: String,
@@ -187,7 +229,7 @@ private fun SimpleNutritionCardProgressBar(
                 .clip(RoundedCornerShape(24.dp))
                 .fillMaxHeight()
                 .fillMaxWidth(progress)
-                .background(Theme.color.success)
+                .background(Theme.color.system.success)
         )
     }
 }
@@ -200,7 +242,7 @@ private fun PreviewSimpleNutritionCard() {
     ) {
         SimpleNutritionCard(
             iconRes = Res.drawable.ic_fire,
-            iconTint = Theme.color.success,
+            iconTint = Theme.color.system.success,
             name = "Calories",
             value = "1,650",
             goal = "2,200",

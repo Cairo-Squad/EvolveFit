@@ -28,6 +28,5 @@ val lightThemeColors = ThemeColors(
         warning = Color(0xFFD9CB00),
         success = Color(0xFF8DD876),
         info = Color(0xFF4E95FF),
-    ),
-    success = Color(0x2DAD58)
+    )
 )
