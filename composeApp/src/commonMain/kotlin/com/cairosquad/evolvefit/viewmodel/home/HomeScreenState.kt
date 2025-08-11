@@ -7,8 +7,8 @@ data class HomeScreenState(
     val error: ErrorState? = null,
     val user: HomeUserUiState = HomeUserUiState(),
     val weeklyProgress: WeeklyProgressUiState = WeeklyProgressUiState(),
-    val caloriesCount: Int = 0,
-    val caloriesGoal: Int = 0,
+    val caloriesCount: UInt = 0.toUInt(),
+    val caloriesGoal: UInt = 0.toUInt(),
     val waterCount: Float = 0f,
     val waterGoal: Float = 0f,
     val personalizedWorkouts: List<HomeWorkoutUiState> = emptyList()
@@ -22,7 +22,7 @@ data class HomeScreenState(
         val goal: String = "",
         val currentWeight: Float = 0f,
         val weightUnit: String = "",
-        val activityPercentage: Int = 0,
+        val activityPercentage: UInt = 0.toUInt(),
         val progressDays: Map<Int, Boolean> = emptyMap(),
     )
 
@@ -30,7 +30,7 @@ data class HomeScreenState(
         val id: Long = 0,
         val name: String = "",
         val imageUrl: String = "",
-        val durationInMins: Int = 0,
+        val durationInMins: UInt = 0.toUInt(),
         val type: String = "",
         val isSaved: Boolean = false,
     )

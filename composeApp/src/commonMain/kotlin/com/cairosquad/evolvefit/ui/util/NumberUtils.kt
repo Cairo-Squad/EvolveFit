@@ -21,6 +21,7 @@ fun Float.toFormattedString(): String {
     val decimalPart = ((absValue * 100) % 100).toInt()
         .toString()
         .padStart(2, '0')
+        .removeSuffix("0")
 
     return "$sign$intPart.$decimalPart"
 }

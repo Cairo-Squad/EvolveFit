@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -134,7 +135,9 @@ private fun SimpleNutritionCard(
                 unit
             ),
             style = Theme.textStyle.label.smallRegular12,
-            color = Theme.color.surfaces.outline
+            color = Theme.color.surfaces.outline,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
@@ -163,7 +166,9 @@ private fun SimpleNutritionCardHeader(
         Text(
             text = name,
             style = Theme.textStyle.title.largeBold14,
-            color = Theme.color.surfaces.onSurfaceContainer
+            color = Theme.color.surfaces.onSurfaceContainer,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
@@ -210,14 +215,20 @@ private fun SimpleNutritionCardValues(
         Text(
             text = valueWithUnit,
             style = Theme.textStyle.label.smallRegular12,
-            color = Theme.color.surfaces.outline
+            color = Theme.color.surfaces.outline,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .padding(end = 8.dp)
         )
 
         val goalWithUnit = if (isUnitShownOnBar) "$goal $unit" else goal
         Text(
             text = goalWithUnit,
             style = Theme.textStyle.label.smallRegular12,
-            color = Theme.color.surfaces.outline
+            color = Theme.color.surfaces.outline,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

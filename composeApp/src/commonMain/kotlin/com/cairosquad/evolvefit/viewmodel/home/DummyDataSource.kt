@@ -10,7 +10,7 @@ object DummyDataSource {
         goal = "Weight loss",
         currentWeight = 64.5f,
         weightUnit = "kg",
-        activityPercentage = 30,
+        activityPercentage = 30.toUInt(),
         progressDays = mapOf(
             22 to true,
             23 to true,
@@ -22,7 +22,7 @@ object DummyDataSource {
         )
     )
 
-    val caloriesNutrition = Pair(1650, 2200)
+    val caloriesNutrition = Pair(1650.toUInt(), 2200.toUInt())
     val waterNutrition = Pair(1.8f, 2.5f)
 
     val personalizedWorkouts = listOf(
@@ -30,7 +30,7 @@ object DummyDataSource {
             id = 1,
             name = "Standard Push-ups",
             imageUrl = "https://picsum.photos/268/172",
-            durationInMins = 25,
+            durationInMins = 25.toUInt(),
             type = "Shoulders",
             isSaved = false
         ),
@@ -39,7 +39,7 @@ object DummyDataSource {
             id = 2,
             name = "Full Body Blast",
             imageUrl = "https://picsum.photos/268/172",
-            durationInMins = 20,
+            durationInMins = 20.toUInt(),
             type = "Body",
             isSaved = false
         ),
