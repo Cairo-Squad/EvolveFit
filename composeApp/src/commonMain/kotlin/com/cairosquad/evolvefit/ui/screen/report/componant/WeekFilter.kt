@@ -19,7 +19,10 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arrow_down
+import evolvefit.composeapp.generated.resources.ic_arrow_down
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun WeekFilter(
@@ -49,8 +52,14 @@ fun WeekFilter(
         Image(
             modifier = Modifier.size(12.dp),
             painter = painterResource(Res.drawable.arrow_down),
-            contentDescription = "Arrow Icon",
+            contentDescription = stringResource(Res.string.ic_arrow_down),
             colorFilter = ColorFilter.tint(Theme.color.surfaces.onSurfaceVariant)
         )
     }
+}
+
+@Preview
+@Composable
+private fun WeekFilterPreview() {
+    WeekFilter("This week",{})
 }

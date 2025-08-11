@@ -16,6 +16,12 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.calories
+import evolvefit.composeapp.generated.resources.ic_fire
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CardHeaderSection(
@@ -42,4 +48,14 @@ fun CardHeaderSection(
             color = Theme.color.surfaces.onSurfaceContainer
         )
     }
+}
+
+@Preview
+@Composable
+fun CardHeaderSectionPreview() {
+    CardHeaderSection(
+        painter = painterResource(Res.drawable.ic_fire),
+        tint = Theme.color.system.success,
+        title = stringResource(Res.string.calories)
+    )
 }

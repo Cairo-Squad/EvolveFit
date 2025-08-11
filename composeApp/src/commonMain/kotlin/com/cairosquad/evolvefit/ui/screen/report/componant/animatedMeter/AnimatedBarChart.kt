@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.theme.Theme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun AnimatedBarChart(
@@ -79,4 +81,15 @@ fun AnimatedBarChart(
 
         onBarCentersCalculated(centers)
     }
+}
+
+@Preview
+@Composable
+private fun AnimatedBarChartPreview() {
+    AnimatedBarChart(
+        data = listOf(10f, 20f, 30f, 40f, 50f),
+        focusedBarColor = Theme.color.brand.primary,
+        unfocusedBarColor = Theme.color.surfaces.surfaceVariant,
+        true
+    )
 }

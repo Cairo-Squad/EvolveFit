@@ -38,8 +38,11 @@ import com.cairosquad.evolvefit.ui.screen.report.componant.cards.MusclesCard
 import com.cairosquad.evolvefit.viewmodel.report.ReportScreenState
 import com.cairosquad.evolvefit.viewmodel.report.ReportViewModel
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.activity
 import evolvefit.composeapp.generated.resources.ic_export
+import evolvefit.composeapp.generated.resources.workout_report
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -72,7 +75,7 @@ private fun ReportScreenContent(
             .background(Theme.color.surfaces.surface)
     ) {
         CustomAppBar(
-            title = "Workout Report",
+            title = stringResource(Res.string.workout_report),
             tail = {
                 ActionIconButton(
                     icon = painterResource(Res.drawable.ic_export),
@@ -92,7 +95,7 @@ private fun ReportScreenContent(
                 ) {
                     Text(
                         modifier = Modifier.weight(1f),
-                        text = "Activity",
+                        text = stringResource(Res.string.activity),
                         color = Theme.color.surfaces.onSurface,
                         style = Theme.textStyle.title.mediumMedium16
                     )

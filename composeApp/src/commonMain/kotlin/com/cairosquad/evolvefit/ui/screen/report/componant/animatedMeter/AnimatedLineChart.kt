@@ -17,8 +17,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter.chartComponent.ChartCanvas
 import com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter.chartComponent.Tooltip
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun AnimatedLineChart(
@@ -39,6 +41,10 @@ fun AnimatedLineChart(
 
     val density = LocalDensity.current
     val markerRadiusPx = with(density) { markerRadiusDp.toPx() }
+
+    LaunchedEffect(pointsPx.toList()) {
+        onPointCentersCalculated(pointsPx.toList())
+    }
 
     BoxWithConstraints(modifier = modifier) {
         val parentWidthPx = constraints.maxWidth.toFloat()
@@ -66,10 +72,6 @@ fun AnimatedLineChart(
             }
         )
 
-        LaunchedEffect(pointsPx.toList()) {
-            onPointCentersCalculated(pointsPx.toList())
-        }
-
         if (selectedIndex in pointsPx.indices) {
             Tooltip(
                 canvasPoint = pointsPx[selectedIndex],
@@ -85,4 +87,16 @@ fun AnimatedLineChart(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun AnimatedLineChartPreview() {
+    AnimatedLineChart(
+        data = listOf(10f, 20f, 30f, 40f, 50f),
+        lineColor = Theme.color.brand.primary,
+        areaColor = Theme.color.gradiant.barGradiant,
+        markerColor = Theme.color.brand.primary,
+        true
+    )
 }
