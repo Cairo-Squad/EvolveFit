@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
+import com.cairosquad.evolvefit.entity.Gender
 import com.cairosquad.evolvefit.ui.component.CaloriesNutritionCard
 import com.cairosquad.evolvefit.ui.component.WaterNutritionCard
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
@@ -34,7 +35,10 @@ import com.cairosquad.evolvefit.viewmodel.home.HomeScreenEffect
 import com.cairosquad.evolvefit.viewmodel.home.HomeScreenState
 import com.cairosquad.evolvefit.viewmodel.home.HomeViewModel
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.hello_user
 import evolvefit.composeapp.generated.resources.profile_picture
+import evolvefit.composeapp.generated.resources.ready_text_female
+import evolvefit.composeapp.generated.resources.ready_text_male
 import evolvefit.composeapp.generated.resources.today_nutrition
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -128,6 +132,32 @@ private fun HomeUserHeader(
                     .clip(CircleShape)
                     .size(40.dp)
             )
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = stringResource(Res.string.hello_user, user?.name ?: ""),
+                    style = Theme.textStyle.body.mediumMedium12,
+                    color = Theme.color.surfaces.onSurfaceVariant,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Text(
+                    text = stringResource(
+                        resource = if (user?.gender == Gender.FEMALE) {
+                            Res.string.ready_text_female
+                        } else {
+                            Res.string.ready_text_male
+                        }
+                    ),
+                    style = Theme.textStyle.body.mediumMedium12,
+                    color = Theme.color.surfaces.onSurface,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }

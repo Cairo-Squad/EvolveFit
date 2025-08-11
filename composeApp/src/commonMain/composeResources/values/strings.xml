@@ -143,4 +143,7 @@
     <string name="today_nutrition">Today’s Nutrition</string>
 
     <string name="profile_picture">Profile Picture</string>
+    <string name="hello_user">Hello %1$s</string>
+    <string name="ready_text_male">Ready for today's workout?</string>
+    <string name="ready_text_female">Ready for today's workout?</string>
 </resources>

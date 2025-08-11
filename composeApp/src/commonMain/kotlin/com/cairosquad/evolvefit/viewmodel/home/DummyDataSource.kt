@@ -1,8 +1,11 @@
 package com.cairosquad.evolvefit.viewmodel.home
 
+import com.cairosquad.evolvefit.entity.Gender
+
 object DummyDataSource {
     val user = HomeScreenState.HomeUserUiState(
         name = "Zyad",
+        gender = Gender.MALE,
         profilePictureUrl = "https://picsum.photos/200"
     )
 
