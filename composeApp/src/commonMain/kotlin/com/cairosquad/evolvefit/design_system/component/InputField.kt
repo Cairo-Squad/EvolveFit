@@ -11,8 +11,10 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,6 +40,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -64,6 +67,7 @@ fun InputField(
     isPasswordField: Boolean = false,
     isCharacterCountVisible: Boolean = false,
     maxCharacters: Int? = 100,
+    minHeight: Dp = 0.dp,
     leadingIcon: DrawableResource? = null,
     trailingIcon: DrawableResource? = null,
     trailingIconModifier: Modifier = Modifier,
@@ -102,6 +106,7 @@ fun InputField(
     ) {
         BasicTextField(
             modifier = Modifier
+                .heightIn(min = minHeight)
                 .clip(RoundedCornerShape(8.dp))
                 .background(Theme.color.surfaces.surfaceContainer)
                 .padding(horizontal = 12.dp, vertical = 20.dp),
@@ -207,6 +212,7 @@ fun InputField(
                     )
                 }
                     if (isCharacterCountVisible && maxCharacters != null) {
+                        Spacer(modifier = Modifier.weight(1f))
                         val remaining = maxCharacters - textFieldValue.text.length
                         Text(
                             modifier = Modifier
