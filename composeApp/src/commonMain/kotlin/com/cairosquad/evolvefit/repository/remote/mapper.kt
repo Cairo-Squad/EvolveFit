@@ -1,18 +1,18 @@
-package com.cairosquad.evolvefit.domain.usecase
+package com.cairosquad.evolvefit.repository.remote
 
-import com.cairosquad.evolvefit.entity.Exercise
-import com.cairosquad.evolvefit.entity.Tool
+import com.cairosquad.evolvefit.domain.entity.Equipment
+import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.repository.remote.auth.EquipmentDto
 import com.cairosquad.evolvefit.repository.remote.workout.ExerciseDto
 
-fun EquipmentDto.toDomain(): Tool {
-    return Tool(
+fun EquipmentDto.toDomain(): Equipment {
+    return Equipment(
         id = this.id.toLong(),
         name = this.name
     )
 }
 
-fun Tool.toDto(): EquipmentDto {
+fun Equipment.toDto(): EquipmentDto {
     return EquipmentDto(
         id = this.id.toString(),
         name = this.name

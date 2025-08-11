@@ -1,8 +1,8 @@
 package com.cairosquad.evolvefit.domain.usecase.authentication
 
+import com.cairosquad.evolvefit.domain.entity.Equipment
+import com.cairosquad.evolvefit.domain.entity.User
 import com.cairosquad.evolvefit.domain.repository.AuthRepository
-import com.cairosquad.evolvefit.entity.Tool
-import com.cairosquad.evolvefit.entity.User
 
 class AuthUseCase(
     private val authRepository: AuthRepository
@@ -21,7 +21,7 @@ class AuthUseCase(
         return authRepository.register(user)
     }
 
-    suspend fun getEquipments(): List<Tool> {
+    suspend fun getEquipments(): List<Equipment> {
         return authRepository.getEquipments()
     }
 }

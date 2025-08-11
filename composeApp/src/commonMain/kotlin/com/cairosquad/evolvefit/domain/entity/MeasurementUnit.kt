@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.entity
+package com.cairosquad.evolvefit.domain.entity
 
 enum class MeasurementUnit {
     METRIC,

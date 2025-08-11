@@ -1,11 +1,11 @@
 package com.cairosquad.evolvefit.domain.repository
 
-import com.cairosquad.evolvefit.entity.Exercise
-import com.cairosquad.evolvefit.entity.Tool
-import com.cairosquad.evolvefit.entity.Workout
+import com.cairosquad.evolvefit.domain.entity.Equipment
+import com.cairosquad.evolvefit.domain.entity.Exercise
+import com.cairosquad.evolvefit.domain.entity.Workout
 
 interface WorkoutRepository {
-    suspend fun getEquipments(): List<Tool>
+    suspend fun getEquipments(): List<Equipment>
     suspend fun createExercise(exercise: Exercise)
     suspend fun getWorkoutById(id: String): Workout
 }

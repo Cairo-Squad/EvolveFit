@@ -1,10 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
 import com.cairosquad.evolvefit.domain.usecase.authentication.AuthUseCase
-import com.cairosquad.evolvefit.entity.FitnessGoal
-import com.cairosquad.evolvefit.entity.Gender
-import com.cairosquad.evolvefit.entity.MeasurementUnit
-import com.cairosquad.evolvefit.entity.User
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal

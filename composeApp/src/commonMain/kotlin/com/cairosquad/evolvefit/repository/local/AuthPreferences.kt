@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.local
+package com.cairosquad.evolvefit.repository.local
 
 import com.russhwolf.settings.Settings
 

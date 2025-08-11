@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.local.AuthPreferences
+import com.cairosquad.evolvefit.repository.local.AuthPreferences
 import com.cairosquad.evolvefit.ui.screen.app.AppScreen
 import com.cairosquad.evolvefit.ui.screen.communityWorkout.CommunityWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.createExercise.CreateExerciseScreen

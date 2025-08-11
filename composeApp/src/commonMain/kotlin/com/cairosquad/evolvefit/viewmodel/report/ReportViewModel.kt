@@ -1,8 +1,8 @@
 package com.cairosquad.evolvefit.viewmodel.report
 
+import com.cairosquad.evolvefit.domain.entity.FocusArea
+import com.cairosquad.evolvefit.domain.entity.WorkoutDay
 import com.cairosquad.evolvefit.domain.usecase.report.ReportUseCase
-import com.cairosquad.evolvefit.entity.FocusArea
-import com.cairosquad.evolvefit.entity.WorkoutDay
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.report.ReportScreenState.TrainedMuscle
 

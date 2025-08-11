@@ -1,8 +1,8 @@
 package com.cairosquad.evolvefit.domain.usecase.report
 
-import com.cairosquad.evolvefit.domain.ReportRepository
-import com.cairosquad.evolvefit.entity.FocusArea
-import com.cairosquad.evolvefit.entity.WorkoutDay
+import com.cairosquad.evolvefit.domain.entity.FocusArea
+import com.cairosquad.evolvefit.domain.entity.WorkoutDay
+import com.cairosquad.evolvefit.domain.repository.ReportRepository
 
 class ReportUseCase(
     private val reportRepository: ReportRepository,

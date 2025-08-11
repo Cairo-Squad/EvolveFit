@@ -1,12 +1,12 @@
 package com.cairosquad.evolvefit.repository
 
+import com.cairosquad.evolvefit.domain.entity.Equipment
+import com.cairosquad.evolvefit.domain.entity.User
 import com.cairosquad.evolvefit.domain.repository.AuthRepository
-import com.cairosquad.evolvefit.entity.Tool
-import com.cairosquad.evolvefit.entity.User
-import com.cairosquad.evolvefit.local.AuthPreferences
-import com.cairosquad.evolvefit.remote.safeApiCall
+import com.cairosquad.evolvefit.repository.local.AuthPreferences
 import com.cairosquad.evolvefit.repository.remote.AuthRemoteDataSource
 import com.cairosquad.evolvefit.repository.remote.auth.RegisterRequest
+import com.cairosquad.evolvefit.repository.remote.safeApiCall
 
 class AuthRepositoryImpl(
     private val remote: AuthRemoteDataSource,
@@ -29,7 +29,7 @@ class AuthRepositoryImpl(
             height = user.height,
             weight = user.weight,
             goal = user.goal.name,
-            gymEquipments = user.tools.map { it.id },
+            gymEquipments = user.equipments.map { it.id },
             workoutDays = user.workoutDays.map { it.name }
         )
 
@@ -52,7 +52,7 @@ class AuthRepositoryImpl(
         return prefs.getAccessToken()?.isNotEmpty() == true
     }
 
-    override suspend fun getEquipments(): List<Tool> {
+    override suspend fun getEquipments(): List<Equipment> {
         return emptyList() // TODO
     }
 }

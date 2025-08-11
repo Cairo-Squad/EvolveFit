@@ -1,6 +1,6 @@
-package com.cairosquad.evolvefit.remote
+package com.cairosquad.evolvefit.repository.remote
 
-import com.cairosquad.evolvefit.local.AuthPreferences
+import com.cairosquad.evolvefit.repository.local.AuthPreferences
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.auth.providers.BearerTokens
 

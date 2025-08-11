@@ -1,13 +1,13 @@
 package com.cairosquad.evolvefit.repository
 
+import com.cairosquad.evolvefit.domain.entity.Equipment
+import com.cairosquad.evolvefit.domain.entity.Exercise
+import com.cairosquad.evolvefit.domain.entity.MeasurementType
+import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
-import com.cairosquad.evolvefit.domain.usecase.toDomain
-import com.cairosquad.evolvefit.domain.usecase.toDto
-import com.cairosquad.evolvefit.entity.Exercise
-import com.cairosquad.evolvefit.entity.MeasurementType
-import com.cairosquad.evolvefit.entity.Tool
-import com.cairosquad.evolvefit.entity.Workout
-import com.cairosquad.evolvefit.remote.safeApiCall
+import com.cairosquad.evolvefit.repository.remote.safeApiCall
+import com.cairosquad.evolvefit.repository.remote.toDomain
+import com.cairosquad.evolvefit.repository.remote.toDto
 import com.cairosquad.evolvefit.repository.remote.workout.WorkoutRemoteDataSource
 import kotlinx.coroutines.delay
 
@@ -15,7 +15,7 @@ class WorkoutRepositoryImpl(
     private val workoutRemoteDataSource: WorkoutRemoteDataSource,
 ) : WorkoutRepository {
 
-    override suspend fun getEquipments(): List<Tool>  {
+    override suspend fun getEquipments(): List<Equipment>  {
         return safeApiCall {  workoutRemoteDataSource.getEquipments().map { it.toDomain() } }
     }
 

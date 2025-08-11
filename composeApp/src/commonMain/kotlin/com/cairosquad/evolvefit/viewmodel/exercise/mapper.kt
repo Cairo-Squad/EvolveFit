@@ -1,9 +1,9 @@
 package com.cairosquad.evolvefit.viewmodel.exercise
 
-import com.cairosquad.evolvefit.entity.Exercise
-import com.cairosquad.evolvefit.entity.FocusArea
-import com.cairosquad.evolvefit.entity.MeasurementType
-import com.cairosquad.evolvefit.entity.Tool
+import com.cairosquad.evolvefit.domain.entity.Equipment
+import com.cairosquad.evolvefit.domain.entity.Exercise
+import com.cairosquad.evolvefit.domain.entity.FocusArea
+import com.cairosquad.evolvefit.domain.entity.MeasurementType
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.Equipment
 
 fun CreateExerciseState.toDomainExercise(): Exercise {
@@ -32,13 +32,13 @@ private fun CreateExerciseState.FocusArea.toDomainFocusArea(): FocusArea {
     }
 }
 
-fun Tool.toEquipment(): Equipment {
+fun Equipment.toEquipment(): Equipment {
     return Equipment(
         toolId = this.id,
         toolName = this.name
     )
 }
 
-fun List<Tool>.toEquipments(): List<Equipment> {
+fun List<Equipment>.toEquipments(): List<Equipment> {
     return this.map { it.toEquipment() }
 }

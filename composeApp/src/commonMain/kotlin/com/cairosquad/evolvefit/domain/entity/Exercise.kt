@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.entity
+package com.cairosquad.evolvefit.domain.entity
 
 data class Exercise(
     val id: Long = 0L,

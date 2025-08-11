@@ -1,10 +1,9 @@
-package com.cairosquad.evolvefit.domain
+package com.cairosquad.evolvefit.domain.repository
 
-import com.cairosquad.evolvefit.entity.FocusArea
-import com.cairosquad.evolvefit.entity.WorkoutDay
+import com.cairosquad.evolvefit.domain.entity.FocusArea
+import com.cairosquad.evolvefit.domain.entity.WorkoutDay
 
 interface ReportRepository {
-
     suspend fun getTimeSpend(): Long
     suspend fun getTotalWorkouts(): Int
     suspend fun getTakenCalories(): Int

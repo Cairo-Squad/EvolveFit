@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.entity
+package com.cairosquad.evolvefit.domain.entity
 
 data class User(
     val name: String,
@@ -10,6 +10,6 @@ data class User(
     val height: Float,
     val weight: Float,
     val goal: FitnessGoal,
-    val tools: List<Tool>,
+    val equipments: List<Equipment>,
     val workoutDays: List<WorkoutDay>
 )

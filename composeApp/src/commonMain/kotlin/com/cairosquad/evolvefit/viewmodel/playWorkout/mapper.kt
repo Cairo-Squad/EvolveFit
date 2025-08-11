@@ -1,8 +1,8 @@
 package com.cairosquad.evolvefit.viewmodel.playWorkout
 
-import com.cairosquad.evolvefit.entity.Exercise
-import com.cairosquad.evolvefit.entity.MeasurementType
-import com.cairosquad.evolvefit.entity.Workout
+import com.cairosquad.evolvefit.domain.entity.Exercise
+import com.cairosquad.evolvefit.domain.entity.MeasurementType
+import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState.ExerciseSpecUiState.Reps
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState.ExerciseSpecUiState.Time
 

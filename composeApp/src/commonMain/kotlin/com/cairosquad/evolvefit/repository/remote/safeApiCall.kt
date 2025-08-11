@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.remote
+package com.cairosquad.evolvefit.repository.remote
 
 suspend inline fun <T> safeApiCall(apiCall: () -> T): T {
     try {

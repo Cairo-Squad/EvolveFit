@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.domain.repository
 
-import com.cairosquad.evolvefit.entity.Tool
-import com.cairosquad.evolvefit.entity.User
+import com.cairosquad.evolvefit.domain.entity.Equipment
+import com.cairosquad.evolvefit.domain.entity.User
 
 interface AuthRepository {
     suspend fun login(email: String, password: String)
@@ -9,5 +9,5 @@ interface AuthRepository {
     suspend fun refreshToken()
     suspend fun logout()
     suspend fun isUserLoggedIn(): Boolean
-    suspend fun getEquipments(): List<Tool>
+    suspend fun getEquipments(): List<Equipment>
 }

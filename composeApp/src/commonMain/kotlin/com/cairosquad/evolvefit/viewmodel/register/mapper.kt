@@ -1,16 +1,16 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
-import com.cairosquad.evolvefit.entity.FitnessGoal
-import com.cairosquad.evolvefit.entity.Gender
-import com.cairosquad.evolvefit.entity.MeasurementUnit
-import com.cairosquad.evolvefit.entity.Tool
-import com.cairosquad.evolvefit.entity.User
-import com.cairosquad.evolvefit.entity.WorkoutDay
+import com.cairosquad.evolvefit.domain.entity.Equipment
+import com.cairosquad.evolvefit.domain.entity.FitnessGoal
+import com.cairosquad.evolvefit.domain.entity.Gender
+import com.cairosquad.evolvefit.domain.entity.MeasurementUnit
+import com.cairosquad.evolvefit.domain.entity.User
+import com.cairosquad.evolvefit.domain.entity.WorkoutDay
 
-fun List<Long>.toToolsDomain(state: RegisterScreenState): List<Tool> {
+fun List<Long>.toToolsDomain(state: RegisterScreenState): List<Equipment> {
     return this.mapNotNull { selectedId ->
         state.availableEquipments.find { it.toolId == selectedId }?.let {
-            Tool(id = selectedId, name = it.toolName)
+            Equipment(id = selectedId, name = it.toolName)
         }
     }
 }
@@ -60,7 +60,7 @@ fun RegisterScreenState.toDomain(): User {
         goal = this.selectedGoal?.toDomain() ?: FitnessGoal.STAY_IN_SHAPE,
         height = this.selectedHeight,
         weight = this.selectedWeight,
-        tools = this.selectedEquipments.toToolsDomain(this),
+        equipments = this.selectedEquipments.toToolsDomain(this),
         workoutDays = this.selectedWorkoutDays.map { it.toDomain() }
     )
 }
