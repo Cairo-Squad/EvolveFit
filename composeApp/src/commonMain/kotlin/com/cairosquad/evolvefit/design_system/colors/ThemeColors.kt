@@ -6,6 +6,7 @@ data class ThemeColors(
     val brand: Brand,
     val surfaces: Surfaces,
     val system: System,
+    val gradiant: Gradiant
 )
 data class Surfaces(
     val surface: Color,
@@ -34,4 +35,6 @@ data class System(
     val info: Color,
 )
 
-
+data class Gradiant(
+    val barGradiant: List<Color>,
+)

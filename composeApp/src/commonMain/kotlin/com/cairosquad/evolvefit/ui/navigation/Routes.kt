@@ -32,3 +32,6 @@ data class MealDetailsRoute(
 )
 @Serializable
 data object MealsHistoryRoute
+
+@Serializable
+data object WorkoutHistoryRoute

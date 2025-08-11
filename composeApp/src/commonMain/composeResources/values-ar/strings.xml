@@ -135,7 +135,6 @@
     <string name="exercises">تمارين</string>
     <string name="cancel_workout">إلغاء التدريب</string>
     <string name="ready_to_workout">مستعد للتدريب!</string>
-
     <string name="skip_rest_button">تخطي الاستراحة</string>
     <string name="seconds_label">ثانية</string>
     <string name="congratulations_message">تهانينا</string>
@@ -155,4 +154,14 @@
     <string name="intermediate">متوسط</string>
     <string name="advanced">متقدم</string>
     <string name="take_a_rest">استراحة</string>
+    <string name="total_workouts">إجمالي التمارين</string>
+    <string name="time_spent">الوقت المستغرق</string>
+    <string name="water_drops">قطرات مياه</string>
+    <string name="liters">لترات</string>
+    <string name="expected_calories">من %1$ السعرات الحرارية</string>
+    <string name="needle">مؤشر</string>
+    <string name="share">مشاركة</string>
+    <string name="workout_report">تقرير التدريب</string>
+    <string name="ic_arrow_down">ايقونه سهم لإسفل</string>
+    <string name="activity">الأنشطة</string>
 </resources>

@@ -61,6 +61,7 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
 
+            // coil
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
 
@@ -92,7 +93,9 @@ kotlin {
 android {
     namespace = "com.cairosquad.evolvefit"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
-
+    lint {
+        disable += "NullSafeMutableLiveData"
+    }
     defaultConfig {
         applicationId = "com.cairosquad.evolvefit"
         minSdk = libs.versions.android.minSdk.get().toInt()
