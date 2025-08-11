@@ -13,9 +13,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
-import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.ic_empty_workout
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -43,8 +40,6 @@ fun HistoryWorkoutItem(
                     .clip(RoundedCornerShape(4.dp)),
                 model = workoutImage,
                 contentDescription = "Workout Image",
-                placeholderImage = painterResource(Res.drawable.ic_empty_workout),
-                placeholderBackgroundColor = Theme.color.surfaces.surfaceVariant
             )
 
             Column(

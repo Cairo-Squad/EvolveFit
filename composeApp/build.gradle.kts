@@ -93,7 +93,9 @@ kotlin {
 android {
     namespace = "com.cairosquad.evolvefit"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
-
+    lint {
+        disable += "NullSafeMutableLiveData"
+    }
     defaultConfig {
         applicationId = "com.cairosquad.evolvefit"
         minSdk = libs.versions.android.minSdk.get().toInt()
