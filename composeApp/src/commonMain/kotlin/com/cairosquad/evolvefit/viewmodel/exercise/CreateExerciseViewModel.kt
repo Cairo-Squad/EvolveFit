@@ -71,6 +71,22 @@ class CreateExerciseViewModel(
         updateState { it.copy(description = description) }
     }
 
+    override fun onAvailableEquipmentsIconClicked() {
+        updateState { it.copy(isEquipmentExpanded = !it.isEquipmentExpanded) }
+    }
+
+    override fun onFocusAreaIconClicked() {
+        updateState { it.copy(isFocusAreaExpanded = !it.isFocusAreaExpanded) }
+    }
+
+    override fun onDismissEquipmentsDropdownMenuRequest() {
+        updateState { it.copy(isEquipmentExpanded = false) }
+    }
+
+    override fun onDismissFocusAreasDropdownMenuRequest() {
+        updateState { it.copy(isFocusAreaExpanded = false) }
+    }
+
     override fun onNameChanged(name: String) {
         updateState { it.copy(name = name) }
     }
@@ -110,6 +126,7 @@ class CreateExerciseViewModel(
             }
         )
     }
+
 
     private suspend fun saveExercise() =
         exerciseUseCase.createExercise(screenState.value.toDomainExercise())
