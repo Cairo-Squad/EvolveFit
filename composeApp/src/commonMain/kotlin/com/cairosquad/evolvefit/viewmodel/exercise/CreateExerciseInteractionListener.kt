@@ -10,6 +10,7 @@ interface CreateExerciseInteractionListener {
     fun onEquipmentToggled(equipmentId: Long)
     fun onImagePickerClicked()
     fun onImagePickerDismiss()
+    fun onImageRetrieved(image: UiImage)
     fun onMeasurementTypeSelected(type: MeasurementType)
     fun onMeasurementValueChanged(value: Int)
     fun onFocusAreaToggled(focusArea: FocusArea)

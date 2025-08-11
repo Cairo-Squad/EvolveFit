@@ -46,6 +46,14 @@ class CreateExerciseViewModel(
     override fun onImagePickerDismiss() {
         updateState { it.copy(isImagePickerOpen = false) }
     }
+    override fun onImageRetrieved(image: UiImage) {
+        updateState {
+            it.copy(
+                image = image,
+                isImagePickerOpen = false
+            )
+        }
+    }
 
     override fun onFocusAreaToggled(focusArea: FocusArea) {
         updateState {
