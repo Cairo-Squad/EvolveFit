@@ -8,6 +8,8 @@ interface CreateExerciseInteractionListener {
     fun onNameChanged(name: String)
     fun onImagePicked(image: UiImage)
     fun onEquipmentToggled(equipmentId: Long)
+    fun onFocusAreaNameSelected(name: String)
+    fun onEquipmentNameSelected(toolName: String)
     fun onImagePickerClicked()
     fun onImagePickerDismiss()
     fun onImageRetrieved(image: UiImage)

@@ -38,6 +38,16 @@ class CreateExerciseViewModel(
             it.copy(selectedEquipments = updatedSelection)
         }
     }
+    override fun onFocusAreaNameSelected(name: String) {
+        val focusArea = CreateExerciseState.FocusArea.valueOf(name)
+        onFocusAreaToggled(focusArea)
+    }
+    override fun onEquipmentNameSelected(toolName: String) {
+        val id = screenState.value.availableEquipments
+            .firstOrNull { it.toolName == toolName }?.toolId ?: return
+
+        onEquipmentToggled(id)
+    }
 
     override fun onImagePickerClicked() {
         updateState { it.copy(isImagePickerOpen = true) }
@@ -46,6 +56,7 @@ class CreateExerciseViewModel(
     override fun onImagePickerDismiss() {
         updateState { it.copy(isImagePickerOpen = false) }
     }
+
     override fun onImageRetrieved(image: UiImage) {
         updateState {
             it.copy(
