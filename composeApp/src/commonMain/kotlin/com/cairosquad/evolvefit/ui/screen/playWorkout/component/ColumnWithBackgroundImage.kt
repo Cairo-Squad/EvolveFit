@@ -19,7 +19,7 @@ import org.jetbrains.compose.resources.painterResource
 
 
 @Composable
-fun ColumnWithBackground(
+fun ColumnWithBackgroundImage(
     model: String,
     contentDescription: String?,
     modifier: Modifier = Modifier,

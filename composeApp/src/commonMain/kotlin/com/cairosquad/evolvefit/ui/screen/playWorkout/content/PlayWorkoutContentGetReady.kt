@@ -24,7 +24,7 @@ import com.cairosquad.evolvefit.design_system.component.CircularTimer
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.screen.playWorkout.component.ColumnWithBackground
+import com.cairosquad.evolvefit.ui.screen.playWorkout.component.ColumnWithBackgroundImage
 import com.cairosquad.evolvefit.ui.screen.playWorkout.component.ExerciseNameAndInfoIcon
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState
@@ -48,7 +48,10 @@ fun PlayWorkoutContentGetReady(
         .getOrNull(0)
         ?: PlayWorkoutScreenState.ExerciseUiState()
 
-    ColumnWithBackground(
+    val upperSpaceWeight = 0.4f
+    val lowerSpaceWeight = 1 - upperSpaceWeight
+
+    ColumnWithBackgroundImage(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
@@ -70,7 +73,7 @@ fun PlayWorkoutContentGetReady(
             contentDescription = stringResource(Res.string.cancel_workout),
             tint = Theme.color.surfaces.textColor,
         )
-        Spacer(Modifier.weight(0.4f))
+        Spacer(Modifier.weight(upperSpaceWeight))
         Text(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
@@ -104,7 +107,7 @@ fun PlayWorkoutContentGetReady(
             exerciseName = firstExercise.name,
             onClickInfo = { listener.onClickExerciseInfo(firstExercise.id) }
         )
-        Spacer(Modifier.weight(0.6f))
+        Spacer(Modifier.weight(lowerSpaceWeight))
         PrimaryButton(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)

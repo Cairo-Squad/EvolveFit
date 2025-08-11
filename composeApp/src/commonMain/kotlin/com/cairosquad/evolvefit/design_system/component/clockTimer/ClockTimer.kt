@@ -27,8 +27,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun ClockTimer(
     totalTime: Int,
-    onFinish: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
+    onFinish: (() -> Unit)? = null,
     textColor: Color = Theme.color.surfaces.onSurfaceContainer,
     textStyle: TextStyle = Theme.textStyle.title.largeBold16.copy(fontSize = 48.sp),
 ) {

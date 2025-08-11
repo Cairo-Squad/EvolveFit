@@ -82,7 +82,7 @@ fun CircularProgressCard(
 
 @Preview
 @Composable
-fun CircularProgressCardPreview() {
+private fun CircularProgressCardPreview() {
     CircularProgressCard(
         percentage = 0.50f,
         number = 100,

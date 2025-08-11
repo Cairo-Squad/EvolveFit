@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,6 +24,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.util.Formatter
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_fire
 import evolvefit.composeapp.generated.resources.ic_plus
@@ -37,17 +39,25 @@ fun CircularProgressCard(
     totalValue: Float,
     iconColor: Color,
     progressColor: Color,
-    unit: String = "",
+    unit: String,
     modifier: Modifier = Modifier,
     onActionButtonClicked: () -> Unit = {},
     icon: Painter = painterResource(Res.drawable.ic_fire),
     backgroundColor: Color = Theme.color.surfaces.surfaceContainer,
     buttonClickable: Boolean = false
 ) {
-    val percentage = (currentValue / totalValue)
-        .takeIf { it.isFinite() }
-        ?.coerceIn(0f, 1f)
-        ?: 0f
+    val percentage = remember {
+        (currentValue / totalValue)
+            .takeIf { it.isFinite() }
+            ?.coerceIn(0f, 1f)
+            ?: 0f
+    }
+
+    val bottomStatistics = remember {
+        val currentValueText = Formatter.oneDecimalPlaceWithThousandSeparators(currentValue)
+        val totalValueText = Formatter.oneDecimalPlaceWithThousandSeparators(totalValue)
+        "$currentValueText / $totalValueText $unit"
+    }
 
     Box(
         modifier = modifier
@@ -99,7 +109,7 @@ fun CircularProgressCard(
             ) {
                 Text(
                     modifier = Modifier.padding(vertical = 9.dp),
-                    text = "${currentValue.formatForDisplay()} / ${totalValue.formatForDisplay()} $unit",
+                    text = bottomStatistics,
                     color = Theme.color.surfaces.outline,
                     style = Theme.textStyle.body.mediumMedium12
                 )
@@ -127,33 +137,9 @@ fun CircularProgressCard(
     }
 }
 
-fun Float.formatForDisplay(): String {
-    val rounded = (this * 10).toInt() / 10f
-    val isWholeNumber = rounded % 1 == 0f
-
-    val numberStr = if (isWholeNumber) {
-        rounded.toInt().toString()
-    } else {
-        rounded.toString()
-    }
-    return addThousandSeparators(numberStr)
-}
-
-private fun addThousandSeparators(number: String): String {
-    val parts = number.split(".")
-    val intPart = parts[0]
-    val decimalPart = if (parts.size > 1) parts[1] else null
-
-    val withCommas = intPart.reversed()
-        .chunked(3)
-        .joinToString(",")
-        .reversed()
-    return if (decimalPart != null) "$withCommas.$decimalPart" else withCommas
-}
-
 @Preview
 @Composable
-fun Preview_Dark() {
+private fun Preview_Dark() {
     AppTheme(isDarkTheme = true) {
         Row(
             modifier = Modifier
@@ -190,7 +176,7 @@ fun Preview_Dark() {
 
 @Preview
 @Composable
-fun Preview_Light() {
+private fun Preview_Light() {
     AppTheme(isDarkTheme = false) {
         Row(
             modifier = Modifier

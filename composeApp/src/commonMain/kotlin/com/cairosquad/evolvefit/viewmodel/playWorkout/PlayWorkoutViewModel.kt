@@ -109,7 +109,8 @@ class PlayWorkoutViewModel(
         }
         updateState {
             it.copy(
-                stage = Stage.REST
+                stage = Stage.REST,
+                currentStep = nextStep
             )
         }
     }

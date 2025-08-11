@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
-import com.cairosquad.evolvefit.ui.screen.playWorkout.component.ColumnWithBackground
+import com.cairosquad.evolvefit.ui.screen.playWorkout.component.ColumnWithBackgroundImage
 import com.cairosquad.evolvefit.ui.screen.playWorkout.component.ExerciseNameAndInfoIcon
 import com.cairosquad.evolvefit.ui.screen.playWorkout.component.RestTimer
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutInteractionListener
@@ -43,16 +42,14 @@ fun PlayWorkoutContentRest(
     screenState: PlayWorkoutScreenState,
     listener: PlayWorkoutInteractionListener
 ) {
-
-    LaunchedEffect(Unit){
-        listener.onClickForward()
-    }
-
     val currentExercise = screenState.workout.exercises
         .getOrNull(screenState.currentStep - 1)
         ?: PlayWorkoutScreenState.ExerciseUiState()
 
-    ColumnWithBackground(
+    val upperSpaceWeight = 0.546f
+    val lowerSpaceWeight = 1 - upperSpaceWeight
+
+    ColumnWithBackgroundImage(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
@@ -61,7 +58,7 @@ fun PlayWorkoutContentRest(
         contentPadding = WindowInsets.systemBars.asPaddingValues(),
         backgroundBlurRadius = 32.dp
     ) {
-        Spacer(Modifier.weight(0.546f))
+        Spacer(Modifier.weight(upperSpaceWeight))
         Text(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
@@ -81,12 +78,12 @@ fun PlayWorkoutContentRest(
             onFinish = listener::onClickRestFinish,
             timeIncrement = PlayWorkoutViewModel.REST_TIMER_TIME_INCREMENT
         )
-        Spacer(Modifier.weight(0.454f))
+        Spacer(Modifier.weight(lowerSpaceWeight))
         Text(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 8.dp),
-            text = stringResource(Res.string.next_movement) + " (${screenState.currentStep + 1}/${screenState.workout.exercises.size})",
+            text = stringResource(Res.string.next_movement) + " (${screenState.currentStep}/${screenState.workout.exercises.size})",
             style = Theme.textStyle.label.smallRegular14,
             color = Theme.color.surfaces.textColor,
         )

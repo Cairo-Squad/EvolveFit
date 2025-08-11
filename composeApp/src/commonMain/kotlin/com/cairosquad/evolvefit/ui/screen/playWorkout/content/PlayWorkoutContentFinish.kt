@@ -55,6 +55,9 @@ fun PlayWorkoutContentFinish(
     screenState: PlayWorkoutScreenState,
     listener: PlayWorkoutInteractionListener
 ) {
+    val upperSpaceWeight = 0.569f
+    val lowerSpaceWeight = 1 - upperSpaceWeight
+
     ColumnWithBackgroundAndFireworks(
         modifier = Modifier
             .fillMaxSize()
@@ -64,7 +67,7 @@ fun PlayWorkoutContentFinish(
         contentPadding = WindowInsets.systemBars.asPaddingValues(),
         backgroundBlurRadius = 32.dp
     ) {
-        Spacer(Modifier.weight(0.569f))
+        Spacer(Modifier.weight(upperSpaceWeight))
         Text(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
@@ -97,7 +100,7 @@ fun PlayWorkoutContentFinish(
             totalTimeMinutes = screenState.totalTimeMinutes,
             level = screenState.workout.level,
         )
-        Spacer(Modifier.weight(0.431f))
+        Spacer(Modifier.weight(lowerSpaceWeight))
         PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
@@ -113,7 +116,6 @@ fun PlayWorkoutContentFinish(
             text = stringResource(Res.string.finish),
             onClick = listener::onClickFinish
         )
-
     }
 }
 
@@ -124,7 +126,6 @@ private fun WorkoutStatistics(
     level: WorkoutLevelUiState,
     modifier: Modifier = Modifier
 ) {
-
     val hours = minOf(totalTimeMinutes / 60, 99)
     val hoursText = hours.toString().padStart(2, '0')
     val minutes = totalTimeMinutes % 60
@@ -201,8 +202,6 @@ private fun SingleStat(
 }
 
 
-
-
 @Composable
 private fun ColumnWithBackgroundAndFireworks(
     model: String,
@@ -214,7 +213,7 @@ private fun ColumnWithBackgroundAndFireworks(
     backgroundBlurRadius: Dp = 32.dp,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    Box(modifier = modifier){
+    Box(modifier = modifier) {
         NetworkImage(
             modifier = Modifier
                 .matchParentSize()
