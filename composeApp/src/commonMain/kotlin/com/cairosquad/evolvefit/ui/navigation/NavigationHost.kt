@@ -13,7 +13,6 @@ import com.cairosquad.evolvefit.local.AuthPreferences
 import com.cairosquad.evolvefit.ui.screen.app.AppScreen
 import com.cairosquad.evolvefit.ui.screen.communityWorkout.CommunityWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.createExercise.CreateExerciseScreen
-import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.login.LoginScreen
 import com.cairosquad.evolvefit.ui.screen.mealDetails.MealDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.mealsHistory.MealsHistoryScreen
@@ -21,6 +20,7 @@ import com.cairosquad.evolvefit.ui.screen.onboarding.OnboardingScreen
 import com.cairosquad.evolvefit.ui.screen.playWorkout.PlayWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
 import com.cairosquad.evolvefit.ui.screen.suggestedMeals.SuggestedMealsScreen
+import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.WorkoutDetailsScreen
 import org.koin.compose.koinInject
 
@@ -80,14 +80,16 @@ fun NavigationHost(
                 navigateToWorkoutDetails = { workoutId -> navController.navigate(WorkoutDetailsRoute(workoutId)) },
                 navigateToSuggestedMeals = { navController.navigate(SuggestedMealsRoute) },
                 navigateToMealDetails = { mealId -> navController.navigate(MealDetailsRoute(mealId)) },
-                navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) }
+                navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) },
             )
         }
 
         composable<CreateWorkoutRoute> {
             CreateWorkoutScreen(
                 navigateBack = navController::popBackStack,
-                navigateToCreateExercise = { navController.navigate(CreateExerciseRoute) }
+                navigateToCreateExercise = { navController.navigate(CreateExerciseRoute) },
+                navigateToWorkOuts = TODO(),
+                navigateToAllExercises = TODO()
             )
         }
 
