@@ -39,7 +39,7 @@ class CreateExerciseViewModel(
         }
     }
     override fun onFocusAreaNameSelected(name: String) {
-        val focusArea = CreateExerciseState.FocusArea.valueOf(name)
+        val focusArea = FocusArea.valueOf(name)
         onFocusAreaToggled(focusArea)
     }
     override fun onEquipmentNameSelected(toolName: String) {
