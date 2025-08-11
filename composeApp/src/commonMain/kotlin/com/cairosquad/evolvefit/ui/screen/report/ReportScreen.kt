@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
@@ -34,28 +35,32 @@ import com.cairosquad.evolvefit.ui.screen.report.componant.cards.BarChartCard
 import com.cairosquad.evolvefit.ui.screen.report.componant.cards.HistoryWorkoutCard
 import com.cairosquad.evolvefit.ui.screen.report.componant.cards.LineChartCard
 import com.cairosquad.evolvefit.ui.screen.report.componant.cards.MusclesCard
+import com.cairosquad.evolvefit.viewmodel.report.ReportScreenState
+import com.cairosquad.evolvefit.viewmodel.report.ReportViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_export
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ReportScreen(
+    viewModel: ReportViewModel = koinViewModel(),
     navigateToWorkoutHistory: () -> Unit
 ) {
+    val uiState by viewModel.screenState.collectAsStateWithLifecycle()
     ReportScreenContent(
+        screenState = uiState,
         navigateToWorkoutHistory = navigateToWorkoutHistory
     )
 }
 
 @Composable
 private fun ReportScreenContent(
+    screenState: ReportScreenState,
     navigateToWorkoutHistory: () -> Unit
 ) {
-    val data by remember { mutableStateOf(listOf(0f, 3f, 2f, 4f, 5f, 3f, 1f)) }
-    val labels by remember { mutableStateOf(listOf("Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri")) }
-    val musclesName = listOf("Chest", "Back", "Legs", "Arms", "Shoulders")
-    val musclesPercentage = listOf(0.32f, 0.24f, 0.68f, 0.49f, 0.11f)
+
     var isAnimationStarted by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         isAnimationStarted = true
@@ -106,6 +111,11 @@ private fun ReportScreenContent(
                     DashboardGrid(
                         modifier = Modifier
                             .padding(top = 8.dp),
+                        expectedCalories = screenState.expectedCalories,
+                        takenCalories = screenState.caloriesTaken,
+                        timeSpent = screenState.timeSpend,
+                        waterConsumed = screenState.waterConsumed,
+                        totalWorkout = screenState.totalWorkouts,
                         isAnimationStarted = isAnimationStarted
                     )
                     DropdownMenu(
@@ -123,25 +133,25 @@ private fun ReportScreenContent(
             item {
                 BarChartCard(
                     modifier = Modifier.padding(top = 16.dp),
-                    data = data,
-                    labels = labels,
+                    data = screenState.workoutPerWeek.workoutsCount.map { it.toFloat() },
+                    labels = screenState.workoutPerWeek.day,
                     isAnimationStarted = isAnimationStarted
                 )
             }
             item {
                 LineChartCard(
                     modifier = Modifier.padding(top = 16.dp),
-                    data = data,
-                    labels = labels,
-                    totalTime = "2h 35min",
+                    data = screenState.timeSpendPerWeek.time.map { it.toFloat() },
+                    labels = screenState.timeSpendPerWeek.day,
+                    totalTime = screenState.timeSpend,
                     isAnimationStarted = isAnimationStarted
                 )
             }
             item {
                 MusclesCard(
                     modifier = Modifier.padding(top = 16.dp),
-                    musclesName = musclesName,
-                    trainedMusclesPercentage = musclesPercentage,
+                    musclesName = screenState.mostTrainedMuscles.muscle,
+                    trainedMusclesPercentage = screenState.mostTrainedMuscles.percentage,
                     isAnimationStarted = isAnimationStarted
                 )
             }
@@ -160,6 +170,9 @@ private fun ReportScreenContent(
 @Composable
 private fun ReportScreenPreview() {
     AppTheme(isDarkTheme = true) {
-        ReportScreenContent({})
+        ReportScreenContent(
+            ReportScreenState(),
+            navigateToWorkoutHistory = {}
+        )
     }
 }

@@ -23,6 +23,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun DashboardGrid(
     isAnimationStarted: Boolean,
+    timeSpent: String,
+    waterConsumed: Float,
+    totalWorkout: String,
+    expectedCalories: Int,
+    takenCalories: Int,
     modifier: Modifier = Modifier,
 ) {
     BoxWithConstraints(
@@ -40,22 +45,22 @@ fun DashboardGrid(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier.weight(1f)
                 ) {
-                    TimeSpendCard("32h")
-                    TotalWorkoutCard(5)
+                    TimeSpendCard(timeSpent)
+                    TotalWorkoutCard(totalWorkout)
                 }
                 CaloriesCard(
                     modifier = Modifier
                         .weight(1f)
                         .height(262.dp),
-                    expectedCalories = 2500,
-                    takenCalories = 1500,
+                    expectedCalories = expectedCalories,
+                    takenCalories = takenCalories,
                     isAnimationStarted = isAnimationStarted
                 )
                 WaterCard(
                     modifier = Modifier
                         .weight(1f)
                         .height(262.dp),
-                    waterConsumed = "05",
+                    waterConsumed = waterConsumed,
                     isAnimationStarted = isAnimationStarted,
                 )
             }
@@ -68,25 +73,25 @@ fun DashboardGrid(
                 userScrollEnabled = false
             ) {
                 item {
-                    TimeSpendCard("32h")
+                    TimeSpendCard(timeSpent)
                 }
                 item {
                     CaloriesCard(
                         modifier = Modifier.height(214.dp),
-                        expectedCalories = 2500,
-                        takenCalories = 1500,
+                        expectedCalories = expectedCalories,
+                        takenCalories = takenCalories,
                         isAnimationStarted = isAnimationStarted
                     )
                 }
                 item {
                     WaterCard(
                         modifier = Modifier.height(214.dp),
-                        waterConsumed = "05",
+                        waterConsumed = waterConsumed,
                         isAnimationStarted = isAnimationStarted
                     )
                 }
                 item {
-                    TotalWorkoutCard(5)
+                    TotalWorkoutCard(totalWorkout)
                 }
             }
         }
@@ -97,6 +102,13 @@ fun DashboardGrid(
 @Composable
 private fun DashboardGridPreview() {
     AppTheme {
-        DashboardGrid(true)
+        DashboardGrid(
+            isAnimationStarted = true,
+            timeSpent = "2hr",
+            waterConsumed = 4f,
+            totalWorkout = "16",
+            expectedCalories = 3400,
+            takenCalories = 1234,
+        )
     }
 }

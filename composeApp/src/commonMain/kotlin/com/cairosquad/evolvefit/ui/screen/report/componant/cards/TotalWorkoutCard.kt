@@ -23,7 +23,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TotalWorkoutCard(
-    totalWorkoutCount: Int,
+    totalWorkoutCount: String,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -41,7 +41,7 @@ fun TotalWorkoutCard(
         )
         Text(
             modifier = Modifier.padding(top = 12.dp),
-            text = "$totalWorkoutCount",
+            text = totalWorkoutCount,
             color = Theme.color.surfaces.onSurfaceContainer,
             style = Theme.textStyle.display.largeBold24
         )
@@ -60,6 +60,6 @@ fun TotalWorkoutCardPreview() {
     TotalWorkoutCard(
         modifier = Modifier
             .width(160.dp),
-        totalWorkoutCount = 5
+        totalWorkoutCount = "5"
     )
 }

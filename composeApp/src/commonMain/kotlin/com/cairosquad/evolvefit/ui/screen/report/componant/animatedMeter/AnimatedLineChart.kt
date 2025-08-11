@@ -31,7 +31,6 @@ fun AnimatedLineChart(
     markerRadiusDp: Dp = 8.dp,
     onPointCentersCalculated: (List<Offset>) -> Unit = {}
 ) {
-    require(data.isNotEmpty()) { "data must not be empty" }
 
     val maxValue = (data.maxOrNull() ?: 1f).coerceAtLeast(1f)
 

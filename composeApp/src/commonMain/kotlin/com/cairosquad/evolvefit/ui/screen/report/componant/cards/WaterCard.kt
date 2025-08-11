@@ -36,7 +36,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun WaterCard(
-    waterConsumed: String,
+    waterConsumed: Float,
     isAnimationStarted: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -79,7 +79,7 @@ fun WaterCard(
                         .align(Alignment.Center)
                         .scale(scaleX = -1f, scaleY = 1f),
                     fillPercent = 0.5f,
-                    isAnimationStarted = isAnimationStarted
+                    isAnimationStarted = isAnimationStarted && waterConsumed != 0f
                 )
             }
             Row(
@@ -89,7 +89,7 @@ fun WaterCard(
                 verticalAlignment = Alignment.Bottom
             ) {
                 Text(
-                    text = waterConsumed,
+                    text = waterConsumed.toString(),
                     color = Theme.color.surfaces.textColor,
                     style = Theme.textStyle.display.largeBold24
                 )
@@ -110,7 +110,7 @@ private fun WaterCardPreview() {
         modifier = Modifier
             .width(160.dp)
             .height(214.dp),
-        waterConsumed = "06",
+        waterConsumed = 6f,
         isAnimationStarted = true
     )
 }
@@ -122,7 +122,7 @@ private fun WaterCardLongPreview() {
         modifier = Modifier
             .width(160.dp)
             .height(260.dp),
-        waterConsumed = "08",
+        waterConsumed = 8f,
         isAnimationStarted = true
     )
 }
