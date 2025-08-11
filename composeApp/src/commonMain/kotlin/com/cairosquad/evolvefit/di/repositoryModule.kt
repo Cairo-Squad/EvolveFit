@@ -1,9 +1,13 @@
 package com.cairosquad.evolvefit.di
 
+import com.cairosquad.evolvefit.Repository.WorkoutRepositoryImpl
 import com.cairosquad.evolvefit.domain.AuthRepository
+import com.cairosquad.evolvefit.repository.remote.WorkoutRemoteDataSource
+import com.cairosquad.evolvefit.domain.WorkoutRepository
 import com.cairosquad.evolvefit.local.AuthPreferences
 import com.cairosquad.evolvefit.remote.auth.AuthRemoteDataSourceImp
 import com.cairosquad.evolvefit.remote.provideHttpClient
+import com.cairosquad.evolvefit.remote.workOut.WorkoutRemoteDataSourceImpl
 import com.cairosquad.evolvefit.repository.AuthRepositoryImpl
 import com.cairosquad.evolvefit.repository.remote.AuthRemoteDataSource
 import io.ktor.client.plugins.auth.providers.BearerTokens
@@ -20,6 +24,8 @@ val repositoryModule = module {
             }
         )
     }
+    single<WorkoutRepository> { WorkoutRepositoryImpl(get()) }
+    single<WorkoutRemoteDataSource>{ WorkoutRemoteDataSourceImpl(get()) }
     single<AuthRemoteDataSource> { AuthRemoteDataSourceImp(get()) }
     single<AuthRepository> { AuthRepositoryImpl(get(),get()) }
 }
