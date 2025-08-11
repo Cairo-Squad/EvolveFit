@@ -80,7 +80,13 @@ class CreateExerciseViewModel(
     }
 
     override fun onMeasurementTypeSelected(type: MeasurementType) {
-        updateState { it.copy(measurementType = type) }
+        updateState {
+            it.copy(
+                measurementType = type,
+                isDurationChecked = type == MeasurementType.DURATION,
+                isRepsChecked = type == MeasurementType.REPS
+            )
+        }
     }
 
     override fun onMeasurementValueChanged(value: Int) {
