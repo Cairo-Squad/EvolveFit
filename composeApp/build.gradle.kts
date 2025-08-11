@@ -38,6 +38,7 @@ kotlin {
             implementation(libs.koin.androidx.compose)
 
             implementation(libs.ktor.client.android)
+            implementation(libs.core.splashscreen)
 
         }
         commonMain.dependencies {
@@ -51,7 +52,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.coil.compose)
             implementation(libs.lifecycle.viewmodel)
-            implementation(libs.core.splashscreen)
 
             // navigation
             implementation(libs.navigation.compose)
@@ -71,6 +71,13 @@ kotlin {
             implementation(libs.filekit.dialogs)
             implementation(libs.filekit.dialogs.compose)
             implementation(libs.filekit.coil)
+
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.multiplatform.settings.no.arg)
+            implementation(libs.ktor.client.auth)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

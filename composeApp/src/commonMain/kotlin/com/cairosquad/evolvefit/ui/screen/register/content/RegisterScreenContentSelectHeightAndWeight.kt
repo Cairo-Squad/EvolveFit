@@ -1,19 +1,5 @@
-import HeightWeightConstants.DP_PER_CM
-import HeightWeightConstants.DP_PER_FT
-import HeightWeightConstants.DP_PER_KG
-import HeightWeightConstants.DP_PER_LB
-import HeightWeightConstants.HEIGHT_STEP_CM
-import HeightWeightConstants.HEIGHT_STEP_FT
-import HeightWeightConstants.MAX_HEIGHT_CM
-import HeightWeightConstants.MAX_HEIGHT_FT
-import HeightWeightConstants.MAX_WEIGHT_KG
-import HeightWeightConstants.MAX_WEIGHT_LB
-import HeightWeightConstants.MIN_HEIGHT_CM
-import HeightWeightConstants.MIN_HEIGHT_FT
-import HeightWeightConstants.MIN_WEIGHT_KG
-import HeightWeightConstants.MIN_WEIGHT_LB
-import HeightWeightConstants.WEIGHT_STEP_KG
-import HeightWeightConstants.WEIGHT_STEP_LB
+package com.cairosquad.evolvefit.ui.screen.register.content
+
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -72,7 +58,6 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.floor
 
-
 @Composable
 fun RegisterScreenContentSelectHeightAndWeight(
     state: RegisterScreenState,
@@ -100,26 +85,26 @@ fun RegisterScreenContentSelectHeightAndWeight(
             heightMeasureUnit = stringResource(Res.string.cm)
             weightMeasureUnit = stringResource(Res.string.kg)
 
-            minHeight = MIN_HEIGHT_CM
-            maxHeight = MAX_HEIGHT_CM
-            minWeight = MIN_WEIGHT_KG
-            maxWeight = MAX_WEIGHT_KG
-            dpPerHeightUnit = DP_PER_CM
-            dpPerWeightUnit = DP_PER_KG
-            heightStep = HEIGHT_STEP_CM
-            weightStep = WEIGHT_STEP_KG
+            minHeight = HeightWeightConstants.MIN_HEIGHT_CM
+            maxHeight = HeightWeightConstants.MAX_HEIGHT_CM
+            minWeight = HeightWeightConstants.MIN_WEIGHT_KG
+            maxWeight = HeightWeightConstants.MAX_WEIGHT_KG
+            dpPerHeightUnit = HeightWeightConstants.DP_PER_CM
+            dpPerWeightUnit = HeightWeightConstants.DP_PER_KG
+            heightStep = HeightWeightConstants.HEIGHT_STEP_CM
+            weightStep = HeightWeightConstants.WEIGHT_STEP_KG
         } else {
             heightMeasureUnit = stringResource(Res.string.ft)
             weightMeasureUnit = stringResource(Res.string.lb)
 
-            minHeight = MIN_HEIGHT_FT
-            maxHeight = MAX_HEIGHT_FT
-            minWeight = MIN_WEIGHT_LB
-            maxWeight = MAX_WEIGHT_LB
-            dpPerHeightUnit = DP_PER_FT
-            dpPerWeightUnit = DP_PER_LB
-            heightStep = HEIGHT_STEP_FT
-            weightStep = WEIGHT_STEP_LB
+            minHeight = HeightWeightConstants.MIN_HEIGHT_FT
+            maxHeight = HeightWeightConstants.MAX_HEIGHT_FT
+            minWeight = HeightWeightConstants.MIN_WEIGHT_LB
+            maxWeight = HeightWeightConstants.MAX_WEIGHT_LB
+            dpPerHeightUnit = HeightWeightConstants.DP_PER_FT
+            dpPerWeightUnit = HeightWeightConstants.DP_PER_LB
+            heightStep = HeightWeightConstants.HEIGHT_STEP_FT
+            weightStep = HeightWeightConstants.WEIGHT_STEP_LB
         }
         MeasureSection(
             selectedMeasure = state.selectedHeight,
@@ -177,51 +162,51 @@ private fun RegisterScreenContentSelectHeightAndWeightPreview() {
                     }
 
                     override fun onNotificationToggled(type: RegisterScreenState.NotificationType) {
-                        TODO("Not yet implemented")
+                        // TODO("Not yet implemented")
                     }
 
                     override fun onWorkoutDaySelected(day: RegisterScreenState.WorkoutDay) {
-                        TODO("Not yet implemented")
+                        // TODO("Not yet implemented")
                     }
 
                     override fun onNoEquipmentSelected() {
-                        TODO("Not yet implemented")
+                        // TODO("Not yet implemented")
                     }
 
-                    override fun onEquipmentToggled(equipmentId: String) {
-                        TODO("Not yet implemented")
+                    override fun onEquipmentToggled(equipmentId: Long) {
+                        // TODO("Not yet implemented")
                     }
 
                     override fun onImagePickerClick() {
-                        TODO("Not yet implemented")
+                        // TODO("Not yet implemented")
                     }
 
                     override fun onImagePickerDismiss() {
-                        TODO("Not yet implemented")
+                        // TODO("Not yet implemented")
                     }
 
                     override fun onImageRetrieved(image: UiImage) {
-                        TODO("Not yet implemented")
+                        // TODO("Not yet implemented")
                     }
 
                     override fun onUserNameChange(userName: String) {
-                        TODO("Not yet implemented")
+                        // TODO("Not yet implemented")
                     }
 
                     override fun onUserEmailChange(userEmail: String) {
-                        TODO("Not yet implemented")
+                        // TODO("Not yet implemented")
                     }
 
                     override fun onUserPasswordChange(userPassword: String) {
-                        TODO("Not yet implemented")
+                        // TODO("Not yet implemented")
                     }
 
                     override fun onPasswordVisibilityClick() {
-                        TODO("Not yet implemented")
+                        // TODO("Not yet implemented")
                     }
 
                     override fun onDateOfBirthChange(dateOfBirth: String) {
-                        TODO("Not yet implemented")
+                        // TODO("Not yet implemented")
                     }
 
                     override fun onClickNext() {
@@ -238,15 +223,15 @@ private fun RegisterScreenContentSelectHeightAndWeightPreview() {
                     }
 
                     override fun onGenderClicked(gender: RegisterScreenState.Gender) {
-                        TODO("Not yet implemented")
+                        // TODO("Not yet implemented")
                     }
 
                     override fun onMeasurementUnitClicked(unit: RegisterScreenState.MeasurementStandard) {
-                        TODO("Not yet implemented")
+                        // TODO("Not yet implemented")
                     }
 
                     override fun onGoalClicked(goal: RegisterScreenState.Goal) {
-                        TODO("Not yet implemented")
+                        // TODO("Not yet implemented")
                     }
                 }
             )

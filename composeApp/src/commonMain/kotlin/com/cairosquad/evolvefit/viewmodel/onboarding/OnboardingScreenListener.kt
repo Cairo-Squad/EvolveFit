@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.onBoarding
+package com.cairosquad.evolvefit.viewmodel.onboarding
 
 interface OnboardingScreenListener {
     fun onChangeLanguage(language: OnboardingScreenState.Language)
