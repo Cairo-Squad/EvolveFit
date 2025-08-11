@@ -116,7 +116,7 @@ private fun ReportScreenContent(
                         timeSpent = screenState.timeSpend,
                         waterConsumed = screenState.waterConsumed,
                         totalWorkout = screenState.totalWorkouts,
-                        isAnimationStarted = isAnimationStarted
+                        isAnimationStarted = isAnimationStarted && screenState.waterConsumed != 0f
                     )
                     DropdownMenu(
                         modifier = Modifier
@@ -135,7 +135,7 @@ private fun ReportScreenContent(
                     modifier = Modifier.padding(top = 16.dp),
                     data = screenState.workoutPerWeek.workoutsCount.map { it.toFloat() },
                     labels = screenState.workoutPerWeek.day,
-                    isAnimationStarted = isAnimationStarted
+                    isAnimationStarted = isAnimationStarted && screenState.workoutPerWeek.day.isNotEmpty()
                 )
             }
             item {
@@ -144,7 +144,7 @@ private fun ReportScreenContent(
                     data = screenState.timeSpendPerWeek.time.map { it.toFloat() },
                     labels = screenState.timeSpendPerWeek.day,
                     totalTime = screenState.timeSpend,
-                    isAnimationStarted = isAnimationStarted
+                    isAnimationStarted = isAnimationStarted && screenState.timeSpendPerWeek.day.isNotEmpty()
                 )
             }
             item {
@@ -152,7 +152,7 @@ private fun ReportScreenContent(
                     modifier = Modifier.padding(top = 16.dp),
                     musclesName = screenState.mostTrainedMuscles.muscle,
                     trainedMusclesPercentage = screenState.mostTrainedMuscles.percentage,
-                    isAnimationStarted = isAnimationStarted
+                    isAnimationStarted = isAnimationStarted && screenState.mostTrainedMuscles.muscle.isNotEmpty()
                 )
             }
             item {
