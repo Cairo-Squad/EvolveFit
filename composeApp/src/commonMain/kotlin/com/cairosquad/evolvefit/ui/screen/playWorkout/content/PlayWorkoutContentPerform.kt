@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -42,6 +41,7 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.ui.screen.playWorkout.component.ExerciseNameAndInfoIcon
+import com.cairosquad.evolvefit.ui.util.ScreenSize
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -75,7 +75,8 @@ fun PlayWorkoutContentPerform(
     LaunchedEffect(screenState.currentStep) {
         try {
             pagerState.animateScrollToPage(screenState.currentStep - 1)
-        } catch (_: Exception) {}
+        } catch (_: Exception) {
+        }
     }
 
     Column(
@@ -102,8 +103,8 @@ fun PlayWorkoutContentPerform(
         ) { pageIndex ->
             ExercisePage(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
+                    .verticalScroll(rememberScrollState())
+                    .fillMaxSize(),
                 exercise = screenState.workout.exercises[pageIndex],
                 listener = listener,
                 currentStep = pageIndex + 1,
@@ -120,16 +121,20 @@ private fun ExercisePage(
     currentStep: Int,
     totalSteps: Int,
     modifier: Modifier = Modifier
-){
+) {
+    val imageHeightDp = maxOf(ScreenSize.heightDp - 440, 360f)
+    val imageWidthDp = minOf(ScreenSize.widthDp - 16, imageHeightDp)
+
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         NetworkImage(
             modifier = Modifier
-                .size(328.dp, 360.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .padding(bottom = 40.dp),
+                .padding(bottom = 40.dp)
+                .padding(horizontal = 16.dp)
+                .size(imageWidthDp.dp, imageHeightDp.dp)
+                .clip(RoundedCornerShape(8.dp)),
             model = exercise.imageUrls.firstOrNull() ?: "",
             contentDescription = exercise.name,
             defaultImage = painterResource(Res.drawable.im_default_workout)
@@ -152,8 +157,7 @@ private fun ExercisePage(
         BottomSection(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 48.dp)
-                .weight(1f),
+                .padding(bottom = 48.dp),
             exerciseSpec = exercise.exerciseSpec,
             onFinishExercise = listener::onFinishExercise,
             onClickForward = listener::onClickForward,
@@ -180,6 +184,7 @@ private fun BottomSection(
                 onClickBack = onClickBack
             )
         }
+
         is PlayWorkoutScreenState.ExerciseSpecUiState.Time -> {
             BottomSectionTime(
                 modifier = modifier,
@@ -203,13 +208,13 @@ private fun BottomSectionReps(
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         Text(
+            modifier = Modifier.padding(bottom = 60.dp),
             text = "X$reps",
             style = Theme.textStyle.title.largeBold16.copy(fontSize = 48.sp),
             color = Theme.color.surfaces.onSurfaceContainer,
         )
-        Spacer(Modifier.weight(1f))
         BottomButtons(
             onClickPrimaryButton = onClickDone,
             onClickForward = onClickForward,
@@ -238,11 +243,11 @@ private fun BottomSectionTime(
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         ClockTimer(
+            modifier = Modifier.padding(bottom = 60.dp),
             clockTimerState = clockTimerState
         )
-        Spacer(Modifier.weight(1f))
         BottomButtons(
             onClickPrimaryButton = {
                 clockTimerState.triggerPause()
@@ -265,7 +270,7 @@ private fun BottomButtons(
     onClickBack: () -> Unit,
     primaryButtonIcon: Painter,
     modifier: Modifier = Modifier,
-){
+) {
     val isRTL = LocalLayoutDirection.current == LayoutDirection.Rtl
 
     Row(
