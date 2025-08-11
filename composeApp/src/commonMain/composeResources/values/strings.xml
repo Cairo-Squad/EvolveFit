@@ -130,6 +130,7 @@
     <string name="password_placeholder">Password</string>
     <string name="logo_description">Logo Icon</string>
     <string name="arrow_back_description">Arrow Back Icon</string>
+    <string name="arrow">Arrow</string>
     <string name="join_now">Join now</string>
     <string name="do_not_have_an_account">Don’t have an account?</string>
     <string name="birthday">Birthday</string>
@@ -147,5 +148,15 @@
     <string name="enter_instructions">Enter instructions</string>
     <string name="save_exercise">Save Exercise</string>
     <string name="characters_left">%1$d character left</string>
+    <string name="select_focus_area">Select focus area</string>
+    <string name="choose_available_tools">Choose available tools</string>
+
+    <string name="exit_confirmation_title">Do you want to exit?</string>
+    <string name="exit_confirmation_message">You haven’t saved your workout yet. All progress might be lost.</string>
+    <string name="cancel">Cancel</string>
+    <string name="save_image">save image</string>
+    <string name="exit_without_saving">Exit Without Saving</string>
+
+
 
 </resources>
