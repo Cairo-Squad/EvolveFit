@@ -18,12 +18,10 @@ data class HomeScreenState(
 
     data class WeeklyProgressUiState(
         val goal: String = "",
-        val currentWeight: String = "",
+        val currentWeight: Float = 0f,
         val weightUnit: String = "",
         val activityPercentage: Int = 0,
-        val startDay: Int = 1,
-        val endDay: Int = 7,
-        val today: Int = 1,
+        val progressDays: Map<Int, Boolean> = emptyMap(),
     )
 
     data class HomeWorkoutUiState(
@@ -31,6 +29,7 @@ data class HomeScreenState(
         val name: String = "",
         val imageUrl: String = "",
         val durationInMins: Int = 0,
+        val type: String = "",
         val isSaved: Boolean = false,
     )
 }

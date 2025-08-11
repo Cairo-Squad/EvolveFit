@@ -1,6 +1,8 @@
 package com.cairosquad.evolvefit.viewmodel.home
 
+import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import kotlinx.coroutines.launch
 
 class HomeViewModel(
 
@@ -20,18 +22,54 @@ class HomeViewModel(
     }
 
     private fun loadUserInfo() {
+        // DUMMY
+        viewModelScope.launch {
+            updateState {
+                it.copy(user = DummyDataSource.user)
+            }
+        }
         // TODO: use the use case, this should be the only use case where the success call back should not stop the loading indicator
     }
 
     private fun loadProgress() {
+        // DUMMY
+        viewModelScope.launch {
+            updateState {
+                it.copy(
+                    weeklyProgress = DummyDataSource.weeklyProgress,
+                )
+            }
+            stopLoading()
+        }
         // TODO: use the use case, stop the loading state on success
     }
 
     private fun loadNutrition() {
+        // DUMMY
+        viewModelScope.launch {
+            updateState {
+                it.copy(
+                    caloriesCount = DummyDataSource.caloriesNutrition.first,
+                    caloriesGoal = DummyDataSource.caloriesNutrition.second,
+                    waterCount = DummyDataSource.waterNutrition.first,
+                    waterGoal = DummyDataSource.waterNutrition.second,
+                )
+            }
+            stopLoading()
+        }
         // TODO: use the use case, stop the loading state on success
     }
 
     private fun loadPersonalizedWorkouts() {
+        // DUMMY
+        viewModelScope.launch {
+            updateState {
+                it.copy(
+                    personalizedWorkouts = DummyDataSource.personalizedWorkouts
+                )
+            }
+            stopLoading()
+        }
         // TODO: use the use case, stop the loading state on success
     }
 
