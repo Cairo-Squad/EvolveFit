@@ -15,9 +15,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.arrow
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_arrow_up
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -55,7 +57,7 @@ fun RowWithIcon(
             modifier = Modifier
                 .clickable(onClick = onIconClicked),
             painter = arrowDirection,
-            contentDescription = "arrow down",
+            contentDescription = stringResource(Res.string.arrow),
             tint = iconTint,
         )
     }
