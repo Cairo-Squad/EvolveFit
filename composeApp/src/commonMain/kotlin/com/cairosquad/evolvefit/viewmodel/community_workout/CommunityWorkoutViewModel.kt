@@ -1,12 +1,10 @@
 package com.cairosquad.evolvefit.viewmodel.community_workout
 
-import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutsUseCase
 import com.cairosquad.evolvefit.entity.BodyPart
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
 import com.cairosquad.evolvefit.viewmodel.workout.toUiState
-import kotlinx.coroutines.launch
 
 class CommunityWorkoutViewModel(
     private val getWorkouts: ManageWorkoutsUseCase,
@@ -17,14 +15,24 @@ class CommunityWorkoutViewModel(
         loadAllWorkouts()
     }
 
-    private fun loadAllWorkouts() = viewModelScope.launch {
-        val list = getWorkouts.getAllWorkouts()
-        updateState { st -> st.copy(allWorkouts = list.map { it.toUiState() }) }
+    private fun loadAllWorkouts() {
+        tryToCall(
+            block = { getWorkouts.getAllWorkouts() },
+            onSuccess = { list ->
+                updateState { st -> st.copy(allWorkouts = list.map { it.toUiState() }) }
+            },
+            onError = { },
+        )
     }
 
-    private fun loadWorkoutsByBodyPart(name: String) = viewModelScope.launch {
-        val list = getWorkouts.getWorkoutsByBodyPart(name)
-        updateState { it -> it.copy(allWorkouts = list.map { it.toUiState() }) }
+    private fun loadWorkoutsByBodyPart(name: String) {
+        tryToCall(
+            block = { getWorkouts.getWorkoutsByBodyPart(name) },
+            onSuccess = { list ->
+                updateState { st -> st.copy(allWorkouts = list.map { it.toUiState() }) }
+            },
+            onError = { }
+        )
     }
 
     override fun onSelectBodyPart(bodyPart: BodyPart) {
