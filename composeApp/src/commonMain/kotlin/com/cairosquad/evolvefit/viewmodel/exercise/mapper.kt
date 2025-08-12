@@ -21,7 +21,7 @@ fun CreateExerciseState.toDomainExercise(): Exercise {
         focusAreas = this.selectedFocusAreas.map { it.toDomain() }.toSet(),
         instructions = this.description.split("\n"),
         id = "",
-        estimatedTimeSeconds = 60 // todo
+        estimatedTimeInSeconds = 60 // todo
     )
 }
 

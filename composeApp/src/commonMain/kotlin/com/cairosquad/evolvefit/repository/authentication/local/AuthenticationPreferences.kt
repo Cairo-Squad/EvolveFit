@@ -5,16 +5,21 @@ import com.russhwolf.settings.Settings
 class AuthenticationPreferences(private val settings: Settings) {
 
     fun saveTokens(access: String, refresh: String) {
-        settings.putString("access_token", access)
-        settings.putString("refresh_token", refresh)
+        settings.putString(ACCESS_KEY, access)
+        settings.putString(REFRESH_KEY, refresh)
     }
 
-    fun getAccessToken(): String? = settings.getStringOrNull("access_token")
+    fun getAccessToken(): String? = settings.getStringOrNull(ACCESS_KEY)
 
-    fun getRefreshToken(): String? = settings.getStringOrNull("refresh_token")
+    fun getRefreshToken(): String? = settings.getStringOrNull(REFRESH_KEY)
 
     fun clear() {
-        settings.remove("access_token")
-        settings.remove("refresh_token")
+        settings.remove(ACCESS_KEY)
+        settings.remove(REFRESH_KEY)
+    }
+
+    private companion object {
+        const val ACCESS_KEY = "access_token"
+        const val REFRESH_KEY = "refresh_token"
     }
 }

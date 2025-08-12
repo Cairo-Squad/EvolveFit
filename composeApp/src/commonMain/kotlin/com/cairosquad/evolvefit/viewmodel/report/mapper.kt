@@ -4,8 +4,8 @@ import com.cairosquad.evolvefit.domain.entity.Report
 
 fun Report.toUiState() = ReportScreenState.ReportUiState(
     waterConsumed = waterTakenInLiter,
-    timeSpent = formatDuration(timeSpend),
-    takenCalories = takenCalories,
+    timeSpent = formatDuration(timeSpentInMilliSeconds),
+    takenCaloriesInKcal = takenCaloriesInKcal,
     expectedCalories = expectedCalories,
     totalWorkouts = totalWorkouts.toString(),
     workoutPerWeek = ReportScreenState.WorkoutPerWeek(
@@ -14,7 +14,7 @@ fun Report.toUiState() = ReportScreenState.ReportUiState(
     ),
     timeSpendPerWeek = ReportScreenState.TimeSpendPerWeek(
         day = timeSpendPerWeek.map { (day, _) -> day.name.take(3) },
-        time = timeSpendPerWeek.map { (_, time) -> time }
+        timeInMilliSeconds = timeSpendPerWeek.map { (_, time) -> time }
     ),
     mostTrainedMuscles = ReportScreenState.TrainedMuscle(
         muscle = focusedAreas.map { (area, _) -> area.name },

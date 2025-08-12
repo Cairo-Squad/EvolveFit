@@ -154,8 +154,8 @@ class PlayWorkoutViewModel(
         get() = ((Clock.System.now().toEpochMilliseconds() - startTimeMilli) / 1000 / 60).toInt()
 
     companion object {
-        const val GET_READY_COUNTER_SECONDS = 10
-        const val REST_TIMER_SECONDS = 30
-        const val REST_TIMER_TIME_INCREMENT = 15
+        const val GET_READY_TIME_IN_SECONDS = 10
+        const val REST_TIMER_IN_SECONDS = 30
+        const val REST_TIMER_INCREMENT_IN_SECONDS = 15
     }
 }

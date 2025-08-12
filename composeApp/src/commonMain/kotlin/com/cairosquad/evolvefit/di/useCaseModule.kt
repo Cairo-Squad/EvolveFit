@@ -4,11 +4,12 @@ import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseC
 import com.cairosquad.evolvefit.domain.usecase.exercise.ManageExerciseUseCase
 import com.cairosquad.evolvefit.domain.usecase.report.ReportUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val useCaseModule = module {
-    factory { AuthenticationUseCase(get()) }
-    factory { ManageExerciseUseCase(get()) }
-    factory { ReportUseCase(get()) }
-    factory { ManageWorkoutUseCase(get()) }
+    singleOf(::AuthenticationUseCase)
+    singleOf(::ManageExerciseUseCase)
+    singleOf(::ReportUseCase)
+    singleOf(::ManageWorkoutUseCase)
 }

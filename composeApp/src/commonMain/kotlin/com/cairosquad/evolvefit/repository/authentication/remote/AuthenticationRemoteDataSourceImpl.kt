@@ -1,14 +1,11 @@
 package com.cairosquad.evolvefit.repository.authentication.remote
 
 import com.cairosquad.evolvefit.repository.authentication.remote.dto.AuthResponse
-import com.cairosquad.evolvefit.repository.authentication.remote.dto.EquipmentDto
 import com.cairosquad.evolvefit.repository.authentication.remote.dto.LoginRequest
 import com.cairosquad.evolvefit.repository.authentication.remote.dto.RefreshRequest
 import com.cairosquad.evolvefit.repository.authentication.remote.dto.RegisterRequest
-import com.cairosquad.evolvefit.repository.utils.safeApiCall
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -35,11 +32,5 @@ class AuthenticationRemoteDataSourceImpl(private val client: HttpClient) :
             contentType(ContentType.Application.Json)
             setBody(RefreshRequest(refreshToken))
         }.body()
-    }
-
-    override suspend fun getEquipments(): List<EquipmentDto> {
-        safeApiCall {
-            return client.get("/public/equipments").body()
-        }
     }
 }

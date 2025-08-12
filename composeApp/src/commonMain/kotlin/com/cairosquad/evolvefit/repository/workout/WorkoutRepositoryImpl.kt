@@ -60,7 +60,7 @@ class WorkoutRepositoryImpl(
                     equipment = Equipment(0, "Body Weight"),
                     focusAreas = setOf(),
                     instructions = listOf("this exercise is for for your health"),
-                    estimatedTimeSeconds = 60,
+                    estimatedTimeInSeconds = 60,
                 ),
                 Exercise(
                     id = "1",
@@ -70,7 +70,7 @@ class WorkoutRepositoryImpl(
                     equipment = Equipment(0, "Body Weight"),
                     focusAreas = setOf(),
                     instructions = listOf("this exercise is for for your health"),
-                    estimatedTimeSeconds = 60,
+                    estimatedTimeInSeconds = 60,
                 ),
                 Exercise(
                     id = "0",
@@ -80,7 +80,7 @@ class WorkoutRepositoryImpl(
                     equipment = Equipment(0, "Body Weight"),
                     focusAreas = setOf(),
                     instructions = listOf("this exercise is for for your health"),
-                    estimatedTimeSeconds = 60,
+                    estimatedTimeInSeconds = 60,
                 ),
                 Exercise(
                     id = "1",
@@ -90,7 +90,7 @@ class WorkoutRepositoryImpl(
                     equipment = Equipment(0, "Body Weight"),
                     focusAreas = setOf(),
                     instructions = listOf("this exercise is for for your health"),
-                    estimatedTimeSeconds = 60,
+                    estimatedTimeInSeconds = 60,
                 ),
                 Exercise(
                     id = "0",
@@ -100,7 +100,7 @@ class WorkoutRepositoryImpl(
                     equipment = Equipment(0, "Body Weight"),
                     focusAreas = setOf(),
                     instructions = listOf("this exercise is for for your health"),
-                    estimatedTimeSeconds = 60,
+                    estimatedTimeInSeconds = 60,
                 ),
                 Exercise(
                     id = "1",
@@ -110,11 +110,11 @@ class WorkoutRepositoryImpl(
                     equipment = Equipment(0, "Body Weight"),
                     focusAreas = setOf(),
                     instructions = listOf("this exercise is for for your health"),
-                    estimatedTimeSeconds = 60,
+                    estimatedTimeInSeconds = 60,
                 ),
             ),
             description = "this workout is good for your health",
-            estimatedTimeSeconds = 60 * 10
+            estimatedTimeInSeconds = 60 * 10
         )
     }
 }

@@ -11,13 +11,13 @@ class FakeReportRepositoryImpl : ReportRepository {
     override suspend fun getReport(): Report {
         delay(2000)
         return Report(
-            timeSpend = getTimeSpend(),
+            timeSpentInMilliSeconds = getTimeSpend(),
             totalWorkouts = getTotalWorkouts(),
-            takenCalories = getTakenCalories(),
+            takenCaloriesInKcal = getTakenCalories(),
             expectedCalories = getExpectedCalories(),
             waterTakenInLiter = getWaterTakenInLiter(),
             focusedAreas = getFocusedArea(),
-            timeSpendPerWeek = getTimeSpendPerWeek(),
+            timeSpentPerWeek = getTimeSpendPerWeek(),
             workoutsPerWeek = getWorkoutsPerWeek(),
         )
     }
