@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.entity
+package com.cairosquad.evolvefit.entity.nutrition
 
 data class DailyCalorieSummary(
     val consumedCalories: Int,

@@ -1,11 +1,11 @@
 package com.cairosquad.evolvefit.remote.nutrition.dto
 
-import com.cairosquad.evolvefit.entity.MealType
+import com.cairosquad.evolvefit.entity.nutrition.MealType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SuggestedMealDetailsDto(
+data class MealDto(
     @SerialName("id")
     val id: String,
     @SerialName("name")
