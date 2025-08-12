@@ -8,11 +8,11 @@ fun Report.toUiState() = ReportScreenState.ReportUiState(
     takenCalories = takenCalories,
     expectedCalories = expectedCalories,
     totalWorkouts = totalWorkouts.toString(),
-    workoutPerWeek = ReportScreenState.WorkoutPerDay(
+    workoutPerWeek = ReportScreenState.WorkoutPerWeek(
         day = workoutsPerWeek.map { (day, _) -> day.name.take(3) },
         workoutsCount = workoutsPerWeek.map { (_, count) -> count },
     ),
-    timeSpendPerWeek = ReportScreenState.TimeSpendPerDay(
+    timeSpendPerWeek = ReportScreenState.TimeSpendPerWeek(
         day = timeSpendPerWeek.map { (day, _) -> day.name.take(3) },
         time = timeSpendPerWeek.map { (_, time) -> time }
     ),
