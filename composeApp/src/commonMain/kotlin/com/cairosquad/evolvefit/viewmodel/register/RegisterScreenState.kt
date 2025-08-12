@@ -19,18 +19,19 @@ data class RegisterScreenState(
     val userEmailInput: String = "",
     val userPasswordInput: String = "",
     val dateOfBirthInput: String = "",
-    val isNextButtonEnabled: Boolean =false,
+    val isNextButtonEnabled: Boolean = false,
     val selectedGender: Gender? = null,
     val selectedMeasurementStandard: MeasurementStandard? = null,
     val selectedGoal: Goal? = null,
     val notificationSettings: NotificationSettings = NotificationSettings(),
-    val selectedWorkoutDays: List<WorkoutDay> = emptyList(),
+    val selectedWeekDayUiState: Set<WeekDayUiState> = emptySet(),
     val isNoEquipmentSelected: Boolean = false,
-    val availableEquipments: List<Equipment> = emptyList(),
-    val selectedEquipments: List<Long> = emptyList(),
+    val availableEquipments: List<EquipmentUiState> = emptyList(),
+    val selectedEquipments: Set<Int> = emptySet(),
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
     val image: UiImage = UiImage.ImageUrl(""),
+    val preferredLanguage: Language? = null,
     val isImagePickerOpen: Boolean = false,
     val isPasswordVisible: Boolean = false,
 ) {
@@ -48,7 +49,12 @@ data class RegisterScreenState(
         LoseWeight, GainWeight, StayInShape
     }
 
-    enum class WorkoutDay(val resId: StringResource) {
+    enum class Language {
+        ARABIC,
+        ENGLISH
+    }
+
+    enum class WeekDayUiState(val resId: StringResource) {
         SUNDAY(Res.string.sunday),
         MONDAY(Res.string.monday),
         TUESDAY(Res.string.tuesday),
@@ -58,9 +64,9 @@ data class RegisterScreenState(
         SATURDAY(Res.string.saturday);
     }
 
-    data class Equipment(
-        val toolName: String="",
-        val toolId: Long ,
+    data class EquipmentUiState(
+        val toolName: String = "",
+        val toolId: Int = 0,
         val isSelected: Boolean = false
     )
 
@@ -77,5 +83,5 @@ data class RegisterScreenState(
         object Water : NotificationType()
         object BodyWeight : NotificationType()
         object Challenges : NotificationType()
-        }
+    }
 }
