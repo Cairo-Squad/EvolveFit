@@ -24,7 +24,7 @@ fun Exercise.toUiState(): PlayWorkoutScreenState.ExerciseUiState {
                 PlayWorkoutScreenState.ExerciseSpecUiState.Reps(this.specification.reps)
             }
             is Exercise.Specification.Time -> {
-                PlayWorkoutScreenState.ExerciseSpecUiState.Reps(this.specification.timeSeconds)
+                PlayWorkoutScreenState.ExerciseSpecUiState.Reps(this.specification.timeInSeconds)
             }
         }
     )

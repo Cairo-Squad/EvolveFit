@@ -12,9 +12,9 @@ data class Meal(
     val type: MealType
 ) {
     data class Nutrition(
-        val calories: Int,
-        val fat: Int,
-        val protein: Int,
-        val carbs: Int
+        val caloriesInKcal: Int,
+        val fatInGrams: Int,
+        val proteinInGrams: Int,
+        val carbsInGrams: Int
     )
 }

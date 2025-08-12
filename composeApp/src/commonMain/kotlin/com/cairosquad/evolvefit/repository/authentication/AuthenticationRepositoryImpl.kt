@@ -5,7 +5,7 @@ import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.domain.repository.AuthenticationRepository
 import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
 import com.cairosquad.evolvefit.repository.authentication.remote.AuthenticationRemoteDataSource
-import com.cairosquad.evolvefit.repository.authentication.remote.dto.RegisterRequest
+import com.cairosquad.evolvefit.repository.authentication.remote.toRegisterRequest
 import com.cairosquad.evolvefit.repository.utils.safeApiCall
 
 class AuthenticationRepositoryImpl(
@@ -24,8 +24,7 @@ class AuthenticationRepositoryImpl(
         availableEquipment: Set<Int>,
         workoutDays: Set<WeekDay>
     ) {
-        val request = RegisterRequest.Companion.fromProfile(
-            profile,
+        val request = profile.toRegisterRequest(
             password,
             availableEquipment,
             workoutDays

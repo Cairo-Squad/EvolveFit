@@ -4,7 +4,7 @@ import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPr
 import com.russhwolf.settings.Settings
 import org.koin.dsl.module
 
-val preferencesModule = module {
+val localModule = module {
     single<Settings> { Settings() }
     single { AuthenticationPreferences(get()) }
 }

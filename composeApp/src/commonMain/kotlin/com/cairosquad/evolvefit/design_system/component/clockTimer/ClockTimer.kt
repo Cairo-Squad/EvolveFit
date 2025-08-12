@@ -51,7 +51,7 @@ fun ClockTimer(
     textStyle: TextStyle = Theme.textStyle.title.largeBold16.copy(fontSize = 48.sp),
 ) {
 
-    val time by clockTimerState.currentTime.collectAsState(initial = clockTimerState.totalTimeSeconds)
+    val time by clockTimerState.currentTimeInSeconds.collectAsState(initial = clockTimerState.totalTimeInSeconds)
 
     val minutes = minOf(time / 60, 99)
     val seconds = time % 60

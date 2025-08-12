@@ -1,8 +1,5 @@
 package com.cairosquad.evolvefit.repository.authentication.remote.dto
 
-import com.cairosquad.evolvefit.domain.entity.Profile
-import com.cairosquad.evolvefit.domain.model.WeekDay
-import com.cairosquad.evolvefit.repository.utils.toRemoteDto
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -30,30 +27,7 @@ data class RegisterRequest(
     val goal: String,
     val gymEquipments: List<Int>,
     val workoutDays: List<String>
-) {
-    companion object {
-        fun fromProfile(
-            profile: Profile,
-            password: String,
-            availableEquipment: Set<Int>,
-            workoutDays: Set<WeekDay>
-        ): RegisterRequest {
-            return RegisterRequest(
-                fullName = profile.name,
-                email = profile.email,
-                birthdate = profile.dateOfBirth.toRemoteDto(),
-                password = password,
-                gender = profile.gender.name,
-                measurementType = profile.preferredMeasurementStandard.name,
-                height = profile.height,
-                weight = profile.weight,
-                goal = profile.goal.name,
-                gymEquipments = availableEquipment.toList(),
-                workoutDays = workoutDays.map { it.name }
-            )
-        }
-    }
-}
+)
 
 @Serializable
 data class RefreshRequest(val refreshToken: String)

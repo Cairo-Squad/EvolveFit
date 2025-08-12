@@ -30,7 +30,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun RestTimer(
-    timeSeconds: Int,
+    timeInSeconds: Int,
     onFinish: () -> Unit,
     onClickSkipRest: () -> Unit,
     modifier: Modifier = Modifier,
@@ -39,7 +39,7 @@ fun RestTimer(
     textStyle: TextStyle = Theme.textStyle.title.largeBold16.copy(fontSize = 48.sp),
 ) {
     val clockTimerState = rememberClockTimerState(
-        totalTime = timeSeconds,
+        totalTime = timeInSeconds,
         onFinish = onFinish
     )
 
@@ -101,7 +101,7 @@ private fun RestTimerPreview() {
         RestTimer(
             modifier = Modifier
                 .padding(16.dp),
-            timeSeconds = 30,
+            timeInSeconds = 30,
             onFinish = {},
             onClickSkipRest = {}
         )
@@ -125,7 +125,7 @@ private fun RestTimerWithBackGroundPreview() {
             RestTimer(
                 modifier = Modifier
                     .padding(16.dp),
-                timeSeconds = 30,
+                timeInSeconds = 30,
                 onFinish = {},
                 onClickSkipRest = {}
             )

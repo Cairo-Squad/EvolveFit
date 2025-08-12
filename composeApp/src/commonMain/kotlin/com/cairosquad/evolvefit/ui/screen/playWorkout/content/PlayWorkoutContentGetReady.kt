@@ -86,7 +86,7 @@ fun PlayWorkoutContentGetReady(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 32.dp),
-            timeSeconds = PlayWorkoutViewModel.GET_READY_COUNTER_SECONDS,
+            timeInSeconds = PlayWorkoutViewModel.GET_READY_TIME_IN_SECONDS,
             onFinish = { listener.onGetReadyCounterFinish() },
             reverse = true
         )
