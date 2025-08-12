@@ -1,17 +1,15 @@
 package com.cairosquad.evolvefit.viewmodel.nutrition
 
-import com.cairosquad.evolvefit.entity.ConsumedMeal
-import com.cairosquad.evolvefit.entity.MealType
-import com.cairosquad.evolvefit.entity.SuggestedMeal
+import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
+import com.cairosquad.evolvefit.entity.nutrition.MealType
+import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
+import com.cairosquad.evolvefit.viewmodel.utils.formatIsoToTodayTime
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_coffee
 import evolvefit.composeapp.generated.resources.ic_donuts
 import evolvefit.composeapp.generated.resources.ic_launch
 import evolvefit.composeapp.generated.resources.ic_pizza_slice
 import org.jetbrains.compose.resources.DrawableResource
-
-import kotlinx.datetime.*
-import kotlinx.datetime.TimeZone
 
 fun NutritionScreenState.MealTypeUiState.toMealIcon(): DrawableResource {
    return when(this) {
@@ -37,58 +35,26 @@ fun MealType.toMealUiState(): NutritionScreenState.MealTypeUiState {
         MealType.SNACK -> NutritionScreenState.MealTypeUiState.Snacks
     }
 }
-fun ConsumedMeal.toMealHistoryUi(): NutritionScreenState.MealHistory {
-    return NutritionScreenState.MealHistory(
+fun ConsumedMeal.toMealHistoryUi(): NutritionScreenState.ConsumedMealUiState {
+    return NutritionScreenState.ConsumedMealUiState(
         name = this.name,
         type = this.type.toMealUiState(),
         calories = this.calories,
-        date = formatDateTimeForDisplay(this.dateTime)
+        date = formatIsoToTodayTime(this.dateTime)
     )
 }
-fun SuggestedMeal.toSuggestedMealUi(): NutritionScreenState.SuggestedMeal {
-    return NutritionScreenState.SuggestedMeal(
+fun SuggestedMeal.toSuggestedMealUi(): NutritionScreenState.SuggestedMealUiState {
+    return NutritionScreenState.SuggestedMealUiState(
         name = this.name,
         type = this.type.toMealUiState(),
         calories = this.calories,
         imageUrl = this.imageUrl
     )
 }
-fun ConsumedMeal.toTodayMealUi(): NutritionScreenState.TodayMealUiState {
-    return NutritionScreenState.TodayMealUiState(
+fun ConsumedMeal.toTodayMealUi(): NutritionScreenState.DailyMealSummaryUiState {
+    return NutritionScreenState.DailyMealSummaryUiState(
         type = this.type.toMealUiState(),
         calories = this.calories.toFloat(),
         icon = this.type.toMealUiState().toMealIcon()
     )
-}
-
-
-fun formatDateTimeForDisplay(dateTimeString: String): String {
-    val parsedDateTime = LocalDateTime.parse(dateTimeString)
-
-    val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-
-    val date = parsedDateTime.date
-    val today = now.date
-    val yesterday = today.minus(DatePeriod(days = 1))
-
-    val dayLabel = when (date) {
-        today -> "Today"
-        yesterday -> "Yesterday"
-        else -> parsedDateTime.dayOfWeek.name
-            .lowercase()
-            .replaceFirstChar { it.uppercase() } // e.g., "Wednesday"
-    }
-
-    val hour = parsedDateTime.hour
-    val minute = parsedDateTime.minute
-    val amPm = if (hour < 12) "AM" else "PM"
-    val displayHour = if (hour % 12 == 0) 12 else hour % 12
-    val displayMinute = minute.toString().padStart(2, '0')
-
-    return "$dayLabel, $displayHour:$displayMinute $amPm"
-}
- fun isToday(dateTimeString: String): Boolean {
-    val parsedDateTime = LocalDateTime.parse(dateTimeString)
-    val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-    return parsedDateTime.date == today
 }

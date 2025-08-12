@@ -1,6 +1,6 @@
 package com.cairosquad.evolvefit.remote.nutrition.dto
 
-import com.cairosquad.evolvefit.entity.MealType
+import com.cairosquad.evolvefit.entity.nutrition.MealType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -15,5 +15,5 @@ data class SuggestedMealDto(
     @SerialName("calories")
     val calories: Int,
     @SerialName("imageUrl")
-    val imageUrl: String
+    val imageUrl:String
 )
