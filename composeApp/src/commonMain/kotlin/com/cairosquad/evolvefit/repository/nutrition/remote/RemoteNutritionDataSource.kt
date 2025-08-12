@@ -1,11 +1,11 @@
-package com.cairosquad.evolvefit.remote.nutrition.data
+package com.cairosquad.evolvefit.repository.nutrition.remote
 
-import com.cairosquad.evolvefit.remote.nutrition.dto.ConsumedMealDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.ConsumedMealRequestDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.DailyCalorieSummaryDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.DailyWaterSummaryDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.MealDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.SuggestedMealDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealRequestDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.DailyCalorieSummaryDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.DailyWaterSummaryDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.MealDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.SuggestedMealDto
 
 interface RemoteNutritionDataSource {
     suspend fun getSuggestedMeals(): List<SuggestedMealDto>

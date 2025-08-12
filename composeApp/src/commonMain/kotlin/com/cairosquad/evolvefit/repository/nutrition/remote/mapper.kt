@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.remote.nutrition.mapper
+package com.cairosquad.evolvefit.repository.nutrition.remote
 
 import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
 import com.cairosquad.evolvefit.entity.nutrition.DailyCalorieSummary
@@ -6,12 +6,12 @@ import com.cairosquad.evolvefit.entity.nutrition.DailyWaterSummary
 import com.cairosquad.evolvefit.entity.nutrition.Meal
 import com.cairosquad.evolvefit.entity.nutrition.MealType
 import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
-import com.cairosquad.evolvefit.remote.nutrition.dto.ConsumedMealDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.ConsumedMealRequestDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.DailyCalorieSummaryDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.DailyWaterSummaryDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.MealDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.SuggestedMealDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealRequestDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.DailyCalorieSummaryDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.DailyWaterSummaryDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.MealDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.SuggestedMealDto
 
 fun ConsumedMealDto.toDomain(): ConsumedMeal {
     return ConsumedMeal(

@@ -1,13 +1,13 @@
-package com.cairosquad.evolvefit.remote.nutrition.data
+package com.cairosquad.evolvefit.repository.nutrition.remote
 
-import com.cairosquad.evolvefit.remote.nutrition.dto.ConsumedMealDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.ConsumedMealRequestDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.DailyCalorieSummaryDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.DailyWaterSummaryDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.MealDto
-import com.cairosquad.evolvefit.remote.nutrition.dto.SuggestedMealDto
-import com.cairosquad.evolvefit.remote.utils.Constants.MEALS_PATH
-import com.cairosquad.evolvefit.remote.utils.Constants.NUTRITION_PATH
+import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealRequestDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.DailyCalorieSummaryDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.DailyWaterSummaryDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.MealDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.SuggestedMealDto
+import com.cairosquad.evolvefit.remote.utils.MealConstants.MEALS_PATH
+import com.cairosquad.evolvefit.remote.utils.MealConstants.NUTRITION_PATH
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -17,7 +17,6 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
-import kotlinx.datetime.LocalDate
 
 class RemoteNutritionDataSourceImpl(
     private val httpClient: HttpClient

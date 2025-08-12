@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.remote.nutrition.dto
+package com.cairosquad.evolvefit.repository.nutrition.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
