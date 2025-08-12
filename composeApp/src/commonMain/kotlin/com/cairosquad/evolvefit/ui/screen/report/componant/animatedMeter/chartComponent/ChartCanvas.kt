@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 
+
 @Composable
 fun ChartCanvas(
     data: List<Float>,
@@ -52,6 +53,10 @@ fun ChartCanvas(
         label = "markerAnimation"
     )
 
+    if (data.isEmpty()) {
+        return
+    }
+
     Canvas(
         modifier = Modifier
             .fillMaxSize()
@@ -59,33 +64,55 @@ fun ChartCanvas(
                 detectTapGestures { offset -> onTap(offset) }
             }
     ) {
-        val canvasWidth = this.size.width
-        val canvasHeight = this.size.height + 3
-        val size = data.size
-        val spacingX = if (size == 1) 0f else canvasWidth / (size - 1)
+        val canvasWidth = size.width
+        val canvasHeight = size.height
+        val count = data.size
 
-        val anchors = List(size) { i ->
-            val x = i * spacingX
+        val strokeWidthPx = 2.dp.toPx()
+        val maxOuterRadius = markerRadiusPx
+        val inset = maxOuterRadius + strokeWidthPx
+
+        val availableWidth = (canvasWidth - 2f * inset).coerceAtLeast(0f)
+        val availableHeight = (canvasHeight - 1f * inset).coerceAtLeast(0f)
+
+        val spacingX = if (count == 1) 0f else availableWidth / (count - 1)
+
+        val anchors = List(count) { i ->
+            val x = if (count == 1) {
+                inset + availableWidth / 2f
+            } else {
+                inset + i * spacingX
+            }
+
             val normalized = (data[i] / maxValue).coerceIn(0f, 1f)
-            val y = canvasHeight - normalized * canvasHeight
+            val y = inset + (1.05f - normalized) * availableHeight
+
             Offset(x, y)
         }
 
         onAnchorsComputed(anchors)
 
-        val sampled = PathFunctions.catmullRomSpline(anchors, samplesPerSegment = 20)
-        val linePath = PathFunctions.buildPathFromPoints(sampled)
-        val areaPath = PathFunctions.buildAreaPath(linePath, anchors, canvasHeight)
+        val sampled = PathFunctions.catmullRomSpline(anchors, samplesPerSegment = 12)
+        val minY = inset
+        val maxY = canvasHeight - inset
+        val clampedSampled = sampled.map { p ->
+            Offset(p.x, p.y.coerceIn(minY, maxY))
+        }
 
-        clipRect(right = (this.size.width * animationProgress) + 3.dp.toPx()) {
+        val linePath = PathFunctions.buildPathFromPoints(clampedSampled)
+        val clampedAnchors = anchors.map { a -> Offset(a.x, a.y.coerceIn(minY, maxY)) }
+
+        val areaPath = PathFunctions.buildAreaPath(linePath, clampedAnchors, canvasHeight - inset)
+
+        clipRect(right = (this.size.width * animationProgress)) {
             drawPath(
                 areaPath,
-                brush = Brush.verticalGradient(areaColor, startY = -75f)
+                brush = Brush.verticalGradient(areaColor, startY = inset - 75f)
             )
             drawPath(
                 path = linePath,
                 color = lineColor,
-                style = Stroke(width = 2.dp.toPx(), cap = StrokeCap.Round)
+                style = Stroke(width = strokeWidthPx, cap = StrokeCap.Round)
             )
         }
 
@@ -94,34 +121,30 @@ fun ChartCanvas(
         if (maxIndex !in anchors.indices) return@Canvas
         val anchorPoint = anchors[maxIndex]
 
-        if (maxIndex in anchors.indices) {
+        val lineAlpha = markerProgress
+        val circleRadius = markerRadiusPx * markerProgress
+        val outerCircleRadius = (markerRadiusPx * 1.5f) * markerProgress
 
-            val lineAlpha = markerProgress
-            val circleRadius = markerRadiusPx * markerProgress
-            val outerCircleRadius = (markerRadiusPx * 1.5f) * markerProgress
+        drawLine(
+            color = dashedLineColor.copy(alpha = lineAlpha),
+            start = Offset(anchorPoint.x, inset),
+            end = Offset(anchorPoint.x, canvasHeight - inset),
+            strokeWidth = 1.dp.toPx(),
+            cap = StrokeCap.Round,
+            pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 8f), 0f)
+        )
 
-            drawLine(
-                color = dashedLineColor.copy(alpha = 1f * lineAlpha),
-                start = Offset(anchorPoint.x, 0f),
-                end = Offset(anchorPoint.x, canvasHeight),
-                strokeWidth = 1.dp.toPx(),
-                cap = StrokeCap.Round,
-                pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 8f), 0f)
-            )
+        drawCircle(
+            color = markerColor.copy(alpha = lineAlpha),
+            center = anchorPoint,
+            radius = circleRadius
+        )
 
-            drawCircle(
-                color = markerColor.copy(alpha = lineAlpha),
-                center = anchorPoint,
-                radius = circleRadius
-            )
-
-            drawCircle(
-                color = markerColor.copy(alpha = lineAlpha),
-                center = anchorPoint,
-                radius = outerCircleRadius,
-                style = Stroke(width = 2.dp.toPx())
-            )
-        }
-
+        drawCircle(
+            color = markerColor.copy(alpha = lineAlpha),
+            center = anchorPoint,
+            radius = outerCircleRadius,
+            style = Stroke(width = strokeWidthPx)
+        )
     }
 }

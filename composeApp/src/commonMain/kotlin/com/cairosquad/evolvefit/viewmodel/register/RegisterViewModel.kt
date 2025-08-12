@@ -40,7 +40,9 @@ class RegisterViewModel(
                         preferredMeasurementStandard = state.selectedMeasurementStandard.toDomain(),
                         height = state.selectedHeight,
                         weight = state.selectedHeight,
-                        goal = state.selectedGoal.toDomain()
+                        goal = state.selectedGoal.toDomain(),
+                        imageUrl=state.image.toString(),
+                        preferredLanguage = state.preferredLanguage.toDomain()
                     ),
                     password = state.userPasswordInput,
                     workoutDays = state.selectedWeekDayUiState.map { it.toDomain() }.toSet(),
