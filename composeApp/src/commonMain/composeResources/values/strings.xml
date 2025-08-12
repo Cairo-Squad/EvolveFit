@@ -7,6 +7,7 @@
     <string name="select_measurement">Please select a measurement for your </string>
     <string name="height">Height</string>
     <string name="weight">Weight</string>
+
     <string name="start_now">Start Now</string>
     <string name="next">Next</string>
     <string name="internet_is_not_available">Internet is not available</string>
@@ -164,4 +165,7 @@
     <string name="workout_report">Workout Report</string>
     <string name="ic_arrow_down">Arrow Down Icon</string>
     <string name="activity">Activity</string>
+
+    <string name="start_workout">Start Workout</string>
+    <string name="close">Close</string>
 </resources>
