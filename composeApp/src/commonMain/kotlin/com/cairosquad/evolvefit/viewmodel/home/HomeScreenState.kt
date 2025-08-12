@@ -1,6 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.home
 
-import com.cairosquad.evolvefit.entity.Gender
+import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.viewmodel.base.ErrorState
 
 data class HomeScreenState(
@@ -16,7 +16,7 @@ data class HomeScreenState(
 ) {
     data class HomeUserUiState(
         val name: String = "",
-        val gender: Gender = Gender.MALE,
+        val gender: Profile.Gender = Profile.Gender.MALE,
         val profilePictureUrl: String = "",
     )
 
@@ -29,7 +29,7 @@ data class HomeScreenState(
     )
 
     data class HomeWorkoutUiState(
-        val id: Long = 0,
+        val id: String = "",
         val name: String = "",
         val imageUrl: String = "",
         val durationInMins: UInt = 0.toUInt(),

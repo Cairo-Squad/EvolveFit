@@ -1,11 +1,12 @@
 package com.cairosquad.evolvefit.viewmodel.home
 
-import com.cairosquad.evolvefit.entity.Gender
+import com.cairosquad.evolvefit.domain.entity.Profile
+
 
 object DummyDataSource {
     val user = HomeScreenState.HomeUserUiState(
         name = "Zyad",
-        gender = Gender.MALE,
+        gender = Profile.Gender.MALE,
         profilePictureUrl = "https://picsum.photos/200"
     )
 
@@ -30,7 +31,7 @@ object DummyDataSource {
 
     val personalizedWorkouts = listOf(
         HomeScreenState.HomeWorkoutUiState(
-            id = 1,
+            id = "1",
             name = "Standard Push-ups",
             imageUrl = "https://picsum.photos/268/172",
             durationInMins = 25.toUInt(),
@@ -39,7 +40,7 @@ object DummyDataSource {
         ),
 
         HomeScreenState.HomeWorkoutUiState(
-            id = 2,
+            id = "2",
             name = "Full Body Blast",
             imageUrl = "https://picsum.photos/268/172",
             durationInMins = 20.toUInt(),

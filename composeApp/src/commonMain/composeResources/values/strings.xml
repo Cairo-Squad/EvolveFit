@@ -157,7 +157,6 @@
     <string name="total_workouts">Total Workouts</string>
     <string name="time_spent">Time Spent</string>
     <string name="water_drops">Water Drops</string>
-    <string name="liters">Liters</string>
     <string name="expected_calories">"From %1$ kcal"</string>
     <string name="needle">Needle</string>
     <string name="share">Share</string>
@@ -167,7 +166,7 @@
 
     <string name="calories_small">calories</string>
     <string name="water_consumption">Water consumption</string>
-    <string name="liters">liters</string>
+    <string name="liters_small">liters</string>
     <string name="remaining_formatted">%1$s %2$s remaining</string>
     <string name="today_nutrition">Today’s Nutrition</string>
 
@@ -182,5 +181,4 @@
 
     <string name="the_goal">The Goal</string>
     <string name="current_weight">Current weight</string>
-    <string name="activity">Activity</string>
 </resources>

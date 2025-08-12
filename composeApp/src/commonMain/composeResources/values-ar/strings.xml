@@ -167,7 +167,7 @@
 
     <string name="calories_small">سعر حراري</string>
     <string name="water_consumption">شرب الماء</string>
-    <string name="liters">لتر</string>
+    <string name="liters_small">لتر</string>
     <string name="remaining_formatted">%1$s %2$s متبقية</string>
     <string name="today_nutrition">تغذية اليوم</string>
 
@@ -179,4 +179,6 @@
     <string name="this_week">هذا الأسبوع</string>
 
     <string name="completed">مكتمل</string>
+    <string name="the_goal">الهدف</string>
+    <string name="current_weight">الوزن الحالي</string>
 </resources>
