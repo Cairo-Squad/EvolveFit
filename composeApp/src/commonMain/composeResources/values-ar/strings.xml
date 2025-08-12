@@ -164,8 +164,14 @@
     <string name="workout_report">تقرير التدريب</string>
     <string name="ic_arrow_down">ايقونه سهم لإسفل</string>
     <string name="activity">الأنشطة</string>
-
     <string name="start_workout">بدء التمرين</string>
     <string name="close">اغلاق</string>
-
+    <string name="second">ثانية</string>
+    <string name="detail_icon">أيقونة التفاصيل</string>
+    <string name="focus_quadriceps">عضلات الفخذ الأمامية</string>
+    <string name="focus_abs">عضلات البطن</string>
+    <string name="focus_calves">عضلات الساق</string>
+    <string name="focus_lower_back">أسفل الظهر</string>
+    <string name="focus_core">العضلات الأساسية</string>
+    <string name="focus_shoulders">الكتفين</string>
 </resources>

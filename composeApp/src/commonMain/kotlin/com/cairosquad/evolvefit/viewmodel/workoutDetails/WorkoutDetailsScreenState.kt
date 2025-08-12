@@ -1,14 +1,16 @@
 package com.cairosquad.evolvefit.viewmodel.workoutDetails
 
-import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
-
 data class WorkoutDetailsScreenState(
-    val workoutImage: UiImage = UiImage.ImageUrl(""),
-    val workoutTitle: String="",
-    val workoutDescription: String="",
-    val detailsCardsInfo: List<DetailsCardInfo> = emptyList(),
-    val exercises: List<Exercise> = emptyList(),
-    val selectedExercise: ExerciseDetails? = null
+    val isLoading: Boolean = false,
+    val workoutImage: String = "",
+    val workoutTitle: String = "",
+    val workoutDescription: String = "",
+    val level: WorkoutLevel = WorkoutLevel.INTERMEDIATE,
+    val estimatedTimeInSeconds: Int = 0,
+    val exercises: List<ExerciseUiState> = emptyList(),
+    val selectedExercise: ExerciseUiState? = null,
+    val isShareClicked: Boolean = false,
+    val isFavorite: Boolean = false
 
 ) {
     sealed class ExerciseType {
@@ -16,24 +18,27 @@ data class WorkoutDetailsScreenState(
         data class Reps(val count: Int) : ExerciseType()
     }
 
-    data class Exercise(
-        val name: String,
-        val exerciseImage: UiImage,
-        val type: ExerciseType
-    )
-
-    data class ExerciseDetails(
+    data class ExerciseUiState(
         val name: String,
         val instructions: List<String>,
-        val image: List<UiImage>,
-        val duration: Int?,
-        val reps: Int?,
-        val equipments: List<String>,
-        val focusAreas: List<String>
+        val images: List<String>,
+        val type: ExerciseType,
+        val equipment: String,
+        val focusAreas: List<FocusArea>
     )
 
-    data class DetailsCardInfo(
-        val value: String,
-        val label: String
-    )
+    enum class WorkoutLevel {
+        BEGINNER,
+        INTERMEDIATE,
+        ADVANCED
+    }
+
+    enum class FocusArea {
+        QUADRICEPS,
+        ABS,
+        CALVES,
+        LOWER_BACK,
+        CORE,
+        SHOULDERS
+    }
 }
