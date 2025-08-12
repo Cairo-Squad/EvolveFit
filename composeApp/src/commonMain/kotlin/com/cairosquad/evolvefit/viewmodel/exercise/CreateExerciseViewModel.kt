@@ -1,6 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.exercise
 
-import com.cairosquad.evolvefit.domain.usecase.workOut.ExerciseUseCase
+import com.cairosquad.evolvefit.domain.usecase.workout.ExerciseUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.FocusArea
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.MeasurementType

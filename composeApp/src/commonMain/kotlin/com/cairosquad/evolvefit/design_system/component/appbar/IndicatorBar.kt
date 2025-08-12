@@ -1,28 +1,23 @@
 package com.cairosquad.evolvefit.design_system.component.appbar
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -35,68 +30,47 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun IndicatorBar(
     currentStep: Int,
     totalSteps: Int,
-    onBackClick: () -> Unit,
+    onClickLeadingIcon: () -> Unit,
     modifier: Modifier = Modifier,
-    backButtonEnabled: Boolean = true,
-    backIconColor: Color = Theme.color.surfaces.onSurface,
+    leadingIcon: Painter = painterResource(Res.drawable.ic_back),
+    isStepsCountVisible: Boolean = true,
+    iconTint: Color = Theme.color.surfaces.onSurface,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth()
-                           .padding(horizontal = 16.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(
-            onClick = onBackClick,
-            enabled = backButtonEnabled,
-            modifier = Modifier.size(40.dp)
-        ) {
-            Icon(
-                modifier = Modifier.size(24.dp),
-                painter = painterResource(Res.drawable.ic_back),
-                contentDescription = "Back",
-                tint = backIconColor
+        Icon(
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+                .clickable(onClick = onClickLeadingIcon)
+                .padding(8.dp),
+            painter = leadingIcon,
+            contentDescription = "Back",
+            tint = iconTint
+        )
+
+        StepsIndicator(
+            modifier = Modifier
+                .padding(start = 12.dp)
+                .weight(1f),
+            currentStep = currentStep,
+            totalSteps = totalSteps,
+        )
+
+        if (isStepsCountVisible) {
+            Text(
+                modifier = Modifier
+                    .padding(start = 12.dp)
+                    .width(40.dp),
+                text = "$currentStep/$totalSteps",
+                color = Theme.color.surfaces.onSurfaceVariant,
+                style = Theme.textStyle.label.smallRegular12,
+                textAlign = TextAlign.Center
             )
-        }
-
-        Row(
-            modifier = Modifier.weight(1f)
-                               .padding(start = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier.weight(1f)
-            ) {
-                repeat(totalSteps) { index ->
-                    val stepColor by animateColorAsState(
-                        targetValue = if (index < currentStep)
-                            Theme.color.brand.primary
-                        else
-                            Theme.color.surfaces.surfaceVariant,
-                        animationSpec = tween(300),
-                        label = "stepColor"
-                    )
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(4.dp)
-                            .background(stepColor, RoundedCornerShape(2.dp))
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Box(
-                modifier = Modifier.size(40.dp),
-                contentAlignment = Alignment.Center
-            ){
-                Text(
-                    text = "$currentStep/$totalSteps",
-                    color = Theme.color.surfaces.onSurfaceVariant,
-                    style = Theme.textStyle.label.smallRegular12,
-                )
-            }
         }
     }
 }
@@ -104,19 +78,18 @@ fun IndicatorBar(
 @Preview
 @Composable
 private fun IndicatorBarPreview() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(32.dp)
+    AppTheme(
+        isDarkTheme = false
     ) {
-
-        AppTheme(isDarkTheme = false) {
+        Column(
+            modifier = Modifier
+                .background(Theme.color.surfaces.surface)
+        ) {
             IndicatorBar(
                 currentStep = 2,
                 totalSteps = 8,
-                onBackClick = { },
-                backIconColor = Theme.color.surfaces.onSurface,
+                onClickLeadingIcon = { },
+                iconTint = Theme.color.surfaces.onSurface,
             )
         }
     }
@@ -125,18 +98,18 @@ private fun IndicatorBarPreview() {
 @Preview
 @Composable
 private fun IndicatorBarDarkPreview() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(32.dp)
+    AppTheme(
+        isDarkTheme = true
     ) {
-        AppTheme(isDarkTheme = true) {
+        Column(
+            modifier = Modifier
+                .background(Theme.color.surfaces.surface)
+        ) {
             IndicatorBar(
                 currentStep = 2,
                 totalSteps = 8,
-                onBackClick = { },
-                backIconColor = Theme.color.surfaces.onSurface,
+                onClickLeadingIcon = { },
+                iconTint = Theme.color.surfaces.onSurface,
             )
         }
     }

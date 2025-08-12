@@ -16,7 +16,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 
 @Composable
 fun WorkoutDetailsScreen(
-    workoutId: Long,
+    workoutId: String,
     navigateBack: () -> Unit,
     navigateToPlayWorkout: () -> Unit
 ) {

@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.repository.remote.workOut
+package com.cairosquad.evolvefit.repository.remote.workout
 
 import kotlinx.serialization.Serializable
 

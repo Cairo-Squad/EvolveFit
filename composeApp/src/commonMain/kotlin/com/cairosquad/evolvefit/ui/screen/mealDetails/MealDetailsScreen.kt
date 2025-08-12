@@ -16,7 +16,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 
 @Composable
 fun MealDetailsScreen(
-    mealId: Long,
+    mealId: String,
     navigateBack: () -> Unit
 ) {
     Column(

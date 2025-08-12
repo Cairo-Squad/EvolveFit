@@ -1,6 +1,6 @@
 package com.cairosquad.evolvefit.repository
 
-import com.cairosquad.evolvefit.domain.AuthRepository
+import com.cairosquad.evolvefit.domain.repository.AuthRepository
 import com.cairosquad.evolvefit.entity.Tool
 import com.cairosquad.evolvefit.entity.User
 import com.cairosquad.evolvefit.local.AuthPreferences

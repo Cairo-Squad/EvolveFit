@@ -1,6 +1,6 @@
 package com.cairosquad.evolvefit.domain.usecase.authentication
 
-import com.cairosquad.evolvefit.domain.AuthRepository
+import com.cairosquad.evolvefit.domain.repository.AuthRepository
 import com.cairosquad.evolvefit.entity.Tool
 import com.cairosquad.evolvefit.entity.User
 

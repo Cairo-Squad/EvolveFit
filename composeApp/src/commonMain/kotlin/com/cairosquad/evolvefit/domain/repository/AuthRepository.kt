@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.domain
+package com.cairosquad.evolvefit.domain.repository
 
 import com.cairosquad.evolvefit.entity.Tool
 import com.cairosquad.evolvefit.entity.User

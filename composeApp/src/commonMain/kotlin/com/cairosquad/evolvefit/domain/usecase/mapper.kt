@@ -3,7 +3,7 @@ package com.cairosquad.evolvefit.domain.usecase
 import com.cairosquad.evolvefit.entity.Exercise
 import com.cairosquad.evolvefit.entity.Tool
 import com.cairosquad.evolvefit.repository.remote.auth.EquipmentDto
-import com.cairosquad.evolvefit.repository.remote.workOut.ExerciseDto
+import com.cairosquad.evolvefit.repository.remote.workout.ExerciseDto
 
 fun EquipmentDto.toDomain(): Tool {
     return Tool(
