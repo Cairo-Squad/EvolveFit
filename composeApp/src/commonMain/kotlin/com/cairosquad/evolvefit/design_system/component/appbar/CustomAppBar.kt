@@ -36,7 +36,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CustomAppBar(
-    title: String,
+    title: String = "",
     modifier: Modifier = Modifier,
     contentColor: Color = Theme.color.surfaces.onSurface,
     header: (@Composable (() -> Unit)) = { Box(modifier = Modifier) },
