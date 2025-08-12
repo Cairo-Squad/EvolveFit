@@ -73,10 +73,10 @@ fun PlayWorkoutContentRest(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 32.dp),
-            timeSeconds = PlayWorkoutViewModel.REST_TIMER_SECONDS,
+            timeInSeconds = PlayWorkoutViewModel.REST_TIMER_IN_SECONDS,
             onClickSkipRest = listener::onClickSkipRest,
             onFinish = listener::onClickRestFinish,
-            timeIncrement = PlayWorkoutViewModel.REST_TIMER_TIME_INCREMENT
+            timeIncrement = PlayWorkoutViewModel.REST_TIMER_INCREMENT_IN_SECONDS
         )
         Spacer(Modifier.weight(lowerSpaceWeight))
         Text(

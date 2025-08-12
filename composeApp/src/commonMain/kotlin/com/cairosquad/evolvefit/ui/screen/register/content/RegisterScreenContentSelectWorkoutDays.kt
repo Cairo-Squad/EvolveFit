@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.register.content
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -26,7 +25,7 @@ fun RegisterScreenContentSelectWorkoutDays(
     listener: RegisterInteractionListener,
     modifier: Modifier = Modifier
 ) {
-    val weekdays = remember { RegisterScreenState.WorkoutDay.entries.toList() }
+    val weekdays = remember { RegisterScreenState.WeekDayUiState.entries.toList() }
     LazyVerticalGrid(
         modifier = modifier
             .padding(top = 16.dp)
@@ -46,7 +45,7 @@ fun RegisterScreenContentSelectWorkoutDays(
         }
 
         items(weekdays) { day ->
-            val isSelected = state.selectedWorkoutDays.contains(day)
+            val isSelected = state.selectedWeekDayUiState.contains(day)
             SelectableDayBox(
                 textDay = stringResource(day.resId),
                 isSelected = isSelected,

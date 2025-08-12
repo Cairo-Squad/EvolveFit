@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ClockTimerState(
-    val totalTimeSeconds: Int,
+    val totalTimeInSeconds: Int,
     private val coroutineScope: CoroutineScope,
     private val onFinish: (() -> Unit)? = null,
     isInitiallyPaused: Boolean = false,
@@ -21,8 +21,8 @@ class ClockTimerState(
     private var isPaused = isInitiallyPaused
     private var timerJob: Job? = null
 
-    private val _currentTimeSeconds = MutableStateFlow(totalTimeSeconds)
-    val currentTime = _currentTimeSeconds.asSharedFlow()
+    private val _currentTimeInSeconds = MutableStateFlow(totalTimeInSeconds)
+    val currentTimeInSeconds = _currentTimeInSeconds.asSharedFlow()
 
     init {
         if (!isInitiallyPaused) { startTimer() }
@@ -31,21 +31,21 @@ class ClockTimerState(
     private fun startTimer() {
         timerJob?.cancel()
 
-        val startTime = totalTimeSeconds
+        val startTime = totalTimeInSeconds
         val endTime = 0
         val step = -1
 
-        _currentTimeSeconds.update { startTime }
+        _currentTimeInSeconds.update { startTime }
         timerJob = coroutineScope.launch {
             while (true) {
                 delay(1000)
                 if (isPaused) continue
-                if (_currentTimeSeconds.value == endTime) {
+                if (_currentTimeInSeconds.value == endTime) {
                     onFinish?.invoke()
                     timerJob?.cancel()
                     break
                 } else {
-                    _currentTimeSeconds.update { it + step }
+                    _currentTimeInSeconds.update { it + step }
                 }
             }
         }
@@ -72,12 +72,12 @@ class ClockTimerState(
     fun addSeconds(timeIncrementSeconds: Int) {
         if (timerJob?.isActive != true) return
 
-        if (_currentTimeSeconds.value + timeIncrementSeconds > 0) {
-            _currentTimeSeconds.update { it + timeIncrementSeconds }
+        if (_currentTimeInSeconds.value + timeIncrementSeconds > 0) {
+            _currentTimeInSeconds.update { it + timeIncrementSeconds }
             return
         }
         timerJob?.cancel()
-        _currentTimeSeconds.update { 0 }
+        _currentTimeInSeconds.update { 0 }
         onFinish?.invoke()
     }
 }
@@ -91,7 +91,7 @@ fun rememberClockTimerState(
     val coroutineScope = rememberCoroutineScope()
     return remember {
         ClockTimerState(
-            totalTimeSeconds = totalTime,
+            totalTimeInSeconds = totalTime,
             onFinish = onFinish,
             isInitiallyPaused = isInitiallyPaused,
             coroutineScope = coroutineScope

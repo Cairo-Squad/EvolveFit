@@ -27,13 +27,17 @@ fun DropdownMenu(
     modifier: Modifier = Modifier
 ) {
     AnimatedVisibility(
+        modifier = modifier,
         visible = expanded,
         enter = fadeIn(animationSpec = tween(500)),
         exit = fadeOut(animationSpec = tween(500))
     ) {
         Column(
-            modifier = modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp))
-                .background(Theme.color.surfaces.surfaceContainer).padding(8.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .background(Theme.color.surfaces.surfaceContainer)
+                .padding(8.dp)
         ) {
             items.forEach { item ->
                 val isSelected = item == selectedItem

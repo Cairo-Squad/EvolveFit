@@ -65,6 +65,8 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
 
+            // date
+            implementation(libs.kotlinx.datetime)
 
             // File kit
             implementation(libs.filekit.core)
