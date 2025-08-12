@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.composables.CircularPercentageIndicator
+import com.cairosquad.evolvefit.design_system.component.CircularProgressCard
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
@@ -41,7 +41,7 @@ fun NutritionSummaryCard(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CircularPercentageIndicator(
+            CircularProgressCard(
                 modifier = Modifier.weight(1f),
                 title = stringResource(Res.string.calories),
                 currentValue = state.dailyCaloriesGoal,
@@ -52,7 +52,7 @@ fun NutritionSummaryCard(
                 progressColor = Theme.color.system.success,
                 buttonClickable = false
             )
-            CircularPercentageIndicator(
+            CircularProgressCard(
                 modifier = Modifier.weight(1f),
                 title = stringResource(Res.string.water),
                 onActionButtonClicked = { listener.onAddWaterClicked() },

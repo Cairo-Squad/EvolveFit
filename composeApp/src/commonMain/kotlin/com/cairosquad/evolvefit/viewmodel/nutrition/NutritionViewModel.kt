@@ -257,7 +257,7 @@ class NutritionViewModel(
         sendEffect(NutritionEffect.NavigateToSuggestedMeals)
     }
 
-    override fun onSuggestedMealClicked(mealId: Long) {
+    override fun onSuggestedMealClicked(mealId: String) {
         sendEffect(NutritionEffect.NavigateToSuggestedMealDetails(mealId = mealId))
     }
 

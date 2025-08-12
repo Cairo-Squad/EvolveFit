@@ -1,11 +1,7 @@
 package com.cairosquad.evolvefit.ui.screen.nutrition.content
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,11 +21,10 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
-import com.cairosquad.evolvefit.design_system.component.CheckboxItem
-import com.cairosquad.evolvefit.design_system.component.CheckboxStyle
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.component.DropdownMenu
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -180,36 +175,4 @@ private fun MealCaloriesInputField(
         placeholder = stringResource(Res.string.calories),
         leadingIcon = Res.drawable.ic_fire
     )
-}
-
-@Composable
-fun DropdownMenu(
-    items: List<String>,
-    selectedItem: String?,
-    expanded: Boolean,
-    onItemClicked: (String) -> Unit,
-    onDismissRequest: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    AnimatedVisibility(
-        visible = expanded,
-        enter = fadeIn(animationSpec = tween(500)),
-        exit = fadeOut(animationSpec = tween(500))
-    ) {
-        Column(
-            modifier = modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp))
-                .background(Theme.color.surfaces.surfaceContainer).padding(8.dp)
-        ) {
-            items.forEach { item ->
-                val isSelected = item == selectedItem
-
-                CheckboxItem(
-                    text = item, isChecked = isSelected, onCheckedChange = {
-                        onItemClicked(item)
-                        onDismissRequest()
-                    }, style = CheckboxStyle.Tick
-                )
-            }
-        }
-    }
 }

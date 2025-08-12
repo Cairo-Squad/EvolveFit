@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -17,7 +18,7 @@ import coil3.compose.AsyncImage
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.im_img
+import evolvefit.composeapp.generated.resources.ic_default_image
 import evolvefit.composeapp.generated.resources.placeholder_image
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -29,6 +30,8 @@ fun NetworkImage(
     contentDescription: String?,
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Crop,
+    defaultImage: Painter = painterResource(Res.drawable.ic_default_image),
+    loadingPlaceHolder: Painter = painterResource(Res.drawable.ic_default_image),
     placeholderImageSize: DpSize? = null,
 ) {
     if (model.isNotBlank()) {
@@ -36,7 +39,9 @@ fun NetworkImage(
             modifier = modifier,
             contentScale = contentScale,
             model = model,
-            contentDescription = contentDescription
+            contentDescription = contentDescription,
+            placeholder = loadingPlaceHolder,
+            error = defaultImage
         )
     } else {
         Box(
@@ -52,7 +57,7 @@ fun NetworkImage(
                             ?.let { Modifier.size(it) }
                             ?: Modifier.fillMaxSize()
                     ),
-                painter = painterResource(Res.drawable.im_img),
+                painter = defaultImage,
                 contentDescription =
                     stringResource(Res.string.placeholder_image) + " :$contentDescription",
                 tint = Theme.color.surfaces.onSurfaceVariant
@@ -66,7 +71,7 @@ fun NetworkImage(
 fun Preview() {
     AppTheme(
         isDarkTheme = true
-    ){
+    ) {
         NetworkImage(
             modifier = Modifier
                 .size(92.dp, 72.dp)
