@@ -1,6 +1,6 @@
 package com.cairosquad.evolvefit.domain.entity
 
-import com.cairosquad.evolvefit.domain.model.Langauge
+import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import kotlinx.datetime.LocalDate
 
@@ -10,13 +10,13 @@ data class Profile(
     val dateOfBirth: LocalDate,
     val gender: Gender,
     val preferredMeasurementStandard: MeasurementStandard,
-    val preferredLangauge: Langauge,
+    val preferredLanguage: Language,
     val height: Float,
     val weight: Float,
     val goal: FitnessGoal,
     val imageUrl:String,
 
-) {
+    ) {
     enum class FitnessGoal {
         LOSE_WEIGHT,
         GAIN_WEIGHT,
