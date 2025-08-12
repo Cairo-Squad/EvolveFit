@@ -23,7 +23,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 fun WorkoutsScreen(
     navigateToCreateWorkout: () -> Unit,
     navigateToCommunityWorkout: () -> Unit,
-    navigateToWorkoutDetails: (Long) -> Unit,
+    navigateToWorkoutDetails: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -61,7 +61,7 @@ fun WorkoutsScreen(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .clickable(onClick = { navigateToWorkoutDetails(1) }),
+                .clickable(onClick = { navigateToWorkoutDetails("1") }),
             title = "Workout 1",
             duration = "25 min",
             bodyPart = "Chest",
@@ -72,7 +72,7 @@ fun WorkoutsScreen(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .clickable(onClick = { navigateToWorkoutDetails(2) }),
+                .clickable(onClick = { navigateToWorkoutDetails("2") }),
             title = "Workout 2",
             duration = "25 min",
             bodyPart = "Chest",
@@ -83,7 +83,7 @@ fun WorkoutsScreen(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .clickable(onClick = { navigateToWorkoutDetails(3) }),
+                .clickable(onClick = { navigateToWorkoutDetails("3") }),
             title = "Workout 3",
             duration = "25 min",
             bodyPart = "Chest",

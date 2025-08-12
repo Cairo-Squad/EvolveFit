@@ -7,7 +7,6 @@
     <string name="select_measurement">Please select a measurement for your </string>
     <string name="height">Height</string>
     <string name="weight">Weight</string>
-
     <string name="start_now">Start Now</string>
     <string name="next">Next</string>
     <string name="internet_is_not_available">Internet is not available</string>
@@ -65,7 +64,6 @@
     <string name="arabic">Arabic</string>
     <string name="english">English</string>
     <string name="confirm">Confirm</string>
-
     <string name="cm">cm</string>
     <string name="kg">kg</string>
     <string name="ft">ft</string>
@@ -101,15 +99,12 @@
     <string name="challenges_reminder_desc">About new achievements and challenges.</string>
     <string name="workout_days_title">Workout Days</string>
     <string name="workout_days_description">How often would you like to workout?</string>
-
     <string name="user_profile">User Profile</string>
     <string name="user_profile_description">Enter your name, date of birth, and add your photo to get started.</string>
     <string name="upload_image">Upload image</string>
-
     <string name="enter_your_name">Enter your name</string>
     <string name="enter_your_email">Enter your email</string>
     <string name="password">Password</string>
-
     <string name="month_january">January</string>
     <string name="month_february">February</string>
     <string name="month_march">March</string>
@@ -122,7 +117,6 @@
     <string name="month_october">October</string>
     <string name="month_november">November</string>
     <string name="month_december">December</string>
-
     <string name="date_of_birth">Date of Birth</string>
     <string name="welcome_back_title">Welcome Back!</string>
     <string name="welcome_back_description">Log in to continue your fitness journey, track your progress, and stay motivated every day.</string>
@@ -135,7 +129,41 @@
     <string name="birthday">Birthday</string>
     <string name="please_select_your_birthday">Please select your birthday</string>
     <string name="save">Save</string>
-
+    <string name="exercise_info">Exercise Info</string>
+    <string name="start">Start</string>
+    <string name="exercise">Exercise</string>
+    <string name="exercises">Exercises</string>
+    <string name="cancel_workout">Cancel Workout</string>
+    <string name="ready_to_workout">Ready To Workout!</string>
+    <string name="skip_rest_button">Skip Rest</string>
+    <string name="seconds_label">Sec</string>
+    <string name="congratulations_message">Congratulations</string>
+    <string name="workout_completed_message">You have completed the workout</string>
+    <string name="next_workout_button">Next to Another Workout</string>
+    <string name="finish">Finish</string>
+    <string name="minute_label">Minute</string>
+    <string name="level_label">Level</string>
+    <string name="primary_button">Primary Button</string>
+    <string name="back_button">Back</string>
+    <string name="next_movement">Next Movement</string>
+    <string name="end_workout_prompt">Do you want to end the workout?</string>
+    <string name="discard_progress_warning">Exiting now will discard your current progress.</string>
+    <string name="stay_in_workout_button">Stay in Workout</string>
+    <string name="end_workout_confirm_button">End Workout</string>
+    <string name="beginner">Beginner</string>
+    <string name="intermediate">Intermediate</string>
+    <string name="advanced">Advanced</string>
+    <string name="take_a_rest">Take a Rest</string>
+    <string name="total_workouts">Total Workouts</string>
+    <string name="time_spent">Time Spent</string>
+    <string name="water_drops">Water Drops</string>
+    <string name="liters">Liters</string>
+    <string name="expected_calories">"From %1$ kcal"</string>
+    <string name="needle">Needle</string>
+    <string name="share">Share</string>
+    <string name="workout_report">Workout Report</string>
+    <string name="ic_arrow_down">Arrow Down Icon</string>
+    <string name="activity">Activity</string>
     <string name="community">Community</string>
     <string name="back">Back</string>
 

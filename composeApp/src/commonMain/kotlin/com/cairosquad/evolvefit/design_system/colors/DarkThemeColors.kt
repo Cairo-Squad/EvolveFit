@@ -28,5 +28,11 @@ val darkThemeColors = ThemeColors(
         warning = Color(0xFFF5D02D),
         success = Color(0xFF2DAD58),
         info = Color(0xFF2B60D3),
+    ),
+    gradiant = Gradiant(
+        barGradiant = listOf(
+            Color(0xFF86D01D),
+            Color(0x03000000)
+        )
     )
 )
