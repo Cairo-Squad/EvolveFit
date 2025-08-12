@@ -1,8 +1,8 @@
 package com.cairosquad.evolvefit.viewmodel.workout
 
 interface WorkoutInteractionListener {
-    fun onSelectBodyPart(bodyPart: String)
-    fun onClickWorkout(id: Long)
+    fun onSelectFocusArea(focusArea: WorkoutScreenState.FocusAreaUiState)
+    fun onClickWorkout(id: String)
     fun onClickAddWorkout()
     fun onClickCommunity()
 }

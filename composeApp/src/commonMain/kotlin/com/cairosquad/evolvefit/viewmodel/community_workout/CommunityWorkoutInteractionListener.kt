@@ -1,10 +1,10 @@
 package com.cairosquad.evolvefit.viewmodel.community_workout
 
-import com.cairosquad.evolvefit.entity.BodyPart
+import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
 
 interface CommunityWorkoutInteractionListener {
-    fun onSelectBodyPart(bodyPart: BodyPart)
-    fun onClickWorkout(id: Long)
+    fun onSelectFocusArea(focusArea: WorkoutScreenState.FocusAreaUiState)
+    fun onClickWorkout(id: String)
     fun onClickBack()
     fun getCommunityWorkout()
 }

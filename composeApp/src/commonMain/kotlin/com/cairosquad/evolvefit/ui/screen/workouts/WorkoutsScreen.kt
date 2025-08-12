@@ -64,7 +64,7 @@ fun WorkoutsScreen(
                 .clickable(onClick = { navigateToWorkoutDetails("1") }),
             title = "Workout 1",
             duration = "25 min",
-            bodyPart = "Chest",
+            focusArea = "Chest",
             model = "",
         )
 
@@ -75,7 +75,7 @@ fun WorkoutsScreen(
                 .clickable(onClick = { navigateToWorkoutDetails("2") }),
             title = "Workout 2",
             duration = "25 min",
-            bodyPart = "Chest",
+            focusArea = "Chest",
             model = "",
         )
 
@@ -86,7 +86,7 @@ fun WorkoutsScreen(
                 .clickable(onClick = { navigateToWorkoutDetails("3") }),
             title = "Workout 3",
             duration = "25 min",
-            bodyPart = "Chest",
+            focusArea = "Chest",
             model = "",
         )
 

@@ -1,23 +1,27 @@
 package com.cairosquad.evolvefit.viewmodel.workout
 
-import com.cairosquad.evolvefit.entity.BodyPart
 
 data class WorkoutScreenState(
-    val selectedBodyPart: String = "All",
+    val selectedFocusArea: FocusAreaUiState = FocusAreaUiState.FULL_BODY,
     val allWorkouts: List<WorkoutUiState> = emptyList(),
-    val bodyParts: List<BodyPart> = listOf(
-        BodyPart(0, "All"),
-        BodyPart(1, "Arm"),
-        BodyPart(2, "Chest"),
-        BodyPart(3, "Back"),
-        BodyPart(4, "Shoulder")
-    )
+    val focusAreas: List<FocusAreaUiState> = listOf()
+
 ) {
     data class WorkoutUiState(
-        val id: Long,
+        val id: String,
         val title: String,
         val duration: String,
-        val bodyPart: BodyPart,
+        val focusArea: FocusAreaUiState,
         val imageUrl: String
     )
+
+    enum class FocusAreaUiState {
+        FULL_BODY,
+        QUADRICEPS,
+        ABS,
+        CALVES,
+        LOWER_BACK,
+        CORE,
+        SHOULDERS
+    }
 }

@@ -14,6 +14,4 @@ val repositoryModule = module {
     singleOf(::AuthenticationRepositoryImpl) bind AuthenticationRepository::class
     singleOf(::WorkoutRepositoryImpl) bind WorkoutRepository::class
     singleOf(::FakeReportRepositoryImpl) bind ReportRepository::class
-    single<WorkoutRepo> { FakeWorkoutRepository() }
-
 }

@@ -29,7 +29,6 @@ import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.entity.BodyPart
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutEffect
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutInteractionListener
@@ -48,7 +47,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun WorkoutScreen(
     navigateToCreateWorkout: () -> Unit,
     navigateToCommunityWorkout: () -> Unit,
-    navigateToWorkoutDetails: (Long) -> Unit,
+    navigateToWorkoutDetails: (String) -> Unit,
     viewModel: WorkoutViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
@@ -81,10 +80,10 @@ private fun WorkoutsScreenContent(
 
             AppBar(listener::onClickCommunity)
 
-            BodyPartsFilter(
-                bodyParts = state.bodyParts,
-                selectedBodyPart = state.selectedBodyPart,
-                onSelect = listener::onSelectBodyPart
+            FocusAreaFilter(
+                focusArea = state.focusAreas,
+                selectedFocusArea = state.selectedFocusArea,
+                onSelectFocusArea = listener::onSelectFocusArea
             )
 
             Workouts(
@@ -128,7 +127,7 @@ private fun AppBar(onCommunityClick: () -> Unit) {
 @Composable
 private fun Workouts(
     workouts: List<WorkoutScreenState.WorkoutUiState>,
-    onClickWorkout: (Long) -> Unit
+    onClickWorkout: (String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.padding(vertical = 12.dp),
@@ -142,7 +141,7 @@ private fun Workouts(
                     .clickable { onClickWorkout(workout.id) },
                 title = workout.title,
                 duration = workout.duration,
-                bodyPart = workout.bodyPart.name,
+                focusArea = workout.focusArea.name,
                 model = workout.imageUrl,
             )
         }
@@ -150,22 +149,22 @@ private fun Workouts(
 }
 
 @Composable
-private fun BodyPartsFilter(
-    bodyParts: List<BodyPart>,
-    selectedBodyPart: String,
-    onSelect: (String) -> Unit
+private fun FocusAreaFilter(
+    focusArea: List<WorkoutScreenState.FocusAreaUiState>,
+    selectedFocusArea: WorkoutScreenState.FocusAreaUiState,
+    onSelectFocusArea: (WorkoutScreenState.FocusAreaUiState) -> Unit
 ) {
     LazyRow(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        items(bodyParts.size) { index ->
-            val bodyPart = bodyParts[index].name
+        items(focusArea.size) { index ->
+            val area = focusArea[index]
             Chip(
-                title = bodyPart,
-                isSelected = selectedBodyPart.equals(bodyPart, true),
-                onClick = { onSelect(bodyPart) }
+                title = area.name,
+                isSelected = selectedFocusArea == area,
+                onClick = { onSelectFocusArea(area) }
             )
         }
     }

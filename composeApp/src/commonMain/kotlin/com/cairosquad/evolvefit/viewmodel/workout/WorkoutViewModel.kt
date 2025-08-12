@@ -1,10 +1,10 @@
 package com.cairosquad.evolvefit.viewmodel.workout
 
-import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutsUseCase
+import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 
 class WorkoutViewModel(
-    private val getWorkouts: ManageWorkoutsUseCase,
+    private val workoutUseCase: ManageWorkoutUseCase,
 
     ) : BaseViewModel<WorkoutScreenState, WorkoutEffect>(
     WorkoutScreenState()
@@ -15,7 +15,7 @@ class WorkoutViewModel(
 
     private fun loadAllWorkouts() {
         tryToCall(
-            block = { getWorkouts.getAllWorkouts() },
+            block = { workoutUseCase.getSuggestedWorkouts() },
             onSuccess = { list ->
                 updateState { st -> st.copy(allWorkouts = list.map { it.toUiState() }) }
             },
@@ -23,9 +23,15 @@ class WorkoutViewModel(
         )
     }
 
-    private fun loadWorkoutsByBodyPart(name: String) {
+    private fun loadWorkoutsByFocusArea(focusAreaUiState: WorkoutScreenState.FocusAreaUiState) {
         tryToCall(
-            block = { getWorkouts.getWorkoutsByBodyPart(name) },
+            block = {
+                if (focusAreaUiState == WorkoutScreenState.FocusAreaUiState.FULL_BODY) {
+                    workoutUseCase.getSuggestedWorkouts()
+                } else {
+                    workoutUseCase.getWorkoutsByFocusArea(focusAreaUiState.toDomain())
+                }
+            },
             onSuccess = { list ->
                 updateState { st -> st.copy(allWorkouts = list.map { it.toUiState() }) }
             },
@@ -33,17 +39,17 @@ class WorkoutViewModel(
         )
     }
 
-    override fun onSelectBodyPart(bodyPart: String) {
-        updateState { it.copy(selectedBodyPart = bodyPart) }
+    override fun onSelectFocusArea(focusArea: WorkoutScreenState.FocusAreaUiState) {
+        updateState { it.copy(selectedFocusArea = focusArea) }
 
-        if (bodyPart.equals("All", true)) {
+        if (focusArea == WorkoutScreenState.FocusAreaUiState.FULL_BODY) {
             loadAllWorkouts()
         } else {
-            loadWorkoutsByBodyPart(bodyPart)
+            loadWorkoutsByFocusArea(focusArea)
         }
     }
 
-    override fun onClickWorkout(id: Long) {
+    override fun onClickWorkout(id: String) {
         sendEffect(WorkoutEffect.NavigateToWorkoutDetails(id))
     }
 
