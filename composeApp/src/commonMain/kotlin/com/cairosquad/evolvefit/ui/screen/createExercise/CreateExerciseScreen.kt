@@ -33,7 +33,7 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.ImagePicker
 import com.cairosquad.evolvefit.ui.component.UiImageDisplayer
-import com.cairosquad.evolvefit.ui.screen.createExercise.content.CustomDropdownMenu
+import com.cairosquad.evolvefit.ui.screen.createExercise.content.DropdownMenu
 import com.cairosquad.evolvefit.ui.screen.createExercise.content.ExiteCreateExerciseBottomSheet
 import com.cairosquad.evolvefit.ui.screen.createExercise.content.RowWithIcon
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
@@ -198,7 +198,7 @@ fun CreateExerciseScreenContent(
                     isIconClicked = state.isFocusAreaExpanded,
                     onIconClicked = listener::onFocusAreaIconClicked
                 )
-                CustomDropdownMenu(
+                DropdownMenu(
                     items = state.focusAreaNames,
                     expanded = state.isFocusAreaExpanded,
                     onDismissRequest = listener::onDismissFocusAreasDropdownMenuRequest,
@@ -267,7 +267,7 @@ fun CreateExerciseScreenContent(
                     isIconClicked = state.isEquipmentExpanded,
                     onIconClicked = listener::onAvailableEquipmentsIconClicked
                 )
-                CustomDropdownMenu(
+                DropdownMenu(
                     items = state.equipmentNames,
                     expanded = state.isEquipmentExpanded,
                     onDismissRequest = listener::onDismissEquipmentsDropdownMenuRequest,

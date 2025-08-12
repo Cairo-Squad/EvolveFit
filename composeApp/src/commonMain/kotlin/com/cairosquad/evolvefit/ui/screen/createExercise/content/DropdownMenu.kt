@@ -28,7 +28,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun CustomDropdownMenu(
+fun DropdownMenu(
     items: List<String>,
     expanded: Boolean,
     onItemSelected: (String) -> Unit,
@@ -46,7 +46,6 @@ fun CustomDropdownMenu(
         shape = RoundedCornerShape(8.dp),
         containerColor = Theme.color.surfaces.surfaceContainer
     ) {
-
             items.forEach { item ->
                 Row(
                     modifier = Modifier
@@ -102,7 +101,7 @@ private fun CustomDropdownMenuPrev() {
                     )
 
                     // This Box acts as the anchor for DropdownMenu
-                    CustomDropdownMenu(
+                    DropdownMenu(
                         items = listOf(
                             "Upper Body",
                             "Lower Body",
