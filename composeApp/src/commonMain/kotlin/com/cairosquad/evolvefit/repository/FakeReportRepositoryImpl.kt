@@ -17,7 +17,7 @@ class FakeReportRepositoryImpl : ReportRepository {
             expectedCalories = getExpectedCalories(),
             waterTakenInLiter = getWaterTakenInLiter(),
             focusedAreas = getFocusedArea(),
-            timeSpendPerWeek = getTimeSpendPerWeek(),
+            timeSpentPerWeek = getTimeSpendPerWeek(),
             workoutsPerWeek = getWorkoutsPerWeek(),
         )
     }

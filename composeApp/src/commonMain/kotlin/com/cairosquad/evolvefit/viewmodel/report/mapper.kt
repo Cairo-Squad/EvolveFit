@@ -12,9 +12,9 @@ fun Report.toUiState() = ReportScreenState.ReportUiState(
         day = workoutsPerWeek.map { (day, _) -> day.name.take(3) },
         workoutsCount = workoutsPerWeek.map { (_, count) -> count },
     ),
-    timeSpendPerWeek = ReportScreenState.TimeSpendPerDay(
-        day = timeSpendPerWeek.map { (day, _) -> day.name.take(3) },
-        timeInMilliSeconds = timeSpendPerWeek.map { (_, time) -> time / 1000 }
+    timeSpentPerWeek = ReportScreenState.TimeSpentPerDay(
+        day = timeSpentPerWeek.map { (day, _) -> day.name.take(3) },
+        timeInMilliSeconds = timeSpentPerWeek.map { (_, time) -> time }
     ),
     mostTrainedMuscles = ReportScreenState.TrainedMuscle(
         muscle = focusedAreas.map { (area, _) -> area.name },

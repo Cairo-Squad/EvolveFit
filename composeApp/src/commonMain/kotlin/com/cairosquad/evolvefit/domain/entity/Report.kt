@@ -10,6 +10,6 @@ data class Report(
     val expectedCalories: Int,
     val waterTakenInLiter: Float,
     val focusedAreas: List<Pair<FocusArea, Int>>,
-    val timeSpendPerWeek: List<Pair<WeekDay, Long>>,
+    val timeSpentPerWeek: List<Pair<WeekDay, Long>>,
     val workoutsPerWeek: List<Pair<WeekDay, Int>>
 )
