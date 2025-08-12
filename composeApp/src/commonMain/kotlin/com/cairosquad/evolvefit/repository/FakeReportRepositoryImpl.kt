@@ -1,39 +1,49 @@
 package com.cairosquad.evolvefit.repository
 
+import com.cairosquad.evolvefit.domain.entity.Report
 import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.domain.repository.ReportRepository
 import kotlinx.coroutines.delay
 
 class FakeReportRepositoryImpl : ReportRepository {
-    override suspend fun getTimeSpend(): Long {
-        // 32 hours
+
+    override suspend fun getReport(): Report {
         delay(2000)
+        return Report(
+            timeSpend = getTimeSpend(),
+            totalWorkouts = getTotalWorkouts(),
+            takenCalories = getTakenCalories(),
+            expectedCalories = getExpectedCalories(),
+            waterTakenInLiter = getWaterTakenInLiter(),
+            focusedAreas = getFocusedArea(),
+            timeSpendPerWeek = getTimeSpendPerWeek(),
+            workoutsPerWeek = getWorkoutsPerWeek(),
+        )
+    }
+
+    private fun getTimeSpend(): Long {
+        // 32 hours
         return 32L * 60 * 60 * 1000
     }
 
-    override suspend fun getTotalWorkouts(): Int {
-        delay(2000)
+    private fun getTotalWorkouts(): Int {
         return 15
     }
 
-    override suspend fun getTakenCalories(): Int {
-        delay(2000)
+    private fun getTakenCalories(): Int {
         return 4500
     }
 
-    override suspend fun getExpectedCalories(): Int {
-        delay(2000)
+    private fun getExpectedCalories(): Int {
         return 10450
     }
 
-    override suspend fun getWaterTakenInLiter(): Float {
-        delay(2000)
+    private fun getWaterTakenInLiter(): Float {
         return 4.5f
     }
 
-    override suspend fun getFocusedArea(): List<Pair<FocusArea, Int>> {
-        delay(2000)
+    private fun getFocusedArea(): List<Pair<FocusArea, Int>> {
         return listOf(
             Pair(FocusArea.QUADRICEPS, 10),
             Pair(FocusArea.ABS, 35),
@@ -44,29 +54,27 @@ class FakeReportRepositoryImpl : ReportRepository {
         )
     }
 
-    override suspend fun getTimeSpendPerWeek(): List<Pair<WeekDay, Long>> {
-        delay(2000)
+    private fun getTimeSpendPerWeek(): List<Pair<WeekDay, Long>> {
         return listOf(
+            Pair(WeekDay.SATURDAY, 7),
+            Pair(WeekDay.SUNDAY, 10),
             Pair(WeekDay.MONDAY, 10),
             Pair(WeekDay.TUESDAY, 35),
             Pair(WeekDay.WEDNESDAY, 40),
             Pair(WeekDay.THURSDAY, 5),
             Pair(WeekDay.FRIDAY, 9),
-            Pair(WeekDay.SATURDAY, 7),
-            Pair(WeekDay.SUNDAY, 10),
         )
     }
 
-    override suspend fun getWorkoutsPerWeek(): List<Pair<WeekDay, Int>> {
-        delay(2000)
+     private fun getWorkoutsPerWeek(): List<Pair<WeekDay, Int>> {
         return listOf(
+            Pair(WeekDay.SATURDAY, 7),
+            Pair(WeekDay.SUNDAY, 10),
             Pair(WeekDay.MONDAY, 10),
             Pair(WeekDay.TUESDAY, 35),
             Pair(WeekDay.WEDNESDAY, 40),
             Pair(WeekDay.THURSDAY, 5),
             Pair(WeekDay.FRIDAY, 9),
-            Pair(WeekDay.SATURDAY, 7),
-            Pair(WeekDay.SUNDAY, 10),
         )
     }
 }

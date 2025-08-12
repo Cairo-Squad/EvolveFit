@@ -1,18 +1,22 @@
 package com.cairosquad.evolvefit.viewmodel.report
 
 data class ReportScreenState(
-    val waterConsumed: Float = 0f,
-    val timeSpend: String = "",
-    val caloriesTaken: Int = 0,
-    val expectedCalories: Int = 100,
-    val totalWorkouts: String = "",
-    val workoutPerWeek: WorkoutPerDay = WorkoutPerDay(),
-    val timeSpendPerWeek: TimeSpendPerDay = TimeSpendPerDay(),
-    val mostTrainedMuscles: TrainedMuscle = TrainedMuscle(),
+    val report: ReportUiState = ReportUiState(),
     val workoutHistory: List<WorkoutHistory> = emptyList(),
     val isDropDownMenuOpen: Boolean = false,
 
 ) {
+
+    data class ReportUiState(
+        val waterConsumed: Float = 0f,
+        val timeSpent: String = "",
+        val takenCalories: Int = 0,
+        val expectedCalories: Int = 100,
+        val totalWorkouts: String = "",
+        val workoutPerWeek: WorkoutPerDay = WorkoutPerDay(),
+        val timeSpendPerWeek: TimeSpendPerDay = TimeSpendPerDay(),
+        val mostTrainedMuscles: TrainedMuscle = TrainedMuscle(),
+    )
     data class WorkoutPerDay(
         val workoutsCount: List<Int> = emptyList(),
         val day: List<String> = emptyList()
