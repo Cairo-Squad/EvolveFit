@@ -12,6 +12,8 @@ data class Profile(
     val height: Float,
     val weight: Float,
     val goal: FitnessGoal,
+    val imageUrl:String,
+
 ) {
     enum class FitnessGoal {
         LOSE_WEIGHT,
