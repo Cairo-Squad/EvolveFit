@@ -1,21 +1,27 @@
 package com.cairosquad.evolvefit.viewmodel.editProfile
 
+import kotlinx.datetime.LocalDate
+
 data class EditProfileScreenState(
-    val user : UserUiState= UserUiState(),
+    val user: UserUiState = UserUiState(),
     val showBottomSheet: Boolean = false,
 ) {
     data class UserUiState(
         val fullName: String = "",
         val email: String = "",
-        val dateOfBirth: String = "",
+        val dateOfBirth: LocalDate? = null,
         val gender: String = "",
-        val height: String = "",
-        val weight: String = "",
+        val height: Float = 0f,
+        val weight: Float = 0f,
         val mainGoal: String = "",
-        val tools: String = "",
-        val workoutDays: List<String> = emptyList(),
-        val profileImageUri: String? = null,
+        val profileImageUri: String="",
+        val preferredMeasurementStandard: String ="",
+    )
 
-        )
+    enum class MeasurementStandard {
+        METRIC,
+        IMPERIAL
+    }
+
 }
 
