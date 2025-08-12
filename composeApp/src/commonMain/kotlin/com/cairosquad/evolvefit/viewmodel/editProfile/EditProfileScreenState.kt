@@ -3,10 +3,11 @@ package com.cairosquad.evolvefit.viewmodel.editProfile
 import kotlinx.datetime.LocalDate
 
 data class EditProfileScreenState(
-    val user: UserUiState = UserUiState(),
+    val profile: ProfileUiState = ProfileUiState(),
     val showBottomSheet: Boolean = false,
+    val errorMessage: String? = null,
 ) {
-    data class UserUiState(
+    data class ProfileUiState(
         val fullName: String = "",
         val email: String = "",
         val dateOfBirth: LocalDate? = null,
@@ -14,7 +15,7 @@ data class EditProfileScreenState(
         val height: Float = 0f,
         val weight: Float = 0f,
         val mainGoal: String = "",
-        val profileImageUri: String="",
+        val imageUrl: String="",
         val preferredMeasurementStandard: String ="",
     )
 

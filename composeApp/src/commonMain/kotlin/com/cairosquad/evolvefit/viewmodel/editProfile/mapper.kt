@@ -1,10 +1,9 @@
 package com.cairosquad.evolvefit.viewmodel.editProfile
 
 import com.cairosquad.evolvefit.domain.entity.Profile
-import com.cairosquad.evolvefit.domain.model.Langauge
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 
-fun Profile.toUiState() = EditProfileScreenState.UserUiState(
+fun Profile.toUiState() = EditProfileScreenState.ProfileUiState(
     fullName = name,
     email = email,
     dateOfBirth = dateOfBirth,
@@ -15,7 +14,7 @@ fun Profile.toUiState() = EditProfileScreenState.UserUiState(
     profileImageUri = imageUrl,
     preferredMeasurementStandard = preferredMeasurementStandard.name,
 )
-fun EditProfileScreenState.UserUiState.toDomain(existingProfile: Profile) = existingProfile.copy(
+fun EditProfileScreenState.ProfileUiState.toDomain(existingProfile: Profile) = existingProfile.copy(
     name = fullName,
     email = email,
     dateOfBirth = dateOfBirth ?: existingProfile.dateOfBirth,
