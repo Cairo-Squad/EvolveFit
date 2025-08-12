@@ -4,4 +4,7 @@ interface ReportInteractionListener {
 
     fun onViewAllHistoryWorkoutsClicked()
     fun onShareClicked()
+    fun onDropDownMenuClicked()
+    fun onDropDownMenuDismiss()
+    fun onDropDownMenuItemClicked(item: String)
 }

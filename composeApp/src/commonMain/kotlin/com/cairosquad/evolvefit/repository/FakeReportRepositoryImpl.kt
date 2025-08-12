@@ -1,72 +1,80 @@
 package com.cairosquad.evolvefit.repository
 
-import com.cairosquad.evolvefit.domain.ReportRepository
-import com.cairosquad.evolvefit.entity.FocusArea
-import com.cairosquad.evolvefit.entity.WorkoutDay
+import com.cairosquad.evolvefit.domain.entity.Report
+import com.cairosquad.evolvefit.domain.model.FocusArea
+import com.cairosquad.evolvefit.domain.model.WeekDay
+import com.cairosquad.evolvefit.domain.repository.ReportRepository
 import kotlinx.coroutines.delay
 
 class FakeReportRepositoryImpl : ReportRepository {
-    override suspend fun getTimeSpend(): Long {
-        // 32 hours
+
+    override suspend fun getReport(): Report {
         delay(2000)
+        return Report(
+            timeSpentInMilliSeconds = getTimeSpend(),
+            totalWorkouts = getTotalWorkouts(),
+            takenCaloriesInKcal = getTakenCalories(),
+            expectedCalories = getExpectedCalories(),
+            waterTakenInLiter = getWaterTakenInLiter(),
+            focusedAreas = getFocusedArea(),
+            timeSpentPerWeek = getTimeSpendPerWeek(),
+            workoutsPerWeek = getWorkoutsPerWeek(),
+        )
+    }
+
+    private fun getTimeSpend(): Long {
+        // 32 hours
         return 32L * 60 * 60 * 1000
     }
 
-    override suspend fun getTotalWorkouts(): Int {
-        delay(2000)
+    private fun getTotalWorkouts(): Int {
         return 15
     }
 
-    override suspend fun getTakenCalories(): Int {
-        delay(2000)
+    private fun getTakenCalories(): Int {
         return 4500
     }
 
-    override suspend fun getExpectedCalories(): Int {
-        delay(2000)
+    private fun getExpectedCalories(): Int {
         return 10450
     }
 
-    override suspend fun getWaterTakenInLiter(): Float {
-        delay(2000)
+    private fun getWaterTakenInLiter(): Float {
         return 4.5f
     }
 
-    override suspend fun getFocusedArea(): List<Pair<FocusArea, Int>> {
-        delay(2000)
+    private fun getFocusedArea(): List<Pair<FocusArea, Int>> {
         return listOf(
-            Pair(FocusArea.Quadriceps, 10),
-            Pair(FocusArea.LowerBack, 35),
-            Pair(FocusArea.Shoulders, 40),
-            Pair(FocusArea.Abs, 5),
-            Pair(FocusArea.Core, 9),
-            Pair(FocusArea.Calves, 7),
+            Pair(FocusArea.QUADRICEPS, 10),
+            Pair(FocusArea.ABS, 35),
+            Pair(FocusArea.CALVES, 40),
+            Pair(FocusArea.LOWER_BACK, 5),
+            Pair(FocusArea.CORE, 9),
+            Pair(FocusArea.SHOULDERS, 7),
         )
     }
 
-    override suspend fun getTimeSpendPerWeek(): List<Pair<WorkoutDay, Long>> {
-        delay(2000)
+    private fun getTimeSpendPerWeek(): List<Pair<WeekDay, Long>> {
         return listOf(
-            Pair(WorkoutDay.MONDAY, 10),
-            Pair(WorkoutDay.TUESDAY, 35),
-            Pair(WorkoutDay.WEDNESDAY, 40),
-            Pair(WorkoutDay.THURSDAY, 5),
-            Pair(WorkoutDay.FRIDAY, 9),
-            Pair(WorkoutDay.SATURDAY, 7),
-            Pair(WorkoutDay.SUNDAY, 10),
+            Pair(WeekDay.SATURDAY, 7),
+            Pair(WeekDay.SUNDAY, 10),
+            Pair(WeekDay.MONDAY, 10),
+            Pair(WeekDay.TUESDAY, 35),
+            Pair(WeekDay.WEDNESDAY, 40),
+            Pair(WeekDay.THURSDAY, 5),
+            Pair(WeekDay.FRIDAY, 9),
         )
     }
 
-    override suspend fun getWorkoutsPerWeek(): List<Pair<WorkoutDay, Int>> {
-        delay(2000)
+     private fun getWorkoutsPerWeek(): List<Pair<WeekDay, Int>> {
         return listOf(
-            Pair(WorkoutDay.MONDAY, 10),
-            Pair(WorkoutDay.TUESDAY, 35),
-            Pair(WorkoutDay.WEDNESDAY, 40),
-            Pair(WorkoutDay.THURSDAY, 5),
-            Pair(WorkoutDay.FRIDAY, 9),
-            Pair(WorkoutDay.SATURDAY, 7),
-            Pair(WorkoutDay.SUNDAY, 10),
+            Pair(WeekDay.SATURDAY, 7),
+            Pair(WeekDay.SUNDAY, 10),
+            Pair(WeekDay.MONDAY, 10),
+            Pair(WeekDay.TUESDAY, 35),
+            Pair(WeekDay.WEDNESDAY, 40),
+            Pair(WeekDay.THURSDAY, 5),
+            Pair(WeekDay.FRIDAY, 9),
         )
     }
 }

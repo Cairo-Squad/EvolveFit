@@ -188,7 +188,7 @@ private fun BottomSection(
         is PlayWorkoutScreenState.ExerciseSpecUiState.Time -> {
             BottomSectionTime(
                 modifier = modifier,
-                timeSeconds = exerciseSpec.timeSeconds,
+                timeInSeconds = exerciseSpec.timeInSeconds,
                 onTimeFinish = onFinishExercise,
                 onClickForward = onClickForward,
                 onClickBack = onClickBack
@@ -226,7 +226,7 @@ private fun BottomSectionReps(
 
 @Composable
 private fun BottomSectionTime(
-    timeSeconds: Int,
+    timeInSeconds: Int,
     onTimeFinish: () -> Unit,
     onClickForward: () -> Unit,
     onClickBack: () -> Unit,
@@ -236,7 +236,7 @@ private fun BottomSectionTime(
     var isPaused by remember { mutableStateOf(false) }
 
     val clockTimerState = rememberClockTimerState(
-        totalTime = timeSeconds,
+        totalTime = timeInSeconds,
         onFinish = onTimeFinish
     )
 

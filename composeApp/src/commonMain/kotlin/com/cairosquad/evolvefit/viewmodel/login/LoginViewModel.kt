@@ -1,10 +1,10 @@
 package com.cairosquad.evolvefit.viewmodel.login
 
-import com.cairosquad.evolvefit.domain.usecase.authentication.AuthUseCase
+import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 
 class LoginViewModel(
-    private val authUseCase: AuthUseCase
+    private val authenticationUseCase: AuthenticationUseCase
 ) : BaseViewModel<LoginScreenUiState, LoginScreenEffect>(
     LoginScreenUiState()
 ), LoginInteractionListener {
@@ -16,7 +16,7 @@ class LoginViewModel(
         updateState { it.copy(isLoading = true, canSubmit = false) }
         tryToCall(
             block = {
-                authUseCase.login(current.email, current.password)
+                authenticationUseCase.login(current.email, current.password)
             },
             onSuccess = {
                 updateState {

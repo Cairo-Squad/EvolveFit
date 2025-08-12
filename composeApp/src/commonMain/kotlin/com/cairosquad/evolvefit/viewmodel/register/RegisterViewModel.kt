@@ -1,16 +1,15 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
-import com.cairosquad.evolvefit.domain.usecase.authentication.AuthUseCase
-import com.cairosquad.evolvefit.entity.FitnessGoal
-import com.cairosquad.evolvefit.entity.Gender
-import com.cairosquad.evolvefit.entity.MeasurementUnit
-import com.cairosquad.evolvefit.entity.User
+import com.cairosquad.evolvefit.domain.entity.Profile
+import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseCase
+import com.cairosquad.evolvefit.domain.usecase.equipment.ManageEquipmentUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal
 
 class RegisterViewModel(
-    private val authUseCase: AuthUseCase,
+    private val authenticationUseCase: AuthenticationUseCase,
+    private val manageEquipmentUseCase: ManageEquipmentUseCase,
 ) : BaseViewModel<RegisterScreenState, RegisterEffect>(RegisterScreenState()),
     RegisterInteractionListener {
     override fun onClickNext() {
@@ -29,10 +28,25 @@ class RegisterViewModel(
     }
 
     override fun onClickStartNow() {
-        val user = screenState.value.toDomain()
-
+        val state = screenState.value
         tryToCall(
-            block = { authUseCase.register(user) },
+            block = {
+                authenticationUseCase.register(
+                    profile = Profile(
+                        name = state.userNameInput,
+                        email = state.userEmailInput,
+                        dateOfBirth = dateUiStateToDomain(state.dateOfBirthInput),
+                        gender = state.selectedGender.toDomain(),
+                        preferredMeasurementStandard = state.selectedMeasurementStandard.toDomain(),
+                        height = state.selectedHeight,
+                        weight = state.selectedHeight,
+                        goal = state.selectedGoal.toDomain()
+                    ),
+                    password = state.userPasswordInput,
+                    workoutDays = state.selectedWeekDayUiState.map { it.toDomain() }.toSet(),
+                    availableEquipment = state.selectedEquipments,
+                )
+            },
             onSuccess = {
                 sendEffect(RegisterEffect.NavigateToHome)
             },
@@ -51,10 +65,10 @@ class RegisterViewModel(
 
     private fun getEquipments() {
         tryToCall(
-            block = { authUseCase.getEquipments() },
+            block = { manageEquipmentUseCase.getAllEquipments() },
             onSuccess = { tools ->
                 val equipments = tools.map { tool ->
-                    RegisterScreenState.Equipment(
+                    RegisterScreenState.EquipmentUiState(
                         toolId = tool.id,
                         isSelected = false
                     )
@@ -75,7 +89,7 @@ class RegisterViewModel(
         updateState { it.copy(selectedWeight = weight) }
     }
 
-    override  fun onNotificationToggled(type: RegisterScreenState.NotificationType) {
+    override fun onNotificationToggled(type: RegisterScreenState.NotificationType) {
         updateState { state ->
             val updatedSettings = when (type) {
                 is RegisterScreenState.NotificationType.Workout -> {
@@ -83,16 +97,19 @@ class RegisterViewModel(
                         isWorkoutReminderEnabled = !state.notificationSettings.isWorkoutReminderEnabled
                     )
                 }
+
                 is RegisterScreenState.NotificationType.Water -> {
                     state.notificationSettings.copy(
                         isWaterReminderEnabled = !state.notificationSettings.isWaterReminderEnabled
                     )
                 }
+
                 is RegisterScreenState.NotificationType.BodyWeight -> {
                     state.notificationSettings.copy(
                         isBodyWeightReminderEnabled = !state.notificationSettings.isBodyWeightReminderEnabled
                     )
                 }
+
                 is RegisterScreenState.NotificationType.Challenges -> {
                     state.notificationSettings.copy(
                         isChallengesReminderEnabled = !state.notificationSettings.isChallengesReminderEnabled
@@ -103,15 +120,15 @@ class RegisterViewModel(
         }
     }
 
-    override fun onWorkoutDaySelected(day: RegisterScreenState.WorkoutDay) {
+    override fun onWorkoutDaySelected(day: RegisterScreenState.WeekDayUiState) {
         updateState {
-            val currentDays = it.selectedWorkoutDays
+            val currentDays = it.selectedWeekDayUiState
             val updatedDays = if (day in currentDays) {
                 currentDays - day
             } else {
                 currentDays + day
             }
-            it.copy(selectedWorkoutDays = updatedDays)
+            it.copy(selectedWeekDayUiState = updatedDays)
         }
         updateNextButtonEnableState()
     }
@@ -121,15 +138,15 @@ class RegisterViewModel(
             val isSelected = !it.isNoEquipmentSelected
             it.copy(
                 isNoEquipmentSelected = isSelected,
-                selectedEquipments = if (isSelected) emptyList() else it.selectedEquipments,
+                selectedEquipments = if (isSelected) emptySet() else it.selectedEquipments,
             )
         }
         updateNextButtonEnableState()
     }
 
-    override fun onEquipmentToggled(equipmentId: Long) {
+    override fun onEquipmentToggled(equipmentId: Int) {
         updateState {
-            val updatedSelection = it.selectedEquipments.toMutableList()
+            val updatedSelection = it.selectedEquipments.toMutableSet()
             if (equipmentId in updatedSelection) {
                 updatedSelection.remove(equipmentId)
             } else {
@@ -217,7 +234,7 @@ class RegisterViewModel(
             4 -> state.selectedGoal != null
             5 -> state.isNoEquipmentSelected || state.selectedEquipments.isNotEmpty()
             6 -> true
-            7 -> state.selectedWorkoutDays.isNotEmpty()
+            7 -> state.selectedWeekDayUiState.isNotEmpty()
             else -> isCredentialsValid()
         }
         updateState { it.copy(isNextButtonEnabled = isNextButtonEnabled) }
@@ -230,6 +247,7 @@ class RegisterViewModel(
                 && state.userPasswordInput.isNotEmpty()
                 && state.dateOfBirthInput.isNotEmpty()
     }
+
     companion object {
         const val MAX_STEPS = 8
     }

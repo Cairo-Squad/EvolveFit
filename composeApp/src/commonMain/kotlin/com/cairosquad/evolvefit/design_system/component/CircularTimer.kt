@@ -30,13 +30,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CircularTimer(
-    timeSeconds: Int,
+    timeInSeconds: Int,
     onFinish: (Float) -> Unit,
     modifier: Modifier = Modifier,
     reverse: Boolean = false,
     radius: Dp = 75.dp,
     strokeWidth: Dp = 12.dp,
-    animationDurationMilli: Int = timeSeconds * 1000,
+    animationDurationMilli: Int = timeInSeconds * 1000,
     animationDelay: Int = 0,
     progressColor: Color = Theme.color.brand.primary,
     textStyle: TextStyle = Theme.textStyle.title.largeBold16.copy(fontSize = 40.sp),
@@ -46,8 +46,8 @@ fun CircularTimer(
 
     var hasAnimationPlayed by remember { mutableStateOf(false) }
 
-    val startValue = remember { if (reverse) timeSeconds.toFloat() else 0f }
-    val endValue = remember { if (reverse) 0f else timeSeconds.toFloat() }
+    val startValue = remember { if (reverse) timeInSeconds.toFloat() else 0f }
+    val endValue = remember { if (reverse) 0f else timeInSeconds.toFloat() }
 
     val animateValue by animateFloatAsState(
         targetValue = if (hasAnimationPlayed) endValue else startValue,
@@ -59,9 +59,9 @@ fun CircularTimer(
         finishedListener = onFinish
     )
 
-    val progressPercent = animateValue / timeSeconds
+    val progressPercent = animateValue / timeInSeconds
 
-    LaunchedEffect(timeSeconds) {
+    LaunchedEffect(timeInSeconds) {
         hasAnimationPlayed = true
     }
 
@@ -106,7 +106,7 @@ fun CircularCounterPreview(){
                 .padding(16.dp)
         ) {
             CircularTimer(
-                timeSeconds = 15,
+                timeInSeconds = 15,
                 onFinish = { },
                 reverse = true
             )

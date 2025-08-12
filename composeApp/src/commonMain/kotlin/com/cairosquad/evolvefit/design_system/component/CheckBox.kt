@@ -54,8 +54,8 @@ fun CheckboxItem(
             .clip(RoundedCornerShape(8.dp))
             .background(color = Theme.color.surfaces.surfaceContainer)
             .fillMaxWidth()
-            .padding(12.dp)
-            .clickable { onCheckedChange(!isChecked) },
+            .clickable { onCheckedChange(!isChecked) }
+            .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {

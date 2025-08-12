@@ -165,7 +165,7 @@ private fun RegisterScreenContentSelectHeightAndWeightPreview() {
                         // TODO("Not yet implemented")
                     }
 
-                    override fun onWorkoutDaySelected(day: RegisterScreenState.WorkoutDay) {
+                    override fun onWorkoutDaySelected(day: RegisterScreenState.WeekDayUiState) {
                         // TODO("Not yet implemented")
                     }
 
@@ -173,8 +173,8 @@ private fun RegisterScreenContentSelectHeightAndWeightPreview() {
                         // TODO("Not yet implemented")
                     }
 
-                    override fun onEquipmentToggled(equipmentId: Long) {
-                        // TODO("Not yet implemented")
+                    override fun onEquipmentToggled(equipmentId: Int) {
+                        TODO("Not yet implemented")
                     }
 
                     override fun onImagePickerClick() {
