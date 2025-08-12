@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -21,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -43,15 +45,22 @@ import com.cairosquad.evolvefit.viewmodel.home.HomeScreenEffect
 import com.cairosquad.evolvefit.viewmodel.home.HomeScreenState
 import com.cairosquad.evolvefit.viewmodel.home.HomeViewModel
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.activity
 import evolvefit.composeapp.generated.resources.completed
+import evolvefit.composeapp.generated.resources.current_weight
 import evolvefit.composeapp.generated.resources.hello_user
+import evolvefit.composeapp.generated.resources.ic_crown
+import evolvefit.composeapp.generated.resources.ic_progress
+import evolvefit.composeapp.generated.resources.ic_scale
 import evolvefit.composeapp.generated.resources.ic_thin_check_mark
 import evolvefit.composeapp.generated.resources.profile_picture
 import evolvefit.composeapp.generated.resources.ready_text_female
 import evolvefit.composeapp.generated.resources.ready_text_male
+import evolvefit.composeapp.generated.resources.the_goal
 import evolvefit.composeapp.generated.resources.this_week
 import evolvefit.composeapp.generated.resources.today_nutrition
 import evolvefit.composeapp.generated.resources.your_progress
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -259,7 +268,7 @@ private fun WeeklyProgressBar(
     FlowRow(
         modifier = modifier
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center,
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalArrangement = Arrangement.spacedBy(8.dp),
         maxItemsInEachRow = WEEK_DAYS_NUM
     ) {
@@ -278,27 +287,6 @@ private fun WeeklyProgressBar(
                     )
             )
         }
-    }
-}
-
-@Composable
-private fun StatsRow(
-    goal: String,
-    currentWeight: Float,
-    weightUnit: String,
-    activityPercentage: UInt,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(
-                vertical = 8.dp
-            ),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
     }
 }
 
@@ -345,6 +333,103 @@ private fun DayBox(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun StatsRow(
+    goal: String,
+    currentWeight: Float,
+    weightUnit: String,
+    activityPercentage: UInt,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(
+                vertical = 8.dp
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        StatsSection(
+            iconRes = Res.drawable.ic_crown,
+            title = stringResource(Res.string.the_goal),
+            value = goal,
+            modifier = Modifier
+                .padding(end = 8.dp)
+        )
+
+        VerticalDivider(
+            color = Theme.color.surfaces.outlineVariant,
+            thickness = 1.dp,
+            modifier = Modifier
+                .height(40.dp)
+        )
+
+        StatsSection(
+            iconRes = Res.drawable.ic_scale,
+            title = stringResource(Res.string.current_weight),
+            value = "$currentWeight $weightUnit",
+            modifier = Modifier
+                .padding(end = 8.dp)
+        )
+
+        VerticalDivider(
+            color = Theme.color.surfaces.outlineVariant,
+            thickness = 1.dp,
+            modifier = Modifier
+                .height(40.dp)
+        )
+
+        StatsSection(
+            iconRes = Res.drawable.ic_progress,
+            title = stringResource(Res.string.activity),
+            value = "$activityPercentage %",
+        )
+    }
+}
+
+@Composable
+private fun StatsSection(
+    iconRes: DrawableResource,
+    title: String,
+    value: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Icon(
+                painter = painterResource(iconRes),
+                contentDescription = title,
+                tint = Theme.color.brand.primary,
+                modifier = Modifier
+                    .size(16.dp)
+            )
+
+            Text(
+                text = title,
+                style = Theme.textStyle.label.smallRegular12,
+                color = Theme.color.surfaces.onSurfaceVariant,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+
+        Text(
+            text = value,
+            style = Theme.textStyle.body.mediumMedium14,
+            color = Theme.color.surfaces.onSurfaceContainer,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 

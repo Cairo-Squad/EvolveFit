@@ -150,4 +150,8 @@
     <string name="this_week">This Week</string>
 
     <string name="completed">Completed</string>
+
+    <string name="the_goal">The Goal</string>
+    <string name="current_weight">Current weight</string>
+    <string name="activity">Activity</string>
 </resources>

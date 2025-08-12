@@ -29,7 +29,7 @@ fun NavigationHost(
     authPreferences: AuthPreferences = koinInject(),
 ) {
     val isUserLoggedIn = authPreferences.getAccessToken().isNullOrBlank().not()
-    val startDestination = if (isUserLoggedIn) AppRoute else OnboardingRoute
+    val startDestination = if (isUserLoggedIn) AppRoute else AppRoute
 
     val navController = rememberNavController()
     NavHost(
