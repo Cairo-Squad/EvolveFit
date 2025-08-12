@@ -1,11 +1,11 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
 import com.cairosquad.evolvefit.domain.entity.Equipment
-import com.cairosquad.evolvefit.domain.entity.FitnessGoal
-import com.cairosquad.evolvefit.domain.entity.Gender
-import com.cairosquad.evolvefit.domain.entity.MeasurementUnit
-import com.cairosquad.evolvefit.domain.entity.User
-import com.cairosquad.evolvefit.domain.entity.WorkoutDay
+import com.cairosquad.evolvefit.domain.entity.Profile
+import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
+import com.cairosquad.evolvefit.domain.entity.Profile.Gender
+import com.cairosquad.evolvefit.domain.model.MeasurementStandard
+import com.cairosquad.evolvefit.domain.model.WeekDay
 
 fun List<Long>.toToolsDomain(state: RegisterScreenState): List<Equipment> {
     return this.mapNotNull { selectedId ->
@@ -15,15 +15,15 @@ fun List<Long>.toToolsDomain(state: RegisterScreenState): List<Equipment> {
     }
 }
 
-fun RegisterScreenState.WorkoutDay.toDomain(): WorkoutDay {
+fun RegisterScreenState.WorkoutDay.toDomain(): WeekDay {
     return when (this) {
-        RegisterScreenState.WorkoutDay.MONDAY -> WorkoutDay.MONDAY
-        RegisterScreenState.WorkoutDay.TUESDAY -> WorkoutDay.TUESDAY
-        RegisterScreenState.WorkoutDay.WEDNESDAY -> WorkoutDay.WEDNESDAY
-        RegisterScreenState.WorkoutDay.THURSDAY -> WorkoutDay.THURSDAY
-        RegisterScreenState.WorkoutDay.FRIDAY -> WorkoutDay.FRIDAY
-        RegisterScreenState.WorkoutDay.SATURDAY -> WorkoutDay.SATURDAY
-        RegisterScreenState.WorkoutDay.SUNDAY -> WorkoutDay.SUNDAY
+        RegisterScreenState.WorkoutDay.MONDAY -> WeekDay.MONDAY
+        RegisterScreenState.WorkoutDay.TUESDAY -> WeekDay.TUESDAY
+        RegisterScreenState.WorkoutDay.WEDNESDAY -> WeekDay.WEDNESDAY
+        RegisterScreenState.WorkoutDay.THURSDAY -> WeekDay.THURSDAY
+        RegisterScreenState.WorkoutDay.FRIDAY -> WeekDay.FRIDAY
+        RegisterScreenState.WorkoutDay.SATURDAY -> WeekDay.SATURDAY
+        RegisterScreenState.WorkoutDay.SUNDAY -> WeekDay.SUNDAY
     }
 }
 
@@ -35,10 +35,10 @@ fun RegisterScreenState.Goal.toDomain(): FitnessGoal {
     }
 }
 
-fun RegisterScreenState.MeasurementStandard.toDomain(): MeasurementUnit {
+fun RegisterScreenState.MeasurementStandard.toDomain(): MeasurementStandard {
     return when (this) {
-        RegisterScreenState.MeasurementStandard.Metric -> MeasurementUnit.METRIC
-        RegisterScreenState.MeasurementStandard.Imperial -> MeasurementUnit.IMPERIAL
+        RegisterScreenState.MeasurementStandard.Metric -> MeasurementStandard.METRIC
+        RegisterScreenState.MeasurementStandard.Imperial -> MeasurementStandard.IMPERIAL
     }
 }
 
@@ -49,14 +49,13 @@ fun RegisterScreenState.Gender.toDomain(): Gender {
     }
 }
 
-fun RegisterScreenState.toDomain(): User {
-    return User(
+fun RegisterScreenState.toDomain(): Profile {
+    return Profile(
         name = this.userNameInput,
         email = this.userEmailInput,
-        password = this.userPasswordInput,
-        gender = this.selectedGender?.toDomain() ?: Gender.MALE,
+        gender = this.selectedGender?.toDomain() ?: Profile.Gender.MALE,
         dateOfBirth = this.dateOfBirthInput,
-        unit = this.selectedMeasurementStandard?.toDomain() ?: MeasurementUnit.METRIC,
+        preferredMeasurementStandard = this.selectedMeasurementStandard?.toDomain() ?: MeasurementStandard.METRIC,
         goal = this.selectedGoal?.toDomain() ?: FitnessGoal.STAY_IN_SHAPE,
         height = this.selectedHeight,
         weight = this.selectedWeight,

@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.domain.usecase.report
 
-import com.cairosquad.evolvefit.domain.entity.FocusArea
-import com.cairosquad.evolvefit.domain.entity.WorkoutDay
+import com.cairosquad.evolvefit.domain.model.FocusArea
+import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.domain.repository.ReportRepository
 
 class ReportUseCase(
@@ -33,11 +33,11 @@ class ReportUseCase(
 
     }
 
-    suspend fun getTimeSpendPerWeek(): List<Pair<WorkoutDay, Long>> {
+    suspend fun getTimeSpendPerWeek(): List<Pair<WeekDay, Long>> {
         return reportRepository.getTimeSpendPerWeek()
     }
 
-    suspend fun getWorkoutsPerWeek(): List<Pair<WorkoutDay, Int>> {
+    suspend fun getWorkoutsPerWeek(): List<Pair<WeekDay, Int>> {
         return reportRepository.getWorkoutsPerWeek()
     }
 }

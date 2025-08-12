@@ -21,8 +21,8 @@ fun Exercise.toUiState(): PlayWorkoutScreenState.ExerciseUiState {
     return PlayWorkoutScreenState.ExerciseUiState(
         id = id.toString(),
         name = name,
-        imageUrls = listOf(imageUrl ?: ""),
-        exerciseSpec = when (this.measurementType) {
+        imageUrls = listOf(imageUrls ?: ""),
+        exerciseSpec = when (this.specification) {
             MeasurementType.DURATION -> Time(measurementValue)
             MeasurementType.REPS -> Reps(measurementValue)
         }

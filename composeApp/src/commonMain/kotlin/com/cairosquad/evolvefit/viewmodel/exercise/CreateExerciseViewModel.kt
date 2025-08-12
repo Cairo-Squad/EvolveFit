@@ -1,13 +1,13 @@
 package com.cairosquad.evolvefit.viewmodel.exercise
 
-import com.cairosquad.evolvefit.domain.usecase.workout.ExerciseUseCase
+import com.cairosquad.evolvefit.domain.usecase.exercise.ManageExerciseUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.FocusArea
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.MeasurementType
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 
 class CreateExerciseViewModel(
-    private val exerciseUseCase: ExerciseUseCase
+    private val manageExerciseUseCase: ManageExerciseUseCase
 ) : BaseViewModel<CreateExerciseState, CreateExerciseEffect>(CreateExerciseState()),
     CreateExerciseInteractionListener {
 
@@ -17,7 +17,7 @@ class CreateExerciseViewModel(
 
     private fun getEquipments() {
         tryToCall(
-            block = { exerciseUseCase.getEquipments() },
+            block = { manageExerciseUseCase.getEquipments() },
             onSuccess = { tools ->
                 updateState { it.copy(availableEquipments = tools.toEquipments()) }
             },
@@ -98,7 +98,7 @@ class CreateExerciseViewModel(
     }
 
     private suspend fun saveExercise() =
-        exerciseUseCase.createExercise(screenState.value.toDomainExercise())
+        manageExerciseUseCase.createExercise(screenState.value.toDomainExercise())
 
     override fun onExitClicked() {
         updateState { it.copy(showExitBottomSheet = true) }

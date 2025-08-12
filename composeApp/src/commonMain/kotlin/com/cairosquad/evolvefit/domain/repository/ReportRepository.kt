@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.domain.repository
 
-import com.cairosquad.evolvefit.domain.entity.FocusArea
-import com.cairosquad.evolvefit.domain.entity.WorkoutDay
+import com.cairosquad.evolvefit.domain.model.FocusArea
+import com.cairosquad.evolvefit.domain.model.WeekDay
 
 interface ReportRepository {
     suspend fun getTimeSpend(): Long
@@ -10,6 +10,6 @@ interface ReportRepository {
     suspend fun getExpectedCalories(): Int
     suspend fun getWaterTakenInLiter(): Float
     suspend fun getFocusedArea(): List<Pair<FocusArea, Int>>
-    suspend fun getTimeSpendPerWeek(): List<Pair<WorkoutDay, Long>>
-    suspend fun getWorkoutsPerWeek(): List<Pair<WorkoutDay, Int>>
+    suspend fun getTimeSpendPerWeek(): List<Pair<WeekDay, Long>>
+    suspend fun getWorkoutsPerWeek(): List<Pair<WeekDay, Int>>
 }

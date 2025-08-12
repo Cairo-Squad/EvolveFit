@@ -1,9 +1,7 @@
 package com.cairosquad.evolvefit.repository.remote
 
 import com.cairosquad.evolvefit.domain.entity.Equipment
-import com.cairosquad.evolvefit.domain.entity.Exercise
-import com.cairosquad.evolvefit.repository.remote.auth.EquipmentDto
-import com.cairosquad.evolvefit.repository.remote.workout.ExerciseDto
+import com.cairosquad.evolvefit.repository.remote.authentication.EquipmentDto
 
 fun EquipmentDto.toDomain(): Equipment {
     return Equipment(
@@ -16,18 +14,5 @@ fun Equipment.toDto(): EquipmentDto {
     return EquipmentDto(
         id = this.id.toString(),
         name = this.name
-    )
-}
-
-fun Exercise.toDto(): ExerciseDto {
-    return ExerciseDto(
-        name = this.name,
-        imageUrl = this.imageUrl,
-        equipmentIds = this.equipmentIds,
-        measurementType = this.measurementType.name,
-        measurementValue = this.measurementValue,
-        focusAreas = this.focusAreas.map { it.name },
-        description = this.description,
-        id = this.id,
     )
 }

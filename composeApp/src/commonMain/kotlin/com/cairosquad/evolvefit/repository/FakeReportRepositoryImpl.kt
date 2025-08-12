@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.repository
 
-import com.cairosquad.evolvefit.domain.entity.FocusArea
-import com.cairosquad.evolvefit.domain.entity.WorkoutDay
+import com.cairosquad.evolvefit.domain.model.FocusArea
+import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.domain.repository.ReportRepository
 import kotlinx.coroutines.delay
 
@@ -35,38 +35,38 @@ class FakeReportRepositoryImpl : ReportRepository {
     override suspend fun getFocusedArea(): List<Pair<FocusArea, Int>> {
         delay(2000)
         return listOf(
-            Pair(FocusArea.Quadriceps, 10),
-            Pair(FocusArea.LowerBack, 35),
-            Pair(FocusArea.Shoulders, 40),
-            Pair(FocusArea.Abs, 5),
-            Pair(FocusArea.Core, 9),
-            Pair(FocusArea.Calves, 7),
+            Pair(FocusArea.QUADRICEPS, 10),
+            Pair(FocusArea.ABS, 35),
+            Pair(FocusArea.CALVES, 40),
+            Pair(FocusArea.LOWER_BACK, 5),
+            Pair(FocusArea.CORE, 9),
+            Pair(FocusArea.SHOULDERS, 7),
         )
     }
 
-    override suspend fun getTimeSpendPerWeek(): List<Pair<WorkoutDay, Long>> {
+    override suspend fun getTimeSpendPerWeek(): List<Pair<WeekDay, Long>> {
         delay(2000)
         return listOf(
-            Pair(WorkoutDay.MONDAY, 10),
-            Pair(WorkoutDay.TUESDAY, 35),
-            Pair(WorkoutDay.WEDNESDAY, 40),
-            Pair(WorkoutDay.THURSDAY, 5),
-            Pair(WorkoutDay.FRIDAY, 9),
-            Pair(WorkoutDay.SATURDAY, 7),
-            Pair(WorkoutDay.SUNDAY, 10),
+            Pair(WeekDay.MONDAY, 10),
+            Pair(WeekDay.TUESDAY, 35),
+            Pair(WeekDay.WEDNESDAY, 40),
+            Pair(WeekDay.THURSDAY, 5),
+            Pair(WeekDay.FRIDAY, 9),
+            Pair(WeekDay.SATURDAY, 7),
+            Pair(WeekDay.SUNDAY, 10),
         )
     }
 
-    override suspend fun getWorkoutsPerWeek(): List<Pair<WorkoutDay, Int>> {
+    override suspend fun getWorkoutsPerWeek(): List<Pair<WeekDay, Int>> {
         delay(2000)
         return listOf(
-            Pair(WorkoutDay.MONDAY, 10),
-            Pair(WorkoutDay.TUESDAY, 35),
-            Pair(WorkoutDay.WEDNESDAY, 40),
-            Pair(WorkoutDay.THURSDAY, 5),
-            Pair(WorkoutDay.FRIDAY, 9),
-            Pair(WorkoutDay.SATURDAY, 7),
-            Pair(WorkoutDay.SUNDAY, 10),
+            Pair(WeekDay.MONDAY, 10),
+            Pair(WeekDay.TUESDAY, 35),
+            Pair(WeekDay.WEDNESDAY, 40),
+            Pair(WeekDay.THURSDAY, 5),
+            Pair(WeekDay.FRIDAY, 9),
+            Pair(WeekDay.SATURDAY, 7),
+            Pair(WeekDay.SUNDAY, 10),
         )
     }
 }

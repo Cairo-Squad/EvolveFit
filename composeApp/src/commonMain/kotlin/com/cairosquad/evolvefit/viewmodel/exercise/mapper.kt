@@ -2,22 +2,22 @@ package com.cairosquad.evolvefit.viewmodel.exercise
 
 import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Exercise
-import com.cairosquad.evolvefit.domain.entity.FocusArea
 import com.cairosquad.evolvefit.domain.entity.MeasurementType
+import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.Equipment
 
 fun CreateExerciseState.toDomainExercise(): Exercise {
     return Exercise(
         name = this.name,
-        imageUrl = this.image?.toString(),
-        equipmentIds = this.selectedEquipments,
-        measurementType = when (this.measurementType) {
+        imageUrls = this.image?.toString(),
+        equipment = this.selectedEquipments,
+        specification = when (this.measurementType) {
             CreateExerciseState.MeasurementType.DURATION -> MeasurementType.DURATION
             CreateExerciseState.MeasurementType.REPS -> MeasurementType.REPS
         },
         measurementValue = this.measurementInputValue ?: 0,
         focusAreas = this.selectedFocusAreas.map { it.toDomainFocusArea() }.toSet(),
-        description = this.description
+        instructions = this.description
     )
 }
 

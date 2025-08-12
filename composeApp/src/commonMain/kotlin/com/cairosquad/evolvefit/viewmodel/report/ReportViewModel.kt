@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.viewmodel.report
 
-import com.cairosquad.evolvefit.domain.entity.FocusArea
-import com.cairosquad.evolvefit.domain.entity.WorkoutDay
+import com.cairosquad.evolvefit.domain.model.FocusArea
+import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.domain.usecase.report.ReportUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.report.ReportScreenState.TrainedMuscle
@@ -103,7 +103,7 @@ class ReportViewModel(
         )
     }
 
-    private fun onGetWorkoutsPerWeekSuccess(workoutsPerWeek: List<Pair<WorkoutDay, Int>>) {
+    private fun onGetWorkoutsPerWeekSuccess(workoutsPerWeek: List<Pair<WeekDay, Int>>) {
         updateState {
             it.copy(
                 workoutPerWeek = ReportScreenState.WorkoutPerDay(
@@ -142,7 +142,7 @@ class ReportViewModel(
         )
     }
 
-    private fun onGetTimeSpendPerWeekSuccess(timeSpendPerWeek: List<Pair<WorkoutDay, Long>>) {
+    private fun onGetTimeSpendPerWeekSuccess(timeSpendPerWeek: List<Pair<WeekDay, Long>>) {
         updateState {
             it.copy(
                 timeSpendPerWeek = ReportScreenState.TimeSpendPerDay(
