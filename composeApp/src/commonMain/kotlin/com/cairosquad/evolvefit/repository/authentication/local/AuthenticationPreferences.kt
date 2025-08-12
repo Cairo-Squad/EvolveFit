@@ -2,7 +2,7 @@ package com.cairosquad.evolvefit.repository.authentication.local
 
 import com.russhwolf.settings.Settings
 
-class AuthPreferences(private val settings: Settings) {
+class AuthenticationPreferences(private val settings: Settings) {
 
     fun saveTokens(access: String, refresh: String) {
         settings.putString("access_token", access)

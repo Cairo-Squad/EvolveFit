@@ -1,6 +1,6 @@
 package com.cairosquad.evolvefit.di
 
-import com.cairosquad.evolvefit.repository.local.AuthenticationPreferences
+import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
 import com.russhwolf.settings.Settings
 import org.koin.dsl.module
 

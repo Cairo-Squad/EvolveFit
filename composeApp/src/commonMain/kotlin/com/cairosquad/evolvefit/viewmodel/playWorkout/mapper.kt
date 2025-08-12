@@ -1,10 +1,7 @@
 package com.cairosquad.evolvefit.viewmodel.playWorkout
 
 import com.cairosquad.evolvefit.domain.entity.Exercise
-import com.cairosquad.evolvefit.domain.entity.MeasurementType
 import com.cairosquad.evolvefit.domain.entity.Workout
-import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState.ExerciseSpecUiState.Reps
-import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState.ExerciseSpecUiState.Time
 
 fun Workout.toUiState(): PlayWorkoutScreenState.WorkoutUiState {
     return PlayWorkoutScreenState.WorkoutUiState(
@@ -19,12 +16,16 @@ fun Workout.toUiState(): PlayWorkoutScreenState.WorkoutUiState {
 
 fun Exercise.toUiState(): PlayWorkoutScreenState.ExerciseUiState {
     return PlayWorkoutScreenState.ExerciseUiState(
-        id = id.toString(),
+        id = id,
         name = name,
-        imageUrls = listOf(imageUrls ?: ""),
+        imageUrls = imageUrls,
         exerciseSpec = when (this.specification) {
-            MeasurementType.DURATION -> Time(measurementValue)
-            MeasurementType.REPS -> Reps(measurementValue)
+            is Exercise.Specification.Reps -> {
+                PlayWorkoutScreenState.ExerciseSpecUiState.Reps(this.specification.reps)
+            }
+            is Exercise.Specification.Time -> {
+                PlayWorkoutScreenState.ExerciseSpecUiState.Reps(this.specification.timeSeconds)
+            }
         }
     )
 }

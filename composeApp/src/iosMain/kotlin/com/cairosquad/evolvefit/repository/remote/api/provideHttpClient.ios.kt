@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.repository.remote.api
 
 
-import com.cairosquad.evolvefit.repository.local.AuthenticationPreferences
+import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.darwin.Darwin
 import io.ktor.client.plugins.auth.Auth

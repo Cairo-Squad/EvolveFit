@@ -1,7 +1,11 @@
-package com.cairosquad.evolvefit.repository.authentication.remote.authentication
+package com.cairosquad.evolvefit.repository.authentication.remote
 
-import com.cairosquad.evolvefit.repository.remote.AuthenticationRemoteDataSource
-import com.cairosquad.evolvefit.repository.remote.api.safeApiCall
+import com.cairosquad.evolvefit.repository.authentication.remote.dto.AuthResponse
+import com.cairosquad.evolvefit.repository.authentication.remote.dto.EquipmentDto
+import com.cairosquad.evolvefit.repository.authentication.remote.dto.LoginRequest
+import com.cairosquad.evolvefit.repository.authentication.remote.dto.RefreshRequest
+import com.cairosquad.evolvefit.repository.authentication.remote.dto.RegisterRequest
+import com.cairosquad.evolvefit.repository.utils.safeApiCall
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -10,7 +14,8 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
-class AuthenticationRemoteDataSourceImpl(private val client: HttpClient) : AuthenticationRemoteDataSource {
+class AuthenticationRemoteDataSourceImpl(private val client: HttpClient) :
+    AuthenticationRemoteDataSource {
     override suspend fun login(email: String, password: String): AuthResponse {
         return client.post("auth/login") {
             contentType(ContentType.Application.Json)
@@ -38,4 +43,3 @@ class AuthenticationRemoteDataSourceImpl(private val client: HttpClient) : Authe
         }
     }
 }
-

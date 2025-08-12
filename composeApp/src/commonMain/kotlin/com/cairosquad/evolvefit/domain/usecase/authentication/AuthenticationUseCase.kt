@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.domain.usecase.authentication
 
-import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.domain.repository.AuthenticationRepository
@@ -24,7 +23,7 @@ class AuthenticationUseCase(
     suspend fun register(
         profile: Profile,
         password: String,
-        availableEquipment: Set<Equipment>,
+        availableEquipment: Set<Int>,
         workoutDays: Set<WeekDay>
     ) {
         return authenticationRepository.register(

@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.exercise
 
+import com.cairosquad.evolvefit.domain.usecase.equipment.ManageEquipmentUseCase
 import com.cairosquad.evolvefit.domain.usecase.exercise.ManageExerciseUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.FocusArea
@@ -7,7 +8,8 @@ import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.Measureme
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 
 class CreateExerciseViewModel(
-    private val manageExerciseUseCase: ManageExerciseUseCase
+    private val manageExerciseUseCase: ManageExerciseUseCase,
+    private val manageEquipmentUseCase: ManageEquipmentUseCase,
 ) : BaseViewModel<CreateExerciseState, CreateExerciseEffect>(CreateExerciseState()),
     CreateExerciseInteractionListener {
 
@@ -17,9 +19,9 @@ class CreateExerciseViewModel(
 
     private fun getEquipments() {
         tryToCall(
-            block = { manageExerciseUseCase.getEquipments() },
-            onSuccess = { tools ->
-                updateState { it.copy(availableEquipments = tools.toEquipments()) }
+            block = { manageEquipmentUseCase.getAllEquipments() },
+            onSuccess = { equipments ->
+                updateState { it.copy(availableEquipments = equipments.map { it.toUiState() }.toSet() ) }
             },
             onError = {
                 updateState { it.copy(errorMessage = "Failed to load equipments") }
@@ -27,15 +29,12 @@ class CreateExerciseViewModel(
         )
     }
 
-    override fun onEquipmentToggled(equipmentId: Long) {
+    override fun onEquipmentToggled(equipmentId: Int) {
         updateState {
-            val updatedSelection = it.selectedEquipments.toMutableList()
-            if (equipmentId in updatedSelection) {
-                updatedSelection.remove(equipmentId)
-            } else {
-                updatedSelection.add(equipmentId)
-            }
-            it.copy(selectedEquipments = updatedSelection)
+            val updatedEquipment = it.availableEquipments
+                .firstOrNull { it.id == equipmentId }
+                ?: CreateExerciseState.EquipmentUiState()
+            it.copy(selectedEquipment = updatedEquipment)
         }
     }
 
@@ -49,7 +48,7 @@ class CreateExerciseViewModel(
 
     override fun onFocusAreaToggled(focusArea: FocusArea) {
         updateState {
-            val updatedSelection = it.selectedFocusAreas.toMutableList()
+            val updatedSelection = it.selectedFocusAreas.toMutableSet()
             if (focusArea in updatedSelection) {
                 updatedSelection.remove(focusArea)
             } else {

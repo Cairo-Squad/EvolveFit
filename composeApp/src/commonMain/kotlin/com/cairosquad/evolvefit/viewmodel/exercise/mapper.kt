@@ -2,43 +2,54 @@ package com.cairosquad.evolvefit.viewmodel.exercise
 
 import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Exercise
-import com.cairosquad.evolvefit.domain.entity.MeasurementType
 import com.cairosquad.evolvefit.domain.model.FocusArea
-import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.Equipment
 
 fun CreateExerciseState.toDomainExercise(): Exercise {
     return Exercise(
         name = this.name,
-        imageUrls = this.image?.toString(),
-        equipment = this.selectedEquipments,
-        specification = when (this.measurementType) {
-            CreateExerciseState.MeasurementType.DURATION -> MeasurementType.DURATION
-            CreateExerciseState.MeasurementType.REPS -> MeasurementType.REPS
+        imageUrls = listOf(this.image?.toString() ?: ""), // todo
+        equipment = this.selectedEquipment.toDomain(),
+        specification = when (measurementType) {
+            CreateExerciseState.MeasurementType.DURATION -> Exercise.Specification.Time(
+                measurementInputValue ?: 0
+            )
+
+            CreateExerciseState.MeasurementType.REPS -> Exercise.Specification.Reps(
+                measurementInputValue ?: 0
+            )
         },
-        measurementValue = this.measurementInputValue ?: 0,
-        focusAreas = this.selectedFocusAreas.map { it.toDomainFocusArea() }.toSet(),
-        instructions = this.description
+        focusAreas = this.selectedFocusAreas.map { it.toDomain() }.toSet(),
+        instructions = this.description.split("\n"),
+        id = "",
+        estimatedTimeSeconds = 60 // todo
     )
 }
 
-private fun CreateExerciseState.FocusArea.toDomainFocusArea(): FocusArea {
+private fun CreateExerciseState.FocusArea.toDomain(): FocusArea {
     return when (this) {
-        CreateExerciseState.FocusArea.Quadriceps -> FocusArea.Quadriceps
-        CreateExerciseState.FocusArea.Abs -> FocusArea.Abs
-        CreateExerciseState.FocusArea.Calves -> FocusArea.Calves
-        CreateExerciseState.FocusArea.LowerBack -> FocusArea.LowerBack
-        CreateExerciseState.FocusArea.Core -> FocusArea.Core
-        CreateExerciseState.FocusArea.Shoulders -> FocusArea.Shoulders
+        CreateExerciseState.FocusArea.Quadriceps -> FocusArea.QUADRICEPS
+        CreateExerciseState.FocusArea.Abs -> FocusArea.ABS
+        CreateExerciseState.FocusArea.Calves -> FocusArea.CALVES
+        CreateExerciseState.FocusArea.LowerBack -> FocusArea.LOWER_BACK
+        CreateExerciseState.FocusArea.Core -> FocusArea.CORE
+        CreateExerciseState.FocusArea.Shoulders -> FocusArea.SHOULDERS
     }
 }
 
-fun Equipment.toEquipment(): Equipment {
+fun CreateExerciseState.EquipmentUiState.toDomain(): Equipment {
     return Equipment(
-        toolId = this.id,
-        toolName = this.name
+        id = this.id,
+        name = this.name
     )
 }
 
-fun List<Equipment>.toEquipments(): List<Equipment> {
-    return this.map { it.toEquipment() }
+fun Equipment.toUiState(): CreateExerciseState.EquipmentUiState{
+    return CreateExerciseState.EquipmentUiState(
+        id = this.id,
+        name = this.name
+    )
+}
+
+fun List<CreateExerciseState.EquipmentUiState>.toDomainList(): List<Equipment> {
+    return this.map { it.toDomain() }
 }

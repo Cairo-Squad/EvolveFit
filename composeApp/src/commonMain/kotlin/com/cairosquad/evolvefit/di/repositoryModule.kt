@@ -5,10 +5,10 @@ import com.cairosquad.evolvefit.domain.repository.ReportRepository
 import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
 import com.cairosquad.evolvefit.repository.FakeReportRepositoryImpl
 import com.cairosquad.evolvefit.repository.authentication.AuthenticationRepositoryImpl
-import com.cairosquad.evolvefit.repository.local.AuthenticationPreferences
-import com.cairosquad.evolvefit.repository.remote.AuthenticationRemoteDataSource
-import com.cairosquad.evolvefit.repository.remote.api.provideHttpClient
-import com.cairosquad.evolvefit.repository.remote.authentication.AuthenticationRemoteDataSourceImpl
+import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
+import com.cairosquad.evolvefit.repository.authentication.remote.AuthenticationRemoteDataSource
+import com.cairosquad.evolvefit.repository.authentication.remote.AuthenticationRemoteDataSourceImpl
+import com.cairosquad.evolvefit.repository.utils.provideHttpClient
 import com.cairosquad.evolvefit.repository.workout.WorkoutRepositoryImpl
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import org.koin.dsl.module

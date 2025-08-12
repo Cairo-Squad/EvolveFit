@@ -1,6 +1,5 @@
-package com.cairosquad.evolvefit.repository.authentication.remote.authentication
+package com.cairosquad.evolvefit.repository.authentication.remote.dto
 
-import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.repository.utils.toRemoteDto
@@ -29,14 +28,14 @@ data class RegisterRequest(
     val height: Float,
     val weight: Float,
     val goal: String,
-    val gymEquipments: List<Long>,
+    val gymEquipments: List<Int>,
     val workoutDays: List<String>
 ) {
     companion object {
         fun fromProfile(
             profile: Profile,
             password: String,
-            availableEquipment: Set<Equipment>,
+            availableEquipment: Set<Int>,
             workoutDays: Set<WeekDay>
         ): RegisterRequest {
             return RegisterRequest(
@@ -49,7 +48,7 @@ data class RegisterRequest(
                 height = profile.height,
                 weight = profile.weight,
                 goal = profile.goal.name,
-                gymEquipments = availableEquipment.map { it.id },
+                gymEquipments = availableEquipment.toList(),
                 workoutDays = workoutDays.map { it.name }
             )
         }
@@ -61,6 +60,6 @@ data class RefreshRequest(val refreshToken: String)
 
 @Serializable
 data class EquipmentDto(
-    val id: String,
+    val id: Int,
     val name: String
 )

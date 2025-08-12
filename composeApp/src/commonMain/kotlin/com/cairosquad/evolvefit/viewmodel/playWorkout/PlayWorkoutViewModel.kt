@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.playWorkout
 
+import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState.Stage
@@ -22,18 +23,20 @@ class PlayWorkoutViewModel(
     private fun loadData(workoutID: String) {
         tryToCall(
             block = { manageWorkoutUseCase.getWorkoutById(workoutID) },
-            onSuccess = { workout ->
-                updateState {
-                    it.copy(
-                        workout = workout.toUiState(),
-                        stage = Stage.GET_READY
-                    )
-                }
-            },
+            onSuccess = ::onSuccessLoadData,
             onError = { }
         )
 
         startTimeMilli = Clock.System.now().toEpochMilliseconds()
+    }
+
+    private fun onSuccessLoadData(workout: Workout) {
+        updateState {
+            it.copy(
+                workout = workout.toUiState(),
+                stage = Stage.GET_READY
+            )
+        }
     }
 
     override fun onClickCancelWorkout() {

@@ -1,13 +1,12 @@
 package com.cairosquad.evolvefit.repository.authentication
 
-import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.domain.repository.AuthenticationRepository
-import com.cairosquad.evolvefit.repository.local.AuthenticationPreferences
-import com.cairosquad.evolvefit.repository.remote.AuthenticationRemoteDataSource
-import com.cairosquad.evolvefit.repository.remote.api.safeApiCall
-import com.cairosquad.evolvefit.repository.remote.authentication.RegisterRequest
+import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
+import com.cairosquad.evolvefit.repository.authentication.remote.AuthenticationRemoteDataSource
+import com.cairosquad.evolvefit.repository.authentication.remote.dto.RegisterRequest
+import com.cairosquad.evolvefit.repository.utils.safeApiCall
 
 class AuthenticationRepositoryImpl(
     private val remote: AuthenticationRemoteDataSource,
@@ -22,7 +21,7 @@ class AuthenticationRepositoryImpl(
     override suspend fun register(
         profile: Profile,
         password: String,
-        availableEquipment: Set<Equipment>,
+        availableEquipment: Set<Int>,
         workoutDays: Set<WeekDay>
     ) {
         val request = RegisterRequest.Companion.fromProfile(

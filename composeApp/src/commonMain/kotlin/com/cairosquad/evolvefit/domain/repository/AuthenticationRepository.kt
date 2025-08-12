@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.domain.repository
 
-import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.model.WeekDay
 
@@ -9,7 +8,7 @@ interface AuthenticationRepository {
     suspend fun register(
         profile: Profile,
         password: String,
-        availableEquipment: Set<Equipment>,
+        availableEquipment: Set<Int>,
         workoutDays: Set<WeekDay>
     )
     suspend fun logout()
