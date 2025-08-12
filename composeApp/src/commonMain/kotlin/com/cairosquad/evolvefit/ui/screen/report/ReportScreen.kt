@@ -106,7 +106,7 @@ private fun ReportScreenContent(
             item {
                 LineChartCard(
                     modifier = Modifier.padding(top = 16.dp),
-                    data = screenState.report.timeSpendPerWeek.time.map { it.toFloat() },
+                    data = screenState.report.timeSpendPerWeek.timeInMilliSeconds.map { it.toFloat() },
                     labels = screenState.report.timeSpendPerWeek.day,
                     totalTime = screenState.report.timeSpent,
                     isAnimationStarted = isAnimationStarted

@@ -28,7 +28,7 @@ fun DashboardGridSection(
             modifier = Modifier
                 .padding(top = 8.dp),
             expectedCalories = screenState.report.expectedCalories,
-            takenCalories = screenState.report.takenCalories,
+            takenCalories = screenState.report.takenCaloriesInKcal,
             timeSpent = screenState.report.timeSpent,
             waterConsumed = screenState.report.waterConsumed,
             totalWorkout = screenState.report.totalWorkouts,

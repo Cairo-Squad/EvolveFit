@@ -4,9 +4,9 @@ import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.domain.model.WeekDay
 
 data class Report(
-    val timeSpend: Long,
+    val timeSpentInMilliSeconds: Long,
     val totalWorkouts: Int,
-    val takenCalories: Int,
+    val takenCaloriesInKcal: Int,
     val expectedCalories: Int,
     val waterTakenInLiter: Float,
     val focusedAreas: List<Pair<FocusArea, Int>>,

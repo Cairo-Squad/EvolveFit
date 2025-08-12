@@ -10,7 +10,7 @@ data class ReportScreenState(
     data class ReportUiState(
         val waterConsumed: Float = 0f,
         val timeSpent: String = "",
-        val takenCalories: Int = 0,
+        val takenCaloriesInKcal: Int = 0,
         val expectedCalories: Int = 100,
         val totalWorkouts: String = "",
         val workoutPerWeek: WorkoutPerDay = WorkoutPerDay(),
@@ -23,7 +23,7 @@ data class ReportScreenState(
     )
 
     data class TimeSpendPerDay(
-        val time: List<Long> = emptyList(),
+        val timeInMilliSeconds: List<Long> = emptyList(),
         val day: List<String> = emptyList()
     )
 
@@ -37,7 +37,7 @@ data class ReportScreenState(
         val name: String = "",
         val date: String = "",
         val exercisesCount: Int = 0,
-        val duration: Long = 0,
+        val durationInSeconds: Int = 0,
         val level: String = ""
     )
 }
