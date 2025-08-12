@@ -31,6 +31,7 @@ data class RegisterScreenState(
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
     val image: UiImage = UiImage.ImageUrl(""),
+    val preferredLanguage: Language? = null,
     val isImagePickerOpen: Boolean = false,
     val isPasswordVisible: Boolean = false,
 ) {
@@ -46,6 +47,11 @@ data class RegisterScreenState(
 
     enum class Goal {
         LoseWeight, GainWeight, StayInShape
+    }
+
+    enum class Language {
+        ARABIC,
+        ENGLISH
     }
 
     enum class WeekDayUiState(val resId: StringResource) {

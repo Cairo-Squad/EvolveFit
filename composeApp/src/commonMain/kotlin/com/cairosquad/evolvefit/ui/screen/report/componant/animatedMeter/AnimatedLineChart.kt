@@ -93,7 +93,7 @@ fun AnimatedLineChart(
 @Composable
 private fun AnimatedLineChartPreview() {
     AnimatedLineChart(
-        data = listOf(10f, 20f, 30f, 40f, 50f),
+        data = listOf(10f, 20f, 30f, 15f, 10f),
         lineColor = Theme.color.brand.primary,
         areaColor = Theme.color.gradiant.barGradiant,
         markerColor = Theme.color.brand.primary,
