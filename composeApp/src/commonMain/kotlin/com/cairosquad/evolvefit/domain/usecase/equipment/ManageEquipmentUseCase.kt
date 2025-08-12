@@ -14,7 +14,7 @@ class ManageEquipmentUseCase(
         return equipmentRepository.getUserEquipments()
     }
 
-    suspend fun editUserEquipments() {
-        equipmentRepository.editUserEquipments()
+    suspend fun editUserEquipments(equipments: List<Equipment>) {
+        equipmentRepository.editUserEquipments(equipments)
     }
 }
