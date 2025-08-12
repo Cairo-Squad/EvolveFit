@@ -23,7 +23,7 @@ data class ReportScreenState(
     )
 
     data class TimeSpentPerWeek(
-        val time: List<Long> = emptyList(),
+        val timeInMilliSeconds: List<Long> = emptyList(),
         val day: List<String> = emptyList()
     )
 
