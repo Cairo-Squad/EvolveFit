@@ -4,7 +4,7 @@ import kotlinx.datetime.LocalDate
 
 data class EditProfileScreenState(
     val profile: ProfileUiState = ProfileUiState(),
-    val showBottomSheet: Boolean = false,
+    val bottomSheetType: EditProfileBottomSheetType? = null,
     val errorMessage: String? = null,
 ) {
     data class ProfileUiState(
@@ -18,11 +18,31 @@ data class EditProfileScreenState(
         val imageUrl: String="",
         val preferredMeasurementStandard: String ="",
     )
-
-    enum class MeasurementStandard {
-        METRIC,
-        IMPERIAL
+    enum class EditProfileBottomSheetType {
+        FULL_NAME,
+        WORKOUTS_DAYS,
+        EQUIPMENT,
+        BIRTHDAY,
+        GENDER,
+        HEIGHT,
+        WEIGHT,
+        MAIN_GOAL,
+        MEASUREMENT_STANDARD
     }
+    data class EquipmentUiState(
+        val id: Int,
+        val name: String,
+    )
+    enum class WeekDayUi {
+        MONDAY,
+        TUESDAY,
+        WEDNESDAY,
+        THURSDAY,
+        FRIDAY,
+        SATURDAY,
+        SUNDAY
+    }
+
 
 }
 
