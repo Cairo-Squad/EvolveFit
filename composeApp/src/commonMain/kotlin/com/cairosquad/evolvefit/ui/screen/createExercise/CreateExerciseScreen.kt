@@ -89,7 +89,26 @@ fun CreateExerciseScreenContent(
     state: CreateExerciseState,
     listener: CreateExerciseInteractionListener,
 ) {
+    val selectedImage = state.image
+    val uploadExercisesImg = if (selectedImage != null) {
+        null
+    } else if (isSystemInDarkTheme()) {
+        painterResource(Res.drawable.im_upload_exercises_dark)
+    } else {
+        painterResource(Res.drawable.im_upload_exercises_light)
+    }
 
+    val selectedEquipmentNames = if (state.selectedEquipments.isEmpty()) {
+        stringResource(Res.string.choose_available_tools)
+    } else {
+        state.selectedEquipmentNames
+    }
+
+    val selectedFocusArea = if (state.selectedFocusAreas.isEmpty()) {
+        stringResource(Res.string.select_focus_area)
+    } else {
+        state.selectedFocusAreasText
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -99,27 +118,6 @@ fun CreateExerciseScreenContent(
             .navigationBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        val selectedImage = state.image
-        val uploadExercisesImg = if (selectedImage != null) {
-            null
-        } else if (isSystemInDarkTheme()) {
-            painterResource(Res.drawable.im_upload_exercises_dark)
-        } else {
-            painterResource(Res.drawable.im_upload_exercises_light)
-        }
-
-        val selectedEquipmentNames = if (state.selectedEquipments.isEmpty()) {
-            stringResource(Res.string.choose_available_tools)
-        } else {
-            state.selectedEquipmentNames
-        }
-
-        val selectedFocusArea = if (state.selectedFocusAreas.isEmpty()) {
-            stringResource(Res.string.select_focus_area)
-        } else {
-            state.selectedFocusAreasText
-        }
-
         CustomAppBar(
             modifier = Modifier.padding(bottom = 16.dp),
             header = {
