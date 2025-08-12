@@ -9,18 +9,17 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 
 data class NutritionScreenState(
-    val consumedCalories: Float = 0f,
-    val totalCalories: Float = 0.0f,
+    val todayConsumedCalories: Float = 0f,
+    val dailyCaloriesGoal: Float = 0.0f,
 
-    val consumedWater: Float = 0f,
-    val totalWater: Float = 0f,
+    val todayConsumedWater: Float = 0f,
+    val dailyWaterGoal: Float = 0f,
 
-    val remainingCalories: Float = 0.0f,
+    val remainingDailyCalories: Float = 0.0f,
 
-    val todayMealUiStates: List<TodayMealUiState> = emptyList(),
-    val suggestedMeals: List<SuggestedMeal> = emptyList(),
-    val consumedMealsForToday: List<MealHistory> = emptyList(),
-    val mealsHistory: List<MealHistory> = emptyList(),
+    val dailyMealSummaryUiStates: List<DailyMealSummaryUiState> = emptyList(),
+    val suggestedMeals: List<SuggestedMealUiState> = emptyList(),
+    val todayConsumedMeals: List<ConsumedMealUiState> = emptyList(),
     val isAddWaterSheetVisible: Boolean = false,
     val isAddMealSheetVisible: Boolean = false,
     val isAddMealSnackBarVisible: Boolean = false,
@@ -34,26 +33,25 @@ data class NutritionScreenState(
     val selectedMeal: MealTypeUiState = MealTypeUiState.Breakfast,
     val errorMessage: String? = null,
 ) {
-    data class TodayMealUiState(
+    data class DailyMealSummaryUiState(
         val type: MealTypeUiState = MealTypeUiState.Breakfast,
         val calories: Float = 0f,
         val icon: DrawableResource
     )
 
-    data class SuggestedMeal(
+    data class SuggestedMealUiState(
         val name: String = "",
         val type: MealTypeUiState = MealTypeUiState.Breakfast,
         val calories: Int = 0,
         val imageUrl: String = ""
     )
 
-    data class MealHistory(
+    data class ConsumedMealUiState(
         val name: String = "",
         val type: MealTypeUiState = MealTypeUiState.Breakfast,
         val calories: Int = 0,
         val date: String = ""
     )
-
     enum class MealTypeUiState(val displayName: StringResource) {
         Breakfast(Res.string.meal_type_breakfast),
         Lunch(Res.string.meal_type_lunch),

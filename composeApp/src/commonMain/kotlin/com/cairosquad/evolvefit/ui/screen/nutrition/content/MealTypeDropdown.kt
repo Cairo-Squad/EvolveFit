@@ -138,7 +138,7 @@ fun MealTypeDropdownMenu(
                 isEnabled = state.isAddButtonEnabled,
                 onClick = {
                     listener.onConfirmAddMealClicked(
-                        NutritionScreenState.MealHistory(
+                        NutritionScreenState.ConsumedMealUiState(
                             name = state.mealNameInput,
                             type = state.selectedMeal,
                             calories = state.consumedCaloriesInput.toInt()

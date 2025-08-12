@@ -4,13 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -51,7 +47,6 @@ import evolvefit.composeapp.generated.resources.meal_cant_added_snackbar
 import evolvefit.composeapp.generated.resources.meal_history
 import evolvefit.composeapp.generated.resources.no_meals_description
 import evolvefit.composeapp.generated.resources.no_meals_title
-import evolvefit.composeapp.generated.resources.nutrition
 import evolvefit.composeapp.generated.resources.track_water_intake
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -124,7 +119,7 @@ private fun LazyListScope.mealHistorySection(
     state: NutritionScreenState,
     listener: NutritionInteractionListener
 ) {
-    if (state.consumedMealsForToday.isNotEmpty()) {
+    if (state.todayConsumedMeals.isNotEmpty()) {
         item {
             SeeAll(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
@@ -132,7 +127,7 @@ private fun LazyListScope.mealHistorySection(
                 sectionTitle = stringResource(Res.string.meal_history)
             )
         }
-        items(state.consumedMealsForToday) { mealHistory ->
+        items(state.todayConsumedMeals) { mealHistory ->
             MealHistoryItem(meal = mealHistory)
         }
     } else {

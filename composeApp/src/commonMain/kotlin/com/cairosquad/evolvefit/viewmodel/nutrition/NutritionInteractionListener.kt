@@ -6,7 +6,7 @@ interface NutritionInteractionListener {
     fun onDismissWaterClicked()
     fun onWaterAmountChange(waterAmount: String)
     fun onAddMealSheetClicked()
-    fun onConfirmAddMealClicked(mealHistory: NutritionScreenState.MealHistory)
+    fun onConfirmAddMealClicked(consumedMealUiState: NutritionScreenState.ConsumedMealUiState)
     fun onDismissMealClicked()
     fun onMealNameChanged(name: String)
     fun onMealCaloriesChanged(calories: String)

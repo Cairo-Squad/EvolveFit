@@ -71,7 +71,7 @@ fun TodayMealsSummary(
                   .heightIn(max = 150.dp),
                 userScrollEnabled = false
             ) {
-                items(state.todayMealUiStates) { meal ->
+                items(state.dailyMealSummaryUiStates) { meal ->
                     TodayMealItem(meal = meal)
                 }
             }
@@ -95,7 +95,7 @@ fun TodayMealsSummary(
                         color = Theme.color.surfaces.onSurfaceContainer
                     )
                     Text(
-                        text = "${state.remainingCalories} " + stringResource(Res.string.kcal_unit),
+                        text = "${state.remainingDailyCalories} " + stringResource(Res.string.kcal_unit),
                         style = Theme.textStyle.body.mediumMedium12,
                         color = Theme.color.surfaces.outline
                     )
@@ -127,7 +127,7 @@ private fun AddMealButton(listener: NutritionInteractionListener){
 }
 @Composable
 fun TodayMealItem(
-    meal: NutritionScreenState.TodayMealUiState,
+    meal: NutritionScreenState.DailyMealSummaryUiState,
     modifier: Modifier = Modifier
 ) {
     Column(

@@ -5,7 +5,7 @@ import com.cairosquad.evolvefit.domain.usecase.toDomain
 import com.cairosquad.evolvefit.domain.usecase.toDto
 import com.cairosquad.evolvefit.entity.Exercise
 import com.cairosquad.evolvefit.entity.Tool
-import com.cairosquad.evolvefit.remote.safeApiCall
+import com.cairosquad.evolvefit.remote.utils.safeApiCall
 import com.cairosquad.evolvefit.repository.remote.workOut.WorkOutDataSource
 
 class WorkOutRepositoryImpl(

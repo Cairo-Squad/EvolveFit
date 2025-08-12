@@ -24,7 +24,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MealHistoryItem(
-    meal: NutritionScreenState.MealHistory,
+    meal: NutritionScreenState.ConsumedMealUiState,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -64,7 +64,7 @@ fun MealHistoryItem(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = "${meal.calories} " + stringResource(Res.string.kcal_unit),
+                text = "${meal.calories.toString()} " + stringResource(Res.string.kcal_unit),
                 style = Theme.textStyle.title.largeBold14,
                 color = Theme.color.brand.primary
             )
