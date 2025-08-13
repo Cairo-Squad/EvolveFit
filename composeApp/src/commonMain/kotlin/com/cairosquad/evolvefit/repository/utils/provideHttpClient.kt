@@ -6,5 +6,5 @@ import io.ktor.client.plugins.auth.providers.BearerTokens
 
 expect fun provideHttpClient(
     authenticationPreferences: AuthenticationPreferences,
-    refreshTokenProvider: suspend (String) -> BearerTokens?
+    refreshTokenProvider: RefreshTokenProvider
 ): HttpClient
