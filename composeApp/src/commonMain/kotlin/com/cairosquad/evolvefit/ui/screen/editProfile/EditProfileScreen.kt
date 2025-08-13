@@ -49,6 +49,7 @@ import kotlin.time.Clock
 
 @Composable
 fun EditProfileScreen(
+    navigateBack: () -> Unit,
     viewModel: EditProfileViewModel = koinViewModel(),
     modifier: Modifier = Modifier
 ) {

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import com.cairosquad.evolvefit.design_system.component.NavigationBar
 import com.cairosquad.evolvefit.design_system.component.NavigationBarItem
 import com.cairosquad.evolvefit.ui.screen.home.HomeScreen
+import com.cairosquad.evolvefit.ui.screen.more.MoreScreen
 import com.cairosquad.evolvefit.ui.screen.nutrition.NutritionScreen
 import com.cairosquad.evolvefit.ui.screen.report.ReportScreen
 import com.cairosquad.evolvefit.ui.screen.workouts.WorkoutsScreen
@@ -41,7 +42,8 @@ fun AppScreen(
     navigateToSuggestedMeals: () -> Unit,
     navigateToMealDetails: (String) -> Unit,
     navigateToMealsHistory: () -> Unit,
-    navigateToWorkoutHistory: () -> Unit
+    navigateToWorkoutHistory: () -> Unit,
+    navigateToEditProfile: () -> Unit
 ) {
     var selectedScreenIndex by rememberSaveable { mutableIntStateOf(0) }
 
@@ -95,6 +97,9 @@ fun AppScreen(
                 )
                 3 -> ReportScreen(
                     navigateToWorkoutHistory = navigateToWorkoutHistory
+                )
+                4->MoreScreen(
+                    navigateToEditProfile = navigateToEditProfile
                 )
             }
         }
