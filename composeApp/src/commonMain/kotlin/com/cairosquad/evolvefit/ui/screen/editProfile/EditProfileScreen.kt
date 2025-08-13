@@ -1,50 +1,47 @@
 package com.cairosquad.evolvefit.ui.screen.editProfile
+
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.cairosquad.evolvefit.design_system.component.LabeledInputField
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
-import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.DateBottomSheet
-import com.cairosquad.evolvefit.ui.component.DateBottomSheetContent
 import com.cairosquad.evolvefit.ui.component.UserProfileImage
-import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileInteractionListener
+import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
-import com.cairosquad.evolvefit.viewmodel.register.RegisterViewModel
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.ic_question_mark
-import evolvefit.composeapp.generated.resources.personal_information
-import kotlinx.datetime.LocalDate
-import evolvefit.composeapp.generated.resources.female
+import evolvefit.composeapp.generated.resources.email
+import evolvefit.composeapp.generated.resources.full_name
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_back
-import evolvefit.composeapp.generated.resources.ic_date
 import evolvefit.composeapp.generated.resources.ic_mail
-import evolvefit.composeapp.generated.resources.ic_profile
-import evolvefit.composeapp.generated.resources.male
-import evolvefit.composeapp.generated.resources.select_gender_description
-import evolvefit.composeapp.generated.resources.select_gender_title
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import evolvefit.composeapp.generated.resources.personal_information
+import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.time.Clock
 
 
 @Composable
@@ -54,9 +51,10 @@ fun EditProfileScreen(
     modifier: Modifier = Modifier
 ) {
     val state by viewModel.screenState.collectAsState()
-    EditProfileScreenContent(state,viewModel)
+    EditProfileScreenContent(state, viewModel)
 
 }
+
 @Composable
 fun EditProfileScreenContent(
     state: EditProfileScreenState,
@@ -64,10 +62,13 @@ fun EditProfileScreenContent(
     modifier: Modifier = Modifier
 
 ) {
+    val scrollState = rememberScrollState()
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(color = Theme.color.surfaces.surface),
+            .verticalScroll(scrollState)
+            .padding(horizontal = 16.dp)
+            .background(color = Theme.color.surfaces.surface, shape = RoundedCornerShape(16.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomAppBar(
@@ -94,119 +95,140 @@ fun EditProfileScreenContent(
             }
         )
 
-
-
-        InputField(
-            value = state.profile.fullName,
-            onValueChange = listener::onFullNameChanged,
-            placeholder = "Full Name",
-            readOnly = false,
-            leadingIcon = Res.drawable.ic_profile,
-            trailingIcon = Res.drawable.ic_arrow_down,
-            onTrailingIconClick = { listener.onFullNameClicked() },
-            onClick = { listener.onFullNameClicked() }
-        )
-
-        InputField(
-            value = state.profile.email,
-            onValueChange = { },
-            placeholder = "Email",
-            readOnly = true,
-            leadingIcon = Res.drawable.ic_mail
-        )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = Theme.color.surfaces.surfaceContainer,
+                    shape = RoundedCornerShape(16.dp),
+                )
+                .padding(horizontal = 12.dp, vertical = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            InputField(
-                value = state.profile.dateOfBirth?.toString() ?: "29/04/2000",
+            LabeledInputField(
+                label = stringResource(Res.string.full_name),
+                value = state.profile.fullName,
+                onValueChange = listener::onFullNameChanged,
+                trailingIcon = Res.drawable.ic_mail,
+                isDividerVisible = true
+            )
+
+
+            LabeledInputField(
+                label = stringResource(Res.string.email),
+                value = state.profile.email,
+                onValueChange = { },
+                placeholder = "Email",
+                readOnly = true,
+                trailingIcon = null,
+                isDividerVisible = true
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                LabeledInputField(
+                    label = "DOB",
+                    value = state.profile.dateOfBirth?.toString() ?: "29/04/2000",
+                    onValueChange = {},
+                    placeholder = "DOB",
+                    readOnly = true,
+                    trailingIcon = Res.drawable.ic_arrow_down,
+                    onClick = { listener.onDateOfBirthClicked() },
+                    isDividerVisible = true,
+                    modifier = Modifier.weight(1f)
+                )
+
+                LabeledInputField(
+                    label = "gender",
+                    value = state.profile.gender,
+                    onValueChange = {},
+                    placeholder = "Gender",
+                    readOnly = true,
+                    trailingIcon = Res.drawable.ic_arrow_down,
+                    onClick = { listener.onGenderClicked() },
+                    isDividerVisible = true,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                LabeledInputField(
+                    label = "Height",
+                    value = (state.profile.height).toString(),
+                    onValueChange = {},
+                    placeholder = "Height",
+                    readOnly = true,
+                    trailingIcon = Res.drawable.ic_arrow_down,
+                    onClick = { listener.onHeightClicked() },
+                    isDividerVisible = true,
+                    modifier = Modifier.weight(1f)
+                )
+
+                LabeledInputField(
+                    label = "weight",
+                    value = state.profile.weight.toString(),
+                    onValueChange = { },
+                    placeholder = "Weight",
+                    readOnly = true,
+                    trailingIcon = Res.drawable.ic_arrow_down,
+                    onClick = { listener.onWeightClicked() },
+                    isDividerVisible = true,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+            LabeledInputField(
+                label = "goal",
+                value = state.profile.mainGoal.ifEmpty { "Lose Weight" },
                 onValueChange = {},
-                placeholder = "DOB",
-                readOnly = false,
-                leadingIcon = Res.drawable.ic_date,
-                trailingIcon = Res.drawable.ic_arrow_down,
-                onClick = { listener.onDateOfBirthClicked() },
-                modifier = Modifier.weight(1f)
-            )
-
-            InputField(
-                value = state.profile.gender.ifEmpty { "Female" },
-                onValueChange = {listener::onGenderChanged},
-                placeholder = "Gender",
+                placeholder = "Main Goal",
                 readOnly = true,
                 trailingIcon = Res.drawable.ic_arrow_down,
-                onClick = { listener.onGenderClicked() },
-                modifier = Modifier.weight(1f)
+                isDividerVisible = true,
+                onClick = { listener.onMainGoalClicked() }
+            )
+
+            LabeledInputField(
+                label = "your tools",
+                value = if (state.userEquipments.isEmpty()) {
+                    "No tools"
+                } else {
+                    state.userEquipments.joinToString(", ") { it.name }
+                },
+                onValueChange = { listener::onEquipmentChanged },
+                placeholder = "Your Tools",
+                readOnly = true,
+                trailingIcon = Res.drawable.ic_arrow_down,
+                isDividerVisible = true,
+                onClick = { listener.onEquipmentClicked() }
+            )
+
+            LabeledInputField(
+                label = "workouts",
+                value = if (state.userWorkoutsDays.isEmpty()) {
+                    "No Workouts Days"
+                } else {
+                    state.userWorkoutsDays.joinToString(",") { it.name }
+                },
+                onValueChange = { },
+                placeholder = "Workout Days",
+                readOnly = true,
+                trailingIcon = Res.drawable.ic_arrow_down,
+                isDividerVisible = true,
+                onClick = { listener.onWorkoutDaysClicked() }
             )
         }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            InputField(
-                value = if (state.profile.height > 0) "${state.profile.height.toInt()} cm" else "166 cm",
-                onValueChange = {listener::onHeightChanged},
-                placeholder = "Height",
-                readOnly = true,
-                trailingIcon = Res.drawable.ic_arrow_down,
-                onClick = { listener.onHeightClicked() },
-                modifier = Modifier.weight(1f)
-            )
-
-            InputField(
-                value = if (state.profile.weight > 0) "${state.profile.weight} kg" else "64.5 kg",
-                onValueChange = {listener::onWeightChanged},
-                placeholder = "Weight",
-                readOnly = true,
-                trailingIcon = Res.drawable.ic_arrow_down,
-                onClick = { listener.onWeightClicked() },
-                modifier = Modifier.weight(1f)
-            )
-        }
-        InputField(
-            value = state.profile.mainGoal.ifEmpty { "Lose Weight" },
-            onValueChange = {},
-            placeholder = "Main Goal",
-            readOnly = true,
-            trailingIcon = Res.drawable.ic_arrow_down,
-            onClick = { listener.onMainGoalClicked() }
-        )
-
-        InputField(
-            value = if (state.userEquipments.isEmpty()) {
-                "No tools"
-            } else {
-                state.userEquipments.joinToString(", ") { it.name }
-            },
-            onValueChange = {listener::onEquipmentChanged},
-            placeholder = "Your Tools",
-            readOnly = true,
-            trailingIcon = Res.drawable.ic_arrow_down,
-            onClick = { listener.onEquipmentClicked() }
-        )
-
-        InputField(
-            value = if(state.userWorkoutsDays.isEmpty()){
-                "No Workouts Days"
-            }else{
-                state.userWorkoutsDays.joinToString(","){it.name}
-            },
-            onValueChange = {listener::onWorkoutDaysChanged},
-            placeholder = "Workout Days",
-            readOnly = true,
-            trailingIcon = Res.drawable.ic_arrow_down,
-            onClick = { listener.onWorkoutDaysClicked() }
-        )
 
         PrimaryButton(
-            text="save changes",
+            modifier = Modifier.padding(top = 29.dp),
+            text = "save changes",
             onClick = { listener.onSaveChangesClicked() }
         )
 
+
     }
-    when(state.bottomSheetType)
-    {
-        EditProfileScreenState.EditProfileBottomSheetType.BIRTHDAY->{
+    when (state.bottomSheetType) {
+        EditProfileScreenState.EditProfileBottomSheetType.BIRTHDAY -> {
             DateBottomSheet(
                 maxDate = "2025",
                 dateOfBirth = state.profile.dateOfBirth?.toString() ?: "",
@@ -218,35 +240,42 @@ fun EditProfileScreenContent(
                 }
             )
         }
+
         EditProfileScreenState.EditProfileBottomSheetType.EQUIPMENT -> {
 
         }
+
         EditProfileScreenState.EditProfileBottomSheetType.WORKOUTS_DAYS -> {
 
         }
+
         EditProfileScreenState.EditProfileBottomSheetType.FULL_NAME -> {
 
         }
+
         EditProfileScreenState.EditProfileBottomSheetType.GENDER -> {
 
         }
-        EditProfileScreenState.EditProfileBottomSheetType.MAIN_GOAL-> {
+
+        EditProfileScreenState.EditProfileBottomSheetType.MAIN_GOAL -> {
 
         }
+
         EditProfileScreenState.EditProfileBottomSheetType.MEASUREMENT_STANDARD -> {
 
         }
-        EditProfileScreenState.EditProfileBottomSheetType.HEIGHT-> {
+
+        EditProfileScreenState.EditProfileBottomSheetType.HEIGHT -> {
 
         }
-        EditProfileScreenState.EditProfileBottomSheetType.WEIGHT-> {
+
+        EditProfileScreenState.EditProfileBottomSheetType.WEIGHT -> {
 
         }
-        null->Unit
+
+        null -> Unit
     }
 }
-
-
 
 
 @Preview()
@@ -273,7 +302,6 @@ private fun EditProfileScreenPreview() {
         listener = object : EditProfileInteractionListener {
             override fun onBackClicked() {}
             override fun onSaveChangesClicked() {}
-            override fun onFullNameClicked() {}
             override fun onDateOfBirthClicked() {}
             override fun onGenderClicked() {}
             override fun onHeightClicked() {}

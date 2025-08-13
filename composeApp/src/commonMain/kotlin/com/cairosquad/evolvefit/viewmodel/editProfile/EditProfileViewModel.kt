@@ -93,9 +93,6 @@ class EditProfileViewModel(
 
     }
 
-    override fun onFullNameClicked() {
-        updateState { it.copy(bottomSheetType = EditProfileBottomSheetType.FULL_NAME) }
-    }
 
     override fun onDateOfBirthClicked() {
         updateState { it.copy(bottomSheetType = EditProfileBottomSheetType.BIRTHDAY) }

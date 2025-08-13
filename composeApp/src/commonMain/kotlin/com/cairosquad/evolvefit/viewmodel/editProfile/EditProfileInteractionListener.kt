@@ -5,7 +5,6 @@ import kotlinx.datetime.LocalDate
 interface EditProfileInteractionListener {
     fun onBackClicked()
     fun onSaveChangesClicked()
-    fun onFullNameClicked()
     fun onDateOfBirthClicked()
     fun onGenderClicked()
     fun onHeightClicked()

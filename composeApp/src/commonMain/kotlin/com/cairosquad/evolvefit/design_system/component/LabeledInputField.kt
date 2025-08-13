@@ -40,7 +40,7 @@ fun LabeledInputField(
     Column(
         modifier = modifier
             .background(Theme.color.surfaces.surfaceContainer)
-            .padding(horizontal = 12.dp, vertical = 16.dp)
+
     ) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
@@ -51,7 +51,7 @@ fun LabeledInputField(
                 style = Theme.textStyle.label.smallRegular12.copy(
                     color = Theme.color.surfaces.onSurfaceVariant
                 ),
-                modifier = Modifier.weight(1f).padding(start = 3.dp)
+                modifier = Modifier.weight(1f).padding(start = 4.dp)
             )
             if (trailingIcon != null) {
                 AnimatedContent(
@@ -87,11 +87,12 @@ fun LabeledInputField(
             trailingIcon = null,
             onTrailingIconClick = onClick,
             onClick = onClick,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            verticalPadding = 8.dp
         )
         if (isDividerVisible) {
             HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 12.dp),
                 thickness = 1.dp,
                 color = Theme.color.surfaces.outlineVariant
             )
