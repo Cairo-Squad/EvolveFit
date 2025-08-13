@@ -43,7 +43,7 @@ class CreateExerciseViewModel(
     }
     override fun onEquipmentNameSelected(toolName: String) {
         val id = screenState.value.availableEquipments
-            .firstOrNull { it.toolName == toolName }?.toolId ?: return
+            .firstOrNull { it.name == toolName }?.id ?: return
 
         onEquipmentToggled(id)
     }

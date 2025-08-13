@@ -2,6 +2,7 @@ package com.cairosquad.evolvefit.ui.screen.createExercise.content
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,13 +21,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CustomTick
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
 @Composable
 fun DropdownMenu(
     items: List<String>,
@@ -68,13 +69,14 @@ fun DropdownMenu(
                     CustomTick(
                         modifier = Modifier.padding(vertical = 8.dp),
                         isChecked = isChecked(item),
-                        onCheckedChange = { onItemSelected(item) }
                     )
                 }
             }
         }
 
 }
+
+
 
 
 @Preview

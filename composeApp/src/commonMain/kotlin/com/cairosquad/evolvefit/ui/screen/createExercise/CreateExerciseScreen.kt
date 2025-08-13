@@ -98,7 +98,7 @@ fun CreateExerciseScreenContent(
         painterResource(Res.drawable.im_upload_exercises_light)
     }
 
-    val selectedEquipmentNames = if (state.selectedEquipments.isEmpty()) {
+    val selectedEquipmentNames = if (state.selectedEquipment.name.isBlank()) {
         stringResource(Res.string.choose_available_tools)
     } else {
         state.selectedEquipmentNames
@@ -317,12 +317,12 @@ private fun CreateExerciseScreenPreview() {
                 measurementType = CreateExerciseState.MeasurementType.REPS,
                 isRepsChecked = true,
                 measurementInputValue = 10,
-                selectedFocusAreas = listOf(CreateExerciseState.FocusArea.Abs)
+                selectedFocusAreas = setOf(CreateExerciseState.FocusArea.Abs)
             ),
             listener = object : CreateExerciseInteractionListener {
                 override fun onNameChanged(name: String) {}
                 override fun onImagePicked(image: com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage) {}
-                override fun onEquipmentToggled(equipmentId: Long) {}
+                override fun onEquipmentToggled(equipmentId: Int) {}
                 override fun onFocusAreaNameSelected(name: String) {}
                 override fun onEquipmentNameSelected(toolName: String) {}
                 override fun onImagePickerClicked() {}

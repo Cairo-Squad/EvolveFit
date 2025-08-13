@@ -25,14 +25,11 @@ data class CreateExerciseState(
         get() = availableEquipments.map { it.name }
 
     val selectedEquipmentNames: String
-        get() = availableEquipments
-            .filter { it.id in selectedEquipment }
-            .joinToString { it.name }
+        get() = selectedEquipment.name
 
 
     fun isEquipmentSelected(toolName: String): Boolean {
-        val toolId = availableEquipments.firstOrNull { it.name == toolName }?.id
-        return toolId != null && toolId in selectedEquipment
+        return selectedEquipment.name == toolName
     }
 
     val focusAreaNames: List<String>

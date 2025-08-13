@@ -57,7 +57,6 @@ fun CustomDropdownMenu(
                 CustomTick(
                     modifier = Modifier.padding(vertical = 8.dp),
                     isChecked = isChecked(item),
-                    onCheckedChange = { onItemSelected(item) }
                 )
             }
         }
@@ -86,6 +85,4 @@ fun CustomDropdownMenuPreview() {
             isChecked = { false }
         )
     }
-
-
 }
