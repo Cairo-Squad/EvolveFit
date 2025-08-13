@@ -26,11 +26,4 @@ class AuthenticationRemoteDataSourceImpl(private val client: HttpClient) :
             setBody(request)
         }.body<AuthResponse>()
     }
-
-    override suspend fun getRefreshToken(refreshToken: String): AuthResponse {
-        return client.post("auth/refresh") {
-            contentType(ContentType.Application.Json)
-            setBody(RefreshRequest(refreshToken))
-        }.body()
-    }
 }
