@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.workout
 
+import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 
@@ -15,11 +16,9 @@ class WorkoutViewModel(
 
     private fun loadAllWorkouts() {
         tryToCall(
-            block = { workoutUseCase.getSuggestedWorkouts() },
-            onSuccess = { list ->
-                updateState { st -> st.copy(allWorkouts = list.map { it.toUiState() }) }
-            },
-            onError = { },
+            block = workoutUseCase::getSuggestedWorkouts,
+            onSuccess = ::onGetSuggestedWorkoutsSuccess,
+            onError = ::onGetSuggestedWorkoutError,
         )
     }
 
@@ -32,10 +31,8 @@ class WorkoutViewModel(
                     workoutUseCase.getWorkoutsByFocusArea(focusAreaUiState.toDomain())
                 }
             },
-            onSuccess = { list ->
-                updateState { st -> st.copy(allWorkouts = list.map { it.toUiState() }) }
-            },
-            onError = { }
+            onSuccess = ::onLoadWorkoutByFocusAreaSuccess,
+            onError = ::onLoadWorkoutByFocusAreaError
         )
     }
 
@@ -59,5 +56,21 @@ class WorkoutViewModel(
 
     override fun onClickCommunity() {
         sendEffect(WorkoutEffect.NavigateToCommunityWorkout)
+    }
+
+    private fun onGetSuggestedWorkoutsSuccess(workouts: List<Workout>) {
+        updateState { st -> st.copy(allWorkouts = workouts.map { it.toUiState() }) }
+    }
+
+    private fun onGetSuggestedWorkoutError(t: Throwable) {
+        // TODO:  snackbar/effect
+    }
+
+    private fun onLoadWorkoutByFocusAreaSuccess(workouts: List<Workout>) {
+        updateState { st -> st.copy(allWorkouts = workouts.map { it.toUiState() }) }
+    }
+
+    private fun onLoadWorkoutByFocusAreaError(t: Throwable) {
+        // TODO:  snackbar/effect
     }
 }
