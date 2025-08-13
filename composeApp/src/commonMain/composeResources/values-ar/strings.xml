@@ -46,6 +46,7 @@
     <string name="meal_type_dinner">عشاء</string>
     <string name="meal_type_snacks">وجبات خفيفة</string>
     <string name="suggested_meals">الوجبات المقترحة</string>
+    <string name="shimmer_loading">انميشن التحميل</string>
     <string name="todays_meals">وجبات اليوم</string>
     <string name="remaining">المتبقي</string>
     <string name="add_meal">إضافة وجبة</string>
@@ -56,6 +57,7 @@
     <string name="meal_added_snackbar">تمت إضافة الوجبة إلى السجل.</string>
     <string name="no_meals_title">لا توجد وجبات مسجلة بعد</string>
     <string name="no_meals_description">ابدأ في تسجيل وجباتك لتتبع السعرات الحرارية اليومية وتحسين عاداتك الغذائية.</string>
+    <string name="failed_to_load_meals">فشل تحميل الوجبات</string>
     <string name="cm">سم</string>
     <string name="kg">كجم</string>
     <string name="ft">قدم</string>
