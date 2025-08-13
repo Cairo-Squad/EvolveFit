@@ -46,7 +46,7 @@ class AuthenticationRepositoryImpl(
     }
 
     override suspend fun refreshToken(refreshToken: String): AuthResponse {
-        return safeApiCall {
+        return safeCallDataSource {
             val response = remote.getRefreshToken(refreshToken)
             authenticationPreferences.saveTokens(response.accessToken, response.refreshToken)
             response
