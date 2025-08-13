@@ -13,8 +13,8 @@ interface EditProfileInteractionListener {
     fun onMainGoalClicked()
     fun onEquipmentClicked()
     fun onWorkoutDaysClicked()
-    fun onEquipmentChanged(equipments : List<EditProfileScreenState.EquipmentUiState>)
-    fun onWorkoutDaysChanged(workoutsDays : List<EditProfileScreenState.WeekDayUi>)
+    fun onEquipmentChanged(equipments : Set<EditProfileScreenState.EquipmentUiState>)
+    fun onWorkoutDaysChanged(workoutsDays : Set<EditProfileScreenState.WeekDayUiState>)
     fun onPreferredMeasurementStandardClicked()
     fun onImageUrlClicked()
     fun onFullNameChanged(fullName: String)
@@ -25,5 +25,7 @@ interface EditProfileInteractionListener {
     fun onMainGoalChanged(mainGoal: String)
     fun onPreferredMeasurementStandardChanged(measurementStandard: String)
     fun onImageUrlChanged(imageUrl: String)
+    fun onBottomSheetDismissed()
+    fun onImagePickerDismissed()
 
 }
