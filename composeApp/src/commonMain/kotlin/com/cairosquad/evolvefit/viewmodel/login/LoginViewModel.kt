@@ -6,6 +6,13 @@ import com.cairosquad.evolvefit.domain.exception.NetworkException
 import com.cairosquad.evolvefit.domain.exception.UnknownException
 import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.error_invalid_email_format
+import evolvefit.composeapp.generated.resources.error_invalid_password
+import evolvefit.composeapp.generated.resources.error_no_internet
+import evolvefit.composeapp.generated.resources.error_unexpected
+import evolvefit.composeapp.generated.resources.error_unknown_credentials
+import org.jetbrains.compose.resources.StringResource
 
 class LoginViewModel(
     private val authenticationUseCase: AuthenticationUseCase
@@ -23,9 +30,7 @@ class LoginViewModel(
             block = {
                 authenticationUseCase.login(current.email, current.password)
             },
-            onSuccess = {
-                handleLoginSuccess()
-            },
+            onSuccess = { handleLoginSuccess() },
             onError = { error ->
                 handleLoginError(error)
             }
@@ -83,34 +88,40 @@ class LoginViewModel(
         updateState { it.copy(isLoading = false) }
 
         when (error) {
-            is NetworkException -> showError("There is no internet connection.")
+            is NetworkException -> showError(Res.string.error_no_internet)
+
             is UnknownException -> setErrorState(
-                emailError = "",
-                passwordError = "Email or password you entered are incorrect."
+                emailError = null,
+                passwordError = Res.string.error_unknown_credentials
             )
+
             is InvalidEmailFormatException -> setErrorState(
-                emailError = "Invalid email format"
+                emailError = Res.string.error_invalid_email_format
             )
+
             is InvalidPasswordException -> setErrorState(
-                passwordError = "Password must be at least 8 characters"
+                passwordError = Res.string.error_invalid_password
             )
+
             else -> {
-                showError("An unexpected error occurred.")
+                val unexpectedError = Res.string.error_unexpected
+                showError(unexpectedError)
                 setErrorState(
-                    emailError = "An unexpected error occurred.",
-                    passwordError = "An unexpected error occurred."
+                    emailError = unexpectedError,
+                    passwordError = unexpectedError
                 )
             }
         }
     }
 
-    private fun showError(message: String) {
+
+    private fun showError(message: StringResource) {
         sendEffect(LoginScreenEffect.ShowError(message))
     }
 
     private fun setErrorState(
-        emailError: String = "",
-        passwordError: String = ""
+        emailError: StringResource? = null,
+        passwordError: StringResource? = null
     ) {
         updateState {
             val updated = it.copy(

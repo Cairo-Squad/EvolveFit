@@ -1,11 +1,14 @@
 package com.cairosquad.evolvefit.ui.screen.login
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -89,13 +92,13 @@ private fun LoginScreenContent(
 
     Column(
         modifier = Modifier
+            .windowInsetsPadding(WindowInsets.systemBars)
             .fillMaxSize()
-            .statusBarsPadding()
-            .navigationBarsPadding()
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomAppBar(
+            title = "",
             header = {
                 ActionIconButton(
                     icon = painterResource(Res.drawable.ic_back),
@@ -140,7 +143,7 @@ private fun LoginScreenContent(
                     placeholder = stringResource(Res.string.email_placeholder),
                     leadingIcon = Res.drawable.ic_profile,
                     isErrorMessageShown = state.emailError != null,
-                    error = state.emailError ?: ""
+                    error = state.emailError?.let { stringResource(it) } ?: ""
                 )
             }
 
@@ -156,7 +159,7 @@ private fun LoginScreenContent(
                     trailingIcon = visibilityIcon,
                     onTrailingIconClick = listener::onTogglePasswordVisibility,
                     isErrorMessageShown = state.passwordError != null,
-                    error = state.passwordError ?: ""
+                    error = state.passwordError?.let { stringResource(it) } ?: ""
                 )
             }
 
