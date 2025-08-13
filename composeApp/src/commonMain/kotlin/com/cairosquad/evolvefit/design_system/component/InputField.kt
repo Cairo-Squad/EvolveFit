@@ -191,6 +191,14 @@ fun InputField(
             ),
             visualTransformation = if (isPasswordField) PasswordVisualTransformation() else VisualTransformation.None,
         )
+        if (error.isNotBlank() && isErrorMessageShown) {
+            Text(
+                modifier= Modifier.padding(start = 12.dp, top = 4.dp),
+                text = error,
+                color = Theme.color.system.warning,
+                style = Theme.textStyle.label.smallRegular12,
+            )
+        }
     }
 }
 
