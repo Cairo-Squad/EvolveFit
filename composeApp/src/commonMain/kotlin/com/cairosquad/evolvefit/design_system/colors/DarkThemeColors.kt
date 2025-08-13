@@ -26,6 +26,7 @@ val darkThemeColors = ThemeColors(
     ),
     system = System(
         warning = Color(0xFFF5D02D),
+        error = Color(0xFFE65858),
         success = Color(0xFF2DAD58),
         info = Color(0xFF2B60D3),
     ),
