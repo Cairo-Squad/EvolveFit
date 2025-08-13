@@ -549,7 +549,7 @@ private fun PersonalizedWorkouts(
                 WorkoutCard(
                     title = workout.name,
                     duration = "${workout.durationInMins} Min", // TODO: convert to string resources
-                    bodyPart = workout.type,
+                    focusArea = workout.type,
                     model = workout.imageUrl,
                     modifier = Modifier
                         .fillMaxSize()
