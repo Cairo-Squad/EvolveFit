@@ -5,17 +5,18 @@ import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.domain.repository.AuthenticationRepository
 import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
 import com.cairosquad.evolvefit.repository.authentication.remote.AuthenticationRemoteDataSource
+import com.cairosquad.evolvefit.repository.authentication.remote.dto.AuthResponse
 import com.cairosquad.evolvefit.repository.authentication.remote.toRegisterRequest
 import com.cairosquad.evolvefit.repository.utils.safeApiCall
 
 class AuthenticationRepositoryImpl(
     private val remote: AuthenticationRemoteDataSource,
-    private val prefs: AuthenticationPreferences
+    private val authenticationPreferences: AuthenticationPreferences,
 ) : AuthenticationRepository {
 
     override suspend fun login(email: String, password: String) = safeApiCall {
         val response = remote.login(email, password)
-        prefs.saveTokens(response.accessToken, response.refreshToken)
+        authenticationPreferences.saveTokens(response.accessToken, response.refreshToken)
     }
 
     override suspend fun register(
@@ -33,14 +34,22 @@ class AuthenticationRepositoryImpl(
         val response = safeApiCall {
             remote.register(request)
         }
-        prefs.saveTokens(response.accessToken, response.refreshToken)
+        authenticationPreferences.saveTokens(response.accessToken, response.refreshToken)
     }
 
     override suspend fun logout() {
-        prefs.clear()
+        authenticationPreferences.clear()
     }
 
     override suspend fun isUserLoggedIn(): Boolean {
-        return prefs.getAccessToken()?.isNotEmpty() == true
+        return authenticationPreferences.getAccessToken()?.isNotEmpty() == true
+    }
+
+    override suspend fun refreshToken(refreshToken: String): AuthResponse {
+        return safeApiCall {
+            val response = remote.getRefreshToken(refreshToken)
+            authenticationPreferences.saveTokens(response.accessToken, response.refreshToken)
+            response
+        }
     }
 }
