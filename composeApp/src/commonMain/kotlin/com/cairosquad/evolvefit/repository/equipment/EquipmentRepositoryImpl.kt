@@ -12,7 +12,7 @@ class EquipmentRepositoryImpl: EquipmentRepository {
         return emptySet()
     }
 
-    override suspend fun editUserEquipments() {
+    override suspend fun editUserEquipments(equipments:Set<Equipment>) {
 
     }
 }

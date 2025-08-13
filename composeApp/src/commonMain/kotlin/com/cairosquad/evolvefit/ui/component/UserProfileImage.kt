@@ -26,7 +26,8 @@ fun UserProfileImage(
     onImagePickerDismiss: () -> Unit,
     onImagePickerClick: () -> Unit,
     onImageRetrieved: (UiImage) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    text : String ? = null
 ) {
     Column(
         modifier = modifier,
@@ -54,11 +55,12 @@ fun UserProfileImage(
                 defaultImageSize = 32.dp
             )
         }
-
-        Text(
-            text = stringResource(Res.string.upload_image),
-            style = Theme.textStyle.label.mediumMedium14,
-            color = Theme.color.surfaces.onSurfaceVariant
-        )
+        if(!text.isNullOrEmpty()) {
+            Text(
+                text = text,
+                style = Theme.textStyle.label.mediumMedium14,
+                color = Theme.color.surfaces.onSurfaceVariant
+            )
+        }
     }
 }
