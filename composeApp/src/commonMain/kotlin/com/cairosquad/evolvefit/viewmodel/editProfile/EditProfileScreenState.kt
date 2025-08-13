@@ -6,6 +6,10 @@ data class EditProfileScreenState(
     val profile: ProfileUiState = ProfileUiState(),
     val bottomSheetType: EditProfileBottomSheetType? = null,
     val errorMessage: String? = null,
+    val userEquipments: Set<EquipmentUiState> = emptySet(),
+    val userWorkoutsDays: Set<WeekDayUiState> = emptySet(),
+    val isImagePickerOpened : Boolean = false
+
 ) {
     data class ProfileUiState(
         val fullName: String = "",
@@ -33,7 +37,7 @@ data class EditProfileScreenState(
         val id: Int,
         val name: String,
     )
-    enum class WeekDayUi {
+    enum class WeekDayUiState {
         MONDAY,
         TUESDAY,
         WEDNESDAY,
@@ -45,4 +49,3 @@ data class EditProfileScreenState(
 
 
 }
-

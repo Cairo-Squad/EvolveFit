@@ -41,28 +41,28 @@ fun EditProfileScreenState.EquipmentUiState.toDomain(): Equipment {
     )
 }
 
-fun List<Equipment>.toUiStateList(): List<EditProfileScreenState.EquipmentUiState> {
+fun Set<Equipment>.toEquipmentUiStateSet(): Set<EditProfileScreenState.EquipmentUiState> {
     return map { it.toUiState() }
 }
 
-fun List<EditProfileScreenState.EquipmentUiState>.toDomainList(): List<Equipment> {
+fun Set<EditProfileScreenState.EquipmentUiState>.toEquipmentDomainSet():Set<Equipment> {
     return map { it.toDomain() }
 }
 
 
 
-fun WeekDay.toUiState(): EditProfileScreenState.WeekDayUi {
-    return EditProfileScreenState.WeekDayUi.valueOf(this.name)
+fun WeekDay.toUiState(): EditProfileScreenState.WeekDayUiState {
+    return EditProfileScreenState.WeekDayUiState.valueOf(this.name)
 }
 
-fun EditProfileScreenState.WeekDayUi.toDomain(): WeekDay {
+fun EditProfileScreenState.WeekDayUiState.toDomain(): WeekDay {
     return WeekDay.valueOf(this.name)
 }
 
-fun List<WeekDay>.toUiStateList(): List<EditProfileScreenState.WeekDayUi> {
+fun Set<WeekDay>.toWeekDayUiStateSet():Set<EditProfileScreenState.WeekDayUiState> {
     return map { it.toUiState() }
 }
 
-fun List<EditProfileScreenState.WeekDayUi>.toDomainList(): List<WeekDay> {
+fun Set<EditProfileScreenState.WeekDayUiState>.toWeekDayDomainSet(): Set<WeekDay> {
     return map { it.toDomain() }
 }
