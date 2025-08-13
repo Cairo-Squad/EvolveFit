@@ -5,9 +5,8 @@ import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.domain.repository.AuthenticationRepository
 import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
 import com.cairosquad.evolvefit.repository.authentication.remote.AuthenticationRemoteDataSource
-import com.cairosquad.evolvefit.repository.authentication.remote.dto.AuthResponse
 import com.cairosquad.evolvefit.repository.authentication.remote.toRegisterRequest
-import com.cairosquad.evolvefit.repository.utils.safeCallDataSource
+import com.cairosquad.evolvefit.repository.execption.safeCallDataSource
 
 class AuthenticationRepositoryImpl(
     private val remote: AuthenticationRemoteDataSource,
