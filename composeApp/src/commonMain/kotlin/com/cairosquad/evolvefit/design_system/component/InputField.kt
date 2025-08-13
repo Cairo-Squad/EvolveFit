@@ -46,6 +46,7 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_check_mark
 import evolvefit.composeapp.generated.resources.ic_date
+import evolvefit.composeapp.generated.resources.ic_error
 import evolvefit.composeapp.generated.resources.ic_profile
 import evolvefit.composeapp.generated.resources.ic_visibility_on
 import org.jetbrains.compose.resources.DrawableResource
@@ -202,13 +203,13 @@ fun InputField(
         )
         if (error.isNotBlank() && isErrorMessageShown) {
             Row(
-                modifier = Modifier.padding(start = 10.dp, top = 4.dp),
+                modifier = Modifier.padding(start = 8.dp, top = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 Icon(
                     modifier = Modifier.size(16.dp),
-                    painter = painterResource(Res.drawable.ic_visibility_on),
+                    painter = painterResource(Res.drawable.ic_error),
                     contentDescription = "error",
                     tint = Theme.color.system.error
                 )
