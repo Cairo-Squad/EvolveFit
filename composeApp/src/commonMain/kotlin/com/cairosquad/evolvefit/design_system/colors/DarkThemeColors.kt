@@ -32,7 +32,12 @@ val darkThemeColors = ThemeColors(
     gradiant = Gradiant(
         barGradiant = listOf(
             Color(0xFF86D01D),
-            Color(0x03000000)
+            Color(0x03000000),
+        ),
+        shimmerGradientColors = listOf(
+            Color.Transparent,
+            Color(0xFF1A1A1A),
+            Color.Transparent,
         )
     )
 )
