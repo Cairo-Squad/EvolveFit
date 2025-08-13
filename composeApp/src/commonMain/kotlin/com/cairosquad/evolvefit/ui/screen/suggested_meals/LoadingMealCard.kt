@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.shimmer_loading
-import evolvefit.composeapp.generated.resources.suggested_meals
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
