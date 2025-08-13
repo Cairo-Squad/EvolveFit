@@ -44,12 +44,4 @@ class AuthenticationRepositoryImpl(
     override suspend fun isUserLoggedIn(): Boolean {
         return authenticationPreferences.getAccessToken()?.isNotEmpty() == true
     }
-
-    override suspend fun refreshToken(refreshToken: String): AuthResponse {
-        return safeCallDataSource {
-            val response = remote.getRefreshToken(refreshToken)
-            authenticationPreferences.saveTokens(response.accessToken, response.refreshToken)
-            response
-        }
-    }
 }

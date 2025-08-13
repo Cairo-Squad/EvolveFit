@@ -14,5 +14,4 @@ interface AuthenticationRepository {
     )
     suspend fun logout()
     suspend fun isUserLoggedIn(): Boolean
-    suspend fun refreshToken(refreshToken: String): AuthResponse
 }
