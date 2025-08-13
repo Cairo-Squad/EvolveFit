@@ -116,7 +116,18 @@ fun WorkoutDetailsContent(
                     onDismissBottomSheet = listener::onExerciseBottomSheetDismiss
                 )
             }
+            BottomSheet(
+                isVisible = state.isShareClicked,
+                onDismiss = listener::onShareClick
+            ) {
+                ShareBottomSheetContent(
+                    onShareOptionClick = {},
+                    onCopyLinkClick = { },
+                    onShareWithCommunityClick = { }
+                )
+            }
         }
+
         PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
