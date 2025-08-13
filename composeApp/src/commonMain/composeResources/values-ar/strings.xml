@@ -164,6 +164,9 @@
     <string name="workout_report">تقرير التدريب</string>
     <string name="ic_arrow_down">ايقونه سهم لإسفل</string>
     <string name="activity">الأنشطة</string>
+    <string name="community">المجتمع</string>
+    <string name="back">رجوع</string>
+
 
     <string name="calories_small">سعر حراري</string>
     <string name="water_consumption">شرب الماء</string>
