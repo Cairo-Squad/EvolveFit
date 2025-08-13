@@ -9,7 +9,7 @@ import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.io.IOException
 import kotlinx.serialization.SerializationException
 
-suspend fun <T> safeCallDataSource(execute: suspend () -> T): T {
+suspend fun <T> callDataSource(execute: suspend () -> T): T {
     return try {
         execute()
     } catch (e: RepositoryException) {
