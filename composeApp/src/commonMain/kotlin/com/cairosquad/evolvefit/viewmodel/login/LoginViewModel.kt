@@ -65,8 +65,7 @@ class LoginViewModel(
     }
 
     private fun isSubmitAllowed(uiState: LoginScreenUiState): Boolean {
-        return uiState.email.isNotBlank() &&
-                uiState.password.isNotBlank() &&
+        return (uiState.email.isNotBlank() || uiState.password.isNotBlank()) &&
                 uiState.emailError == null &&
                 uiState.passwordError == null &&
                 !uiState.isLoading
