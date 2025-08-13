@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.ui.component
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -40,7 +41,6 @@ import evolvefit.composeapp.generated.resources.ic_water_drop
 import evolvefit.composeapp.generated.resources.liters_small
 import evolvefit.composeapp.generated.resources.remaining_formatted
 import evolvefit.composeapp.generated.resources.water_consumption
-import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -235,8 +235,8 @@ private fun SimpleNutritionCardValues(
     }
 }
 
-private const val NUTRITION_CARD_ANIMATION_DELAY = 250L
-private const val NUTRITION_CARD_ANIMATION_UNIT_DURATION = 800
+private const val NUTRITION_CARD_ANIMATION_DELAY = 250
+private const val NUTRITION_CARD_ANIMATION_UNIT_DURATION = 1200
 
 @Composable
 private fun SimpleNutritionCardProgressBar(
@@ -247,11 +247,14 @@ private fun SimpleNutritionCardProgressBar(
     var startAnimation by rememberSaveable { mutableStateOf(false) }
     val animatedProgress by animateFloatAsState(
         targetValue = if (startAnimation) progress else 0f,
-        animationSpec = tween(durationMillis = (NUTRITION_CARD_ANIMATION_UNIT_DURATION * progress).toInt()),
+        animationSpec = tween(
+            durationMillis = (NUTRITION_CARD_ANIMATION_UNIT_DURATION * progress).toInt(),
+            delayMillis = NUTRITION_CARD_ANIMATION_DELAY,
+            easing = LinearOutSlowInEasing
+        ),
     )
 
     LaunchedEffect(progress) {
-        delay(NUTRITION_CARD_ANIMATION_DELAY)
         startAnimation = true
     }
 
