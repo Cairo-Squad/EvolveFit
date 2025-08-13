@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.repository.util
+package com.cairosquad.evolvefit.repository.utils
 
 import com.cairosquad.evolvefit.domain.exception.AppException
 import com.cairosquad.evolvefit.domain.exception.InternetConnectionException
