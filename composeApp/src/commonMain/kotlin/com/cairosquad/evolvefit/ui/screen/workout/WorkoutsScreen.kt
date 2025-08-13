@@ -1,18 +1,21 @@
-package com.cairosquad.evolvefit.ui.screen.communityWorkout
+package com.cairosquad.evolvefit.ui.screen.workout
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,40 +30,43 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
-import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutEffect
-import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutInteractionListener
-import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutViewModel
+import com.cairosquad.evolvefit.viewmodel.workout.WorkoutEffect
+import com.cairosquad.evolvefit.viewmodel.workout.WorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
+import com.cairosquad.evolvefit.viewmodel.workout.WorkoutViewModel
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.back
-import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.community
+import evolvefit.composeapp.generated.resources.ic_group
+import evolvefit.composeapp.generated.resources.ic_plus
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun CommunityWorkoutScreen(
-    navigateBack: () -> Unit,
-    viewModel: CommunityWorkoutViewModel = koinViewModel(),
+fun WorkoutScreen(
+    navigateToCreateWorkout: () -> Unit,
+    navigateToCommunityWorkout: () -> Unit,
     navigateToWorkoutDetails: (String) -> Unit,
+    viewModel: WorkoutViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
 
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
-            is CommunityWorkoutEffect.NavigateToWorkoutDetails -> navigateToWorkoutDetails(effect.workoutId)
-            CommunityWorkoutEffect.NavigateBack -> navigateBack()
+            is WorkoutEffect.NavigateToWorkoutDetails -> navigateToWorkoutDetails(effect.workoutId)
+            WorkoutEffect.NavigateToCommunityWorkout -> navigateToCommunityWorkout()
+            WorkoutEffect.NavigateToCreateWorkout -> navigateToCreateWorkout()
         }
     }
-    WorkoutsScreenContent(state = state, listener = viewModel, navigateBack = navigateBack)
+
+    WorkoutsScreenContent(state = state, listener = viewModel)
 }
 
 @Composable
 private fun WorkoutsScreenContent(
     state: WorkoutScreenState,
-    listener: CommunityWorkoutInteractionListener,
-    navigateBack: () -> Unit
+    listener: WorkoutInteractionListener
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -72,7 +78,7 @@ private fun WorkoutsScreenContent(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            AppBar(navigateBack)
+            AppBar(listener::onClickCommunity)
 
             FocusAreaFilter(
                 focusArea = state.focusAreas,
@@ -81,23 +87,38 @@ private fun WorkoutsScreenContent(
             )
 
             Workouts(
-                state.allWorkouts,
-                listener::onClickWorkout
+                workouts = state.allWorkouts,
+                onClickWorkout = listener::onClickWorkout
+            )
+
+        }
+        FloatingActionButton(
+            onClick = listener::onClickAddWorkout,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(24.dp),
+            containerColor = Theme.color.brand.primary,
+            shape = CircleShape
+        ) {
+            Icon(
+                painter = painterResource(Res.drawable.ic_plus),
+                contentDescription = "Create Workout",
+                modifier = Modifier.padding(12.dp).size(24.dp)
             )
         }
     }
 }
 
 @Composable
-private fun AppBar(navigateBack: () -> Unit) {
+private fun AppBar(onCommunityClick: () -> Unit) {
     CustomAppBar(
-        title = "Community",
-        header = {
+        title = "Workouts",
+        tail = {
             ActionIconButton(
-                icon = painterResource(Res.drawable.ic_back),
-                contentDescription = stringResource(Res.string.back),
+                icon = painterResource(Res.drawable.ic_group),
+                contentDescription = stringResource(Res.string.community),
                 tint = Theme.color.surfaces.onSurface,
-                onClick = navigateBack
+                onClick = onCommunityClick
             )
         }
     )
@@ -109,7 +130,7 @@ private fun Workouts(
     onClickWorkout: (String) -> Unit
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(vertical = 12.dp),
+        modifier = Modifier.padding(vertical = 12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(workouts) { workout ->
@@ -151,10 +172,11 @@ private fun FocusAreaFilter(
 
 @Preview
 @Composable
-private fun CommunityWorkoutScreenPreview() {
+private fun WorkoutsScreenPreview() {
     AppTheme(isDarkTheme = true) {
-        CommunityWorkoutScreen(
-            navigateBack = {},
+        WorkoutScreen(
+            navigateToCreateWorkout = {},
+            navigateToCommunityWorkout = {},
             navigateToWorkoutDetails = {}
         )
     }

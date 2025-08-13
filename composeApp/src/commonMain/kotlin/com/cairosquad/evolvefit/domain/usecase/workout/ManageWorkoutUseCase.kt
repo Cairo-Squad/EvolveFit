@@ -10,24 +10,31 @@ class ManageWorkoutUseCase(
     suspend fun getWorkoutById(id: String): Workout {
         return workoutRepository.getWorkoutById(id)
     }
-    suspend fun getAllWorkouts(): List<Workout> {
+
+    suspend fun getSuggestedWorkouts(): List<Workout> {
         return workoutRepository.getSuggestedWorkouts()
     }
+
     suspend fun getCommunityWorkouts(): List<Workout> {
         return workoutRepository.getCommunityWorkouts()
     }
+
     suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<Workout> {
         return workoutRepository.getCommunityWorkoutsByFocusArea(focusArea)
     }
+
     suspend fun getFavoriteWorkouts(): List<Workout> {
         return workoutRepository.getFavoriteWorkouts()
     }
+
     suspend fun createWorkout(workout: Workout) {
         workoutRepository.createWorkout(workout)
     }
+
     suspend fun addWorkoutToFavorites(workoutId: String) {
         workoutRepository.addWorkoutToFavorites(workoutId)
     }
+
     suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<Workout> {
         return workoutRepository.getWorkoutsByFocusArea(focusArea)
     }
