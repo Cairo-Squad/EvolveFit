@@ -10,7 +10,6 @@ val sharedModule = module {
         viewModelModule,
         repositoryModule,
         useCaseModule,
-        networkModule,
         localModule,
         remoteModule
     )
