@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -68,7 +69,8 @@ fun LineChartCard(
                 Box {
                     Row {
                         ChartGrid(
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier
+                                .weight(1f)
                                 .height(96.dp)
                                 .padding(top = 6.dp),
                             gridLinesColor = gridLinesColor,
@@ -76,7 +78,9 @@ fun LineChartCard(
                         )
                     }
                     AnimatedLineChart(
-                        modifier = Modifier.height(106.dp),
+                        modifier = Modifier
+                            .height(112.dp)
+                            .offset(y= (-6).dp),
                         data = data,
                         lineColor = lineColor,
                         areaColor = areaColor,
@@ -87,7 +91,7 @@ fun LineChartCard(
                 }
                 Box(
                     modifier = Modifier
-                        .padding(top = 12.dp)
+                        .padding(top = 6.dp)
                         .fillMaxWidth()
                 ) {
                     barCenters.forEachIndexed { index, offset ->
@@ -109,7 +113,7 @@ fun LineChartCard(
 @Preview
 @Composable
 private fun LineChartCardPreview() {
-    val data by remember { mutableStateOf(listOf(0f, 3f, 2f, 4f, 5f, 3f, 1f)) }
+    val data by remember { mutableStateOf(listOf(7f, 10f, 10f, 35f, 40f, 5f, 9f)) }
     val labels by remember {
         mutableStateOf(
             listOf(

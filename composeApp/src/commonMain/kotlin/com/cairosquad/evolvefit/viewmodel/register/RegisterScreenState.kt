@@ -31,7 +31,7 @@ data class RegisterScreenState(
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
     val image: UiImage = UiImage.ImageUrl(""),
-    val preferredLangauge: Langauge? = null,
+    val preferredLanguage: Language? = null,
     val isImagePickerOpen: Boolean = false,
     val isPasswordVisible: Boolean = false,
 ) {
@@ -49,7 +49,7 @@ data class RegisterScreenState(
         LoseWeight, GainWeight, StayInShape
     }
 
-    enum class Langauge {
+    enum class Language {
         ARABIC,
         ENGLISH
     }

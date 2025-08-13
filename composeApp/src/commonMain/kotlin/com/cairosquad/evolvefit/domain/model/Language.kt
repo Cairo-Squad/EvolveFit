@@ -1,6 +1,6 @@
 package com.cairosquad.evolvefit.domain.model
 
-enum class Langauge {
+enum class Language {
     ARABIC,
     ENGLISH
 }

@@ -3,7 +3,7 @@ package com.cairosquad.evolvefit.viewmodel.register
 import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
 import com.cairosquad.evolvefit.domain.entity.Profile.Gender
-import com.cairosquad.evolvefit.domain.model.Langauge
+import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.domain.model.WeekDay
 import kotlinx.datetime.LocalDate
@@ -44,11 +44,11 @@ fun RegisterScreenState.Gender?.toDomain(): Gender {
         null -> Gender.MALE
     }
 }
-fun RegisterScreenState.Langauge?.toDomain(): Langauge {
+fun RegisterScreenState.Language?.toDomain(): Language {
     return when (this) {
-        RegisterScreenState.Langauge.ARABIC -> Langauge.ARABIC
-        RegisterScreenState.Langauge.ENGLISH-> Langauge.ENGLISH
-        null -> Langauge.ARABIC
+        RegisterScreenState.Language.ARABIC -> Language.ARABIC
+        RegisterScreenState.Language.ENGLISH-> Language.ENGLISH
+        null -> Language.ARABIC
     }
 }
 

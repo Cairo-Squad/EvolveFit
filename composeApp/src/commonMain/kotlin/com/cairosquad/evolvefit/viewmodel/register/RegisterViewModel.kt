@@ -42,7 +42,7 @@ class RegisterViewModel(
                         weight = state.selectedHeight,
                         goal = state.selectedGoal.toDomain(),
                         imageUrl=state.image.toString(),
-                        preferredLangauge = state.preferredLangauge.toDomain()
+                        preferredLanguage = state.preferredLanguage.toDomain()
                     ),
                     password = state.userPasswordInput,
                     workoutDays = state.selectedWeekDayUiState.map { it.toDomain() }.toSet(),
