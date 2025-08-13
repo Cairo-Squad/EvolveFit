@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.di
 
 import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseCase
+import com.cairosquad.evolvefit.domain.usecase.equipment.ManageEquipmentUseCase
 import com.cairosquad.evolvefit.domain.usecase.exercise.ManageExerciseUseCase
 import com.cairosquad.evolvefit.domain.usecase.home.GetNutritionProgressUseCase
 import com.cairosquad.evolvefit.domain.usecase.home.GetPersonalizedWorkoutsUseCase
@@ -16,6 +17,7 @@ val useCaseModule = module {
     singleOf(::ManageExerciseUseCase)
     singleOf(::ReportUseCase)
     singleOf(::ManageWorkoutUseCase)
+    singleOf(::ManageEquipmentUseCase)
 
     singleOf(::GetUserUseCase)
     singleOf(::GetWeeklyProgressUseCase)
