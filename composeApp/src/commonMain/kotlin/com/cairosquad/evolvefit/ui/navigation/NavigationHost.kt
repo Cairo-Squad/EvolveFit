@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.local.AuthPreferences
+import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
 import com.cairosquad.evolvefit.ui.screen.app.AppScreen
 import com.cairosquad.evolvefit.ui.screen.communityWorkout.CommunityWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.createExercise.CreateExerciseScreen
@@ -22,13 +22,14 @@ import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
 import com.cairosquad.evolvefit.ui.screen.suggestedMeals.SuggestedMealsScreen
 import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.WorkoutDetailsScreen
+import com.cairosquad.evolvefit.ui.screen.workoutHistory.WorkoutHistoryScreen
 import org.koin.compose.koinInject
 
 @Composable
 fun NavigationHost(
-    authPreferences: AuthPreferences = koinInject(),
+    authenticationPreferences: AuthenticationPreferences = koinInject(),
 ) {
-    val isUserLoggedIn = authPreferences.getAccessToken().isNullOrBlank().not()
+    val isUserLoggedIn = authenticationPreferences.getAccessToken().isNullOrBlank().not()
     val startDestination = if (isUserLoggedIn) AppRoute else OnboardingRoute
 
     val navController = rememberNavController()
@@ -147,6 +148,10 @@ fun NavigationHost(
             MealsHistoryScreen(
                 navigateBack = navController::popBackStack
             )
+        }
+
+        composable<WorkoutHistoryRoute> {
+            WorkoutHistoryScreen()
         }
     }
 }

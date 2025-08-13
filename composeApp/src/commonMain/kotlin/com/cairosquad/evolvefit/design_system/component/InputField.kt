@@ -7,7 +7,6 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,7 +24,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -40,6 +38,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.util.noRippleClickable
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_check_mark
@@ -82,17 +81,11 @@ fun InputField(
         }
     }
 
-    val interactionSource = remember { MutableInteractionSource() }
-
     Column(
         modifier = modifier
             .then(
                 if (onClick != null) {
-                    Modifier.clickable(
-                        interactionSource = interactionSource,
-                        indication = null,
-                        onClick = onClick
-                    )
+                    Modifier.noRippleClickable(onClick)
                 } else {
                     Modifier
                 }
@@ -137,11 +130,7 @@ fun InputField(
                         modifier = Modifier
                             .then(
                                 if (onClick != null) {
-                                    Modifier.clickable(
-                                        interactionSource = interactionSource,
-                                        indication = null,
-                                        onClick = onClick
-                                    )
+                                    Modifier.noRippleClickable(onClick)
                                 } else {
                                     Modifier
                                 }
@@ -152,11 +141,7 @@ fun InputField(
                         Box(
                             modifier = Modifier
                                 .weight(1f)
-                                .clickable(
-                                    interactionSource = interactionSource,
-                                    indication = null,
-                                    onClick = onClick
-                                )
+                                .noRippleClickable(onClick)
                         ) {
                             innerTextField()
 
@@ -190,11 +175,7 @@ fun InputField(
                         modifier = trailingIconModifier
                             .then(
                                 if (onClick != null) {
-                                    Modifier.clickable(
-                                        interactionSource = interactionSource,
-                                        indication = null,
-                                        onClick = onClick
-                                    )
+                                    Modifier.noRippleClickable(onClick)
                                 } else {
                                     Modifier
                                 }

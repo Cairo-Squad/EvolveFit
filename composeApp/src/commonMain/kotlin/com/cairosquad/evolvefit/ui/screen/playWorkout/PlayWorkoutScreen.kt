@@ -1,47 +1,39 @@
 package com.cairosquad.evolvefit.ui.screen.playWorkout
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.theme.Theme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.cairosquad.evolvefit.ui.screen.playWorkout.content.PlayWorkoutContent
+import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
+import com.cairosquad.evolvefit.ui.util.PlatformBackHandler
+import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutEffect
+import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutViewModel
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun PlayWorkoutScreen(
-    workoutId: Long,
+    workoutId: String,
     navigateBack: () -> Unit,
-    navigateBackToApp: () -> Unit
-){
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Theme.color.surfaces.surface)
-            .statusBarsPadding(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        Text(
-            modifier = Modifier.padding(12.dp),
-            text = "PlayWorkoutScreen\nWorkout Id: $workoutId",
-            color = Theme.color.surfaces.onSurface
-        )
-        Button(
-            onClick = navigateBackToApp
-        ) {
-            Text("finish workout, great job!")
-        }
-        Button(
-            onClick = navigateBack
-        ) {
-            Text("Cancel play workout")
+    navigateBackToApp: () -> Unit,
+    viewModel: PlayWorkoutViewModel = koinViewModel { parametersOf(workoutId) },
+) {
+    val screenState by viewModel.screenState.collectAsState()
+
+    PlatformBackHandler (
+        enabled = !screenState.haseCancelWorkoutClicked,
+        onBack = viewModel::onClickCancelWorkout
+    )
+
+    ObserveAsEffect(viewModel.effect) { effect ->
+        when (effect) {
+            PlayWorkoutEffect.NavigateBackToApp -> navigateBackToApp()
+            PlayWorkoutEffect.NavigateBack -> navigateBack()
         }
     }
+
+    PlayWorkoutContent(
+        screenState = screenState,
+        listener = viewModel
+    )
 }

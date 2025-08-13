@@ -1,0 +1,20 @@
+package com.cairosquad.evolvefit.viewmodel.exercise
+
+import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.FocusArea
+import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.MeasurementType
+import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
+
+interface CreateExerciseInteractionListener {
+    fun onNameChanged(name: String)
+    fun onImagePicked(image: UiImage)
+    fun onEquipmentToggled(equipmentId: Int)
+    fun onImagePickerClicked()
+    fun onImagePickerDismiss()
+    fun onMeasurementTypeSelected(type: MeasurementType)
+    fun onMeasurementValueChanged(value: Int)
+    fun onFocusAreaToggled(focusArea: FocusArea)
+    fun onDescriptionChanged(description: String)
+    fun onSaveClicked()
+    fun onExitClicked()
+    fun onExitOptionSelected(saveBeforeExit: Boolean)
+}
