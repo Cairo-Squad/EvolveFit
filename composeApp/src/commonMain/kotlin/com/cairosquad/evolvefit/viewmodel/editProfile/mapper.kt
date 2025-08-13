@@ -42,11 +42,11 @@ fun EditProfileScreenState.EquipmentUiState.toDomain(): Equipment {
 }
 
 fun Set<Equipment>.toEquipmentUiStateSet(): Set<EditProfileScreenState.EquipmentUiState> {
-    return map { it.toUiState() }
+    return map { it.toUiState() }.toSet()
 }
 
 fun Set<EditProfileScreenState.EquipmentUiState>.toEquipmentDomainSet():Set<Equipment> {
-    return map { it.toDomain() }
+    return map { it.toDomain() }.toSet()
 }
 
 
@@ -60,9 +60,9 @@ fun EditProfileScreenState.WeekDayUiState.toDomain(): WeekDay {
 }
 
 fun Set<WeekDay>.toWeekDayUiStateSet():Set<EditProfileScreenState.WeekDayUiState> {
-    return map { it.toUiState() }
+    return map { it.toUiState() }.toSet()
 }
 
 fun Set<EditProfileScreenState.WeekDayUiState>.toWeekDayDomainSet(): Set<WeekDay> {
-    return map { it.toDomain() }
+    return map { it.toDomain() }.toSet()
 }
