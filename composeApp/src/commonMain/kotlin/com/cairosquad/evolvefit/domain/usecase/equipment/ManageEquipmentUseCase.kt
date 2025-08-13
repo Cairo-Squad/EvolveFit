@@ -9,7 +9,12 @@ class ManageEquipmentUseCase(
     suspend fun getAllEquipments(): Set<Equipment> {
         return equipmentRepository.getAllEquipments()
     }
+
     suspend fun getUserEquipments(): Set<Equipment> {
         return equipmentRepository.getUserEquipments()
+    }
+
+    suspend fun editUserEquipments() {
+        equipmentRepository.editUserEquipments()
     }
 }

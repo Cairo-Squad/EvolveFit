@@ -13,16 +13,16 @@ data class ReportScreenState(
         val takenCaloriesInKcal: Int = 0,
         val expectedCalories: Int = 100,
         val totalWorkouts: String = "",
-        val workoutPerWeek: WorkoutPerDay = WorkoutPerDay(),
-        val timeSpentPerWeek: TimeSpentPerDay = TimeSpentPerDay(),
+        val workoutPerWeek: WorkoutPerWeek = WorkoutPerWeek(),
+        val timeSpentPerWeek: TimeSpentPerWeek = TimeSpentPerWeek(),
         val mostTrainedMuscles: TrainedMuscle = TrainedMuscle(),
     )
-    data class WorkoutPerDay(
+    data class WorkoutPerWeek(
         val workoutsCount: List<Int> = emptyList(),
         val day: List<String> = emptyList()
     )
 
-    data class TimeSpentPerDay(
+    data class TimeSpentPerWeek(
         val timeInMilliSeconds: List<Long> = emptyList(),
         val day: List<String> = emptyList()
     )

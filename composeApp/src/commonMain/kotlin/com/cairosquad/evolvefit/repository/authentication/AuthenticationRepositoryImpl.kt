@@ -7,14 +7,14 @@ import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPr
 import com.cairosquad.evolvefit.repository.authentication.remote.AuthenticationRemoteDataSource
 import com.cairosquad.evolvefit.repository.authentication.remote.dto.AuthResponse
 import com.cairosquad.evolvefit.repository.authentication.remote.toRegisterRequest
-import com.cairosquad.evolvefit.repository.utils.safeApiCall
+import com.cairosquad.evolvefit.repository.utils.safeCallDataSource
 
 class AuthenticationRepositoryImpl(
     private val remote: AuthenticationRemoteDataSource,
     private val authenticationPreferences: AuthenticationPreferences,
 ) : AuthenticationRepository {
 
-    override suspend fun login(email: String, password: String) = safeApiCall {
+    override suspend fun login(email: String, password: String) = safeCallDataSource {
         val response = remote.login(email, password)
         authenticationPreferences.saveTokens(response.accessToken, response.refreshToken)
     }
@@ -31,7 +31,7 @@ class AuthenticationRepositoryImpl(
             workoutDays
         )
 
-        val response = safeApiCall {
+        val response = safeCallDataSource {
             remote.register(request)
         }
         authenticationPreferences.saveTokens(response.accessToken, response.refreshToken)
