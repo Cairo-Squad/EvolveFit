@@ -13,6 +13,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.ic_pen
 
 @Composable
 fun LabeledInputField(
