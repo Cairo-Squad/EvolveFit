@@ -143,7 +143,7 @@ fun NavigationHost(
         composable<SuggestedMealsRoute> {
             SuggestedMealsScreen(
                 navigateBack = navController::popBackStack,
-                navigateToMealDetails = { mealId -> navController.navigate(MealDetailsRoute(mealId)) }
+                navigateToMealDetails = { mealId -> navController.navigate(MealDetailsRoute(mealId.toString())) }
             )
         }
 
