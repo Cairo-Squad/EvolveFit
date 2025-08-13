@@ -139,6 +139,8 @@ private fun LoginScreenContent(
                     onValueChange = listener::onEmailChanged,
                     placeholder = stringResource(Res.string.email_placeholder),
                     leadingIcon = Res.drawable.ic_profile,
+                    isErrorMessageShown = state.emailError != null,
+                    error = state.emailError ?: ""
                 )
             }
 
@@ -153,6 +155,8 @@ private fun LoginScreenContent(
                     leadingIcon = Res.drawable.ic_lock,
                     trailingIcon = visibilityIcon,
                     onTrailingIconClick = listener::onTogglePasswordVisibility,
+                    isErrorMessageShown = state.passwordError != null,
+                    error = state.passwordError ?: ""
                 )
             }
 
