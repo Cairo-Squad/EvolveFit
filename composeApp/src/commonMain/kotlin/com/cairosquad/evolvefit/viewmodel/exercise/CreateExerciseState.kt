@@ -5,11 +5,11 @@ import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 data class CreateExerciseState(
     val name: String = "",
     val image: UiImage? = null,
-    val availableEquipments: List<Equipment> = emptyList(),
-    val selectedEquipments: List<Long> = emptyList(),
+    val availableEquipments: Set<EquipmentUiState> = emptySet(),
+    val selectedEquipment: EquipmentUiState = EquipmentUiState(),
     val measurementType: MeasurementType = MeasurementType.DURATION,
     val measurementInputValue: Int? = null,
-    val selectedFocusAreas: List<FocusArea> = emptyList(),
+    val selectedFocusAreas: Set<FocusArea> = emptySet(),
     val description: String = "",
     val isExerciseSaved: Boolean = false,
     val showExitBottomSheet: Boolean = false,
@@ -22,17 +22,17 @@ data class CreateExerciseState(
 ) {
 
     val equipmentNames: List<String>
-        get() = availableEquipments.map { it.toolName }
+        get() = availableEquipments.map { it.name }
 
     val selectedEquipmentNames: String
         get() = availableEquipments
-            .filter { it.toolId in selectedEquipments }
-            .joinToString { it.toolName }
+            .filter { it.id in selectedEquipment }
+            .joinToString { it.name }
 
 
     fun isEquipmentSelected(toolName: String): Boolean {
-        val toolId = availableEquipments.firstOrNull { it.toolName == toolName }?.toolId
-        return toolId != null && toolId in selectedEquipments
+        val toolId = availableEquipments.firstOrNull { it.name == toolName }?.id
+        return toolId != null && toolId in selectedEquipment
     }
 
     val focusAreaNames: List<String>
@@ -46,9 +46,10 @@ data class CreateExerciseState(
         return selectedFocusAreas.any { it.name == name }
     }
 
-    data class Equipment(
-        val toolName: String = "",
-        val toolId: Long,
+
+    data class EquipmentUiState(
+        val name: String = "",
+        val id: Int = 0,
         val isSelected: Boolean = false
     )
 

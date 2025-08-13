@@ -15,10 +15,9 @@ interface RegisterInteractionListener {
     fun onHeightChanged(height: Float)
     fun onWeightChanged(weight: Float)
     fun onNotificationToggled(type: RegisterScreenState.NotificationType)
-    fun onWorkoutDaySelected(day: RegisterScreenState.WorkoutDay)
+    fun onWorkoutDaySelected(day: RegisterScreenState.WeekDayUiState)
     fun onNoEquipmentSelected()
-    fun onEquipmentToggled(equipmentId: Long)
-
+    fun onEquipmentToggled(equipmentId: Int)
     fun onImagePickerClick()
     fun onImagePickerDismiss()
     fun onImageRetrieved(image: UiImage)

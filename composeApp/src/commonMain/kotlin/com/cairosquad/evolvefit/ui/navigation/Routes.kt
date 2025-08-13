@@ -18,17 +18,20 @@ data object CreateExerciseRoute
 data object CommunityWorkoutRoute
 @Serializable
 data class WorkoutDetailsRoute(
-    val workoutId: Long
+    val workoutId: String
 )
 @Serializable
 data class PlayWorkoutRoute(
-    val workoutId: Long
+    val workoutId: String
 )
 @Serializable
 data object SuggestedMealsRoute
 @Serializable
 data class MealDetailsRoute(
-    val mealId: Long
+    val mealId: String
 )
 @Serializable
 data object MealsHistoryRoute
+
+@Serializable
+data object WorkoutHistoryRoute

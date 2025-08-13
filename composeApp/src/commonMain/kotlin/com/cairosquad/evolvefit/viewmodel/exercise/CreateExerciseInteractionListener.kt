@@ -7,7 +7,7 @@ import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 interface CreateExerciseInteractionListener {
     fun onNameChanged(name: String)
     fun onImagePicked(image: UiImage)
-    fun onEquipmentToggled(equipmentId: Long)
+    fun onEquipmentToggled(equipmentId: Int)
     fun onFocusAreaNameSelected(name: String)
     fun onEquipmentNameSelected(toolName: String)
     fun onImagePickerClicked()

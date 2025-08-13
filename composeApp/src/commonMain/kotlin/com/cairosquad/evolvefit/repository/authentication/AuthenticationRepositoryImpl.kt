@@ -1,0 +1,46 @@
+package com.cairosquad.evolvefit.repository.authentication
+
+import com.cairosquad.evolvefit.domain.entity.Profile
+import com.cairosquad.evolvefit.domain.model.WeekDay
+import com.cairosquad.evolvefit.domain.repository.AuthenticationRepository
+import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
+import com.cairosquad.evolvefit.repository.authentication.remote.AuthenticationRemoteDataSource
+import com.cairosquad.evolvefit.repository.authentication.remote.toRegisterRequest
+import com.cairosquad.evolvefit.repository.utils.safeCallDataSource
+
+class AuthenticationRepositoryImpl(
+    private val remote: AuthenticationRemoteDataSource,
+    private val prefs: AuthenticationPreferences
+) : AuthenticationRepository {
+
+    override suspend fun login(email: String, password: String) = safeCallDataSource {
+        val response = remote.login(email, password)
+        prefs.saveTokens(response.accessToken, response.refreshToken)
+    }
+
+    override suspend fun register(
+        profile: Profile,
+        password: String,
+        availableEquipment: Set<Int>,
+        workoutDays: Set<WeekDay>
+    ) {
+        val request = profile.toRegisterRequest(
+            password,
+            availableEquipment,
+            workoutDays
+        )
+
+        val response = safeCallDataSource {
+            remote.register(request)
+        }
+        prefs.saveTokens(response.accessToken, response.refreshToken)
+    }
+
+    override suspend fun logout() {
+        prefs.clear()
+    }
+
+    override suspend fun isUserLoggedIn(): Boolean {
+        return prefs.getAccessToken()?.isNotEmpty() == true
+    }
+}

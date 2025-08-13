@@ -56,6 +56,7 @@ fun CheckboxItem(
             .clip(RoundedCornerShape(8.dp))
             .background(color = Theme.color.surfaces.surfaceContainer)
             .fillMaxWidth()
+            .clickable { onCheckedChange(!isChecked) }
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -82,13 +83,12 @@ fun CheckboxItem(
         }
         when (style) {
             CheckboxStyle.Tick -> {
-                CustomTick(isChecked = isChecked, onCheckedChange = onCheckedChange)
+                CustomTick(isChecked = isChecked)
             }
 
             CheckboxStyle.Switch -> {
                 CustomSwitch(
                     isChecked = isChecked,
-                    onCheckedChange = onCheckedChange
                 )
             }
         }
@@ -146,7 +146,6 @@ enum class CheckboxStyle {
 @Composable
 fun CustomTick(
     isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val backgroundColor by animateColorAsState(
@@ -171,7 +170,7 @@ fun CustomTick(
                 )
             } else Modifier
         )
-        .clickable { onCheckedChange(!isChecked) }
+
     Box(
         modifier = boxModifier,
         contentAlignment = Alignment.Center
@@ -194,9 +193,7 @@ fun CustomTick(
 @Composable
 fun CustomSwitch(
     isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
 ) {
     val trackWidth = 48.dp
     val trackHeight = 28.dp
@@ -218,8 +215,7 @@ fun CustomSwitch(
         modifier = modifier
             .size(trackWidth, trackHeight)
             .clip(CircleShape)
-            .background(color = trackColor)
-            .clickable(enabled = enabled) { onCheckedChange(!isChecked) },
+            .background(color = trackColor),
         contentAlignment = Alignment.CenterStart
     ) {
         Box(
