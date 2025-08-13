@@ -2,6 +2,7 @@ package com.cairosquad.evolvefit.domain.repository
 
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.model.WeekDay
+import com.cairosquad.evolvefit.repository.authentication.remote.dto.AuthResponse
 
 interface AuthenticationRepository {
     suspend fun login(email: String, password: String)

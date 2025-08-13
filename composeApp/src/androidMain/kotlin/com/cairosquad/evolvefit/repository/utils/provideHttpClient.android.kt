@@ -1,7 +1,11 @@
 package com.cairosquad.evolvefit.repository.utils
 
 import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
+import com.cairosquad.evolvefit.repository.authentication.remote.dto.AuthResponse
+import com.cairosquad.evolvefit.repository.authentication.remote.dto.RefreshRequest
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
@@ -9,37 +13,59 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 actual fun provideHttpClient(
     authenticationPreferences: AuthenticationPreferences,
-    refreshTokenProvider: suspend (String) -> BearerTokens?
+    refreshTokenProvider: RefreshTokenProvider
 ): HttpClient {
-    return HttpClient {
+    return HttpClient(Android) {
         install(ContentNegotiation) {
-            json(Json { ignoreUnknownKeys = true })
+            json(Json {
+                prettyPrint = true
+                isLenient = true
+                ignoreUnknownKeys = true
+                encodeDefaults = true
+            })
         }
-        install(Logging) {
-            level = LogLevel.ALL
-        }
+
         defaultRequest {
             url("https://evolve-fit-dev.the-chance.net/")
         }
+
         install(Auth) {
             bearer {
                 loadTokens {
-                    authenticationPreferences.getAccessToken()?.let { access ->
-                        authenticationPreferences.getRefreshToken()?.let { refresh ->
-                            BearerTokens(access, refresh)
-                        }
-                    }
+                    val access = authenticationPreferences.getAccessToken()
+                    val refresh = authenticationPreferences.getRefreshToken()
+                    if (access != null && refresh != null) {
+                        BearerTokens(access, refresh)
+                    } else null
                 }
+
                 refreshTokens {
                     val refresh = authenticationPreferences.getRefreshToken()
-                    refresh?.let { refreshTokenProvider(it) }
+                    if (refresh != null) {
+                        val newTokens = refreshTokenProvider.getNewTokens(refresh)
+                        if (newTokens != null) {
+                            authenticationPreferences.saveTokens(
+                                newTokens.accessToken,
+                                newTokens.refreshToken
+                            )
+                        }
+                        newTokens
+                    } else null
                 }
             }
+        }
+
+        install(Logging) {
+            level = LogLevel.BODY
         }
     }
 }
