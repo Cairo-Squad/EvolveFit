@@ -2,20 +2,29 @@ package com.cairosquad.evolvefit.ui.screen.home
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,6 +42,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.component.WorkoutCard
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.domain.entity.Profile
@@ -49,6 +59,8 @@ import evolvefit.composeapp.generated.resources.activity
 import evolvefit.composeapp.generated.resources.completed
 import evolvefit.composeapp.generated.resources.current_weight
 import evolvefit.composeapp.generated.resources.hello_user
+import evolvefit.composeapp.generated.resources.ic_bookmark_big
+import evolvefit.composeapp.generated.resources.ic_bookmark_big_filled
 import evolvefit.composeapp.generated.resources.ic_crown
 import evolvefit.composeapp.generated.resources.ic_progress
 import evolvefit.composeapp.generated.resources.ic_scale
@@ -56,6 +68,7 @@ import evolvefit.composeapp.generated.resources.ic_thin_check_mark
 import evolvefit.composeapp.generated.resources.profile_picture
 import evolvefit.composeapp.generated.resources.ready_text_female
 import evolvefit.composeapp.generated.resources.ready_text_male
+import evolvefit.composeapp.generated.resources.save
 import evolvefit.composeapp.generated.resources.the_goal
 import evolvefit.composeapp.generated.resources.this_week
 import evolvefit.composeapp.generated.resources.today_nutrition
@@ -128,7 +141,7 @@ private fun HomeContent(
 
         HomeSection(
             title = stringResource(Res.string.today_nutrition),
-            key = state.caloriesCount > 0.toUInt() && state.waterCount > 0,
+            visibilityKey = state.caloriesCount > 0.toUInt() && state.waterCount > 0,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 32.dp)
@@ -138,6 +151,20 @@ private fun HomeContent(
                 caloriesGoal = state.caloriesGoal,
                 waterValue = state.waterCount,
                 waterGoal = state.waterGoal
+            )
+        }
+
+        HomeSection(
+            title = "Just For You", // TODO: convert to string resources
+            visibilityKey = state.personalizedWorkouts.isNotEmpty(),
+            modifier = Modifier
+                .padding(bottom = 32.dp),
+            isPaddedStart = true
+        ) {
+            PersonalizedWorkouts(
+                workouts = state.personalizedWorkouts,
+                onWorkoutClick = interactionListener::onWorkoutClick,
+                onSavedWorkoutClick = interactionListener::onSavedWorkoutClick
             )
         }
     }
@@ -436,11 +463,12 @@ private fun StatsSection(
 @Composable
 private fun HomeSection(
     title: String,
-    key: Boolean,
+    visibilityKey: Boolean,
     modifier: Modifier = Modifier,
+    isPaddedStart: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    AnimatedVisibility(key) {
+    AnimatedVisibility(visibilityKey) {
         Column(
             modifier = modifier
                 .fillMaxWidth(),
@@ -451,7 +479,16 @@ private fun HomeSection(
                 style = Theme.textStyle.label.mediumMedium16,
                 color = Theme.color.surfaces.onSurface,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .then(
+                        if (isPaddedStart) {
+                            Modifier
+                                .padding(start = 16.dp)
+                        } else {
+                            Modifier
+                        }
+                    )
             )
 
             content()
@@ -485,6 +522,85 @@ private fun SimpleNutritionRow(
             modifier = Modifier
                 .weight(1f)
         )
+    }
+}
+
+@Composable
+private fun PersonalizedWorkouts(
+    workouts: List<HomeScreenState.HomeWorkoutUiState>,
+    onWorkoutClick: (String) -> Unit,
+    onSavedWorkoutClick: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyRow(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(
+            horizontal = 16.dp
+        )
+    ) {
+        items(workouts) { workout ->
+            Box(
+                modifier = Modifier
+                    .width(268.dp)
+                    .height(172.dp)
+                    .clickable(onClick = { onWorkoutClick(workout.id) })
+            ) {
+                WorkoutCard(
+                    title = workout.name,
+                    duration = "${workout.durationInMins} Min", // TODO: convert to string resources
+                    bodyPart = workout.type,
+                    model = workout.imageUrl,
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
+
+                SaveButton(
+                    isSaved = workout.isSaved,
+                    onClick = { onSavedWorkoutClick(workout.id) },
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(12.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SaveButton(
+    isSaved: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .clip(CircleShape)
+            .size(40.dp)
+            .background(Theme.color.surfaces.onSurfaceAt3)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        AnimatedContent(
+            targetState = isSaved,
+            transitionSpec = {
+                scaleIn(animationSpec = tween(300)).togetherWith(scaleOut(animationSpec = tween(300)))
+            }
+        ) {
+            Icon(
+                painter = painterResource(
+                    if (it) {
+                        Res.drawable.ic_bookmark_big_filled
+                    } else {
+                        Res.drawable.ic_bookmark_big
+                    }
+                ),
+                contentDescription = stringResource(Res.string.save),
+                tint = Theme.color.surfaces.textColor,
+                modifier = Modifier
+                    .size(20.dp)
+            )
+        }
     }
 }
 

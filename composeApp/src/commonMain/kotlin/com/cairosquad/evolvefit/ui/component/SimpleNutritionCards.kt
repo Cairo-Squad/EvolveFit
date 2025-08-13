@@ -37,7 +37,7 @@ import evolvefit.composeapp.generated.resources.calories
 import evolvefit.composeapp.generated.resources.calories_small
 import evolvefit.composeapp.generated.resources.ic_fire
 import evolvefit.composeapp.generated.resources.ic_water_drop
-import evolvefit.composeapp.generated.resources.liters
+import evolvefit.composeapp.generated.resources.liters_small
 import evolvefit.composeapp.generated.resources.remaining_formatted
 import evolvefit.composeapp.generated.resources.water_consumption
 import kotlinx.coroutines.delay
@@ -78,7 +78,7 @@ fun WaterNutritionCard(
         name = stringResource(Res.string.water_consumption),
         value = value.toFormattedString(),
         goal = goal.toFormattedString(),
-        unit = stringResource(Res.string.liters),
+        unit = stringResource(Res.string.liters_small),
         progress = (value / goal),
         remaining = (goal - value).toFormattedString(),
         isUnitShownOnBar = true,
