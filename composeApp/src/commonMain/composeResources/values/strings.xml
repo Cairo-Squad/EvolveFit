@@ -166,6 +166,11 @@
     <string name="community">Community</string>
     <string name="back">Back</string>
 
+    <string name="error_no_internet">There is no internet connection.</string>
+    <string name="error_unknown_credentials">Email or password you entered are incorrect.</string>
+    <string name="error_invalid_email_format">Invalid email format.</string>
+    <string name="error_invalid_password">Password must be at least 8 characters.</string>
+    <string name="error_unexpected">An unexpected error occurred.</string>
     <string name="liters">Litres</string>
 
     <string name="calories_small">calories</string>
