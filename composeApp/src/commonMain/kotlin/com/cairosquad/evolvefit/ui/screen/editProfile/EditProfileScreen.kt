@@ -112,14 +112,13 @@ fun EditProfileScreenContent(
                     color = Theme.color.surfaces.surfaceContainer,
                     shape = RoundedCornerShape(16.dp),
                 )
-                .padding(horizontal = 12.dp, vertical = 16.dp),
+                .padding( vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             LabeledInputField(
                 label = stringResource(Res.string.full_name),
                 value = state.profile.fullName,
                 onValueChange = listener::onFullNameChanged,
-                trailingIcon = Res.drawable.ic_mail,
                 isDividerVisible = true
             )
 
@@ -224,7 +223,7 @@ fun EditProfileScreenContent(
                 placeholder = "Workout Days",
                 readOnly = true,
                 trailingIcon = Res.drawable.ic_arrow_down,
-                isDividerVisible = true,
+                isDividerVisible = false,
                 onClick = { listener.onWorkoutDaysClicked() }
             )
         }

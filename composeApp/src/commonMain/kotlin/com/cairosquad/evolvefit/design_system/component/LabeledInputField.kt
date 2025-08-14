@@ -10,6 +10,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -40,10 +41,10 @@ fun LabeledInputField(
     Column(
         modifier = modifier
             .background(Theme.color.surfaces.surfaceContainer)
-
+            .padding(horizontal = 12.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -51,18 +52,14 @@ fun LabeledInputField(
                 style = Theme.textStyle.label.smallRegular12.copy(
                     color = Theme.color.surfaces.onSurfaceVariant
                 ),
-                modifier = Modifier.weight(1f).padding(start = 4.dp)
+                modifier = Modifier.weight(1f)
             )
             if (trailingIcon != null) {
                 AnimatedContent(
                     targetState = trailingIcon,
                     transitionSpec = {
                         scaleIn(animationSpec = tween(300)).togetherWith(
-                            scaleOut(
-                                animationSpec = tween(
-                                    300
-                                )
-                            )
+                            scaleOut(animationSpec = tween(300))
                         )
                     }
                 ) {
@@ -76,7 +73,6 @@ fun LabeledInputField(
                     )
                 }
             }
-
         }
 
         InputField(
@@ -87,12 +83,12 @@ fun LabeledInputField(
             trailingIcon = null,
             onTrailingIconClick = onClick,
             onClick = onClick,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().offset(x=(-10).dp),
             verticalPadding = 8.dp
         )
+
         if (isDividerVisible) {
             HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 12.dp),
                 thickness = 1.dp,
                 color = Theme.color.surfaces.outlineVariant
             )

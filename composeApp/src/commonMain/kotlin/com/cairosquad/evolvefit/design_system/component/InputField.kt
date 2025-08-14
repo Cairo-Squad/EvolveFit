@@ -73,7 +73,8 @@ fun InputField(
     onTrailingIconClick: (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onClick: (() -> Unit)? = null,
-    verticalPadding : Dp =20.dp
+    verticalPadding : Dp =20.dp,
+    horizentalPadding : Dp =12.dp
 
 ) {
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
@@ -108,7 +109,7 @@ fun InputField(
                 )
                 .clip(RoundedCornerShape(8.dp))
                 .background(Theme.color.surfaces.surfaceContainer)
-                .padding(horizontal = 12.dp, vertical = verticalPadding),
+                .padding(horizontal = horizentalPadding, vertical = verticalPadding),
             value = textFieldValue,
             onValueChange = { newValue ->
                 val filteredValue =
