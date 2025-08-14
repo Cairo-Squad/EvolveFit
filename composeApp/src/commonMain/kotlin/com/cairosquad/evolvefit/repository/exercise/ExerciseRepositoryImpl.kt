@@ -2,8 +2,8 @@ package com.cairosquad.evolvefit.repository.exercise
 
 import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.repository.ExerciseRepository
-import com.cairosquad.evolvefit.repository.exercise.remot.ExerciseRemoteDataSource
-import com.cairosquad.evolvefit.repository.exercise.remot.toDto
+import com.cairosquad.evolvefit.repository.exercise.remote.ExerciseRemoteDataSource
+import com.cairosquad.evolvefit.repository.exercise.remote.toDto
 
 class ExerciseRepositoryImpl(
     private val remote: ExerciseRemoteDataSource

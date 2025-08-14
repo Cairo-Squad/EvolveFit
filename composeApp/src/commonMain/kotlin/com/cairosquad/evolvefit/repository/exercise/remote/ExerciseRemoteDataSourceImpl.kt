@@ -1,8 +1,8 @@
-package com.cairosquad.evolvefit.repository.exercise.remot
+package com.cairosquad.evolvefit.repository.exercise.remote
 
 import com.cairosquad.evolvefit.repository.execption.callApi
-import com.cairosquad.evolvefit.repository.exercise.remot.dto.ExerciseDto
-import com.cairosquad.evolvefit.repository.exercise.remot.dto.ExerciseResponseDto
+import com.cairosquad.evolvefit.repository.exercise.remote.dto.ExerciseDto
+import com.cairosquad.evolvefit.repository.exercise.remote.dto.ExerciseResponseDto
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody

@@ -1,9 +1,9 @@
-package com.cairosquad.evolvefit.repository.exercise.remot
+package com.cairosquad.evolvefit.repository.exercise.remote
 
 import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.model.FocusArea
-import com.cairosquad.evolvefit.repository.exercise.remot.dto.ExerciseDto
+import com.cairosquad.evolvefit.repository.exercise.remote.dto.ExerciseDto
 
 fun Exercise.toDto(): ExerciseDto {
     return ExerciseDto(
