@@ -178,6 +178,7 @@
     <string name="workouts_days">ايام التمرين</string>
     <string name="no_workouts">لا يوجد ايام</string>
     <string name="save_changes">حفظ التغيرات</string>
+    <string name="choose_gender">أختر النوع</string>
 
     <string name="error_no_internet">لا يوجد اتصال بالإنترنت.</string>
     <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>

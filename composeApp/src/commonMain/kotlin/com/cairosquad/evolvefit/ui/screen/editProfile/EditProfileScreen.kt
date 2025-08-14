@@ -77,176 +77,180 @@ fun EditProfileScreenContent(
     state: EditProfileScreenState,
     listener: EditProfileInteractionListener,
     modifier: Modifier = Modifier
-
 ) {
-    val scrollState = rememberScrollState()
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(scrollState)
-            .padding(horizontal = 16.dp)
-            .padding(top = 15.dp)
-            .background(color = Theme.color.surfaces.surface, shape = RoundedCornerShape(16.dp)),
+            .background(color = Theme.color.surfaces.surface)
+            .windowInsetsPadding(WindowInsets.statusBars),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomAppBar(
-            modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars),
             title = stringResource(Res.string.personal_information),
             header = {
                 Icon(
                     painter = painterResource(Res.drawable.ic_back),
                     contentDescription = "back icon",
                 )
-
             },
         )
-        UserProfileImage(
-            modifier = Modifier.padding(top = 24.dp, bottom = 32.dp),
-            image = UiImage.ImageUrl(state.profile.imageUrl),
-            isImagePickerOpen = state.isImagePickerOpened,
-            onImagePickerDismiss = { listener.onImagePickerDismissed() },
-            onImagePickerClick = { listener.onImageUrlClicked() },
-            onImageRetrieved = { uiImage ->
-                if (uiImage is UiImage.ImageUrl) {
-                    listener.onImageUrlChanged(uiImage.url)
-                    listener.onImagePickerDismissed()
-                }
-            }
-        )
-
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = Theme.color.surfaces.surfaceContainer,
-                    shape = RoundedCornerShape(16.dp),
-                )
-                .padding(vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp)
+                .padding(top = 15.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LabeledInputField(
-                label = stringResource(Res.string.full_name),
-                value = state.profile.fullName,
-                onValueChange = listener::onFullNameChanged,
-                isDividerVisible = true
+            UserProfileImage(
+                modifier = Modifier.padding(top = 24.dp, bottom = 32.dp),
+                image = UiImage.ImageUrl(state.profile.imageUrl),
+                isImagePickerOpen = state.isImagePickerOpened,
+                onImagePickerDismiss = { listener.onImagePickerDismissed() },
+                onImagePickerClick = { listener.onImageUrlClicked() },
+                onImageRetrieved = { uiImage ->
+                    if (uiImage is UiImage.ImageUrl) {
+                        listener.onImageUrlChanged(uiImage.url)
+                        listener.onImagePickerDismissed()
+                    }
+                }
             )
 
-
-            LabeledInputField(
-                label = stringResource(Res.string.email),
-                value = state.profile.email,
-                onValueChange = { },
-                readOnly = true,
-                trailingIcon = null,
-                isDividerVisible = true
-            )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = Theme.color.surfaces.surfaceContainer,
+                        shape = RoundedCornerShape(16.dp),
+                    )
+                    .padding(vertical = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 LabeledInputField(
-                    label = stringResource(Res.string.birth),
-                    value = state.profile.dateOfBirth?.toString() ?: "29/04/2000",
-                    onValueChange = {},
-                    readOnly = true,
-                    trailingIcon = Res.drawable.ic_arrow_down,
-                    onClick = { listener.onDateOfBirthClicked() },
-                    isDividerVisible = true,
-                    modifier = Modifier.weight(1f)
+                    label = stringResource(Res.string.full_name),
+                    value = state.profile.fullName,
+                    onValueChange = listener::onFullNameChanged,
+                    isDividerVisible = true
                 )
 
                 LabeledInputField(
-                    label = stringResource(Res.string.gender),
-                    value = state.profile.gender,
-                    onValueChange = {},
-                    placeholder = "Gender",
-                    readOnly = true,
-                    trailingIcon = Res.drawable.ic_arrow_down,
-                    onClick = { listener.onGenderClicked() },
-                    isDividerVisible = true,
-                    modifier = Modifier.weight(1f)
-                )
-            }
-            LabeledInputField(
-                label = stringResource(Res.string.units),
-                value = state.profile.preferredMeasurementStandard,
-                onValueChange = { },
-                readOnly = false,
-                onClick = { listener.onPreferredMeasurementStandardClicked()},
-                trailingIcon = Res.drawable.ic_arrow_down,
-                isDividerVisible = true
-            )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                LabeledInputField(
-                    label = stringResource(Res.string.height),
-                    value = (state.profile.height).toString(),
-                    onValueChange = {},
-                    readOnly = true,
-                    trailingIcon = Res.drawable.ic_arrow_down,
-                    onClick = { listener.onHeightClicked() },
-                    isDividerVisible = true,
-                    modifier = Modifier.weight(1f)
-                )
-
-                LabeledInputField(
-                    label = stringResource(Res.string.weight),
-                    value = state.profile.weight.toString(),
+                    label = stringResource(Res.string.email),
+                    value = state.profile.email,
                     onValueChange = { },
                     readOnly = true,
+                    trailingIcon = null,
+                    isDividerVisible = true
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    LabeledInputField(
+                        label = stringResource(Res.string.birth),
+                        value = state.profile.dateOfBirth?.toString() ?: "29/04/2000",
+                        onValueChange = {},
+                        readOnly = true,
+                        trailingIcon = Res.drawable.ic_arrow_down,
+                        onClick = { listener.onDateOfBirthClicked() },
+                        isDividerVisible = true,
+                        modifier = Modifier.weight(1f)
+                    )
+
+                    LabeledInputField(
+                        label = stringResource(Res.string.gender),
+                        value = state.profile.gender,
+                        onValueChange = {},
+                        placeholder = "Gender",
+                        readOnly = true,
+                        trailingIcon = Res.drawable.ic_arrow_down,
+                        onClick = { listener.onGenderClicked() },
+                        isDividerVisible = true,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                LabeledInputField(
+                    label = stringResource(Res.string.units),
+                    value = state.profile.preferredMeasurementStandard,
+                    onValueChange = { },
+                    readOnly = false,
+                    onClick = { listener.onPreferredMeasurementStandardClicked() },
                     trailingIcon = Res.drawable.ic_arrow_down,
-                    onClick = { listener.onWeightClicked() },
+                    isDividerVisible = true
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    LabeledInputField(
+                        label = stringResource(Res.string.height),
+                        value = (state.profile.height).toString(),
+                        onValueChange = {},
+                        readOnly = true,
+                        trailingIcon = Res.drawable.ic_arrow_down,
+                        onClick = { listener.onHeightClicked() },
+                        isDividerVisible = true,
+                        modifier = Modifier.weight(1f)
+                    )
+
+                    LabeledInputField(
+                        label = stringResource(Res.string.weight),
+                        value = state.profile.weight.toString(),
+                        onValueChange = { },
+                        readOnly = true,
+                        trailingIcon = Res.drawable.ic_arrow_down,
+                        onClick = { listener.onWeightClicked() },
+                        isDividerVisible = true,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                LabeledInputField(
+                    label = stringResource(Res.string.goal),
+                    value = state.profile.mainGoal,
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = Res.drawable.ic_arrow_down,
                     isDividerVisible = true,
-                    modifier = Modifier.weight(1f)
+                    onClick = { listener.onMainGoalClicked() }
+                )
+
+                LabeledInputField(
+                    label = stringResource(Res.string.your_tools),
+                    value = if (state.userEquipments.isEmpty()) {
+                        stringResource(Res.string.no_tools_title)
+                    } else {
+                        state.userEquipments.joinToString(", ") { it.name }
+                    },
+                    onValueChange = { listener::onEquipmentChanged },
+                    readOnly = true,
+                    trailingIcon = Res.drawable.ic_arrow_down,
+                    isDividerVisible = true,
+                    onClick = { listener.onEquipmentClicked() }
+                )
+
+                LabeledInputField(
+                    label = stringResource(Res.string.workouts_days),
+                    value = if (state.userWorkoutsDays.isEmpty()) {
+                        stringResource(Res.string.no_workouts)
+                    } else {
+                        state.userWorkoutsDays.joinToString(",") { it.name }
+                    },
+                    onValueChange = { },
+                    placeholder = "Workout Days",
+                    readOnly = true,
+                    trailingIcon = Res.drawable.ic_arrow_down,
+                    isDividerVisible = false,
+                    onClick = { listener.onWorkoutDaysClicked() }
                 )
             }
-            LabeledInputField(
-                label = stringResource(Res.string.goal),
-                value = state.profile.mainGoal,
-                onValueChange = {},
-                readOnly = true,
-                trailingIcon = Res.drawable.ic_arrow_down,
-                isDividerVisible = true,
-                onClick = { listener.onMainGoalClicked() }
-            )
 
-            LabeledInputField(
-                label = stringResource(Res.string.your_tools),
-                value = if (state.userEquipments.isEmpty()) {
-                    stringResource(Res.string.no_tools_title)
-                } else {
-                    state.userEquipments.joinToString(", ") { it.name }
-                },
-                onValueChange = { listener::onEquipmentChanged },
-                readOnly = true,
-                trailingIcon = Res.drawable.ic_arrow_down,
-                isDividerVisible = true,
-                onClick = { listener.onEquipmentClicked() }
-            )
-
-            LabeledInputField(
-                label = stringResource(Res.string.workouts_days),
-                value = if (state.userWorkoutsDays.isEmpty()) {
-                    stringResource(Res.string.no_workouts)
-                } else {
-                    state.userWorkoutsDays.joinToString(",") { it.name }
-                },
-                onValueChange = { },
-                placeholder = "Workout Days",
-                readOnly = true,
-                trailingIcon = Res.drawable.ic_arrow_down,
-                isDividerVisible = false,
-                onClick = { listener.onWorkoutDaysClicked() }
+            PrimaryButton(
+                modifier = Modifier.padding(top = 29.dp, bottom = 32.dp),
+                text = stringResource(Res.string.save_changes),
+                onClick = { listener.onSaveChangesClicked() }
             )
         }
-
-        PrimaryButton(
-            modifier = Modifier.padding(top = 29.dp),
-            text = stringResource(Res.string.save_changes),
-            onClick = { listener.onSaveChangesClicked() }
-        )
-
-
     }
     when (state.bottomSheetType) {
         EditProfileScreenState.EditProfileBottomSheetType.BIRTHDAY -> {
@@ -286,10 +290,6 @@ fun EditProfileScreenContent(
                     listener.onWorkoutDaysChanged(workoutDays)
                 }
             )
-
-        }
-
-        EditProfileScreenState.EditProfileBottomSheetType.FULL_NAME -> {
 
         }
 

@@ -183,4 +183,5 @@
     <string name="workouts_days">Workout Days</string>
     <string name="no_workouts">No Workout Days</string>
     <string name="save_changes">Save Changes</string>
+    <string name="choose_gender"> Choose Gender</string>
 </resources>

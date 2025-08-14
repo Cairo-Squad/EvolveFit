@@ -24,7 +24,6 @@ data class EditProfileScreenState(
         val preferredMeasurementStandard: String ="",
     )
     enum class EditProfileBottomSheetType {
-        FULL_NAME,
         WORKOUTS_DAYS,
         EQUIPMENT,
         BIRTHDAY,
