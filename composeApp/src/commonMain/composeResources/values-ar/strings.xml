@@ -172,4 +172,21 @@
     <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.</string>
     <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل.</string>
     <string name="error_unexpected">حدث خطأ غير متوقع.</string>
+
+    <string name="calories_small">سعر حراري</string>
+    <string name="water_consumption">شرب الماء</string>
+    <string name="liters_small">لتر</string>
+    <string name="remaining_formatted">%1$s %2$s متبقية</string>
+    <string name="today_nutrition">تغذية اليوم</string>
+
+    <string name="profile_picture">الصورة الشخصية</string>
+    <string name="hello_user">مرحبًا %1$s</string>
+    <string name="ready_text_male">مستعد لتدريب اليوم؟</string>
+    <string name="ready_text_female">مستعدة لتدريب اليوم؟</string>
+    <string name="your_progress">تقدمك</string>
+    <string name="this_week">هذا الأسبوع</string>
+
+    <string name="completed">مكتمل</string>
+    <string name="the_goal">الهدف</string>
+    <string name="current_weight">الوزن الحالي</string>
 </resources>
