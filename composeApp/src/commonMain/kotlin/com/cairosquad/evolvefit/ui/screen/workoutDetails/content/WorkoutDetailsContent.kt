@@ -106,6 +106,7 @@ fun WorkoutDetailsContent(
                 estimatedTimeInSeconds = state.workout.estimatedTimeInSeconds,
             )
             Exercises(
+                modifier = Modifier.fillMaxWidth(),
                 exercises = state.workout.exercises,
                 onExerciseClick = { exercise ->
                     listener.onExerciseClick(exercise)
