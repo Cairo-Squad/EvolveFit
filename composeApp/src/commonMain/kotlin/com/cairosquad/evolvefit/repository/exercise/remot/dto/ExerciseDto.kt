@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.repository.exercise.remot.dto
 
+import com.cairosquad.evolvefit.repository.equipment.remot.dto.EquipmentDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -26,3 +27,35 @@ data class ExerciseDto(
     @SerialName("durationSeconds")
     val durationSeconds: Int? = null
 )
+
+@Serializable
+data class ExerciseResponseDto(
+    @SerialName("id")
+    val id: String,
+
+    @SerialName("name")
+    val name: String,
+
+    @SerialName("instructions")
+    val instructions: List<String> = emptyList(),
+
+    @SerialName("images")
+    val images: List<String> = emptyList(),
+
+    @SerialName("gymEquipments")
+    val gymEquipments: List<EquipmentDto> = emptyList(),
+
+    @SerialName("focusArea")
+    val focusArea: List<String> = emptyList(),
+
+    @SerialName("exerciseType")
+    val exerciseType: String,
+
+    @SerialName("durationSeconds")
+    val durationSeconds: Int? = null,
+
+    @SerialName("reps")
+    val reps: Int? = null
+)
+
+
