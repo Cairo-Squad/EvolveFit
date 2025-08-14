@@ -78,7 +78,7 @@ fun MainGoalBottomSheetContent(
                 }
                 CheckboxItem(
                     text =goalText,
-                    isChecked = selectedGoal == goal.name,
+                    isChecked = selectedGoal == goalText,
                     onCheckedChange = { onGoalChange(goalText) },
                 )
             }

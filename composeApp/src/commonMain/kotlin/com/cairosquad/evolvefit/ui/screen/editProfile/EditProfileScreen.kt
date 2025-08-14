@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.ui.screen.editProfile
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,17 +41,24 @@ import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.birth
 import evolvefit.composeapp.generated.resources.email
+import evolvefit.composeapp.generated.resources.friday
 import evolvefit.composeapp.generated.resources.full_name
 import evolvefit.composeapp.generated.resources.gender
 import evolvefit.composeapp.generated.resources.goal
 import evolvefit.composeapp.generated.resources.height
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.monday
 import evolvefit.composeapp.generated.resources.no_tools_title
 import evolvefit.composeapp.generated.resources.no_workouts
 import evolvefit.composeapp.generated.resources.personal_information
+import evolvefit.composeapp.generated.resources.saturday
 import evolvefit.composeapp.generated.resources.save_changes
+import evolvefit.composeapp.generated.resources.sunday
+import evolvefit.composeapp.generated.resources.thursday
+import evolvefit.composeapp.generated.resources.tuesday
 import evolvefit.composeapp.generated.resources.units
+import evolvefit.composeapp.generated.resources.wednesday
 import evolvefit.composeapp.generated.resources.weight
 import evolvefit.composeapp.generated.resources.workouts_days
 import evolvefit.composeapp.generated.resources.your_tools
@@ -69,7 +77,7 @@ fun EditProfileScreen(
     modifier: Modifier = Modifier
 ) {
     val state by viewModel.screenState.collectAsState()
-    EditProfileScreenContent(state, viewModel)
+    EditProfileScreenContent(state, viewModel,navigateBack)
 
 }
 
@@ -77,13 +85,14 @@ fun EditProfileScreen(
 fun EditProfileScreenContent(
     state: EditProfileScreenState,
     listener: EditProfileInteractionListener,
+    navigateBack:() ->Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(color = Theme.color.surfaces.surface)
-            .windowInsetsPadding(WindowInsets.statusBars),
+            .windowInsetsPadding(WindowInsets.statusBars).padding(top=15.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomAppBar(
@@ -92,8 +101,10 @@ fun EditProfileScreenContent(
                 Icon(
                     painter = painterResource(Res.drawable.ic_back),
                     contentDescription = "back icon",
+                    modifier = Modifier.clickable { navigateBack() }
                 )
             },
+            modifier = Modifier.padding(start=16.dp)
         )
         Column(
             modifier = Modifier
@@ -228,13 +239,31 @@ fun EditProfileScreenContent(
                     isDividerVisible = true,
                     onClick = { listener.onEquipmentClicked() }
                 )
+                val workoutDaysText = if (state.userWorkoutsDays.isEmpty()) {
+                    stringResource(Res.string.no_workouts)
+                } else {
+                    state.userWorkoutsDays
+                        .map { day ->
+                            when (day) {
+                                EditProfileScreenState.WeekDayUiState.SUNDAY -> stringResource(Res.string.sunday)
+                                EditProfileScreenState.WeekDayUiState.MONDAY -> stringResource(Res.string.monday)
+                                EditProfileScreenState.WeekDayUiState.TUESDAY -> stringResource(Res.string.tuesday)
+                                EditProfileScreenState.WeekDayUiState.WEDNESDAY -> stringResource(Res.string.wednesday)
+                                EditProfileScreenState.WeekDayUiState.THURSDAY -> stringResource(Res.string.thursday)
+                                EditProfileScreenState.WeekDayUiState.FRIDAY -> stringResource(Res.string.friday)
+                                EditProfileScreenState.WeekDayUiState.SATURDAY -> stringResource(Res.string.saturday)
+                            }
+                        }
+                        .joinToString(", ")
+                }
+
 
                 LabeledInputField(
                     label = stringResource(Res.string.workouts_days),
                     value = if (state.userWorkoutsDays.isEmpty()) {
                         stringResource(Res.string.no_workouts)
                     } else {
-                        state.userWorkoutsDays.joinToString(",") { it.name }
+                        workoutDaysText
                     },
                     onValueChange = { },
                     readOnly = true,
@@ -378,6 +407,7 @@ private fun EditProfileScreenPreview() {
     )
 
     EditProfileScreenContent(
+        navigateBack = {},
         state = sampleState,
         listener = object : EditProfileInteractionListener {
             override fun onBackClicked() {}

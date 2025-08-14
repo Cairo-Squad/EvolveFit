@@ -21,7 +21,14 @@ import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.confirm
+import evolvefit.composeapp.generated.resources.friday
+import evolvefit.composeapp.generated.resources.monday
+import evolvefit.composeapp.generated.resources.saturday
 import evolvefit.composeapp.generated.resources.save
+import evolvefit.composeapp.generated.resources.sunday
+import evolvefit.composeapp.generated.resources.thursday
+import evolvefit.composeapp.generated.resources.tuesday
+import evolvefit.composeapp.generated.resources.wednesday
 import evolvefit.composeapp.generated.resources.workout_days_title
 import evolvefit.composeapp.generated.resources.workout_days_description
 import org.jetbrains.compose.resources.stringResource
@@ -93,13 +100,13 @@ fun WorkoutDaysBottomSheetContent(
             items(weekdays) { day ->
                 val isSelected = selectedWorkoutDays.contains(day)
                 val dayText = when(day) {
-                    EditProfileScreenState.WeekDayUiState.SUNDAY -> "Sunday"
-                    EditProfileScreenState.WeekDayUiState.MONDAY -> "Monday"
-                    EditProfileScreenState.WeekDayUiState.TUESDAY -> "Tuesday"
-                    EditProfileScreenState.WeekDayUiState.WEDNESDAY -> "Wednesday"
-                    EditProfileScreenState.WeekDayUiState.THURSDAY -> "Thursday"
-                    EditProfileScreenState.WeekDayUiState.FRIDAY -> "Friday"
-                    EditProfileScreenState.WeekDayUiState.SATURDAY -> "Saturday"
+                    EditProfileScreenState.WeekDayUiState.SUNDAY -> stringResource(Res.string.sunday)
+                    EditProfileScreenState.WeekDayUiState.MONDAY -> stringResource(Res.string.monday)
+                    EditProfileScreenState.WeekDayUiState.TUESDAY ->stringResource(Res.string.tuesday)
+                    EditProfileScreenState.WeekDayUiState.WEDNESDAY -> stringResource(Res.string.wednesday)
+                    EditProfileScreenState.WeekDayUiState.THURSDAY -> stringResource(Res.string.thursday)
+                    EditProfileScreenState.WeekDayUiState.FRIDAY -> stringResource(Res.string.friday)
+                    EditProfileScreenState.WeekDayUiState.SATURDAY -> stringResource(Res.string.saturday)
                 }
 
                 SelectableDayBox(
