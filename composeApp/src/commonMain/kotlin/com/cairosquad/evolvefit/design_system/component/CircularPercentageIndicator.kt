@@ -38,13 +38,22 @@ fun CircularProgressCard(
 
     var hasAnimationPlayed by remember { mutableStateOf(false) }
 
+//    val animateCurrentPercentage by animateFloatAsState(
+//        targetValue = if (hasAnimationPlayed) percentage else 0f,
+//        animationSpec = tween(
+//            durationMillis = animationDuration,
+//            delayMillis = animationDelay,
+//            easing = LinearEasing
+//        )
+//    )
     val animateCurrentPercentage by animateFloatAsState(
-        targetValue = if (hasAnimationPlayed) percentage else 0f,
+        targetValue = percentage,
         animationSpec = tween(
             durationMillis = animationDuration,
             delayMillis = animationDelay,
             easing = LinearEasing
-        )
+        ),
+        label = "progressAnimation"
     )
 
     LaunchedEffect(percentage) {
