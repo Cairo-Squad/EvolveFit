@@ -74,22 +74,20 @@ jobs:
           xcrun simctl list devices available > simulator_list.txt
           cat simulator_list.txt
           # Extract the first available iPhone simulator and its iOS version
-          SIMULATOR=$(xcrun simctl list devices available | grep -E "iPhone.*\([0-9A-F-]+\) \(Booted\)" | head -n 1 | sed -E 's/.*iPhone ([^ ]+).*/\1/' | tr -d '[:space:]')
-          SIMULATOR_OS=$(xcrun simctl list devices available | grep -E "iPhone.*\([0-9A-F-]+\) \(Booted\)" | head -n 1 | grep -oE "iOS [0-9]+\.[0-9]+(\.[0-9]+)?" | awk '{print $2}' | tr -d '[:space:]')
+          SIMULATOR=$(xcrun simctl list devices available | grep -E "iPhone.*\([0-9A-F-]+\)" | head -n 1 | sed -E 's/.*iPhone ([^ ]+).*/\1/' | tr -d '[:space:]')
+          SIMULATOR_OS=$(xcrun simctl list devices available | grep -E "iPhone.*\([0-9A-F-]+\)" | head -n 1 | grep -oE "iOS [0-9]+\.[0-9]+(\.[0-9]+)?" | awk '{print $2}' | tr -d '[:space:]')
           if [ -z "$SIMULATOR" ] || [ -z "$SIMULATOR_OS" ]; then
-            echo "Warning: No available iPhone simulator found. Falling back to default iPhone 16 simulator."
+            echo "Warning: No available iPhone simulator found. Falling back to iPhone 16 with iOS 18.4."
             SIMULATOR="iPhone 16"
-            SIMULATOR_OS=""
-            DESTINATION="platform=iOS Simulator,name=$SIMULATOR"
+            SIMULATOR_OS="18.4"
           else
             echo "Using simulator: $SIMULATOR with iOS $SIMULATOR_OS"
-            DESTINATION="platform=iOS Simulator,name=$SIMULATOR,OS=$SIMULATOR_OS"
           fi
           xcodebuild \
             -project iosApp/iosApp.xcodeproj \
             -scheme "iosApp" \
             -configuration Debug \
-            -destination "$DESTINATION" \
+            -destination "platform=iOS Simulator,name=$SIMULATOR,OS=$SIMULATOR_OS" \
             -derivedDataPath build \
             build \
             CODE_SIGNING_ALLOWED=NO \
