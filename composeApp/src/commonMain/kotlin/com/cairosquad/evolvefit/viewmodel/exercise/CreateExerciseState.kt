@@ -47,7 +47,7 @@ data class CreateExerciseState(
                 image != null &&
                 selectedFocusAreas.isNotEmpty() &&
                 selectedEquipment.name.isNotBlank() &&
-                isDurationChecked &&
+                isDurationChecked ||
                 isRepsChecked &&
                 description.isNotBlank()
 

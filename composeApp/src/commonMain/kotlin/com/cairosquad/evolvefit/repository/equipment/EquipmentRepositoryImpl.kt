@@ -10,7 +10,6 @@ class EquipmentRepositoryImpl(
     private val remote: EquipmentsRemoteDataSource
 ): EquipmentRepository {
     override suspend fun getAllEquipments(): Set<Equipment> = callDataSource{
-        print("EquipmentRepositoryImpl:: getAllEquipments ${remote.getEquipments().map { it.toDomain() }}")
          remote.getEquipments().map { it.toDomain() }.toSet()
     }
 

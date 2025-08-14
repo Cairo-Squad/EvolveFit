@@ -7,6 +7,7 @@ class ManageExerciseUseCase(
     private val exerciseRepository: ExerciseRepository
 ) {
     suspend fun createExercise(exercise: Exercise) {
+        print("ManageExerciseUseCase createExercise called with exercise: $exercise")
         exerciseRepository.createExercise(exercise)
     }
 
