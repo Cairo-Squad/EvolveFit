@@ -179,10 +179,19 @@
     <string name="no_workouts">لا يوجد ايام</string>
     <string name="save_changes">حفظ التغيرات</string>
     <string name="choose_gender">أختر النوع</string>
+    <string name="your_height">طولك</string>
+    <string name="your_weight">وزنك الحالي</string>
+    <string name="choose_your_main_goal">أختر هدفك الرئيسي</string>
 
     <string name="error_no_internet">لا يوجد اتصال بالإنترنت.</string>
     <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>
     <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.</string>
     <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل.</string>
     <string name="error_unexpected">حدث خطأ غير متوقع.</string>
+    <string name="goal_lose_weight">إنقاص الوزن</string>
+    <string name="goal_gain_weight">زيادة الوزن</string>
+    <string name="goal_stay_in_shape">الحفاظ على اللياقة</string>
+
+
+
 </resources>

@@ -37,6 +37,7 @@ import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -251,26 +252,32 @@ fun MeasureSection(
     measureUnit: String,
     dpPerUnit: Float,
     step: Float,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isDescriptionFound:Boolean=true,
+    textStyle: TextStyle=Theme.textStyle.headline.mediumMedium18,
+    bottomPadding:Dp=8.dp,
+    startPadding:Dp=16.dp,
 ) {
     Column(
         modifier = modifier
     ) {
         BasicText(
             text = measureType,
-            style = Theme.textStyle.headline.mediumMedium18.copy(
+            style =textStyle.copy(
                 color = Theme.color.surfaces.onSurface
             ),
             modifier = Modifier
-                .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
+                .padding(bottom = bottomPadding, start = startPadding, end = 16.dp)
         )
-        BasicText(
-            text = stringResource(Res.string.select_measurement) + measureType.replaceFirstChar { it.lowercase() },
-            style = Theme.textStyle.label.smallRegular14.copy(
-                color = Theme.color.surfaces.onSurfaceVariant
-            ),
-            modifier = Modifier.padding(bottom = 24.dp, start = 16.dp, end = 16.dp)
-        )
+        if(isDescriptionFound) {
+            BasicText(
+                text = stringResource(Res.string.select_measurement) + measureType.replaceFirstChar { it.lowercase() },
+                style = Theme.textStyle.label.smallRegular14.copy(
+                    color = Theme.color.surfaces.onSurfaceVariant
+                ),
+                modifier = Modifier.padding(bottom = 24.dp, start = 16.dp, end = 16.dp)
+            )
+        }
 
         Ruler(
             selectedValue = selectedMeasure,

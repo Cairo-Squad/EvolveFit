@@ -74,13 +74,15 @@ fun GenderBottomSheetContent(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             RegisterScreenState.Gender.entries.forEach { gender ->
+                val genderText = when (gender) {
+                    RegisterScreenState.Gender.Male -> stringResource(Res.string.male)
+                    RegisterScreenState.Gender.Female -> stringResource(Res.string.female)
+                }
+
                 CheckboxItem(
-                    text = when (gender) {
-                        RegisterScreenState.Gender.Male -> stringResource(Res.string.male)
-                        RegisterScreenState.Gender.Female -> stringResource(Res.string.female)
-                    },
-                    isChecked = tempGender == gender.name,
-                    onCheckedChange = { tempGender = gender.name }
+                    text = genderText,
+                    isChecked = tempGender == genderText,
+                    onCheckedChange = { tempGender = genderText }
                 )
             }
         }

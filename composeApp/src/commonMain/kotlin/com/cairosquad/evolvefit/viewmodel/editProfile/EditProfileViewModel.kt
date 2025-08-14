@@ -181,6 +181,7 @@ class EditProfileViewModel(
         updateState { state ->
             state.copy(profile = state.profile.copy(height = height))
         }
+
     }
 
     override fun onWeightChanged(weight: Float) {

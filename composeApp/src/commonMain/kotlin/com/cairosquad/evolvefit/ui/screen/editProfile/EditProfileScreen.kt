@@ -59,6 +59,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.math.round
 
 
 @Composable
@@ -160,7 +161,6 @@ fun EditProfileScreenContent(
                         label = stringResource(Res.string.gender),
                         value = state.profile.gender,
                         onValueChange = {},
-                        placeholder = "Gender",
                         readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
                         onClick = { listener.onGenderClicked() },
@@ -184,9 +184,9 @@ fun EditProfileScreenContent(
                 ) {
                     LabeledInputField(
                         label = stringResource(Res.string.height),
-                        value = (state.profile.height).toString(),
+                        value =(round(state.profile.height * 10) / 10).toString(),
                         onValueChange = {},
-                        readOnly = true,
+                        readOnly = false,
                         trailingIcon = Res.drawable.ic_arrow_down,
                         onClick = { listener.onHeightClicked() },
                         isDividerVisible = true,
@@ -195,7 +195,7 @@ fun EditProfileScreenContent(
 
                     LabeledInputField(
                         label = stringResource(Res.string.weight),
-                        value = state.profile.weight.toString(),
+                        value = (round(state.profile.weight * 10) / 10).toString(),
                         onValueChange = { },
                         readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -237,7 +237,6 @@ fun EditProfileScreenContent(
                         state.userWorkoutsDays.joinToString(",") { it.name }
                     },
                     onValueChange = { },
-                    placeholder = "Workout Days",
                     readOnly = true,
                     trailingIcon = Res.drawable.ic_arrow_down,
                     isDividerVisible = false,
@@ -335,7 +334,6 @@ fun EditProfileScreenContent(
                 onHeightBottomSheetDismiss = { listener.onBottomSheetDismissed() },
                 onHeightChange = { height ->
                     listener.onHeightChanged(height)
-                    listener.onBottomSheetDismissed()
                 }
 
             )
@@ -349,7 +347,6 @@ fun EditProfileScreenContent(
                 onWeightBottomSheetDismiss = { listener.onBottomSheetDismissed() },
                 onWeightChange = { weight ->
                     listener.onWeightChanged(weight)
-                    listener.onBottomSheetDismissed()
                 }
 
             )

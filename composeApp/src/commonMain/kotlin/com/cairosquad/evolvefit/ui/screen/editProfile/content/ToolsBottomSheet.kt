@@ -21,6 +21,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.confirm
 import evolvefit.composeapp.generated.resources.no_tools_description
 import evolvefit.composeapp.generated.resources.no_tools_title
 import evolvefit.composeapp.generated.resources.or_select_one_or_more
@@ -72,8 +73,6 @@ fun EquipmentBottomSheetContent(
             modifier = Modifier.padding(bottom = 24.dp),
             title = stringResource(Res.string.your_tools_title),
         )
-
-        // No Equipment Option
         CheckboxItem(
             modifier = Modifier.padding(bottom = 8.dp),
             text = stringResource(Res.string.no_tools_title),
@@ -94,7 +93,6 @@ fun EquipmentBottomSheetContent(
             style = Theme.textStyle.label.smallRegular14,
         )
 
-        // Equipment List - Limited height for partial sheet
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -125,7 +123,7 @@ fun EquipmentBottomSheetContent(
         }
 
         PrimaryButton(
-            text = stringResource(Res.string.save),
+            text = stringResource(Res.string.confirm),
             onClick = onEquipmentBottomSheetDismiss,
             modifier = Modifier.fillMaxWidth()
         )

@@ -13,11 +13,13 @@ import com.cairosquad.evolvefit.ui.screen.register.content.HeightWeightConstants
 import com.cairosquad.evolvefit.ui.screen.register.content.MeasureSection
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.confirm
 import evolvefit.composeapp.generated.resources.ic_scale
 import evolvefit.composeapp.generated.resources.kg
 import evolvefit.composeapp.generated.resources.lb
 import evolvefit.composeapp.generated.resources.save
 import evolvefit.composeapp.generated.resources.weight
+import evolvefit.composeapp.generated.resources.your_weight
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 @Composable
@@ -39,7 +41,9 @@ fun WeightBottomSheet(
             measurementStandard = measurementStandard,
             onWeightChange = onWeightChange,
             onWeightBottomSheetDismiss = onWeightBottomSheetDismiss,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(bottom= 16.dp)
         )
     }
 }
@@ -77,7 +81,7 @@ fun WeightBottomSheetContent(
 
         MeasureSection(
             selectedMeasure = selectedWeight,
-            measureType = stringResource(Res.string.weight),
+            measureType = stringResource(Res.string.your_weight),
             measureIcon = painterResource(Res.drawable.ic_scale),
             minMeasureValue = minWeight,
             maxMeasureValue = maxWeight,
@@ -85,11 +89,15 @@ fun WeightBottomSheetContent(
             measureUnit = weightMeasureUnit,
             dpPerUnit = dpPerWeightUnit,
             step = weightStep,
-            modifier = Modifier.padding(bottom = 40.dp)
+            modifier = Modifier.padding(bottom = 40.dp),
+            isDescriptionFound = false,
+            textStyle = Theme.textStyle.label.mediumMedium16,
+            bottomPadding = 16.dp,
+            startPadding =0.dp,
         )
 
         PrimaryButton(
-            text = stringResource(Res.string.save),
+            text = stringResource(Res.string.confirm),
             onClick = onWeightBottomSheetDismiss
         )
     }

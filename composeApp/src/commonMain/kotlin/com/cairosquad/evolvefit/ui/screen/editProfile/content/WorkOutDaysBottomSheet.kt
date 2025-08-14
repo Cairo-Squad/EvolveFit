@@ -20,6 +20,7 @@ import com.cairosquad.evolvefit.design_system.component.SelectableDayBox
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.confirm
 import evolvefit.composeapp.generated.resources.save
 import evolvefit.composeapp.generated.resources.workout_days_title
 import evolvefit.composeapp.generated.resources.workout_days_description
@@ -117,7 +118,7 @@ fun WorkoutDaysBottomSheetContent(
         }
 
         PrimaryButton(
-            text = "Confirm",
+            text = stringResource(Res.string.confirm),
             onClick = onWorkoutDaysBottomSheetDismiss,
             modifier = Modifier.fillMaxWidth()
         )

@@ -16,6 +16,11 @@ import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.choose_your_main_goal
+import evolvefit.composeapp.generated.resources.confirm
+import evolvefit.composeapp.generated.resources.goal_gain_weight
+import evolvefit.composeapp.generated.resources.goal_lose_weight
+import evolvefit.composeapp.generated.resources.goal_stay_in_shape
 import evolvefit.composeapp.generated.resources.save
 import evolvefit.composeapp.generated.resources.select_goal_description
 import evolvefit.composeapp.generated.resources.select_goal_title
@@ -37,7 +42,9 @@ fun MainGoalBottomSheet(
             selectedGoal = selectedGoal,
             onGoalChange = onGoalChange,
             onGoalBottomSheetDismiss = onGoalBottomSheetDismiss,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(bottom= 16.dp)
         )
     }
 }
@@ -54,7 +61,7 @@ fun MainGoalBottomSheetContent(
     ) {
         RegisterHeader(
             modifier = Modifier.padding(bottom = 16.dp),
-            title = stringResource(Res.string.select_goal_title),
+            title = stringResource(Res.string.choose_your_main_goal),
         )
 
         Column(
@@ -64,17 +71,21 @@ fun MainGoalBottomSheetContent(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             RegisterScreenState.Goal.entries.forEach { goal ->
+                val goalText = when (goal) {
+                    RegisterScreenState.Goal.LoseWeight -> stringResource(Res.string.goal_lose_weight)
+                    RegisterScreenState.Goal.GainWeight -> stringResource(Res.string.goal_gain_weight)
+                    RegisterScreenState.Goal.StayInShape -> stringResource(Res.string.goal_stay_in_shape)
+                }
                 CheckboxItem(
-                    text = goal.name,
-                    description = goal.name,
+                    text =goalText,
                     isChecked = selectedGoal == goal.name,
-                    onCheckedChange = { onGoalChange(goal.name) },
+                    onCheckedChange = { onGoalChange(goalText) },
                 )
             }
         }
 
         PrimaryButton(
-            text = stringResource(Res.string.save),
+            text = stringResource(Res.string.confirm),
             onClick = onGoalBottomSheetDismiss
         )
     }

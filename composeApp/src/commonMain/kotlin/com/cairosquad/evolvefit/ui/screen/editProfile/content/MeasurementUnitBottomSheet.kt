@@ -14,6 +14,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.confirm
 import evolvefit.composeapp.generated.resources.select_unit_description
 import evolvefit.composeapp.generated.resources.select_unit_title
 import evolvefit.composeapp.generated.resources.unit_imperial
@@ -38,7 +39,9 @@ fun MeasurementBottomSheet(
             selectedMeasurementStandard = selectedMeasurementStandard,
             onMeasurementChange = onMeasurementChange,
             onDismiss = onDismiss,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(bottom= 16.dp)
         )
     }
 }
@@ -67,19 +70,21 @@ fun MeasurementBottomSheetContent(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             RegisterScreenState.MeasurementStandard.entries.forEach { unit ->
+                val unitText = when (unit) {
+                    RegisterScreenState.MeasurementStandard.Metric -> stringResource(Res.string.unit_metric)
+                    RegisterScreenState.MeasurementStandard.Imperial -> stringResource(Res.string.unit_imperial)
+                }
+
                 CheckboxItem(
-                    text = when (unit) {
-                        RegisterScreenState.MeasurementStandard.Metric -> stringResource(Res.string.unit_metric)
-                        RegisterScreenState.MeasurementStandard.Imperial -> stringResource(Res.string.unit_imperial)
-                    },
-                    isChecked = selectedMeasurementStandard == unit.name,
-                    onCheckedChange = { onMeasurementChange(unit.name) }
+                    text = unitText,
+                    isChecked = selectedMeasurementStandard == unitText,
+                    onCheckedChange = { onMeasurementChange(unitText) }
                 )
             }
         }
 
         PrimaryButton(
-            text = stringResource(Res.string.save),
+            text = stringResource(Res.string.confirm),
             onClick = onDismiss
         )
     }
