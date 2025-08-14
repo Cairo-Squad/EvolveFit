@@ -1,7 +1,18 @@
 package com.cairosquad.evolvefit.viewmodel.login
 
+import com.cairosquad.evolvefit.domain.exception.InvalidEmailFormatException
+import com.cairosquad.evolvefit.domain.exception.InvalidPasswordException
+import com.cairosquad.evolvefit.domain.exception.NetworkException
+import com.cairosquad.evolvefit.domain.exception.UnknownException
 import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.error_invalid_email_format
+import evolvefit.composeapp.generated.resources.error_invalid_password
+import evolvefit.composeapp.generated.resources.error_no_internet
+import evolvefit.composeapp.generated.resources.error_unexpected
+import evolvefit.composeapp.generated.resources.error_unknown_credentials
+import org.jetbrains.compose.resources.StringResource
 
 class LoginViewModel(
     private val authenticationUseCase: AuthenticationUseCase
@@ -13,30 +24,19 @@ class LoginViewModel(
         val current = screenState.value
         if (!current.canSubmit) return
 
-        updateState { it.copy(isLoading = true, canSubmit = false) }
+        setLoadingState()
+
         tryToCall(
             block = {
                 authenticationUseCase.login(current.email, current.password)
             },
-            onSuccess = {
-                updateState {
-                    val updated = it.copy(isLoading = false)
-                    updated.copy(canSubmit = isSubmitAllowed(updated))
-                }
-                sendEffect(LoginScreenEffect.NavigateToApp)
-            },
+            onSuccess = { handleLoginSuccess() },
             onError = { error ->
-                updateState {
-                    val updated = it.copy(
-                        isLoading = false,
-                        emailError = "Invalid credentials",
-                        passwordError = "Invalid credentials"
-                    )
-                    updated.copy(canSubmit = isSubmitAllowed(updated))
-                }
+                handleLoginError(error)
             }
         )
     }
+
 
     override fun onEmailChanged(newEmail: String) {
         updateState {
@@ -65,10 +65,70 @@ class LoginViewModel(
     }
 
     private fun isSubmitAllowed(uiState: LoginScreenUiState): Boolean {
-        return uiState.email.isNotBlank() &&
-                uiState.password.isNotBlank() &&
+        return (uiState.email.isNotBlank() || uiState.password.isNotBlank()) &&
                 uiState.emailError == null &&
                 uiState.passwordError == null &&
                 !uiState.isLoading
     }
+
+    private fun setLoadingState() {
+        updateState { it.copy(isLoading = true, canSubmit = false) }
+    }
+
+    private fun handleLoginSuccess() {
+        updateState {
+            val updated = it.copy(isLoading = false)
+            updated.copy(canSubmit = isSubmitAllowed(updated))
+        }
+        sendEffect(LoginScreenEffect.NavigateToApp)
+    }
+
+    private fun handleLoginError(error: Throwable) {
+        updateState { it.copy(isLoading = false) }
+
+        when (error) {
+            is NetworkException -> showError(Res.string.error_no_internet)
+
+            is UnknownException -> setErrorState(
+                emailError = null,
+                passwordError = Res.string.error_unknown_credentials
+            )
+
+            is InvalidEmailFormatException -> setErrorState(
+                emailError = Res.string.error_invalid_email_format
+            )
+
+            is InvalidPasswordException -> setErrorState(
+                passwordError = Res.string.error_invalid_password
+            )
+
+            else -> {
+                val unexpectedError = Res.string.error_unexpected
+                showError(unexpectedError)
+                setErrorState(
+                    emailError = unexpectedError,
+                    passwordError = unexpectedError
+                )
+            }
+        }
+    }
+
+
+    private fun showError(message: StringResource) {
+        sendEffect(LoginScreenEffect.ShowError(message))
+    }
+
+    private fun setErrorState(
+        emailError: StringResource? = null,
+        passwordError: StringResource? = null
+    ) {
+        updateState {
+            val updated = it.copy(
+                emailError = emailError,
+                passwordError = passwordError
+            )
+            updated.copy(canSubmit = isSubmitAllowed(updated))
+        }
+    }
+
 }

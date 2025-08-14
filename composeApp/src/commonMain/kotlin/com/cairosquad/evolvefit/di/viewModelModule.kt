@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.di
 
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutViewModel
+import com.cairosquad.evolvefit.viewmodel.home.HomeViewModel
 import com.cairosquad.evolvefit.viewmodel.login.LoginViewModel
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.OnBoardingViewModel
@@ -20,6 +21,7 @@ val viewModelModule = module {
     viewModelOf(::WorkoutViewModel)
     viewModelOf(::CommunityWorkoutViewModel)
     viewModelOf(::LoginViewModel)
+    viewModelOf(::HomeViewModel)
     viewModelOf(::ReportViewModel)
     viewModel { (workoutId: String) ->
         PlayWorkoutViewModel(workoutId, manageWorkoutUseCase = get())

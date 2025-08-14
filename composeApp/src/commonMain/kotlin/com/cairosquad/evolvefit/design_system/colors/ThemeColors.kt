@@ -31,6 +31,7 @@ data class Brand(
 )
 data class System(
     val warning: Color,
+    val error: Color,
     val success: Color,
     val info: Color,
 )

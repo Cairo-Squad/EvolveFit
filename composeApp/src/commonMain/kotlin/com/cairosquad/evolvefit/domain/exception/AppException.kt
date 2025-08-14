@@ -9,3 +9,7 @@ class InternetConnectionException(message: String = "") : AppException(message)
 class UnauthorizedUserException(message: String = "") : AppException(message)
 
 class UnknownException(message: String = "") : AppException(message)
+
+class InvalidEmailFormatException(message: String = "") : AppException(message)
+
+class InvalidPasswordException(message: String = "") : AppException(message)
