@@ -115,7 +115,7 @@ class CreateExerciseViewModel(
         }
     }
 
-    override fun onMeasurementValueChanged(value: Int) {
+    override fun onMeasurementValueChanged(value: String) {
         updateState { it.copy(measurementInputValue = value) }
     }
 

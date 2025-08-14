@@ -27,6 +27,7 @@ fun RowWithIcon(
     modifier: Modifier = Modifier,
     text: String = "Select focus area",
     isIconClicked: Boolean = false,
+    textColor: Color = Theme.color.surfaces.onSurfaceVariant,
     iconTint: Color = Theme.color.surfaces.onSurfaceVariant,
     background: Color = Theme.color.surfaces.surfaceContainer,
     onIconClicked: () -> Unit = {}
@@ -51,7 +52,7 @@ fun RowWithIcon(
         Text(
             text = text,
             style = Theme.textStyle.label.smallRegular12,
-            color = Theme.color.surfaces.onSurfaceVariant
+            color = textColor
         )
         Spacer(modifier = Modifier.weight(1f))
         Icon(

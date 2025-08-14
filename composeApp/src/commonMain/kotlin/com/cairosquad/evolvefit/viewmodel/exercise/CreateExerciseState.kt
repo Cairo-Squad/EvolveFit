@@ -8,7 +8,7 @@ data class CreateExerciseState(
     val availableEquipments: Set<EquipmentUiState> = emptySet(),
     val selectedEquipment: EquipmentUiState = EquipmentUiState(),
     val measurementType: MeasurementType = MeasurementType.DURATION,
-    val measurementInputValue: Int? = null,
+    val measurementInputValue: String = "",
     val selectedFocusAreas: Set<FocusArea> = emptySet(),
     val description: String = "",
     val isExerciseSaved: Boolean = false,
@@ -42,6 +42,15 @@ data class CreateExerciseState(
     fun isFocusAreaSelected(name: String): Boolean {
         return selectedFocusAreas.any { it.name == name }
     }
+    val isSaveEnabled: Boolean
+        get() = name.isNotBlank() &&
+                image != null &&
+                selectedFocusAreas.isNotEmpty() &&
+                selectedEquipment.name.isNotBlank() &&
+                isDurationChecked &&
+                isRepsChecked &&
+                description.isNotBlank()
+
 
 
     data class EquipmentUiState(

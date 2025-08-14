@@ -11,11 +11,11 @@ fun CreateExerciseState.toDomainExercise(): Exercise {
         equipment = this.selectedEquipment.toDomain(),
         specification = when (measurementType) {
             CreateExerciseState.MeasurementType.DURATION -> Exercise.Specification.Time(
-                measurementInputValue ?: 0
+                measurementInputValue.toInt()
             )
 
             CreateExerciseState.MeasurementType.REPS -> Exercise.Specification.Reps(
-                measurementInputValue ?: 0
+                measurementInputValue.toInt()
             )
         },
         focusAreas = this.selectedFocusAreas.map { it.toDomain() }.toSet(),
@@ -43,7 +43,7 @@ fun CreateExerciseState.EquipmentUiState.toDomain(): Equipment {
     )
 }
 
-fun Equipment.toUiState(): CreateExerciseState.EquipmentUiState{
+fun Equipment.toUiState(): CreateExerciseState.EquipmentUiState {
     return CreateExerciseState.EquipmentUiState(
         id = this.id,
         name = this.name

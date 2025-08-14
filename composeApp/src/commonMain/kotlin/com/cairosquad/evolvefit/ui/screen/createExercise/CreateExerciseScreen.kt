@@ -22,12 +22,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.LayoutCoordinates
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
@@ -53,14 +49,14 @@ import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.add_duration
 import evolvefit.composeapp.generated.resources.add_reps
-import evolvefit.composeapp.generated.resources.back
+import evolvefit.composeapp.generated.resources.cancel
 import evolvefit.composeapp.generated.resources.choose_available_tools
 import evolvefit.composeapp.generated.resources.create_exercise_description
 import evolvefit.composeapp.generated.resources.create_exercise_title
 import evolvefit.composeapp.generated.resources.enter_exercise_name
 import evolvefit.composeapp.generated.resources.enter_instructions
 import evolvefit.composeapp.generated.resources.exercise_image
-import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.ic_cancle
 import evolvefit.composeapp.generated.resources.im_upload_exercises_dark
 import evolvefit.composeapp.generated.resources.im_upload_exercises_light
 import evolvefit.composeapp.generated.resources.save_exercise
@@ -116,7 +112,26 @@ fun CreateExerciseScreenContent(
     } else {
         state.selectedFocusAreasText
     }
-    val rowCoordinates = remember { mutableStateOf<LayoutCoordinates?>(null) }
+    val durationTitleColor = if (state.isDurationChecked)
+        Theme.color.surfaces.onSurfaceContainer
+    else
+        Theme.color.surfaces.onSurfaceVariant
+
+    val repsTitleColor = if (state.isRepsChecked)
+        Theme.color.surfaces.onSurfaceContainer
+    else
+        Theme.color.surfaces.onSurfaceVariant
+
+    val selectedFocusAreaTextColor = if (state.selectedFocusAreas.isNotEmpty())
+        Theme.color.surfaces.onSurfaceContainer
+    else
+        Theme.color.surfaces.onSurfaceVariant
+
+    val selectedEquipmentTextColor = if (state.selectedEquipment.name.isNotBlank())
+        Theme.color.surfaces.onSurfaceContainer
+    else
+        Theme.color.surfaces.onSurfaceVariant
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -130,8 +145,8 @@ fun CreateExerciseScreenContent(
             modifier = Modifier.padding(bottom = 16.dp),
             header = {
                 ActionIconButton(
-                    icon = painterResource(Res.drawable.ic_back),
-                    contentDescription = stringResource(Res.string.back),
+                    icon = painterResource(Res.drawable.ic_cancle),
+                    contentDescription = stringResource(Res.string.cancel),
                     tint = Theme.color.surfaces.onSurface,
                     onClick = listener::onExitClicked
                 )
@@ -202,11 +217,9 @@ fun CreateExerciseScreenContent(
             item {
                 RowWithIcon(
                     modifier = Modifier
-                        .padding(bottom = 12.dp)
-                        .onGloballyPositioned {
-                            rowCoordinates.value = it
-                        },
+                        .padding(bottom = 12.dp),
                     text = selectedFocusArea,
+                    textColor = selectedFocusAreaTextColor,
                     isIconClicked = state.isFocusAreaExpanded,
                     onIconClicked = listener::onFocusAreaIconClicked
                 )
@@ -231,7 +244,7 @@ fun CreateExerciseScreenContent(
                     CheckboxItem(
                         modifier = Modifier.weight(1f),
                         text = stringResource(Res.string.add_duration),
-                        titleColor = Theme.color.surfaces.onSurfaceVariant,
+                        titleColor = durationTitleColor,
                         isChecked = state.isDurationChecked,
                         onCheckedChange = {
                             if (it) listener.onMeasurementTypeSelected(
@@ -243,7 +256,7 @@ fun CreateExerciseScreenContent(
                     CheckboxItem(
                         modifier = Modifier.weight(1f),
                         text = stringResource(Res.string.add_reps),
-                        titleColor = Theme.color.surfaces.onSurfaceVariant,
+                        titleColor = repsTitleColor,
                         isChecked = state.isRepsChecked,
                         onCheckedChange = {
                             if (it) listener.onMeasurementTypeSelected(
@@ -260,9 +273,9 @@ fun CreateExerciseScreenContent(
                 ) {
                     InputField(
                         modifier = Modifier.padding(bottom = 12.dp),
-                        value = state.measurementInputValue.toString(),
+                        value = state.measurementInputValue,
                         onValueChange = {
-                            listener.onMeasurementValueChanged(it.toIntOrNull() ?: 0)
+                            listener.onMeasurementValueChanged(it)
                         },
                         placeholder = when (state.measurementType) {
                             CreateExerciseState.MeasurementType.DURATION ->
@@ -282,6 +295,7 @@ fun CreateExerciseScreenContent(
                         .fillMaxWidth()
                         .padding(bottom = 12.dp),
                     text = selectedEquipmentNames,
+                    textColor = selectedEquipmentTextColor,
                     isIconClicked = state.isEquipmentExpanded,
                     onIconClicked = listener::onAvailableEquipmentsIconClicked
                 )
@@ -312,6 +326,7 @@ fun CreateExerciseScreenContent(
                 PrimaryButton(
                     modifier = Modifier.padding(vertical = 40.dp),
                     text = stringResource(Res.string.save_exercise),
+                    isEnabled = state.isSaveEnabled,
                     onClick = listener::onSaveClicked
                 )
             }
@@ -337,7 +352,7 @@ private fun CreateExerciseScreenPreview() {
                 description = "A basic upper body exercise.",
                 measurementType = CreateExerciseState.MeasurementType.REPS,
                 isRepsChecked = true,
-                measurementInputValue = 10,
+                measurementInputValue = "10",
                 selectedFocusAreas = setOf(CreateExerciseState.FocusArea.Abs)
             ),
             listener = object : CreateExerciseInteractionListener {
@@ -350,7 +365,7 @@ private fun CreateExerciseScreenPreview() {
                 override fun onImagePickerDismiss() {}
                 override fun onImageRetrieved(image: UiImage) {}
                 override fun onMeasurementTypeSelected(type: CreateExerciseState.MeasurementType) {}
-                override fun onMeasurementValueChanged(value: Int) {}
+                override fun onMeasurementValueChanged(value: String) {}
                 override fun onFocusAreaToggled(focusArea: CreateExerciseState.FocusArea) {}
                 override fun onDescriptionChanged(description: String) {}
                 override fun onAvailableEquipmentsIconClicked() {}
