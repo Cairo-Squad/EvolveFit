@@ -15,7 +15,6 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.exercises
-import evolvefit.composeapp.generated.resources.exercises_with_count
 import org.jetbrains.compose.resources.stringResource
 
 
@@ -41,7 +40,7 @@ fun Exercises(
                 style = Theme.textStyle.label.mediumMedium16
             )
             Text(
-                text = stringResource(Res.string.exercises_with_count,{exercises.size}),
+                text = " ${exercises.size}",
                 color = Theme.color.surfaces.outline,
                 style = Theme.textStyle.label.smallRegular12,
             )

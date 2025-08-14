@@ -182,6 +182,4 @@
     <string name="previous">Previous</string>
     <string name="back">Back</string>
     <string name="bookmark">Bookmark</string>
-    <string name="exercises_with_count">(%1$d)</string>
-
 </resources>
