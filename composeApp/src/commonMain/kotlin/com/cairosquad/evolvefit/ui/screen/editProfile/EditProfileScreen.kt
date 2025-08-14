@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,7 +31,6 @@ import com.cairosquad.evolvefit.ui.screen.editProfile.content.GenderBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.HeightBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.MainGoalBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.ToolsBottomSheet
-
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.WeightBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.WorkoutDaysBottomSheet
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileInteractionListener
@@ -44,6 +44,7 @@ import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_back
 import evolvefit.composeapp.generated.resources.ic_mail
 import evolvefit.composeapp.generated.resources.personal_information
+import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -75,6 +76,7 @@ fun EditProfileScreenContent(
             .fillMaxSize()
             .verticalScroll(scrollState)
             .padding(horizontal = 16.dp)
+            .padding(top=15.dp)
             .background(color = Theme.color.surfaces.surface, shape = RoundedCornerShape(16.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -98,6 +100,7 @@ fun EditProfileScreenContent(
             onImageRetrieved = { uiImage ->
                 if (uiImage is UiImage.ImageUrl) {
                     listener.onImageUrlChanged(uiImage.url)
+                    listener.onImagePickerDismissed()
                 }
             }
         )

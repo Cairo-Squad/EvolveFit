@@ -9,16 +9,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
-import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.upload_image
-import org.jetbrains.compose.resources.stringResource
-
 @Composable
 fun UserProfileImage(
     image: UiImage,
@@ -27,8 +27,10 @@ fun UserProfileImage(
     onImagePickerClick: () -> Unit,
     onImageRetrieved: (UiImage) -> Unit,
     modifier: Modifier = Modifier,
-    text : String ? = null
+    text: String? = null
 ) {
+    var localImage by remember { mutableStateOf(image) }
+
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -44,18 +46,22 @@ fun UserProfileImage(
         ) {
             if (isImagePickerOpen) {
                 ImagePicker(
-                    onImageRetrieved = onImageRetrieved,
+                    onImageRetrieved = { picked ->
+                        localImage = picked
+                        onImageRetrieved(picked)
+                        onImagePickerDismiss()
+                    },
                     onImagePickerDismiss = onImagePickerDismiss
                 )
             }
 
             UiImageDisplayer(
-                image = image,
-                contentDescription = "Profile picture", // TODO
+                image = localImage,
+                contentDescription = "Profile picture",
                 defaultImageSize = 32.dp
             )
         }
-        if(!text.isNullOrEmpty()) {
+        if (!text.isNullOrEmpty()) {
             Text(
                 text = text,
                 style = Theme.textStyle.label.mediumMedium14,
