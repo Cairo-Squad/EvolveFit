@@ -32,6 +32,7 @@ import com.cairosquad.evolvefit.ui.screen.editProfile.content.MainGoalBottomShee
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.ToolsBottomSheet
 
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.WeightBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.WorkoutDaysBottomSheet
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileInteractionListener
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileViewModel
@@ -264,6 +265,14 @@ fun EditProfileScreenContent(
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.WORKOUTS_DAYS -> {
+            WorkoutDaysBottomSheet(
+                userWorkoutDays = state.userWorkoutsDays,
+                isWorkoutDaysBottomSheetOpen = true,
+                onWorkoutDaysBottomSheetDismiss = { listener.onBottomSheetDismissed() },
+                onWorkoutDaysChange = { workoutDays ->
+                    listener.onWorkoutDaysChanged(workoutDays)
+                }
+            )
 
         }
 

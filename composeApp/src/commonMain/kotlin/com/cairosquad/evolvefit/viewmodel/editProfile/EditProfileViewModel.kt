@@ -82,6 +82,7 @@ class EditProfileViewModel(
             },
             onError = {
                 updateState { it.copy(errorMessage = "Failed to update workout days") }
+                getUserWorkOutDays()
             }
         )
     }
@@ -122,10 +123,12 @@ class EditProfileViewModel(
     }
 
     override fun onEquipmentChanged(equipments:Set<EditProfileScreenState.EquipmentUiState>) {
+        updateState { it.copy(userEquipments = equipments) }
         editUserEquipments(equipments)
     }
 
     override fun onWorkoutDaysChanged(workoutDays: Set<EditProfileScreenState.WeekDayUiState>) {
+        updateState { it.copy(userWorkoutsDays = workoutDays) }
         editUserWorkoutDays(workoutDays)
     }
 
