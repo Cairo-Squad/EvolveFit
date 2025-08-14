@@ -7,7 +7,7 @@ data class Workout(
     val imageUrl: String,
     val level: WorkoutLevel,
     val estimatedTimeInSeconds: Int,
-    val exercises: List<Exercise>,
+    val exercises: List<Exercise>, // TODO: We need to remove this from here
 ) {
     enum class WorkoutLevel {
         BEGINNER,

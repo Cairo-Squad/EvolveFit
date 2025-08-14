@@ -22,7 +22,7 @@ fun SignUpPromptRow(
     Row(
         modifier = Modifier
             .padding(horizontal = 74.dp)
-            .padding(bottom = 24.dp),
+            .padding(vertical = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
