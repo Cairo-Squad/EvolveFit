@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.createExercise.content
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -28,7 +27,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ExiteCreateExerciseBottomSheet(
+fun ExitCreateExerciseBottomSheet(
     isVisible: Boolean = false,
     onDismiss: () -> Unit = {},
     onCancelClicked: () -> Unit = {},

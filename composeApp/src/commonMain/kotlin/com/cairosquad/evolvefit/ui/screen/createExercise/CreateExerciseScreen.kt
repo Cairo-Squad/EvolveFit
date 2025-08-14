@@ -14,9 +14,9 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,6 +27,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
@@ -40,7 +42,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.ImagePicker
 import com.cairosquad.evolvefit.ui.component.UiImageDisplayer
 import com.cairosquad.evolvefit.ui.screen.createExercise.content.CustomDropdownMenu
-import com.cairosquad.evolvefit.ui.screen.createExercise.content.ExiteCreateExerciseBottomSheet
+import com.cairosquad.evolvefit.ui.screen.createExercise.content.ExitCreateExerciseBottomSheet
 import com.cairosquad.evolvefit.ui.screen.createExercise.content.RowWithIcon
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
@@ -60,8 +62,10 @@ import evolvefit.composeapp.generated.resources.enter_exercise_name
 import evolvefit.composeapp.generated.resources.enter_instructions
 import evolvefit.composeapp.generated.resources.exercise_image
 import evolvefit.composeapp.generated.resources.ic_cancle
-import evolvefit.composeapp.generated.resources.im_upload_exercises_dark
-import evolvefit.composeapp.generated.resources.im_upload_exercises_light
+import evolvefit.composeapp.generated.resources.im_upload1
+import evolvefit.composeapp.generated.resources.im_upload2
+import evolvefit.composeapp.generated.resources.im_upload_light1
+import evolvefit.composeapp.generated.resources.im_upload_light2
 import evolvefit.composeapp.generated.resources.save_exercise
 import evolvefit.composeapp.generated.resources.select_focus_area
 import evolvefit.composeapp.generated.resources.upload_image
@@ -95,13 +99,22 @@ fun CreateExerciseScreenContent(
     state: CreateExerciseState,
     listener: CreateExerciseInteractionListener,
 ) {
-    val selectedImage = state.image
-    val uploadExercisesImg = if (selectedImage != null) {
+    val selectedImage1 = state.image1
+    val selectedImage2 = state.image2
+    val uploadExercisesImg1 = if (selectedImage1 != null) {
         null
     } else if (isSystemInDarkTheme()) {
-        painterResource(Res.drawable.im_upload_exercises_dark)
+        painterResource(Res.drawable.im_upload1)
     } else {
-        painterResource(Res.drawable.im_upload_exercises_light)
+        painterResource(Res.drawable.im_upload_light1)
+    }
+
+    val uploadExercisesImg2 = if (selectedImage2 != null) {
+        null
+    } else if (isSystemInDarkTheme()) {
+        painterResource(Res.drawable.im_upload2)
+    } else {
+        painterResource(Res.drawable.im_upload_light2)
     }
 
     val selectedEquipmentNames = if (state.selectedEquipment.name.isBlank()) {
@@ -170,32 +183,63 @@ fun CreateExerciseScreenContent(
             ) {
                 item {
                     RegisterHeader(
-                        modifier = Modifier.padding(bottom = 24.dp),
                         title = stringResource(Res.string.create_exercise_title),
                         description = stringResource(Res.string.create_exercise_description)
                     )
                 }
 
                 item {
+
                     Box(
                         modifier = Modifier
-                            .padding(bottom = 8.dp)
-                            .padding(horizontal = 105.dp)
-                            .clickable(onClick = listener::onImagePickerClicked),
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp, top = 24.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        if (selectedImage != null) {
-                            UiImageDisplayer(
-                                image = selectedImage,
-                                contentDescription = stringResource(Res.string.exercise_image),
-                                defaultImageSize = 64.dp
-                            )
-                        } else {
-                            Image(
-                                painter = uploadExercisesImg!!,
-                                contentDescription = stringResource(Res.string.upload_image)
-                            )
+                        Box(
+                            modifier = Modifier
+                                .size(100.dp)
+                                .rotate(-5f)
+                                .offset(x = (-15).dp, y = (-18).dp)
+                                .clickable { listener.onImage2Clicked() },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            if (state.image2 != null) {
+                                UiImageDisplayer(
+                                    modifier = Modifier.fillMaxSize(),
+                                    image = state.image2,
+                                    contentDescription = stringResource(Res.string.exercise_image)
+                                )
+                            } else {
+                                Image(
+                                    modifier = Modifier.fillMaxSize(),
+                                    painter = uploadExercisesImg2!!,
+                                    contentDescription = stringResource(Res.string.upload_image)
+                                )
+                            }
                         }
+
+                        Box(
+                            modifier = Modifier
+                                .size(100.dp)
+                                .clickable { listener.onImage1Clicked() },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            if (state.image1 != null) {
+                                UiImageDisplayer(
+                                    modifier = Modifier.fillMaxSize(),
+                                    image = state.image1,
+                                    contentDescription = stringResource(Res.string.exercise_image)
+                                )
+                            } else {
+                                Image(
+                                    modifier = Modifier.fillMaxSize(),
+                                    painter = uploadExercisesImg1!!,
+                                    contentDescription = stringResource(Res.string.upload_image)
+                                )
+                            }
+                        }
+
                     }
                 }
 
@@ -203,7 +247,7 @@ fun CreateExerciseScreenContent(
                     Text(
                         modifier = Modifier
                             .padding(bottom = 24.dp)
-                            .clickable(onClick = listener::onImagePickerClicked),
+                            .clickable(onClick = listener::onImage1Clicked),
                         text = stringResource(Res.string.upload_image),
                         style = Theme.textStyle.label.smallRegular12,
                         color = Theme.color.surfaces.onSurfaceVariant
@@ -330,22 +374,31 @@ fun CreateExerciseScreenContent(
                 item {
                     PrimaryButton(
                         modifier = Modifier.padding(vertical = 40.dp),
+                        isEnabled = listener.isSaveEnabled(),
                         text = stringResource(Res.string.save_exercise),
-                        onClick = { listener.onSaveClicked()}
+                        onClick = { listener.onSaveClicked() }
                     )
                 }
             }
         }
 
-        if (state.isImagePickerOpen) {
+        if (state.isImage1PickerOpen) {
             ImagePicker(
-                onImageRetrieved = listener::onImageRetrieved,
-                onImagePickerDismiss = listener::onImagePickerDismiss
+                onImageRetrieved = listener::onImage1Retrieved,
+                onImagePickerDismiss = listener::onImage1PickerDismiss
             )
         }
 
+        if (state.isImage2PickerOpen) {
+            ImagePicker(
+                onImageRetrieved = listener::onImage2Retrieved,
+                onImagePickerDismiss = listener::onImage2PickerDismiss
+            )
+        }
+
+
         if (state.showExitBottomSheet) {
-            ExiteCreateExerciseBottomSheet(
+            ExitCreateExerciseBottomSheet(
                 isVisible = state.showExitBottomSheet,
                 onDismiss = listener::onExitClicked,
                 onCancelClicked = { listener.onExitOptionSelected(true) },
@@ -371,13 +424,15 @@ private fun CreateExerciseScreenPreview() {
             ),
             listener = object : CreateExerciseInteractionListener {
                 override fun onNameChanged(name: String) {}
-                override fun onImagePicked(image: com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage) {}
                 override fun onEquipmentToggled(equipmentId: Int) {}
                 override fun onFocusAreaNameSelected(name: String) {}
                 override fun onEquipmentNameSelected(toolName: String) {}
-                override fun onImagePickerClicked() {}
-                override fun onImagePickerDismiss() {}
-                override fun onImageRetrieved(image: UiImage) {}
+                override fun onImage1Clicked() {}
+                override fun onImage2Clicked() {}
+                override fun onImage1Retrieved(image: UiImage) {}
+                override fun onImage2Retrieved(image: UiImage) {}
+                override fun onImage1PickerDismiss() {}
+                override fun onImage2PickerDismiss() {}
                 override fun onMeasurementTypeSelected(type: CreateExerciseState.MeasurementType) {}
                 override fun onMeasurementValueChanged(value: String) {}
                 override fun onFocusAreaToggled(focusArea: CreateExerciseState.FocusArea) {}
@@ -389,6 +444,9 @@ private fun CreateExerciseScreenPreview() {
                 override fun onSaveClicked() {}
                 override fun onExitClicked() {}
                 override fun onExitOptionSelected(saveBeforeExit: Boolean) {}
+                override fun onFocusAreaDismiss() {}
+                override fun onEquipmentDismiss() {}
+                override fun isSaveEnabled(): Boolean{return true}
             })
     }
 }

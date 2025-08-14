@@ -21,7 +21,9 @@ class CreateExerciseViewModel(
         tryToCall(
             block = { manageEquipmentUseCase.getAllEquipments() },
             onSuccess = { equipments ->
-                updateState { it.copy(availableEquipments = equipments.map { it.toUiState() }.toSet() ) }
+                updateState {
+                    it.copy(availableEquipments = equipments.map { it.toUiState() }.toSet())
+                }
             },
             onError = {
                 updateState { it.copy(errorMessage = "Failed to load equipments") }
@@ -37,10 +39,12 @@ class CreateExerciseViewModel(
             it.copy(selectedEquipment = updatedEquipment)
         }
     }
+
     override fun onFocusAreaNameSelected(name: String) {
         val focusArea = FocusArea.valueOf(name)
         onFocusAreaToggled(focusArea)
     }
+
     override fun onEquipmentNameSelected(toolName: String) {
         val id = screenState.value.availableEquipments
             .firstOrNull { it.name == toolName }?.id ?: return
@@ -48,22 +52,34 @@ class CreateExerciseViewModel(
         onEquipmentToggled(id)
     }
 
-    override fun onImagePickerClicked() {
-        updateState { it.copy(isImagePickerOpen = true) }
+
+    override fun onImage1Clicked() {
+        updateState { it.copy(isImage1PickerOpen = true) }
     }
 
-    override fun onImagePickerDismiss() {
-        updateState { it.copy(isImagePickerOpen = false) }
+    override fun onImage1Retrieved(image: UiImage) {
+        updateState { it.copy(image1 = image, isImage1PickerOpen = false) }
     }
 
-    override fun onImageRetrieved(image: UiImage) {
-        updateState {
-            it.copy(
-                image = image,
-                isImagePickerOpen = false
-            )
-        }
+    override fun onImage1PickerDismiss() {
+        updateState { it.copy(isImage1PickerOpen = false) }
     }
+
+
+    override fun onImage2Clicked() {
+        updateState { it.copy(isImage2PickerOpen = true) }
+    }
+
+
+    override fun onImage2Retrieved(image: UiImage) {
+        updateState { it.copy(image2 = image, isImage2PickerOpen = false) }
+    }
+
+
+    override fun onImage2PickerDismiss() {
+        updateState { it.copy(isImage2PickerOpen = false) }
+    }
+
 
     override fun onFocusAreaToggled(focusArea: FocusArea) {
         updateState {
@@ -99,10 +115,6 @@ class CreateExerciseViewModel(
 
     override fun onNameChanged(name: String) {
         updateState { it.copy(name = name) }
-    }
-
-    override fun onImagePicked(image: UiImage) {
-        updateState { it.copy(image = image, isImagePickerOpen = false) }
     }
 
     override fun onMeasurementTypeSelected(type: MeasurementType) {
@@ -153,5 +165,23 @@ class CreateExerciseViewModel(
         } else {
             sendEffect(CreateExerciseEffect.CloseScreen)
         }
+    }
+
+    override fun onFocusAreaDismiss() {
+        updateState { it.copy(isFocusAreaExpanded = false) }
+    }
+
+    override fun onEquipmentDismiss() {
+        updateState { it.copy(isEquipmentExpanded = false) }
+    }
+
+    override fun isSaveEnabled(): Boolean {
+        val currentState = screenState.value
+        return currentState.name.isNotBlank() &&
+                currentState.image1 != null &&
+                currentState.selectedFocusAreas.isNotEmpty() &&
+                currentState.selectedEquipment.name.isNotBlank() &&
+                (currentState.isDurationChecked || currentState.isRepsChecked) &&
+                currentState.description.isNotBlank()
     }
 }

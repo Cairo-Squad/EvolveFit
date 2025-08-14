@@ -9,7 +9,7 @@ import io.github.vinceglb.filekit.path
 fun CreateExerciseState.toDomainExercise(): Exercise {
     val timeOrReps = measurementInputValue.toIntOrNull() ?: 0
 
-    val imageUrl = when (val img = this.image) {
+    val imageUrl = when (val img = this.image1) {
         is UiImage.ImageUrl -> img.url
         is UiImage.ImageResource -> ""
         is UiImage.ImageFile -> img.platformFile.path

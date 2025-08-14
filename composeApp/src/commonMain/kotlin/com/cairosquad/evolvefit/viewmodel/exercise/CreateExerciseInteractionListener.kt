@@ -1,18 +1,21 @@
 package com.cairosquad.evolvefit.viewmodel.exercise
 
+import androidx.compose.ui.graphics.ImageBitmap
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.FocusArea
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.MeasurementType
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 
 interface CreateExerciseInteractionListener {
     fun onNameChanged(name: String)
-    fun onImagePicked(image: UiImage)
     fun onEquipmentToggled(equipmentId: Int)
     fun onFocusAreaNameSelected(name: String)
     fun onEquipmentNameSelected(toolName: String)
-    fun onImagePickerClicked()
-    fun onImagePickerDismiss()
-    fun onImageRetrieved(image: UiImage)
+    fun onImage1Clicked()
+    fun onImage2Clicked()
+    fun onImage1Retrieved(image: UiImage)
+    fun onImage2Retrieved(image: UiImage)
+    fun onImage1PickerDismiss()
+    fun onImage2PickerDismiss()
     fun onMeasurementTypeSelected(type: MeasurementType)
     fun onMeasurementValueChanged(value: String)
     fun onFocusAreaToggled(focusArea: FocusArea)
@@ -24,4 +27,8 @@ interface CreateExerciseInteractionListener {
     fun onSaveClicked()
     fun onExitClicked()
     fun onExitOptionSelected(saveBeforeExit: Boolean)
+    fun onFocusAreaDismiss()
+    fun onEquipmentDismiss()
+    fun isSaveEnabled(): Boolean
+
 }
