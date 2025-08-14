@@ -38,12 +38,22 @@ import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.birth
 import evolvefit.composeapp.generated.resources.email
 import evolvefit.composeapp.generated.resources.full_name
+import evolvefit.composeapp.generated.resources.gender
+import evolvefit.composeapp.generated.resources.goal
+import evolvefit.composeapp.generated.resources.height
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_back
 import evolvefit.composeapp.generated.resources.ic_mail
+import evolvefit.composeapp.generated.resources.no_tools_title
+import evolvefit.composeapp.generated.resources.no_workouts
 import evolvefit.composeapp.generated.resources.personal_information
+import evolvefit.composeapp.generated.resources.save_changes
+import evolvefit.composeapp.generated.resources.weight
+import evolvefit.composeapp.generated.resources.workouts_days
+import evolvefit.composeapp.generated.resources.your_tools
 import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
@@ -127,7 +137,6 @@ fun EditProfileScreenContent(
                 label = stringResource(Res.string.email),
                 value = state.profile.email,
                 onValueChange = { },
-                placeholder = "Email",
                 readOnly = true,
                 trailingIcon = null,
                 isDividerVisible = true
@@ -136,10 +145,9 @@ fun EditProfileScreenContent(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 LabeledInputField(
-                    label = "DOB",
+                    label = stringResource(Res.string.birth),
                     value = state.profile.dateOfBirth?.toString() ?: "29/04/2000",
                     onValueChange = {},
-                    placeholder = "DOB",
                     readOnly = true,
                     trailingIcon = Res.drawable.ic_arrow_down,
                     onClick = { listener.onDateOfBirthClicked() },
@@ -148,7 +156,7 @@ fun EditProfileScreenContent(
                 )
 
                 LabeledInputField(
-                    label = "gender",
+                    label = stringResource(Res.string.gender),
                     value = state.profile.gender,
                     onValueChange = {},
                     placeholder = "Gender",
@@ -163,10 +171,9 @@ fun EditProfileScreenContent(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 LabeledInputField(
-                    label = "Height",
+                    label = stringResource(Res.string.height),
                     value = (state.profile.height).toString(),
                     onValueChange = {},
-                    placeholder = "Height",
                     readOnly = true,
                     trailingIcon = Res.drawable.ic_arrow_down,
                     onClick = { listener.onHeightClicked() },
@@ -175,10 +182,9 @@ fun EditProfileScreenContent(
                 )
 
                 LabeledInputField(
-                    label = "weight",
+                    label = stringResource(Res.string.weight),
                     value = state.profile.weight.toString(),
                     onValueChange = { },
-                    placeholder = "Weight",
                     readOnly = true,
                     trailingIcon = Res.drawable.ic_arrow_down,
                     onClick = { listener.onWeightClicked() },
@@ -187,10 +193,9 @@ fun EditProfileScreenContent(
                 )
             }
             LabeledInputField(
-                label = "goal",
-                value = state.profile.mainGoal.ifEmpty { "Lose Weight" },
+                label = stringResource(Res.string.goal),
+                value = state.profile.mainGoal,
                 onValueChange = {},
-                placeholder = "Main Goal",
                 readOnly = true,
                 trailingIcon = Res.drawable.ic_arrow_down,
                 isDividerVisible = true,
@@ -198,14 +203,13 @@ fun EditProfileScreenContent(
             )
 
             LabeledInputField(
-                label = "your tools",
+                label = stringResource(Res.string.your_tools),
                 value = if (state.userEquipments.isEmpty()) {
-                    "No tools"
+                    stringResource(Res.string.no_tools_title)
                 } else {
                     state.userEquipments.joinToString(", ") { it.name }
                 },
                 onValueChange = { listener::onEquipmentChanged },
-                placeholder = "Your Tools",
                 readOnly = true,
                 trailingIcon = Res.drawable.ic_arrow_down,
                 isDividerVisible = true,
@@ -213,9 +217,9 @@ fun EditProfileScreenContent(
             )
 
             LabeledInputField(
-                label = "workouts",
+                label = stringResource(Res.string.workouts_days),
                 value = if (state.userWorkoutsDays.isEmpty()) {
-                    "No Workouts Days"
+                    stringResource(Res.string.no_workouts)
                 } else {
                     state.userWorkoutsDays.joinToString(",") { it.name }
                 },
@@ -230,7 +234,7 @@ fun EditProfileScreenContent(
 
         PrimaryButton(
             modifier = Modifier.padding(top = 29.dp),
-            text = "save changes",
+            text = stringResource(Res.string.save_changes),
             onClick = { listener.onSaveChangesClicked() }
         )
 

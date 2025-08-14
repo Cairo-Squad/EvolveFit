@@ -174,5 +174,13 @@
     <string name="error_unexpected">An unexpected error occurred.</string>
     <string name="full_name">Full Name</string>
     <string name="personal_information">Personal Information</string>
-    <string name="email">email</string>
+    <string name="email">Email</string>
+    <string name="birth">DOB</string>
+    <string name="gender">Gender</string>
+    <string name="units">Units of Measurement</string>
+    <string name="goal">Main Goal</string>
+    <string name="your_tools">Your Tools</string>
+    <string name="workouts_days">Workout Days</string>
+    <string name="no_workouts">No Workout Days</string>
+    <string name="save_changes">Save Changes</string>
 </resources>
