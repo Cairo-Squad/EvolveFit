@@ -68,16 +68,22 @@ jobs:
           # Capture the full simulator list for debugging
           xcrun simctl list devices available > simulator_list.txt
           cat simulator_list.txt
-          # Extract the first available iPhone simulator and its iOS version
-          SIMULATOR=$(xcrun simctl list devices available | grep -E "iPhone.*\([0-9A-F-]+\)" | head -n 1 | sed -E 's/.*iPhone ([^ ]+).*/\1/' | tr -d '[:space:]')
-          SIMULATOR_OS=$(xcrun simctl list devices available | grep -E "iPhone.*\([0-9A-F-]+\)" | head -n 1 | grep -oE "iOS [0-9]+\.[0-9]+(\.[0-9]+)?" | awk '{print $2}' | tr -d '[:space:]')
-          if [ -z "$SIMULATOR" ] || [ -z "$SIMULATOR_OS" ]; then
-            echo "Warning: No available iPhone simulator found. Falling back to iPhone 16 with iOS 18.4."
+          # Extract the first available iPhone simulator, its ID, and iOS version
+          SIMULATOR_LINE=$(xcrun simctl list devices available | grep -E "iPhone.*\([0-9A-F-]+\)" | grep "iOS 18.4" | head -n 1)
+          SIMULATOR=$(echo "$SIMULATOR_LINE" | sed -E 's/.*iPhone ([^ ]+).*/\1/' | tr -d '[:space:]')
+          SIMULATOR_OS=$(echo "$SIMULATOR_LINE" | grep -oE "iOS [0-9]+\.[0-9]+(\.[0-9]+)?" | awk '{print $2}' | tr -d '[:space:]')
+          SIMULATOR_ID=$(echo "$SIMULATOR_LINE" | grep -oE "\([0-9A-F-]+\)" | tr -d '()')
+          if [ -z "$SIMULATOR" ] || [ -z "$SIMULATOR_OS" ] || [ -z "$SIMULATOR_ID" ]; then
+            echo "Warning: No available iPhone simulator found for iOS 18.4. Falling back to iPhone 16 with iOS 18.4."
             SIMULATOR="iPhone 16"
             SIMULATOR_OS="18.4"
+            SIMULATOR_ID="2AA11C3D-8059-44EC-B69A-CCDD9139A4A9"
           else
-            echo "Using simulator: $SIMULATOR with iOS $SIMULATOR_OS"
+            echo "Using simulator: $SIMULATOR with iOS $SIMULATOR_OS (ID: $SIMULATOR_ID)"
           fi
+          # Boot the simulator to ensure it's available
+          echo "Booting simulator $SIMULATOR (ID: $SIMULATOR_ID)..."
+          xcrun simctl boot "$SIMULATOR_ID" || echo "Simulator already booted or failed to boot, proceeding with build."
           xcodebuild \
             -project iosApp/iosApp.xcodeproj \
             -scheme "iosApp" \
