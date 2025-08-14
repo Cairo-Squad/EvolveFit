@@ -33,7 +33,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun WorkoutCard(
     title: String,
     duration: String,
-    bodyPart: String,
+    focusArea: String,
     model: String,
     modifier: Modifier = Modifier,
 ) {
@@ -91,7 +91,7 @@ fun WorkoutCard(
                             .background(Theme.color.surfaces.onSurfaceContainer)
                     )
                     Text(
-                        bodyPart,
+                        focusArea,
                         style = Theme.textStyle.label.smallRegular12,
                         color = Theme.color.surfaces.onSurfaceContainer
                     )
@@ -123,7 +123,7 @@ fun WorkoutCardPrev() {
         WorkoutCard(
             title = "Jumping Jacks",
             duration = "30 sec",
-            bodyPart = "Full Body",
+            focusArea = "Full Body",
             model = "",
         )
     }

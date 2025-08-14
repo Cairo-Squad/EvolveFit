@@ -1,13 +1,15 @@
 package com.cairosquad.evolvefit.ui.screen.login
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -16,7 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
+import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
+import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.composables.InputField
+import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.login.content.SignUpPromptRow
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
@@ -41,6 +46,7 @@ import evolvefit.composeapp.generated.resources.welcome_back_description
 import evolvefit.composeapp.generated.resources.welcome_back_title
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -85,65 +91,112 @@ private fun LoginScreenContent(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize()
-            .statusBarsPadding()
+        modifier = Modifier
+            .windowInsetsPadding(WindowInsets.systemBars)
+            .fillMaxSize()
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
+        CustomAppBar(
+            title = "",
+            header = {
+                ActionIconButton(
+                    icon = painterResource(Res.drawable.ic_back),
+                    contentDescription = stringResource(Res.string.arrow_back_description),
+                    tint = Theme.color.surfaces.onSurface,
+                    onClick = listener::onBackClicked
+                )
+            }
+        )
+        LazyColumn(
             modifier = Modifier
-                .padding(8.dp)
-                .size(24.dp)
-                .align(Alignment.Start)
-                .clickable(onClick = listener::onBackClicked),
-            painter = painterResource(Res.drawable.ic_back),
-            contentDescription = stringResource(Res.string.arrow_back_description),
-        )
+                .weight(1f)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        Icon(
-            modifier = Modifier
-                .padding(bottom = 24.dp, top = 20.dp),
-            painter = painterResource(Res.drawable.ic_app_logo),
-            contentDescription = stringResource(Res.string.logo_description),
-            tint = Theme.color.brand.primary,
-        )
+            item {
+                Icon(
+                    modifier = Modifier
+                        .padding(bottom = 24.dp, top = 20.dp),
+                    painter = painterResource(Res.drawable.ic_app_logo),
+                    contentDescription = stringResource(Res.string.logo_description),
+                    tint = Theme.color.brand.primary,
+                )
+            }
 
-        RegisterHeader(
-            modifier = Modifier
-                .padding(bottom = 24.dp),
-            title = stringResource(Res.string.welcome_back_title),
-            description = stringResource(Res.string.welcome_back_description),
-        )
+            item {
+                RegisterHeader(
+                    modifier = Modifier
+                        .padding(bottom = 24.dp),
+                    title = stringResource(Res.string.welcome_back_title),
+                    description = stringResource(Res.string.welcome_back_description),
+                )
+            }
 
-        InputField(
-            modifier = Modifier
-                .padding(bottom = 12.dp),
-            value = state.email,
-            onValueChange = listener::onEmailChanged,
-            placeholder = stringResource(Res.string.email_placeholder),
-            leadingIcon = Res.drawable.ic_profile,
-        )
+            item {
+                InputField(
+                    modifier = Modifier
+                        .padding(bottom = 12.dp),
+                    value = state.email,
+                    onValueChange = listener::onEmailChanged,
+                    placeholder = stringResource(Res.string.email_placeholder),
+                    leadingIcon = Res.drawable.ic_profile,
+                    isErrorMessageShown = state.emailError != null,
+                    error = state.emailError?.let { stringResource(it) } ?: ""
+                )
+            }
 
-        InputField(
-            modifier = Modifier
-                .padding(bottom = 68.dp),
-            value = state.password,
-            onValueChange = listener::onPasswordChanged,
-            placeholder = stringResource(Res.string.password_placeholder),
-            isPasswordField = !state.isPasswordVisible,
-            leadingIcon = Res.drawable.ic_lock,
-            trailingIcon = visibilityIcon,
-            onTrailingIconClick = listener::onTogglePasswordVisibility,
-        )
+            item {
+                InputField(
+                    modifier = Modifier
+                        .padding(bottom = 68.dp),
+                    value = state.password,
+                    onValueChange = listener::onPasswordChanged,
+                    placeholder = stringResource(Res.string.password_placeholder),
+                    isPasswordField = !state.isPasswordVisible,
+                    leadingIcon = Res.drawable.ic_lock,
+                    trailingIcon = visibilityIcon,
+                    onTrailingIconClick = listener::onTogglePasswordVisibility,
+                    isErrorMessageShown = state.passwordError != null,
+                    error = state.passwordError?.let { stringResource(it) } ?: ""
+                )
+            }
 
-        PrimaryButton(
-            text = stringResource(Res.string.login),
-            isEnabled = state.canSubmit,
-            onClick = listener::onLoginClicked
-        )
+            item {
+                PrimaryButton(
+                    modifier = Modifier
+                        .padding(bottom = 16.dp),
+                    text = stringResource(Res.string.login),
+                    isEnabled = state.canSubmit,
+                    onClick = listener::onLoginClicked
+                )
+            }
 
-        Spacer(modifier = Modifier.weight(1f))
-
+        }
         SignUpPromptRow(onJoinNowClicked = listener::onJoinNowClicked)
+    }
+}
+
+@Preview()
+@Composable
+fun LoginScreenPreview() {
+    AppTheme(isDarkTheme = true) {
+        LoginScreenContent(
+            state = LoginScreenUiState(
+                email = "test@example.com",
+                password = "password123",
+                isPasswordVisible = false,
+                canSubmit = true
+            ),
+            listener = object : LoginInteractionListener {
+                override fun onLoginClicked() {}
+                override fun onEmailChanged(newEmail: String) {}
+                override fun onPasswordChanged(newPassword: String) {}
+                override fun onTogglePasswordVisibility() {}
+                override fun onBackClicked() {}
+                override fun onJoinNowClicked() {}
+            }
+        )
     }
 }

@@ -79,7 +79,13 @@ fun NavigationHost(
             AppScreen(
                 navigateToCreateWorkout = { navController.navigate(CreateWorkoutRoute) },
                 navigateToCommunityWorkout = { navController.navigate(CommunityWorkoutRoute) },
-                navigateToWorkoutDetails = { workoutId -> navController.navigate(WorkoutDetailsRoute(workoutId)) },
+                navigateToWorkoutDetails = { workoutId ->
+                    navController.navigate(
+                        WorkoutDetailsRoute(
+                            workoutId
+                        )
+                    )
+                },
                 navigateToSuggestedMeals = { navController.navigate(SuggestedMealsRoute) },
                 navigateToMealDetails = { mealId -> navController.navigate(MealDetailsRoute(mealId)) },
                 navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) },
@@ -104,8 +110,13 @@ fun NavigationHost(
         composable<CommunityWorkoutRoute> {
             CommunityWorkoutScreen(
                 navigateBack = navController::popBackStack,
-                navigateToWorkoutDetails = { workoutId -> navController.navigate(WorkoutDetailsRoute(workoutId)) },
-                navigateToPlayWorkout = { workoutId -> navController.navigate(PlayWorkoutRoute(workoutId)) }
+                navigateToWorkoutDetails = { workoutId ->
+                    navController.navigate(
+                        WorkoutDetailsRoute(
+                            workoutId
+                        )
+                    )
+                }
             )
         }
 

@@ -6,7 +6,9 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextRange
@@ -44,7 +47,9 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_check_mark
 import evolvefit.composeapp.generated.resources.ic_date
+import evolvefit.composeapp.generated.resources.ic_error
 import evolvefit.composeapp.generated.resources.ic_profile
+import evolvefit.composeapp.generated.resources.ic_visibility_on
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -96,6 +101,11 @@ fun InputField(
     ) {
         BasicTextField(
             modifier = Modifier
+                .border(
+                    width = 1.dp,
+                    color = if (error.isNotBlank()) Theme.color.system.error else Color.Transparent,
+                    shape = RoundedCornerShape(8.dp)
+                )
                 .clip(RoundedCornerShape(8.dp))
                 .background(Theme.color.surfaces.surfaceContainer)
                 .padding(horizontal = 12.dp, vertical = verticalPadding),
@@ -194,6 +204,26 @@ fun InputField(
             ),
             visualTransformation = if (isPasswordField) PasswordVisualTransformation() else VisualTransformation.None,
         )
+        if (error.isNotBlank() && isErrorMessageShown) {
+            Row(
+                modifier = Modifier.padding(start = 8.dp, top = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                Icon(
+                    modifier = Modifier.size(16.dp),
+                    painter = painterResource(Res.drawable.ic_error),
+                    contentDescription = "error",
+                    tint = Theme.color.system.error
+                )
+                Text(
+                    text = error,
+                    color = Theme.color.system.error,
+                    style = Theme.textStyle.label.smallRegular12,
+                )
+            }
+
+        }
     }
 }
 
@@ -204,12 +234,6 @@ private fun TextFieldIcon(
     error: Boolean = false,
     onClick: (() -> Unit)? = null
 ) {
-    val tintColor = if (error) {
-        Theme.color.system.warning
-    } else {
-        Theme.color.surfaces.onSurfaceVariant
-    }
-
     if (icon != null) {
         AnimatedContent(
             targetState = icon,
@@ -220,7 +244,7 @@ private fun TextFieldIcon(
             Icon(
                 painter = painterResource(it),
                 contentDescription = null,
-                tint = tintColor,
+                tint = Theme.color.surfaces.onSurfaceVariant,
                 modifier = modifier
                     .size(20.dp)
                     .then(
@@ -230,7 +254,6 @@ private fun TextFieldIcon(
                             Modifier
                         }
                     )
-
             )
         }
     }

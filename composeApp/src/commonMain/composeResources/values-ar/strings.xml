@@ -120,7 +120,7 @@
     <string name="date_of_birth">تاريخ الميلاد</string>
     <string name="welcome_back_title">مرحبًا بعودتك!</string>
     <string name="welcome_back_description">سجّل الدخول لمتابعة رحلتك في اللياقة البدنية، وتتبع تقدمك، وحافظ على تحفيزك كل يوم.</string>
-    <string name="email_placeholder">أدخل اسمك</string>
+    <string name="email_placeholder">أدخل بريدك الالكتروني</string>
     <string name="password_placeholder">كلمة المرور</string>
     <string name="logo_description">أيقونة الشعار</string>
     <string name="arrow_back_description">أيقونة الرجوع للخلف</string>
@@ -167,4 +167,12 @@
     <string name="personal_information">المعلومات الشخصية</string>
     <string name="full_name">الأسم بالكامل</string>
     <string name="email">الأيميل</string>
+    <string name="community">المجتمع</string>
+    <string name="back">رجوع</string>
+
+    <string name="error_no_internet">لا يوجد اتصال بالإنترنت.</string>
+    <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>
+    <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.</string>
+    <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل.</string>
+    <string name="error_unexpected">حدث خطأ غير متوقع.</string>
 </resources>
