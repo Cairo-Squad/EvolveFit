@@ -7,6 +7,7 @@ data class EditProfileScreenState(
     val bottomSheetType: EditProfileBottomSheetType? = null,
     val errorMessage: String? = null,
     val userEquipments: Set<EquipmentUiState> = emptySet(),
+    val allEquipments: Set<EquipmentUiState> = emptySet(),
     val userWorkoutsDays: Set<WeekDayUiState> = emptySet(),
     val isImagePickerOpened : Boolean = false
 

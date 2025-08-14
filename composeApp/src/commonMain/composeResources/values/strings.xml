@@ -164,4 +164,7 @@
     <string name="workout_report">Workout Report</string>
     <string name="ic_arrow_down">Arrow Down Icon</string>
     <string name="activity">Activity</string>
+    <string name="full_name">Full Name</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="email">email</string>
 </resources>

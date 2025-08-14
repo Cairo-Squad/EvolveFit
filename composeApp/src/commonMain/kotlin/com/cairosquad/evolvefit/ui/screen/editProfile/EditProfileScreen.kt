@@ -26,6 +26,11 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.DateBottomSheet
 import com.cairosquad.evolvefit.ui.component.UserProfileImage
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.GenderBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.HeightBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.MainGoalBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.ToolsBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.WeightBottomSheet
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileInteractionListener
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileViewModel
@@ -243,6 +248,7 @@ fun EditProfileScreenContent(
 
         EditProfileScreenState.EditProfileBottomSheetType.EQUIPMENT -> {
 
+
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.WORKOUTS_DAYS -> {
@@ -254,10 +260,26 @@ fun EditProfileScreenContent(
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.GENDER -> {
+            GenderBottomSheet(
+                selectedGender = state.profile.gender,
+                onGenderBottomSheetDismiss= { listener.onBottomSheetDismissed() },
+                onGenderChange= { gender ->
+                    listener.onGenderChanged(gender)
+                    listener.onBottomSheetDismissed()
+                }
+            )
 
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.MAIN_GOAL -> {
+            MainGoalBottomSheet(
+                 selectedGoal = state.profile.mainGoal,
+                 onGoalBottomSheetDismiss= { listener.onBottomSheetDismissed() },
+                 onGoalChange = { goal->
+                     listener.onMainGoalChanged(goal)
+                 }
+
+             )
 
         }
 
@@ -266,10 +288,30 @@ fun EditProfileScreenContent(
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.HEIGHT -> {
+            HeightBottomSheet(
+                selectedHeight = state.profile.height,
+                measurementStandard = state.profile.preferredMeasurementStandard,
+                onHeightBottomSheetDismiss= { listener.onBottomSheetDismissed() },
+                onHeightChange= { height ->
+                    listener.onHeightChanged(height)
+                    listener.onBottomSheetDismissed()
+                }
+
+            )
 
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.WEIGHT -> {
+            WeightBottomSheet(
+                selectedWeight = state.profile.weight,
+                measurementStandard = state.profile.preferredMeasurementStandard,
+                onWeightBottomSheetDismiss= { listener.onBottomSheetDismissed() },
+                onWeightChange= { weight->
+                    listener.onWeightChanged(weight)
+                    listener.onBottomSheetDismissed()
+                }
+
+            )
 
         }
 

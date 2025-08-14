@@ -241,7 +241,7 @@ private fun RegisterScreenContentSelectHeightAndWeightPreview() {
 
 
 @Composable
-private fun MeasureSection(
+fun MeasureSection(
     selectedMeasure: Float,
     measureType: String,
     measureIcon: Painter,
@@ -293,7 +293,7 @@ private fun MeasureSection(
 }
 
 @Composable
-private fun MeasurementCard(
+fun MeasurementCard(
     selectedMeasure: Float,
     measureUnit: String,
     measureIcon: Painter,
@@ -329,7 +329,7 @@ private fun MeasurementCard(
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
-private fun Ruler(
+fun Ruler(
     modifier: Modifier = Modifier,
     selectedValue: Float,
     minValue: Float,
@@ -393,7 +393,7 @@ private fun Ruler(
 }
 
 @Composable
-private fun DrawIndicatorTriangle(
+fun DrawIndicatorTriangle(
     modifier: Modifier = Modifier,
 ){
     val indicatorColor = Theme.color.surfaces.onSurfaceVariant
@@ -415,7 +415,7 @@ private fun DrawIndicatorTriangle(
 }
 
 @OptIn(ExperimentalTextApi::class)
-private fun DrawScope.drawRuler(
+ fun DrawScope.drawRuler(
     selectedValue: Float,
     minValue: Float,
     maxValue: Float,
@@ -508,8 +508,7 @@ private fun DrawScope.drawRuler(
 fun formatToOneDecimal(value: Float): String {
     return (kotlin.math.round(value * 10) / 10f).toString()
 }
-
-private object HeightWeightConstants {
+ object HeightWeightConstants {
     const val MIN_HEIGHT_CM = 50f
     const val MAX_HEIGHT_CM = 250f
     const val HEIGHT_STEP_CM = 1f

@@ -16,6 +16,7 @@ class EditProfileViewModel(
         loadUserInfo()
         getUserEquipment()
         getUserWorkOutDays()
+        getAllEquipment()
     }
 
     private fun loadUserInfo()
@@ -40,6 +41,20 @@ class EditProfileViewModel(
             },
             onError = {
                 updateState { it.copy(errorMessage = "Failed to load userEquipments") }
+            }
+
+        )
+
+    }
+    private fun getAllEquipment()
+    {
+        tryToCall(
+            block={manageEquipmentUseCase.getAllEquipments()},
+            onSuccess ={equipment->
+                updateState { it.copy(allEquipments = equipment.toEquipmentUiStateSet()) }
+            },
+            onError = {
+                updateState { it.copy(errorMessage = "Failed to load Equipments") }
             }
 
         )
