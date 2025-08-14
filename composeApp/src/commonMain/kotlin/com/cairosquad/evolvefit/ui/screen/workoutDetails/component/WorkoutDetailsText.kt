@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.workoutDetails.component
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,7 +21,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
     descriptionStyle: TextStyle = Theme.textStyle.label.smallRegular14
 ) {
     Column(
-        modifier = modifier.fillMaxWidth().padding(vertical = 16.dp)
+        modifier = modifier
     ) {
         Text(
             text = title,

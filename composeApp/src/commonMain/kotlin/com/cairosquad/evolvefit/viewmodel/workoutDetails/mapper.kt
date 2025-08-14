@@ -4,8 +4,9 @@ import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.entity.Workout
 
 
-fun Workout.toUiState(): WorkoutDetailsScreenState {
-    return WorkoutDetailsScreenState(
+fun Workout.toUiState(): WorkoutDetailsScreenState.Workout {
+    return WorkoutDetailsScreenState.Workout(
+        workoutID = id,
         workoutImage = imageUrl,
         workoutTitle = name,
         workoutDescription = description,

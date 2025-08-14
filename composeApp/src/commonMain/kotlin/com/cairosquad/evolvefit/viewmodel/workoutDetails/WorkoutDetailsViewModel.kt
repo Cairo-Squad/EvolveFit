@@ -13,11 +13,11 @@ class WorkoutDetailsViewModel(
     }
 
     private fun loadData(workoutId: String) {
-        updateState { it.copy(isLoading = true ) }
         tryToCall(
             block = { manageWorkoutUseCase.getWorkoutById(workoutId) },
-            onSuccess = { workout -> updateState { workout.toUiState().copy(isLoading = false) } },
-            onError = { updateState { it.copy(isLoading = false) } }
+            onSuccess = { workout -> updateState { state -> state.copy(workout = workout.toUiState()) } },
+            onError = { updateState { it.copy(isLoading = false) } },
+            onStart = { updateState { it.copy(isLoading = true ) } }
         )
     }
 
@@ -26,11 +26,7 @@ class WorkoutDetailsViewModel(
     }
 
     override fun onShareClick() {
-        updateState {
-            it.copy(
-                isShareClicked = true
-            )
-        }
+        updateState {it.copy(isShareClicked = true) }
     }
 
     override fun onAddToFavoriteClick(workoutId: String) {
@@ -46,16 +42,12 @@ class WorkoutDetailsViewModel(
     }
 
     override fun onExerciseClick(exercise: WorkoutDetailsScreenState.ExerciseUiState) {
-        updateState {
-            it.copy(selectedExercise = exercise)
-        }
+        updateState { state -> state.copy(workout = state.workout.copy(selectedExercise = exercise)) }
     }
 
 
     override fun onExerciseBottomSheetDismiss() {
-        updateState {
-            it.copy(selectedExercise = null)
-        }
+        updateState { state -> state.copy(workout = state.workout.copy(selectedExercise = null)) }
     }
 
     override fun onStartWorkoutClick(workoutId: String) {

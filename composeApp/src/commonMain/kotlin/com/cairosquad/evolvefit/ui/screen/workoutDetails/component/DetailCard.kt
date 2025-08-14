@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -25,7 +25,7 @@ import evolvefit.composeapp.generated.resources.advanced
 import evolvefit.composeapp.generated.resources.beginner
 import evolvefit.composeapp.generated.resources.detail_icon
 import evolvefit.composeapp.generated.resources.exercises
-import evolvefit.composeapp.generated.resources.ic_check_mark
+import evolvefit.composeapp.generated.resources.ic_level_detail
 import evolvefit.composeapp.generated.resources.ic_person
 import evolvefit.composeapp.generated.resources.ic_time
 import evolvefit.composeapp.generated.resources.intermediate
@@ -34,6 +34,7 @@ import evolvefit.composeapp.generated.resources.second
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
 @Composable
@@ -44,7 +45,7 @@ fun DetailsCardsRow(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().padding(vertical = 16.dp),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
@@ -61,7 +62,7 @@ fun DetailsCardsRow(
             modifier = Modifier.weight(1f)
         )
         DetailCard(
-            icon = painterResource(Res.drawable.ic_check_mark),
+            icon = painterResource(Res.drawable.ic_level_detail),
             value = stringResource(workoutLevelToString(level)),
             label = stringResource(Res.string.level_label),
             modifier = Modifier.weight(1f)
@@ -79,14 +80,13 @@ private fun DetailCard(
 ) {
     Column(
         modifier = modifier
-            .height(93.dp)
             .clip(shape = RoundedCornerShape(8.dp))
             .border(
                 width = 1.dp,
                 color = Theme.color.surfaces.outlineVariant,
                 shape = RoundedCornerShape(8.dp)
             )
-            .background(Theme.color.surfaces.surfaceContainer),
+            .background(Theme.color.surfaces.surfaceContainer).padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
 
@@ -97,19 +97,17 @@ private fun DetailCard(
             tint = Theme.color.brand.primary,
             modifier = Modifier
                 .size(20.dp)
-                .padding(bottom = 8.dp, top = 16.dp)
         )
         Text(
             text = value,
             color = Theme.color.surfaces.onSurface,
             style = Theme.textStyle.title.mediumMedium14,
-            modifier = Modifier.padding(bottom = 2.dp)
+            modifier = Modifier.padding(top=8.dp,bottom = 2.dp)
         )
         Text(
             text = label,
             color = Theme.color.surfaces.onSurfaceVariant,
             style = Theme.textStyle.label.smallRegular12,
-            modifier = Modifier.padding(bottom = 16.dp)
         )
     }
 }
@@ -119,5 +117,18 @@ private fun workoutLevelToString(level: WorkoutDetailsScreenState.WorkoutLevel):
         WorkoutDetailsScreenState.WorkoutLevel.BEGINNER -> Res.string.beginner
         WorkoutDetailsScreenState.WorkoutLevel.INTERMEDIATE -> Res.string.intermediate
         WorkoutDetailsScreenState.WorkoutLevel.ADVANCED -> Res.string.advanced
+    }
+}
+
+@Preview
+@Composable
+fun DetailsCardsRowPreview() {
+    AppTheme  {
+        DetailsCardsRow(
+            level = WorkoutDetailsScreenState.WorkoutLevel.INTERMEDIATE,
+            exercisesNumber = 12,
+            estimatedTimeInSeconds = 30,
+            modifier = Modifier.padding(16.dp)
+        )
     }
 }

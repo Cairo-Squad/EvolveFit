@@ -8,13 +8,16 @@ import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsEffect
 import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsViewModel
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun WorkoutDetailsScreen(
     workoutId: String,
     navigateBack: () -> Unit,
     navigateToPlayWorkout: () -> Unit,
-    viewModel: WorkoutDetailsViewModel = koinViewModel()
+    viewModel: WorkoutDetailsViewModel = koinViewModel() {
+        parametersOf(workoutId)
+    }
 ) {
     val state by viewModel.screenState.collectAsState()
     ObserveAsEffect(viewModel.effect) { effect ->
@@ -23,5 +26,5 @@ fun WorkoutDetailsScreen(
             is WorkoutDetailsEffect.NavigateBack -> navigateBack()
         }
     }
-    WorkoutDetailsContent(workoutId,state = state, listener = viewModel)
+    WorkoutDetailsContent(state = state, listener = viewModel)
 }

@@ -20,6 +20,8 @@ val viewModelModule = module {
     viewModel { (workoutId: String) ->
         PlayWorkoutViewModel(workoutId, manageWorkoutUseCase = get())
     }
-    viewModelOf(::WorkoutDetailsViewModel)
+    viewModel { (workoutId: String) ->
+        WorkoutDetailsViewModel(workoutId, get())
+    }
 
 }

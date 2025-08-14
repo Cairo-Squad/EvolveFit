@@ -174,4 +174,14 @@
     <string name="focus_lower_back">Lower Back</string>
     <string name="focus_core">Core</string>
     <string name="focus_shoulders">Shoulders</string>
+    <string name="focus_full_body">Full Body</string>
+    <string name="instructions">Instructions</string>
+    <string name="equipment">Equipment</string>
+    <string name="focus_area">Focus Area</string>
+    <string name="bullet_point">•  %1$s</string>
+    <string name="previous">Previous</string>
+    <string name="back">Back</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="exercises_with_count">(%1$d)</string>
+
 </resources>

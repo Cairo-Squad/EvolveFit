@@ -1,10 +1,10 @@
 package com.cairosquad.evolvefit.ui.screen.workoutDetails.component
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,39 +20,50 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
+import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.ic_arrow_down
-import evolvefit.composeapp.generated.resources.ic_time
+import evolvefit.composeapp.generated.resources.exercise_image
+import evolvefit.composeapp.generated.resources.ic_arrow_left
+import evolvefit.composeapp.generated.resources.ic_arrow_right
+import evolvefit.composeapp.generated.resources.next
+import evolvefit.composeapp.generated.resources.previous
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 
 @Composable
 fun ImageCarousel(
     images: List<String>,
+    exerciseType: WorkoutDetailsScreenState.ExerciseType,
     modifier: Modifier = Modifier
 ) {
     var currentIndex by remember { mutableStateOf(0) }
-
+    val animatedColor by animateColorAsState(
+        targetValue = when (currentIndex) {
+            0 -> Theme.color.surfaces.onSurfaceVariant
+            else -> Theme.color.surfaces.textColor
+        },
+        animationSpec = tween(200),
+        label = ""
+    )
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(400.dp)
-            .background(Color.Black)
+            .height(200.dp)
     ) {
         NetworkImage(
             model = images[currentIndex],
-            contentDescription = "",
+            contentDescription =stringResource(Res.string.exercise_image),
             modifier = Modifier.fillMaxSize(),
         )
 
         Icon(
-            painter = painterResource(Res.drawable.ic_arrow_down),
-            contentDescription = "Previous",
-            tint = if (currentIndex == 0) Theme.color.surfaces.onSurfaceVariant else Theme.color.surfaces.textColor,
+            painter = painterResource(Res.drawable.ic_arrow_left),
+            contentDescription = stringResource(Res.string.previous),
+            tint = animatedColor,
             modifier = Modifier.align(Alignment.CenterStart)
                 .padding(horizontal = 8.dp)
                 .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
@@ -66,11 +77,11 @@ fun ImageCarousel(
         )
 
         Icon(
-            painter = painterResource(Res.drawable.ic_arrow_down),
-            contentDescription = "Next",
+            painter = painterResource(Res.drawable.ic_arrow_right),
+            contentDescription = stringResource(Res.string.next),
             tint = Theme.color.surfaces.textColor,
             modifier = Modifier
-                .align(Alignment.CenterStart)
+                .align(Alignment.CenterEnd)
                 .padding(horizontal = 8.dp)
                 .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
                 .padding(vertical = 8.dp, horizontal = 16.dp)
@@ -81,25 +92,15 @@ fun ImageCarousel(
                     }
                 )
         )
-
-        Row(
+        MeasurementRow(
+            exerciseType = exerciseType,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(8.dp)
-                .background(
-                    Theme.color.surfaces.onSurfaceAt2,
-                    RoundedCornerShape(24.dp)
-                )
-                .padding(horizontal = 12.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_time),
-                contentDescription = "time icon",
-                tint = Color.White,
-                modifier = Modifier.size(16.dp)
-            )
-        }
+                .background(Theme.color.surfaces.onSurfaceAt2,RoundedCornerShape(24.dp))
+                .padding(vertical = 8.dp, horizontal = 12.dp),
+            iconTint = Theme.color.surfaces.textColor,
+            textColor = Theme.color.surfaces.textColor,
+            textStyle = Theme.textStyle.label.mediumMedium12
+        )
     }
 }

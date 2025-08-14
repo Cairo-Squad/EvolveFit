@@ -174,4 +174,13 @@
     <string name="focus_lower_back">أسفل الظهر</string>
     <string name="focus_core">العضلات الأساسية</string>
     <string name="focus_shoulders">الكتفين</string>
+    <string name="focus_full_body">كامل الجسم</string>
+    <string name="instructions">التعليمات</string>
+    <string name="equipment">المعدات</string>
+    <string name="focus_area">منطقة التركيز</string>
+    <string name="bullet_point">•  %1$s</string>
+    <string name="previous">السابق</string>
+    <string name="back">رجوع</string>
+    <string name="bookmark">إضافة للمفضلة</string>
+    <string name="exercises_with_count">(%1$d)</string>
 </resources>
