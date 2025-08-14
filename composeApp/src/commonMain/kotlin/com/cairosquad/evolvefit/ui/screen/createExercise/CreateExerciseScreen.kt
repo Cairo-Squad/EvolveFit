@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.ui.screen.createExercise
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -116,7 +117,7 @@ fun CreateExerciseScreenContent(
     } else {
         painterResource(Res.drawable.im_upload_light2)
     }
-
+// Text values
     val selectedEquipmentNames = if (state.selectedEquipment.name.isBlank()) {
         stringResource(Res.string.choose_available_tools)
     } else {
@@ -129,26 +130,38 @@ fun CreateExerciseScreenContent(
         state.selectedFocusAreasText
     }
 
-    val durationTitleColor = if (state.isDurationChecked)
-        Theme.color.surfaces.onSurfaceContainer
-    else
-        Theme.color.surfaces.onSurfaceVariant
+// Animated Colors
+    val durationTitleColor by animateColorAsState(
+        targetValue = if (state.isDurationChecked)
+            Theme.color.surfaces.onSurfaceContainer
+        else
+            Theme.color.surfaces.onSurfaceVariant,
+        label = "durationTitleColor"
+    )
 
-    val repsTitleColor = if (state.isRepsChecked)
-        Theme.color.surfaces.onSurfaceContainer
-    else
-        Theme.color.surfaces.onSurfaceVariant
+    val repsTitleColor by animateColorAsState(
+        targetValue = if (state.isRepsChecked)
+            Theme.color.surfaces.onSurfaceContainer
+        else
+            Theme.color.surfaces.onSurfaceVariant,
+        label = "repsTitleColor"
+    )
 
-    val selectedFocusAreaTextColor = if (state.selectedFocusAreas.isNotEmpty())
-        Theme.color.surfaces.onSurfaceContainer
-    else
-        Theme.color.surfaces.onSurfaceVariant
+    val selectedFocusAreaTextColor by animateColorAsState(
+        targetValue = if (state.selectedFocusAreas.isNotEmpty())
+            Theme.color.surfaces.onSurfaceContainer
+        else
+            Theme.color.surfaces.onSurfaceVariant,
+        label = "selectedFocusAreaTextColor"
+    )
 
-    val selectedEquipmentTextColor = if (state.selectedEquipment.name.isNotBlank())
-        Theme.color.surfaces.onSurfaceContainer
-    else
-        Theme.color.surfaces.onSurfaceVariant
-
+    val selectedEquipmentTextColor by animateColorAsState(
+        targetValue = if (state.selectedEquipment.name.isNotBlank())
+            Theme.color.surfaces.onSurfaceContainer
+        else
+            Theme.color.surfaces.onSurfaceVariant,
+        label = "selectedEquipmentTextColor"
+    )
 
     Box(
         modifier = Modifier
@@ -446,7 +459,9 @@ private fun CreateExerciseScreenPreview() {
                 override fun onExitOptionSelected(saveBeforeExit: Boolean) {}
                 override fun onFocusAreaDismiss() {}
                 override fun onEquipmentDismiss() {}
-                override fun isSaveEnabled(): Boolean{return true}
+                override fun isSaveEnabled(): Boolean {
+                    return true
+                }
             })
     }
 }
