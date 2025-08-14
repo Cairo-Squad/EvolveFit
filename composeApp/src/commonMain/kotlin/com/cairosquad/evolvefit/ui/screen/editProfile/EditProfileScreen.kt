@@ -15,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,6 +29,7 @@ import com.cairosquad.evolvefit.ui.component.UserProfileImage
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.GenderBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.HeightBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.MainGoalBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.MeasurementBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.ToolsBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.WeightBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.WorkoutDaysBottomSheet
@@ -46,15 +46,14 @@ import evolvefit.composeapp.generated.resources.goal
 import evolvefit.composeapp.generated.resources.height
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_back
-import evolvefit.composeapp.generated.resources.ic_mail
 import evolvefit.composeapp.generated.resources.no_tools_title
 import evolvefit.composeapp.generated.resources.no_workouts
 import evolvefit.composeapp.generated.resources.personal_information
 import evolvefit.composeapp.generated.resources.save_changes
+import evolvefit.composeapp.generated.resources.units
 import evolvefit.composeapp.generated.resources.weight
 import evolvefit.composeapp.generated.resources.workouts_days
 import evolvefit.composeapp.generated.resources.your_tools
-import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -86,7 +85,7 @@ fun EditProfileScreenContent(
             .fillMaxSize()
             .verticalScroll(scrollState)
             .padding(horizontal = 16.dp)
-            .padding(top=15.dp)
+            .padding(top = 15.dp)
             .background(color = Theme.color.surfaces.surface, shape = RoundedCornerShape(16.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -122,7 +121,7 @@ fun EditProfileScreenContent(
                     color = Theme.color.surfaces.surfaceContainer,
                     shape = RoundedCornerShape(16.dp),
                 )
-                .padding( vertical = 16.dp),
+                .padding(vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             LabeledInputField(
@@ -167,6 +166,15 @@ fun EditProfileScreenContent(
                     modifier = Modifier.weight(1f)
                 )
             }
+            LabeledInputField(
+                label = stringResource(Res.string.units),
+                value = state.profile.preferredMeasurementStandard,
+                onValueChange = { },
+                readOnly = false,
+                onClick = { listener.onPreferredMeasurementStandardClicked()},
+                trailingIcon = Res.drawable.ic_arrow_down,
+                isDividerVisible = true
+            )
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
@@ -258,14 +266,13 @@ fun EditProfileScreenContent(
             ToolsBottomSheet(
                 userEquipments = state.userEquipments,
                 allEquipments = state.allEquipments,
-                onEquipmentBottomSheetDismiss =  { listener.onBottomSheetDismissed() },
-                onEquipmentChange = {tools->
+                onEquipmentBottomSheetDismiss = { listener.onBottomSheetDismissed() },
+                onEquipmentChange = { tools ->
                     listener.onEquipmentChanged(tools)
                     listener.onBottomSheetDismissed()
 
                 }
             )
-
 
 
         }
@@ -289,8 +296,8 @@ fun EditProfileScreenContent(
         EditProfileScreenState.EditProfileBottomSheetType.GENDER -> {
             GenderBottomSheet(
                 selectedGender = state.profile.gender,
-                onGenderBottomSheetDismiss= { listener.onBottomSheetDismissed() },
-                onGenderChange= { gender ->
+                onGenderBottomSheetDismiss = { listener.onBottomSheetDismissed() },
+                onGenderChange = { gender ->
                     listener.onGenderChanged(gender)
                     listener.onBottomSheetDismissed()
                 }
@@ -300,17 +307,24 @@ fun EditProfileScreenContent(
 
         EditProfileScreenState.EditProfileBottomSheetType.MAIN_GOAL -> {
             MainGoalBottomSheet(
-                 selectedGoal = state.profile.mainGoal,
-                 onGoalBottomSheetDismiss= { listener.onBottomSheetDismissed() },
-                 onGoalChange = { goal->
-                     listener.onMainGoalChanged(goal)
-                 }
+                selectedGoal = state.profile.mainGoal,
+                onGoalBottomSheetDismiss = { listener.onBottomSheetDismissed() },
+                onGoalChange = { goal ->
+                    listener.onMainGoalChanged(goal)
+                }
 
-             )
+            )
 
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.MEASUREMENT_STANDARD -> {
+            MeasurementBottomSheet(
+                selectedMeasurementStandard = state.profile.preferredMeasurementStandard,
+                onDismiss = { listener.onBottomSheetDismissed() },
+                onMeasurementChange = { unit ->
+                    listener.onPreferredMeasurementStandardChanged(unit)
+                }
+            )
 
         }
 
@@ -318,8 +332,8 @@ fun EditProfileScreenContent(
             HeightBottomSheet(
                 selectedHeight = state.profile.height,
                 measurementStandard = state.profile.preferredMeasurementStandard,
-                onHeightBottomSheetDismiss= { listener.onBottomSheetDismissed() },
-                onHeightChange= { height ->
+                onHeightBottomSheetDismiss = { listener.onBottomSheetDismissed() },
+                onHeightChange = { height ->
                     listener.onHeightChanged(height)
                     listener.onBottomSheetDismissed()
                 }
@@ -332,8 +346,8 @@ fun EditProfileScreenContent(
             WeightBottomSheet(
                 selectedWeight = state.profile.weight,
                 measurementStandard = state.profile.preferredMeasurementStandard,
-                onWeightBottomSheetDismiss= { listener.onBottomSheetDismissed() },
-                onWeightChange= { weight->
+                onWeightBottomSheetDismiss = { listener.onBottomSheetDismissed() },
+                onWeightChange = { weight ->
                     listener.onWeightChanged(weight)
                     listener.onBottomSheetDismissed()
                 }
