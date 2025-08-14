@@ -95,7 +95,7 @@ fun ImageCarousel(
         MeasurementRow(
             exerciseType = exerciseType,
             modifier = Modifier
-                .align(Alignment.BottomEnd)
+                .align(Alignment.BottomEnd).padding(bottom = 8.dp, end = 8.dp)
                 .background(Theme.color.surfaces.onSurfaceAt2,RoundedCornerShape(24.dp))
                 .padding(vertical = 8.dp, horizontal = 12.dp),
             iconTint = Theme.color.surfaces.textColor,
