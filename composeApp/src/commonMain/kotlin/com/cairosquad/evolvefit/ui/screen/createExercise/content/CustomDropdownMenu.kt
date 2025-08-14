@@ -23,10 +23,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CustomDropdownMenu(
+    modifier: Modifier = Modifier,
     items: List<String>,
-    expanded: Boolean,
     onItemSelected: (String) -> Unit,
-    onDismissRequest: () -> Unit,
     isChecked: (String) -> Boolean
 ) {
     Column(
@@ -35,13 +34,14 @@ fun CustomDropdownMenu(
                 color = Theme.color.surfaces.surfaceContainer,
                 shape = RoundedCornerShape(8.dp)
             )
-            .padding(16.dp),
+            .padding(16.dp)
+        ,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items.forEach { item ->
             Row(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth().clickable(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null
@@ -79,9 +79,7 @@ fun CustomDropdownMenuPreview() {
                 "Item 8",
                 "Item 9"
             ),
-            expanded = true,
             onItemSelected = {},
-            onDismissRequest = {},
             isChecked = { false }
         )
     }
