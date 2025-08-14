@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -161,61 +160,61 @@ fun WorkoutDetailsContent(
                 )
             }
 
-            items(state.workout.exercises) { exercise ->
+            item {
                 Exercises(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth(),
-                    exercises = listOf(exercise),
-                    onExerciseClick = { listener.onClickExercise(exercise) }
+                    exercises = state.workout.exercises,
+                    onExerciseClick = { listener.onClickExercise(it) }
                 )
             }
         }
 
-            BottomSheet(
-                isVisible = state.workout.selectedExercise != null,
-                onDismiss = listener::onExerciseBottomSheetDismiss
-            ) {
-                ExerciseBottomSheetContent(
-                    exercise = state.workout.selectedExercise,
-                    onDismissBottomSheet = listener::onExerciseBottomSheetDismiss
-                )
-            }
-
-            BottomSheet(
-                isVisible = state.isShareClicked,
-                onDismiss = listener::onShareBottomSheetDismiss
-            ) {
-                ShareBottomSheetContent(
-                    onShareOptionClick = { platform ->
-                        val workoutUrl = "https://evolvefit.com/workouts/${state.workout.workoutID}"
-                        shareToPlatform(platform, workoutUrl, onDismiss = listener::onClickShare)
-                    },
-                    onCopyLinkClick = {},
-                    onShareWithCommunityClick = {
-                        listener.onClickShareWithCommunity(state.workout.workoutID)
-                    }
-                )
-            }
-        SnackBar(
-            text = snackBarMessage ?: "",
-            isVisible = isSnackBarVisible,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 24.dp)
-        )
-
-        PrimaryButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 24.dp),
-            text = stringResource(Res.string.start_workout),
-            onClick = { listener.onClickStartWorkout(state.workout.workoutID) },
-            isEnabled = true
+    BottomSheet(
+        isVisible = state.workout.selectedExercise != null,
+        onDismiss = listener::onExerciseBottomSheetDismiss
+    ) {
+        ExerciseBottomSheetContent(
+            exercise = state.workout.selectedExercise,
+            onDismissBottomSheet = listener::onExerciseBottomSheetDismiss
         )
     }
+
+    BottomSheet(
+        isVisible = state.isShareClicked,
+        onDismiss = listener::onShareBottomSheetDismiss
+    ) {
+        ShareBottomSheetContent(
+            onShareOptionClick = { platform ->
+                val workoutUrl = "https://evolvefit.com/workouts/${state.workout.workoutID}"
+                shareToPlatform(platform, workoutUrl, onDismiss = listener::onClickShare)
+            },
+            onCopyLinkClick = {},
+            onShareWithCommunityClick = {
+                listener.onClickShareWithCommunity(state.workout.workoutID)
+            }
+        )
+    }
+    SnackBar(
+        text = snackBarMessage ?: "",
+        isVisible = isSnackBarVisible,
+        modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .padding(bottom = 24.dp)
+    )
+
+    PrimaryButton(
+        modifier = Modifier
+            .fillMaxWidth()
+            .align(Alignment.BottomCenter)
+            .padding(horizontal = 16.dp)
+            .padding(bottom = 24.dp),
+        text = stringResource(Res.string.start_workout),
+        onClick = { listener.onClickStartWorkout(state.workout.workoutID) },
+        isEnabled = true
+    )
+}
 }
 
 private fun shareToPlatform(platform: String, workoutUrl: String, onDismiss: () -> Unit) {
