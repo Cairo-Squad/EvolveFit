@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
@@ -41,7 +42,6 @@ import evolvefit.composeapp.generated.resources.ic_water_drop
 import evolvefit.composeapp.generated.resources.liters_small
 import evolvefit.composeapp.generated.resources.remaining_formatted
 import evolvefit.composeapp.generated.resources.water_consumption
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -53,7 +53,7 @@ fun CaloriesNutritionCard(
     modifier: Modifier = Modifier
 ) {
     SimpleNutritionCard(
-        iconRes = Res.drawable.ic_fire,
+        icon = painterResource(Res.drawable.ic_fire),
         tintColor = Theme.color.system.success,
         name = stringResource(Res.string.calories),
         value = value.toFormattedString(),
@@ -73,7 +73,7 @@ fun WaterNutritionCard(
     modifier: Modifier = Modifier
 ) {
     SimpleNutritionCard(
-        iconRes = Res.drawable.ic_water_drop,
+        icon = painterResource(Res.drawable.ic_water_drop),
         tintColor = Theme.color.system.info,
         name = stringResource(Res.string.water_consumption),
         value = value.toFormattedString(),
@@ -88,7 +88,7 @@ fun WaterNutritionCard(
 
 @Composable
 private fun SimpleNutritionCard(
-    iconRes: DrawableResource,
+    icon: Painter,
     tintColor: Color,
     name: String,
     value: String,
@@ -106,7 +106,7 @@ private fun SimpleNutritionCard(
             .padding(12.dp)
     ) {
         SimpleNutritionCardHeader(
-            iconRes = iconRes,
+            icon = icon,
             iconTint = tintColor,
             name = name,
             unit = unit,
@@ -146,7 +146,7 @@ private fun SimpleNutritionCard(
 
 @Composable
 private fun SimpleNutritionCardHeader(
-    iconRes: DrawableResource,
+    icon: Painter,
     iconTint: Color,
     name: String,
     unit: String,
@@ -159,7 +159,7 @@ private fun SimpleNutritionCardHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         NutritionIcon(
-            iconRes = iconRes,
+            icon = icon,
             iconTint = iconTint,
             unit = unit,
             modifier = Modifier.padding(end = 8.dp)
@@ -177,7 +177,7 @@ private fun SimpleNutritionCardHeader(
 
 @Composable
 private fun NutritionIcon(
-    iconRes: DrawableResource,
+    icon: Painter,
     iconTint: Color,
     unit: String,
     modifier: Modifier = Modifier
@@ -190,7 +190,7 @@ private fun NutritionIcon(
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            painter = painterResource(iconRes),
+            painter = icon,
             contentDescription = unit,
             tint = iconTint,
             modifier = Modifier
@@ -284,7 +284,7 @@ private fun PreviewSimpleNutritionCard() {
         isDarkTheme = true
     ) {
         SimpleNutritionCard(
-            iconRes = Res.drawable.ic_fire,
+            icon = painterResource(Res.drawable.ic_fire),
             tintColor = Theme.color.system.success,
             name = "Calories",
             value = "1,650",
