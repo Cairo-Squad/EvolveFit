@@ -40,12 +40,14 @@
     <string name="add_new_meal">Add New Meal</string>
     <string name="log_meal_details">Log your meal details to track your daily calorie intake.</string>
     <string name="meal_name_placeholder">Meal name</string>
+    <string name="failed_to_load_meals">Failed to load Meals</string>
     <string name="add_button">Add</string>
     <string name="meal_type_breakfast">Breakfast</string>
     <string name="meal_type_lunch">Lunch</string>
     <string name="meal_type_dinner">Dinner</string>
     <string name="meal_type_snacks">Snacks</string>
     <string name="suggested_meals">Suggested Meals</string>
+    <string name="shimmer_loading">Loading animation</string>
     <string name="todays_meals">Today's Meals</string>
     <string name="remaining">Remaining</string>
     <string name="add_meal">Add Meal</string>
@@ -158,7 +160,6 @@
     <string name="total_workouts">Total Workouts</string>
     <string name="time_spent">Time Spent</string>
     <string name="water_drops">Water Drops</string>
-    <string name="liters">Liters</string>
     <string name="expected_calories">"From %1$ kcal"</string>
     <string name="needle">Needle</string>
     <string name="share">Share</string>
@@ -195,4 +196,23 @@
     <string name="error_invalid_email_format">Invalid email format.</string>
     <string name="error_invalid_password">Password must be at least 8 characters.</string>
     <string name="error_unexpected">An unexpected error occurred.</string>
+    <string name="liters">Litres</string>
+
+    <string name="calories_small">calories</string>
+    <string name="water_consumption">Water consumption</string>
+    <string name="liters_small">liters</string>
+    <string name="remaining_formatted">%1$s %2$s remaining</string>
+    <string name="today_nutrition">Today’s Nutrition</string>
+
+    <string name="profile_picture">Profile Picture</string>
+    <string name="hello_user">Hello %1$s</string>
+    <string name="ready_text_male">Ready for today's workout?</string>
+    <string name="ready_text_female">Ready for today's workout?</string>
+    <string name="your_progress">Your Progress</string>
+    <string name="this_week">This Week</string>
+
+    <string name="completed">Completed</string>
+
+    <string name="the_goal">The Goal</string>
+    <string name="current_weight">Current weight</string>
 </resources>
