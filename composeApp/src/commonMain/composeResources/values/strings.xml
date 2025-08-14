@@ -166,4 +166,9 @@
     <string name="workout_report">Workout Report</string>
     <string name="ic_arrow_down">Arrow Down Icon</string>
     <string name="activity">Activity</string>
+    <string name="error_invalid_number">Enter a valid number or decimal only</string>
+    <string name="error_exceeded_calories">You have exceeded the allowed calories</string>
+    <string name="error_exceeded_water">You have exceeded the allowed water intake</string>
+    <string name="error_meal_not_found">Meal not found</string>
+    <string name="error_unknown">An error occurred, please try again</string>
 </resources>

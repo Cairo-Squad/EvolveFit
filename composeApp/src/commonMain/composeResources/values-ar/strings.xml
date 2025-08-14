@@ -165,4 +165,9 @@
     <string name="workout_report">تقرير التدريب</string>
     <string name="ic_arrow_down">ايقونه سهم لإسفل</string>
     <string name="activity">الأنشطة</string>
+    <string name="error_invalid_number">أدخل رقمًا صحيحًا أو عشريًا فقط</string>
+    <string name="error_exceeded_calories">تجاوزت الحد المسموح للسعرات</string>
+    <string name="error_exceeded_water">تجاوزت الحد المسموح للمياه</string>
+    <string name="error_meal_not_found">الوجبة غير موجودة</string>
+    <string name="error_unknown">حدث خطأ، حاول مرة أخرى</string>
 </resources>
