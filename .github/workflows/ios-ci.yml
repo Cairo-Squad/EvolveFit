@@ -67,8 +67,12 @@ jobs:
       - name: Build iOS App for Simulator
         run: |
           echo "Starting iOS build..."
-          SIMULATOR=$(xcrun simctl list devices available | grep "iPhone" | head -n 1 | awk '{print $2}')
-          SIMULATOR_OS=$(xcrun simctl list devices available | grep "iPhone" | head -n 1 | grep -o "iOS [0-9]*\.[0-9]*" | awk '{print $2}')
+          SIMULATOR=$(xcrun simctl list devices available | grep "iPhone" | head -n 1 | awk '{for(i=2;i<=NF-2;i++) printf $i " "; print ""}' | sed 's/ $//')
+          SIMULATOR_OS=$(xcrun simctl list devices available | grep "iPhone" | head -n 1 | grep -o "iOS [0-9]*\.[0-9]*\.[0-9]*" | awk '{print $2}')
+          if [ -z "$SIMULATOR" ] || [ -z "$SIMULATOR_OS" ]; then
+            echo "Error: No available iPhone simulator found."
+            exit 1
+          fi
           echo "Using simulator: $SIMULATOR with iOS $SIMULATOR_OS"
           xcodebuild \
             -project iosApp/iosApp.xcodeproj \
@@ -87,4 +91,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ios-app-simulator
-          path: ~/Library/Developer/Xcode/DerivedData/*/Build/Products/Debug-iphonesimulator/*.app
+          path: build/Build/Products/Debug-iphonesimulator/*.app
