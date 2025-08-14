@@ -40,6 +40,7 @@ fun RowWithIcon(
 
     Row(
         modifier = modifier
+            .clickable(onClick = onIconClicked)
             .background(
                 color = background,
                 shape = RoundedCornerShape(12.dp)
@@ -54,8 +55,6 @@ fun RowWithIcon(
         )
         Spacer(modifier = Modifier.weight(1f))
         Icon(
-            modifier = Modifier
-                .clickable(onClick = onIconClicked),
             painter = arrowDirection,
             contentDescription = stringResource(Res.string.arrow),
             tint = iconTint,
