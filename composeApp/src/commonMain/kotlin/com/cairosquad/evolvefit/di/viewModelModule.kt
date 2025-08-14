@@ -9,6 +9,7 @@ import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutViewModel
 import com.cairosquad.evolvefit.viewmodel.register.RegisterViewModel
 import com.cairosquad.evolvefit.viewmodel.report.ReportViewModel
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutViewModel
+import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsViewModel
 import org.koin.core.module.dsl.viewModel
 import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsViewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -30,4 +31,5 @@ val viewModelModule = module {
         WorkoutDetailsViewModel(workoutId, get())
     }
 
+    viewModelOf(::SuggestedMealsViewModel)
 }
