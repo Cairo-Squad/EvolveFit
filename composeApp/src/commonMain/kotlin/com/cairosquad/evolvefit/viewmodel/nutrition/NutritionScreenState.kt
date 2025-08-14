@@ -9,11 +9,11 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 
 data class NutritionScreenState(
-    val todayConsumedCalories: Float = 0f,
+    val todayConsumedCalories: Float = 0.0f,
     val dailyCaloriesGoal: Float = 0.0f,
 
-    val todayConsumedWater: Float = 0f,
-    val dailyWaterGoal: Float = 0f,
+    val todayConsumedWater: Float = 0.0f,
+    val dailyWaterGoal: Float = 0.0f,
 
     val remainingDailyCalories: Float = 0.0f,
 
@@ -22,7 +22,6 @@ data class NutritionScreenState(
     val todayConsumedMeals: List<ConsumedMealUiState> = emptyList(),
     val isAddWaterSheetVisible: Boolean = false,
     val isAddMealSheetVisible: Boolean = false,
-    val isAddMealSnackBarVisible: Boolean = false,
     val isDroppedMenuVisible: Boolean = false,
     val isMealTypeMenuExpanded: Boolean = false,
     val isAddButtonEnabled: Boolean = false,
@@ -31,8 +30,14 @@ data class NutritionScreenState(
     val consumedCaloriesInput: String = "",
     val consumedWaterInput: String = "",
     val selectedMeal: MealTypeUiState = MealTypeUiState.Breakfast,
-    val errorMessage: String? = null,
+    val errorMessage: StringResource? = null,
+    val inputErrorMessage: StringResource? = null,
+    val consumedMealsRequestState: RequestState = RequestState.LOADING,
+    val suggestedMealsRequestState: RequestState = RequestState.LOADING,
+    val isMealAddedSnackBarVisible: Boolean = false,
+    val isMealErrorSnackBarVisible: Boolean = false,
 ) {
+    enum class RequestState { SUCCESS, LOADING, FAIL }
     data class DailyMealSummaryUiState(
         val type: MealTypeUiState = MealTypeUiState.Breakfast,
         val calories: Float = 0f,

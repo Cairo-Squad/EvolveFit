@@ -92,11 +92,13 @@ fun MealTypeDropdownMenu(
             ) {
 
                 MealCaloriesInputField(
+
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .weight(1f),
                     mealCalories = state.consumedCaloriesInput,
-                    onValueChange = listener::onMealCaloriesChanged
+                    onValueChange = listener::onMealCaloriesChanged,
+                    state = state
                 )
 
                 Box(modifier = Modifier.weight(1f)) {
@@ -132,13 +134,7 @@ fun MealTypeDropdownMenu(
                 text = stringResource(Res.string.add_button),
                 isEnabled = state.isAddButtonEnabled,
                 onClick = {
-                    listener.onConfirmAddMealClicked(
-                        NutritionScreenState.ConsumedMealUiState(
-                            name = state.mealNameInput,
-                            type = state.selectedMeal,
-                            calories = state.consumedCaloriesInput.toInt()
-                        )
-                    )
+                    listener.onConfirmAddMealClicked()
                 })
         }
     }
@@ -162,6 +158,7 @@ private fun MealNameInputField(
 @Composable
 private fun MealCaloriesInputField(
     mealCalories: String,
+    state: NutritionScreenState,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -171,6 +168,8 @@ private fun MealCaloriesInputField(
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number
         ),
+        isErrorMessageShown = true,
+        error =state.errorMessage.let { it?.let { resource -> stringResource(resource) } } ?:"",
         onValueChange = onValueChange,
         placeholder = stringResource(Res.string.calories),
         leadingIcon = Res.drawable.ic_fire

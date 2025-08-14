@@ -9,7 +9,7 @@ import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
 import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSource
 import com.cairosquad.evolvefit.repository.nutrition.remote.toDomain
 import com.cairosquad.evolvefit.repository.nutrition.remote.toDto
-import com.cairosquad.evolvefit.repository.util.safeCallDataSource
+import com.cairosquad.evolvefit.repository.utils.safeCallDataSource
 
 class NutritionRepositoryImpl(private val remoteNutritionDataSource: RemoteNutritionDataSource) :
     NutritionRepository {

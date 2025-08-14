@@ -40,13 +40,16 @@ import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.add_button
 import evolvefit.composeapp.generated.resources.enter_water_intake
+import evolvefit.composeapp.generated.resources.ic_info
 import evolvefit.composeapp.generated.resources.ic_water_drop
+import evolvefit.composeapp.generated.resources.im_no_internet
 import evolvefit.composeapp.generated.resources.im_no_meals_recorded
+import evolvefit.composeapp.generated.resources.internet_is_not_available
 import evolvefit.composeapp.generated.resources.meal_added_snackbar
-import evolvefit.composeapp.generated.resources.meal_cant_added_snackbar
 import evolvefit.composeapp.generated.resources.meal_history
 import evolvefit.composeapp.generated.resources.no_meals_description
 import evolvefit.composeapp.generated.resources.no_meals_title
+import evolvefit.composeapp.generated.resources.please_make_sure_you_are_connected_to_the_internet_and_try_again
 import evolvefit.composeapp.generated.resources.track_water_intake
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -81,37 +84,71 @@ private fun NutritionContent(
     listener: NutritionInteractionListener
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Theme.color.surfaces.surface)
-        ) {
-            item { NutritionHeader() }
-            item { NutritionSummaryCard(listener = listener, state = state) }
-            item { TodayMealsSummary(state = state, listener = listener) }
-            item { SuggestedMeals(state = state, listener = listener) }
-            mealHistorySection(state, listener)
+        when (state.dataRequestState) {
+            NutritionScreenState.DataRequestState.SUCCESS -> {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Theme.color.surfaces.surface)
+                ) {
+                     item { NutritionHeader() }
+                    item { NutritionSummaryCard(listener = listener, state = state) }
+                    item { TodayMealsSummary(state = state, listener = listener) }
+                    when (state.suggestedMealsRequestState) {
+                        NutritionScreenState.RequestState.SUCCESS -> {
+                            item { SuggestedMeals(state = state, listener = listener) }
+                        }
+                        NutritionScreenState.RequestState.LOADING -> {}
+                        NutritionScreenState.RequestState.FAIL -> {}
+                    }
+
+                    mealHistorySection(state, listener)
+                }
+
+                MealTypeDropdownMenu(
+                    state = state,
+                    listener = listener,
+                    //   Modifier
+                    //        .align(Alignment.BottomCenter)
+                )
+                AddWaterIntakeBottomSheet(
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                    listener = listener,
+                    state = state
+                )
+                MealAddedSnackBar(
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                    isVisible = state.isMealAddedSnackBarVisible,
+                )
+                MealCantAddSnackBar(
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                    isVisible = state.isMealAddedSnackBarVisible,
+                    state = state
+                )
+            }
+
+            NutritionScreenState.DataRequestState.LOADING -> {
+
+            }
+
+            NutritionScreenState.DataRequestState.FAIL -> {
+                StateMessage(
+                    image = painterResource(Res.drawable.im_no_internet),
+                    title = stringResource(Res.string.internet_is_not_available),
+                    description = stringResource(Res.string.please_make_sure_you_are_connected_to_the_internet_and_try_again)
+                )
+                PrimaryButton(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 24.dp),
+                    text = "Try Again",
+                    enabledTextColor = Theme.color.brand.onPrimary,
+                    textStyle = Theme.textStyle.body.mediumMedium14,
+                    onClick = {})
+            }
         }
 
-        MealTypeDropdownMenu(
-            state = state,
-            listener = listener,
-            //   Modifier
-            //        .align(Alignment.BottomCenter)
-        )
-        AddWaterIntakeBottomSheet(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            listener = listener,
-            state = state
-        )
-        MealAddedSnackBar(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            isVisible = state.isAddMealSnackBarVisible,
-        )
-        MealCantAddSnackBar(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            isVisible = state.isAddMealSnackBarVisible,
-        )
     }
 }
 
@@ -210,13 +247,16 @@ private fun MealAddedSnackBar(
 
 @Composable
 private fun MealCantAddSnackBar(
+    state: NutritionScreenState,
     isVisible: Boolean,
     modifier: Modifier = Modifier
 ) {
+    println("SIKAAA : ${state.errorMessage.toString()}")
     SnackBar(
         modifier = modifier,
-        //icon = painterResource(Res.drawable.ic_info),
-        text = stringResource(Res.string.meal_cant_added_snackbar),
+        icon = painterResource(Res.drawable.ic_info),
+        // text = stringResource(Res.string.meal_cant_added_snackbar),
+        text = state.errorMessage?.let { stringResource(it) } ?: "",
         isVisible = isVisible
     )
 }
