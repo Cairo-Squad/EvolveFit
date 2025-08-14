@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.repository.equipment.remot
+package com.cairosquad.evolvefit.repository.equipment.remot.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
