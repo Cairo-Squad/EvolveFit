@@ -48,11 +48,6 @@ jobs:
           xcrun simctl list devices available
           echo "Available simulators listed."
 
-      - name: Install iOS 18.3.1 Simulator Runtime
-        run: |
-          echo "Installing iOS 18.3.1 simulator runtime..."
-          xcversion simulators --install='iOS 18.3.1' || echo "iOS 18.3.1 not available, using default simulators"
-
       - name: List available schemes
         run: |
           echo "Listing project schemes and targets..."
