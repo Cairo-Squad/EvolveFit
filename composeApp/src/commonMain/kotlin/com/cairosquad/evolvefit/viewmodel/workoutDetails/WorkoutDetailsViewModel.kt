@@ -21,15 +21,15 @@ class WorkoutDetailsViewModel(
         )
     }
 
-    override fun onBackClick() {
+    override fun onClickBack() {
         sendEffect(WorkoutDetailsEffect.NavigateBack)
     }
 
-    override fun onShareClick() {
+    override fun onClickShare() {
         updateState {it.copy(isShareClicked = true) }
     }
 
-    override fun onAddToFavoriteClick(workoutId: String) {
+    override fun onClickAddToFavorite(workoutId: String) {
 
         updateState { it.copy(isFavorite = true) }
         tryToCall(
@@ -41,7 +41,7 @@ class WorkoutDetailsViewModel(
         )
     }
 
-    override fun onExerciseClick(exercise: WorkoutDetailsScreenState.ExerciseUiState) {
+    override fun onClickExercise(exercise: WorkoutDetailsScreenState.ExerciseUiState) {
         updateState { state -> state.copy(workout = state.workout.copy(selectedExercise = exercise)) }
     }
 
@@ -50,7 +50,7 @@ class WorkoutDetailsViewModel(
         updateState { state -> state.copy(workout = state.workout.copy(selectedExercise = null)) }
     }
 
-    override fun onStartWorkoutClick(workoutId: String) {
+    override fun onClickStartWorkout(workoutId: String) {
         sendEffect(WorkoutDetailsEffect.NavigateToPlayWorkout)
     }
 }

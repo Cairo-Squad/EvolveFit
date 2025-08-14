@@ -60,7 +60,7 @@ fun WorkoutDetailsContent(
                     icon = painterResource(Res.drawable.ic_back),
                     contentDescription = stringResource(Res.string.back),
                     tint = Theme.color.surfaces.onSurface,
-                    onClick = listener::onBackClick
+                    onClick = listener::onClickBack
                 )
             },
             tail = {
@@ -68,13 +68,13 @@ fun WorkoutDetailsContent(
                     icon = painterResource(Res.drawable.ic_bookmark),
                     contentDescription = stringResource(Res.string.bookmark),
                     tint = Theme.color.surfaces.onSurface,
-                    onClick = { listener.onAddToFavoriteClick(state.workout.workoutID) }
+                    onClick = { listener.onClickAddToFavorite(state.workout.workoutID) }
                 )
                 ActionIconButton(
                     icon = painterResource(Res.drawable.ic_share),
                     contentDescription = stringResource(Res.string.share),
                     tint = Theme.color.surfaces.onSurface,
-                    onClick = listener::onShareClick
+                    onClick = listener::onClickShare
                 )
             }
         )
@@ -109,7 +109,7 @@ fun WorkoutDetailsContent(
                 modifier = Modifier.fillMaxWidth(),
                 exercises = state.workout.exercises,
                 onExerciseClick = { exercise ->
-                    listener.onExerciseClick(exercise)
+                    listener.onClickExercise(exercise)
                 }
             )
             BottomSheet(
@@ -123,7 +123,7 @@ fun WorkoutDetailsContent(
             }
             BottomSheet(
                 isVisible = state.isShareClicked,
-                onDismiss = listener::onShareClick
+                onDismiss = listener::onClickShare
             ) {
                 ShareBottomSheetContent(
                     onShareOptionClick = {},
@@ -139,7 +139,7 @@ fun WorkoutDetailsContent(
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 24.dp),
             text = stringResource(Res.string.start_workout),
-            onClick = { listener.onStartWorkoutClick(state.workout.workoutID) },
+            onClick = { listener.onClickStartWorkout(state.workout.workoutID) },
             isEnabled = true
         )
     }
@@ -200,12 +200,12 @@ fun WorkoutDetailsPreview() {
     )
 
     val dummyListener = object : WorkoutDetailsInteractionListener {
-        override fun onBackClick() {}
-        override fun onAddToFavoriteClick(workoutId: String) {}
-        override fun onShareClick() {}
-        override fun onExerciseClick(exercise: WorkoutDetailsScreenState.ExerciseUiState) {}
+        override fun onClickBack() {}
+        override fun onClickAddToFavorite(workoutId: String) {}
+        override fun onClickShare() {}
+        override fun onClickExercise(exercise: WorkoutDetailsScreenState.ExerciseUiState) {}
         override fun onExerciseBottomSheetDismiss() {}
-        override fun onStartWorkoutClick(workoutId: String) {}
+        override fun onClickStartWorkout(workoutId: String) {}
     }
 
     AppTheme {
