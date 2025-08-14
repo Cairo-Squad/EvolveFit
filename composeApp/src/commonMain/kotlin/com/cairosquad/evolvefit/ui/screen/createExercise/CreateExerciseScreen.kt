@@ -143,6 +143,7 @@ fun CreateExerciseScreenContent(
     ) {
         CustomAppBar(
             modifier = Modifier.padding(bottom = 16.dp),
+            title = "",
             header = {
                 ActionIconButton(
                     icon = painterResource(Res.drawable.ic_cancle),
