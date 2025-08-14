@@ -42,6 +42,11 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
+      - name: Install iOS 18.2 Simulator Runtime
+        run: |
+          echo "Installing iOS 18.2 simulator runtime..."
+          xcversion simulators --install='iOS 18.2' || echo "Failed to install iOS 18.2, using available simulators"
+
       - name: Show available simulators
         run: |
           echo "Listing available simulators..."
@@ -68,22 +73,24 @@ jobs:
           # Capture the full simulator list for debugging
           xcrun simctl list devices available > simulator_list.txt
           cat simulator_list.txt
-          # Extract the first available iPhone simulator, its ID, and iOS version
-          SIMULATOR_LINE=$(xcrun simctl list devices available | grep -E "iPhone.*\([0-9A-F-]+\)" | grep "iOS 18.4" | head -n 1)
+          # Extract the first available iPhone simulator, its ID, and iOS version for iOS 18.2
+          SIMULATOR_LINE=$(xcrun simctl list devices available | grep -E "iPhone.*\([0-9A-F-]+\)" | grep "iOS 18.2" | head -n 1)
           SIMULATOR=$(echo "$SIMULATOR_LINE" | sed -E 's/.*iPhone ([^ ]+).*/\1/' | tr -d '[:space:]')
           SIMULATOR_OS=$(echo "$SIMULATOR_LINE" | grep -oE "iOS [0-9]+\.[0-9]+(\.[0-9]+)?" | awk '{print $2}' | tr -d '[:space:]')
           SIMULATOR_ID=$(echo "$SIMULATOR_LINE" | grep -oE "\([0-9A-F-]+\)" | tr -d '()')
           if [ -z "$SIMULATOR" ] || [ -z "$SIMULATOR_OS" ] || [ -z "$SIMULATOR_ID" ]; then
-            echo "Warning: No available iPhone simulator found for iOS 18.4. Falling back to iPhone 16 with iOS 18.4."
-            SIMULATOR="iPhone 16"
-            SIMULATOR_OS="18.4"
-            SIMULATOR_ID="2AA11C3D-8059-44EC-B69A-CCDD9139A4A9"
+            echo "Warning: No available iPhone simulator found for iOS 18.2. Falling back to iPhone 16 Pro with iOS 18.2."
+            SIMULATOR="iPhone 16 Pro"
+            SIMULATOR_OS="18.2"
+            SIMULATOR_ID=""
           else
             echo "Using simulator: $SIMULATOR with iOS $SIMULATOR_OS (ID: $SIMULATOR_ID)"
           fi
-          # Boot the simulator to ensure it's available
-          echo "Booting simulator $SIMULATOR (ID: $SIMULATOR_ID)..."
-          xcrun simctl boot "$SIMULATOR_ID" || echo "Simulator already booted or failed to boot, proceeding with build."
+          # Boot the simulator if ID is available
+          if [ -n "$SIMULATOR_ID" ]; then
+            echo "Booting simulator $SIMULATOR (ID: $SIMULATOR_ID)..."
+            xcrun simctl boot "$SIMULATOR_ID" || echo "Simulator already booted or failed to boot, proceeding with build."
+          fi
           xcodebuild \
             -project iosApp/iosApp.xcodeproj \
             -scheme "iosApp" \
