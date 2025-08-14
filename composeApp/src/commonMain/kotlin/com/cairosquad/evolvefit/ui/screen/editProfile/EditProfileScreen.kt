@@ -30,6 +30,7 @@ import com.cairosquad.evolvefit.ui.screen.editProfile.content.GenderBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.HeightBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.MainGoalBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.ToolsBottomSheet
+
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.WeightBottomSheet
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileInteractionListener
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState
@@ -247,6 +248,17 @@ fun EditProfileScreenContent(
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.EQUIPMENT -> {
+            ToolsBottomSheet(
+                userEquipments = state.userEquipments,
+                allEquipments = state.allEquipments,
+                onEquipmentBottomSheetDismiss =  { listener.onBottomSheetDismissed() },
+                onEquipmentChange = {tools->
+                    listener.onEquipmentChanged(tools)
+                    listener.onBottomSheetDismissed()
+
+                }
+            )
+
 
 
         }
