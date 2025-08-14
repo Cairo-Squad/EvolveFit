@@ -18,7 +18,7 @@ class WorkoutRepositoryImpl(
     }
 
     override suspend fun getSuggestedWorkouts(): List<Workout> {
-        TODO("Not yet implemented")
+        return listOf(fakeWorkout, fakeWorkout, fakeWorkout, fakeWorkout, fakeWorkout)
     }
 
     override suspend fun getCommunityWorkouts(): List<Workout> {
@@ -42,7 +42,7 @@ class WorkoutRepositoryImpl(
     }
 
     override suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<Workout> {
-        TODO("Not yet implemented")
+        return listOf(fakeWorkout, fakeWorkout, fakeWorkout, fakeWorkout)
     }
 
     private companion object {

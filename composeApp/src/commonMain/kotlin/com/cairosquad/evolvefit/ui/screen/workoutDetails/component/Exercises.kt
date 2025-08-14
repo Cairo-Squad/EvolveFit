@@ -25,12 +25,12 @@ fun Exercises(
     onExerciseClick: (WorkoutDetailsScreenState.ExerciseUiState) -> Unit
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Row(
             modifier = Modifier
-                .padding(vertical = 16.dp)
-                .padding(bottom = 12.dp),
+                .padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -51,7 +51,6 @@ fun Exercises(
                 time = "",
                 model = exercise.images.first(),
                 modifier = Modifier
-                    .padding(vertical = 16.dp)
                     .clickable { onExerciseClick(exercise) },
                 measurementContent = {
                     MeasurementRow(exercise.type)

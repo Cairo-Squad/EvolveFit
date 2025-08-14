@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,7 +61,7 @@ fun WorkoutDetailsContent(
                 ActionIconButton(
                     icon = painterResource(Res.drawable.ic_back),
                     contentDescription = stringResource(Res.string.back),
-                    tint = Theme.color.surfaces.onSurface,
+                    tint = Theme.color.surfaces.textColor,
                     onClick = listener::onClickBack
                 )
             },
@@ -67,23 +69,23 @@ fun WorkoutDetailsContent(
                 ActionIconButton(
                     icon = painterResource(Res.drawable.ic_bookmark),
                     contentDescription = stringResource(Res.string.bookmark),
-                    tint = Theme.color.surfaces.onSurface,
+                    tint = Theme.color.surfaces.textColor,
                     onClick = { listener.onClickAddToFavorite(state.workout.workoutID) }
                 )
                 ActionIconButton(
                     icon = painterResource(Res.drawable.ic_share),
                     contentDescription = stringResource(Res.string.share),
-                    tint = Theme.color.surfaces.onSurface,
+                    tint = Theme.color.surfaces.textColor,
                     onClick = listener::onClickShare
                 )
             }
         )
-
+        val scrollState = rememberScrollState()
         Column(
             modifier = Modifier
+                .padding(bottom = 60.dp)
                 .fillMaxSize()
-                .background(color = Theme.color.surfaces.surface)
-                .padding(horizontal = 16.dp),
+                .background(color = Theme.color.surfaces.surface).verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -96,17 +98,17 @@ fun WorkoutDetailsContent(
             WorkoutDetailsText(
                 title = state.workout.workoutTitle,
                 description = state.workout.workoutDescription,
-                modifier = Modifier.fillMaxWidth().padding(top=12.dp, bottom = 16.dp),
+                modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth().padding(top=12.dp, bottom = 16.dp),
             )
 
             DetailsCardsRow(
-                modifier = Modifier.padding(top = 24.dp, bottom = 32.dp),
+                modifier = Modifier.padding(horizontal = 16.dp).padding(top = 24.dp, bottom = 32.dp),
                 level = state.workout.level,
                 exercisesNumber = state.workout.exercises.size,
                 estimatedTimeInSeconds = state.workout.estimatedTimeInSeconds,
             )
             Exercises(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
                 exercises = state.workout.exercises,
                 onExerciseClick = { exercise ->
                     listener.onClickExercise(exercise)
