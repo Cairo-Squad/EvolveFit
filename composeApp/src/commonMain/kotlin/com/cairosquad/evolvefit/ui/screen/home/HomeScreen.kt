@@ -102,7 +102,7 @@ fun HomeScreen(
     } else if (state.error != null) {
         HomeErrorContent(
             error = state.error!!,
-            onRetry = homeViewModel::onRetryClicked
+            onRetry = homeViewModel::onRetryClick
         )
     } else {
         HomeContent(

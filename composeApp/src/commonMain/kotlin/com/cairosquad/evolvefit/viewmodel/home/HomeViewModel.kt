@@ -92,7 +92,7 @@ class HomeViewModel(
         }
     }
 
-    override fun onRetryClicked() {
+    override fun onRetryClick() {
         loadInitialData()
     }
 
