@@ -7,6 +7,7 @@ data class WorkoutDetailsScreenState(
     val workout: Workout = Workout(),
     val isShareClicked: Boolean = false,
     val isFavorite: Boolean = false,
+    val isShareBottomSheetDismiss: Boolean = false,
     val snackBarMessageId: StringResource? = null
 ) {
     data class Workout(

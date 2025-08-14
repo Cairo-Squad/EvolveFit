@@ -4,23 +4,23 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
@@ -51,50 +51,44 @@ import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlin.math.min
-
 
 @Composable
 fun WorkoutDetailsContent(
     state: WorkoutDetailsScreenState,
     listener: WorkoutDetailsInteractionListener
 ) {
-    val scrollState = rememberScrollState()
-    val scrollFraction = min(1f, scrollState.value / 200f)
+    val listState = rememberLazyListState()
+    val scrollOffsetThreshold = 200
+    val isScrolled by remember {
+        derivedStateOf { listState.firstVisibleItemScrollOffset > scrollOffsetThreshold }
+    }
+
     val appBarBackground by animateColorAsState(
-        targetValue = lerp(
-            Theme.color.surfaces.onSurface.copy(alpha = 0f),
-            Theme.color.surfaces.surface,
-            scrollFraction
-        ),
+        targetValue = if (isScrolled) Theme.color.surfaces.surface
+        else Theme.color.surfaces.onSurface.copy(alpha = 0f),
         label = "appBarBackground"
     )
+
     val iconTint by animateColorAsState(
-        targetValue = lerp(
-            Theme.color.surfaces.textColor,
-            Theme.color.surfaces.onSurface,
-            scrollFraction
-        ),
+        targetValue = if (isScrolled) Theme.color.surfaces.onSurface
+        else Theme.color.surfaces.textColor,
         label = "iconTintAnim"
     )
+
     var isSnackBarVisible by remember { mutableStateOf(false) }
     var snackBarMessage by remember { mutableStateOf<String?>(null) }
-    val snackBarText = state.snackBarMessageId?.let { id ->
-        stringResource(id)
-    }
+    val snackBarText = state.snackBarMessageId?.let { id -> stringResource(id) }
+
     LaunchedEffect(state.snackBarMessageId) {
         state.snackBarMessageId?.let {
             snackBarMessage = snackBarText
             isSnackBarVisible = true
-            delay(200)
+            delay(2000)
             isSnackBarVisible = false
         }
     }
-    Box(
-        modifier =
-            Modifier
-                .fillMaxSize()
-    ) {
+
+    Box(modifier = Modifier.fillMaxSize()) {
         CustomAppBar(
             modifier = Modifier
                 .align(Alignment.TopCenter)
@@ -112,9 +106,8 @@ fun WorkoutDetailsContent(
             },
             tail = {
                 ActionIconButton(
-                    icon = if (state.isFavorite) painterResource(Res.drawable.ic_bookmark_big_filled) else painterResource(
-                        Res.drawable.ic_bookmark
-                    ),
+                    icon = if (state.isFavorite) painterResource(Res.drawable.ic_bookmark_big_filled)
+                    else painterResource(Res.drawable.ic_bookmark),
                     contentDescription = stringResource(Res.string.bookmark),
                     tint = iconTint,
                     onClick = { listener.onClickAddToFavorite(state.workout.workoutID) }
@@ -127,41 +120,58 @@ fun WorkoutDetailsContent(
                 )
             }
         )
-        Column(
+        LazyColumn(
+            state = listState,
             modifier = Modifier
                 .padding(bottom = 60.dp)
                 .fillMaxSize()
-                .background(color = Theme.color.surfaces.surface).verticalScroll(scrollState),
+                .background(color = Theme.color.surfaces.surface),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            NetworkImage(
-                model = state.workout.workoutImage,
-                contentDescription = stringResource(Res.string.workouts),
-                modifier = Modifier.fillMaxWidth().height(200.dp)
-            )
+            item {
+                NetworkImage(
+                    model = state.workout.workoutImage,
+                    contentDescription = stringResource(Res.string.workouts),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                )
+            }
 
-            WorkoutDetailsText(
-                title = state.workout.workoutTitle,
-                description = state.workout.workoutDescription,
-                modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth()
-                    .padding(top = 12.dp, bottom = 16.dp),
-            )
+            item {
+                WorkoutDetailsText(
+                    title = state.workout.workoutTitle,
+                    description = state.workout.workoutDescription,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth()
+                        .padding(top = 12.dp, bottom = 16.dp)
+                )
+            }
 
-            DetailsCardsRow(
-                modifier = Modifier.padding(horizontal = 16.dp)
-                    .padding(top = 24.dp, bottom = 32.dp),
-                level = state.workout.level,
-                exercisesNumber = state.workout.exercises.size,
-                estimatedTimeInSeconds = state.workout.estimatedTimeInSeconds,
-            )
-            Exercises(
-                modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
-                exercises = state.workout.exercises,
-                onExerciseClick = { exercise ->
-                    listener.onClickExercise(exercise)
-                }
-            )
+            item {
+                DetailsCardsRow(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 24.dp, bottom = 32.dp),
+                    level = state.workout.level,
+                    exercisesNumber = state.workout.exercises.size,
+                    estimatedTimeInSeconds = state.workout.estimatedTimeInSeconds,
+                )
+            }
+
+            items(state.workout.exercises) { exercise ->
+                Exercises(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth(),
+                    exercises = listOf(exercise),
+                    onExerciseClick = { listener.onClickExercise(exercise) }
+                )
+            }
+        }
+
             BottomSheet(
                 isVisible = state.workout.selectedExercise != null,
                 onDismiss = listener::onExerciseBottomSheetDismiss
@@ -171,29 +181,30 @@ fun WorkoutDetailsContent(
                     onDismissBottomSheet = listener::onExerciseBottomSheetDismiss
                 )
             }
+
             BottomSheet(
                 isVisible = state.isShareClicked,
-                onDismiss = listener::onClickShare
+                onDismiss = listener::onShareBottomSheetDismiss
             ) {
                 ShareBottomSheetContent(
                     onShareOptionClick = { platform ->
                         val workoutUrl = "https://evolvefit.com/workouts/${state.workout.workoutID}"
                         shareToPlatform(platform, workoutUrl, onDismiss = listener::onClickShare)
                     },
-                    onCopyLinkClick = {
-
-                    },
+                    onCopyLinkClick = {},
                     onShareWithCommunityClick = {
                         listener.onClickShareWithCommunity(state.workout.workoutID)
                     }
                 )
-                SnackBar(
-                    text = snackBarMessage ?: "",
-                    isVisible = isSnackBarVisible,
-                    modifier = Modifier.align(Alignment.End).padding(bottom = 24.dp)
-                )
             }
-        }
+        SnackBar(
+            text = snackBarMessage ?: "",
+            isVisible = isSnackBarVisible,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 24.dp)
+        )
+
         PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
@@ -279,6 +290,8 @@ fun WorkoutDetailsPreview() {
         override fun onClickShare() {}
         override fun onClickExercise(exercise: WorkoutDetailsScreenState.ExerciseUiState) {}
         override fun onExerciseBottomSheetDismiss() {}
+        override fun onShareBottomSheetDismiss() {}
+
         override fun onClickStartWorkout(workoutId: String) {}
         override fun onClickShareWithCommunity(workoutId: String) {}
         override fun onClickCopyLink(workoutId: String) {}

@@ -7,6 +7,7 @@ interface WorkoutDetailsInteractionListener {
     fun onClickAddToFavorite(workoutId: String)
     fun onClickExercise(exercise: WorkoutDetailsScreenState.ExerciseUiState)
     fun onExerciseBottomSheetDismiss()
+    fun onShareBottomSheetDismiss()
     fun onClickStartWorkout(workoutId: String)
     fun onClickShareWithCommunity(workoutId: String)
     fun onClickCopyLink(workoutId: String)

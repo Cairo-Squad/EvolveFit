@@ -33,8 +33,7 @@ class WorkoutDetailsViewModel(
     }
 
     override fun onClickAddToFavorite(workoutId: String) {
-
-        updateState { it.copy(isFavorite = true) }
+        updateState { it.copy(isFavorite = it.isFavorite.not()) }
         tryToCall(
             block = { manageWorkoutUseCase.addWorkoutToFavorites(workoutId) },
             onSuccess = {
@@ -51,6 +50,10 @@ class WorkoutDetailsViewModel(
 
     override fun onExerciseBottomSheetDismiss() {
         updateState { state -> state.copy(workout = state.workout.copy(selectedExercise = null)) }
+    }
+
+    override fun onShareBottomSheetDismiss() {
+        updateState {it.copy(isShareClicked = false) }
     }
 
     override fun onClickStartWorkout(workoutId: String) {
