@@ -6,10 +6,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -21,107 +22,138 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.MealCard
 import com.cairosquad.evolvefit.design_system.component.StateMessage
+import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
+import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.suggested_meals.LoadingMealCard
-import com.cairosquad.evolvefit.ui.screen.suggested_meals.TopHeader
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsEffect
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsScreenState
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsViewModel
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.back
 import evolvefit.composeapp.generated.resources.failed_to_load_meals
+import evolvefit.composeapp.generated.resources.ic_back
 import evolvefit.composeapp.generated.resources.im_no_meals_recorded
 import evolvefit.composeapp.generated.resources.no_meals_description
 import evolvefit.composeapp.generated.resources.no_meals_title
+import evolvefit.composeapp.generated.resources.suggested_meals
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
+
 
 @Composable
 fun SuggestedMealsScreen(
     navigateBack: () -> Unit,
-    navigateToMealDetails: (Long) -> Unit,
+    navigateToMealDetails: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SuggestedMealsViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
+
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
             is SuggestedMealsEffect.NavigateBack -> navigateBack()
             is SuggestedMealsEffect.NavigateToMealDetails -> navigateToMealDetails(effect.mealId)
         }
     }
+    SuggestedMealsContent(
+        state = state,
+        onBackClick = { viewModel.onBackClicked() }
+    )
+}
+@Composable
+private fun SuggestedMealsContent(
+    state: SuggestedMealsScreenState,
+    onBackClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Theme.color.surfaces.surface)
             .padding(horizontal = 16.dp)
     ) {
-        TopHeader(onBackClick = { viewModel.onBackClicked() })
+        SuggestedMealsAppBar(onBackClick = onBackClick)
         Crossfade(
             targetState = state.screenStatus,
             animationSpec = tween(durationMillis = 300)
         ) { screenStatus ->
             when (screenStatus) {
-                SuggestedMealsScreenState.ScreenStatus.LOADING -> {
-                    Spacer(Modifier.height(16.dp))
-                    LazyVerticalGrid(
-                        columns = GridCells.Adaptive(124.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(20) { LoadingMealCard() }
-                    }
-                }
-                SuggestedMealsScreenState.ScreenStatus.ERROR -> {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        StateMessage(
-                            image = painterResource(Res.drawable.im_no_meals_recorded),
-                            title = "Error",
-                            description = state.errorMessage ?: stringResource(Res.string.failed_to_load_meals)                        )
-                    }
-                }
-                SuggestedMealsScreenState.ScreenStatus.SUCCESS -> {
-                    if (state.suggestedMeals.isEmpty()) {
-                        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            StateMessage(
-                                image = painterResource(Res.drawable.im_no_meals_recorded),
-                                title = stringResource(Res.string.no_meals_title),
-                                description = stringResource(Res.string.no_meals_description),
-                                modifier = Modifier.padding(bottom = 48.dp)
-                            )
-                        }
-                    } else {
-                        LazyVerticalGrid(
-                            columns = GridCells.Adaptive(124.dp),
-                            verticalArrangement = Arrangement.spacedBy(12.dp),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(vertical = 16.dp)
-                        ) {
-                            items(state.suggestedMeals) { meal ->
-                                MealCard(
-                                    title = meal.name,
-                                    mealType = stringResource(meal.type.displayName),
-                                    calories = meal.calories,
-                                    model = meal.imageUrl
-                                )
-                            }
-                        }
-                    }
-                }
+                SuggestedMealsScreenState.ScreenStatus.LOADING -> SuggestedMealsLoadingState()
+                SuggestedMealsScreenState.ScreenStatus.ERROR -> SuggestedMealsErrorState(state.errorMessage)
+                SuggestedMealsScreenState.ScreenStatus.SUCCESS -> SuggestedMealsSuccessState(state.suggestedMeals)
             }
         }
     }
-@Preview
-@Composable
-fun Preview() {
-    SuggestedMealsScreen(
-        navigateBack = {},
-        navigateToMealDetails = {20}
+}
 
+@Composable
+private fun SuggestedMealsAppBar(onBackClick: () -> Unit) {
+    CustomAppBar(
+        title = stringResource(Res.string.suggested_meals),
+        modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars),
+        header = {
+            ActionIconButton(
+                icon = painterResource(Res.drawable.ic_back),
+                contentDescription = stringResource(Res.string.back),
+                tint = Theme.color.surfaces.onSurface,
+                onClick = onBackClick
+            )
+        }
     )
-}}
+}
+@Composable
+private fun SuggestedMealsLoadingState() {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(124.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 16.dp)
+    ) {
+        items(20) { LoadingMealCard() }
+    }
+}
+@Composable
+private fun SuggestedMealsErrorState(errorMessage: String?) {
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        StateMessage(
+            image = painterResource(Res.drawable.im_no_meals_recorded),
+            title = "Error",
+            description = errorMessage ?: stringResource(Res.string.failed_to_load_meals)
+        )
+    }
+}
+@Composable
+private fun SuggestedMealsSuccessState(suggestedMeals: List<SuggestedMealsScreenState.SuggestedMealUiState>) {
+    if (suggestedMeals.isEmpty()) {
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            StateMessage(
+                image = painterResource(Res.drawable.im_no_meals_recorded),
+                title = stringResource(Res.string.no_meals_title),
+                description = stringResource(Res.string.no_meals_description),
+                modifier = Modifier.padding(bottom = 48.dp)
+            )
+        }
+    } else {
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(124.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(vertical = 16.dp)
+        ) {
+            items(suggestedMeals) { meal ->
+                MealCard(
+                    title = meal.name,
+                    mealType = stringResource(meal.type.displayName),
+                    calories = meal.calories,
+                    model = meal.imageUrl
+                )
+            }
+        }
+    }
+}

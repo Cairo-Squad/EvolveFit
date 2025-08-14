@@ -11,27 +11,32 @@ class SuggestedMealsViewModel(
     init {
         loadSuggestedMeals()
     }
+
     override fun onBackClicked() {
         sendEffect(SuggestedMealsEffect.NavigateBack)
     }
 
-    override fun onMealClicked(mealId: Long) {
+    override fun onMealClicked(mealId: String) {
         sendEffect(SuggestedMealsEffect.NavigateToMealDetails(mealId))
     }
+
+
     private fun loadSuggestedMeals() {
         tryToCall(
             block = { mealUseCase.getSuggestedMeals() },
             onStart = { setScreenStatus(SuggestedMealsScreenState.ScreenStatus.LOADING) },
-            onSuccess = { handleSuccess(it) },
-            onError = { handleError(it) }
+            onSuccess = ::onLoadSuggestedMealsSuccess,
+            onError = ::onLoadSuggestedMealsError
         )
     }
+
     private fun setScreenStatus(status: SuggestedMealsScreenState.ScreenStatus) {
         updateState { current ->
             current.copy(screenStatus = status)
         }
     }
-    private fun handleSuccess(meals: List<Meal>) {
+
+    private fun onLoadSuggestedMealsSuccess(meals: List<Meal>) {
         updateState { current ->
             current.copy(
                 suggestedMeals = meals.map { it.toSuggestedMealUiState() },
@@ -40,7 +45,8 @@ class SuggestedMealsViewModel(
             )
         }
     }
-    private fun handleError(e: Throwable) {
+
+    private fun onLoadSuggestedMealsError(e: Throwable) {
         updateState { current ->
             current.copy(
                 errorMessage = e.message,

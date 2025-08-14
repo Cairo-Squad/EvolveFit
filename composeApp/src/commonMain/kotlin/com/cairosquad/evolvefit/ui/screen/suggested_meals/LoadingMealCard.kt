@@ -29,7 +29,6 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun LoadingMealCard(
-    height: Dp = 124.dp,
     modifier: Modifier = Modifier
 ) {
     val infiniteTransition =
@@ -59,7 +58,7 @@ fun LoadingMealCard(
         ) {
             Box(
                 modifier = Modifier
-                    .height(height)
+                    .height(124.dp)
                     .fillMaxWidth()
                     .background(
                         Theme.color.surfaces.surfaceContainer,
