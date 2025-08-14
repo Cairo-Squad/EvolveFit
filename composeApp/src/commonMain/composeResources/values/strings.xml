@@ -189,7 +189,6 @@
 
 
     <string name="community">Community</string>
-    <string name="back">Back</string>
 
     <string name="error_no_internet">There is no internet connection.</string>
     <string name="error_unknown_credentials">Email or password you entered are incorrect.</string>

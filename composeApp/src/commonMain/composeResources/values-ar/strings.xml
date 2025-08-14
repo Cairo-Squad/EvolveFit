@@ -188,7 +188,6 @@
 
 
     <string name="community">المجتمع</string>
-    <string name="back">رجوع</string>
 
     <string name="error_no_internet">لا يوجد اتصال بالإنترنت.</string>
     <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>
