@@ -8,4 +8,6 @@ interface WorkoutDetailsInteractionListener {
     fun onClickExercise(exercise: WorkoutDetailsScreenState.ExerciseUiState)
     fun onExerciseBottomSheetDismiss()
     fun onClickStartWorkout(workoutId: String)
+    fun onClickShareWithCommunity(workoutId: String)
+    fun onClickCopyLink(workoutId: String)
 }

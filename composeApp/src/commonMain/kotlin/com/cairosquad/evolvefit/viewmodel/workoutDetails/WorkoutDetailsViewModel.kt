@@ -1,7 +1,10 @@
 package com.cairosquad.evolvefit.viewmodel.workoutDetails
 
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
+import com.cairosquad.evolvefit.ui.util.Share
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.workout_saved_successfully
 
 class WorkoutDetailsViewModel(
     workoutId: String,
@@ -35,7 +38,7 @@ class WorkoutDetailsViewModel(
         tryToCall(
             block = { manageWorkoutUseCase.addWorkoutToFavorites(workoutId) },
             onSuccess = {
-                updateState { it.copy(isFavorite = true) }
+                updateState { it.copy(isFavorite = true,snackBarMessageId = Res.string.workout_saved_successfully) }
             },
             onError = {  }
         )
@@ -53,4 +56,18 @@ class WorkoutDetailsViewModel(
     override fun onClickStartWorkout(workoutId: String) {
         sendEffect(WorkoutDetailsEffect.NavigateToPlayWorkout)
     }
+
+    override fun onClickShareWithCommunity(workoutId: String) {
+        sendEffect(WorkoutDetailsEffect.NavigateToShareWithCommunity(workoutId))
+
+    }
+
+    override fun onClickCopyLink(workoutId: String) {
+        Share.copyLink("https://evolvefit.com/workouts/$workoutId") { message, _ ->
+            updateState {
+                it.copy(snackBarMessageId = message)
+            }
+        }
+    }
+
 }

@@ -14,8 +14,9 @@ import org.koin.core.parameter.parametersOf
 fun WorkoutDetailsScreen(
     workoutId: String,
     navigateBack: () -> Unit,
+    navigateToShareWithCommunity: (workoutId: String) -> Unit,
     navigateToPlayWorkout: () -> Unit,
-    viewModel: WorkoutDetailsViewModel = koinViewModel() {
+    viewModel: WorkoutDetailsViewModel = koinViewModel {
         parametersOf(workoutId)
     }
 ) {
@@ -24,6 +25,9 @@ fun WorkoutDetailsScreen(
         when (effect) {
             is WorkoutDetailsEffect.NavigateToPlayWorkout -> navigateToPlayWorkout()
             is WorkoutDetailsEffect.NavigateBack -> navigateBack()
+            is WorkoutDetailsEffect.NavigateToShareWithCommunity -> {
+                navigateToShareWithCommunity(effect.workoutId)
+            }
         }
     }
     WorkoutDetailsContent(state = state, listener = viewModel)

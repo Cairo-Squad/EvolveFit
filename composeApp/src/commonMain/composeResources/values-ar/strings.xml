@@ -183,7 +183,6 @@
     <string name="ready_text_female">مستعدة لتدريب اليوم؟</string>
     <string name="your_progress">تقدمك</string>
     <string name="this_week">هذا الأسبوع</string>
-
     <string name="completed">مكتمل</string>
     <string name="the_goal">الهدف</string>
     <string name="current_weight">الوزن الحالي</string>
@@ -205,4 +204,15 @@
     <string name="previous">السابق</string>
     <string name="back">رجوع</string>
     <string name="bookmark">إضافة للمفضلة</string>
+    <string name="workout_saved_successfully">تم حفظ التمرين بنجاح!</string>
+    <string name="share_to">مشاركة عبر</string>
+    <string name="copy_link">نسخ الرابط</string>
+    <string name="share_with_community">مشاركة مع المجتمع</string>
+    <string name="messenger">ماسنجر</string>
+    <string name="whatsapp">واتساب</string>
+    <string name="telegram">تليجرام</string>
+    <string name="instagram">انستجرام</string>
+    <string name="x_platform">إكس</string>
+    <string name="link_copied">تم النسخ بنجاح!</string>
+    <string name="copy_failled">فشل النسخ حاول مرة اخري</string>
 </resources>

@@ -1,11 +1,13 @@
 package com.cairosquad.evolvefit.viewmodel.workoutDetails
 
+import org.jetbrains.compose.resources.StringResource
+
 data class WorkoutDetailsScreenState(
     val isLoading: Boolean = false,
     val workout: Workout = Workout(),
     val isShareClicked: Boolean = false,
-    val isFavorite: Boolean = false
-
+    val isFavorite: Boolean = false,
+    val snackBarMessageId: StringResource? = null
 ) {
     data class Workout(
         val workoutID: String = "",

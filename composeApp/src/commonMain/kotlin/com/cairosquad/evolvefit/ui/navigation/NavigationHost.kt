@@ -3,6 +3,7 @@ package com.cairosquad.evolvefit.ui.navigation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,11 +29,18 @@ import org.koin.compose.koinInject
 @Composable
 fun NavigationHost(
     authenticationPreferences: AuthenticationPreferences = koinInject(),
+    deepLinkRoute: Any? = null
 ) {
     val isUserLoggedIn = authenticationPreferences.getAccessToken().isNullOrBlank().not()
     val startDestination = if (isUserLoggedIn) AppRoute else OnboardingRoute
 
     val navController = rememberNavController()
+
+    LaunchedEffect(deepLinkRoute, isUserLoggedIn) {
+        if (deepLinkRoute != null && isUserLoggedIn) {
+            navController.navigate(deepLinkRoute)
+        }
+    }
     NavHost(
         modifier = Modifier
             .fillMaxSize()
@@ -123,7 +131,8 @@ fun NavigationHost(
             WorkoutDetailsScreen(
                 workoutId = workoutId,
                 navigateBack = navController::popBackStack,
-                navigateToPlayWorkout = { navController.navigate(PlayWorkoutRoute(workoutId)) }
+                navigateToPlayWorkout = { navController.navigate(PlayWorkoutRoute(workoutId)) },
+                navigateToShareWithCommunity = { },
             )
         }
 

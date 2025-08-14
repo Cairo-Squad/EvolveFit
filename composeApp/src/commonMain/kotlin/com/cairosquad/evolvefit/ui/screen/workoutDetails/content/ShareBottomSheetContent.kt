@@ -27,6 +27,15 @@ import evolvefit.composeapp.generated.resources.ic_telegram
 import evolvefit.composeapp.generated.resources.ic_wattsapp
 import evolvefit.composeapp.generated.resources.ic_x
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import evolvefit.composeapp.generated.resources.share_to
+import evolvefit.composeapp.generated.resources.copy_link
+import evolvefit.composeapp.generated.resources.share_with_community
+import evolvefit.composeapp.generated.resources.messenger
+import evolvefit.composeapp.generated.resources.whatsapp
+import evolvefit.composeapp.generated.resources.telegram
+import evolvefit.composeapp.generated.resources.instagram
+import evolvefit.composeapp.generated.resources.x_platform
 
 @Composable
 fun ShareBottomSheetContent(
@@ -42,7 +51,7 @@ fun ShareBottomSheetContent(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = "Share to",
+            text = stringResource(Res.string.share_to),
             color = Theme.color.surfaces.onSurface,
             style = Theme.textStyle.label.mediumMedium16,
             modifier = Modifier.padding(bottom = 16.dp)
@@ -54,14 +63,13 @@ fun ShareBottomSheetContent(
 
         ShareActionRow(
             icon = painterResource(Res.drawable.ic_copy),
-            label = "Copy link",
+            label = stringResource(Res.string.copy_link),
             onClick = onCopyLinkClick
         )
 
-
         ShareActionRow(
             icon = painterResource(Res.drawable.ic_share_community),
-            label = "Share with community",
+            label = stringResource(Res.string.share_with_community),
             onClick = onShareWithCommunityClick
         )
     }
@@ -75,27 +83,27 @@ fun ShareOptionsRow(onShareOptionClick: (String) -> Unit) {
     ) {
         ShareOptionItem(
             icon = painterResource(Res.drawable.ic_massenger),
-            label = "Messenger",
+            label = stringResource(Res.string.messenger),
             onClick = { onShareOptionClick("Messenger") }
         )
         ShareOptionItem(
             icon = painterResource(Res.drawable.ic_wattsapp),
-            label = "WhatsApp",
+            label = stringResource(Res.string.whatsapp),
             onClick = { onShareOptionClick("WhatsApp") }
         )
         ShareOptionItem(
             icon = painterResource(Res.drawable.ic_telegram),
-            label = "Telegram",
+            label = stringResource(Res.string.telegram),
             onClick = { onShareOptionClick("Telegram") }
         )
         ShareOptionItem(
             icon = painterResource(Res.drawable.ic_instagram),
-            label = "Instagram",
+            label = stringResource(Res.string.instagram),
             onClick = { onShareOptionClick("Instagram") }
         )
         ShareOptionItem(
             icon = painterResource(Res.drawable.ic_x),
-            label = "X",
+            label = stringResource(Res.string.x_platform),
             onClick = { onShareOptionClick("X") }
         )
     }
