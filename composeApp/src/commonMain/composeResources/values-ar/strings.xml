@@ -165,8 +165,6 @@
     <string name="ic_arrow_down">ايقونه سهم لإسفل</string>
     <string name="activity">الأنشطة</string>
     <string name="community">المجتمع</string>
-    <string name="back">رجوع</string>
-
     <string name="error_no_internet">لا يوجد اتصال بالإنترنت.</string>
     <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>
     <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.</string>
