@@ -157,7 +157,6 @@
     <string name="total_workouts">Total Workouts</string>
     <string name="time_spent">Time Spent</string>
     <string name="water_drops">Water Drops</string>
-    <string name="liters">Liters</string>
     <string name="expected_calories">"From %1$ kcal"</string>
     <string name="needle">Needle</string>
     <string name="share">Share</string>
@@ -188,4 +187,23 @@
     <string name="error_invalid_email_format">Invalid email format.</string>
     <string name="error_invalid_password">Password must be at least 8 characters.</string>
     <string name="error_unexpected">An unexpected error occurred.</string>
+    <string name="liters">Litres</string>
+
+    <string name="calories_small">calories</string>
+    <string name="water_consumption">Water consumption</string>
+    <string name="liters_small">liters</string>
+    <string name="remaining_formatted">%1$s %2$s remaining</string>
+    <string name="today_nutrition">Today’s Nutrition</string>
+
+    <string name="profile_picture">Profile Picture</string>
+    <string name="hello_user">Hello %1$s</string>
+    <string name="ready_text_male">Ready for today's workout?</string>
+    <string name="ready_text_female">Ready for today's workout?</string>
+    <string name="your_progress">Your Progress</string>
+    <string name="this_week">This Week</string>
+
+    <string name="completed">Completed</string>
+
+    <string name="the_goal">The Goal</string>
+    <string name="current_weight">Current weight</string>
 </resources>
