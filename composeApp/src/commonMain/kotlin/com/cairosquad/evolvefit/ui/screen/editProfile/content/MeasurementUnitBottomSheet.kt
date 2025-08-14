@@ -59,7 +59,6 @@ fun MeasurementBottomSheetContent(
         RegisterHeader(
             modifier = Modifier.padding(bottom = 16.dp),
             title = stringResource(Res.string.select_unit_title),
-            description = stringResource(Res.string.select_unit_description),
             titleStyle = Theme.textStyle.label.mediumMedium16
         )
 

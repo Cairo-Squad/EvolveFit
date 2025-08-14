@@ -183,11 +183,11 @@
     <string name="save_changes">Save Changes</string>
     <string name="choose_gender"> Choose Gender</string>
     <string name="your_height"> Your Height</string>
-    <string name="your_weight"> Your Current Height</string>
+    <string name="your_weight"> Your Current Weight</string>
     <string name="choose_your_main_goal">Choose Your Main Goal</string>
     <string name="goal_lose_weight">Lose weight</string>
     <string name="goal_gain_weight">Gain weight</string>
     <string name="goal_stay_in_shape">Stay in shape</string>
-    <string name="unit_metric">Metric (cm, kg)</string>
-    <string name="unit_imperial">Imperial (ft, lbs)</string>
+    <string name="unit_metric">Metric (cm/kg)</string>
+    <string name="unit_imperial">Imperial (ft/lbs)</string>
 </resources>

@@ -46,6 +46,9 @@ data class EditProfileScreenState(
         SATURDAY,
         SUNDAY
     }
-
+    enum class MeasurementStandard {
+        Metric,
+        Imperial
+    }
 
 }

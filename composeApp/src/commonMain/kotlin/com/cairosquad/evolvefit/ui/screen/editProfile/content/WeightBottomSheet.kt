@@ -18,6 +18,7 @@ import evolvefit.composeapp.generated.resources.ic_scale
 import evolvefit.composeapp.generated.resources.kg
 import evolvefit.composeapp.generated.resources.lb
 import evolvefit.composeapp.generated.resources.save
+import evolvefit.composeapp.generated.resources.unit_metric
 import evolvefit.composeapp.generated.resources.weight
 import evolvefit.composeapp.generated.resources.your_weight
 import org.jetbrains.compose.resources.painterResource
@@ -57,7 +58,7 @@ fun WeightBottomSheetContent(
     modifier: Modifier = Modifier
 ) {
     val (weightMeasureUnit, minWeight, maxWeight, dpPerWeightUnit, weightStep) =
-        if (measurementStandard == RegisterScreenState.MeasurementStandard.Metric.name) {
+        if (measurementStandard == stringResource(Res.string.unit_metric)) {
             WeightMeasurementData(
                 unit = stringResource(Res.string.kg),
                 minValue = HeightWeightConstants.MIN_WEIGHT_KG,

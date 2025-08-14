@@ -20,6 +20,7 @@ import evolvefit.composeapp.generated.resources.ft
 import evolvefit.composeapp.generated.resources.height
 import evolvefit.composeapp.generated.resources.ic_ruler
 import evolvefit.composeapp.generated.resources.save
+import evolvefit.composeapp.generated.resources.unit_metric
 import evolvefit.composeapp.generated.resources.your_height
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -59,7 +60,7 @@ fun HeightBottomSheetContent(
     modifier: Modifier = Modifier
 ) {
     val (heightMeasureUnit, minHeight, maxHeight, dpPerHeightUnit, heightStep) =
-        if (measurementStandard == RegisterScreenState.MeasurementStandard.Metric.name) {
+        if (measurementStandard == stringResource(Res.string.unit_metric) ){
             HeightMeasurementData(
                 unit = stringResource(Res.string.cm),
                 minValue = HeightWeightConstants.MIN_HEIGHT_CM,
