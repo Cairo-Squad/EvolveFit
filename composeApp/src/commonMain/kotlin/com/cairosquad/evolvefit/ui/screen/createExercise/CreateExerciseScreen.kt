@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.createExercise
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,8 +9,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -19,8 +22,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
@@ -33,7 +40,7 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.ImagePicker
 import com.cairosquad.evolvefit.ui.component.UiImageDisplayer
-import com.cairosquad.evolvefit.ui.screen.createExercise.content.DropdownMenu
+import com.cairosquad.evolvefit.ui.screen.createExercise.content.CustomDropdownMenu
 import com.cairosquad.evolvefit.ui.screen.createExercise.content.ExiteCreateExerciseBottomSheet
 import com.cairosquad.evolvefit.ui.screen.createExercise.content.RowWithIcon
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
@@ -109,6 +116,7 @@ fun CreateExerciseScreenContent(
     } else {
         state.selectedFocusAreasText
     }
+    val rowCoordinates = remember { mutableStateOf<LayoutCoordinates?>(null) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -193,22 +201,30 @@ fun CreateExerciseScreenContent(
             }
             item {
                 RowWithIcon(
-                    modifier = Modifier.padding(bottom = 12.dp),
-                    text =  selectedFocusArea,
+                    modifier = Modifier
+                        .padding(bottom = 12.dp)
+                        .onGloballyPositioned {
+                            rowCoordinates.value = it
+                        },
+                    text = selectedFocusArea,
                     isIconClicked = state.isFocusAreaExpanded,
                     onIconClicked = listener::onFocusAreaIconClicked
                 )
-                DropdownMenu(
-                    items = state.focusAreaNames,
-                    expanded = state.isFocusAreaExpanded,
-                    onDismissRequest = listener::onDismissFocusAreasDropdownMenuRequest,
-                    onItemSelected = listener::onFocusAreaNameSelected,
-                    isChecked = state::isFocusAreaSelected
-                )
+                AnimatedVisibility(visible = state.isFocusAreaExpanded) {
+                    Column {
+                        CustomDropdownMenu(
+                            items = state.focusAreaNames,
+                            onItemSelected = listener::onFocusAreaNameSelected,
+                            isChecked = state::isFocusAreaSelected
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+                }
             }
             item {
                 Row(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(bottom = 12.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
@@ -238,8 +254,10 @@ fun CreateExerciseScreenContent(
                     )
                 }
             }
-            if (state.isDurationChecked || state.isRepsChecked) {
-                item {
+            item {
+                AnimatedVisibility(
+                    visible = state.isDurationChecked || state.isRepsChecked,
+                ) {
                     InputField(
                         modifier = Modifier.padding(bottom = 12.dp),
                         value = state.measurementInputValue.toString(),
@@ -267,18 +285,21 @@ fun CreateExerciseScreenContent(
                     isIconClicked = state.isEquipmentExpanded,
                     onIconClicked = listener::onAvailableEquipmentsIconClicked
                 )
-                DropdownMenu(
-                    items = state.equipmentNames,
-                    expanded = state.isEquipmentExpanded,
-                    onDismissRequest = listener::onDismissEquipmentsDropdownMenuRequest,
-                    onItemSelected = listener::onEquipmentNameSelected,
-                    isChecked = state::isEquipmentSelected
-                )
+                AnimatedVisibility(visible = state.isEquipmentExpanded) {
+                    Column {
+                        CustomDropdownMenu(
+                            items = state.equipmentNames,
+                            onItemSelected = listener::onEquipmentNameSelected,
+                            isChecked = state::isEquipmentSelected
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+
+                }
             }
             item {
                 InputField(
                     placeholder = stringResource(Res.string.enter_instructions),
-                    modifier = Modifier,
                     minHeight = 124.dp,
                     value = state.description,
                     onValueChange = listener::onDescriptionChanged,
