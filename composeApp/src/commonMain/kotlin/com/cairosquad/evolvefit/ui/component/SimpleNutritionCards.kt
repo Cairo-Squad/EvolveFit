@@ -1,0 +1,298 @@
+package com.cairosquad.evolvefit.ui.component
+
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.theme.AppTheme
+import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.util.toFormattedString
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.calories
+import evolvefit.composeapp.generated.resources.calories_small
+import evolvefit.composeapp.generated.resources.ic_fire
+import evolvefit.composeapp.generated.resources.ic_water_drop
+import evolvefit.composeapp.generated.resources.liters_small
+import evolvefit.composeapp.generated.resources.remaining_formatted
+import evolvefit.composeapp.generated.resources.water_consumption
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
+
+@Composable
+fun CaloriesNutritionCard(
+    value: UInt,
+    goal: UInt,
+    modifier: Modifier = Modifier
+) {
+    SimpleNutritionCard(
+        icon = painterResource(Res.drawable.ic_fire),
+        tintColor = Theme.color.system.success,
+        name = stringResource(Res.string.calories),
+        value = value.toFormattedString(),
+        goal = goal.toFormattedString(),
+        unit = stringResource(Res.string.calories_small),
+        progress = (value.toFloat() / goal.toFloat()),
+        remaining = (goal - value).toFormattedString(),
+        isUnitShownOnBar = false,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun WaterNutritionCard(
+    value: Float,
+    goal: Float,
+    modifier: Modifier = Modifier
+) {
+    SimpleNutritionCard(
+        icon = painterResource(Res.drawable.ic_water_drop),
+        tintColor = Theme.color.system.info,
+        name = stringResource(Res.string.water_consumption),
+        value = value.toFormattedString(),
+        goal = goal.toFormattedString(),
+        unit = stringResource(Res.string.liters_small),
+        progress = (value / goal),
+        remaining = (goal - value).toFormattedString(),
+        isUnitShownOnBar = true,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun SimpleNutritionCard(
+    icon: Painter,
+    tintColor: Color,
+    name: String,
+    value: String,
+    goal: String,
+    remaining: String,
+    progress: Float,
+    unit: String,
+    isUnitShownOnBar: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(Theme.color.surfaces.surfaceContainer)
+            .padding(12.dp)
+    ) {
+        SimpleNutritionCardHeader(
+            icon = icon,
+            iconTint = tintColor,
+            name = name,
+            unit = unit,
+            modifier = Modifier
+                .padding(bottom = 16.dp)
+        )
+
+        SimpleNutritionCardValues(
+            value = value,
+            goal = goal,
+            unit = unit,
+            isUnitShownOnBar = isUnitShownOnBar,
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+        )
+
+        SimpleNutritionCardProgressBar(
+            progress = progress,
+            progressColor = tintColor,
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+        )
+
+        Text(
+            text = stringResource(
+                Res.string.remaining_formatted,
+                remaining,
+                unit
+            ),
+            style = Theme.textStyle.label.smallRegular12,
+            color = Theme.color.surfaces.outline,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+@Composable
+private fun SimpleNutritionCardHeader(
+    icon: Painter,
+    iconTint: Color,
+    name: String,
+    unit: String,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        NutritionIcon(
+            icon = icon,
+            iconTint = iconTint,
+            unit = unit,
+            modifier = Modifier.padding(end = 8.dp)
+        )
+
+        Text(
+            text = name,
+            style = Theme.textStyle.title.largeBold14,
+            color = Theme.color.surfaces.onSurfaceContainer,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+@Composable
+private fun NutritionIcon(
+    icon: Painter,
+    iconTint: Color,
+    unit: String,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .clip(CircleShape)
+            .size(32.dp)
+            .background(Theme.color.surfaces.surfaceVariant),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            painter = icon,
+            contentDescription = unit,
+            tint = iconTint,
+            modifier = Modifier
+                .size(16.dp)
+        )
+    }
+}
+
+@Composable
+private fun SimpleNutritionCardValues(
+    value: String,
+    goal: String,
+    unit: String,
+    isUnitShownOnBar: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        val valueWithUnit = if (isUnitShownOnBar) "$value $unit" else value
+        Text(
+            text = valueWithUnit,
+            style = Theme.textStyle.label.smallRegular12,
+            color = Theme.color.surfaces.outline,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .padding(end = 8.dp)
+        )
+
+        val goalWithUnit = if (isUnitShownOnBar) "$goal $unit" else goal
+        Text(
+            text = goalWithUnit,
+            style = Theme.textStyle.label.smallRegular12,
+            color = Theme.color.surfaces.outline,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+private const val NUTRITION_CARD_ANIMATION_DELAY = 250
+private const val NUTRITION_CARD_ANIMATION_UNIT_DURATION = 1200
+
+@Composable
+private fun SimpleNutritionCardProgressBar(
+    progress: Float,
+    progressColor: Color,
+    modifier: Modifier = Modifier
+) {
+    var startAnimation by rememberSaveable { mutableStateOf(false) }
+    val animatedProgress by animateFloatAsState(
+        targetValue = if (startAnimation) progress else 0f,
+        animationSpec = tween(
+            durationMillis = (NUTRITION_CARD_ANIMATION_UNIT_DURATION * progress).toInt(),
+            delayMillis = NUTRITION_CARD_ANIMATION_DELAY,
+            easing = LinearOutSlowInEasing
+        ),
+    )
+
+    LaunchedEffect(progress) {
+        startAnimation = true
+    }
+
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(24.dp))
+            .fillMaxWidth()
+            .height(8.dp)
+            .background(Theme.color.surfaces.surfaceVariant)
+            .animateContentSize()
+    ) {
+        Box(
+            modifier = Modifier
+                .clip(RoundedCornerShape(24.dp))
+                .fillMaxHeight()
+                .fillMaxWidth(animatedProgress)
+                .background(progressColor)
+                .animateContentSize()
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewSimpleNutritionCard() {
+    AppTheme(
+        isDarkTheme = true
+    ) {
+        SimpleNutritionCard(
+            icon = painterResource(Res.drawable.ic_fire),
+            tintColor = Theme.color.system.success,
+            name = "Calories",
+            value = "1,650",
+            goal = "2,200",
+            unit = "calories",
+            progress = (1650f / 2200f),
+            remaining = "550",
+            isUnitShownOnBar = false,
+        )
+    }
+}

@@ -84,7 +84,9 @@ fun AppScreen(
             modifier = Modifier.weight(1f)
         ) {
             when (selectedScreenIndex) {
-                0 -> HomeScreen()
+                0 -> HomeScreen(
+                    navigateToWorkout = navigateToWorkoutDetails
+                )
                 1 -> NutritionScreen(
                     navigateToSuggestedMeals = navigateToSuggestedMeals,
                     navigateToMealDetails = navigateToMealDetails,

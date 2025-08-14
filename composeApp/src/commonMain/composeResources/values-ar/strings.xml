@@ -46,6 +46,7 @@
     <string name="meal_type_dinner">عشاء</string>
     <string name="meal_type_snacks">وجبات خفيفة</string>
     <string name="suggested_meals">الوجبات المقترحة</string>
+    <string name="shimmer_loading">انميشن التحميل</string>
     <string name="todays_meals">وجبات اليوم</string>
     <string name="remaining">المتبقي</string>
     <string name="add_meal">إضافة وجبة</string>
@@ -56,6 +57,7 @@
     <string name="meal_added_snackbar">تمت إضافة الوجبة إلى السجل.</string>
     <string name="no_meals_title">لا توجد وجبات مسجلة بعد</string>
     <string name="no_meals_description">ابدأ في تسجيل وجباتك لتتبع السعرات الحرارية اليومية وتحسين عاداتك الغذائية.</string>
+    <string name="failed_to_load_meals">فشل تحميل الوجبات</string>
     <string name="cm">سم</string>
     <string name="kg">كجم</string>
     <string name="ft">قدم</string>
@@ -188,6 +190,23 @@
     <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.</string>
     <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل.</string>
     <string name="error_unexpected">حدث خطأ غير متوقع.</string>
+
+    <string name="calories_small">سعر حراري</string>
+    <string name="water_consumption">شرب الماء</string>
+    <string name="liters_small">لتر</string>
+    <string name="remaining_formatted">%1$s %2$s متبقية</string>
+    <string name="today_nutrition">تغذية اليوم</string>
+
+    <string name="profile_picture">الصورة الشخصية</string>
+    <string name="hello_user">مرحبًا %1$s</string>
+    <string name="ready_text_male">مستعد لتدريب اليوم؟</string>
+    <string name="ready_text_female">مستعدة لتدريب اليوم؟</string>
+    <string name="your_progress">تقدمك</string>
+    <string name="this_week">هذا الأسبوع</string>
+
+    <string name="completed">مكتمل</string>
+    <string name="the_goal">الهدف</string>
+    <string name="current_weight">الوزن الحالي</string>
     <string name="goal_lose_weight">إنقاص الوزن</string>
     <string name="goal_gain_weight">زيادة الوزن</string>
     <string name="goal_stay_in_shape">الحفاظ على اللياقة</string>
