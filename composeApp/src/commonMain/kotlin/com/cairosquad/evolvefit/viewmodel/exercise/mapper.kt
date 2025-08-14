@@ -33,7 +33,7 @@ fun CreateExerciseState.toDomainExercise(): Exercise {
         id = "",
         estimatedTimeInSeconds = when (measurementType) {
             CreateExerciseState.MeasurementType.DURATION -> timeOrReps
-            CreateExerciseState.MeasurementType.REPS -> timeOrReps * 3
+            CreateExerciseState.MeasurementType.REPS -> timeOrReps
         }
     )
 }
