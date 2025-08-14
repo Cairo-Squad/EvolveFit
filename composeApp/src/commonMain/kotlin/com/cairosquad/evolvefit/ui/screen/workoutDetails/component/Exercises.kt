@@ -40,7 +40,7 @@ fun Exercises(
                 style = Theme.textStyle.label.mediumMedium16
             )
             Text(
-                text = " ${exercises.size}",
+                text = " (${exercises.size})",
                 color = Theme.color.surfaces.outline,
                 style = Theme.textStyle.label.smallRegular12,
             )

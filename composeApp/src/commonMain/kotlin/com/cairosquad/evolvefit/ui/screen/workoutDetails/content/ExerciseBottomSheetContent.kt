@@ -146,8 +146,8 @@ fun ExerciseBottomSheetContentPreview() {
             "Push through your heels to return to standing"
         ),
         images = listOf(
-            "https://via.placeholder.com/150",
-            "https://via.placeholder.com/150"
+            "https://res.cloudinary.com/dqd5lvkpz/image/upload/v1755011701/evolveFit/images/exercises/747060f3-dca1-46dd-816e-e308eb57eb17-1755011700.png",
+            "https://res.cloudinary.com/dqd5lvkpz/image/upload/v1755011701/evolveFit/images/exercises/747060f3-dca1-46dd-816e-e308eb57eb17-1755011700.png"
         ),
         type = WorkoutDetailsScreenState.ExerciseType.Reps(count = 12),
         equipment = "Barbell",

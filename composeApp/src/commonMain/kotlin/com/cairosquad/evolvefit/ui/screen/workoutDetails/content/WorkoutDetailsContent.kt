@@ -151,7 +151,7 @@ fun WorkoutDetailsPreview() {
         isLoading = false,
         workout = WorkoutDetailsScreenState.Workout(
             workoutID = "1",
-            workoutImage = "https://picsum.photos/600/400",
+            workoutImage = "https://phxgymwitham.co.uk/wp-content/uploads/2024/05/Upper-body-gym-workout-1024x681.jpg",
             workoutTitle = "Full Body Workout",
             workoutDescription = "A complete workout targeting all major muscle groups.",
             level = WorkoutDetailsScreenState.WorkoutLevel.INTERMEDIATE,
@@ -165,8 +165,8 @@ fun WorkoutDetailsPreview() {
                         "Push yourself back up."
                     ),
                     images = listOf(
-                        "https://picsum.photos/200/200",
-                        "https://picsum.photos/200/201"
+                        "https://res.cloudinary.com/dqd5lvkpz/image/upload/v1755011701/evolveFit/images/exercises/747060f3-dca1-46dd-816e-e308eb57eb17-1755011700.png",
+                        "https://res.cloudinary.com/dqd5lvkpz/image/upload/v1755011701/evolveFit/images/exercises/747060f3-dca1-46dd-816e-e308eb57eb17-1755011700.png"
                     ),
                     type = WorkoutDetailsScreenState.ExerciseType.Reps(15),
                     equipment = "Bodyweight",
@@ -183,8 +183,8 @@ fun WorkoutDetailsPreview() {
                         "Hold this position."
                     ),
                     images = listOf(
-                        "https://picsum.photos/200/202",
-                        "https://picsum.photos/200/203"
+                        "https://res.cloudinary.com/dqd5lvkpz/image/upload/v1755011701/evolveFit/images/exercises/747060f3-dca1-46dd-816e-e308eb57eb17-1755011700.png",
+                        "https://res.cloudinary.com/dqd5lvkpz/image/upload/v1755011701/evolveFit/images/exercises/747060f3-dca1-46dd-816e-e308eb57eb17-1755011700.png"
                     ),
                     type = WorkoutDetailsScreenState.ExerciseType.Duration(60),
                     equipment = "Bodyweight",
