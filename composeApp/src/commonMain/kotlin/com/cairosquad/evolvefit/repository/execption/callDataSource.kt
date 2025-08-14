@@ -1,28 +1,15 @@
-package com.cairosquad.evolvefit.repository.utils
+package com.cairosquad.evolvefit.repository.execption
 
 import com.cairosquad.evolvefit.domain.exception.AppException
 import com.cairosquad.evolvefit.domain.exception.InternetConnectionException
 import com.cairosquad.evolvefit.domain.exception.NetworkException
 import com.cairosquad.evolvefit.domain.exception.UnauthorizedUserException
 import com.cairosquad.evolvefit.domain.exception.UnknownException
-import com.cairosquad.evolvefit.repository.execption.ApiException
-import com.cairosquad.evolvefit.repository.execption.BadRequestException
-import com.cairosquad.evolvefit.repository.execption.ConflictException
-import com.cairosquad.evolvefit.repository.execption.ForbiddenException
-import com.cairosquad.evolvefit.repository.execption.NoInternetException
-import com.cairosquad.evolvefit.repository.execption.NotFoundException
-import com.cairosquad.evolvefit.repository.execption.RepoJsonParsingException
-import com.cairosquad.evolvefit.repository.execption.RepositoryException
-import com.cairosquad.evolvefit.repository.execption.RequestTimeoutException
-import com.cairosquad.evolvefit.repository.execption.ServerException
-import com.cairosquad.evolvefit.repository.execption.TooManyRequestsException
-import com.cairosquad.evolvefit.repository.execption.UnauthorizedException
-import com.cairosquad.evolvefit.repository.execption.UnknownDataSourceException
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.io.IOException
 import kotlinx.serialization.SerializationException
 
-suspend fun <T> safeCallDataSource(execute: suspend () -> T): T {
+suspend fun <T> callDataSource(execute: suspend () -> T): T {
     return try {
         execute()
     } catch (e: RepositoryException) {

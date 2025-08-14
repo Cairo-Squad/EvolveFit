@@ -16,7 +16,7 @@ import com.cairosquad.evolvefit.design_system.component.NavigationBarItem
 import com.cairosquad.evolvefit.ui.screen.home.HomeScreen
 import com.cairosquad.evolvefit.ui.screen.nutrition.NutritionScreen
 import com.cairosquad.evolvefit.ui.screen.report.ReportScreen
-import com.cairosquad.evolvefit.ui.screen.workouts.WorkoutsScreen
+import com.cairosquad.evolvefit.ui.screen.workout.WorkoutScreen
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.dashboard
 import evolvefit.composeapp.generated.resources.dashboard_filled
@@ -82,17 +82,21 @@ fun AppScreen(
             modifier = Modifier.weight(1f)
         ) {
             when (selectedScreenIndex) {
-                0 -> HomeScreen()
+                0 -> HomeScreen(
+                    navigateToWorkout = navigateToWorkoutDetails
+                )
                 1 -> NutritionScreen(
                     navigateToSuggestedMeals = navigateToSuggestedMeals,
                     navigateToMealDetails = navigateToMealDetails,
                     navigateToMealsHistory = navigateToMealsHistory
                 )
-                2 -> WorkoutsScreen(
+
+                2 -> WorkoutScreen(
                     navigateToCreateWorkout = navigateToCreateWorkout,
                     navigateToCommunityWorkout = navigateToCommunityWorkout,
                     navigateToWorkoutDetails = navigateToWorkoutDetails,
                 )
+
                 3 -> ReportScreen(
                     navigateToWorkoutHistory = navigateToWorkoutHistory
                 )

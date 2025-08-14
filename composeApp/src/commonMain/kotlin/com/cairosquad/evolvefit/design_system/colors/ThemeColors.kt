@@ -31,10 +31,12 @@ data class Brand(
 )
 data class System(
     val warning: Color,
+    val error: Color,
     val success: Color,
     val info: Color,
 )
 
 data class Gradiant(
     val barGradiant: List<Color>,
+    val shimmerGradientColors: List<Color>
 )

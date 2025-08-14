@@ -26,6 +26,7 @@ val lightThemeColors = ThemeColors(
     ),
     system = System(
         warning = Color(0xFFD9CB00),
+        error = Color(0xFFF65659),
         success = Color(0xFF8DD876),
         info = Color(0xFF4E95FF),
     ),
@@ -33,6 +34,11 @@ val lightThemeColors = ThemeColors(
         barGradiant = listOf(
             Color(0xFF86D01D),
             Color(0x03FFFFFF)
+        ),
+        shimmerGradientColors = listOf(
+            Color.Transparent,
+            Color(0xFFFFFFFF),
+            Color.Transparent,
         )
     )
 )

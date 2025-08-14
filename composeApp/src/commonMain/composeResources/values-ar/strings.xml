@@ -46,6 +46,7 @@
     <string name="meal_type_dinner">عشاء</string>
     <string name="meal_type_snacks">وجبات خفيفة</string>
     <string name="suggested_meals">الوجبات المقترحة</string>
+    <string name="shimmer_loading">انميشن التحميل</string>
     <string name="todays_meals">وجبات اليوم</string>
     <string name="remaining">المتبقي</string>
     <string name="add_meal">إضافة وجبة</string>
@@ -57,6 +58,7 @@
     <string name="water_cant_added_snackbar">لقد تجاوزت هدفك اليومي من المياه.</string>
     <string name="no_meals_title">لا توجد وجبات مسجلة بعد</string>
     <string name="no_meals_description">ابدأ في تسجيل وجباتك لتتبع السعرات الحرارية اليومية وتحسين عاداتك الغذائية.</string>
+    <string name="failed_to_load_meals">فشل تحميل الوجبات</string>
     <string name="cm">سم</string>
     <string name="kg">كجم</string>
     <string name="ft">قدم</string>
@@ -121,7 +123,7 @@
     <string name="date_of_birth">تاريخ الميلاد</string>
     <string name="welcome_back_title">مرحبًا بعودتك!</string>
     <string name="welcome_back_description">سجّل الدخول لمتابعة رحلتك في اللياقة البدنية، وتتبع تقدمك، وحافظ على تحفيزك كل يوم.</string>
-    <string name="email_placeholder">أدخل اسمك</string>
+    <string name="email_placeholder">أدخل بريدك الالكتروني</string>
     <string name="password_placeholder">كلمة المرور</string>
     <string name="logo_description">أيقونة الشعار</string>
     <string name="arrow_back_description">أيقونة الرجوع للخلف</string>
@@ -165,6 +167,31 @@
     <string name="workout_report">تقرير التدريب</string>
     <string name="ic_arrow_down">ايقونه سهم لإسفل</string>
     <string name="activity">الأنشطة</string>
+    <string name="community">المجتمع</string>
+    <string name="back">رجوع</string>
+
+    <string name="error_no_internet">لا يوجد اتصال بالإنترنت.</string>
+    <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>
+    <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.</string>
+    <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل.</string>
+    <string name="error_unexpected">حدث خطأ غير متوقع.</string>
+
+    <string name="calories_small">سعر حراري</string>
+    <string name="water_consumption">شرب الماء</string>
+    <string name="liters_small">لتر</string>
+    <string name="remaining_formatted">%1$s %2$s متبقية</string>
+    <string name="today_nutrition">تغذية اليوم</string>
+
+    <string name="profile_picture">الصورة الشخصية</string>
+    <string name="hello_user">مرحبًا %1$s</string>
+    <string name="ready_text_male">مستعد لتدريب اليوم؟</string>
+    <string name="ready_text_female">مستعدة لتدريب اليوم؟</string>
+    <string name="your_progress">تقدمك</string>
+    <string name="this_week">هذا الأسبوع</string>
+
+    <string name="completed">مكتمل</string>
+    <string name="the_goal">الهدف</string>
+    <string name="current_weight">الوزن الحالي</string>
     <string name="error_invalid_number">أدخل رقمًا صحيحًا أو عشريًا فقط</string>
     <string name="error_exceeded_calories">تجاوزت الحد المسموح للسعرات</string>
     <string name="error_exceeded_water">تجاوزت الحد المسموح للمياه</string>
