@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -203,7 +204,10 @@ fun TabsWithPager(
                 0 -> {
                     if (workouts.isEmpty()) {
                         StateMessage(
-                            modifier = Modifier.padding(top = 180.dp),
+                            modifier = Modifier
+                                .padding(top = 180.dp),
+                            imageModifier = Modifier
+                                .size(height = 120.dp, width = 170.dp),
                             verticalArrangement = Arrangement.Top,
                             image = painterResource(emptyListScreen),
                             title = "Your workouts is empty",
@@ -212,17 +216,18 @@ fun TabsWithPager(
                         )
                     } else {
                         WorkoutList(workouts = workouts)
-                   }
+                    }
 
                 }
 
                 1 -> {
                     if (workouts.isEmpty()) {
                         StateMessage(
-                            modifier = Modifier.padding(top = 180.dp),
+                            modifier = Modifier
+                                .padding(top = 180.dp),
+                            imageModifier = Modifier
+                                .size(height = 120.dp, width = 170.dp),
                             verticalArrangement = Arrangement.Top,
-                            imageWidth =170.dp ,
-                            imageHeight =120.dp ,
                             image = painterResource(emptyListScreen),
                             title = "Your favorites is empty",
                             description = "Add your favorite meals to access them anytime."
@@ -274,74 +279,72 @@ fun MealsList(meals: List<MealsUiModel>) {
 }
 
 
-
-
 @Preview
 @Composable
 private fun FavoritesScreenContentPreview() {
     val dummyWorkouts = listOf(
         WorkoutsUiModel(
             name = "Full Body Burn",
-            estimatedTimeInSeconds = 900, // 15 minutes
+            estimatedTimeInSeconds = 900,
             focusArea = "Full Body",
             imageUrl = "https://example.com/images/full_body.jpg"
         ),
         WorkoutsUiModel(
             name = "Abs Crusher",
-            estimatedTimeInSeconds = 600, // 10 minutes
+            estimatedTimeInSeconds = 600,
             focusArea = "Core",
             imageUrl = "https://example.com/images/abs_crusher.jpg"
         ),
         WorkoutsUiModel(
             name = "Leg Day Challenge",
-            estimatedTimeInSeconds = 1200, // 20 minutes
+            estimatedTimeInSeconds = 1200,
             focusArea = "Legs",
             imageUrl = "https://example.com/images/leg_day.jpg"
         ),
         WorkoutsUiModel(
             name = "Upper Body Shred",
-            estimatedTimeInSeconds = 750, // 12.5 minutes
+            estimatedTimeInSeconds = 750,
             focusArea = "Upper Body",
             imageUrl = "https://example.com/images/upper_body.jpg"
         ),
         WorkoutsUiModel(
             name = "Upper Body Shred",
-            estimatedTimeInSeconds = 750, // 12.5 minutes
+            estimatedTimeInSeconds = 750,
             focusArea = "Upper Body",
             imageUrl = "https://example.com/images/upper_body.jpg"
         ),
         WorkoutsUiModel(
             name = "Upper Body Shred",
-            estimatedTimeInSeconds = 750, // 12.5 minutes
+            estimatedTimeInSeconds = 750,
             focusArea = "Upper Body",
             imageUrl = "https://example.com/images/upper_body.jpg"
         ),
         WorkoutsUiModel(
             name = "Upper Body Shred",
-            estimatedTimeInSeconds = 750, // 12.5 minutes
+            estimatedTimeInSeconds = 750,
             focusArea = "Upper Body",
             imageUrl = "https://example.com/images/upper_body.jpg"
         ),
         WorkoutsUiModel(
             name = "Upper Body Shred",
-            estimatedTimeInSeconds = 750, // 12.5 minutes
+            estimatedTimeInSeconds = 750,
             focusArea = "Upper Body",
             imageUrl = "https://example.com/images/upper_body.jpg"
         ),
         WorkoutsUiModel(
             name = "Upper Body Shred",
-            estimatedTimeInSeconds = 750, // 12.5 minutes
+            estimatedTimeInSeconds = 750,
             focusArea = "Upper Body",
             imageUrl = "https://example.com/images/upper_body.jpg"
         ), WorkoutsUiModel(
             name = "Upper Body Shred",
-            estimatedTimeInSeconds = 750, // 12.5 minutes
+            estimatedTimeInSeconds = 750,
             focusArea = "Upper Body",
             imageUrl = "https://example.com/images/upper_body.jpg"
         ),
         WorkoutsUiModel(
             name = "Stretch & Cool Down",
-            estimatedTimeInSeconds = 300, // 5 minutes
+            estimatedTimeInSeconds = 300,
             focusArea = "Flexibility",
             imageUrl = "https://example.com/images/stretch.jpg"
         )

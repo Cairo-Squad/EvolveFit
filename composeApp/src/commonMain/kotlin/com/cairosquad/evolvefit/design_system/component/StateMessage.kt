@@ -29,10 +29,9 @@ fun StateMessage(
     title: String,
     description: String,
     modifier: Modifier = Modifier,
+    imageModifier: Modifier = Modifier,
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     verticalArrangement: Arrangement.Vertical = Arrangement.Center,
-    imageHeight: Dp = 120.dp,
-    imageWidth: Dp = 144.dp
 ) {
     Column(
         modifier = modifier
@@ -42,9 +41,9 @@ fun StateMessage(
         verticalArrangement = verticalArrangement
     ) {
         Image(
-            modifier = Modifier
+            modifier = imageModifier
                 .padding(bottom = 16.dp)
-                .size(imageWidth, imageHeight),
+                .size(width = 144.dp, height = 120.dp),
             painter = image,
             contentDescription = title
         )
