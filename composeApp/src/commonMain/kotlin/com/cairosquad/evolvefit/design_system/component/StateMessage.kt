@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -27,19 +28,23 @@ fun StateMessage(
     image: Painter,
     title: String,
     description: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    imageHeight: Dp = 120.dp,
+    imageWidth: Dp = 144.dp
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        horizontalAlignment = horizontalAlignment,
+        verticalArrangement = verticalArrangement
     ) {
         Image(
             modifier = Modifier
                 .padding(bottom = 16.dp)
-                .size(width = 144.dp, height = 120.dp),
+                .size(imageWidth, imageHeight),
             painter = image,
             contentDescription = title
         )
