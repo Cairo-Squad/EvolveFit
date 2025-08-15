@@ -31,9 +31,3 @@ data class RegisterRequest(
 
 @Serializable
 data class RefreshRequest(val refreshToken: String)
-
-@Serializable
-data class EquipmentDto(
-    val id: Int,
-    val name: String
-)
