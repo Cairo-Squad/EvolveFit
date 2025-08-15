@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,11 +40,14 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.util.noRippleClickable
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.characters_left
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_check_mark
 import evolvefit.composeapp.generated.resources.ic_date
@@ -51,6 +56,7 @@ import evolvefit.composeapp.generated.resources.ic_profile
 import evolvefit.composeapp.generated.resources.ic_visibility_on
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -65,7 +71,9 @@ fun InputField(
     isErrorMessageShown: Boolean = true,
     isSingleLine: Boolean = true,
     isPasswordField: Boolean = false,
+    isCharacterCountVisible: Boolean = false,
     maxCharacters: Int? = 100,
+    minHeight: Dp = 0.dp,
     leadingIcon: DrawableResource? = null,
     trailingIcon: DrawableResource? = null,
     trailingIconModifier: Modifier = Modifier,
@@ -98,6 +106,7 @@ fun InputField(
     ) {
         BasicTextField(
             modifier = Modifier
+                .heightIn(min = minHeight)
                 .border(
                     width = 1.dp,
                     color = if (error.isNotBlank()) Theme.color.system.error else Color.Transparent,
@@ -129,7 +138,7 @@ fun InputField(
             keyboardOptions = keyboardOptions,
             singleLine = isSingleLine,
             decorationBox = { innerTextField ->
-
+                Column(modifier = Modifier.fillMaxWidth()) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -195,6 +204,20 @@ fun InputField(
                         onTrailingIconClick,
                     )
                 }
+                    if (isCharacterCountVisible && maxCharacters != null) {
+                        Spacer(modifier = Modifier.weight(1f))
+                        val remaining = maxCharacters - textFieldValue.text.length
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 4.dp, end = 8.dp),
+                            text = stringResource(Res.string.characters_left, remaining),
+                            style = Theme.textStyle.label.smallRegular12,
+                            color = Theme.color.surfaces.onSurfaceVariant,
+                            textAlign = TextAlign.End
+                        )
+                    }
+            }
             },
             cursorBrush = SolidColor(
                 Theme.color.surfaces.onSurface
