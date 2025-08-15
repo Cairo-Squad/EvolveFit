@@ -1,6 +1,8 @@
 package com.cairosquad.evolvefit.viewmodel.favorites
 
 import com.cairosquad.evolvefit.domain.entity.Workout
+import com.cairosquad.evolvefit.entity.nutrition.MealType
+import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
 
 data class FavoritesState(
    val isLoading: Boolean = false,
@@ -18,25 +20,20 @@ data class WorkoutsUiModel(
 )
 
 data class MealsUiModel(
+    val id: String,
     val name: String,
     val type: MealType,
-    val imageUrl: String,
-    val nutrition: Nutrition,
-){
-    data class Nutrition(
-        val caloriesInKcal: Int,
-        val fatInGrams: Int,
-        val proteinInGrams: Int,
-        val carbsInGrams: Int
+    val calories: Int,
+    val imageUrl: String
+)
+fun SuggestedMeal.toUiState(): MealsUiModel {
+    return MealsUiModel(
+        id = id,
+        name = name,
+        type = type,
+        calories = calories,
+        imageUrl = imageUrl
     )
-}
-
-
-enum class MealType {
-    BREAKFAST,
-    LUNCH,
-    DINNER,
-    SNACKS
 }
 
 fun Workout.toUiState(): WorkoutsUiModel {
@@ -48,3 +45,4 @@ fun Workout.toUiState(): WorkoutsUiModel {
 
     )
 }
+

@@ -1,11 +1,11 @@
 package com.cairosquad.evolvefit.viewmodel.favorites
 
-import com.cairosquad.evolvefit.domain.usecase.meal.ManageMealUseCase
+import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 
 class FavoritesViewModel(
-    private val manageMealUseCase: ManageMealUseCase,
+    private val getFavoriteMealsUseCase: ManageNutritionUseCase,
     private val manageWorkoutUseCase: ManageWorkoutUseCase
 ) : BaseViewModel<FavoritesState, FavoritesEffect>(FavoritesState()),
     FavoritesInteractionListener {
@@ -28,10 +28,13 @@ class FavoritesViewModel(
     }
 
     private fun loadMeals() {
+
         tryToCall(
-            block = { manageMealUseCase.getFavoriteMeals() },
+            block = { getFavoriteMealsUseCase.getFavouriteMeals() },
             onError = {},
-            onSuccess = {}
+            onSuccess = { meals ->
+                updateState { it.copy(mealsList = meals.map { it.toUiState() }) }
+            }
         )
     }
 
