@@ -8,8 +8,6 @@ import com.cairosquad.evolvefit.repository.exercise.remote.ExerciseRemoteDataSou
 import com.cairosquad.evolvefit.repository.exercise.remote.ExerciseRemoteDataSourceImpl
 import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSource
 import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSourceImpl
-import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSource
-import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSourceImpl
 import com.cairosquad.evolvefit.repository.utils.RefreshTokenProvider
 import com.cairosquad.evolvefit.repository.utils.provideHttpClient
 import com.cairosquad.evolvefit.repository.workout.remote.WorkoutRemoteDataSource
