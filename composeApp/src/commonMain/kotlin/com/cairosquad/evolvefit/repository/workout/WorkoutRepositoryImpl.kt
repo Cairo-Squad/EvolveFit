@@ -5,7 +5,10 @@ import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
+import com.cairosquad.evolvefit.repository.execption.callApi
+import com.cairosquad.evolvefit.repository.execption.callDataSource
 import com.cairosquad.evolvefit.repository.workout.remote.WorkoutRemoteDataSource
+import com.cairosquad.evolvefit.repository.workout.remote.toDomain
 import kotlinx.coroutines.delay
 
 class WorkoutRepositoryImpl(
@@ -29,9 +32,9 @@ class WorkoutRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getFavoriteWorkouts(): List<Workout> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getFavoriteWorkouts(): List<Workout> =
+        callDataSource { workoutRemoteDataSource.getFavoriteWorkout().map { it.toDomain() } }
+
 
     override suspend fun createWorkout(workout: Workout) {
         TODO("Not yet implemented")
@@ -78,7 +81,7 @@ class WorkoutRepositoryImpl(
                     specification = Exercise.Specification.Reps(10),
                     imageUrls = listOf("https://images.ctfassets.net/6ilvqec50fal/JdeBsAsNI2XepyM4IDL1U/ef2c96e26f7c3af5bce6db428cd1237f/Screenshot_2024-03-21_at_12.36.05_PM.png"),
                     equipment = Equipment(0, "Body Weight"),
-                    focusAreas = setOf(FocusArea.QUADRICEPS,FocusArea.CORE),
+                    focusAreas = setOf(FocusArea.QUADRICEPS, FocusArea.CORE),
                     instructions = listOf("this exercise is for for your health"),
                     estimatedTimeInSeconds = 60,
                 ),
@@ -86,7 +89,11 @@ class WorkoutRepositoryImpl(
                     id = "1",
                     name = "Running - Treadmill",
                     specification = Exercise.Specification.Time(30),
-                    imageUrls = listOf("https://images.ctfassets.net/6ilvqec50fal/JdeBsAsNI2XepyM4IDL1U/ef2c96e26f7c3af5bce6db428cd1237f/Screenshot_2024-03-21_at_12.36.05_PM.png","https://mrtreadmill.com.au/wp-content/uploads/shutterstock_1495412588-1.jpg","https://mrtreadmill.com.au/wp-content/uploads/shutterstock_1495412588-1.jpg"),
+                    imageUrls = listOf(
+                        "https://images.ctfassets.net/6ilvqec50fal/JdeBsAsNI2XepyM4IDL1U/ef2c96e26f7c3af5bce6db428cd1237f/Screenshot_2024-03-21_at_12.36.05_PM.png",
+                        "https://mrtreadmill.com.au/wp-content/uploads/shutterstock_1495412588-1.jpg",
+                        "https://mrtreadmill.com.au/wp-content/uploads/shutterstock_1495412588-1.jpg"
+                    ),
                     equipment = Equipment(0, "Body Weight"),
                     focusAreas = setOf(),
                     instructions = listOf("this exercise is for for your health"),

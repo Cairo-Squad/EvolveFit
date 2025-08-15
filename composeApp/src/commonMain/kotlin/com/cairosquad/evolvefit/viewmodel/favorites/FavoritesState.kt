@@ -1,5 +1,7 @@
 package com.cairosquad.evolvefit.viewmodel.favorites
 
+import com.cairosquad.evolvefit.domain.entity.Workout
+
 data class FavoritesState(
    val isLoading: Boolean = false,
     val workoutsList: List<WorkoutsUiModel> = emptyList(),
@@ -35,4 +37,14 @@ enum class MealType {
     LUNCH,
     DINNER,
     SNACKS
+}
+
+fun Workout.toUiState(): WorkoutsUiModel {
+    return WorkoutsUiModel(
+        name = name,
+        estimatedTimeInSeconds = estimatedTimeInSeconds,
+        focusArea = focusAreas.toString(),
+        imageUrl = imageUrl
+
+    )
 }
