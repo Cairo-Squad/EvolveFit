@@ -44,15 +44,19 @@ actual fun provideHttpClient(
                 refreshTokens {
                     val refresh = authenticationPreferences.getRefreshToken()
                     if (refresh != null) {
-                        val newTokens = refreshTokenProvider.getNewTokens(refresh)
-                        if (newTokens != null) {
+                        try {
+                            val newTokens = refreshTokenProvider.getNewTokens(refresh)
                             authenticationPreferences.saveTokens(
                                 newTokens.accessToken,
                                 newTokens.refreshToken
                             )
+                            BearerTokens(newTokens.accessToken, newTokens.refreshToken)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            null
                         }
-                        newTokens
-                    } else null
+                    }
+                    else null
                 }
             }
         }

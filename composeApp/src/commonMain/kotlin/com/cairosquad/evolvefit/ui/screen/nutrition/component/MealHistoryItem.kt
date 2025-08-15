@@ -30,7 +30,7 @@ fun MealHistoryItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 16.dp),
+            .padding(vertical = 12.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -55,6 +55,7 @@ fun MealHistoryItem(
                 color = Theme.color.surfaces.onSurface
             )
             Text(
+                modifier = Modifier.padding(top = 8.dp),
                 text = meal.date,
                 style = Theme.textStyle.label.smallRegular12,
                 color = Theme.color.surfaces.onSurfaceVariant
