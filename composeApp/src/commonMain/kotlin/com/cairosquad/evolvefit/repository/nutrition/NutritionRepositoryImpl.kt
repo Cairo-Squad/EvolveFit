@@ -6,27 +6,39 @@ import com.cairosquad.evolvefit.entity.nutrition.DailyCalorieSummary
 import com.cairosquad.evolvefit.entity.nutrition.DailyWaterSummary
 import com.cairosquad.evolvefit.entity.nutrition.Meal
 import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
+import com.cairosquad.evolvefit.repository.execption.callDataSource
 import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSource
 import com.cairosquad.evolvefit.repository.nutrition.remote.toDomain
 import com.cairosquad.evolvefit.repository.nutrition.remote.toDto
-import com.cairosquad.evolvefit.repository.utils.safeCallDataSource
 
 class NutritionRepositoryImpl(private val remoteNutritionDataSource: RemoteNutritionDataSource) :
     NutritionRepository {
     override suspend fun getSuggestedMeals(): List<SuggestedMeal> {
-        return safeCallDataSource { remoteNutritionDataSource.getSuggestedMeals() }.map {
+        return callDataSource { remoteNutritionDataSource.getSuggestedMeals() }.map {
             it.toDomain()
         }
     }
 
     override suspend fun getFavouriteMeals(): List<SuggestedMeal> {
-        return safeCallDataSource { remoteNutritionDataSource.getFavouriteMeals() }.map {
+        return callDataSource { remoteNutritionDataSource.getFavouriteMeals() }.map {
             it.toDomain()
         }
     }
 
+    override suspend fun addFavouriteMealById(mealId: String) {
+        return callDataSource {
+            remoteNutritionDataSource.addFavouriteMealById(mealId)
+        }
+    }
+
+    override suspend fun deleteFavouriteMeal(mealId: String) {
+        return callDataSource {
+            remoteNutritionDataSource.deleteFavouriteMeal(mealId)
+        }
+    }
+
     override suspend fun getMealHistory(): List<ConsumedMeal> {
-        return safeCallDataSource { remoteNutritionDataSource.getMealHistory() }.map {
+        return callDataSource { remoteNutritionDataSource.getMealHistory() }.map {
             it.toDomain()
         }
     }
@@ -35,7 +47,7 @@ class NutritionRepositoryImpl(private val remoteNutritionDataSource: RemoteNutri
         startDate: String,
         endDate: String
     ): List<ConsumedMeal> {
-        return safeCallDataSource {
+        return callDataSource {
             remoteNutritionDataSource.getConsumedMealsByDate(
                 startDate,
                 endDate
@@ -46,23 +58,23 @@ class NutritionRepositoryImpl(private val remoteNutritionDataSource: RemoteNutri
     }
 
     override suspend fun getMealById(id: String): Meal {
-        return safeCallDataSource { remoteNutritionDataSource.getMealById(id) }
+        return callDataSource { remoteNutritionDataSource.getMealById(id) }
             .toDomain()
     }
 
     override suspend fun saveConsumedMeal(consumedMeal: ConsumedMeal): Boolean {
-        return safeCallDataSource { remoteNutritionDataSource.saveConsumedMeal(consumedMeal.toDto()) }
+        return callDataSource { remoteNutritionDataSource.saveConsumedMeal(consumedMeal.toDto()) }
     }
 
     override suspend fun getDailyCalorieSummary(): DailyCalorieSummary {
-        return safeCallDataSource { remoteNutritionDataSource.getDailyCalorieSummary() }.toDomain()
+        return callDataSource { remoteNutritionDataSource.getDailyCalorieSummary() }.toDomain()
     }
 
     override suspend fun saveConsumedWater(amountLiters: Float): Boolean {
-        return safeCallDataSource { remoteNutritionDataSource.saveConsumedWater(amountLiters) }
+        return callDataSource { remoteNutritionDataSource.saveConsumedWater(amountLiters) }
     }
 
     override suspend fun getDailyWaterSummary(): DailyWaterSummary {
-        return safeCallDataSource { remoteNutritionDataSource.getDailyWaterSummary() }.toDomain()
+        return callDataSource { remoteNutritionDataSource.getDailyWaterSummary() }.toDomain()
     }
 }

@@ -8,8 +8,10 @@ import com.cairosquad.evolvefit.repository.nutrition.dto.MealDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.SuggestedMealDto
 import com.cairosquad.evolvefit.remote.utils.MealConstants.MEALS_PATH
 import com.cairosquad.evolvefit.remote.utils.MealConstants.NUTRITION_PATH
+import com.cairosquad.evolvefit.repository.execption.callApi
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
@@ -23,30 +25,58 @@ class RemoteNutritionDataSourceImpl(
 ) : RemoteNutritionDataSource {
 
     override suspend fun getSuggestedMeals(): List<SuggestedMealDto> {
-        return httpClient.get("${MEALS_PATH}/suggested")
-            .body()
+        return callApi<List<SuggestedMealDto>> {
+            httpClient.get("${MEALS_PATH}/suggested")
+                .body()
+        }
     }
 
     override suspend fun getFavouriteMeals(): List<SuggestedMealDto> {
-        TODO("Not yet implemented")
+        return callApi<List<SuggestedMealDto>> {
+            httpClient.get("favorite/meal")
+                .body()
+        }
+    }
+
+    override suspend fun addFavouriteMealById(mealId: String) {
+        return callApi {
+            httpClient.post("favorite/meal"){
+                parameter("mealId", mealId)
+            }
+                .body()
+        }
+    }
+
+    override suspend fun deleteFavouriteMeal(mealId: String) {
+        return callApi {
+            httpClient.delete("favorite/meal")
+        }
     }
 
     override suspend fun getMealHistory(): List<ConsumedMealDto> {
-        return httpClient.get("${NUTRITION_PATH}/meals").body()
+        return callApi<List<ConsumedMealDto>> { httpClient.get("${NUTRITION_PATH}/meals").body() }
+
     }
 
-    override suspend fun getConsumedMealsByDate(startDate: String, endDate: String): List<ConsumedMealDto> {
-        return httpClient.get("${NUTRITION_PATH}/meals") {
-            parameter("startDate", startDate)
-            parameter("endDate", endDate)
-        }.body()
+    override suspend fun getConsumedMealsByDate(
+        startDate: String,
+        endDate: String
+    ): List<ConsumedMealDto> {
+        return callApi<List<ConsumedMealDto>> {
+            httpClient.get("${NUTRITION_PATH}/meals") {
+                parameter("startDate", startDate)
+                parameter("endDate", endDate)
+            }.body()
+        }
     }
 
     override suspend fun getMealById(id: String): MealDto {
-        return httpClient.get("${MEALS_PATH}/get") {
-            parameter("mealId", id)
+        return callApi<MealDto> {
+            httpClient.get("${MEALS_PATH}/get") {
+                parameter("mealId", id)
+            }
+                .body()
         }
-            .body()
     }
 
     override suspend fun saveConsumedMeal(consumedMealRequestDto: ConsumedMealRequestDto): Boolean {
@@ -57,8 +87,9 @@ class RemoteNutritionDataSourceImpl(
     }
 
     override suspend fun getDailyCalorieSummary(): DailyCalorieSummaryDto {
-        return httpClient.get("${NUTRITION_PATH}/calories")
-            .body()
+        return callApi<DailyCalorieSummaryDto> {
+            httpClient.get("${NUTRITION_PATH}/calories").body()
+        }
     }
 
     override suspend fun saveConsumedWater(amountLiters: Float): Boolean {
@@ -68,6 +99,8 @@ class RemoteNutritionDataSourceImpl(
     }
 
     override suspend fun getDailyWaterSummary(): DailyWaterSummaryDto {
-        return httpClient.get("${NUTRITION_PATH}/water").body<DailyWaterSummaryDto>()
+        return callApi<DailyWaterSummaryDto> {
+            httpClient.get("${NUTRITION_PATH}/water").body()
+        }
     }
 }

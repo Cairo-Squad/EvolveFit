@@ -9,6 +9,8 @@ import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
 interface NutritionRepository {
     suspend fun getSuggestedMeals(): List<SuggestedMeal>
     suspend fun getFavouriteMeals(): List<SuggestedMeal>
+    suspend fun addFavouriteMealById(mealId: String)
+    suspend fun deleteFavouriteMeal(mealId: String)
     suspend fun getMealHistory(): List<ConsumedMeal>
     suspend fun getConsumedMealsByDate(startDate: String, endDate: String): List<ConsumedMeal>
     suspend fun getMealById(id: String): Meal

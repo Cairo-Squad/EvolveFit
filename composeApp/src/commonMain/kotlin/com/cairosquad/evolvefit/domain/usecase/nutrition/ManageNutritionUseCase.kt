@@ -19,6 +19,12 @@ class ManageNutritionUseCase(private val nutritionRepository: NutritionRepositor
     suspend fun getFavouriteMeals(): List<SuggestedMeal> {
         return nutritionRepository.getFavouriteMeals()
     }
+    suspend fun addFavouriteMealById(mealId: String) {
+        return nutritionRepository.addFavouriteMealById(mealId)
+    }
+    suspend fun deleteFavouriteMeal(mealId: String) {
+        return nutritionRepository.deleteFavouriteMeal(mealId)
+    }
 
     suspend fun getMealHistory(): List<ConsumedMeal> {
         return nutritionRepository.getMealHistory()
@@ -50,15 +56,8 @@ class ManageNutritionUseCase(private val nutritionRepository: NutritionRepositor
 
         return nutritionRepository.saveConsumedMeal(updatedMeal)
     }
-
-    suspend fun getDailyCalorieSummary(): DailyCalorieSummary {
-        return nutritionRepository.getDailyCalorieSummary()
-    }
-
     suspend fun saveConsumedWater(amountInput: String, remainingWater: Float): Boolean {
-        if (amountInput.contains(',')) {
-            throw InvalidNumberFormatException()
-        }
+        validateNumberInput(amountInput)
 
         val amountLiters = amountInput.toFloatOrNull()
             ?: throw InvalidNumberFormatException()
@@ -69,6 +68,12 @@ class ManageNutritionUseCase(private val nutritionRepository: NutritionRepositor
 
         return nutritionRepository.saveConsumedWater(amountLiters)
     }
+
+
+    suspend fun getDailyCalorieSummary(): DailyCalorieSummary {
+        return nutritionRepository.getDailyCalorieSummary()
+    }
+
 
     suspend fun getDailyWaterSummary(): DailyWaterSummary {
         return nutritionRepository.getDailyWaterSummary()
