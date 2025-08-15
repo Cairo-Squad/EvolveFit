@@ -12,7 +12,6 @@ actual fun formatIsoToTodayTime(isoString: String): String {
     }
 
     val date = dateFormatter.dateFromString(isoString) ?: return isoString
-
     val calendar = NSCalendar.currentCalendar
     val now = NSDate()
 
@@ -20,12 +19,12 @@ actual fun formatIsoToTodayTime(isoString: String): String {
         NSCalendarUnitDay,
         fromDate = date,
         toDate = now,
-        options = 0
+        options = 0u
     ).day
 
     val relativeDay = when (dayDiff) {
-        0 -> if (locale.languageCode == "ar") "اليوم" else "Today"
-        -1 -> if (locale.languageCode == "ar") "أمس" else "Yesterday"
+        0L -> if (locale.languageCode == "ar") "اليوم" else "Today"
+        -1L -> if (locale.languageCode == "ar") "أمس" else "Yesterday"
         else -> {
             val outFormatter = NSDateFormatter().apply {
                 dateFormat = "MMM dd, yyyy"
@@ -39,7 +38,6 @@ actual fun formatIsoToTodayTime(isoString: String): String {
         dateFormat = "hh:mm a"
         this.locale = locale
     }
-
     val timeStr = timeFormatter.stringFromDate(date)
 
     return "$relativeDay، $timeStr"
