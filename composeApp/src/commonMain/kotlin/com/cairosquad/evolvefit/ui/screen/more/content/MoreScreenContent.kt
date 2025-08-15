@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -72,7 +73,7 @@ fun MoreScreenContent(
                 text = "Account",
                 style = Theme.textStyle.label.smallRegular14,
                 color = Theme.color.surfaces.onSurfaceVariant,
-                modifier = Modifier.align(Alignment.Start)
+                modifier = Modifier.align(Alignment.Start).padding(top = 24.dp)
             )
             AccountRow(
                 modifier = Modifier.clickable { listener.onClickPersonInformation() },
@@ -97,7 +98,9 @@ fun MoreScreenContent(
             AccountRow(
                 modifier = Modifier.clickable { listener.onClickLanguage() },
                 icon = Res.drawable.earth,
-                text = if (state.profile.preferredLanguage == Language.ENGLISH) stringResource(Res.string.english) else stringResource(Res.string.arabic),
+                text = if (state.profile.preferredLanguage == Language.ENGLISH) stringResource(Res.string.english) else stringResource(
+                    Res.string.arabic
+                ),
                 title = "Language"
             )
             AccountRow(
@@ -124,8 +127,7 @@ fun MoreScreenContent(
         ) {
             LanguageBottomSheetContent(
                 state = state,
-                onLanguageSelected = { selectedLanguage -> listener.onChangeLanguage(selectedLanguage) },
-                onConfirm = { listener.onDismissLanguageBottomSheet() }
+                onConfirm = { selectedLanguage -> listener.onConfirmChangeLanguage(selectedLanguage) }
             )
         }
         BottomSheet(
@@ -134,7 +136,7 @@ fun MoreScreenContent(
         ) {
             LogoutBottomSheetContent(
                 onLogout = listener::onLogout,
-                )
+            )
         }
     }
 }
@@ -151,6 +153,7 @@ fun PersonInfo(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .background(color = Theme.color.surfaces.surfaceContainer)
+            .clip(RoundedCornerShape(8.dp))
             .padding(vertical = 12.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -170,7 +173,7 @@ fun PersonInfo(
         )
         Box(modifier = Modifier.border(width = 1.dp, color = Theme.color.surfaces.outlineVariant))
         MeasurementCard(
-            modifier = Modifier.padding(bottom = 12.dp).weight(1f),
+            modifier = Modifier.weight(1f),
             icon = Res.drawable.calender,
             name = "Age",
             value = age.toString()
@@ -197,7 +200,7 @@ fun MeasurementCard(
                 contentDescription = "$name icon",
                 tint = Theme.color.brand.primary,
                 modifier = Modifier.size(16.dp)
-                )
+            )
             Text(
                 text = name,
                 style = Theme.textStyle.label.smallRegular12,
@@ -250,7 +253,10 @@ fun AccountRow(
     text: String = ""
 ) {
     Row(
-        modifier = modifier.background(color = Theme.color.surfaces.surfaceContainer).padding(12.dp),
+        modifier = modifier
+            .background(color = Theme.color.surfaces.surfaceContainer)
+            .clip(RoundedCornerShape(8.dp))
+            .padding(12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

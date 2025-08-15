@@ -49,7 +49,7 @@ class MoreViewModel(
         updateState { it.copy(isLanguageBottomSheetEnabled = true) }
     }
 
-    override fun onChangeLanguage(language: Language) {
+    override fun onConfirmChangeLanguage(language: Language) {
         tryToCall(
             block = { language },
             onSuccess = { updatedLanguage ->

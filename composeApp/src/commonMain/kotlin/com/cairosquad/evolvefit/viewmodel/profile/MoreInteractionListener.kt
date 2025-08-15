@@ -13,7 +13,7 @@ interface MoreInteractionListener {
     fun onDismissLanguageBottomSheet()
     fun onDismissLogoutBottomSheet()
     fun onChangeTheme(theme: MoreScreenState.Theme)
-    fun onChangeLanguage(language: Language)
+    fun onConfirmChangeLanguage(language: Language)
     fun onLogout()
 
 }
