@@ -191,4 +191,22 @@
     <string name="completed">مكتمل</string>
     <string name="the_goal">الهدف</string>
     <string name="current_weight">الوزن الحالي</string>
+
+    <string name="cross_icon_desc_">إغلاق</string>
+    <string name="create_workout_title_">إنشاء تمرين</string>
+    <string name="create_workout_subtitle_">خطط وقم بتخصيص تمرينك ليتوافق مع أهدافك \nالرياضية.</string>
+    <string name="enter_workout_name_">أدخل اسم التمرين</string>
+    <string name="choose_your_goal_">اختر هدفك</string>
+    <string name="enter_description_">أدخل الوصف</string>
+    <string name="characters_left_">متبقي %1$d حرف</string>
+    <string name="next_button_">التالي</string>
+
+    <string name="add_exercise_title_">إضافة تمرين</string>
+    <string name="back_icon_desc_">رجوع</string>
+    <string name="add_icon_desc_">إضافة</string>
+    <string name="search_exercise_placeholder_">ابحث عن اسم التمرين</string>
+    <string name="all_exercises_title_">جميع التمارين</string>
+    <string name="add_exercise_button_">إضافة تمرين</string>
+    <string name="add_exercise_button_with_count_">إضافة %1$d تمرين</string>
+    <string name="add_exercises_button_with_count_">إضافة %1$d تمارين</string>
 </resources>

@@ -192,4 +192,30 @@
 
     <string name="the_goal">The Goal</string>
     <string name="current_weight">Current weight</string>
+    <string name="create_workout_title">Create Workout</string>
+    <string name="create_workout_description">Plan and customize your workout to match your \n fitness goals.</string>
+    <string name="cross_icon_desc">Cross</string>
+    <string name="enter_workout_name">Enter workout name</string>
+    <string name="choose_goal">Choose your goal</string>
+    <string name="enter_description">Enter description</string>
+    <string name="characters_left">%1$d characters left</string>
+    <string name="next_button">Next</string>
+
+    <string name="cross_icon_desc_">Cross</string>
+    <string name="create_workout_title_">Create Workout</string>
+    <string name="create_workout_subtitle_">Plan and customize your workout to match your \nfitness goals.</string>
+    <string name="enter_workout_name_">Enter workout name</string>
+    <string name="choose_your_goal_">Choose your goal</string>
+    <string name="enter_description_">Enter description</string>
+    <string name="characters_left_">%1$d characters left</string>
+    <string name="next_button_">Next</string>
+
+    <string name="add_exercise_title_">Add Exercise</string>
+    <string name="back_icon_desc_">Back</string>
+    <string name="add_icon_desc_">Add</string>
+    <string name="search_exercise_placeholder_">Search exercise name</string>
+    <string name="all_exercises_title_">All Exercises</string>
+    <string name="add_exercise_button_">Add Exercise</string>
+    <string name="add_exercise_button_with_count_">Add %1$d Exercise</string>
+    <string name="add_exercises_button_with_count_">Add %1$d Exercises</string>
 </resources>
