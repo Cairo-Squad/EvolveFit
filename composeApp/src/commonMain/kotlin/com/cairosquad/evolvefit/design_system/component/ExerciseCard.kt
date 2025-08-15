@@ -29,7 +29,8 @@ fun ExerciseCard(
     time: String,
     modifier: Modifier = Modifier,
     unit: String = stringResource(Res.string.seconds),
-    model: String
+    model: String,
+    measurementContent: @Composable (() -> Unit)? = null
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -51,12 +52,20 @@ fun ExerciseCard(
                 style = Theme.textStyle.body.mediumMedium14,
                 color = Theme.color.surfaces.onSurfaceContainer
             )
-            Text(
-                text = "$time $unit",
-                style = Theme.textStyle.label.smallRegular12,
-                color = Theme.color.surfaces.onSurfaceVariant,
-                modifier = Modifier.padding(top = 12.dp)
-            )
+            if (measurementContent == null) {
+                Text(
+                    text = "$time $unit",
+                    style = Theme.textStyle.label.smallRegular12,
+                    color = Theme.color.surfaces.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 12.dp)
+                )
+            } else {
+                measurementContent.let {
+                    Box(modifier = Modifier.padding(top = 12.dp)) {
+                        it()
+                    }
+                }
+            }
         }
     }
 }
