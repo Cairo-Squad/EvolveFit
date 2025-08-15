@@ -54,7 +54,8 @@
     <string name="view_all">عرض الكل</string>
     <string name="enter_water_intake">أدخل كمية الماء</string>
     <string name="track_water_intake">ساعدنا على تتبع استهلاكك اليومي للماء للحفاظ على ترطيبك.</string>
-    <string name="meal_added_snackbar">تمت إضافة الوجبة إلى السجل.</string>
+    <string name="meal_cant_added_snackbar">لقد تجاوزت هدفك اليومي من السعرات الحرارية.</string>
+    <string name="water_cant_added_snackbar">لقد تجاوزت هدفك اليومي من المياه.</string>
     <string name="no_meals_title">لا توجد وجبات مسجلة بعد</string>
     <string name="no_meals_description">ابدأ في تسجيل وجباتك لتتبع السعرات الحرارية اليومية وتحسين عاداتك الغذائية.</string>
     <string name="failed_to_load_meals">فشل تحميل الوجبات</string>
@@ -195,7 +196,7 @@
     <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.</string>
     <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل.</string>
     <string name="error_unexpected">حدث خطأ غير متوقع.</string>
-
+    <string name="liters1">لترات</string>
     <string name="calories_small">سعر حراري</string>
     <string name="water_consumption">شرب الماء</string>
     <string name="liters_small">لتر</string>
@@ -240,4 +241,5 @@
     <string name="x_platform">إكس</string>
     <string name="link_copied">تم النسخ بنجاح!</string>
     <string name="copy_failled">فشل النسخ حاول مرة اخري</string>
+    <string name="try_again_button">حاول مجددا</string>
 </resources>

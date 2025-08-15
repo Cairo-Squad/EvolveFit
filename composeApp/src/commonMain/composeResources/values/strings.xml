@@ -56,6 +56,8 @@
     <string name="enter_water_intake">Enter Water Intake</string>
     <string name="track_water_intake">Help us track your daily water intake to keep you hydrated.</string>
     <string name="meal_added_snackbar">Meal added to your history.</string>
+    <string name="meal_cant_added_snackbar">You have exceeded your daily calorie goal.</string>
+    <string name="water_cant_added_snackbar">You have exceeded your daily water goal.</string>
     <string name="no_meals_title">No meals recorded yet</string>
     <string name="no_meals_description">Start logging your meals to keep track of your daily calories and improve your nutrition habits.</string>
     <string name="ready_to_start">Ready to Start</string>
@@ -160,6 +162,7 @@
     <string name="total_workouts">Total Workouts</string>
     <string name="time_spent">Time Spent</string>
     <string name="water_drops">Water Drops</string>
+    <string name="liters">Liters</string>
     <string name="expected_calories">"From %1$ kcal"</string>
     <string name="needle">Needle</string>
     <string name="share">Share</string>
@@ -212,7 +215,7 @@
     <string name="error_invalid_email_format">Invalid email format.</string>
     <string name="error_invalid_password">Password must be at least 8 characters.</string>
     <string name="error_unexpected">An unexpected error occurred.</string>
-    <string name="liters">Litres</string>
+    <string name="liters1">Litres</string>
 
     <string name="calories_small">calories</string>
     <string name="water_consumption">Water consumption</string>
@@ -243,4 +246,10 @@
     <string name="link_copied">Copied to clipboard successfully.</string>
     <string name="copy_failled">Failed to copy, please try again later.</string>
 
+    <string name="error_invalid_number">Enter a valid number or decimal only</string>
+    <string name="error_exceeded_calories">You have exceeded the allowed calories</string>
+    <string name="error_exceeded_water">You have exceeded the allowed water intake</string>
+    <string name="error_meal_not_found">Meal not found</string>
+    <string name="error_unknown">An error occurred, please try again</string>
+    <string name="try_again_button">try again</string>
 </resources>
