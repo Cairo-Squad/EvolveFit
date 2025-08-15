@@ -31,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -47,6 +48,7 @@ fun CheckboxItem(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     description: String? = null,
+    titleColor: Color = Theme.color.surfaces.onSurface,
     style: CheckboxStyle = CheckboxStyle.Tick
 ) {
     Row(
@@ -68,7 +70,7 @@ fun CheckboxItem(
             Text(
                 text = text,
                 style = Theme.textStyle.body.mediumMedium14,
-                color = Theme.color.surfaces.onSurface
+                color = titleColor
             )
             description?.let { desc ->
                 Text(
