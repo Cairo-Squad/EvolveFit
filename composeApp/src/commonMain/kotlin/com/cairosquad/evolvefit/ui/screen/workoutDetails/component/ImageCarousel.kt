@@ -67,14 +67,19 @@ fun ImageCarousel(
             Icon(
                 painter = painterResource(Res.drawable.ic_arrow_left),
                 contentDescription = stringResource(Res.string.previous),
-                tint = animatedColor,
-                modifier = Modifier.align(Alignment.CenterStart)
+                tint = if (currentIndex == 0) Theme.color.surfaces.onSurfaceVariant else animatedColor,
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
                     .padding(horizontal = 8.dp)
                     .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
-                    .padding(8.dp)
                     .size(32.dp)
+                    .padding(8.dp)
                     .clip(CircleShape)
-                    .clickable(onClick = { currentIndex = if (currentIndex > 0) currentIndex - 1 else images.size - 1 })
+                    .then(
+                        if (currentIndex > 0) Modifier.clickable {
+                            currentIndex -= 1
+                        } else Modifier
+                    )
             )
         }
 
@@ -82,17 +87,22 @@ fun ImageCarousel(
             Icon(
                 painter = painterResource(Res.drawable.ic_arrow_right),
                 contentDescription = stringResource(Res.string.next),
-                tint = Theme.color.surfaces.textColor,
+                tint = if (currentIndex == images.size - 1) Theme.color.surfaces.onSurfaceVariant else Theme.color.surfaces.textColor,
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
                     .padding(horizontal = 8.dp)
                     .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
                     .size(32.dp)
+                    .padding(8.dp)
                     .clip(CircleShape)
-                    .clickable(
-                        onClick = { currentIndex = if (currentIndex < images.size - 1) currentIndex + 1 else 0 })
+                    .then(
+                        if (currentIndex < images.size - 1) Modifier.clickable {
+                            currentIndex += 1
+                        } else Modifier
+                    )
             )
         }
+
         MeasurementRow(
             exerciseType = exerciseType,
             modifier = Modifier
