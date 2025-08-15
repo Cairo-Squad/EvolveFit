@@ -1,8 +1,14 @@
 package com.cairosquad.evolvefit.ui.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,17 +34,48 @@ import org.koin.compose.koinInject
 @Composable
 fun NavigationHost(
     authenticationPreferences: AuthenticationPreferences = koinInject(),
+    deepLinkRoute: Any? = null
 ) {
     val isUserLoggedIn = authenticationPreferences.getAccessToken().isNullOrBlank().not()
     val startDestination = if (isUserLoggedIn) AppRoute else OnboardingRoute
 
     val navController = rememberNavController()
+
+    LaunchedEffect(deepLinkRoute, isUserLoggedIn) {
+        if (deepLinkRoute != null && isUserLoggedIn) {
+            navController.navigate(deepLinkRoute)
+        }
+    }
     NavHost(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Theme.color.surfaces.surface),
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
+        enterTransition = {
+            slideInHorizontally(
+                initialOffsetX = { fullWidth -> fullWidth },
+                animationSpec = tween(durationMillis = 300)
+            ) + fadeIn(animationSpec = tween(durationMillis = 300))
+        },
+        exitTransition = {
+            slideOutHorizontally(
+                targetOffsetX = { fullWidth -> -fullWidth / 4 },
+                animationSpec = tween(durationMillis = 300)
+            ) + fadeOut(animationSpec = tween(durationMillis = 300))
+        },
+        popEnterTransition = {
+            slideInHorizontally(
+                initialOffsetX = { fullWidth -> -fullWidth },
+                animationSpec = tween(durationMillis = 300)
+            ) + fadeIn(animationSpec = tween(durationMillis = 300))
+        },
+        popExitTransition = {
+            slideOutHorizontally(
+                targetOffsetX = { fullWidth -> fullWidth / 4 },
+                animationSpec = tween(durationMillis = 300)
+            ) + fadeOut(animationSpec = tween(durationMillis = 300))
+        },
     ) {
         composable<OnboardingRoute> {
             OnboardingScreen(
@@ -123,7 +160,8 @@ fun NavigationHost(
             WorkoutDetailsScreen(
                 workoutId = workoutId,
                 navigateBack = navController::popBackStack,
-                navigateToPlayWorkout = { navController.navigate(PlayWorkoutRoute(workoutId)) }
+                navigateToPlayWorkout = { navController.navigate(PlayWorkoutRoute(workoutId)) },
+                navigateToShareWithCommunity = { },
             )
         }
 
