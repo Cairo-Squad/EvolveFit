@@ -1,0 +1,14 @@
+package com.cairosquad.evolvefit.viewmodel.profile
+
+import com.cairosquad.evolvefit.domain.model.Language
+
+sealed class MoreEffect {
+    object NavigateToPersonInformation : MoreEffect()
+    object NavigateToFavorites : MoreEffect()
+    object Logout : MoreEffect()
+
+    object NavigateToNotificationSettings : MoreEffect()
+    data class ChangeLanguage(val language: Language) : MoreEffect()
+    data class ChangeTheme(val theme: MoreScreenState.Theme) : MoreEffect()
+
+}

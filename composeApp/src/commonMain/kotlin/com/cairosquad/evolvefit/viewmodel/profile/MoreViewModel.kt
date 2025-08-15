@@ -1,0 +1,110 @@
+package com.cairosquad.evolvefit.viewmodel.profile
+
+import com.cairosquad.evolvefit.domain.model.Language
+import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseCase
+import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
+import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+
+class MoreViewModel(
+    private val manageProfileUseCase: ManageProfileUseCase,
+    private val authenticationUseCase: AuthenticationUseCase
+) : BaseViewModel<MoreScreenState, MoreEffect>(
+    initialState = MoreScreenState()
+), MoreInteractionListener {
+    init {
+        loadProfile()
+    }
+
+    private fun loadProfile() {
+        tryToCall(
+            block = { manageProfileUseCase.getProfile() },
+            onSuccess = { profile -> updateState { it.copy(profile = profile.toUiState()) } },
+            onError = { },
+            onStart = { updateState { it.copy(isLoading = true) } },
+            onEnd = { updateState { it.copy(isLoading = false) } },
+        )
+    }
+
+    override fun onClickPersonInformation() {
+        sendEffect(MoreEffect.NavigateToPersonInformation)
+    }
+
+    override fun onClickFavorites() {
+        sendEffect(MoreEffect.NavigateToFavorites)
+    }
+
+    override fun onClickNotification() {
+        sendEffect(MoreEffect.NavigateToNotificationSettings)
+    }
+
+    override fun onClickTheme() {
+        updateState { it.copy(isThemeBottomSheetEnabled = true) }
+    }
+
+    override fun onDismissThemeBottomSheet() {
+        updateState { it.copy(isThemeBottomSheetEnabled = false) }
+    }
+
+    override fun onClickLanguage() {
+        updateState { it.copy(isLanguageBottomSheetEnabled = true) }
+    }
+
+    override fun onChangeLanguage(language: Language) {
+        tryToCall(
+            block = { language },
+            onSuccess = { updatedLanguage ->
+                updateState {
+                    it.copy(
+                        profile = it.profile.copy(preferredLanguage = updatedLanguage),
+                        isLanguageBottomSheetEnabled = false
+                    )
+                }
+                sendEffect(MoreEffect.ChangeLanguage(updatedLanguage))
+            },
+            onError = { },
+            onStart = { updateState { it.copy(isLoading = true) } },
+            onEnd = { updateState { it.copy(isLoading = false) } },
+        )
+    }
+
+    override fun onLogout() {
+        tryToCall(
+            block = { authenticationUseCase.logout() },
+            onSuccess = {},
+            onError = { },
+            onStart = { updateState { it.copy(isLoading = true) } },
+            onEnd = { updateState { it.copy(isLoading = false) } },
+        )
+    }
+
+    override fun onDismissLanguageBottomSheet() {
+        updateState { it.copy(isLanguageBottomSheetEnabled = false) }
+    }
+
+    override fun onClickLogout() {
+        updateState { it.copy(isLogoutBottomSheetEnabled = true) }
+    }
+
+    override fun onDismissLogoutBottomSheet() {
+        updateState { it.copy(isLogoutBottomSheetEnabled = false) }
+    }
+
+    override fun onChangeTheme(theme: MoreScreenState.Theme) {
+        tryToCall(
+            block = { theme },
+            onSuccess = { updatedTheme ->
+                updateState {
+                    it.copy(
+                        currentTheme = updatedTheme,
+                        isThemeBottomSheetEnabled = false
+                    )
+                }
+                sendEffect(MoreEffect.ChangeTheme(updatedTheme))
+            },
+            onError = { },
+            onStart = { updateState { it.copy(isLoading = true) } },
+            onEnd = { updateState { it.copy(isLoading = false) } }
+        )
+    }
+}
+

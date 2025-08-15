@@ -36,6 +36,7 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_green_check_circle
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -47,7 +48,8 @@ fun CheckboxItem(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     description: String? = null,
-    style: CheckboxStyle = CheckboxStyle.Tick
+    style: CheckboxStyle = CheckboxStyle.Tick,
+    icon: DrawableResource? = null
 ) {
     Row(
         modifier = modifier
@@ -57,8 +59,15 @@ fun CheckboxItem(
             .clickable { onCheckedChange(!isChecked) }
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
+        if (icon != null){
+        Icon(
+            painter = painterResource(icon),
+            contentDescription = "",
+            modifier = Modifier.size(24.dp)
+        )
+        }
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))

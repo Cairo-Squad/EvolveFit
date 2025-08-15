@@ -20,4 +20,5 @@ val repositoryModule = module {
     singleOf(::FakeReportRepositoryImpl) bind ReportRepository::class
     singleOf(::HomeRepositoryImpl) bind HomeRepository::class
     singleOf(::EquipmentRepositoryImpl) bind EquipmentRepository::class
+
 }
