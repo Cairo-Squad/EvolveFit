@@ -3,8 +3,10 @@ package com.cairosquad.evolvefit.viewmodel.nutrition
 import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.exceptions.ExceededCaloriesException
 import com.cairosquad.evolvefit.domain.exceptions.ExceededWaterLimitException
+import com.cairosquad.evolvefit.domain.exceptions.InternetConnectionException
 import com.cairosquad.evolvefit.domain.exceptions.InvalidNumberFormatException
 import com.cairosquad.evolvefit.domain.exceptions.MealNotFoundException
+import com.cairosquad.evolvefit.domain.exceptions.TimeoutException
 import com.cairosquad.evolvefit.domain.exceptions.UnknownException
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
 import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
@@ -20,7 +22,9 @@ import evolvefit.composeapp.generated.resources.error_exceeded_calories
 import evolvefit.composeapp.generated.resources.error_exceeded_water
 import evolvefit.composeapp.generated.resources.error_invalid_number
 import evolvefit.composeapp.generated.resources.error_meal_not_found
+import evolvefit.composeapp.generated.resources.error_no_internet
 import evolvefit.composeapp.generated.resources.error_unknown
+import evolvefit.composeapp.generated.resources.internet_is_not_available
 import evolvefit.composeapp.generated.resources.meal_added_snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -378,6 +382,8 @@ class NutritionViewModel(
             is ExceededCaloriesException -> Res.string.error_exceeded_calories
             is ExceededWaterLimitException -> Res.string.error_exceeded_water
             is MealNotFoundException -> Res.string.error_meal_not_found
+            is InternetConnectionException -> Res.string.error_no_internet
+            is TimeoutException -> Res.string.error_no_internet
             else -> Res.string.error_unknown
         }
     }
