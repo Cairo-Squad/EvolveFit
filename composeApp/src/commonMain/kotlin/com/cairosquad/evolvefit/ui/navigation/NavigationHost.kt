@@ -87,7 +87,8 @@ fun NavigationHost(
                 },
                 navigateToSuggestedMeals = { navController.navigate(SuggestedMealsRoute) },
                 navigateToMealDetails = { mealId -> navController.navigate(MealDetailsRoute(mealId)) },
-                navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) },
+                navigateToMealsHistory = {},
+                navigateToWorkoutHistory = {},
             )
         }
 
@@ -95,8 +96,8 @@ fun NavigationHost(
             CreateWorkoutScreen(
                 navigateBack = navController::popBackStack,
                 navigateToCreateExercise = { navController.navigate(CreateExerciseRoute) },
-                navigateToWorkOuts = TODO(),
-                navigateToAllExercises = TODO()
+                navigateToWorkOuts = {},
+                navigateToAllExercises = {}
             )
         }
 
