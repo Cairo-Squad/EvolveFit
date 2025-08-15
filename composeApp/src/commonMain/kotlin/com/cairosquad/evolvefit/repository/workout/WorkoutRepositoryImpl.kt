@@ -121,7 +121,8 @@ class WorkoutRepositoryImpl(
                 ),
             ),
             description = "this workout is good for your health",
-            estimatedTimeInSeconds = 60 * 10
+            estimatedTimeInSeconds = 60 * 10,
+            focusAreas = FocusArea.values().toSet()
         )
     }
 }
