@@ -54,7 +54,8 @@
     <string name="view_all">عرض الكل</string>
     <string name="enter_water_intake">أدخل كمية الماء</string>
     <string name="track_water_intake">ساعدنا على تتبع استهلاكك اليومي للماء للحفاظ على ترطيبك.</string>
-    <string name="meal_added_snackbar">تمت إضافة الوجبة إلى السجل.</string>
+    <string name="meal_cant_added_snackbar">لقد تجاوزت هدفك اليومي من السعرات الحرارية.</string>
+    <string name="water_cant_added_snackbar">لقد تجاوزت هدفك اليومي من المياه.</string>
     <string name="no_meals_title">لا توجد وجبات مسجلة بعد</string>
     <string name="no_meals_description">ابدأ في تسجيل وجباتك لتتبع السعرات الحرارية اليومية وتحسين عاداتك الغذائية.</string>
     <string name="failed_to_load_meals">فشل تحميل الوجبات</string>
@@ -126,6 +127,7 @@
     <string name="password_placeholder">كلمة المرور</string>
     <string name="logo_description">أيقونة الشعار</string>
     <string name="arrow_back_description">أيقونة الرجوع للخلف</string>
+    <string name="arrow">سهم</string>
     <string name="join_now">انضم الآن</string>
     <string name="do_not_have_an_account">ليس لديك حساب؟</string>
     <string name="birthday">يوم الميلاد</string>
@@ -170,6 +172,27 @@
     <string name="personal_information">المعلومات الشخصية</string>
     <string name="full_name">الأسم بالكامل</string>
     <string name="email">الأيميل</string>
+
+    <string name="create_exercise_title">إنشاء تمرين</string>
+    <string name="create_exercise_description">أضف تمرينًا جديدًا لتخصيص خطتك الرياضية والبقاء على المسار.</string>
+    <string name="enter_exercise_name">أدخل اسم التمرين</string>
+    <string name="add_duration">أضف المدة</string>
+    <string name="add_reps">أضف التكرارات</string>
+    <string name="add_duration_placeholder">أدخل المدة</string>
+    <string name="add_reps_placeholder">أدخل التكرارات</string>
+    <string name="enter_instructions">أدخل التعليمات</string>
+    <string name="save_exercise">احفظ التمرين</string>
+    <string name="characters_left">متبقي %1$d حرف</string>
+    <string name="select_focus_area">اختر منطقة التركيز</string>
+    <string name="choose_available_tools">اختر الأدوات المتاحة</string>
+
+    <string name="exit_confirmation_title">هل تريد الخروج؟</string>
+    <string name="exit_confirmation_message">لم تقم بحفظ التمرين بعد. قد تفقد كل التقدم.</string>
+    <string name="cancel">إلغاء</string>
+    <string name="exit_without_saving">الخروج بدون حفظ</string>
+    <string name="save_image">صورة الحفظ</string>
+
+
     <string name="community">المجتمع</string>
     <string name="back">رجوع</string>
     <string name="birth">تاريخ الميلاد</string>
@@ -190,7 +213,7 @@
     <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.</string>
     <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل.</string>
     <string name="error_unexpected">حدث خطأ غير متوقع.</string>
-
+    <string name="liters1">لترات</string>
     <string name="calories_small">سعر حراري</string>
     <string name="water_consumption">شرب الماء</string>
     <string name="liters_small">لتر</string>
@@ -203,14 +226,40 @@
     <string name="ready_text_female">مستعدة لتدريب اليوم؟</string>
     <string name="your_progress">تقدمك</string>
     <string name="this_week">هذا الأسبوع</string>
-
     <string name="completed">مكتمل</string>
     <string name="the_goal">الهدف</string>
     <string name="current_weight">الوزن الحالي</string>
+    <string name="start_workout">بدء التمرين</string>
+    <string name="close">اغلاق</string>
+    <string name="second">ثانية</string>
+    <string name="detail_icon">أيقونة التفاصيل</string>
+    <string name="focus_quadriceps">عضلات الفخذ الأمامية</string>
+    <string name="focus_abs">عضلات البطن</string>
+    <string name="focus_calves">عضلات الساق</string>
+    <string name="focus_lower_back">أسفل الظهر</string>
+    <string name="focus_core">العضلات الأساسية</string>
+    <string name="focus_shoulders">الكتفين</string>
+    <string name="focus_full_body">كامل الجسم</string>
+    <string name="instructions">التعليمات</string>
+    <string name="equipment">المعدات</string>
+    <string name="focus_area">منطقة التركيز</string>
+    <string name="bullet_point">•  %1$s</string>
+    <string name="previous">السابق</string>
+    <string name="back">رجوع</string>
+    <string name="bookmark">إضافة للمفضلة</string>
+    <string name="workout_saved_successfully">تم حفظ التمرين بنجاح!</string>
+    <string name="share_to">مشاركة عبر</string>
+    <string name="copy_link">نسخ الرابط</string>
+    <string name="share_with_community">مشاركة مع المجتمع</string>
+    <string name="messenger">ماسنجر</string>
+    <string name="whatsapp">واتساب</string>
+    <string name="telegram">تليجرام</string>
+    <string name="instagram">انستجرام</string>
+    <string name="x_platform">إكس</string>
+    <string name="link_copied">تم النسخ بنجاح!</string>
+    <string name="copy_failled">فشل النسخ حاول مرة اخري</string>
+    <string name="try_again_button">حاول مجددا</string>
     <string name="goal_lose_weight">إنقاص الوزن</string>
     <string name="goal_gain_weight">زيادة الوزن</string>
     <string name="goal_stay_in_shape">الحفاظ على اللياقة</string>
-
-
-
 </resources>

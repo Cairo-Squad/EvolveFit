@@ -7,20 +7,15 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.content
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
 class RefreshTokenProvider(private val client: HttpClient) {
-    suspend fun getNewTokens(refreshToken: String): BearerTokens? {
-        return try {
-            val response: AuthResponse = client.post("auth/refresh") {
-                contentType(ContentType.Application.Json)
-                setBody(RefreshRequest(refreshToken))
-            }.body()
-            BearerTokens(response.accessToken, response.refreshToken)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+    suspend fun getNewTokens(refreshToken: String): AuthResponse {
+        return client.post("https://evolve-fit-dev.the-chance.net/auth/refresh") {
+            contentType(ContentType.Application.Json)
+            setBody(RefreshRequest(refreshToken))
+        }.body()
     }
 }

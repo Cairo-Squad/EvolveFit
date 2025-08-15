@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.nutrition.content
+package com.cairosquad.evolvefit.ui.screen.nutrition.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -44,8 +44,8 @@ fun NutritionSummaryCard(
             CircularProgressCard(
                 modifier = Modifier.weight(1f),
                 title = stringResource(Res.string.calories),
-                currentValue = state.caloriesConsumed,
-                totalValue = state.caloriesGoal,
+                currentValue = state.todayConsumedCalories,
+                totalValue = state.dailyCaloriesGoal,
                 unit = stringResource(Res.string.kcal_unit),
                 icon = painterResource(Res.drawable.ic_fire),
                 iconColor = Theme.color.system.success,
@@ -56,8 +56,8 @@ fun NutritionSummaryCard(
                 modifier = Modifier.weight(1f),
                 title = stringResource(Res.string.water),
                 onActionButtonClicked = { listener.onAddWaterClicked() },
-                currentValue =state.waterConsumedLiters,
-                totalValue = state.waterGoalLiters,
+                currentValue =state.todayConsumedWater,
+                totalValue = state.dailyWaterGoal,
                 unit = stringResource(Res.string.liter_unit),
                 icon = painterResource(Res.drawable.ic_water_drop),
                 iconColor = Theme.color.system.info,

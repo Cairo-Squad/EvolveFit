@@ -1,15 +1,19 @@
 package com.cairosquad.evolvefit.di
 
 import com.cairosquad.evolvefit.domain.repository.AuthenticationRepository
+import com.cairosquad.evolvefit.domain.repository.NutritionRepository
 import com.cairosquad.evolvefit.domain.repository.HomeRepository
 import com.cairosquad.evolvefit.domain.repository.EquipmentRepository
 import com.cairosquad.evolvefit.domain.repository.ProfileRepository
+import com.cairosquad.evolvefit.domain.repository.ExerciseRepository
 import com.cairosquad.evolvefit.domain.repository.ReportRepository
 import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
 import com.cairosquad.evolvefit.repository.FakeReportRepositoryImpl
 import com.cairosquad.evolvefit.repository.authentication.AuthenticationRepositoryImpl
 import com.cairosquad.evolvefit.repository.home.HomeRepositoryImpl
 import com.cairosquad.evolvefit.repository.equipment.EquipmentRepositoryImpl
+import com.cairosquad.evolvefit.repository.exercise.ExerciseRepositoryImpl
+import com.cairosquad.evolvefit.repository.nutrition.NutritionRepositoryImpl
 import com.cairosquad.evolvefit.repository.workout.WorkoutRepositoryImpl
 import com.cairosquad.evolvefit.repository.profile.ProfileRepositoryImpl
 import org.koin.core.module.dsl.singleOf
@@ -23,4 +27,6 @@ val repositoryModule = module {
     singleOf(::HomeRepositoryImpl) bind HomeRepository::class
     singleOf(::EquipmentRepositoryImpl) bind EquipmentRepository::class
     singleOf(::ProfileRepositoryImpl) bind ProfileRepository::class
+    singleOf(::ExerciseRepositoryImpl) bind ExerciseRepository::class
+    single<NutritionRepository> { NutritionRepositoryImpl(get()) }
 }

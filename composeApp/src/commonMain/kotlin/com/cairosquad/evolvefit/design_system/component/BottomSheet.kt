@@ -30,7 +30,6 @@ fun BottomSheet(
     )
 
     var isBottomSheetVisible by remember { mutableStateOf(isVisible) }
-
     LaunchedEffect(isVisible) {
         if (isVisible) {
             isBottomSheetVisible = true
@@ -43,7 +42,7 @@ fun BottomSheet(
     if (isBottomSheetVisible) {
         ModalBottomSheet(
             modifier = modifier.padding(8.dp),
-            onDismissRequest = {  },
+            onDismissRequest = onDismiss,
             sheetState = sheetState,
             containerColor = containerColor,
             scrimColor = scrimColor
