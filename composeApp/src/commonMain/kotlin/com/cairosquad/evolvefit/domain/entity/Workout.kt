@@ -1,5 +1,7 @@
 package com.cairosquad.evolvefit.domain.entity
 
+import com.cairosquad.evolvefit.domain.model.FocusArea
+
 data class Workout(
     val id: String,
     val name: String,
@@ -15,3 +17,11 @@ data class Workout(
         ADVANCED
     }
 }
+
+data class WorkoutSuggested(
+    val id: String,
+    val name: String,
+    val durationSeconds: Int,
+    val imageUrl: String,
+    val focusArea: List<FocusArea>
+)
