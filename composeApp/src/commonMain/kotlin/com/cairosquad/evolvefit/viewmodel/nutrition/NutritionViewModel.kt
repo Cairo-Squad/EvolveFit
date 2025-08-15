@@ -156,19 +156,11 @@ class NutritionViewModel(
     private fun loadSuggestedMeals() {
         tryToCall(
             block = { manageNutritionUseCase.getSuggestedMeals() },
-            onStart = {
-                updateState { it.copy(suggestedMealsRequestState = NutritionScreenState.ScreenStatus.LOADING) }
-            },
             onSuccess = {
                 handleSuggestedMeals(meals = it)
-                updateState { it.copy(suggestedMealsRequestState = NutritionScreenState.ScreenStatus.SUCCESS) }
             },
             onError = { e ->
-                updateState {
-                    it.copy(
-                        errorMessage = e.toErrorMessageRes(),
-                        suggestedMealsRequestState = NutritionScreenState.ScreenStatus.FAIL
-                    )
+                updateState { it.copy(errorMessage = e.toErrorMessageRes(),)
                 }
             })
     }

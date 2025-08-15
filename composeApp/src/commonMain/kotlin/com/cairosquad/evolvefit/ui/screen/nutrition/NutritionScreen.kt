@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
@@ -32,6 +34,7 @@ import com.cairosquad.evolvefit.ui.screen.nutrition.content.MealTypeDropdownMenu
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.NutritionSummaryCard
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.SuggestedMeals
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.TodayMealsSummary
+import com.cairosquad.evolvefit.ui.screen.suggested_meals.LoadingMealCard
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionEffect
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
@@ -51,6 +54,7 @@ import evolvefit.composeapp.generated.resources.no_meals_description
 import evolvefit.composeapp.generated.resources.no_meals_title
 import evolvefit.composeapp.generated.resources.please_make_sure_you_are_connected_to_the_internet_and_try_again
 import evolvefit.composeapp.generated.resources.track_water_intake
+import evolvefit.composeapp.generated.resources.try_again_button
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -84,32 +88,23 @@ private fun NutritionContent(
     listener: NutritionInteractionListener
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        when (state.dataRequestState) {
-            NutritionScreenState.DataRequestState.SUCCESS -> {
+        when (state.screenStatus) {
+            NutritionScreenState.ScreenStatus.SUCCESS -> {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(Theme.color.surfaces.surface)
                 ) {
-                     item { NutritionHeader() }
+                    item { NutritionHeader() }
                     item { NutritionSummaryCard(listener = listener, state = state) }
                     item { TodayMealsSummary(state = state, listener = listener) }
-                    when (state.suggestedMealsRequestState) {
-                        NutritionScreenState.RequestState.SUCCESS -> {
-                            item { SuggestedMeals(state = state, listener = listener) }
-                        }
-                        NutritionScreenState.RequestState.LOADING -> {}
-                        NutritionScreenState.RequestState.FAIL -> {}
-                    }
-
+                    item { SuggestedMeals(state = state, listener = listener) }
                     mealHistorySection(state, listener)
                 }
 
                 MealTypeDropdownMenu(
                     state = state,
                     listener = listener,
-                    //   Modifier
-                    //        .align(Alignment.BottomCenter)
                 )
                 AddWaterIntakeBottomSheet(
                     modifier = Modifier.align(Alignment.BottomCenter),
@@ -127,11 +122,22 @@ private fun NutritionContent(
                 )
             }
 
-            NutritionScreenState.DataRequestState.LOADING -> {
-
+            NutritionScreenState.ScreenStatus.LOADING -> {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Adaptive(124.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(vertical = 16.dp)
+                    ) {
+                        items(20) { LoadingMealCard() }
+                    }
+                }
             }
 
-            NutritionScreenState.DataRequestState.FAIL -> {
+            NutritionScreenState.ScreenStatus.FAIL -> {
                 StateMessage(
                     image = painterResource(Res.drawable.im_no_internet),
                     title = stringResource(Res.string.internet_is_not_available),
@@ -142,10 +148,12 @@ private fun NutritionContent(
                         .align(Alignment.BottomCenter)
                         .padding(horizontal = 16.dp)
                         .padding(bottom = 24.dp),
-                    text = "Try Again",
+                    text = stringResource(Res.string.try_again_button),
                     enabledTextColor = Theme.color.brand.onPrimary,
                     textStyle = Theme.textStyle.body.mediumMedium14,
-                    onClick = {})
+                    onClick = {
+                        listener.onRetryClicked()
+                    })
             }
         }
 
@@ -219,7 +227,10 @@ private fun AddWaterIntakeBottomSheet(
                     keyboardType = KeyboardType.Number
                 ),
                 placeholder = "e.g., 1.5 L",
-                leadingIcon = Res.drawable.ic_water_drop
+                leadingIcon = Res.drawable.ic_water_drop,
+                isErrorMessageShown = true,
+                error = state.inputErrorMessage.let { it?.let { resource -> stringResource(resource) } }
+                    ?: ""
             )
             PrimaryButton(
                 modifier = Modifier.padding(top = 40.dp, bottom = 16.dp),
@@ -251,11 +262,9 @@ private fun MealCantAddSnackBar(
     isVisible: Boolean,
     modifier: Modifier = Modifier
 ) {
-    println("SIKAAA : ${state.errorMessage.toString()}")
     SnackBar(
         modifier = modifier,
         icon = painterResource(Res.drawable.ic_info),
-        // text = stringResource(Res.string.meal_cant_added_snackbar),
         text = state.errorMessage?.let { stringResource(it) } ?: "",
         isVisible = isVisible
     )

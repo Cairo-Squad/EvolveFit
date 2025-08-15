@@ -36,8 +36,6 @@ data class NutritionScreenState(
 
     val errorMessage: StringResource? = null,
     val inputErrorMessage: StringResource? = null,
-    val consumedMealsRequestState: ScreenStatus = ScreenStatus.LOADING,
-    val suggestedMealsRequestState: ScreenStatus = ScreenStatus.LOADING,
     val isMealAddedSnackBarVisible: Boolean = false,
 
     ) {
