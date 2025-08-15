@@ -1,16 +1,19 @@
 package com.cairosquad.evolvefit.viewmodel.home
 
 import androidx.lifecycle.viewModelScope
+import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.usecase.home.GetNutritionProgressUseCase
 import com.cairosquad.evolvefit.domain.usecase.home.GetPersonalizedWorkoutsUseCase
 import com.cairosquad.evolvefit.domain.usecase.home.model.NutritionProgress
+import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val getPersonalizedWorkoutsUseCase: GetPersonalizedWorkoutsUseCase,
     private val getNutritionProgressUseCase: GetNutritionProgressUseCase,
+    private val manageProfileUseCase: ManageProfileUseCase
 ) : BaseViewModel<HomeScreenState, HomeScreenEffect>(HomeScreenState()), HomeInteractionListener {
 
     init {
@@ -27,13 +30,19 @@ class HomeViewModel(
     }
 
     private fun loadUserInfo() {
-        // DUMMY
-        viewModelScope.launch {
-            updateState {
-                it.copy(user = DummyDataSource.user)
-            }
+        tryToCall(
+            block = { manageProfileUseCase.getProfile() },
+            onSuccess = ::handleLoadUserInfoSuccess,
+            onError = ::handleHomeErrors
+        )
+    }
+
+    private fun handleLoadUserInfoSuccess(profile: Profile) {
+        updateState {
+            it.copy(
+                user = profile.toHomeUserUiState()
+            )
         }
-        // TODO: use the use case, this should be the only use case where the success call back should not stop the loading indicator
     }
 
     private fun loadProgress() {
@@ -151,6 +160,7 @@ class HomeViewModel(
 
     private fun handleHomeErrors(error: Throwable) {
         // TODO
+        println("TEST : $error")
     }
 
 }
