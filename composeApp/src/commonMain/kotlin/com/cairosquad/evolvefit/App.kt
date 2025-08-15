@@ -8,7 +8,7 @@ import com.cairosquad.evolvefit.ui.navigation.NavigationHost
 import io.github.vinceglb.filekit.coil.addPlatformFileSupport
 
 @Composable
-fun App() {
+fun App(deepLinkRoute: Any? = null) {
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)
             .components {
@@ -17,6 +17,6 @@ fun App() {
             .build()
     }
     AppTheme {
-        NavigationHost()
+        NavigationHost(deepLinkRoute = deepLinkRoute)
     }
 }

@@ -168,9 +168,25 @@
     <string name="workout_report">Workout Report</string>
     <string name="ic_arrow_down">Arrow Down Icon</string>
     <string name="activity">Activity</string>
-    <string name="community">Community</string>
+    <string name="start_workout">Start Workout</string>
+    <string name="close">Close</string>
+    <string name="second">Second</string>
+    <string name="detail_icon">detail icon</string>
+    <string name="focus_quadriceps">Quadriceps</string>
+    <string name="focus_abs">Abs</string>
+    <string name="focus_calves">Calves</string>
+    <string name="focus_lower_back">Lower Back</string>
+    <string name="focus_core">Core</string>
+    <string name="focus_shoulders">Shoulders</string>
+    <string name="focus_full_body">Full Body</string>
+    <string name="instructions">Instructions</string>
+    <string name="equipment">Equipment</string>
+    <string name="focus_area">Focus Area</string>
+    <string name="bullet_point">•  %1$s</string>
+    <string name="previous">Previous</string>
     <string name="back">Back</string>
-
+    <string name="bookmark">Bookmark</string>
+    <string name="community">Community</string>
     <string name="error_no_internet">There is no internet connection.</string>
     <string name="error_unknown_credentials">Email or password you entered are incorrect.</string>
     <string name="error_invalid_email_format">Invalid email format.</string>
@@ -195,6 +211,18 @@
 
     <string name="the_goal">The Goal</string>
     <string name="current_weight">Current weight</string>
+    <string name="workout_saved_successfully">Workout Saved Successfully!</string>
+    <string name="share_to">Share to</string>
+    <string name="copy_link">Copy link</string>
+    <string name="share_with_community">Share with community</string>
+    <string name="messenger">Messenger</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="telegram">Telegram</string>
+    <string name="instagram">Instagram</string>
+    <string name="x_platform">X</string>
+    <string name="link_copied">Copied to clipboard successfully.</string>
+    <string name="copy_failled">Failed to copy, please try again later.</string>
+
     <string name="error_invalid_number">Enter a valid number or decimal only</string>
     <string name="error_exceeded_calories">You have exceeded the allowed calories</string>
     <string name="error_exceeded_water">You have exceeded the allowed water intake</string>
