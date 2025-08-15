@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.createWorkOut
 
 import com.cairosquad.evolvefit.domain.entity.Exercise
-import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.ExerciseUiModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 
 data class CreateWorkOutScreenState(
@@ -27,15 +26,6 @@ data class CreateWorkOutScreenState(
         DETAILS,
         EXERCISES
     }
-
-    data class UiWorkout(
-        val id: String = "",
-        val name: String = "",
-        val level: String = "",
-        val description: String = "",
-        val imageUrl: String? = null,
-        val exercises: List<ExerciseUiModel> = emptyList(),
-    )
 
     enum class WorkoutLevel {
         BEGINNER,
