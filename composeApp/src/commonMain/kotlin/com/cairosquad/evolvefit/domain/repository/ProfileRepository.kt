@@ -6,5 +6,5 @@ import com.cairosquad.evolvefit.domain.model.WeekDay
 interface ProfileRepository {
     suspend fun getProfile(): Profile
     suspend fun getUserWorkoutDays(): Set<WeekDay>
-    suspend fun editUserWorkoutDays()
+    suspend fun editUserWorkoutDays(weekDays: Set<WeekDay>)
 }
