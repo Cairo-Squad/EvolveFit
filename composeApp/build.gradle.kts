@@ -74,12 +74,11 @@ kotlin {
             implementation(libs.filekit.dialogs.compose)
             implementation(libs.filekit.coil)
 
+            //ktor
+            implementation(libs.bundles.ktor)
+
+            // settings
             implementation(libs.multiplatform.settings.no.arg)
-            implementation(libs.ktor.client.auth)
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.ktor.client.logging)
 
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
         }
