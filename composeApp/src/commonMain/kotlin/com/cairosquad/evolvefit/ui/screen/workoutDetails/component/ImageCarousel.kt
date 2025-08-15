@@ -14,12 +14,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
@@ -56,47 +60,44 @@ fun ImageCarousel(
     ) {
         NetworkImage(
             model = images[currentIndex],
-            contentDescription =stringResource(Res.string.exercise_image),
-            modifier = Modifier.fillMaxSize(),
+            contentDescription = stringResource(Res.string.exercise_image),
+            modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)),
         )
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+            Icon(
+                painter = painterResource(Res.drawable.ic_arrow_left),
+                contentDescription = stringResource(Res.string.previous),
+                tint = animatedColor,
+                modifier = Modifier.align(Alignment.CenterStart)
+                    .padding(horizontal = 8.dp)
+                    .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
+                    .padding(8.dp)
+                    .size(32.dp)
+                    .clip(CircleShape)
+                    .clickable(onClick = { currentIndex = if (currentIndex > 0) currentIndex - 1 else images.size - 1 })
+            )
+        }
 
-        Icon(
-            painter = painterResource(Res.drawable.ic_arrow_left),
-            contentDescription = stringResource(Res.string.previous),
-            tint = animatedColor,
-            modifier = Modifier.align(Alignment.CenterStart)
-                .padding(horizontal = 8.dp)
-                .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
-                .padding(vertical = 8.dp, horizontal = 16.dp)
-                .size(16.dp)
-                .clickable(
-                    onClick = {
-                        currentIndex = if (currentIndex > 0) currentIndex - 1 else images.size - 1
-                    }
-                )
-        )
-
-        Icon(
-            painter = painterResource(Res.drawable.ic_arrow_right),
-            contentDescription = stringResource(Res.string.next),
-            tint = Theme.color.surfaces.textColor,
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(horizontal = 8.dp)
-                .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
-                .padding(vertical = 8.dp, horizontal = 16.dp)
-                .size(16.dp)
-                .clickable(
-                    onClick = {
-                        currentIndex = if (currentIndex < images.size - 1) currentIndex + 1 else 0
-                    }
-                )
-        )
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+            Icon(
+                painter = painterResource(Res.drawable.ic_arrow_right),
+                contentDescription = stringResource(Res.string.next),
+                tint = Theme.color.surfaces.textColor,
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(horizontal = 8.dp)
+                    .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
+                    .size(32.dp)
+                    .clip(CircleShape)
+                    .clickable(
+                        onClick = { currentIndex = if (currentIndex < images.size - 1) currentIndex + 1 else 0 })
+            )
+        }
         MeasurementRow(
             exerciseType = exerciseType,
             modifier = Modifier
                 .align(Alignment.BottomEnd).padding(bottom = 8.dp, end = 8.dp)
-                .background(Theme.color.surfaces.onSurfaceAt2,RoundedCornerShape(24.dp))
+                .background(Theme.color.surfaces.onSurfaceAt2, RoundedCornerShape(24.dp))
                 .padding(vertical = 8.dp, horizontal = 12.dp),
             iconTint = Theme.color.surfaces.textColor,
             textColor = Theme.color.surfaces.textColor,
