@@ -10,10 +10,10 @@ data class Exercise(
     val equipment: Equipment,
     val specification: Specification,
     val focusAreas: Set<FocusArea>,
-    val estimatedTimeInSeconds: Int,
+    val estimatedTimeInSeconds: Int?,
 ) {
     sealed class Specification {
-        class Reps(val reps: Int) : Specification()
-        class Time(val timeInSeconds: Int) : Specification()
+        class Reps(val reps: Int?) : Specification()
+        class Time(val timeInSeconds: Int?) : Specification()
     }
 }
