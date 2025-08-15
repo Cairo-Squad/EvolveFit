@@ -59,7 +59,7 @@ fun CaloriesNutritionCard(
         value = value.toFormattedString(),
         goal = goal.toFormattedString(),
         unit = stringResource(Res.string.calories_small),
-        progress = (value.toFloat() / goal.toFloat()),
+        progress = if (goal != 0.toUInt()) (value.toFloat() / goal.toFloat()) else 0f,
         remaining = (goal - value).toFormattedString(),
         isUnitShownOnBar = false,
         modifier = modifier
@@ -79,7 +79,7 @@ fun WaterNutritionCard(
         value = value.toFormattedString(),
         goal = goal.toFormattedString(),
         unit = stringResource(Res.string.liters_small),
-        progress = (value / goal),
+        progress = if (goal != 0f) (value / goal) else 0f,
         remaining = (goal - value).toFormattedString(),
         isUnitShownOnBar = true,
         modifier = modifier
