@@ -7,16 +7,18 @@ class GetNutritionProgressUseCase(
     private val nutritionRepository: NutritionRepository
 ) {
     suspend fun getWaterNutrition(): NutritionProgress<Float> {
+        val dailyWaterSummary =  nutritionRepository.getDailyWaterSummary()
         return NutritionProgress(
-            goal = nutritionRepository.getWaterGoalInLiters(),
-            currentProgress = nutritionRepository.getWaterIntakeInLiters()
+            goal =dailyWaterSummary.totalWater ,
+            currentProgress = dailyWaterSummary.consumedWater
         )
     }
 
     suspend fun getCaloriesNutrition(): NutritionProgress<Int> {
+        val dailyCalorieSummary =  nutritionRepository.getDailyCalorieSummary()
         return NutritionProgress(
-            goal = nutritionRepository.getCaloriesGoalInKcal(),
-            currentProgress = nutritionRepository.getCaloriesIntakeInKcal()
+            goal = dailyCalorieSummary.totalCalories,
+            currentProgress =  dailyCalorieSummary.consumedCalories
         )
     }
 }

@@ -44,7 +44,7 @@ fun MealTypeDropdownMenu(
     listener: NutritionInteractionListener,
     modifier: Modifier = Modifier
 ) {
-    val mealTypeOptions = NutritionScreenState.MealType.entries.associateWith {
+    val mealTypeUiStateOptions = NutritionScreenState.MealTypeUiState.entries.associateWith {
         stringResource(it.displayName)
     }
     val rotation by animateFloatAsState(
@@ -92,11 +92,13 @@ fun MealTypeDropdownMenu(
             ) {
 
                 MealCaloriesInputField(
+
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .weight(1f),
-                    mealCalories = state.mealCaloriesInput,
-                    onValueChange = listener::onMealCaloriesChanged
+                    mealCalories = state.consumedCaloriesInput,
+                    onValueChange = listener::onMealCaloriesChanged,
+                    state = state
                 )
 
                 Box(modifier = Modifier.weight(1f)) {
@@ -106,15 +108,16 @@ fun MealTypeDropdownMenu(
                         trailingIcon = Res.drawable.ic_arrow_down,
                         onTrailingIconClick = listener::onToggleMealTypeMenu,
                         trailingIconModifier = arrowRotationModifier,
-                        readOnly = true
+                        readOnly = true,
+                        onClick =listener::onToggleMealTypeMenu
                     )
                     DropdownMenu(
-                        items = mealTypeOptions.values.toList(),
-                        selectedItem = mealTypeOptions[state.selectedMeal] ?: "",
+                        items = mealTypeUiStateOptions.values.toList(),
+                        selectedItem = mealTypeUiStateOptions[state.selectedMeal] ?: "",
                         expanded = state.isMealTypeMenuExpanded,
                         onItemClicked = { selected ->
                             val selectedType =
-                                mealTypeOptions.entries.first { it.value == selected }.key
+                                mealTypeUiStateOptions.entries.first { it.value == selected }.key
                             listener.onMealTypeSelected(selectedType)
                         },
                         onDismissRequest = {},
@@ -131,13 +134,7 @@ fun MealTypeDropdownMenu(
                 text = stringResource(Res.string.add_button),
                 isEnabled = state.isAddButtonEnabled,
                 onClick = {
-                    listener.onConfirmAddMealClicked(
-                        NutritionScreenState.MealHistory(
-                            name = state.mealNameInput,
-                            type = state.selectedMeal,
-                            calories = state.mealCaloriesInput.toInt()
-                        )
-                    )
+                    listener.onConfirmAddMealClicked()
                 })
         }
     }
@@ -161,6 +158,7 @@ private fun MealNameInputField(
 @Composable
 private fun MealCaloriesInputField(
     mealCalories: String,
+    state: NutritionScreenState,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -170,6 +168,8 @@ private fun MealCaloriesInputField(
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number
         ),
+        isErrorMessageShown = true,
+        error =state.inputErrorMessage.let { it?.let { resource -> stringResource(resource) } } ?:"",
         onValueChange = onValueChange,
         placeholder = stringResource(Res.string.calories),
         leadingIcon = Res.drawable.ic_fire
