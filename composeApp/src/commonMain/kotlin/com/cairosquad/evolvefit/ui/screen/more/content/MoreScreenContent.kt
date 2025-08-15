@@ -250,8 +250,7 @@ fun AccountRow(
     text: String = ""
 ) {
     Row(
-        modifier = modifier.background(color = Theme.color.surfaces.surfaceContainer)
-            .padding(horizontal = 12.dp),
+        modifier = modifier.background(color = Theme.color.surfaces.surfaceContainer).padding(12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
