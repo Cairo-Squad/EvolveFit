@@ -65,7 +65,7 @@ fun CustomDropdownMenu(
 
 @Preview
 @Composable
-fun CustomDropdownMenuPreview() {
+private fun CustomDropdownMenuPreview() {
     AppTheme(isDarkTheme = true) {
         CustomDropdownMenu(
             items = listOf(

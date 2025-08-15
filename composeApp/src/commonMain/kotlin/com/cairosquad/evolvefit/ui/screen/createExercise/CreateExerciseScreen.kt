@@ -29,7 +29,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
@@ -117,7 +116,7 @@ fun CreateExerciseScreenContent(
     } else {
         painterResource(Res.drawable.im_upload_light2)
     }
-// Text values
+
     val selectedEquipmentNames = if (state.selectedEquipment.name.isBlank()) {
         stringResource(Res.string.choose_available_tools)
     } else {
@@ -130,7 +129,7 @@ fun CreateExerciseScreenContent(
         state.selectedFocusAreasText
     }
 
-// Animated Colors
+
     val durationTitleColor by animateColorAsState(
         targetValue = if (state.isDurationChecked)
             Theme.color.surfaces.onSurfaceContainer
@@ -214,7 +213,7 @@ fun CreateExerciseScreenContent(
                                 .size(100.dp)
                                 .rotate(-5f)
                                 .offset(x = (-15).dp, y = (-18).dp)
-                                .clickable { listener.onImage2Clicked() },
+                                .clickable { listener.onEndImageClicked() },
                             contentAlignment = Alignment.Center
                         ) {
                             if (state.image2 != null) {
@@ -235,7 +234,7 @@ fun CreateExerciseScreenContent(
                         Box(
                             modifier = Modifier
                                 .size(100.dp)
-                                .clickable { listener.onImage1Clicked() },
+                                .clickable { listener.onStartImageClicked() },
                             contentAlignment = Alignment.Center
                         ) {
                             if (state.image1 != null) {
@@ -260,7 +259,7 @@ fun CreateExerciseScreenContent(
                     Text(
                         modifier = Modifier
                             .padding(bottom = 24.dp)
-                            .clickable(onClick = listener::onImage1Clicked),
+                            .clickable(onClick = listener::onStartImageClicked),
                         text = stringResource(Res.string.upload_image),
                         style = Theme.textStyle.label.smallRegular12,
                         color = Theme.color.surfaces.onSurfaceVariant
@@ -387,7 +386,7 @@ fun CreateExerciseScreenContent(
                 item {
                     PrimaryButton(
                         modifier = Modifier.padding(vertical = 40.dp),
-                        isEnabled = listener.isSaveEnabled(),
+                        isEnabled = listener.canSaveExercise(),
                         text = stringResource(Res.string.save_exercise),
                         onClick = { listener.onSaveClicked() }
                     )
@@ -397,15 +396,15 @@ fun CreateExerciseScreenContent(
 
         if (state.isImage1PickerOpen) {
             ImagePicker(
-                onImageRetrieved = listener::onImage1Retrieved,
-                onImagePickerDismiss = listener::onImage1PickerDismiss
+                onImageRetrieved = listener::onStartImageRetrieved,
+                onImagePickerDismiss = listener::onStartImagePickerDismiss
             )
         }
 
         if (state.isImage2PickerOpen) {
             ImagePicker(
-                onImageRetrieved = listener::onImage2Retrieved,
-                onImagePickerDismiss = listener::onImage2PickerDismiss
+                onImageRetrieved = listener::onEndImageRetrieved,
+                onImagePickerDismiss = listener::onEndImagePickerDismiss
             )
         }
 
@@ -440,12 +439,12 @@ private fun CreateExerciseScreenPreview() {
                 override fun onEquipmentToggled(equipmentId: Int) {}
                 override fun onFocusAreaNameSelected(name: String) {}
                 override fun onEquipmentNameSelected(toolName: String) {}
-                override fun onImage1Clicked() {}
-                override fun onImage2Clicked() {}
-                override fun onImage1Retrieved(image: UiImage) {}
-                override fun onImage2Retrieved(image: UiImage) {}
-                override fun onImage1PickerDismiss() {}
-                override fun onImage2PickerDismiss() {}
+                override fun onStartImageClicked() {}
+                override fun onEndImageClicked() {}
+                override fun onStartImageRetrieved(image: UiImage) {}
+                override fun onEndImageRetrieved(image: UiImage) {}
+                override fun onStartImagePickerDismiss() {}
+                override fun onEndImagePickerDismiss() {}
                 override fun onMeasurementTypeSelected(type: CreateExerciseState.MeasurementType) {}
                 override fun onMeasurementValueChanged(value: String) {}
                 override fun onFocusAreaToggled(focusArea: CreateExerciseState.FocusArea) {}
@@ -459,7 +458,7 @@ private fun CreateExerciseScreenPreview() {
                 override fun onExitOptionSelected(saveBeforeExit: Boolean) {}
                 override fun onFocusAreaDismiss() {}
                 override fun onEquipmentDismiss() {}
-                override fun isSaveEnabled(): Boolean {
+                override fun canSaveExercise(): Boolean {
                     return true
                 }
             })

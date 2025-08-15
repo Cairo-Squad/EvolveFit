@@ -84,46 +84,12 @@ fun ExitCreateExerciseBottomSheet(
 @Preview()
 @Composable
 fun ExiteCreateExerciseBottomSheetPreview() {
-    val saveImage =
-        if (isSystemInDarkTheme()) painterResource(Res.drawable.im_save_dark)
-        else painterResource(Res.drawable.im_save_light)
-
     AppTheme(isDarkTheme = false) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                modifier = Modifier.padding(bottom = 16.dp)
-                    .padding(horizontal = 98.dp),
-                painter = saveImage,
-                contentDescription = "save image"
-            )
-            Text(
-                modifier = Modifier
-                    .padding(bottom = 8.dp),
-                text = "Do you want to exit?",
-                style = Theme.textStyle.title.mediumMedium16,
-                color = Theme.color.surfaces.onSurface
-            )
-            Text(
-                modifier = Modifier
-                    .padding(bottom = 24.dp),
-                text = "You haven’t saved your workout yet. All progress might be lost.",
-                style = Theme.textStyle.label.smallRegular12,
-                color = Theme.color.surfaces.onSurfaceVariant
-            )
-            PrimaryButton(
-                modifier = Modifier.padding(top = 12.dp),
-                text = "Cancel",
-                onClick = {}
-            )
-            PrimaryButton(
-                text = "Exit Without Saving",
-                enabledContainerColor = Color.Transparent,
-                enabledTextColor = Theme.color.surfaces.onSurfaceContainer,
-                onClick = {}
-            )
-        }
+        ExitCreateExerciseBottomSheet(
+            isVisible = true,
+            onDismiss = {},
+            onCancelClicked = {},
+            onExitWithoutSavingClicked = {}
+        )
     }
 }

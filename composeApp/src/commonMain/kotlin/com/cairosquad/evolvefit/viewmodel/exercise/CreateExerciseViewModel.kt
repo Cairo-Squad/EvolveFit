@@ -53,30 +53,30 @@ class CreateExerciseViewModel(
     }
 
 
-    override fun onImage1Clicked() {
+    override fun onStartImageClicked() {
         updateState { it.copy(isImage1PickerOpen = true) }
     }
 
-    override fun onImage1Retrieved(image: UiImage) {
+    override fun onStartImageRetrieved(image: UiImage) {
         updateState { it.copy(image1 = image, isImage1PickerOpen = false) }
     }
 
-    override fun onImage1PickerDismiss() {
+    override fun onStartImagePickerDismiss() {
         updateState { it.copy(isImage1PickerOpen = false) }
     }
 
 
-    override fun onImage2Clicked() {
+    override fun onEndImageClicked() {
         updateState { it.copy(isImage2PickerOpen = true) }
     }
 
 
-    override fun onImage2Retrieved(image: UiImage) {
+    override fun onEndImageRetrieved(image: UiImage) {
         updateState { it.copy(image2 = image, isImage2PickerOpen = false) }
     }
 
 
-    override fun onImage2PickerDismiss() {
+    override fun onEndImagePickerDismiss() {
         updateState { it.copy(isImage2PickerOpen = false) }
     }
 
@@ -175,7 +175,7 @@ class CreateExerciseViewModel(
         updateState { it.copy(isEquipmentExpanded = false) }
     }
 
-    override fun isSaveEnabled(): Boolean {
+    override fun canSaveExercise(): Boolean {
         val currentState = screenState.value
         return currentState.name.isNotBlank() &&
                 currentState.image1 != null &&

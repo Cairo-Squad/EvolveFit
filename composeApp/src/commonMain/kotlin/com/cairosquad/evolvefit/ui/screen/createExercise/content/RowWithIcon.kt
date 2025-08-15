@@ -1,5 +1,10 @@
 package com.cairosquad.evolvefit.ui.screen.createExercise.content
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.with
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -22,10 +27,11 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun RowWithIcon(
     modifier: Modifier = Modifier,
-    text: String = "Select focus area",
+    text: String,
     isIconClicked: Boolean = false,
     textColor: Color = Theme.color.surfaces.onSurfaceVariant,
     iconTint: Color = Theme.color.surfaces.onSurfaceVariant,
@@ -55,16 +61,32 @@ fun RowWithIcon(
             color = textColor
         )
         Spacer(modifier = Modifier.weight(1f))
-        Icon(
-            painter = arrowDirection,
-            contentDescription = stringResource(Res.string.arrow),
-            tint = iconTint,
-        )
+        AnimatedContent(
+            targetState = isIconClicked,
+            transitionSpec = {
+                fadeIn() with fadeOut()
+            }
+        ) { target ->
+            val iconPainter = if (target) {
+                painterResource(Res.drawable.ic_arrow_down)
+            } else {
+                painterResource(Res.drawable.ic_arrow_up)
+            }
+
+            Icon(
+                painter = iconPainter,
+                contentDescription = stringResource(Res.string.arrow),
+                tint = iconTint
+            )
+        }
     }
 }
 
 @Preview
 @Composable
 private fun RowWithIconPreview() {
-    RowWithIcon()
+    RowWithIcon(
+        text = "Choose focus area",
+        isIconClicked = true
+    )
 }

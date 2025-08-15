@@ -15,8 +15,8 @@ fun Exercise.toDto(): ExerciseDto {
             is Exercise.Specification.Reps -> "REPS"
             is Exercise.Specification.Time -> "DURATION"
         },
-        reps = (specification as? Exercise.Specification.Reps)?.reps,
-        durationSeconds = (specification as? Exercise.Specification.Time)?.timeInSeconds
+        reps = (specification as? Exercise.Specification.Reps)?.reps ?: 0,
+        durationSeconds = (specification as? Exercise.Specification.Time)?.timeInSeconds ?: 0,
     )
 }
 

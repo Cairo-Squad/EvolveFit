@@ -170,7 +170,6 @@
 
     <string name="create_exercise_title">إنشاء تمرين</string>
     <string name="create_exercise_description">أضف تمرينًا جديدًا لتخصيص خطتك الرياضية والبقاء على المسار.</string>
-    <string name="back">رجوع</string>
     <string name="enter_exercise_name">أدخل اسم التمرين</string>
     <string name="add_duration">أضف المدة</string>
     <string name="add_reps">أضف التكرارات</string>
