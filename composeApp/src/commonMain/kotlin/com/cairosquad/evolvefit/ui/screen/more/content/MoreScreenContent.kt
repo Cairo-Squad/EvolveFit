@@ -21,8 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
-import com.cairosquad.evolvefit.design_system.component.CheckboxItem
-import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.domain.model.Language
@@ -32,16 +30,13 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arabic
 import evolvefit.composeapp.generated.resources.art
 import evolvefit.composeapp.generated.resources.calender
-import evolvefit.composeapp.generated.resources.dark
 import evolvefit.composeapp.generated.resources.earth
 import evolvefit.composeapp.generated.resources.english
-import evolvefit.composeapp.generated.resources.evolove_logout
 import evolvefit.composeapp.generated.resources.ic_arrow_right
 import evolvefit.composeapp.generated.resources.ic_bell
 import evolvefit.composeapp.generated.resources.ic_bookmark_big
 import evolvefit.composeapp.generated.resources.ic_profile
 import evolvefit.composeapp.generated.resources.ic_ruler
-import evolvefit.composeapp.generated.resources.light
 import evolvefit.composeapp.generated.resources.logout
 import evolvefit.composeapp.generated.resources.weight
 import org.jetbrains.compose.resources.DrawableResource

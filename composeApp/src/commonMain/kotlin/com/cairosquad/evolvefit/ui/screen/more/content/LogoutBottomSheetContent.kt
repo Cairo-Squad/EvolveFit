@@ -14,7 +14,7 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.UiImageDisplayer
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.evolve_logout
+import evolvefit.composeapp.generated.resources.ic_app_logo
 import org.jetbrains.compose.resources.painterResource
 
 
@@ -27,7 +27,7 @@ fun LogoutBottomSheetContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         UiImageDisplayer(
-            image = painterResource(Res.drawable.evolve_logout) as UiImage,
+            image = painterResource(Res.drawable.ic_app_logo) as UiImage,
             contentDescription = "logo",
             modifier = Modifier.size(80.dp).padding(bottom = 16.dp)
         )
