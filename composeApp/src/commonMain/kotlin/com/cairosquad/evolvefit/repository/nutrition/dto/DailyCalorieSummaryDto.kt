@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DailyCalorieSummaryDto(
-    @SerialName("caloriesConsumed")
-    val consumedCalories: Int,
     @SerialName("totalCalories")
     val totalCalories: Int,
+    @SerialName("caloriesConsumed")
+    val consumedCalories: Int ,
 )

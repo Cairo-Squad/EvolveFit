@@ -175,7 +175,7 @@
     <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.</string>
     <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل.</string>
     <string name="error_unexpected">حدث خطأ غير متوقع.</string>
-
+    <string name="liters1">لترات</string>
     <string name="calories_small">سعر حراري</string>
     <string name="water_consumption">شرب الماء</string>
     <string name="liters_small">لتر</string>
@@ -192,9 +192,5 @@
     <string name="completed">مكتمل</string>
     <string name="the_goal">الهدف</string>
     <string name="current_weight">الوزن الحالي</string>
-    <string name="error_invalid_number">أدخل رقمًا صحيحًا أو عشريًا فقط</string>
-    <string name="error_exceeded_calories">تجاوزت الحد المسموح للسعرات</string>
-    <string name="error_exceeded_water">تجاوزت الحد المسموح للمياه</string>
-    <string name="error_meal_not_found">الوجبة غير موجودة</string>
-    <string name="error_unknown">حدث خطأ، حاول مرة أخرى</string>
+    <string name="try_again_button">حاول مجددا</string>
 </resources>

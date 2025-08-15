@@ -17,4 +17,5 @@ interface NutritionInteractionListener {
     fun onViewAllMealHistoryClicked()
     fun onDroppedMenuClick()
     fun onSnackBarHided()
+    fun onRetryClicked()
 }
