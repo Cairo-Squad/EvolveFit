@@ -20,24 +20,27 @@ data class NutritionScreenState(
     val dailyMealSummaryUiStates: List<DailyMealSummaryUiState> = emptyList(),
     val suggestedMeals: List<SuggestedMealUiState> = emptyList(),
     val todayConsumedMeals: List<ConsumedMealUiState> = emptyList(),
+
     val isAddWaterSheetVisible: Boolean = false,
     val isAddMealSheetVisible: Boolean = false,
     val isDroppedMenuVisible: Boolean = false,
     val isMealTypeMenuExpanded: Boolean = false,
     val isAddButtonEnabled: Boolean = false,
-    val dataRequestState: DataRequestState= DataRequestState.LOADING,
+
+    val screenStatus: ScreenStatus= ScreenStatus.LOADING,
+
     val mealNameInput: String = "",
     val consumedCaloriesInput: String = "",
     val consumedWaterInput: String = "",
     val selectedMeal: MealTypeUiState = MealTypeUiState.Breakfast,
+
     val errorMessage: StringResource? = null,
     val inputErrorMessage: StringResource? = null,
-    val consumedMealsRequestState: RequestState = RequestState.LOADING,
-    val suggestedMealsRequestState: RequestState = RequestState.LOADING,
+    val consumedMealsRequestState: ScreenStatus = ScreenStatus.LOADING,
+    val suggestedMealsRequestState: ScreenStatus = ScreenStatus.LOADING,
     val isMealAddedSnackBarVisible: Boolean = false,
-    val isMealErrorSnackBarVisible: Boolean = false,
-) {
-    enum class RequestState { SUCCESS, LOADING, FAIL }
+
+    ) {
     data class DailyMealSummaryUiState(
         val type: MealTypeUiState = MealTypeUiState.Breakfast,
         val calories: Float = 0f,
@@ -63,7 +66,7 @@ data class NutritionScreenState(
         Dinner(Res.string.meal_type_dinner),
         Snacks(Res.string.meal_type_snacks)
     }
-    enum class DataRequestState{
+    enum class ScreenStatus{
         SUCCESS,LOADING,FAIL
     }
 }

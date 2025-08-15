@@ -44,8 +44,8 @@ fun NutritionSummaryCard(
             CircularProgressCard(
                 modifier = Modifier.weight(1f),
                 title = stringResource(Res.string.calories),
-                currentValue = state.dailyCaloriesGoal,
-                totalValue = state.todayConsumedCalories,
+                currentValue = state.todayConsumedCalories,
+                totalValue = state.dailyCaloriesGoal,
                 unit = stringResource(Res.string.kcal_unit),
                 icon = painterResource(Res.drawable.ic_fire),
                 iconColor = Theme.color.system.success,

@@ -169,7 +169,7 @@ private fun MealCaloriesInputField(
             keyboardType = KeyboardType.Number
         ),
         isErrorMessageShown = true,
-        error =state.errorMessage.let { it?.let { resource -> stringResource(resource) } } ?:"",
+        error =state.inputErrorMessage.let { it?.let { resource -> stringResource(resource) } } ?:"",
         onValueChange = onValueChange,
         placeholder = stringResource(Res.string.calories),
         leadingIcon = Res.drawable.ic_fire
