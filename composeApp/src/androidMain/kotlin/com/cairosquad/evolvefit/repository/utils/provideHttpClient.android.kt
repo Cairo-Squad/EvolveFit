@@ -35,16 +35,20 @@ actual fun provideHttpClient(
             bearer {
                 loadTokens {
                     val access = authenticationPreferences.getAccessToken()
+                    println("accessTokens from  loadTokens : $access")
                     val refresh = authenticationPreferences.getRefreshToken()
+                    println("refreshTokens from  loadTokens : $refresh")
                     if (access != null && refresh != null)
                         BearerTokens(access, refresh)
                     else null
                 }
-
                 refreshTokens {
                     val refresh = authenticationPreferences.getRefreshToken()
+                    println("refreshTokens from  provideHttpClient : $refresh")
                     if (refresh != null) {
+                        println("refreshTokens is not null")
                         val newTokens = refreshTokenProvider.getNewTokens(refresh)
+                        println("refreshTokens from  newTokens : $newTokens")
                         if (newTokens != null) {
                             authenticationPreferences.saveTokens(
                                 newTokens.accessToken,
@@ -59,7 +63,7 @@ actual fun provideHttpClient(
         }
 
         install(Logging) {
-            level = LogLevel.BODY
+            level = LogLevel.ALL
         }
     }
 }
