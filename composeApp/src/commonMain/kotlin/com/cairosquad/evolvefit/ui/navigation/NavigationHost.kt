@@ -127,10 +127,9 @@ fun NavigationHost(
                 navigateToMealDetails = { mealId -> navController.navigate(MealDetailsRoute(mealId)) },
                 navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) },
                 navigateToWorkoutHistory = { navController.navigate(WorkoutHistoryRoute) },
-                navigateToEditProfile = { navController.navigate(EditProfileRoute) }
-                navigateToWorkoutHistory = { navController.navigate(WorkoutHistoryRoute) },
-                navigateToLogIn = { navController.navigate(LoginRoute) }
-            )
+                navigateToEditProfile = { navController.navigate(EditProfileRoute) },
+                navigateToLogIn = { navController.navigate(LoginRoute) },
+                )
         }
 
         composable<CreateWorkoutRoute> {

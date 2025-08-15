@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.profile.content
+package com.cairosquad.evolvefit.ui.screen.more.content
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,17 +29,24 @@ import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.viewmodel.profile.MoreInteractionListener
 import com.cairosquad.evolvefit.viewmodel.profile.MoreScreenState
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.dashboard
+import evolvefit.composeapp.generated.resources.arabic
+import evolvefit.composeapp.generated.resources.art
+import evolvefit.composeapp.generated.resources.calender
+import evolvefit.composeapp.generated.resources.dark
+import evolvefit.composeapp.generated.resources.earth
+import evolvefit.composeapp.generated.resources.english
+import evolvefit.composeapp.generated.resources.evolove_logout
 import evolvefit.composeapp.generated.resources.ic_arrow_right
 import evolvefit.composeapp.generated.resources.ic_bell
 import evolvefit.composeapp.generated.resources.ic_bookmark_big
-import evolvefit.composeapp.generated.resources.ic_count
-import evolvefit.composeapp.generated.resources.ic_cross
-import evolvefit.composeapp.generated.resources.ic_person
+import evolvefit.composeapp.generated.resources.ic_profile
 import evolvefit.composeapp.generated.resources.ic_ruler
-import evolvefit.composeapp.generated.resources.ic_workout
+import evolvefit.composeapp.generated.resources.light
+import evolvefit.composeapp.generated.resources.logout
+import evolvefit.composeapp.generated.resources.weight
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MoreScreenContent(
@@ -62,41 +69,48 @@ fun MoreScreenContent(
             height = state.profile.height,
             age = state.profile.age
         )
-        Text(
-            text = "Account",
-            style = Theme.textStyle.label.smallRegular14,
-            color = Theme.color.surfaces.onSurfaceVariant
-        )
-        AccountRow(
-            modifier = Modifier.clickable { listener.onClickPersonInformation() },
-            icon = Res.drawable.ic_person,
-            title = "Personal Information"
-        )
-        AccountRow(
-            modifier = Modifier.clickable { listener.onClickFavorites() },
-            icon = Res.drawable.ic_bookmark_big,
-            title = "Favorites"
-        )
-        AccountRow(
-            modifier = Modifier.clickable { listener.onClickNotification() },
-            icon = Res.drawable.ic_bell,
-            title = "Notification Settings"
-        )
-        AccountRow(
-            modifier = Modifier.clickable { listener.onClickTheme() },
-            icon = Res.drawable.ic_cross,
-            title = "Theme"
-        )
-        AccountRow(
-            modifier = Modifier.clickable { listener.onClickLanguage() },
-            icon = Res.drawable.ic_person,
-            title = "Language"
-        )
-        AccountRow(
-            modifier = Modifier.clickable { listener.onClickLogout() },
-            icon = Res.drawable.ic_person,
-            title = "Logout"
-        )
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                text = "Account",
+                style = Theme.textStyle.label.smallRegular14,
+                color = Theme.color.surfaces.onSurfaceVariant,
+                modifier = Modifier.align(Alignment.Start)
+            )
+            AccountRow(
+                modifier = Modifier.clickable { listener.onClickPersonInformation() },
+                icon = Res.drawable.ic_profile,
+                title = "Personal Information"
+            )
+            AccountRow(
+                modifier = Modifier.clickable { listener.onClickFavorites() },
+                icon = Res.drawable.ic_bookmark_big,
+                title = "Favorites"
+            )
+            AccountRow(
+                modifier = Modifier.clickable { listener.onClickNotification() },
+                icon = Res.drawable.ic_bell,
+                title = "Notification Settings"
+            )
+            AccountRow(
+                modifier = Modifier.clickable { listener.onClickTheme() },
+                icon = Res.drawable.art,
+                title = "Theme"
+            )
+            AccountRow(
+                modifier = Modifier.clickable { listener.onClickLanguage() },
+                icon = Res.drawable.earth,
+                text = if (state.profile.preferredLanguage == Language.ENGLISH) stringResource(Res.string.english) else stringResource(Res.string.arabic),
+                title = "Language"
+            )
+            AccountRow(
+                modifier = Modifier.clickable { listener.onClickLogout() },
+                icon = Res.drawable.logout,
+                title = "Logout"
+            )
+        }
         BottomSheet(
             isVisible = state.isThemeBottomSheetEnabled,
             onDismiss = listener::onDismissThemeBottomSheet,
@@ -155,14 +169,14 @@ fun PersonInfo(
         Box(modifier = Modifier.border(width = 1.dp, color = Theme.color.surfaces.outlineVariant))
         MeasurementCard(
             modifier = Modifier.weight(1f),
-            icon = Res.drawable.ic_workout,
+            icon = Res.drawable.weight,
             name = "Weight",
             value = weight.toString()
         )
         Box(modifier = Modifier.border(width = 1.dp, color = Theme.color.surfaces.outlineVariant))
         MeasurementCard(
             modifier = Modifier.padding(bottom = 12.dp).weight(1f),
-            icon = Res.drawable.ic_count,
+            icon = Res.drawable.calender,
             name = "Age",
             value = age.toString()
         )
@@ -177,15 +191,17 @@ fun MeasurementCard(
     modifier: Modifier = Modifier,
     measurementUnit: String = ""
 ) {
-    Column(modifier = modifier, horizontalAlignment = Alignment.Start) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Row(
             modifier = Modifier.padding(bottom = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 painter = painterResource(icon),
                 contentDescription = "$name icon",
-
+                tint = Theme.color.brand.primary,
+                modifier = Modifier.size(16.dp)
                 )
             Text(
                 text = name,
@@ -210,7 +226,8 @@ fun ProfileInfo(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         NetworkImage(
             model = userImage,
@@ -239,7 +256,7 @@ fun AccountRow(
 ) {
     Row(
         modifier = modifier.background(color = Theme.color.surfaces.surfaceContainer)
-            .padding(12.dp),
+            .padding(horizontal = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -270,126 +287,4 @@ fun AccountRow(
         )
     }
 
-}
-@Composable
-fun ThemeBottomSheetContent(
-    state: MoreScreenState,
-    onThemeSelected: (MoreScreenState.Theme) -> Unit,
-    onConfirm: () -> Unit
-) {
-    val selectedTheme = state.currentTheme
-
-    Column(
-        modifier = Modifier.padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        Text(
-            text = "Choose Theme",
-            style = Theme.textStyle.label.mediumMedium16,
-            color = Theme.color.surfaces.onSurface
-        )
-        Text(
-            text = "Select your preferred look and feel for the app.",
-            style = Theme.textStyle.label.mediumMedium12,
-            color = Theme.color.surfaces.onSurfaceVariant
-        )
-
-        CheckboxItem(
-            text = "Dark Mode",
-            isChecked = selectedTheme == MoreScreenState.Theme.DARK,
-            icon = Res.drawable.dashboard,
-            onCheckedChange = { onThemeSelected(MoreScreenState.Theme.DARK) }
-        )
-        CheckboxItem(
-            text = "Light Mode",
-            isChecked = selectedTheme == MoreScreenState.Theme.LIGHT,
-            icon = Res.drawable.dashboard,
-            onCheckedChange = { onThemeSelected(MoreScreenState.Theme.LIGHT) }
-        )
-
-        PrimaryButton(
-            text = "Confirm",
-            onClick = onConfirm,
-            modifier = Modifier.padding(bottom = 16.dp),
-            isEnabled = true,
-            enabledTextColor = Theme.color.brand.onPrimary,
-            textStyle = Theme.textStyle.body.mediumMedium14,
-        )
-    }
-}
-
-
-@Composable
-fun LanguageBottomSheetContent(
-    state: MoreScreenState,
-    onLanguageSelected: (Language) -> Unit,
-    onConfirm: () -> Unit
-) {
-    val selectedLanguage = state.currentLanguage
-
-Column {
-        Text(
-            text = "Choose Language",
-            style = Theme.textStyle.label.mediumMedium16,
-            color = Theme.color.surfaces.onSurface,
-            modifier = Modifier.padding(bottom = 4.dp)
-        )
-        Text(
-            text = "This language will be used throughout the app.",
-            style = Theme.textStyle.label.mediumMedium12,
-            color = Theme.color.surfaces.onSurfaceVariant,
-            modifier = Modifier.padding(bottom = 4.dp)
-        )
-        CheckboxItem(
-            text = "English",
-            isChecked = selectedLanguage == Language.ENGLISH,
-            icon = Res.drawable.dashboard,
-            onCheckedChange = { }
-        )
-        CheckboxItem(
-            text = "Arabic",
-            isChecked = selectedLanguage == Language.ARABIC,
-            icon = Res.drawable.dashboard,
-            onCheckedChange = { onLanguageSelected(Language.ARABIC)}
-        )
-        PrimaryButton(
-            text = "Confirm",
-            onClick = onConfirm,
-            modifier = Modifier.padding(bottom = 16.dp),
-            isEnabled = true,
-            enabledTextColor = Theme.color.brand.onPrimary,
-            textStyle = Theme.textStyle.body.mediumMedium14,
-        )
-    }
-}
-
-@Composable
-fun LogoutBottomSheetContent(
-    onLogout: () -> Unit
-    ) {
-    Column(
-        modifier = Modifier.padding(16.dp).fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Confirm Logout",
-            style = Theme.textStyle.label.mediumMedium16,
-            color = Theme.color.surfaces.onSurface,
-            modifier = Modifier.padding(bottom = 4.dp)
-        )
-        Text(
-            text = "Are you sure you want to log out?",
-            style = Theme.textStyle.label.mediumMedium12,
-            color = Theme.color.surfaces.onSurfaceVariant,
-            modifier = Modifier.padding(bottom = 4.dp)
-        )
-        PrimaryButton(
-            text = "Logout",
-            onClick = onLogout,
-            modifier = Modifier.padding(bottom = 16.dp),
-            isEnabled = true,
-            enabledTextColor = Theme.color.brand.onPrimary,
-            textStyle = Theme.textStyle.body.mediumMedium14,
-        )
-    }
 }

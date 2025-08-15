@@ -26,7 +26,7 @@ class MoreViewModel(
     }
 
     override fun onClickPersonInformation() {
-        sendEffect(MoreEffect.NavigateToPersonInformation)
+        sendEffect(MoreEffect.NavigateToEditProfile)
     }
 
     override fun onClickFavorites() {
@@ -70,7 +70,13 @@ class MoreViewModel(
     override fun onLogout() {
         tryToCall(
             block = { authenticationUseCase.logout() },
-            onSuccess = {},
+            onSuccess = {
+                updateState {
+                    it.copy(
+                        isLogoutBottomSheetEnabled = false
+                    )}
+                sendEffect(MoreEffect.Logout)
+            },
             onError = { },
             onStart = { updateState { it.copy(isLoading = true) } },
             onEnd = { updateState { it.copy(isLoading = false) } },

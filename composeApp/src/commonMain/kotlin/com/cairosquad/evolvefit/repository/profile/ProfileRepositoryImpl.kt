@@ -20,7 +20,7 @@ class ProfileRepositoryImpl : ProfileRepository {
             height = 180f,
             weight = 75f,
             goal = Profile.FitnessGoal.GAIN_WEIGHT,
-            imageUrl = "https://example.com/images/john_doe.jpg"
+            imageUrl = "https://phxgymwitham.co.uk/wp-content/uploads/2024/05/Upper-body-gym-workout-1024x681.jpg"
         )
     }
 
