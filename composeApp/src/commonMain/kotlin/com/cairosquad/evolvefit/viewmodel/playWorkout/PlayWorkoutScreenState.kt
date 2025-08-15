@@ -37,8 +37,8 @@ data class PlayWorkoutScreenState(
     )
 
     sealed class ExerciseSpecUiState {
-        class Reps(val reps: Int) : ExerciseSpecUiState()
-        class Time(val timeInSeconds: Int) : ExerciseSpecUiState()
+        class Reps(val reps: Int?) : ExerciseSpecUiState()
+        class Time(val timeInSeconds: Int?) : ExerciseSpecUiState()
     }
 
     enum class WorkoutLevelUiState(val nameResId: StringResource) {
