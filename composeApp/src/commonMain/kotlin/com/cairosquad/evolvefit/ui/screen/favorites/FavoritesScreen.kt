@@ -3,6 +3,7 @@ package com.cairosquad.evolvefit.ui.screen.favorites
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.component.StateMessage
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
@@ -37,12 +39,13 @@ import com.cairosquad.evolvefit.viewmodel.favorites.FavoritesEffect
 import com.cairosquad.evolvefit.viewmodel.favorites.FavoritesInteractionListener
 import com.cairosquad.evolvefit.viewmodel.favorites.FavoritesState
 import com.cairosquad.evolvefit.viewmodel.favorites.FavoritesViewModel
-import com.cairosquad.evolvefit.viewmodel.favorites.MealType
 import com.cairosquad.evolvefit.viewmodel.favorites.MealsUiModel
 import com.cairosquad.evolvefit.viewmodel.favorites.WorkoutsUiModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arrow_back_description
 import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.im_empty_list_dark
+import evolvefit.composeapp.generated.resources.im_empty_list_light
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -78,8 +81,9 @@ fun FavoritesScreenContent(
 ) {
     Column(
         modifier = Modifier
-            .windowInsetsPadding(WindowInsets.systemBars)
             .fillMaxSize()
+            .background(color = Theme.color.surfaces.surface)
+            .windowInsetsPadding(WindowInsets.systemBars)
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -110,6 +114,11 @@ fun TabsWithPager(
 ) {
     val tabs = listOf("Workouts", "Meals")
     val pagerState = rememberPagerState(pageCount = { 2 })
+    val emptyListScreen = if (isSystemInDarkTheme()) {
+        Res.drawable.im_empty_list_dark
+    } else {
+        Res.drawable.im_empty_list_light
+    }
 
     Column {
         Row(
@@ -192,11 +201,36 @@ fun TabsWithPager(
         ) { page ->
             when (page) {
                 0 -> {
-                    WorkoutList(workouts = workouts)
+                    if (workouts.isEmpty()) {
+                        StateMessage(
+                            modifier = Modifier.padding(top = 180.dp),
+                            verticalArrangement = Arrangement.Top,
+                            image = painterResource(emptyListScreen),
+                            title = "Your workouts is empty",
+                            description = "Add workouts to start your fitness journey."
+
+                        )
+                    } else {
+                        WorkoutList(workouts = workouts)
+                   }
+
                 }
 
                 1 -> {
-                    MealsList(meals = meals)
+                    if (workouts.isEmpty()) {
+                        StateMessage(
+                            modifier = Modifier.padding(top = 180.dp),
+                            verticalArrangement = Arrangement.Top,
+                            imageWidth =170.dp ,
+                            imageHeight =120.dp ,
+                            image = painterResource(emptyListScreen),
+                            title = "Your favorites is empty",
+                            description = "Add your favorite meals to access them anytime."
+                        )
+                    } else {
+                        MealsList(meals = meals)
+                    }
+
                 }
             }
         }
@@ -232,149 +266,92 @@ fun MealsList(meals: List<MealsUiModel>) {
             FavoritesCard(
                 title = meal.name,
                 subtitle = meal.type.toString(),
-                info = meal.nutrition.caloriesInKcal.toString(),
+                info = meal.calories.toString(),
                 model = meal.imageUrl
             )
         }
     }
 }
 
-val dummyWorkouts = listOf(
-    WorkoutsUiModel(
-        name = "Full Body Burn",
-        estimatedTimeInSeconds = 900, // 15 minutes
-        focusArea = "Full Body",
-        imageUrl = "https://example.com/images/full_body.jpg"
-    ),
-    WorkoutsUiModel(
-        name = "Abs Crusher",
-        estimatedTimeInSeconds = 600, // 10 minutes
-        focusArea = "Core",
-        imageUrl = "https://example.com/images/abs_crusher.jpg"
-    ),
-    WorkoutsUiModel(
-        name = "Leg Day Challenge",
-        estimatedTimeInSeconds = 1200, // 20 minutes
-        focusArea = "Legs",
-        imageUrl = "https://example.com/images/leg_day.jpg"
-    ),
-    WorkoutsUiModel(
-        name = "Upper Body Shred",
-        estimatedTimeInSeconds = 750, // 12.5 minutes
-        focusArea = "Upper Body",
-        imageUrl = "https://example.com/images/upper_body.jpg"
-    ),
-    WorkoutsUiModel(
-        name = "Upper Body Shred",
-        estimatedTimeInSeconds = 750, // 12.5 minutes
-        focusArea = "Upper Body",
-        imageUrl = "https://example.com/images/upper_body.jpg"
-    ),
-    WorkoutsUiModel(
-        name = "Upper Body Shred",
-        estimatedTimeInSeconds = 750, // 12.5 minutes
-        focusArea = "Upper Body",
-        imageUrl = "https://example.com/images/upper_body.jpg"
-    ),
-    WorkoutsUiModel(
-        name = "Upper Body Shred",
-        estimatedTimeInSeconds = 750, // 12.5 minutes
-        focusArea = "Upper Body",
-        imageUrl = "https://example.com/images/upper_body.jpg"
-    ),
-    WorkoutsUiModel(
-        name = "Upper Body Shred",
-        estimatedTimeInSeconds = 750, // 12.5 minutes
-        focusArea = "Upper Body",
-        imageUrl = "https://example.com/images/upper_body.jpg"
-    ),
-    WorkoutsUiModel(
-        name = "Upper Body Shred",
-        estimatedTimeInSeconds = 750, // 12.5 minutes
-        focusArea = "Upper Body",
-        imageUrl = "https://example.com/images/upper_body.jpg"
-    ), WorkoutsUiModel(
-        name = "Upper Body Shred",
-        estimatedTimeInSeconds = 750, // 12.5 minutes
-        focusArea = "Upper Body",
-        imageUrl = "https://example.com/images/upper_body.jpg"
-    ),
-    WorkoutsUiModel(
-        name = "Stretch & Cool Down",
-        estimatedTimeInSeconds = 300, // 5 minutes
-        focusArea = "Flexibility",
-        imageUrl = "https://example.com/images/stretch.jpg"
-    )
-)
 
-val dummyMeals = listOf(
-    MealsUiModel(
-        name = "Avocado Toast",
-        type = MealType.BREAKFAST,
-        imageUrl = "https://example.com/images/avocado_toast.jpg",
-        nutrition = MealsUiModel.Nutrition(
-            caloriesInKcal = 350,
-            fatInGrams = 20,
-            proteinInGrams = 8,
-            carbsInGrams = 30
-        )
-    ),
-    MealsUiModel(
-        name = "Grilled Chicken Salad",
-        type = MealType.LUNCH,
-        imageUrl = "https://example.com/images/chicken_salad.jpg",
-        nutrition = MealsUiModel.Nutrition(
-            caloriesInKcal = 500,
-            fatInGrams = 18,
-            proteinInGrams = 40,
-            carbsInGrams = 20
-        )
-    ),
-    MealsUiModel(
-        name = "Beef Stir Fry",
-        type = MealType.DINNER,
-        imageUrl = "https://example.com/images/beef_stir_fry.jpg",
-        nutrition = MealsUiModel.Nutrition(
-            caloriesInKcal = 650,
-            fatInGrams = 25,
-            proteinInGrams = 45,
-            carbsInGrams = 35
-        )
-    ),
-    MealsUiModel(
-        name = "Greek Yogurt with Berries",
-        type = MealType.SNACKS,
-        imageUrl = "https://example.com/images/yogurt_berries.jpg",
-        nutrition = MealsUiModel.Nutrition(
-            caloriesInKcal = 200,
-            fatInGrams = 5,
-            proteinInGrams = 12,
-            carbsInGrams = 18
-        )
-    ),
-    MealsUiModel(
-        name = "Oatmeal with Banana",
-        type = MealType.BREAKFAST,
-        imageUrl = "https://example.com/images/oatmeal_banana.jpg",
-        nutrition = MealsUiModel.Nutrition(
-            caloriesInKcal = 300,
-            fatInGrams = 6,
-            proteinInGrams = 10,
-            carbsInGrams = 50
-        )
-    )
-)
 
 
 @Preview
 @Composable
 private fun FavoritesScreenContentPreview() {
+    val dummyWorkouts = listOf(
+        WorkoutsUiModel(
+            name = "Full Body Burn",
+            estimatedTimeInSeconds = 900, // 15 minutes
+            focusArea = "Full Body",
+            imageUrl = "https://example.com/images/full_body.jpg"
+        ),
+        WorkoutsUiModel(
+            name = "Abs Crusher",
+            estimatedTimeInSeconds = 600, // 10 minutes
+            focusArea = "Core",
+            imageUrl = "https://example.com/images/abs_crusher.jpg"
+        ),
+        WorkoutsUiModel(
+            name = "Leg Day Challenge",
+            estimatedTimeInSeconds = 1200, // 20 minutes
+            focusArea = "Legs",
+            imageUrl = "https://example.com/images/leg_day.jpg"
+        ),
+        WorkoutsUiModel(
+            name = "Upper Body Shred",
+            estimatedTimeInSeconds = 750, // 12.5 minutes
+            focusArea = "Upper Body",
+            imageUrl = "https://example.com/images/upper_body.jpg"
+        ),
+        WorkoutsUiModel(
+            name = "Upper Body Shred",
+            estimatedTimeInSeconds = 750, // 12.5 minutes
+            focusArea = "Upper Body",
+            imageUrl = "https://example.com/images/upper_body.jpg"
+        ),
+        WorkoutsUiModel(
+            name = "Upper Body Shred",
+            estimatedTimeInSeconds = 750, // 12.5 minutes
+            focusArea = "Upper Body",
+            imageUrl = "https://example.com/images/upper_body.jpg"
+        ),
+        WorkoutsUiModel(
+            name = "Upper Body Shred",
+            estimatedTimeInSeconds = 750, // 12.5 minutes
+            focusArea = "Upper Body",
+            imageUrl = "https://example.com/images/upper_body.jpg"
+        ),
+        WorkoutsUiModel(
+            name = "Upper Body Shred",
+            estimatedTimeInSeconds = 750, // 12.5 minutes
+            focusArea = "Upper Body",
+            imageUrl = "https://example.com/images/upper_body.jpg"
+        ),
+        WorkoutsUiModel(
+            name = "Upper Body Shred",
+            estimatedTimeInSeconds = 750, // 12.5 minutes
+            focusArea = "Upper Body",
+            imageUrl = "https://example.com/images/upper_body.jpg"
+        ), WorkoutsUiModel(
+            name = "Upper Body Shred",
+            estimatedTimeInSeconds = 750, // 12.5 minutes
+            focusArea = "Upper Body",
+            imageUrl = "https://example.com/images/upper_body.jpg"
+        ),
+        WorkoutsUiModel(
+            name = "Stretch & Cool Down",
+            estimatedTimeInSeconds = 300, // 5 minutes
+            focusArea = "Flexibility",
+            imageUrl = "https://example.com/images/stretch.jpg"
+        )
+    )
     AppTheme(isDarkTheme = true) {
         FavoritesScreenContent(
             state = FavoritesState(
                 isLoading = false,
                 workoutsList = dummyWorkouts,
-                mealsList = dummyMeals,
+                mealsList = emptyList(),
                 isWorkoutTabSelected = true,
                 isMealTabSelected = false
             ),
