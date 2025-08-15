@@ -46,6 +46,7 @@
     <string name="meal_type_dinner">عشاء</string>
     <string name="meal_type_snacks">وجبات خفيفة</string>
     <string name="suggested_meals">الوجبات المقترحة</string>
+    <string name="shimmer_loading">انميشن التحميل</string>
     <string name="todays_meals">وجبات اليوم</string>
     <string name="remaining">المتبقي</string>
     <string name="add_meal">إضافة وجبة</string>
@@ -56,6 +57,7 @@
     <string name="meal_added_snackbar">تمت إضافة الوجبة إلى السجل.</string>
     <string name="no_meals_title">لا توجد وجبات مسجلة بعد</string>
     <string name="no_meals_description">ابدأ في تسجيل وجباتك لتتبع السعرات الحرارية اليومية وتحسين عاداتك الغذائية.</string>
+    <string name="failed_to_load_meals">فشل تحميل الوجبات</string>
     <string name="cm">سم</string>
     <string name="kg">كجم</string>
     <string name="ft">قدم</string>
@@ -165,11 +167,54 @@
     <string name="ic_arrow_down">ايقونه سهم لإسفل</string>
     <string name="activity">الأنشطة</string>
     <string name="community">المجتمع</string>
-    <string name="back">رجوع</string>
-
     <string name="error_no_internet">لا يوجد اتصال بالإنترنت.</string>
     <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>
     <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.</string>
     <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل.</string>
     <string name="error_unexpected">حدث خطأ غير متوقع.</string>
+
+    <string name="calories_small">سعر حراري</string>
+    <string name="water_consumption">شرب الماء</string>
+    <string name="liters_small">لتر</string>
+    <string name="remaining_formatted">%1$s %2$s متبقية</string>
+    <string name="today_nutrition">تغذية اليوم</string>
+
+    <string name="profile_picture">الصورة الشخصية</string>
+    <string name="hello_user">مرحبًا %1$s</string>
+    <string name="ready_text_male">مستعد لتدريب اليوم؟</string>
+    <string name="ready_text_female">مستعدة لتدريب اليوم؟</string>
+    <string name="your_progress">تقدمك</string>
+    <string name="this_week">هذا الأسبوع</string>
+    <string name="completed">مكتمل</string>
+    <string name="the_goal">الهدف</string>
+    <string name="current_weight">الوزن الحالي</string>
+    <string name="start_workout">بدء التمرين</string>
+    <string name="close">اغلاق</string>
+    <string name="second">ثانية</string>
+    <string name="detail_icon">أيقونة التفاصيل</string>
+    <string name="focus_quadriceps">عضلات الفخذ الأمامية</string>
+    <string name="focus_abs">عضلات البطن</string>
+    <string name="focus_calves">عضلات الساق</string>
+    <string name="focus_lower_back">أسفل الظهر</string>
+    <string name="focus_core">العضلات الأساسية</string>
+    <string name="focus_shoulders">الكتفين</string>
+    <string name="focus_full_body">كامل الجسم</string>
+    <string name="instructions">التعليمات</string>
+    <string name="equipment">المعدات</string>
+    <string name="focus_area">منطقة التركيز</string>
+    <string name="bullet_point">•  %1$s</string>
+    <string name="previous">السابق</string>
+    <string name="back">رجوع</string>
+    <string name="bookmark">إضافة للمفضلة</string>
+    <string name="workout_saved_successfully">تم حفظ التمرين بنجاح!</string>
+    <string name="share_to">مشاركة عبر</string>
+    <string name="copy_link">نسخ الرابط</string>
+    <string name="share_with_community">مشاركة مع المجتمع</string>
+    <string name="messenger">ماسنجر</string>
+    <string name="whatsapp">واتساب</string>
+    <string name="telegram">تليجرام</string>
+    <string name="instagram">انستجرام</string>
+    <string name="x_platform">إكس</string>
+    <string name="link_copied">تم النسخ بنجاح!</string>
+    <string name="copy_failled">فشل النسخ حاول مرة اخري</string>
 </resources>

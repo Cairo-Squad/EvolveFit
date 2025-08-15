@@ -39,7 +39,7 @@ fun BottomSheet(
 
     if (isBottomSheetVisible) {
         ModalBottomSheet(
-            modifier = modifier.padding(8.dp),
+            modifier = modifier,
             onDismissRequest = onDismiss,
             sheetState = sheetState,
             containerColor = containerColor,

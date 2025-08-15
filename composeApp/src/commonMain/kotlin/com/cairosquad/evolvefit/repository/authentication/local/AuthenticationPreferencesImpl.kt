@@ -4,9 +4,9 @@ import com.russhwolf.settings.Settings
 
 class AuthenticationPreferencesImpl(private val settings: Settings) : AuthenticationPreferences {
 
-    override fun saveTokens(access: String, refresh: String) {
+    override fun saveTokens(access: String, refresh: String?) {
         settings.putString(ACCESS_KEY, access)
-        settings.putString(REFRESH_KEY, refresh)
+        settings.putString(REFRESH_KEY, refresh.orEmpty())
     }
 
     override fun getAccessToken(): String? = settings.getStringOrNull(ACCESS_KEY)
