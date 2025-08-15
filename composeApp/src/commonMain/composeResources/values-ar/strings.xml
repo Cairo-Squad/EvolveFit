@@ -126,6 +126,7 @@
     <string name="password_placeholder">كلمة المرور</string>
     <string name="logo_description">أيقونة الشعار</string>
     <string name="arrow_back_description">أيقونة الرجوع للخلف</string>
+    <string name="arrow">سهم</string>
     <string name="join_now">انضم الآن</string>
     <string name="do_not_have_an_account">ليس لديك حساب؟</string>
     <string name="birthday">يوم الميلاد</string>
@@ -166,7 +167,29 @@
     <string name="workout_report">تقرير التدريب</string>
     <string name="ic_arrow_down">ايقونه سهم لإسفل</string>
     <string name="activity">الأنشطة</string>
+
+    <string name="create_exercise_title">إنشاء تمرين</string>
+    <string name="create_exercise_description">أضف تمرينًا جديدًا لتخصيص خطتك الرياضية والبقاء على المسار.</string>
+    <string name="enter_exercise_name">أدخل اسم التمرين</string>
+    <string name="add_duration">أضف المدة</string>
+    <string name="add_reps">أضف التكرارات</string>
+    <string name="add_duration_placeholder">أدخل المدة</string>
+    <string name="add_reps_placeholder">أدخل التكرارات</string>
+    <string name="enter_instructions">أدخل التعليمات</string>
+    <string name="save_exercise">احفظ التمرين</string>
+    <string name="characters_left">متبقي %1$d حرف</string>
+    <string name="select_focus_area">اختر منطقة التركيز</string>
+    <string name="choose_available_tools">اختر الأدوات المتاحة</string>
+
+    <string name="exit_confirmation_title">هل تريد الخروج؟</string>
+    <string name="exit_confirmation_message">لم تقم بحفظ التمرين بعد. قد تفقد كل التقدم.</string>
+    <string name="cancel">إلغاء</string>
+    <string name="exit_without_saving">الخروج بدون حفظ</string>
+    <string name="save_image">صورة الحفظ</string>
+
+
     <string name="community">المجتمع</string>
+
     <string name="error_no_internet">لا يوجد اتصال بالإنترنت.</string>
     <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>
     <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.</string>
