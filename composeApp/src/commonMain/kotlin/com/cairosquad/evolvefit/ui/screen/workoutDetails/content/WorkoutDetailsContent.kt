@@ -56,11 +56,17 @@ fun WorkoutDetailsContent(
     state: WorkoutDetailsScreenState,
     listener: WorkoutDetailsInteractionListener
 ) {
+
     val listState = rememberLazyListState()
     val scrollOffsetThreshold = 200
     val isScrolled by remember {
-        derivedStateOf { listState.firstVisibleItemScrollOffset > scrollOffsetThreshold }
+        derivedStateOf {
+            val firstItemIndex = listState.firstVisibleItemIndex
+            val firstItemOffset = listState.firstVisibleItemScrollOffset
+            (firstItemIndex * 200 + firstItemOffset) > scrollOffsetThreshold
+        }
     }
+
 
     val appBarBackground by animateColorAsState(
         targetValue = if (isScrolled) Theme.color.surfaces.surface
