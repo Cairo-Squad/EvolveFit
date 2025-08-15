@@ -41,7 +41,7 @@ fun MealCard(
         modifier = modifier,
     ) {
         Box(
-            modifier = Modifier.height(124.dp)
+            modifier = Modifier.height(124.dp).width(158.dp)
         ) {
             NetworkImage(
                 modifier = Modifier

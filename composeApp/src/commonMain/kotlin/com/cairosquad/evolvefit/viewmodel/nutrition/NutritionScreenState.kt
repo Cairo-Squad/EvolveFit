@@ -9,51 +9,62 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 
 data class NutritionScreenState(
-    val caloriesConsumed: Float = 0f,
-    val caloriesGoal: Float = 0f,
-    val waterConsumedLiters: Float = 0f,
-    val waterGoalLiters: Float = 0f,
-    val remainingCalories: Float = 0f,
-    val todayMeals: List<TodayMeal> = emptyList(),
-    val suggestedMeals: List<SuggestedMeal> = emptyList(),
-    val mealHistory: List<MealHistory> = emptyList(),
+    val todayConsumedCalories: Float = 0.0f,
+    val dailyCaloriesGoal: Float = 0.0f,
+
+    val todayConsumedWater: Float = 0.0f,
+    val dailyWaterGoal: Float = 0.0f,
+
+    val remainingDailyCalories: Float = 0.0f,
+
+    val dailyMealSummaryUiStates: List<DailyMealSummaryUiState> = emptyList(),
+    val suggestedMeals: List<SuggestedMealUiState> = emptyList(),
+    val todayConsumedMeals: List<ConsumedMealUiState> = emptyList(),
+
     val isAddWaterSheetVisible: Boolean = false,
     val isAddMealSheetVisible: Boolean = false,
-    val isAddMealSnackBarVisible: Boolean = false,
     val isDroppedMenuVisible: Boolean = false,
     val isMealTypeMenuExpanded: Boolean = false,
     val isAddButtonEnabled: Boolean = false,
-    val isLoading: Boolean = false,
+
+    val screenStatus: ScreenStatus= ScreenStatus.LOADING,
+
     val mealNameInput: String = "",
-    val mealCaloriesInput: String = "",
-    val waterAmountInput: String = "",
-    val selectedMeal: MealType = MealType.Breakfast,
-    val errorMessage: String? = null,
-) {
-    data class TodayMeal(
-        val type: MealType = MealType.Breakfast,
-        val calories: Int = 0,
+    val consumedCaloriesInput: String = "",
+    val consumedWaterInput: String = "",
+    val selectedMeal: MealTypeUiState = MealTypeUiState.Breakfast,
+
+    val errorMessage: StringResource? = null,
+    val inputErrorMessage: StringResource? = null,
+    val isMealAddedSnackBarVisible: Boolean = false,
+
+    ) {
+    data class DailyMealSummaryUiState(
+        val type: MealTypeUiState = MealTypeUiState.Breakfast,
+        val calories: Float = 0f,
         val icon: DrawableResource
     )
 
-    data class SuggestedMeal(
+    data class SuggestedMealUiState(
         val name: String = "",
-        val type: MealType = MealType.Breakfast,
+        val type: MealTypeUiState = MealTypeUiState.Breakfast,
         val calories: Int = 0,
         val imageUrl: String = ""
     )
 
-    data class MealHistory(
+    data class ConsumedMealUiState(
         val name: String = "",
-        val type: MealType = MealType.Breakfast,
+        val type: MealTypeUiState = MealTypeUiState.Breakfast,
         val calories: Int = 0,
         val date: String = ""
     )
-
-    enum class MealType(val displayName: StringResource) {
+    enum class MealTypeUiState(val displayName: StringResource) {
         Breakfast(Res.string.meal_type_breakfast),
         Lunch(Res.string.meal_type_lunch),
         Dinner(Res.string.meal_type_dinner),
         Snacks(Res.string.meal_type_snacks)
+    }
+    enum class ScreenStatus{
+        SUCCESS,LOADING,FAIL
     }
 }

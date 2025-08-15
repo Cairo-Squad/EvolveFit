@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.nutrition.content
+package com.cairosquad.evolvefit.ui.screen.nutrition.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,12 +31,13 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.add_meal
 import evolvefit.composeapp.generated.resources.ic_plus
 import evolvefit.composeapp.generated.resources.kcal_unit
+import evolvefit.composeapp.generated.resources.remaining
 import evolvefit.composeapp.generated.resources.todays_meals
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun TodayMeals(
+fun TodayMealsSummary(
     state: NutritionScreenState,
     listener: NutritionInteractionListener,
     modifier: Modifier = Modifier
@@ -64,12 +65,13 @@ fun TodayMeals(
                 .padding(vertical = 16.dp, horizontal = 12.dp)
         ) {
             LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 100.dp),
+                columns = GridCells.Adaptive(76.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(max = 100.dp)
+                  .heightIn(max = 150.dp),
+                userScrollEnabled = false
             ) {
-                items(state.todayMeals) { meal ->
+                items(state.dailyMealSummaryUiStates) { meal ->
                     TodayMealItem(meal = meal)
                 }
             }
@@ -88,12 +90,12 @@ fun TodayMeals(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = stringResource(Res.string.todays_meals),
+                        text = stringResource(Res.string.remaining),
                         style = Theme.textStyle.title.mediumMedium14,
                         color = Theme.color.surfaces.onSurfaceContainer
                     )
                     Text(
-                        text = "${state.remainingCalories} " + stringResource(Res.string.kcal_unit),
+                        text = "${state.remainingDailyCalories} " + stringResource(Res.string.kcal_unit),
                         style = Theme.textStyle.body.mediumMedium12,
                         color = Theme.color.surfaces.outline
                     )
@@ -106,7 +108,8 @@ fun TodayMeals(
 @Composable
 private fun AddMealButton(listener: NutritionInteractionListener){
     TextButton(
-        onClick = { listener.onAddMealSheetClicked() }
+        onClick = {
+            listener.onAddMealSheetClicked() }
     ) {
         Icon(
             modifier = Modifier
@@ -124,7 +127,7 @@ private fun AddMealButton(listener: NutritionInteractionListener){
 }
 @Composable
 fun TodayMealItem(
-    meal: NutritionScreenState.TodayMeal,
+    meal: NutritionScreenState.DailyMealSummaryUiState,
     modifier: Modifier = Modifier
 ) {
     Column(

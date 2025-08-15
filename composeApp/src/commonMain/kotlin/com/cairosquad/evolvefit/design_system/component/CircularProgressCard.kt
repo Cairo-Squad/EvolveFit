@@ -46,14 +46,20 @@ fun CircularProgressCard(
     backgroundColor: Color = Theme.color.surfaces.surfaceContainer,
     buttonClickable: Boolean = false
 ) {
-    val percentage = remember {
+//    val percentage = remember {
+//        (currentValue / totalValue)
+//            .takeIf { it.isFinite() }
+//            ?.coerceIn(0f, 1f)
+//            ?: 0f
+//    }
+    val percentage = remember(currentValue, totalValue) {
         (currentValue / totalValue)
             .takeIf { it.isFinite() }
             ?.coerceIn(0f, 1f)
             ?: 0f
     }
 
-    val bottomStatistics = remember {
+    val bottomStatistics = remember(currentValue, totalValue, unit) {
         val currentValueText = Formatter.oneDecimalPlaceWithThousandSeparators(currentValue)
         val totalValueText = Formatter.oneDecimalPlaceWithThousandSeparators(totalValue)
         "$currentValueText / $totalValueText $unit"

@@ -54,6 +54,8 @@
     <string name="enter_water_intake">Enter Water Intake</string>
     <string name="track_water_intake">Help us track your daily water intake to keep you hydrated.</string>
     <string name="meal_added_snackbar">Meal added to your history.</string>
+    <string name="meal_cant_added_snackbar">You have exceeded your daily calorie goal.</string>
+    <string name="water_cant_added_snackbar">You have exceeded your daily water goal.</string>
     <string name="no_meals_title">No meals recorded yet</string>
     <string name="no_meals_description">Start logging your meals to keep track of your daily calories and improve your nutrition habits.</string>
     <string name="ready_to_start">Ready to Start</string>
@@ -124,6 +126,7 @@
     <string name="password_placeholder">Password</string>
     <string name="logo_description">Logo Icon</string>
     <string name="arrow_back_description">Arrow Back Icon</string>
+    <string name="arrow">Arrow</string>
     <string name="join_now">Join now</string>
     <string name="do_not_have_an_account">Don’t have an account?</string>
     <string name="birthday">Birthday</string>
@@ -157,6 +160,7 @@
     <string name="total_workouts">Total Workouts</string>
     <string name="time_spent">Time Spent</string>
     <string name="water_drops">Water Drops</string>
+    <string name="liters">Liters</string>
     <string name="expected_calories">"From %1$ kcal"</string>
     <string name="needle">Needle</string>
     <string name="share">Share</string>
@@ -179,15 +183,37 @@
     <string name="focus_area">Focus Area</string>
     <string name="bullet_point">•  %1$s</string>
     <string name="previous">Previous</string>
-    <string name="back">Back</string>
     <string name="bookmark">Bookmark</string>
+    <string name="create_exercise_title">Create Exercise</string>
+    <string name="create_exercise_description">Add a new exercise to personalize your workout and stay on track.</string>
+    <string name="back">Back</string>
+    <string name="enter_exercise_name">Enter exercise name</string>
+    <string name="add_duration">Add Duration</string>
+    <string name="add_reps">Add Reps</string>
+    <string name="add_duration_placeholder">Add duration</string>
+    <string name="add_reps_placeholder">Add reps</string>
+    <string name="enter_instructions">Enter instructions</string>
+    <string name="save_exercise">Save Exercise</string>
+    <string name="characters_left">%1$d character left</string>
+    <string name="select_focus_area">Select focus area</string>
+    <string name="choose_available_tools">Choose available tools</string>
+
+    <string name="exit_confirmation_title">Do you want to exit?</string>
+    <string name="exit_confirmation_message">You haven’t saved your workout yet. All progress might be lost.</string>
+    <string name="cancel">Cancel</string>
+    <string name="save_image">save image</string>
+    <string name="exit_without_saving">Exit Without Saving</string>
+
+
+
     <string name="community">Community</string>
+
     <string name="error_no_internet">There is no internet connection.</string>
     <string name="error_unknown_credentials">Email or password you entered are incorrect.</string>
     <string name="error_invalid_email_format">Invalid email format.</string>
     <string name="error_invalid_password">Password must be at least 8 characters.</string>
     <string name="error_unexpected">An unexpected error occurred.</string>
-    <string name="liters">Litres</string>
+    <string name="liters1">Litres</string>
 
     <string name="calories_small">calories</string>
     <string name="water_consumption">Water consumption</string>
@@ -238,4 +264,10 @@
     <string name="link_copied">Copied to clipboard successfully.</string>
     <string name="copy_failled">Failed to copy, please try again later.</string>
 
+    <string name="error_invalid_number">Enter a valid number or decimal only</string>
+    <string name="error_exceeded_calories">You have exceeded the allowed calories</string>
+    <string name="error_exceeded_water">You have exceeded the allowed water intake</string>
+    <string name="error_meal_not_found">Meal not found</string>
+    <string name="error_unknown">An error occurred, please try again</string>
+    <string name="try_again_button">try again</string>
 </resources>

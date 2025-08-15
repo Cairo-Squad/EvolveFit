@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.nutrition.content
+package com.cairosquad.evolvefit.ui.screen.nutrition.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.MealCard
-import com.cairosquad.evolvefit.ui.screen.nutrition.SeeAll
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
 import evolvefit.composeapp.generated.resources.Res
