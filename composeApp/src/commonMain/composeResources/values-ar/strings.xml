@@ -191,10 +191,13 @@
     <string name="cancel">إلغاء</string>
     <string name="exit_without_saving">الخروج بدون حفظ</string>
     <string name="save_image">صورة الحفظ</string>
-
-
+    <string name="failed_to_update_equipments">فشل في تحديث الادوات</string>
+    <string name="failed_to_update_workout_days">فشل في تحديث ايام التدريب</string>
+    <string name="failed_to_load_user_workout_days">فشل في تحميل ايام تدريب المستخدم</string>
+    <string name="failed_to_load_equipments">فشل في تحميل المعدات</string>
+    <string name="failed_to_load_user_profile">فشل في تحميل حساب المستخدم</string>
+    <string name="failed_to_load_user_equipments">فشل في تحميل معدات المستخدم</string>
     <string name="community">المجتمع</string>
-    <string name="back">رجوع</string>
     <string name="birth">تاريخ الميلاد</string>
     <string name="gender">النوع</string>
     <string name="units">وحدة القياس</string>

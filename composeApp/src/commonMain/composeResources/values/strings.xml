@@ -270,4 +270,10 @@
     <string name="goal_stay_in_shape">Stay in shape</string>
     <string name="unit_metric">Metric (cm/kg)</string>
     <string name="unit_imperial">Imperial (ft/lbs)</string>
+    <string name="failed_to_update_equipments">Failed to update equipments</string>
+    <string name="failed_to_update_workout_days">Failed to update workout days</string>
+    <string name="failed_to_load_user_workout_days">Failed to load user workout days</string>
+    <string name="failed_to_load_equipments">Failed to load equipments</string>
+    <string name="failed_to_load_user_profile">Failed to load user profile</string>
+    <string name="failed_to_load_user_equipments">Failed to load user equipments</string>
 </resources>
