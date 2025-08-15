@@ -232,6 +232,24 @@
 
     <string name="the_goal">The Goal</string>
     <string name="current_weight">Current weight</string>
+    <string name="workout_saved_successfully">Workout Saved Successfully!</string>
+    <string name="share_to">Share to</string>
+    <string name="copy_link">Copy link</string>
+    <string name="share_with_community">Share with community</string>
+    <string name="messenger">Messenger</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="telegram">Telegram</string>
+    <string name="instagram">Instagram</string>
+    <string name="x_platform">X</string>
+    <string name="link_copied">Copied to clipboard successfully.</string>
+    <string name="copy_failled">Failed to copy, please try again later.</string>
+
+    <string name="error_invalid_number">Enter a valid number or decimal only</string>
+    <string name="error_exceeded_calories">You have exceeded the allowed calories</string>
+    <string name="error_exceeded_water">You have exceeded the allowed water intake</string>
+    <string name="error_meal_not_found">Meal not found</string>
+    <string name="error_unknown">An error occurred, please try again</string>
+    <string name="try_again_button">try again</string>
     <string name="full_name">Full Name</string>
     <string name="personal_information">Personal Information</string>
     <string name="email">Email</string>
@@ -252,22 +270,10 @@
     <string name="goal_stay_in_shape">Stay in shape</string>
     <string name="unit_metric">Metric (cm/kg)</string>
     <string name="unit_imperial">Imperial (ft/lbs)</string>
-    <string name="workout_saved_successfully">Workout Saved Successfully!</string>
-    <string name="share_to">Share to</string>
-    <string name="copy_link">Copy link</string>
-    <string name="share_with_community">Share with community</string>
-    <string name="messenger">Messenger</string>
-    <string name="whatsapp">WhatsApp</string>
-    <string name="telegram">Telegram</string>
-    <string name="instagram">Instagram</string>
-    <string name="x_platform">X</string>
-    <string name="link_copied">Copied to clipboard successfully.</string>
-    <string name="copy_failled">Failed to copy, please try again later.</string>
-
-    <string name="error_invalid_number">Enter a valid number or decimal only</string>
-    <string name="error_exceeded_calories">You have exceeded the allowed calories</string>
-    <string name="error_exceeded_water">You have exceeded the allowed water intake</string>
-    <string name="error_meal_not_found">Meal not found</string>
-    <string name="error_unknown">An error occurred, please try again</string>
-    <string name="try_again_button">try again</string>
+    <string name="failed_to_update_equipments">Failed to update equipments</string>
+    <string name="failed_to_update_workout_days">Failed to update workout days</string>
+    <string name="failed_to_load_user_workout_days">Failed to load user workout days</string>
+    <string name="failed_to_load_equipments">Failed to load equipments</string>
+    <string name="failed_to_load_user_profile">Failed to load user profile</string>
+    <string name="failed_to_load_user_equipments">Failed to load user equipments</string>
 </resources>

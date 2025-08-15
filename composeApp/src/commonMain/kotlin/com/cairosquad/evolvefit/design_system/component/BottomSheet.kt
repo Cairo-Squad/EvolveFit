@@ -1,18 +1,15 @@
 package com.cairosquad.evolvefit.design_system.component
 
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,7 +30,6 @@ fun BottomSheet(
     )
 
     var isBottomSheetVisible by remember { mutableStateOf(isVisible) }
-
     LaunchedEffect(isVisible) {
         if (isVisible) {
             isBottomSheetVisible = true
@@ -45,7 +41,7 @@ fun BottomSheet(
 
     if (isBottomSheetVisible) {
         ModalBottomSheet(
-            modifier = modifier,
+            modifier = modifier.padding(8.dp),
             onDismissRequest = onDismiss,
             sheetState = sheetState,
             containerColor = containerColor,

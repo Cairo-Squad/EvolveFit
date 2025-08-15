@@ -191,8 +191,12 @@
     <string name="cancel">إلغاء</string>
     <string name="exit_without_saving">الخروج بدون حفظ</string>
     <string name="save_image">صورة الحفظ</string>
-
-
+    <string name="failed_to_update_equipments">فشل في تحديث الادوات</string>
+    <string name="failed_to_update_workout_days">فشل في تحديث ايام التدريب</string>
+    <string name="failed_to_load_user_workout_days">فشل في تحميل ايام تدريب المستخدم</string>
+    <string name="failed_to_load_equipments">فشل في تحميل المعدات</string>
+    <string name="failed_to_load_user_profile">فشل في تحميل حساب المستخدم</string>
+    <string name="failed_to_load_user_equipments">فشل في تحميل معدات المستخدم</string>
     <string name="community">المجتمع</string>
     <string name="birth">تاريخ الميلاد</string>
     <string name="gender">النوع</string>
@@ -206,7 +210,6 @@
     <string name="your_height">طولك</string>
     <string name="your_weight">وزنك الحالي</string>
     <string name="choose_your_main_goal">أختر هدفك الرئيسي</string>
-
 
     <string name="error_no_internet">لا يوجد اتصال بالإنترنت.</string>
     <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>
@@ -265,4 +268,7 @@
     <string name="link_copied">تم النسخ بنجاح!</string>
     <string name="copy_failled">فشل النسخ حاول مرة اخري</string>
     <string name="try_again_button">حاول مجددا</string>
+    <string name="goal_lose_weight">إنقاص الوزن</string>
+    <string name="goal_gain_weight">زيادة الوزن</string>
+    <string name="goal_stay_in_shape">الحفاظ على اللياقة</string>
 </resources>

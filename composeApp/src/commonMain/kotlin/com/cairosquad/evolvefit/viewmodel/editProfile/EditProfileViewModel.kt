@@ -4,6 +4,13 @@ import com.cairosquad.evolvefit.domain.usecase.equipment.ManageEquipmentUseCase
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState.EditProfileBottomSheetType
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.failed_to_load_equipments
+import evolvefit.composeapp.generated.resources.failed_to_load_user_equipments
+import evolvefit.composeapp.generated.resources.failed_to_load_user_profile
+import evolvefit.composeapp.generated.resources.failed_to_load_user_workout_days
+import evolvefit.composeapp.generated.resources.failed_to_update_equipments
+import evolvefit.composeapp.generated.resources.failed_to_update_workout_days
 import kotlinx.datetime.LocalDate
 
 class EditProfileViewModel(
@@ -27,7 +34,7 @@ class EditProfileViewModel(
                 updateState { it.copy(profile=profile.toUiState()) }
             },
             onError = {
-                updateState { it.copy(errorMessage = "Failed to load profile") }
+                updateState { it.copy(errorMessage = Res.string.failed_to_load_user_profile) }
             }
 
         )
@@ -40,7 +47,7 @@ class EditProfileViewModel(
                 updateState { it.copy(userEquipments = equipment.toEquipmentUiStateSet()) }
             },
             onError = {
-                updateState { it.copy(errorMessage = "Failed to load userEquipments") }
+                updateState { it.copy(errorMessage = Res.string.failed_to_load_user_equipments) }
             }
 
         )
@@ -54,7 +61,7 @@ class EditProfileViewModel(
                 updateState { it.copy(allEquipments = equipment.toEquipmentUiStateSet()) }
             },
             onError = {
-                updateState { it.copy(errorMessage = "Failed to load Equipments") }
+                updateState { it.copy(errorMessage = Res.string.failed_to_load_equipments) }
             }
 
         )
@@ -68,7 +75,7 @@ class EditProfileViewModel(
                 updateState { it.copy(userWorkoutsDays = days.toWeekDayUiStateSet()) }
             },
             onError = {
-                updateState { it.copy(errorMessage = "Failed to load userWorkOutDays") }
+                updateState { it.copy(errorMessage = Res.string.failed_to_load_user_workout_days) }
             }
 
         )
@@ -81,7 +88,7 @@ class EditProfileViewModel(
             onSuccess = {
             },
             onError = {
-                updateState { it.copy(errorMessage = "Failed to update workout days") }
+                updateState { it.copy(errorMessage = Res.string.failed_to_update_workout_days) }
                 getUserWorkOutDays()
             }
         )
@@ -93,7 +100,7 @@ class EditProfileViewModel(
             onSuccess = {
             },
             onError = {
-                updateState { it.copy(errorMessage = "Failed to update equipments") }
+                updateState { it.copy(errorMessage = Res.string.failed_to_update_equipments) }
             }
         )
     }

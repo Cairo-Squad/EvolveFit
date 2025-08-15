@@ -40,26 +40,27 @@ actual fun provideHttpClient(
                         BearerTokens(access, refresh)
                     else null
                 }
-
                 refreshTokens {
                     val refresh = authenticationPreferences.getRefreshToken()
-                    if (refresh != null) {
+                      if (refresh != null) {
+                    try {
                         val newTokens = refreshTokenProvider.getNewTokens(refresh)
-                        if (newTokens != null) {
-                            authenticationPreferences.saveTokens(
-                                newTokens.accessToken,
-                                newTokens.refreshToken
-                            )
-                        }
-                        newTokens
+                        authenticationPreferences.saveTokens(
+                            newTokens.accessToken,
+                            newTokens.refreshToken
+                        )
+                        BearerTokens(newTokens.accessToken, newTokens.refreshToken)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        null
                     }
-                    else null
                 }
-            }
+                  else null
+            }}
         }
 
         install(Logging) {
-            level = LogLevel.BODY
+            level = LogLevel.ALL
         }
     }
 }

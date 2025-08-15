@@ -1,11 +1,12 @@
 package com.cairosquad.evolvefit.viewmodel.editProfile
 
 import kotlinx.datetime.LocalDate
+import org.jetbrains.compose.resources.StringResource
 
 data class EditProfileScreenState(
     val profile: ProfileUiState = ProfileUiState(),
     val bottomSheetType: EditProfileBottomSheetType? = null,
-    val errorMessage: String? = null,
+    val errorMessage: StringResource? = null,
     val userEquipments: Set<EquipmentUiState> = emptySet(),
     val allEquipments: Set<EquipmentUiState> = emptySet(),
     val userWorkoutsDays: Set<WeekDayUiState> = emptySet(),
