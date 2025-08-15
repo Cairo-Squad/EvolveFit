@@ -18,6 +18,7 @@ val useCaseModule = module {
     singleOf(::ManageExerciseUseCase)
     singleOf(::ReportUseCase)
     singleOf(::ManageWorkoutUseCase)
+    singleOf(::ManageProfileUseCase)
     singleOf(::ManageEquipmentUseCase)
     singleOf(::ManageProfileUseCase)
     singleOf(::GetUserUseCase)

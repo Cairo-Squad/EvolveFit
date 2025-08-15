@@ -38,6 +38,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -71,7 +72,10 @@ fun InputField(
     trailingIconModifier: Modifier = Modifier,
     onTrailingIconClick: (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    onClick: (() -> Unit)? = null
+    onClick: (() -> Unit)? = null,
+    verticalPadding : Dp =20.dp,
+    horizentalPadding : Dp =12.dp
+
 ) {
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
@@ -105,7 +109,7 @@ fun InputField(
                 )
                 .clip(RoundedCornerShape(8.dp))
                 .background(Theme.color.surfaces.surfaceContainer)
-                .padding(horizontal = 12.dp, vertical = 20.dp),
+                .padding(horizontal = horizentalPadding, vertical = verticalPadding),
             value = textFieldValue,
             onValueChange = { newValue ->
                 val filteredValue =

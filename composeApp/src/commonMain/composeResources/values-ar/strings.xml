@@ -166,7 +166,25 @@
     <string name="workout_report">تقرير التدريب</string>
     <string name="ic_arrow_down">ايقونه سهم لإسفل</string>
     <string name="activity">الأنشطة</string>
+
+    <string name="personal_information">المعلومات الشخصية</string>
+    <string name="full_name">الأسم بالكامل</string>
+    <string name="email">الأيميل</string>
     <string name="community">المجتمع</string>
+    <string name="back">رجوع</string>
+    <string name="birth">تاريخ الميلاد</string>
+    <string name="gender">النوع</string>
+    <string name="units">وحدة القياس</string>
+    <string name="goal">الهدف الرئيسي</string>
+    <string name="your_tools">ادواتك</string>
+    <string name="workouts_days">ايام التمرين</string>
+    <string name="no_workouts">لا يوجد ايام</string>
+    <string name="save_changes">حفظ التغيرات</string>
+    <string name="choose_gender">أختر النوع</string>
+    <string name="your_height">طولك</string>
+    <string name="your_weight">وزنك الحالي</string>
+    <string name="choose_your_main_goal">أختر هدفك الرئيسي</string>
+
     <string name="error_no_internet">لا يوجد اتصال بالإنترنت.</string>
     <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>
     <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.</string>
@@ -188,6 +206,12 @@
     <string name="completed">مكتمل</string>
     <string name="the_goal">الهدف</string>
     <string name="current_weight">الوزن الحالي</string>
+    <string name="goal_lose_weight">إنقاص الوزن</string>
+    <string name="goal_gain_weight">زيادة الوزن</string>
+    <string name="goal_stay_in_shape">الحفاظ على اللياقة</string>
+
+
+
     <string name="start_workout">بدء التمرين</string>
     <string name="close">اغلاق</string>
     <string name="second">ثانية</string>

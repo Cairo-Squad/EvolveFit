@@ -43,6 +43,8 @@ fun AppScreen(
     navigateToMealDetails: (String) -> Unit,
     navigateToMealsHistory: () -> Unit,
     navigateToWorkoutHistory: () -> Unit,
+    navigateToEditProfile: () -> Unit
+    navigateToWorkoutHistory: () -> Unit,
     navigateToLogIn: () -> Unit
 ) {
     var selectedScreenIndex by rememberSaveable { mutableIntStateOf(0) }
@@ -109,8 +111,11 @@ fun AppScreen(
                     navigateToNotificationSettings = { },
                     onLanguageChanged = {  },
                     onThemeChanged = {  },
-                    onLogout = navigateToLogIn
+                    onLogout = navigateToLogIn,
+                    navigateToEditProfile = navigateToEditProfile
+
                 )
+
             }
         }
 

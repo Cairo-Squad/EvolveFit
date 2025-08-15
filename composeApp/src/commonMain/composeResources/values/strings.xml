@@ -21,8 +21,6 @@
     <string name="female">Female</string>
     <string name="select_unit_title">Choose your units of measurement</string>
     <string name="select_unit_description">You can change the units of measurement at any time through the app settings.</string>
-    <string name="unit_metric">Metric (cm/kg)</string>
-    <string name="unit_imperial">Imperial (ft/lb)</string>
     <string name="select_gender_title">What’s your gender?</string>
     <string name="select_gender_description">This will be used to calibrate your custom plan.</string>
     <string name="select_goal_title">What is your main goal?</string>
@@ -208,6 +206,26 @@
 
     <string name="the_goal">The Goal</string>
     <string name="current_weight">Current weight</string>
+    <string name="full_name">Full Name</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="email">Email</string>
+    <string name="birth">DOB</string>
+    <string name="gender">Gender</string>
+    <string name="units">Units of Measurement</string>
+    <string name="goal">Main Goal</string>
+    <string name="your_tools">Your Tools</string>
+    <string name="workouts_days">Workout Days</string>
+    <string name="no_workouts">No Workout Days</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="choose_gender"> Choose Gender</string>
+    <string name="your_height"> Your Height</string>
+    <string name="your_weight"> Your Current Weight</string>
+    <string name="choose_your_main_goal">Choose Your Main Goal</string>
+    <string name="goal_lose_weight">Lose weight</string>
+    <string name="goal_gain_weight">Gain weight</string>
+    <string name="goal_stay_in_shape">Stay in shape</string>
+    <string name="unit_metric">Metric (cm/kg)</string>
+    <string name="unit_imperial">Imperial (ft/lbs)</string>
     <string name="workout_saved_successfully">Workout Saved Successfully!</string>
     <string name="share_to">Share to</string>
     <string name="copy_link">Copy link</string>

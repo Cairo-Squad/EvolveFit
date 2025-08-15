@@ -20,6 +20,7 @@ import com.cairosquad.evolvefit.ui.screen.app.AppScreen
 import com.cairosquad.evolvefit.ui.screen.communityWorkout.CommunityWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.createExercise.CreateExerciseScreen
 import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
+import com.cairosquad.evolvefit.ui.screen.editProfile.EditProfileScreen
 import com.cairosquad.evolvefit.ui.screen.login.LoginScreen
 import com.cairosquad.evolvefit.ui.screen.mealDetails.MealDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.mealsHistory.MealsHistoryScreen
@@ -126,6 +127,8 @@ fun NavigationHost(
                 navigateToMealDetails = { mealId -> navController.navigate(MealDetailsRoute(mealId)) },
                 navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) },
                 navigateToWorkoutHistory = { navController.navigate(WorkoutHistoryRoute) },
+                navigateToEditProfile = { navController.navigate(EditProfileRoute) }
+                navigateToWorkoutHistory = { navController.navigate(WorkoutHistoryRoute) },
                 navigateToLogIn = { navController.navigate(LoginRoute) }
             )
         }
@@ -201,6 +204,11 @@ fun NavigationHost(
 
         composable<WorkoutHistoryRoute> {
             WorkoutHistoryScreen()
+        }
+        composable<EditProfileRoute> {
+            EditProfileScreen(
+                navigateBack = navController::popBackStack
+            )
         }
     }
 }
