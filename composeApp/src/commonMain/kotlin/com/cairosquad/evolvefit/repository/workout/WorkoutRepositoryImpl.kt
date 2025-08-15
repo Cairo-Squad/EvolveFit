@@ -3,9 +3,12 @@ package com.cairosquad.evolvefit.repository.workout
 import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.entity.Workout
+import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
 import com.cairosquad.evolvefit.repository.workout.remote.WorkoutRemoteDataSource
+import com.cairosquad.evolvefit.repository.workout.remote.toCreateRequest
+import com.cairosquad.evolvefit.repository.workout.remote.toDomain
 import kotlinx.coroutines.delay
 
 class WorkoutRepositoryImpl(
@@ -17,12 +20,15 @@ class WorkoutRepositoryImpl(
         return fakeWorkout
     }
 
-    override suspend fun getSuggestedWorkouts(): List<Workout> {
-        TODO("Not yet implemented")
+    override suspend fun getSuggestedWorkouts(): List<WorkoutSuggested> {
+        val result = workoutRemoteDataSource.getSuggestedWorkouts().map { it.toDomain() }
+        return result
     }
 
+
     override suspend fun getCommunityWorkouts(): List<Workout> {
-        TODO("Not yet implemented")
+        TODO()
+//        return workoutRemoteDataSource.getCommunityWorkouts().map { it.toDomain() }
     }
 
     override suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<Workout> {
@@ -34,7 +40,7 @@ class WorkoutRepositoryImpl(
     }
 
     override suspend fun createWorkout(workout: Workout) {
-        TODO("Not yet implemented")
+        workoutRemoteDataSource.createWorkout(workout.toCreateRequest())
     }
 
     override suspend fun addWorkoutToFavorites(workoutId: String) {
@@ -42,7 +48,8 @@ class WorkoutRepositoryImpl(
     }
 
     override suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<Workout> {
-        TODO("Not yet implemented")
+        TODO()
+//        return workoutRemoteDataSource.getWorkoutsByFocusArea(focusArea).map { it.toDomain() }
     }
 
     private companion object {
@@ -56,10 +63,10 @@ class WorkoutRepositoryImpl(
                     id = "0",
                     name = "Push-up",
                     specification = Exercise.Specification.Reps(10),
-                    imageUrls = listOf("https://images.ctfassets.net/6ilvqec50fal/JdeBsAsNI2XepyM4IDL1U/ef2c96e26f7c3af5bce6db428cd1237f/Screenshot_2024-03-21_at_12.36.05_PM.png"),
-                    equipment = Equipment(0, "Body Weight"),
                     focusAreas = setOf(),
                     instructions = listOf("this exercise is for for your health"),
+                    imageUrls = listOf("https://images.ctfassets.net/6ilvqec50fal/JdeBsAsNI2XepyM4IDL1U/ef2c96e26f7c3af5bce6db428cd1237f/Screenshot_2024-03-21_at_12.36.05_PM.png"),
+                    equipment = Equipment(0, "Body Weight"),
                     estimatedTimeInSeconds = 60,
                 ),
                 Exercise(
