@@ -10,7 +10,6 @@ class ExerciseRepositoryImpl(
 ) : ExerciseRepository {
     override suspend fun createExercise(exercise: Exercise) {
         val exerciseDto = exercise.toDto()
-        print("ExerciseRepositoryImpl createExercise called with exerciseDto: ${remote.createExercise(exerciseDto)}")
         remote.createExercise(exerciseDto)
     }
 
