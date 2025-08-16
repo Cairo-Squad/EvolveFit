@@ -6,7 +6,7 @@ import com.cairosquad.evolvefit.entity.nutrition.MealType
 import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
 
 data class FavoritesState(
-   val isLoading: Boolean = false,
+    val isLoading: Boolean = false,
     val workoutsList: List<WorkoutsUiModel> = emptyList(),
     val mealsList: List<MealsUiModel> = emptyList(),
     val isWorkoutTabSelected: Boolean = true,
@@ -27,6 +27,7 @@ data class MealsUiModel(
     val calories: Int,
     val imageUrl: String
 )
+
 fun SuggestedMeal.toUiState(): MealsUiModel {
     return MealsUiModel(
         id = id,
@@ -46,6 +47,7 @@ fun Workout.toUiState(): WorkoutsUiModel {
 
     )
 }
+
 fun WorkoutSuggested.toUiState(): WorkoutsUiModel {
     return WorkoutsUiModel(
         name = name,

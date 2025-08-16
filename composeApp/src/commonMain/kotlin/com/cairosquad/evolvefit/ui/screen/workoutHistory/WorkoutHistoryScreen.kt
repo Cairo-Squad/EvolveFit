@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -76,9 +77,17 @@ fun WorkoutHistoryScreen(
             }
             items(10) {
                 HistoryWorkoutItem(
-                    modifier = Modifier.then(
-                        if (it == 9) Modifier.padding(bottom = 16.dp) else Modifier.padding(bottom = 12.dp)
-                    ),
+                    modifier = Modifier
+                        .then(
+                            if (it == 9) Modifier.padding(bottom = 16.dp) else Modifier.padding(
+                                bottom = 12.dp
+                            )
+                        )
+                        .background(
+                            color = Theme.color.surfaces.surfaceContainer,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .padding(12.dp),
                     workoutName = "Bodyweight Squats",
                     workoutDate = "Today, 8:30 AM",
                     workoutImage = "",
@@ -101,9 +110,16 @@ fun WorkoutHistoryScreen(
             }
             items(10) {
                 HistoryWorkoutItem(
-                    modifier = Modifier.then(
-                        if (it == 9) Modifier.padding(bottom = 16.dp) else Modifier
-                    ),
+                    modifier = Modifier
+                        .then(
+                            if (it == 9) Modifier.padding(bottom = 16.dp)
+                            else Modifier.padding(bottom = 12.dp)
+                        )
+                        .background(
+                            color = Theme.color.surfaces.surfaceContainer,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .padding(12.dp),
                     workoutName = "Bodyweight Squats",
                     workoutDate = "Today, 8:30 AM",
                     workoutImage = "",
