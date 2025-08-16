@@ -16,7 +16,7 @@ fun NutritionScreenState.MealTypeUiState.toMealIcon(): DrawableResource {
         NutritionScreenState.MealTypeUiState.Breakfast -> Res.drawable.ic_coffee
         NutritionScreenState.MealTypeUiState.Lunch -> Res.drawable.ic_launch
         NutritionScreenState.MealTypeUiState.Dinner -> Res.drawable.ic_pizza_slice
-        NutritionScreenState.MealTypeUiState.Snacks -> Res.drawable.ic_donuts
+        NutritionScreenState.MealTypeUiState.Snack -> Res.drawable.ic_donuts
     }
 }
 fun NutritionScreenState.MealTypeUiState.toMealType(): MealType {
@@ -24,7 +24,7 @@ fun NutritionScreenState.MealTypeUiState.toMealType(): MealType {
         NutritionScreenState.MealTypeUiState.Breakfast -> MealType.BREAKFAST
         NutritionScreenState.MealTypeUiState.Lunch -> MealType.LUNCH
         NutritionScreenState.MealTypeUiState.Dinner -> MealType.DINNER
-        NutritionScreenState.MealTypeUiState.Snacks -> MealType.SNACK
+        NutritionScreenState.MealTypeUiState.Snack -> MealType.SNACK
     }
 }
 fun MealType.toMealUiState(): NutritionScreenState.MealTypeUiState {
@@ -32,7 +32,7 @@ fun MealType.toMealUiState(): NutritionScreenState.MealTypeUiState {
         MealType.BREAKFAST -> NutritionScreenState.MealTypeUiState.Breakfast
         MealType.LUNCH ->  NutritionScreenState.MealTypeUiState.Lunch
         MealType.DINNER ->NutritionScreenState.MealTypeUiState.Dinner
-        MealType.SNACK -> NutritionScreenState.MealTypeUiState.Snacks
+        MealType.SNACK -> NutritionScreenState.MealTypeUiState.Snack
     }
 }
 fun ConsumedMeal.toMealHistoryUi(): NutritionScreenState.ConsumedMealUiState {
@@ -45,6 +45,7 @@ fun ConsumedMeal.toMealHistoryUi(): NutritionScreenState.ConsumedMealUiState {
 }
 fun SuggestedMeal.toSuggestedMealUi(): NutritionScreenState.SuggestedMealUiState {
     return NutritionScreenState.SuggestedMealUiState(
+        id = id,
         name = this.name,
         type = this.type.toMealUiState(),
         calories = this.calories,
@@ -54,7 +55,7 @@ fun SuggestedMeal.toSuggestedMealUi(): NutritionScreenState.SuggestedMealUiState
 fun ConsumedMeal.toTodayMealUi(): NutritionScreenState.DailyMealSummaryUiState {
     return NutritionScreenState.DailyMealSummaryUiState(
         type = this.type.toMealUiState(),
-        calories = this.calories.toFloat(),
+        calories = this.calories,
         icon = this.type.toMealUiState().toMealIcon()
     )
 }
