@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -15,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -38,10 +40,10 @@ fun MealCard(
     model: String
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.width(158.dp),
     ) {
         Box(
-            modifier = Modifier.height(124.dp)
+            modifier = Modifier.height(124.dp).width(158.dp)
         ) {
             NetworkImage(
                 modifier = Modifier
@@ -76,7 +78,9 @@ fun MealCard(
             text = title,
             style = Theme.textStyle.label.mediumMedium14,
             color = Theme.color.surfaces.onSurface,
-            modifier = Modifier.padding(bottom = 4.dp, top = 8.dp)
+            modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp, top = 8.dp),
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
         )
         Text(
             text = mealType,

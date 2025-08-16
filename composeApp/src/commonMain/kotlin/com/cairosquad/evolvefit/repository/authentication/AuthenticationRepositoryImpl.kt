@@ -8,6 +8,7 @@ import com.cairosquad.evolvefit.repository.authentication.remote.AuthenticationR
 import com.cairosquad.evolvefit.repository.authentication.remote.toRegisterRequest
 import com.cairosquad.evolvefit.repository.execption.callDataSource
 
+
 class AuthenticationRepositoryImpl(
     private val remote: AuthenticationRemoteDataSource,
     private val authenticationPreferences: AuthenticationPreferences,

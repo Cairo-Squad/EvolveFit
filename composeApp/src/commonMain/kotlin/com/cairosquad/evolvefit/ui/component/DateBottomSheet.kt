@@ -26,7 +26,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun DateBottomSheet(
     maxDate: String,
     dateOfBirth: String,
-    isDatePickerBottomSheetOpen: Boolean,
+    isDatePickerBottomSheetOpen: Boolean=true,
     onDatePickerDismiss: () -> Unit,
     onDateChange: (String) -> Unit,
     modifier: Modifier = Modifier

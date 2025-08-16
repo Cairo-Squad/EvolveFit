@@ -1,13 +1,13 @@
 package com.cairosquad.evolvefit.repository.exercise.remote.dto
 
-import com.cairosquad.evolvefit.repository.equipment.remote.dto.GymEquipmentDto
+import com.cairosquad.evolvefit.repository.equipment.remot.dto.EquipmentDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class ExerciseDto(
     @SerialName("name")
-    val name: String? = null,
+    val name: String = "",
 
     @SerialName("gymEquipments")
     val gymEquipments: List<Int> = emptyList(),
@@ -19,22 +19,22 @@ data class ExerciseDto(
     val focusArea: List<String> = emptyList(),
 
     @SerialName("exerciseType")
-    val exerciseType: String? = null,
+    val exerciseType: String = "",
 
     @SerialName("reps")
-    val reps: Int? = null,
+    val reps: Int = 0,
 
     @SerialName("durationSeconds")
-    val durationSeconds: Int? = null
+    val durationSeconds: Int = 0
 )
 
 @Serializable
 data class ExerciseResponseDto(
     @SerialName("id")
-    val id: String,
+    val id: String = "",
 
     @SerialName("name")
-    val name: String,
+    val name: String = "",
 
     @SerialName("instructions")
     val instructions: List<String> = emptyList(),
@@ -43,17 +43,19 @@ data class ExerciseResponseDto(
     val images: List<String> = emptyList(),
 
     @SerialName("gymEquipments")
-    val gymEquipments: List<GymEquipmentDto> = emptyList(),
+    val gymEquipments: List<EquipmentDto> = emptyList(),
 
     @SerialName("focusArea")
     val focusArea: List<String> = emptyList(),
 
     @SerialName("exerciseType")
-    val exerciseType: String,
+    val exerciseType: String = "",
 
     @SerialName("durationSeconds")
-    val durationSeconds: Int? = null,
+    val durationSeconds: Int = 0,
 
     @SerialName("reps")
-    val reps: Int? = null
+    val reps: Int = 0
 )
+
+

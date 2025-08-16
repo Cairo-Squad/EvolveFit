@@ -1,13 +1,11 @@
-package com.cairosquad.evolvefit.ui.screen.nutrition.content
+package com.cairosquad.evolvefit.ui.screen.nutrition.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -26,13 +24,13 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MealHistoryItem(
-    meal: NutritionScreenState.MealHistory,
+    meal: NutritionScreenState.ConsumedMealUiState,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 16.dp),
+            .padding(vertical = 12.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -57,6 +55,7 @@ fun MealHistoryItem(
                 color = Theme.color.surfaces.onSurface
             )
             Text(
+                modifier = Modifier.padding(top = 8.dp),
                 text = meal.date,
                 style = Theme.textStyle.label.smallRegular12,
                 color = Theme.color.surfaces.onSurfaceVariant

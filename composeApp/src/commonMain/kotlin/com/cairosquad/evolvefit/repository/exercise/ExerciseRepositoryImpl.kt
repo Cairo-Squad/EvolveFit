@@ -3,6 +3,7 @@ package com.cairosquad.evolvefit.repository.exercise
 import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.repository.ExerciseRepository
 import com.cairosquad.evolvefit.repository.exercise.remote.ExerciseRemoteDataSource
+import com.cairosquad.evolvefit.repository.exercise.remote.toDto
 import com.cairosquad.evolvefit.repository.exercise.remote.toDomain
 
 class ExerciseRepositoryImpl(
@@ -14,8 +15,11 @@ class ExerciseRepositoryImpl(
     }
 
     override suspend fun createExercise(exercise: Exercise) {
-        // TODO: implement
+        val exerciseDto = exercise.toDto()
+        remoteDataSource.createExercise(exerciseDto)
     }
+
+
 
     override suspend fun getExercisesByQuery(query: String): List<Exercise> {
         // TODO: implement search filtering if needed

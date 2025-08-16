@@ -21,7 +21,9 @@ class CreateExerciseViewModel(
         tryToCall(
             block = { manageEquipmentUseCase.getAllEquipments() },
             onSuccess = { equipments ->
-                updateState { it.copy(availableEquipments = equipments.map { it.toUiState() }.toSet() ) }
+                updateState {
+                    it.copy(availableEquipments = equipments.map { it.toUiState() }.toSet())
+                }
             },
             onError = {
                 updateState { it.copy(errorMessage = "Failed to load equipments") }
@@ -38,13 +40,46 @@ class CreateExerciseViewModel(
         }
     }
 
-    override fun onImagePickerClicked() {
-        updateState { it.copy(isImagePickerOpen = true) }
+    override fun onFocusAreaNameSelected(name: String) {
+        val focusArea = FocusArea.valueOf(name)
+        onFocusAreaToggled(focusArea)
     }
 
-    override fun onImagePickerDismiss() {
-        updateState { it.copy(isImagePickerOpen = false) }
+    override fun onEquipmentNameSelected(toolName: String) {
+        val id = screenState.value.availableEquipments
+            .firstOrNull { it.name == toolName }?.id ?: return
+
+        onEquipmentToggled(id)
     }
+
+
+    override fun onStartImageClicked() {
+        updateState { it.copy(isImage1PickerOpen = true) }
+    }
+
+    override fun onStartImageRetrieved(image: UiImage) {
+        updateState { it.copy(image1 = image, isImage1PickerOpen = false) }
+    }
+
+    override fun onStartImagePickerDismiss() {
+        updateState { it.copy(isImage1PickerOpen = false) }
+    }
+
+
+    override fun onEndImageClicked() {
+        updateState { it.copy(isImage2PickerOpen = true) }
+    }
+
+
+    override fun onEndImageRetrieved(image: UiImage) {
+        updateState { it.copy(image2 = image, isImage2PickerOpen = false) }
+    }
+
+
+    override fun onEndImagePickerDismiss() {
+        updateState { it.copy(isImage2PickerOpen = false) }
+    }
+
 
     override fun onFocusAreaToggled(focusArea: FocusArea) {
         updateState {
@@ -62,16 +97,34 @@ class CreateExerciseViewModel(
         updateState { it.copy(description = description) }
     }
 
+    override fun onAvailableEquipmentsIconClicked() {
+        updateState { it.copy(isEquipmentExpanded = !it.isEquipmentExpanded) }
+    }
+
+    override fun onFocusAreaIconClicked() {
+        updateState { it.copy(isFocusAreaExpanded = !it.isFocusAreaExpanded) }
+    }
+
+    override fun onDismissEquipmentsDropdownMenuRequest() {
+        updateState { it.copy(isEquipmentExpanded = false) }
+    }
+
+    override fun onDismissFocusAreasDropdownMenuRequest() {
+        updateState { it.copy(isFocusAreaExpanded = false) }
+    }
+
     override fun onNameChanged(name: String) {
         updateState { it.copy(name = name) }
     }
 
-    override fun onImagePicked(image: UiImage) {
-        updateState { it.copy(image = image, isImagePickerOpen = false) }
-    }
-
     override fun onMeasurementTypeSelected(type: MeasurementType) {
-        updateState { it.copy(measurementType = type) }
+        updateState {
+            it.copy(
+                measurementType = type,
+                isDurationChecked = type == MeasurementType.DURATION,
+                isRepsChecked = type == MeasurementType.REPS
+            )
+        }
     }
 
     override fun onMeasurementValueChanged(value: String) {
@@ -96,6 +149,7 @@ class CreateExerciseViewModel(
         )
     }
 
+
     private suspend fun saveExercise() =
         manageExerciseUseCase.createExercise(screenState.value.toDomainExercise())
 
@@ -111,5 +165,23 @@ class CreateExerciseViewModel(
         } else {
             sendEffect(CreateExerciseEffect.CloseScreen)
         }
+    }
+
+    override fun onFocusAreaDismiss() {
+        updateState { it.copy(isFocusAreaExpanded = false) }
+    }
+
+    override fun onEquipmentDismiss() {
+        updateState { it.copy(isEquipmentExpanded = false) }
+    }
+
+    override fun canSaveExercise(): Boolean {
+        val currentState = screenState.value
+        return currentState.name.isNotBlank() &&
+                currentState.image1 != null &&
+                currentState.selectedFocusAreas.isNotEmpty() &&
+                currentState.selectedEquipment.name.isNotBlank() &&
+                (currentState.isDurationChecked || currentState.isRepsChecked) &&
+                currentState.description.isNotBlank()
     }
 }

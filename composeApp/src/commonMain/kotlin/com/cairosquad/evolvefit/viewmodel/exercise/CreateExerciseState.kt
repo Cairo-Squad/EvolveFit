@@ -4,7 +4,8 @@ import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 
 data class CreateExerciseState(
     val name: String = "",
-    val image: UiImage? = null,
+    val image1: UiImage? = null,
+    val image2: UiImage? = null,
     val availableEquipments: Set<EquipmentUiState> = emptySet(),
     val selectedEquipment: EquipmentUiState = EquipmentUiState(),
     val measurementType: MeasurementType = MeasurementType.DURATION,
@@ -14,8 +15,36 @@ data class CreateExerciseState(
     val isExerciseSaved: Boolean = false,
     val showExitBottomSheet: Boolean = false,
     val errorMessage: String? = null,
-    val isImagePickerOpen: Boolean = false,
+    val isImage1PickerOpen: Boolean = false,
+    val isImage2PickerOpen: Boolean = false,
+    val isDurationChecked: Boolean = false,
+    val isRepsChecked: Boolean = false,
+    val isFocusAreaExpanded: Boolean = false,
+    val isEquipmentExpanded: Boolean = false,
 ) {
+
+    val equipmentNames: List<String>
+        get() = availableEquipments.map { it.name }
+
+    val selectedEquipmentNames: String
+        get() = selectedEquipment.name
+
+
+    fun isEquipmentSelected(toolName: String): Boolean {
+        return selectedEquipment.name == toolName
+    }
+
+    val focusAreaNames: List<String>
+        get() = FocusArea.entries.map { it.name }
+
+    val selectedFocusAreasText: String
+        get() = selectedFocusAreas.joinToString { it.name }
+
+
+    fun isFocusAreaSelected(name: String): Boolean {
+        return selectedFocusAreas.any { it.name == name }
+    }
+
     data class EquipmentUiState(
         val name: String = "",
         val id: Int = 0,

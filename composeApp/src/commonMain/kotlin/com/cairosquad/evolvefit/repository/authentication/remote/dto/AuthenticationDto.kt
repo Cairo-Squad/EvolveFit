@@ -31,3 +31,4 @@ data class RegisterRequest(
 
 @Serializable
 data class RefreshRequest(val refreshToken: String)
+

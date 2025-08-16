@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.repository.workout.remote
 
 import com.cairosquad.evolvefit.domain.model.FocusArea
+import com.cairosquad.evolvefit.repository.execption.callApi
 import com.cairosquad.evolvefit.repository.workout.remote.dto.CreateWorkoutRequest
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDetailsDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDto
@@ -35,6 +36,9 @@ class WorkoutRemoteDataSourceImpl(
         return client.get("workout/community"){
             contentType(ContentType.Application.Json)
         }.body()
+    }
+    override suspend fun getFavoriteWorkout(): List<WorkoutDto> {
+        return callApi { client.get("favorite/workout") }
     }
 
     override suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDetailsDto> {

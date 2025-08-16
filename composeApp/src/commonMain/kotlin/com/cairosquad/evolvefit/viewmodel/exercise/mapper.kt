@@ -9,7 +9,7 @@ import io.github.vinceglb.filekit.path
 fun CreateExerciseState.toDomainExercise(): Exercise {
     val timeOrReps = measurementInputValue.toIntOrNull() ?: 0
 
-    val imageUrl = when (val img = this.image) {
+    val imageUrl = when (val img = this.image1) {
         is UiImage.ImageUrl -> img.url
         is UiImage.ImageResource -> ""
         is UiImage.ImageFile -> img.platformFile.path
@@ -33,11 +33,10 @@ fun CreateExerciseState.toDomainExercise(): Exercise {
         id = "",
         estimatedTimeInSeconds = when (measurementType) {
             CreateExerciseState.MeasurementType.DURATION -> timeOrReps
-            CreateExerciseState.MeasurementType.REPS -> timeOrReps * 3
+            CreateExerciseState.MeasurementType.REPS -> timeOrReps
         }
     )
 }
-
 
 private fun CreateExerciseState.FocusArea.toDomain(): FocusArea {
     return when (this) {
@@ -67,25 +66,3 @@ fun Equipment.toUiState(): CreateExerciseState.EquipmentUiState {
 fun List<CreateExerciseState.EquipmentUiState>.toDomainList(): List<Equipment> {
     return this.map { it.toDomain() }
 }
-
-//fun Exercise.toUiExercise(): CreateExerciseState.ExerciseUiModel {
-//    val measurementType = when (specification) {
-//        is Exercise.Specification.Time -> CreateExerciseState.MeasurementType.DURATION
-//        is Exercise.Specification.Reps -> CreateExerciseState.MeasurementType.REPS
-//    }
-//
-//    val measurementValue = when (specification) {
-//        is Exercise.Specification.Time -> specification.timeInSeconds
-//        is Exercise.Specification.Reps -> specification.reps
-//    }
-//
-//    return CreateExerciseState.ExerciseUiModel(
-//        id = id.toIntOrNull() ?: 0,
-//        name = name,
-//        image = imageUrls.firstOrNull()?.let { UiImage.ImageUrl(it) },
-//        equipments = listOf(equipment.name),
-//        focusAreas = focusAreas.toList(),
-//        measurementType = measurementType,
-//        measurementValue = measurementValue,
-//        description = instructions.joinToString("\n")
-//    )

@@ -16,7 +16,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun RegisterHeader(
     title: String,
-    description: String,
+    description: String?=null,
     modifier: Modifier = Modifier,
     titleColor: Color = Theme.color.surfaces.onSurface,
     descriptionColor: Color = Theme.color.surfaces.onSurfaceVariant,
@@ -31,12 +31,14 @@ fun RegisterHeader(
             color = titleColor,
             style = titleStyle,
         )
-        Text(
-            modifier = Modifier.padding(top = 8.dp),
-            text = description,
-            color = descriptionColor,
-            style = descriptionStyle,
-        )
+        if(description!=null) {
+            Text(
+                modifier = Modifier.padding(top = 8.dp),
+                text = description,
+                color = descriptionColor,
+                style = descriptionStyle,
+            )
+        }
     }
 }
 

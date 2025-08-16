@@ -37,6 +37,7 @@ import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -241,7 +242,7 @@ private fun RegisterScreenContentSelectHeightAndWeightPreview() {
 
 
 @Composable
-private fun MeasureSection(
+fun MeasureSection(
     selectedMeasure: Float,
     measureType: String,
     measureIcon: Painter,
@@ -251,26 +252,32 @@ private fun MeasureSection(
     measureUnit: String,
     dpPerUnit: Float,
     step: Float,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isDescriptionFound:Boolean=true,
+    textStyle: TextStyle=Theme.textStyle.headline.mediumMedium18,
+    bottomPadding:Dp=8.dp,
+    startPadding:Dp=16.dp,
 ) {
     Column(
         modifier = modifier
     ) {
         BasicText(
             text = measureType,
-            style = Theme.textStyle.headline.mediumMedium18.copy(
+            style =textStyle.copy(
                 color = Theme.color.surfaces.onSurface
             ),
             modifier = Modifier
-                .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
+                .padding(bottom = bottomPadding, start = startPadding, end = 16.dp)
         )
-        BasicText(
-            text = stringResource(Res.string.select_measurement) + measureType.replaceFirstChar { it.lowercase() },
-            style = Theme.textStyle.label.smallRegular14.copy(
-                color = Theme.color.surfaces.onSurfaceVariant
-            ),
-            modifier = Modifier.padding(bottom = 24.dp, start = 16.dp, end = 16.dp)
-        )
+        if(isDescriptionFound) {
+            BasicText(
+                text = stringResource(Res.string.select_measurement) + measureType.replaceFirstChar { it.lowercase() },
+                style = Theme.textStyle.label.smallRegular14.copy(
+                    color = Theme.color.surfaces.onSurfaceVariant
+                ),
+                modifier = Modifier.padding(bottom = 24.dp, start = 16.dp, end = 16.dp)
+            )
+        }
 
         Ruler(
             selectedValue = selectedMeasure,
@@ -293,7 +300,7 @@ private fun MeasureSection(
 }
 
 @Composable
-private fun MeasurementCard(
+fun MeasurementCard(
     selectedMeasure: Float,
     measureUnit: String,
     measureIcon: Painter,
@@ -329,7 +336,7 @@ private fun MeasurementCard(
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
-private fun Ruler(
+fun Ruler(
     modifier: Modifier = Modifier,
     selectedValue: Float,
     minValue: Float,
@@ -393,7 +400,7 @@ private fun Ruler(
 }
 
 @Composable
-private fun DrawIndicatorTriangle(
+fun DrawIndicatorTriangle(
     modifier: Modifier = Modifier,
 ){
     val indicatorColor = Theme.color.surfaces.onSurfaceVariant
@@ -415,7 +422,7 @@ private fun DrawIndicatorTriangle(
 }
 
 @OptIn(ExperimentalTextApi::class)
-private fun DrawScope.drawRuler(
+ fun DrawScope.drawRuler(
     selectedValue: Float,
     minValue: Float,
     maxValue: Float,
@@ -508,8 +515,7 @@ private fun DrawScope.drawRuler(
 fun formatToOneDecimal(value: Float): String {
     return (kotlin.math.round(value * 10) / 10f).toString()
 }
-
-private object HeightWeightConstants {
+ object HeightWeightConstants {
     const val MIN_HEIGHT_CM = 50f
     const val MAX_HEIGHT_CM = 250f
     const val HEIGHT_STEP_CM = 1f
