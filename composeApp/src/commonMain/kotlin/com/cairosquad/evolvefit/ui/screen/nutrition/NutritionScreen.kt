@@ -1,6 +1,9 @@
 package com.cairosquad.evolvefit.ui.screen.nutrition
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +31,7 @@ import com.cairosquad.evolvefit.design_system.component.SnackBar
 import com.cairosquad.evolvefit.design_system.component.StateMessage
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.component.RefreshBox
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.SeeAll
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.MealHistoryItem
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.NutritionHeader
@@ -45,6 +49,8 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.add_button
 import evolvefit.composeapp.generated.resources.enter_water_intake
 import evolvefit.composeapp.generated.resources.ic_info
+import evolvefit.composeapp.generated.resources.ic_no_internet_light
+import evolvefit.composeapp.generated.resources.ic_no_meals_light
 import evolvefit.composeapp.generated.resources.ic_water_drop
 import evolvefit.composeapp.generated.resources.im_no_internet
 import evolvefit.composeapp.generated.resources.im_no_meals_recorded
@@ -89,20 +95,77 @@ private fun NutritionContent(
     listener: NutritionInteractionListener
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        when (state.screenStatus) {
-            NutritionScreenState.ScreenStatus.SUCCESS -> {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Theme.color.surfaces.surface)
+        RefreshBox(
+            isRefreshing = state.isRefreshing,
+            onRefresh = { listener.onRefresh() }
+        ) {
+
+
+            Column(modifier = Modifier.fillMaxSize()) {
+                NutritionHeader()
+                Crossfade(
+                    targetState = state.screenStatus,
+                    animationSpec = tween(durationMillis = 300)
                 ) {
-                    item { NutritionHeader() }
-                    item { NutritionSummaryCard(listener = listener, state = state) }
-                    item { TodayMealsSummary(state = state, listener = listener) }
-                    item { SuggestedMeals(state = state, listener = listener) }
-                    mealHistorySection(state, listener)
+                    when (state.screenStatus) {
+                        NutritionScreenState.ScreenStatus.SUCCESS -> {
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(Theme.color.surfaces.surface)
+                            ) {
+                                item { NutritionSummaryCard(listener = listener, state = state) }
+                                item { TodayMealsSummary(state = state, listener = listener) }
+                                item { SuggestedMeals(state = state, listener = listener) }
+                                mealHistorySection(state, listener)
+                            }
+
+                        }
+
+                        NutritionScreenState.ScreenStatus.LOADING -> {
+                            LazyVerticalGrid(
+                                columns = GridCells.Adaptive(124.dp),
+                                verticalArrangement = Arrangement.spacedBy(12.dp),
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .systemBarsPadding()
+                                    .padding(16.dp)
+                            ) {
+                                items(20) { LoadingMealCard() }
+                            }
+                        }
+
+                        NutritionScreenState.ScreenStatus.FAIL -> {
+                            Box(modifier = Modifier.fillMaxSize()) {
+                                val noInternetIcon = if (isSystemInDarkTheme()) {
+                                    Res.drawable.im_no_internet
+                                } else {
+                                    Res.drawable.ic_no_internet_light
+                                }
+                                StateMessage(
+                                    image = painterResource(noInternetIcon),
+                                    title = stringResource(Res.string.internet_is_not_available),
+                                    description = stringResource(Res.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
+                                    modifier = Modifier.align(Alignment.Center)
+                                )
+
+                                PrimaryButton(
+                                    modifier = Modifier
+                                        .align(Alignment.BottomCenter)
+                                        .padding(horizontal = 16.dp, vertical = 24.dp),
+                                    text = stringResource(Res.string.try_again_button),
+                                    enabledTextColor = Theme.color.brand.onPrimary,
+                                    textStyle = Theme.textStyle.body.mediumMedium14,
+                                    onClick = { listener.onRetryClicked() }
+                                )
+                            }
+                        }
+                    }
                 }
 
+            }
+            if (state.screenStatus == NutritionScreenState.ScreenStatus.SUCCESS) {
                 MealTypeDropdownMenu(
                     state = state,
                     listener = listener,
@@ -122,43 +185,7 @@ private fun NutritionContent(
                     state = state
                 )
             }
-
-            NutritionScreenState.ScreenStatus.LOADING -> {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    LazyVerticalGrid(
-                        columns = GridCells.Adaptive(124.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .systemBarsPadding()
-                            .padding(16.dp)
-                    ) {
-                        items(20) { LoadingMealCard() }
-                    }
-                }
-            }
-
-            NutritionScreenState.ScreenStatus.FAIL -> {
-                StateMessage(
-                    image = painterResource(Res.drawable.im_no_internet),
-                    title = stringResource(Res.string.internet_is_not_available),
-                    description = stringResource(Res.string.please_make_sure_you_are_connected_to_the_internet_and_try_again)
-                )
-                PrimaryButton(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(horizontal = 16.dp)
-                        .padding(bottom = 24.dp),
-                    text = stringResource(Res.string.try_again_button),
-                    enabledTextColor = Theme.color.brand.onPrimary,
-                    textStyle = Theme.textStyle.body.mediumMedium14,
-                    onClick = {
-                        listener.onRetryClicked()
-                    })
-            }
         }
-
     }
 }
 
@@ -187,9 +214,14 @@ private fun LazyListScope.mealHistorySection(
 @Composable
 private fun EmptyMealHistory() {
     Box(contentAlignment = Alignment.Center) {
+        val noMealsRecorded = if (isSystemInDarkTheme()) {
+            Res.drawable.im_no_meals_recorded
+        } else {
+            Res.drawable.ic_no_meals_light
+        }
         StateMessage(
             modifier = Modifier.padding(vertical = 16.dp),
-            image = painterResource(Res.drawable.im_no_meals_recorded),
+            image = painterResource(noMealsRecorded),
             title = stringResource(Res.string.no_meals_title),
             description = stringResource(Res.string.no_meals_description)
         )
