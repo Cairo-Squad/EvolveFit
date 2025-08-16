@@ -31,7 +31,9 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun WorkoutHistoryScreen() {
+fun WorkoutHistoryScreen(
+    navigateBack: () -> Unit
+) {
     Column(
         modifier = Modifier
             .background(Theme.color.surfaces.surface)
@@ -45,7 +47,7 @@ fun WorkoutHistoryScreen() {
                 Box(
                     modifier = Modifier.size(40.dp)
                         .clip(CircleShape)
-                        .clickable(onClick = {})
+                        .clickable(onClick = navigateBack)
                         .padding(8.dp)
                 ) {
                     Image(
@@ -117,5 +119,5 @@ fun WorkoutHistoryScreen() {
 @Preview
 @Composable
 private fun WorkoutHistoryScreenPreview() {
-    WorkoutHistoryScreen()
+    WorkoutHistoryScreen({})
 }

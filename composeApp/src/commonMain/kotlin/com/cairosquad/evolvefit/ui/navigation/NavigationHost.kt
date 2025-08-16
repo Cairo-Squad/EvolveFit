@@ -213,7 +213,9 @@ fun NavigationHost(
         }
 
         composable<WorkoutHistoryRoute> {
-            WorkoutHistoryScreen()
+            WorkoutHistoryScreen(
+                navigateBack = navController::popBackStack
+            )
         }
         composable<EditProfileRoute> {
             EditProfileScreen(
