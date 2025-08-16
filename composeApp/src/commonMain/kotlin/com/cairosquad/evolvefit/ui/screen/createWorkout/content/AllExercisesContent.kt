@@ -37,8 +37,10 @@ import evolvefit.composeapp.generated.resources.all_exercises_title_
 import evolvefit.composeapp.generated.resources.back_icon_desc_
 import evolvefit.composeapp.generated.resources.ic_addcircle
 import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.ic_empty_workout
 import evolvefit.composeapp.generated.resources.ic_error
 import evolvefit.composeapp.generated.resources.ic_search
+import evolvefit.composeapp.generated.resources.im_no_internet
 import evolvefit.composeapp.generated.resources.search_exercise_placeholder_
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -97,19 +99,14 @@ fun AllExercisesContent(
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
 
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(1f),
-                contentAlignment = Alignment.Center
-            ) {
+            Box() {
                 when (state.status) {
                     ScreenStatus.LOADING -> {
                         // Loading indicator
                     }
                     ScreenStatus.EMPTY -> {
                         StateMessage(
-                            image = painterResource(Res.drawable.ic_error),
+                            image = painterResource(Res.drawable.im_no_internet),
                             title = "No exercises found",
                             description = "Try adjusting your search terms or make sure the exercise name is spelled correctly.",
                             modifier = Modifier.fillMaxWidth()
@@ -149,7 +146,6 @@ fun AllExercisesContent(
                 }
             }
         }
-
         PrimaryButton(
             text = when {
                 state.exerciseCount > 1 -> stringResource(Res.string.add_exercises_button_with_count_, state.exerciseCount)
@@ -248,37 +244,26 @@ fun PreviewAllExercisesContent_Success() {
         ),
         listener = object : CreateWorkOutInteractionListener {
             override fun onNameChanged(newName: String) {
-                TODO("Not yet implemented")
             }
 
             override fun onGoalSelected(goal: String) {
-                TODO("Not yet implemented")
             }
 
             override fun onDescriptionChanged(desc: String) {
-                TODO("Not yet implemented")
             }
 
-            override fun onImageClicked() {
-                TODO("Not yet implemented")
-            }
+            override fun onImageClicked() {}
 
-            override fun onNextClicked() {
-                TODO("Not yet implemented")
-            }
+            override fun onNextClicked() {}
 
             override fun onBackClicked() {}
             override fun onAddClicked() {}
             override fun onSearchQueryChanged(query: String) {}
             override fun onExerciseCheckedChanged(exercise: Exercise) {}
             override fun onAddWorkoutClicked() {}
-            override fun onImageSelected(image: UiImage) {
-                TODO("Not yet implemented")
-            }
+            override fun onImageSelected(image: UiImage) {}
 
-            override fun onImagePickerDismiss() {
-                TODO("Not yet implemented")
-            }
+            override fun onImagePickerDismiss() {}
         }
     )
 }

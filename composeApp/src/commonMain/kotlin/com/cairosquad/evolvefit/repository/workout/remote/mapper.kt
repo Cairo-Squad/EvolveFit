@@ -35,3 +35,22 @@ fun WorkoutDto.toDomain(): WorkoutSuggested {
         focusArea = focusArea
     )
 }
+fun WorkoutDetailsDto.toDomain(): Workout {
+    return Workout(
+        id = id,
+        name = name,
+        description = description,
+        imageUrl = imageUrl,
+        level = when (level.uppercase()) {
+            "BEGINNER" -> Workout.WorkoutLevel.BEGINNER
+            "INTERMEDIATE" -> Workout.WorkoutLevel.INTERMEDIATE
+            "ADVANCED" -> Workout.WorkoutLevel.ADVANCED
+            else -> Workout.WorkoutLevel.BEGINNER
+        },
+        estimatedTimeInSeconds = durationSeconds,
+        exercises = exercises.map { it.toDomain() }
+    )
+}
+
+
+

@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.viewmodel.workout
 
-import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.model.FocusArea
 
@@ -26,8 +25,8 @@ fun WorkoutScreenState.FocusAreaUiState.toDomain(): FocusArea {
     }
 }
 
-fun WorkoutSuggested.toUiState(): WorkoutScreenState.WorkoutUiState {
-    return WorkoutScreenState.WorkoutUiState(
+fun WorkoutSuggested.toUiState(): WorkoutScreenState.WorkoutSuggestedUiState {
+    return WorkoutScreenState.WorkoutSuggestedUiState(
         id = id,
         title = name,
         duration = durationSeconds.toString(),

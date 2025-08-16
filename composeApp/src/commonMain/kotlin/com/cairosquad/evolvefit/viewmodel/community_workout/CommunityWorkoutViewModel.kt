@@ -20,9 +20,8 @@ class CommunityWorkoutViewModel(
     private fun loadAllWorkouts() {
         tryToCall(
             block = workoutUseCase::getCommunityWorkouts,
-            // onSuccess = ::onGetSuggestedWorkoutsSuccess,
+             onSuccess = ::onGetSuggestedWorkoutsSuccess,
             onError = ::onGetSuggestedWorkoutError,
-            onSuccess = TODO(),
         )
     }
 
@@ -66,8 +65,8 @@ class CommunityWorkoutViewModel(
         // TODO:  snackbar/effect
     }
 
-    private fun onLoadWorkoutByFocusAreaSuccess(workouts: List<Workout>) {
-        //updateState { st -> st.copy(allWorkouts = workouts.map { it.toUiState() }) }
+    private fun onLoadWorkoutByFocusAreaSuccess(workouts: List<WorkoutSuggested>) {
+        updateState { st -> st.copy(allWorkouts = workouts.map { it.toUiState() }) }
     }
 
     private fun onLoadWorkoutByFocusAreaError(t: Throwable) {

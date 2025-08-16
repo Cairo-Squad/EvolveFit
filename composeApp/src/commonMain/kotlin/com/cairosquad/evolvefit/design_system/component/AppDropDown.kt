@@ -98,8 +98,8 @@ fun CustomDropDownMenu(
             onDismissRequest = { expanded = false },
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
                 .background(Theme.color.surfaces.surfaceContainer)
+                .clip(RoundedCornerShape(8.dp))
         ) {
             options.forEach { option ->
                 DropdownMenuItem(
@@ -238,8 +238,8 @@ private fun DropdownMenuTextPreview() {
         CustomAnimatedDropdownMenu(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
                 .background(Theme.color.surfaces.surfaceContainer)
+                .clip(RoundedCornerShape(8.dp))
                 .padding(top=50.dp),
             items = items,
             selectedItem = selectedItem,
