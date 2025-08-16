@@ -19,11 +19,14 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.StateMessage
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.viewmodel.favorites.FavoritesInteractionListener
+import com.cairosquad.evolvefit.viewmodel.favorites.FavoritesState
 import com.cairosquad.evolvefit.viewmodel.favorites.MealsUiModel
 import com.cairosquad.evolvefit.viewmodel.favorites.WorkoutsUiModel
 import evolvefit.composeapp.generated.resources.Res
@@ -45,13 +48,22 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun TabsWithPager(
     meals: List<MealsUiModel>,
-    workouts: List<WorkoutsUiModel>
+    workouts: List<WorkoutsUiModel>,
+    state: FavoritesState,
+    listener: FavoritesInteractionListener
 ) {
-    val tabs = listOf(
-        stringResource(Res.string.workouts_tab_title),
-        stringResource(Res.string.meals_tab_title)
-    )
     val pagerState = rememberPagerState(pageCount = { 2 })
+
+    LaunchedEffect(state) {
+        try {
+            if (state.isWorkoutTabSelected) {
+                pagerState.animateScrollToPage(0)
+            } else {
+                pagerState.animateScrollToPage(1)
+            }
+        } catch (_: Exception) {}
+    }
+
     Column {
         Row(
             modifier = Modifier
@@ -59,27 +71,25 @@ fun TabsWithPager(
                 .padding(top = 8.dp, bottom = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            tabs.forEachIndexed { index, title ->
-                val paddingModifier = Modifier
-                    .weight(1f)
-                    .then(
-                        if (index == 0) Modifier.padding(end = 12.dp)
-                        else Modifier.padding(start = 12.dp)
-                    )
-                TabItem(
-                    title = title,
-                    selected = pagerState.currentPage == index,
-                    modifier = paddingModifier
-                ) {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        pagerState.animateScrollToPage(index)
-                    }
-                }
-            }
+            TabItem(
+                modifier = Modifier
+                    .weight(1f),
+                title = stringResource(Res.string.workouts_tab_title),
+                selected = pagerState.currentPage == 0,
+                onTabClicked = listener::onWorkoutTabSelected
+            )
+            TabItem(
+                modifier = Modifier
+                    .weight(1f),
+                title = stringResource(Res.string.meals_tab_title),
+                selected = pagerState.currentPage == 1,
+                onTabClicked = listener::onMealTabSelected
+            )
         }
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            userScrollEnabled = false
         ) { page ->
             when (page) {
                 0 -> {
