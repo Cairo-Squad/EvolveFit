@@ -1,28 +1,29 @@
 package com.cairosquad.evolvefit.ui.screen.more
 
-import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
-import org.koin.compose.viewmodel.koinViewModel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.cairosquad.evolvefit.ui.screen.more.content.MoreScreenContent
+import com.cairosquad.evolvefit.ui.util.LanguageManager
+import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.more.MoreEffect
-import com.cairosquad.evolvefit.viewmodel.more.MoreViewModel
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
-import com.cairosquad.evolvefit.domain.model.Language
+import com.cairosquad.evolvefit.viewmodel.more.MoreViewModel
+import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MoreScreen(
     navigateToFavorites: () -> Unit,
     navigateToNotificationSettings: () -> Unit,
-    onLanguageChanged: (Language) -> Unit,
     onThemeChanged: (MoreScreenState.Theme) -> Unit,
     onLogout: () -> Unit,
     navigateToEditProfile: () -> Unit,
     viewModel: MoreViewModel = koinViewModel(),
-
     ) {
     val state by viewModel.screenState.collectAsState()
+    val languageManager = koinInject<LanguageManager>()
+
 
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
@@ -33,7 +34,8 @@ fun MoreScreen(
                 navigateToNotificationSettings()
             }
             is MoreEffect.ChangeLanguage -> {
-                onLanguageChanged(effect.language)
+                languageManager.applyLanguage(effect.language)
+
             }
             is MoreEffect.ChangeTheme -> {
                 onThemeChanged(effect.theme)
