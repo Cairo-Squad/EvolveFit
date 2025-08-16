@@ -1,9 +1,14 @@
 package com.cairosquad.evolvefit.design_system.component
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -26,6 +31,7 @@ fun PrimaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
+    isLoading: Boolean = false,
     enabledContainerColor: Color = Theme.color.brand.primary,
     disabledContainerColor: Color = Theme.color.surfaces.outlineVariant,
     enabledTextColor: Color = Theme.color.brand.onPrimary,
@@ -42,13 +48,14 @@ fun PrimaryButton(
         label = "TextColorAnimation"
     )
 
-    Box(
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .clip(CircleShape)
             .background(containerColor)
-            .clickable(enabled = isEnabled, onClick = onClick),
-        contentAlignment = Alignment.Center
+            .clickable(enabled = isEnabled && !isLoading, onClick = onClick),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
     ) {
         Text(
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 12.dp),
@@ -56,6 +63,15 @@ fun PrimaryButton(
             color = textColor,
             style = textStyle,
         )
+        Crossfade(targetState = isLoading) { loading ->
+        if (loading) {
+            Spacer(modifier = Modifier.padding(start = 8.dp))
+            AnimatedLoadingIndicator(
+                size = 20.dp
+            )
+        }
+        }
+
     }
 }
 

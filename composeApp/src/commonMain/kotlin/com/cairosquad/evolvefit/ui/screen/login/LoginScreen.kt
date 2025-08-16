@@ -171,6 +171,7 @@ private fun LoginScreenContent(
                         .padding(bottom = 16.dp),
                     text = stringResource(Res.string.login),
                     isEnabled = state.canSubmit,
+                    isLoading = state.isLoading,
                     onClick = listener::onLoginClicked
                 )
             }
