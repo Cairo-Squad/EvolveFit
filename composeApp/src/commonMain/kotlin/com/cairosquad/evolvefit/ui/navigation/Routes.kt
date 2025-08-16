@@ -46,5 +46,10 @@ data object MealsHistoryRoute
 
 @Serializable
 data object WorkoutHistoryRoute
+
 @Serializable
 data object EditProfileRoute
+
+@Serializable
+data object FavoritesScreenRoute
+

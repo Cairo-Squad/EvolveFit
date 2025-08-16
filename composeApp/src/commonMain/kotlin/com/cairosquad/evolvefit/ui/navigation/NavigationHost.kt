@@ -20,6 +20,7 @@ import com.cairosquad.evolvefit.ui.screen.app.AppScreen
 import com.cairosquad.evolvefit.ui.screen.communityWorkout.CommunityWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.createExercise.CreateExerciseScreen
 import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
+import com.cairosquad.evolvefit.ui.screen.favorites.FavoritesScreen
 import com.cairosquad.evolvefit.ui.screen.login.LoginScreen
 import com.cairosquad.evolvefit.ui.screen.mealDetails.MealDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.mealsHistory.MealsHistoryScreen
@@ -128,8 +129,16 @@ fun NavigationHost(
                 navigateToMealDetails = { mealId -> navController.navigate(MealDetailsRoute(mealId)) },
                 navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) },
                 navigateToWorkoutHistory = { navController.navigate(WorkoutHistoryRoute) },
-                navigateToEditProfile = { navController.navigate(EditProfileRoute) }
-            )
+                navigateToEditProfile = { navController.navigate(EditProfileRoute) },
+                navigateToLogIn = {
+                    authenticationPreferences.clear()
+                    navController.navigate(LoginRoute){
+                    popUpTo(OnboardingRoute) { inclusive = true }
+                    launchSingleTop = true
+                    restoreState = false
+                } },
+                navigateToFavoritesScreen = {navController.navigate(FavoritesScreenRoute)}
+                )
         }
 
         composable<CreateWorkoutRoute> {
@@ -208,6 +217,11 @@ fun NavigationHost(
         }
         composable<EditProfileRoute> {
             EditProfileScreen(
+                navigateBack = navController::popBackStack
+            )
+        }
+        composable<FavoritesScreenRoute> {
+            FavoritesScreen(
                 navigateBack = navController::popBackStack
             )
         }
