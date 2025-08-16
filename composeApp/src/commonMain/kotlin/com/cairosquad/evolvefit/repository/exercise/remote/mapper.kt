@@ -4,6 +4,7 @@ import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.repository.exercise.remote.dto.ExerciseDto
+import com.cairosquad.evolvefit.repository.exercise.remote.dto.ExerciseResponseDto
 
 fun Exercise.toDto(): ExerciseDto {
     return ExerciseDto(
@@ -45,3 +46,27 @@ fun ExerciseDto.toDomain(
     )
 }
 
+
+fun ExerciseResponseDto.toDomain(): Exercise {
+    val spec = when (exerciseType) {
+        "REPS" -> Exercise.Specification.Reps(reps ?: 0)
+        "DURATION" -> Exercise.Specification.Time(durationSeconds ?: 0)
+        else -> throw IllegalArgumentException("Invalid exerciseType: $exerciseType")
+    }
+
+    val equipment = gymEquipments.firstOrNull()?.let { Equipment(it.id, "Unknown") }
+        ?: Equipment(0, "Unknown")
+
+    val focusAreas = focusArea.map { FocusArea.valueOf(it.uppercase()) }.toSet()
+
+    return Exercise(
+        id = id,
+        name = name,
+        specification = spec,
+        imageUrls = images,
+        equipment = equipment,
+        focusAreas = focusAreas,
+        instructions = instructions,
+        estimatedTimeInSeconds = durationSeconds ?: 0
+    )
+}

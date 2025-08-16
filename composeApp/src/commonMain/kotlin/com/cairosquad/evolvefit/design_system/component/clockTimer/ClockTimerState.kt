@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ClockTimerState(
-    val totalTimeInSeconds: Int,
+    val totalTimeInSeconds: Int?,
     private val coroutineScope: CoroutineScope,
     private val onFinish: (() -> Unit)? = null,
     isInitiallyPaused: Boolean = false,
@@ -45,7 +45,7 @@ class ClockTimerState(
                     timerJob?.cancel()
                     break
                 } else {
-                    _currentTimeInSeconds.update { it + step }
+                    _currentTimeInSeconds.update { it?.plus(step) }
                 }
             }
         }
@@ -72,9 +72,11 @@ class ClockTimerState(
     fun addSeconds(timeIncrementSeconds: Int) {
         if (timerJob?.isActive != true) return
 
-        if (_currentTimeInSeconds.value + timeIncrementSeconds > 0) {
-            _currentTimeInSeconds.update { it + timeIncrementSeconds }
-            return
+        _currentTimeInSeconds.value?.plus(timeIncrementSeconds)?.let {
+            if (it > 0) {
+                _currentTimeInSeconds.update { it?.plus(timeIncrementSeconds) }
+                return
+            }
         }
         timerJob?.cancel()
         _currentTimeInSeconds.update { 0 }
@@ -84,7 +86,7 @@ class ClockTimerState(
 
 @Composable
 fun rememberClockTimerState(
-    totalTime: Int,
+    totalTime: Int?,
     onFinish: (() -> Unit)? = null,
     isInitiallyPaused: Boolean = false,
 ): ClockTimerState {

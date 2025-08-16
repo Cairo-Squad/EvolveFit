@@ -1,128 +1,49 @@
 package com.cairosquad.evolvefit.repository.workout
 
-import com.cairosquad.evolvefit.domain.entity.Equipment
-import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.entity.Workout
+import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
-import com.cairosquad.evolvefit.repository.execption.callApi
 import com.cairosquad.evolvefit.repository.execption.callDataSource
 import com.cairosquad.evolvefit.repository.workout.remote.WorkoutRemoteDataSource
+import com.cairosquad.evolvefit.repository.workout.remote.toCreateRequest
 import com.cairosquad.evolvefit.repository.workout.remote.toDomain
-import kotlinx.coroutines.delay
 
 class WorkoutRepositoryImpl(
     private val workoutRemoteDataSource: WorkoutRemoteDataSource,
 ) : WorkoutRepository {
 
     override suspend fun getWorkoutById(id: String): Workout {
-        delay(500L)
-        return fakeWorkout
+        return workoutRemoteDataSource.getWorkoutDetails(id).toDomain()
     }
 
-    override suspend fun getSuggestedWorkouts(): List<Workout> {
-        return listOf(fakeWorkout, fakeWorkout, fakeWorkout, fakeWorkout, fakeWorkout)
+    override suspend fun getSuggestedWorkouts(): List<WorkoutSuggested> {
+        val result = workoutRemoteDataSource.getSuggestedWorkouts().map { it.toDomain() }
+        return result
     }
 
-    override suspend fun getCommunityWorkouts(): List<Workout> {
-        TODO("Not yet implemented")
+
+    override suspend fun getCommunityWorkouts(): List<WorkoutSuggested> {
+        return workoutRemoteDataSource.getCommunityWorkouts().map { it.toDomain() }
     }
 
     override suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<Workout> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getFavoriteWorkouts(): List<Workout> =
+    override suspend fun getFavoriteWorkouts(): List<WorkoutSuggested> =
         callDataSource { workoutRemoteDataSource.getFavoriteWorkout().map { it.toDomain() } }
 
 
     override suspend fun createWorkout(workout: Workout) {
-        TODO("Not yet implemented")
+        workoutRemoteDataSource.createWorkout(workout.toCreateRequest())
     }
 
     override suspend fun addWorkoutToFavorites(workoutId: String) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<Workout> {
-        return listOf(fakeWorkout, fakeWorkout, fakeWorkout, fakeWorkout)
-    }
-
-    private companion object {
-        val fakeWorkout = Workout(
-            id = "1",
-            name = "Upper Body",
-            imageUrl = "https://phxgymwitham.co.uk/wp-content/uploads/2024/05/Upper-body-gym-workout-1024x681.jpg",
-            level = Workout.WorkoutLevel.BEGINNER,
-            exercises = listOf(
-                Exercise(
-                    id = "0",
-                    name = "Push-up",
-                    specification = Exercise.Specification.Reps(10),
-                    imageUrls = listOf("https://images.ctfassets.net/6ilvqec50fal/JdeBsAsNI2XepyM4IDL1U/ef2c96e26f7c3af5bce6db428cd1237f/Screenshot_2024-03-21_at_12.36.05_PM.png"),
-                    equipment = Equipment(0, "Body Weight"),
-                    focusAreas = setOf(),
-                    instructions = listOf("this exercise is for for your health"),
-                    estimatedTimeInSeconds = 60,
-                ),
-                Exercise(
-                    id = "1",
-                    name = "Running - Treadmill",
-                    specification = Exercise.Specification.Time(30),
-                    imageUrls = listOf("https://mrtreadmill.com.au/wp-content/uploads/shutterstock_1495412588-1.jpg"),
-                    equipment = Equipment(0, "Body Weight"),
-                    focusAreas = setOf(),
-                    instructions = listOf("this exercise is for for your health"),
-                    estimatedTimeInSeconds = 60,
-                ),
-                Exercise(
-                    id = "0",
-                    name = "Push-up",
-                    specification = Exercise.Specification.Reps(10),
-                    imageUrls = listOf("https://images.ctfassets.net/6ilvqec50fal/JdeBsAsNI2XepyM4IDL1U/ef2c96e26f7c3af5bce6db428cd1237f/Screenshot_2024-03-21_at_12.36.05_PM.png"),
-                    equipment = Equipment(0, "Body Weight"),
-                    focusAreas = setOf(FocusArea.QUADRICEPS, FocusArea.CORE),
-                    instructions = listOf("this exercise is for for your health"),
-                    estimatedTimeInSeconds = 60,
-                ),
-                Exercise(
-                    id = "1",
-                    name = "Running - Treadmill",
-                    specification = Exercise.Specification.Time(30),
-                    imageUrls = listOf(
-                        "https://images.ctfassets.net/6ilvqec50fal/JdeBsAsNI2XepyM4IDL1U/ef2c96e26f7c3af5bce6db428cd1237f/Screenshot_2024-03-21_at_12.36.05_PM.png",
-                        "https://mrtreadmill.com.au/wp-content/uploads/shutterstock_1495412588-1.jpg",
-                        "https://mrtreadmill.com.au/wp-content/uploads/shutterstock_1495412588-1.jpg"
-                    ),
-                    equipment = Equipment(0, "Body Weight"),
-                    focusAreas = setOf(),
-                    instructions = listOf("this exercise is for for your health"),
-                    estimatedTimeInSeconds = 60,
-                ),
-                Exercise(
-                    id = "0",
-                    name = "Push-up",
-                    specification = Exercise.Specification.Reps(10),
-                    imageUrls = listOf("https://images.ctfassets.net/6ilvqec50fal/JdeBsAsNI2XepyM4IDL1U/ef2c96e26f7c3af5bce6db428cd1237f/Screenshot_2024-03-21_at_12.36.05_PM.png"),
-                    equipment = Equipment(0, "Body Weight"),
-                    focusAreas = setOf(),
-                    instructions = listOf("this exercise is for for your health"),
-                    estimatedTimeInSeconds = 60,
-                ),
-                Exercise(
-                    id = "1",
-                    name = "Running - Treadmill",
-                    specification = Exercise.Specification.Time(30),
-                    imageUrls = listOf("https://mrtreadmill.com.au/wp-content/uploads/shutterstock_1495412588-1.jpg"),
-                    equipment = Equipment(0, "Body Weight"),
-                    focusAreas = setOf(),
-                    instructions = listOf("this exercise is for for your health"),
-                    estimatedTimeInSeconds = 60,
-                ),
-            ),
-            description = "this workout is good for your health",
-            estimatedTimeInSeconds = 60 * 10,
-            focusAreas = FocusArea.values().toSet()
-        )
+    override suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested> {
+        return workoutRemoteDataSource.getWorkoutsByFocusArea(focusArea).map { it.toDomain() }
     }
 }

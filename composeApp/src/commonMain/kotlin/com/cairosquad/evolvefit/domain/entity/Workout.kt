@@ -8,7 +8,6 @@ data class Workout(
     val description: String,
     val imageUrl: String,
     val level: WorkoutLevel,
-    val focusAreas: Set<FocusArea>,
     val estimatedTimeInSeconds: Int,
     val exercises: List<Exercise>, // TODO: We need to remove this from here
 ) {
@@ -18,3 +17,11 @@ data class Workout(
         ADVANCED
     }
 }
+
+data class WorkoutSuggested(
+    val id: String,
+    val name: String,
+    val durationSeconds: Int,
+    val imageUrl: String,
+    val focusArea: List<FocusArea>
+)
