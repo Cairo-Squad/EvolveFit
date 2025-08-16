@@ -1,11 +1,11 @@
 package com.cairosquad.evolvefit.viewmodel.suggested_meals
 
-import com.cairosquad.evolvefit.domain.entity.Meal
-import com.cairosquad.evolvefit.domain.usecase.meal.ManageMealUseCase
+import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
+import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 
 class SuggestedMealsViewModel(
-    private val mealUseCase: ManageMealUseCase
+    private val mealUseCase: ManageNutritionUseCase
 ) : BaseViewModel<SuggestedMealsScreenState, SuggestedMealsEffect>(SuggestedMealsScreenState()),
     SuggestedMealsInteractionListener {
     init {
@@ -36,7 +36,7 @@ class SuggestedMealsViewModel(
         }
     }
 
-    private fun onLoadSuggestedMealsSuccess(meals: List<Meal>) {
+    private fun onLoadSuggestedMealsSuccess(meals: List<SuggestedMeal>) {
         updateState { current ->
             current.copy(
                 suggestedMeals = meals.map { it.toSuggestedMealUiState() },
