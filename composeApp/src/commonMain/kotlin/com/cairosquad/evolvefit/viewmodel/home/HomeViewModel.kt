@@ -1,11 +1,20 @@
 package com.cairosquad.evolvefit.viewmodel.home
 
 import androidx.lifecycle.viewModelScope
+import com.cairosquad.evolvefit.domain.entity.Profile
+import com.cairosquad.evolvefit.domain.entity.Workout
+import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
+import com.cairosquad.evolvefit.domain.usecase.home.GetNutritionProgressUseCase
+import com.cairosquad.evolvefit.domain.usecase.home.GetPersonalizedWorkoutsUseCase
+import com.cairosquad.evolvefit.domain.usecase.home.model.NutritionProgress
+import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-
+    private val getPersonalizedWorkoutsUseCase: GetPersonalizedWorkoutsUseCase,
+    private val getNutritionProgressUseCase: GetNutritionProgressUseCase,
+    private val manageProfileUseCase: ManageProfileUseCase
 ) : BaseViewModel<HomeScreenState, HomeScreenEffect>(HomeScreenState()), HomeInteractionListener {
 
     init {
@@ -22,13 +31,19 @@ class HomeViewModel(
     }
 
     private fun loadUserInfo() {
-        // DUMMY
-        viewModelScope.launch {
-            updateState {
-                it.copy(user = DummyDataSource.user)
-            }
+        tryToCall(
+            block = { manageProfileUseCase.getProfile() },
+            onSuccess = ::handleLoadUserInfoSuccess,
+            onError = ::handleHomeErrors
+        )
+    }
+
+    private fun handleLoadUserInfoSuccess(profile: Profile) {
+        updateState {
+            it.copy(
+                user = profile.toHomeUserUiState()
+            )
         }
-        // TODO: use the use case, this should be the only use case where the success call back should not stop the loading indicator
     }
 
     private fun loadProgress() {
@@ -45,32 +60,68 @@ class HomeViewModel(
     }
 
     private fun loadNutrition() {
-        // DUMMY
-        viewModelScope.launch {
-            updateState {
-                it.copy(
-                    caloriesCount = DummyDataSource.caloriesNutrition.first,
-                    caloriesGoal = DummyDataSource.caloriesNutrition.second,
-                    waterCount = DummyDataSource.waterNutrition.first,
-                    waterGoal = DummyDataSource.waterNutrition.second,
-                )
-            }
-            stopLoading()
+        loadWaterNutrition()
+        loadCaloriesNutrition()
+    }
+
+    private fun loadWaterNutrition() {
+        tryToCall(
+            block = { getNutritionProgressUseCase.getWaterNutrition() },
+            onSuccess = ::handleLoadWaterNutritionSuccess,
+            onError = ::handleHomeErrors
+        )
+    }
+
+    private fun handleLoadWaterNutritionSuccess(nutritionProgress: NutritionProgress<Float>) {
+        updateState {
+            it.copy(
+                waterCount = nutritionProgress.currentProgress,
+                waterGoal = nutritionProgress.goal
+            )
         }
-        // TODO: use the use case, stop the loading state on success
+
+        stopLoading()
+    }
+
+    private fun loadCaloriesNutrition() {
+        tryToCall(
+            block = { getNutritionProgressUseCase.getCaloriesNutrition() },
+            onSuccess = ::handleLoadCaloriesNutritionSuccess,
+            onError = ::handleHomeErrors
+        )
+    }
+
+    private fun handleLoadCaloriesNutritionSuccess(nutritionProgress: NutritionProgress<Int>) {
+        updateState {
+            it.copy(
+                caloriesCount = nutritionProgress.currentProgress.toUInt(),
+                caloriesGoal = nutritionProgress.goal.toUInt()
+            )
+        }
+
+        stopLoading()
     }
 
     private fun loadPersonalizedWorkouts() {
-        // DUMMY
-        viewModelScope.launch {
-            updateState {
-                it.copy(
-                    personalizedWorkouts = DummyDataSource.personalizedWorkouts
-                )
-            }
-            stopLoading()
+        tryToCall(
+            block = { getPersonalizedWorkoutsUseCase.getWorkouts() },
+            onSuccess = ::handleLoadPersonalizedWorkoutsSuccess,
+            onError = ::handleHomeErrors
+        )
+    }
+
+    private fun handleLoadPersonalizedWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
+        updateState {
+            it.copy(
+                personalizedWorkouts = workouts.map { workout ->
+                    workout.toHomeWorkoutUiState(
+                        isSaved = false
+                    )
+                }
+            )
         }
-        // TODO: use the use case, stop the loading state on success
+
+        stopLoading()
     }
 
     override fun onWorkoutClick(id: String) {
@@ -106,6 +157,11 @@ class HomeViewModel(
         updateState {
             it.copy(isLoading = false)
         }
+    }
+
+    private fun handleHomeErrors(error: Throwable) {
+        // TODO
+        println("TEST : $error")
     }
 
 }

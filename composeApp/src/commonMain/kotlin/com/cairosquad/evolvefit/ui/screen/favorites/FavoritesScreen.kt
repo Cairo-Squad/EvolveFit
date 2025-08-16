@@ -79,7 +79,9 @@ fun FavoritesScreenContent(
         )
         TabsWithPager(
             meals = state.mealsList,
-            workouts = state.workoutsList
+            workouts = state.workoutsList,
+            state = state,
+            listener = listener
         )
     }
 }

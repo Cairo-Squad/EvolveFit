@@ -75,7 +75,7 @@ private fun WorkoutsScreenContent(
             AppBar(navigateBack)
 
             FocusAreaFilter(
-                focusArea = state.focusAreas,
+                focusArea = WorkoutScreenState.FocusAreaUiState.entries,
                 selectedFocusArea = state.selectedFocusArea,
                 onSelectFocusArea = listener::onSelectFocusArea
             )

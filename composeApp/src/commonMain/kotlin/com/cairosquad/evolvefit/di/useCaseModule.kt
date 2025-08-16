@@ -27,4 +27,5 @@ val useCaseModule = module {
     singleOf(::GetWeeklyProgressUseCase)
     singleOf(::GetNutritionProgressUseCase)
     singleOf(::GetPersonalizedWorkoutsUseCase)
+    singleOf(::ManageProfileUseCase)
 }

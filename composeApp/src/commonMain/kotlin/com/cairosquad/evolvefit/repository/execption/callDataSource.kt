@@ -30,7 +30,7 @@ suspend fun <T> callDataSource(execute: suspend () -> T): T {
 fun getDomainExceptionFromRepositoryException(exception: RepositoryException): AppException {
     return when (exception) {
         is ApiException -> when (exception) {
-            is RequestTimeoutException -> NetworkException(exception.message)
+            is RequestTimeoutException -> InternetConnectionException(exception.message)
             is TooManyRequestsException -> NetworkException(exception.message)
             is ForbiddenException -> NetworkException(exception.message)
             is ConflictException -> NetworkException(exception.message)
