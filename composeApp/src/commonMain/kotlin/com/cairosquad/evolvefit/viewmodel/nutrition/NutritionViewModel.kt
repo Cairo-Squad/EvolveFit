@@ -69,10 +69,10 @@ class NutritionViewModel(
 
         val water = manageNutritionUseCase.getDailyWaterSummary()
         onLoadDailyWaterSummarySuccess(water)
-
-        val meals = manageNutritionUseCase.getConsumedMealsByDate(
-            "2025-08-16${START_DAY_TIME}",
-            "2025-08-16${END_DAY_TIME}"
+        val todayDate = getTodayDate()
+        val meals =   manageNutritionUseCase.getConsumedMealsByDate(
+            "${todayDate}${START_DAY_TIME}",
+            "${todayDate}${END_DAY_TIME}"
         )
         onLoadConsumedMealsForTodaySuccess(meals)
 
