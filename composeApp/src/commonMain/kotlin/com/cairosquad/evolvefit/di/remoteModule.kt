@@ -29,7 +29,7 @@ val remoteModule = module {
     single<ExerciseRemoteDataSource> { ExerciseRemoteDataSourceImpl(get()) }
     single<EquipmentsRemoteDataSource> { EquipmentRemoteDataSourceImpl(get()) }
     single<RemoteNutritionDataSource> { RemoteNutritionDataSourceImpl(get()) }
-    single<WorkoutRemoteDataSource> { WorkoutRemoteDataSourceImpl() }
+    single<WorkoutRemoteDataSource> { WorkoutRemoteDataSourceImpl(get()) }
     single {
         RefreshTokenProvider(HttpClient {
             install(ContentNegotiation) {
