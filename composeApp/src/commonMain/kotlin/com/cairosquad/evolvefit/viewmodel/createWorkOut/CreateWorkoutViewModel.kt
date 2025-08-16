@@ -95,8 +95,9 @@ class CreateWorkoutViewModel(
 
     override fun onSearchQueryChanged(query: String) {
         updateState { state ->
-            val filtered = if (query.isBlank()) state.allExercises
-            else state.allExercises.filter { it.name.contains(query, ignoreCase = true) }
+            val filtered =
+                if (query.isBlank()) state.allExercises
+                else state.allExercises.filter { it.name.contains(query, ignoreCase = true) }
             state.copy(
                 searchQuery = query,
                 filteredExercises = filtered
@@ -115,6 +116,7 @@ class CreateWorkoutViewModel(
 
     private fun handleWorkoutError(throwable: Throwable) {
         throwable.printStackTrace()
+        println("sadasd error $throwable")
         updateState { it.copy(status = CreateWorkOutScreenState.ScreenStatus.ERROR) }
     }
 

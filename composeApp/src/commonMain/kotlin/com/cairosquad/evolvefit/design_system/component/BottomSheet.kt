@@ -23,10 +23,7 @@ fun BottomSheet(
     content: @Composable ColumnScope.() -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true,
-        confirmValueChange = { newValue ->
-            newValue != SheetValue.Hidden
-        }
+        skipPartiallyExpanded = true
     )
 
     var isBottomSheetVisible by remember { mutableStateOf(isVisible) }
