@@ -265,4 +265,12 @@
     <string name="goal_lose_weight">إنقاص الوزن</string>
     <string name="goal_gain_weight">زيادة الوزن</string>
     <string name="goal_stay_in_shape">الحفاظ على اللياقة</string>
+
+    <string name="favorites_title">المفضلة</string>
+    <string name="workouts_tab_title">التمارين</string>
+    <string name="meals_tab_title">الوجبات</string>
+    <string name="empty_workouts_title">لا توجد تمارين مضافة</string>
+    <string name="empty_workouts_description">قم بإضافة تمارين لبدء رحلتك الرياضية.</string>
+    <string name="empty_meals_title">قائمة المفضلة فارغة</string>
+    <string name="empty_meals_description">أضف وجباتك المفضلة للوصول إليها بسهولة لاحقًا.</string>
 </resources>
