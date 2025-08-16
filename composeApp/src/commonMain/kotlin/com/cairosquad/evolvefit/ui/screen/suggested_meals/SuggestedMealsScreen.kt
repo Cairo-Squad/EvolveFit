@@ -3,6 +3,7 @@ package com.cairosquad.evolvefit.ui.screen.suggestedMeals
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,7 +28,9 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.suggested_meals.LoadingMealCard
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
+import com.cairosquad.evolvefit.viewmodel.meal_details.MealDetailsInteractionListener
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsEffect
+import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsInteractionListener
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsScreenState
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsViewModel
 import evolvefit.composeapp.generated.resources.Res
@@ -60,12 +63,14 @@ fun SuggestedMealsScreen(
     }
     SuggestedMealsContent(
         state = state,
-        onBackClick = { viewModel.onBackClicked() }
+        onBackClick = { viewModel.onBackClicked() },
+        listener = viewModel
     )
 }
 @Composable
 private fun SuggestedMealsContent(
     state: SuggestedMealsScreenState,
+    listener: SuggestedMealsInteractionListener,
     onBackClick: () -> Unit
 ) {
     Column(
@@ -82,7 +87,7 @@ private fun SuggestedMealsContent(
             when (screenStatus) {
                 SuggestedMealsScreenState.ScreenStatus.LOADING -> SuggestedMealsLoadingState()
                 SuggestedMealsScreenState.ScreenStatus.ERROR -> SuggestedMealsErrorState(state.errorMessage)
-                SuggestedMealsScreenState.ScreenStatus.SUCCESS -> SuggestedMealsSuccessState(state.suggestedMeals)
+                SuggestedMealsScreenState.ScreenStatus.SUCCESS -> SuggestedMealsSuccessState(state.suggestedMeals , listener = listener  )
             }
         }
     }
@@ -127,7 +132,7 @@ private fun SuggestedMealsErrorState(errorMessage: String?) {
     }
 }
 @Composable
-private fun SuggestedMealsSuccessState(suggestedMeals: List<SuggestedMealsScreenState.SuggestedMealUiState>) {
+private fun SuggestedMealsSuccessState(suggestedMeals: List<SuggestedMealsScreenState.SuggestedMealUiState> , listener : SuggestedMealsInteractionListener) {
     if (suggestedMeals.isEmpty()) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             StateMessage(
@@ -151,7 +156,10 @@ private fun SuggestedMealsSuccessState(suggestedMeals: List<SuggestedMealsScreen
                     title = meal.name,
                     mealType = stringResource(meal.type.displayName),
                     calories = meal.calories,
-                    model = meal.imageUrl
+                    model = meal.imageUrl,
+                    modifier = Modifier.clickable{
+                        listener.onMealClicked(meal.id)
+                    }
                 )
             }
         }
