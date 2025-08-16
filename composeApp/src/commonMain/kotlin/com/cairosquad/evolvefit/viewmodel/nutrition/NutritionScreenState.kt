@@ -38,14 +38,17 @@ data class NutritionScreenState(
     val inputErrorMessage: StringResource? = null,
     val isMealAddedSnackBarVisible: Boolean = false,
 
+    val screenErrorMessage: StringResource? = null,
+    val snackBarErrorMessage: StringResource? = null,
     ) {
     data class DailyMealSummaryUiState(
         val type: MealTypeUiState = MealTypeUiState.Breakfast,
-        val calories: Float = 0f,
+        val calories: Int = 0,
         val icon: DrawableResource
     )
 
     data class SuggestedMealUiState(
+        val id : String = "",
         val name: String = "",
         val type: MealTypeUiState = MealTypeUiState.Breakfast,
         val calories: Int = 0,
@@ -62,9 +65,14 @@ data class NutritionScreenState(
         Breakfast(Res.string.meal_type_breakfast),
         Lunch(Res.string.meal_type_lunch),
         Dinner(Res.string.meal_type_dinner),
-        Snacks(Res.string.meal_type_snacks)
+        Snack(Res.string.meal_type_snacks)
     }
     enum class ScreenStatus{
         SUCCESS,LOADING,FAIL
+    }
+    sealed class UiError {
+        data class ScreenError(val message: StringResource) : UiError()
+        data class InputError(val message: StringResource) : UiError()
+        data class SnackBarError(val message: StringResource) : UiError()
     }
 }
