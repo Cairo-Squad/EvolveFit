@@ -21,6 +21,7 @@ import com.cairosquad.evolvefit.ui.screen.communityWorkout.CommunityWorkoutScree
 import com.cairosquad.evolvefit.ui.screen.createExercise.CreateExerciseScreen
 import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.editProfile.EditProfileScreen
+import com.cairosquad.evolvefit.ui.screen.favorites.FavoritesScreen
 import com.cairosquad.evolvefit.ui.screen.login.LoginScreen
 import com.cairosquad.evolvefit.ui.screen.mealDetails.MealDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.mealsHistory.MealsHistoryScreen
@@ -135,6 +136,7 @@ fun NavigationHost(
                     launchSingleTop = true
                     restoreState = false
                 } },
+                navigateToFavoritesScreen = {navController.navigate(FavoritesScreenRoute)}
                 )
         }
 
@@ -212,6 +214,11 @@ fun NavigationHost(
         }
         composable<EditProfileRoute> {
             EditProfileScreen(
+                navigateBack = navController::popBackStack
+            )
+        }
+        composable<FavoritesScreenRoute> {
+            FavoritesScreen(
                 navigateBack = navController::popBackStack
             )
         }

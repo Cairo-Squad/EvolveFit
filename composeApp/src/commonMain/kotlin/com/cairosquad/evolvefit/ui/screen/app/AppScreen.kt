@@ -44,8 +44,9 @@ fun AppScreen(
     navigateToMealsHistory: () -> Unit,
     navigateToWorkoutHistory: () -> Unit,
     navigateToEditProfile: () -> Unit,
-    navigateToLogIn: () -> Unit
-) {
+    navigateToLogIn: () -> Unit,
+    navigateToFavoritesScreen: () -> Unit
+    ) {
     var selectedScreenIndex by rememberSaveable { mutableIntStateOf(0) }
 
     val navigationItemsRes = remember {
@@ -105,7 +106,7 @@ fun AppScreen(
                 )
 
                 4 -> MoreScreen(
-                    navigateToFavorites = {  },
+                    navigateToFavorites = navigateToFavoritesScreen,
                     navigateToNotificationSettings = { },
                     onLanguageChanged = {  },
                     onThemeChanged = {  },
