@@ -356,6 +356,14 @@ class NutritionViewModel(
     override fun onDismissWaterClicked() {
         updateState { it.copy(isAddWaterSheetVisible = false, inputErrorMessage = null) }
     }
+    override fun onRefresh() {
+       updateState { it.copy(isRefreshing = true, screenStatus = NutritionScreenState.ScreenStatus.LOADING,) }
+        fetchNutritionData()
+        viewModelScope.launch {
+            delay(500L)
+            updateState { it.copy(isRefreshing = false) }
+        }
+    }
 
     private fun Throwable.toErrorMessageRes(): StringResource {
         return when (this) {
