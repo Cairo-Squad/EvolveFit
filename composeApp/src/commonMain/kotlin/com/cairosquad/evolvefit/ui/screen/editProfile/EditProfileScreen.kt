@@ -101,7 +101,9 @@ fun EditProfileScreenContent(
                 Icon(
                     painter = painterResource(Res.drawable.ic_back),
                     contentDescription = "back icon",
-                    modifier = Modifier.clickable { navigateBack() }
+                    tint = Theme.color.surfaces.onSurface,
+                    modifier = Modifier
+                        .clickable { navigateBack() }
                 )
             },
             modifier = Modifier.padding(start=16.dp)
