@@ -11,16 +11,10 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
 class RefreshTokenProvider(private val client: HttpClient) {
-    suspend fun getNewTokens(refreshToken: String): BearerTokens? {
-        return try {
-            val response: AuthResponse = client.post("auth/refresh") {
-                contentType(ContentType.Application.Json)
-                setBody(RefreshRequest(refreshToken))
-            }.body()
-            BearerTokens(response.accessToken, response.refreshToken)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+    suspend fun getNewTokens(refreshToken: String): AuthResponse {
+        return client.post("https://evolve-fit-dev.the-chance.net/auth/refresh") {
+            contentType(ContentType.Application.Json)
+            setBody(RefreshRequest(refreshToken))
+        }.body()
     }
 }
