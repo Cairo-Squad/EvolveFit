@@ -268,4 +268,22 @@
     <string name="goal_lose_weight">إنقاص الوزن</string>
     <string name="goal_gain_weight">زيادة الوزن</string>
     <string name="goal_stay_in_shape">الحفاظ على اللياقة</string>
+    <string name="language_description">سيتم استخدام هذه اللغة في جميع أنحاء التطبيق.</string>
+    <string name="logo">شعار</string>
+    <string name="confirm_logout">تأكيد تسجيل الخروج</string>
+    <string name="logout_message">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
+    <string name="choose_theme">اختر النمط</string>
+    <string name="theme_description">اختر المظهر الذي تفضله للتطبيق.</string>
+    <string name="dark_mode">الوضع الداكن</string>
+    <string name="light_mode">الوضع الفاتح</string>
+    <string name="account">الحساب</string>
+    <string name="favorites">المفضلة</string>
+    <string name="notification_settings">إعدادات الإشعارات</string>
+    <string name="theme">المظهر</string>
+    <string name="language">اللغة</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="age">العمر</string>
+    <string name="icon_description">أيقونة %1$s</string>
+    <string name="profile_image">صورة الملف الشخصي</string>
+    <string name="arrow_icon">أيقونة</string>
 </resources>

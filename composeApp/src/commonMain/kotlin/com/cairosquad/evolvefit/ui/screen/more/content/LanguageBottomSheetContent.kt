@@ -18,7 +18,10 @@ import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arabic
+import evolvefit.composeapp.generated.resources.choose_language
+import evolvefit.composeapp.generated.resources.confirm
 import evolvefit.composeapp.generated.resources.english
+import evolvefit.composeapp.generated.resources.language_description
 import org.jetbrains.compose.resources.stringResource
 
 
@@ -38,13 +41,13 @@ fun LanguageBottomSheetContent(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = "Choose Language",
+                text = stringResource(Res.string.choose_language),
                 style = Theme.textStyle.label.mediumMedium16,
                 color = Theme.color.surfaces.onSurface,
                 modifier = Modifier.padding(bottom = 4.dp)
             )
             Text(
-                text = "This language will be used throughout the app.",
+                text = stringResource(Res.string.language_description),
                 style = Theme.textStyle.label.mediumMedium12,
                 color = Theme.color.surfaces.onSurfaceVariant,
                 modifier = Modifier.padding(bottom = 4.dp)
@@ -61,7 +64,7 @@ fun LanguageBottomSheetContent(
             onCheckedChange = { tempSelectedLanguage = Language.ARABIC }
         )
         PrimaryButton(
-            text = "Confirm",
+            text = stringResource(Res.string.confirm),
             onClick = { onConfirm(tempSelectedLanguage) },
             modifier = Modifier.padding(bottom = 16.dp, top = 38.dp),
             isEnabled = true,

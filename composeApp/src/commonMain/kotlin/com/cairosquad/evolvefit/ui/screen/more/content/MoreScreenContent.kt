@@ -28,17 +28,30 @@ import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.viewmodel.more.MoreInteractionListener
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.account
+import evolvefit.composeapp.generated.resources.age
 import evolvefit.composeapp.generated.resources.arabic
+import evolvefit.composeapp.generated.resources.arrow_icon
 import evolvefit.composeapp.generated.resources.art
 import evolvefit.composeapp.generated.resources.calender
+import evolvefit.composeapp.generated.resources.dark_mode
 import evolvefit.composeapp.generated.resources.earth
 import evolvefit.composeapp.generated.resources.english
+import evolvefit.composeapp.generated.resources.favorites
+import evolvefit.composeapp.generated.resources.height
 import evolvefit.composeapp.generated.resources.ic_arrow_right
 import evolvefit.composeapp.generated.resources.ic_bell
 import evolvefit.composeapp.generated.resources.ic_bookmark_big
 import evolvefit.composeapp.generated.resources.ic_profile
 import evolvefit.composeapp.generated.resources.ic_ruler
+import evolvefit.composeapp.generated.resources.icon_description
+import evolvefit.composeapp.generated.resources.language
+import evolvefit.composeapp.generated.resources.light_mode
 import evolvefit.composeapp.generated.resources.logout
+import evolvefit.composeapp.generated.resources.notification_settings
+import evolvefit.composeapp.generated.resources.personal_information
+import evolvefit.composeapp.generated.resources.profile_image
+import evolvefit.composeapp.generated.resources.theme
 import evolvefit.composeapp.generated.resources.weight
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -70,7 +83,7 @@ fun MoreScreenContent(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = "Account",
+                text = stringResource(Res.string.account),
                 style = Theme.textStyle.label.smallRegular14,
                 color = Theme.color.surfaces.onSurfaceVariant,
                 modifier = Modifier.align(Alignment.Start).padding(top = 24.dp)
@@ -78,22 +91,23 @@ fun MoreScreenContent(
             AccountRow(
                 modifier = Modifier.clickable { listener.onClickPersonInformation() },
                 icon = Res.drawable.ic_profile,
-                title = "Personal Information"
+                title = stringResource(Res.string.personal_information)
             )
             AccountRow(
                 modifier = Modifier.clickable { listener.onClickFavorites() },
                 icon = Res.drawable.ic_bookmark_big,
-                title = "Favorites"
+                title = stringResource(Res.string.favorites)
             )
             AccountRow(
                 modifier = Modifier.clickable { listener.onClickNotification() },
                 icon = Res.drawable.ic_bell,
-                title = "Notification Settings"
+                title = stringResource(Res.string.notification_settings)
             )
             AccountRow(
                 modifier = Modifier.clickable { listener.onClickTheme() },
                 icon = Res.drawable.art,
-                title = "Theme"
+                title = stringResource(Res.string.theme),
+                text = if (state.currentTheme == MoreScreenState.Theme.DARK) stringResource(Res.string.dark_mode) else stringResource(Res.string.light_mode)
             )
             AccountRow(
                 modifier = Modifier.clickable { listener.onClickLanguage() },
@@ -101,12 +115,12 @@ fun MoreScreenContent(
                 text = if (state.profile.preferredLanguage == Language.ENGLISH) stringResource(Res.string.english) else stringResource(
                     Res.string.arabic
                 ),
-                title = "Language"
+                title = stringResource(Res.string.language)
             )
             AccountRow(
                 modifier = Modifier.clickable { listener.onClickLogout() },
                 icon = Res.drawable.logout,
-                title = "Logout"
+                title = stringResource(Res.string.logout)
             )
         }
         BottomSheet(
@@ -160,21 +174,21 @@ fun PersonInfo(
         MeasurementCard(
             modifier = Modifier.weight(1f),
             icon = Res.drawable.ic_ruler,
-            name = "Height",
+            name = stringResource(Res.string.height),
             value = height.toString()
         )
         Box(modifier = Modifier.border(width = 1.dp, color = Theme.color.surfaces.outlineVariant))
         MeasurementCard(
             modifier = Modifier.weight(1f),
             icon = Res.drawable.weight,
-            name = "Weight",
+            name = stringResource(Res.string.weight),
             value = weight.toString()
         )
         Box(modifier = Modifier.border(width = 1.dp, color = Theme.color.surfaces.outlineVariant))
         MeasurementCard(
             modifier = Modifier.weight(1f),
             icon = Res.drawable.calender,
-            name = "Age",
+            name = stringResource(Res.string.age),
             value = age.toString()
         )
     }
@@ -196,7 +210,7 @@ fun MeasurementCard(
         ) {
             Icon(
                 painter = painterResource(icon),
-                contentDescription = "$name icon",
+                contentDescription = stringResource(Res.string.icon_description, name),
                 tint = Theme.color.brand.primary,
                 modifier = Modifier.size(16.dp)
             )
@@ -228,7 +242,7 @@ fun ProfileInfo(
     ) {
         NetworkImage(
             model = userImage,
-            contentDescription = "Profile Image",
+            contentDescription = stringResource(Res.string.profile_image),
             modifier = Modifier.size(80.dp).clip(shape = CircleShape)
         )
         Text(
@@ -280,7 +294,7 @@ fun AccountRow(
         }
         Icon(
             painter = painterResource(Res.drawable.ic_arrow_right),
-            contentDescription = "icon",
+            contentDescription = stringResource(Res.string.arrow_icon),
             tint = Theme.color.surfaces.onSurfaceVariant,
             modifier = Modifier.size(16.dp)
         )
