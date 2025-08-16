@@ -105,7 +105,7 @@ private fun AppBar(navigateBack: () -> Unit) {
 
 @Composable
 private fun Workouts(
-    workouts: List<WorkoutScreenState.WorkoutUiState>,
+    workouts: List<WorkoutScreenState.WorkoutSuggestedUiState>,
     onClickWorkout: (String) -> Unit
 ) {
     LazyColumn(

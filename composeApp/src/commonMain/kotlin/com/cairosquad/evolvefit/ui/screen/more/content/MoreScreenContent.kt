@@ -63,7 +63,8 @@ fun MoreScreenContent(
     listener: MoreInteractionListener
 ) {
     Column(
-        modifier = Modifier.fillMaxSize().background(color = Theme.color.surfaces.surface)
+        modifier = Modifier.fillMaxSize()
+            .background(color = Theme.color.surfaces.surface)
             .systemBarsPadding().padding(top = 40.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -165,8 +166,8 @@ fun PersonInfo(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .background(color = Theme.color.surfaces.surfaceContainer)
             .clip(RoundedCornerShape(8.dp))
+            .background(color = Theme.color.surfaces.surfaceContainer)
             .padding(vertical = 12.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -236,7 +237,7 @@ fun ProfileInfo(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.clip(RoundedCornerShape(8.dp)),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -267,8 +268,7 @@ fun AccountRow(
 ) {
     Row(
         modifier = modifier
-            .background(color = Theme.color.surfaces.surfaceContainer)
-            .clip(RoundedCornerShape(8.dp))
+            .background( color = Theme.color.surfaces.surfaceContainer , shape = RoundedCornerShape(8.dp) )
             .padding(12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
