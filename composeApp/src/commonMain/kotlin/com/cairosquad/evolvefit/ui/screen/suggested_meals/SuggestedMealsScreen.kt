@@ -28,7 +28,6 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.suggested_meals.LoadingMealCard
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
-import com.cairosquad.evolvefit.viewmodel.meal_details.MealDetailsInteractionListener
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsEffect
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsInteractionListener
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsScreenState
