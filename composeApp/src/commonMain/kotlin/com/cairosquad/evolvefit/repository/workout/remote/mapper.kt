@@ -2,14 +2,7 @@ package com.cairosquad.evolvefit.repository.workout.remote
 
 import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
-import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.repository.workout.remote.dto.CreateWorkoutRequest
-import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDto
-import com.cairosquad.evolvefit.repository.workout.remote.remote.WorkoutDto
-import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
-import com.cairosquad.evolvefit.repository.exercise.remote.toDomain
-import com.cairosquad.evolvefit.repository.workout.remote.dto.CreateWorkoutRequest
-import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDetailsDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDto
 
 
@@ -18,28 +11,10 @@ fun Workout.toDto(): WorkoutDto {
         durationSeconds = estimatedTimeInSeconds,
         imageUrl = imageUrl,
         name = name,
-        workoutId = id,
-        focusArea = focusAreas.map { it.name }
+        id = id,
+        focusArea = focusAreas.toList()
     )
 }
-
-fun WorkoutDto.toDomain(): Workout {
-    return Workout(
-        id = workoutId,
-        name = name,
-        description = "",
-        focusAreas = focusArea.mapNotNull {
-            runCatching { FocusArea.valueOf(it) }.getOrNull()
-        }.toSet(),
-        imageUrl = imageUrl,
-        level = Workout.WorkoutLevel.BEGINNER,
-        estimatedTimeInSeconds = durationSeconds,
-        exercises = emptyList()
-    )
-}
-
-
-
 
 fun Workout.toCreateRequest(): CreateWorkoutRequest {
     return CreateWorkoutRequest(

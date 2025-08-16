@@ -30,24 +30,14 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun ExerciseCard(
     title: String,
+    time: String,
     modifier: Modifier = Modifier,
+    unit: String = stringResource(Res.string.seconds),
     model: String,
-    timeInSeconds: Int? = null,
-    reps: Int? = null,
-    sets: Int? = null,
-    isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
+    measurementContent: @Composable (() -> Unit)? = null
 ) {
-    val unitText = when {
-        timeInSeconds != null -> "$timeInSeconds ${stringResource(Res.string.seconds)}"
-        reps != null && sets != null -> "$sets X$reps"
-        else -> ""
-    }
-
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(12.dp),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         NetworkImage(
@@ -57,10 +47,8 @@ fun ExerciseCard(
             model = model,
             contentDescription = stringResource(Res.string.exercise_image),
         )
-
         Column(
-            modifier = Modifier
-                .weight(1f)
+            modifier = Modifier.weight(1f)
                 .padding(start = 12.dp),
         ) {
             Text(
@@ -68,49 +56,34 @@ fun ExerciseCard(
                 style = Theme.textStyle.body.mediumMedium14,
                 color = Theme.color.surfaces.onSurfaceContainer
             )
-            Text(
-                text = unitText,
-                style = Theme.textStyle.label.smallRegular12,
-                color = Theme.color.surfaces.onSurfaceVariant,
-                modifier = Modifier.padding(top = 12.dp)
-            )
+            if (measurementContent == null) {
+                Text(
+                    text = "$time $unit",
+                    style = Theme.textStyle.label.smallRegular12,
+                    color = Theme.color.surfaces.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 12.dp)
+                )
+            } else {
+                measurementContent.let {
+                    Box(modifier = Modifier.padding(top = 12.dp)) {
+                        it()
+                    }
+                }
+            }
         }
-
-        CustomTick(
-            isChecked = isChecked,
-            onCheckedChange = onCheckedChange
-        )
     }
 }
 
 @Preview
 @Composable
 private fun ExerciseCardPreview() {
-    var isChecked by remember { mutableStateOf(false) }
-
     AppTheme(isDarkTheme = true) {
-        Column(
+        Box(
             Modifier
                 .background(Theme.color.surfaces.surface)
                 .padding(16.dp)
         ) {
-            ExerciseCard(
-                title = "Jumping Jacks",
-                timeInSeconds = 30,
-                model = "",
-                isChecked = isChecked,
-                onCheckedChange = { isChecked = it }
-            )
-
-            ExerciseCard(
-                title = "Push-ups",
-                reps = 10,
-                sets = 3,
-                model = "",
-                isChecked = !isChecked,
-                onCheckedChange = { isChecked = !isChecked }
-            )
+            ExerciseCard(title = "Bodyweight Squats", time = "30", model = "")
         }
     }
 }
-

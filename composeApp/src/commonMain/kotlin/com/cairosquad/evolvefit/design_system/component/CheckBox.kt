@@ -147,7 +147,7 @@ enum class CheckboxStyle {
 fun CustomTick(
     isChecked: Boolean,
     modifier: Modifier = Modifier,
-    onCheckedChange: (Boolean) -> Unit
+    onCheckedChange: (Boolean) -> Unit ={}
 ) {
     val backgroundColor by animateColorAsState(
         targetValue =

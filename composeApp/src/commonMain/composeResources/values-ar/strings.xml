@@ -239,7 +239,6 @@
     <string name="enter_workout_name_">أدخل اسم التمرين</string>
     <string name="choose_your_goal_">اختر هدفك</string>
     <string name="enter_description_">أدخل الوصف</string>
-    <string name="characters_left_">متبقي %1$d حرف</string>
     <string name="next_button_">التالي</string>
 
     <string name="add_exercise_title_">إضافة تمرين</string>

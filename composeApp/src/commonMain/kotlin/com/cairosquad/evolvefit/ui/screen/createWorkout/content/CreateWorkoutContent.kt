@@ -31,7 +31,7 @@ import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState.WorkoutLevel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage.ImageResource
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.characters_left_
+import evolvefit.composeapp.generated.resources.characters_left
 import evolvefit.composeapp.generated.resources.choose_your_goal_
 import evolvefit.composeapp.generated.resources.create_workout_subtitle_
 import evolvefit.composeapp.generated.resources.create_workout_title_
@@ -150,7 +150,7 @@ fun CreateWorkoutContent(
                 )
                 BasicText(
                     text = stringResource(
-                        Res.string.characters_left_,
+                        Res.string.characters_left,
                         3000 - state.description.length
                     ),
                     style = Theme.textStyle.label.smallRegular12.copy(

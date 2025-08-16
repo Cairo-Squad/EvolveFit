@@ -238,7 +238,6 @@
     <string name="enter_workout_name">Enter workout name</string>
     <string name="choose_goal">Choose your goal</string>
     <string name="enter_description">Enter description</string>
-    <string name="characters_left">%1$d characters left</string>
     <string name="next_button">Next</string>
 
     <string name="cross_icon_desc_">Cross</string>
@@ -247,7 +246,6 @@
     <string name="enter_workout_name_">Enter workout name</string>
     <string name="choose_your_goal_">Choose your goal</string>
     <string name="enter_description_">Enter description</string>
-    <string name="characters_left_">%1$d characters left</string>
     <string name="next_button_">Next</string>
 
     <string name="add_exercise_title_">Add Exercise</string>
