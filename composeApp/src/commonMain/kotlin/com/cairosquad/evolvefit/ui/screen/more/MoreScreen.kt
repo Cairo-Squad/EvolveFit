@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import com.cairosquad.evolvefit.ui.screen.more.content.MoreScreenContent
 import com.cairosquad.evolvefit.ui.util.LanguageManager
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
+import com.cairosquad.evolvefit.ui.util.recreateCurrentScreen
 import com.cairosquad.evolvefit.viewmodel.more.MoreEffect
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import com.cairosquad.evolvefit.viewmodel.more.MoreViewModel
@@ -35,6 +36,7 @@ fun MoreScreen(
             }
             is MoreEffect.ChangeLanguage -> {
                 languageManager.applyLanguage(effect.language)
+                recreateCurrentScreen()
 
             }
             is MoreEffect.ChangeTheme -> {
@@ -55,3 +57,4 @@ fun MoreScreen(
         listener = viewModel
     )
 }
+
