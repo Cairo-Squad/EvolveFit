@@ -1,8 +1,9 @@
 package com.cairosquad.evolvefit.viewmodel.workout
 
-import com.cairosquad.evolvefit.domain.entity.Workout
+import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState.FocusAreaUiState
 
 class WorkoutViewModel(
     private val workoutUseCase: ManageWorkoutUseCase,
@@ -22,24 +23,18 @@ class WorkoutViewModel(
         )
     }
 
-    private fun loadWorkoutsByFocusArea(focusAreaUiState: WorkoutScreenState.FocusAreaUiState) {
+    private fun loadWorkoutsByFocusArea(focusAreaUiState: FocusAreaUiState) {
         tryToCall(
-            block = {
-                if (focusAreaUiState == WorkoutScreenState.FocusAreaUiState.FULL_BODY) {
-                    workoutUseCase.getSuggestedWorkouts()
-                } else {
-                    workoutUseCase.getWorkoutsByFocusArea(focusAreaUiState.toDomain())
-                }
-            },
+            block = { workoutUseCase.getWorkoutsByFocusArea(focusAreaUiState.toDomain()) },
             onSuccess = ::onLoadWorkoutByFocusAreaSuccess,
             onError = ::onLoadWorkoutByFocusAreaError
         )
     }
 
-    override fun onSelectFocusArea(focusArea: WorkoutScreenState.FocusAreaUiState) {
+    override fun onSelectFocusArea(focusArea: FocusAreaUiState) {
         updateState { it.copy(selectedFocusArea = focusArea) }
 
-        if (focusArea == WorkoutScreenState.FocusAreaUiState.FULL_BODY) {
+        if (focusArea == FocusAreaUiState.CORE) {
             loadAllWorkouts()
         } else {
             loadWorkoutsByFocusArea(focusArea)
@@ -58,15 +53,15 @@ class WorkoutViewModel(
         sendEffect(WorkoutEffect.NavigateToCommunityWorkout)
     }
 
-    private fun onGetSuggestedWorkoutsSuccess(workouts: List<Workout>) {
+    private fun onGetSuggestedWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
         updateState { st -> st.copy(allWorkouts = workouts.map { it.toUiState() }) }
     }
 
     private fun onGetSuggestedWorkoutError(t: Throwable) {
-        // TODO:  snackbar/effect
+        // TODO: show snackbar/effect
     }
 
-    private fun onLoadWorkoutByFocusAreaSuccess(workouts: List<Workout>) {
+    private fun onLoadWorkoutByFocusAreaSuccess(workouts: List<WorkoutSuggested>) {
         updateState { st -> st.copy(allWorkouts = workouts.map { it.toUiState() }) }
     }
 

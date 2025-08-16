@@ -83,7 +83,7 @@ fun CheckboxItem(
         }
         when (style) {
             CheckboxStyle.Tick -> {
-                CustomTick(isChecked = isChecked)
+                CustomTick(isChecked = isChecked, onCheckedChange = onCheckedChange)
             }
 
             CheckboxStyle.Switch -> {
@@ -146,7 +146,8 @@ enum class CheckboxStyle {
 @Composable
 fun CustomTick(
     isChecked: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCheckedChange: (Boolean) -> Unit ={}
 ) {
     val backgroundColor by animateColorAsState(
         targetValue =
