@@ -1,20 +1,20 @@
 package com.cairosquad.evolvefit.viewmodel.home
 
-import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.entity.Profile
-import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.usecase.home.GetNutritionProgressUseCase
 import com.cairosquad.evolvefit.domain.usecase.home.GetPersonalizedWorkoutsUseCase
+import com.cairosquad.evolvefit.domain.usecase.home.GetWeeklyProgressUseCase
 import com.cairosquad.evolvefit.domain.usecase.home.model.NutritionProgress
+import com.cairosquad.evolvefit.domain.usecase.home.model.WeeklyProgress
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
-import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val getPersonalizedWorkoutsUseCase: GetPersonalizedWorkoutsUseCase,
+    private val manageProfileUseCase: ManageProfileUseCase,
+    private val getWeeklyProgressUseCase: GetWeeklyProgressUseCase,
     private val getNutritionProgressUseCase: GetNutritionProgressUseCase,
-    private val manageProfileUseCase: ManageProfileUseCase
+    private val getPersonalizedWorkoutsUseCase: GetPersonalizedWorkoutsUseCase,
 ) : BaseViewModel<HomeScreenState, HomeScreenEffect>(HomeScreenState()), HomeInteractionListener {
 
     init {
@@ -41,22 +41,27 @@ class HomeViewModel(
     private fun handleLoadUserInfoSuccess(profile: Profile) {
         updateState {
             it.copy(
-                user = profile.toHomeUserUiState()
+                user = profile.toHomeUserUiState(),
+                weeklyProgress = profile.toWeeklyProgressUiState(it.weeklyProgress)
             )
         }
     }
 
     private fun loadProgress() {
-        // DUMMY
-        viewModelScope.launch {
-            updateState {
-                it.copy(
-                    weeklyProgress = DummyDataSource.weeklyProgress,
-                )
-            }
-            stopLoading()
+        tryToCall(
+            block = { getWeeklyProgressUseCase.getWeeklyProgress() },
+            onSuccess = ::handleLoadProgressSuccess,
+            onError = ::handleHomeErrors
+        )
+    }
+
+    private fun handleLoadProgressSuccess(progress: WeeklyProgress) {
+        updateState {
+            it.copy(
+                weeklyProgress = progress.toWeeklyProgressUiState(it.weeklyProgress)
+            )
         }
-        // TODO: use the use case, stop the loading state on success
+        stopLoading()
     }
 
     private fun loadNutrition() {
