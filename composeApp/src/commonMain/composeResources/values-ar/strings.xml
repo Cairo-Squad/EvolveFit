@@ -1,6 +1,7 @@
 <resources>
     <string name="dashboard">الرئيسية</string>
     <string name="nutrition">التغذية</string>
+    <string name="ingredients">المكونات</string>
     <string name="workouts">التمارين</string>
     <string name="reports">التقارير</string>
     <string name="more">المزيد</string>
@@ -250,6 +251,10 @@
     <string name="previous">السابق</string>
     <string name="back">رجوع</string>
     <string name="bookmark">إضافة للمفضلة</string>
+    <string name="calories_format">السعرات الحرارية: %1$d سعرة</string>
+    <string name="carbs_format">الكربوهيدرات: %1$d جم</string>
+    <string name="protein_format">البروتين: %1$d جم</string>
+    <string name="fat_format">الدهون: %1$d جم</string>
     <string name="workout_saved_successfully">تم حفظ التمرين بنجاح!</string>
     <string name="share_to">مشاركة عبر</string>
     <string name="copy_link">نسخ الرابط</string>
