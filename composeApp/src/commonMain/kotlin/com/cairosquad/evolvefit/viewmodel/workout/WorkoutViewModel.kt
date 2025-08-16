@@ -42,7 +42,7 @@ class WorkoutViewModel(
     override fun onSelectFocusArea(focusArea: WorkoutScreenState.FocusAreaUiState) {
         updateState { it.copy(selectedFocusArea = focusArea) }
 
-        if (focusArea == WorkoutScreenState.FocusAreaUiState.FULL_BODY) {
+        if (focusArea == WorkoutScreenState.FocusAreaUiState.CORE) {
             loadAllWorkouts()
         } else {
             loadWorkoutsByFocusArea(focusArea)

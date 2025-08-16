@@ -23,12 +23,12 @@ data class CreateExerciseState(
     )
 
     enum class FocusArea {
-        Quadriceps,
-        Abs,
-        Calves,
-        LowerBack,
-        Core,
-        Shoulders
+        BACK,
+        LEGS,
+        SHOULDERS,
+        ARMS,
+        CORE,
+        CHEST
     }
 
     enum class MeasurementType {
