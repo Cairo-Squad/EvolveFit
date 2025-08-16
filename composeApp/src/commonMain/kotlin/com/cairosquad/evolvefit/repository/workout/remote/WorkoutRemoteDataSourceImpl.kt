@@ -31,7 +31,7 @@ class WorkoutRemoteDataSourceImpl(
         return res.body()
     }
 
-    override suspend fun getCommunityWorkouts(): List<WorkoutDetailsDto> {
+    override suspend fun getCommunityWorkouts(): List<WorkoutDto> {
         return client.get("workout/community"){
             contentType(ContentType.Application.Json)
         }.body()
@@ -44,10 +44,17 @@ class WorkoutRemoteDataSourceImpl(
         }.body()
     }
 
-    override suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDetailsDto> {
-        return client.get("workout/all") {
+    override suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDto> {
+        return client.get("workout/suggested") {
             contentType(ContentType.Application.Json)
             parameter("focusArea", focusArea.name)
+        }.body()
+    }
+
+    override suspend fun getWorkoutDetails(workoutId: String): WorkoutDetailsDto {
+        return client.get("workout/details") {
+            contentType(ContentType.Application.Json)
+            parameter("workoutId", workoutId)
         }.body()
     }
 }
