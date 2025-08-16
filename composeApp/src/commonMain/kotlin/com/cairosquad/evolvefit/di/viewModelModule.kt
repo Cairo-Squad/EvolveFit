@@ -30,12 +30,7 @@ val viewModelModule = module {
     viewModelOf(::HomeViewModel)
     viewModelOf(::ReportViewModel)
     viewModelOf(::EditProfileViewModel)
-    viewModel {
-        MoreViewModel(
-            manageProfileUseCase = get(),
-            authenticationUseCase = get()
-        )
-    }
+    viewModelOf(::MoreViewModel)
 
     viewModel { (workoutId: String) ->
         PlayWorkoutViewModel(workoutId, manageWorkoutUseCase = get())
