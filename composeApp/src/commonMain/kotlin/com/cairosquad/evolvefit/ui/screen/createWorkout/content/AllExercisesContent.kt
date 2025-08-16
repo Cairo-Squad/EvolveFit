@@ -123,19 +123,20 @@ fun AllExercisesContent(
                                 ExerciseCard(
                                     title = exercise.name,
                                     model = exercise.imageUrls.toString(),
-                                    timeInSeconds = when (exercise.specification) {
-                                        is Exercise.Specification.Reps -> null
-                                        is Exercise.Specification.Time -> exercise.specification.timeInSeconds
-                                    },
-                                    reps = when (exercise.specification) {
-                                        is Exercise.Specification.Reps -> exercise.specification.reps
-                                        is Exercise.Specification.Time -> null
-                                    },
-                                    sets = null,
-                                    isChecked = isChecked,
-                                    onCheckedChange = {
-                                        listener.onExerciseCheckedChanged(exercise)
-                                    },
+                                    time = "0"
+//                                    timeInSeconds = when (exercise.specification) {
+//                                        is Exercise.Specification.Reps -> null
+//                                        is Exercise.Specification.Time -> exercise.specification.timeInSeconds
+//                                    },
+//                                    reps = when (exercise.specification) {
+//                                        is Exercise.Specification.Reps -> exercise.specification.reps
+//                                        is Exercise.Specification.Time -> null
+//                                    },
+//                                    sets = null,
+//                                    isChecked = isChecked,
+//                                    onCheckedChange = {
+//                                        listener.onExerciseCheckedChanged(exercise)
+//                                    },
                                 )
                             }
                         }

@@ -2,7 +2,9 @@ package com.cairosquad.evolvefit.repository.workout.remote
 
 import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
+import com.cairosquad.evolvefit.repository.exercise.remote.toDomain
 import com.cairosquad.evolvefit.repository.workout.remote.dto.CreateWorkoutRequest
+import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDetailsDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDto
 
 
@@ -12,7 +14,7 @@ fun Workout.toDto(): WorkoutDto {
         imageUrl = imageUrl,
         name = name,
         id = id,
-        focusArea = focusAreas.toList()
+        focusArea = emptyList()
     )
 }
 
