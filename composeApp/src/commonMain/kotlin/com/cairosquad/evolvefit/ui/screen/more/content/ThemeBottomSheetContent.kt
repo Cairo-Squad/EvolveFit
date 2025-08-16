@@ -5,12 +5,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.viewmodel.profile.MoreScreenState
+import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.dark
 import evolvefit.composeapp.generated.resources.light
@@ -19,10 +23,9 @@ import evolvefit.composeapp.generated.resources.light
 @Composable
 fun ThemeBottomSheetContent(
     state: MoreScreenState,
-    onThemeSelected: (MoreScreenState.Theme) -> Unit,
-    onConfirm: () -> Unit
+    onConfirm: (MoreScreenState.Theme) -> Unit
 ) {
-    val selectedTheme = state.currentTheme
+    var tempSelectedTheme by remember { mutableStateOf(state.currentTheme) }
 
     Column(
         modifier = Modifier.padding(horizontal = 16.dp),
@@ -46,19 +49,19 @@ fun ThemeBottomSheetContent(
 
         CheckboxItem(
             text = "Dark Mode",
-            isChecked = selectedTheme == MoreScreenState.Theme.DARK,
+            isChecked = tempSelectedTheme == MoreScreenState.Theme.DARK,
             icon = Res.drawable.dark,
-            onCheckedChange = { onThemeSelected(MoreScreenState.Theme.DARK) }
+            onCheckedChange = { tempSelectedTheme = MoreScreenState.Theme.DARK }
         )
         CheckboxItem(
             text = "Light Mode",
-            isChecked = selectedTheme == MoreScreenState.Theme.LIGHT,
+            isChecked = tempSelectedTheme == MoreScreenState.Theme.LIGHT,
             icon = Res.drawable.light,
-            onCheckedChange = { onThemeSelected(MoreScreenState.Theme.LIGHT) }
+            onCheckedChange = { tempSelectedTheme = MoreScreenState.Theme.LIGHT }
         )
         PrimaryButton(
             text = "Confirm",
-            onClick = onConfirm,
+            onClick = { onConfirm(tempSelectedTheme) },
             modifier = Modifier.padding(bottom = 16.dp, top = 38.dp),
             isEnabled = true,
             enabledTextColor = Theme.color.brand.onPrimary,

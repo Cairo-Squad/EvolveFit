@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.profile
+package com.cairosquad.evolvefit.viewmodel.more
 
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseCase
@@ -95,7 +95,7 @@ class MoreViewModel(
         updateState { it.copy(isLogoutBottomSheetEnabled = false) }
     }
 
-    override fun onChangeTheme(theme: MoreScreenState.Theme) {
+    override fun onConfirmChangeTheme(theme: MoreScreenState.Theme) {
         tryToCall(
             block = { theme },
             onSuccess = { updatedTheme ->

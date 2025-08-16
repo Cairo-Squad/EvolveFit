@@ -6,9 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.cairosquad.evolvefit.ui.screen.more.content.MoreScreenContent
-import com.cairosquad.evolvefit.viewmodel.profile.MoreEffect
-import com.cairosquad.evolvefit.viewmodel.profile.MoreViewModel
-import com.cairosquad.evolvefit.viewmodel.profile.MoreScreenState
+import com.cairosquad.evolvefit.viewmodel.more.MoreEffect
+import com.cairosquad.evolvefit.viewmodel.more.MoreViewModel
+import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import com.cairosquad.evolvefit.domain.model.Language
 
 @Composable

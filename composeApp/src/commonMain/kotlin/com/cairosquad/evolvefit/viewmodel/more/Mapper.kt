@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.profile
+package com.cairosquad.evolvefit.viewmodel.more
 
 import com.cairosquad.evolvefit.domain.entity.Profile
 import kotlinx.datetime.toLocalDateTime

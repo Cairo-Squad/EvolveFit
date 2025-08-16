@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.profile
+package com.cairosquad.evolvefit.viewmodel.more
 
 import com.cairosquad.evolvefit.domain.model.Language
 
@@ -12,7 +12,7 @@ interface MoreInteractionListener {
     fun onDismissThemeBottomSheet()
     fun onDismissLanguageBottomSheet()
     fun onDismissLogoutBottomSheet()
-    fun onChangeTheme(theme: MoreScreenState.Theme)
+    fun onConfirmChangeTheme(theme: MoreScreenState.Theme)
     fun onConfirmChangeLanguage(language: Language)
     fun onLogout()
 

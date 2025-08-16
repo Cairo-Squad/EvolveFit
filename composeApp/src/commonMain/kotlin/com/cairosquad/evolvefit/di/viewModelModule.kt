@@ -8,7 +8,7 @@ import com.cairosquad.evolvefit.viewmodel.login.LoginViewModel
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.OnBoardingViewModel
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutViewModel
-import com.cairosquad.evolvefit.viewmodel.profile.MoreViewModel
+import com.cairosquad.evolvefit.viewmodel.more.MoreViewModel
 import com.cairosquad.evolvefit.viewmodel.register.RegisterViewModel
 import com.cairosquad.evolvefit.viewmodel.report.ReportViewModel
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutViewModel

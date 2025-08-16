@@ -25,8 +25,8 @@ import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.domain.model.Language
-import com.cairosquad.evolvefit.viewmodel.profile.MoreInteractionListener
-import com.cairosquad.evolvefit.viewmodel.profile.MoreScreenState
+import com.cairosquad.evolvefit.viewmodel.more.MoreInteractionListener
+import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arabic
 import evolvefit.composeapp.generated.resources.art
@@ -115,10 +115,9 @@ fun MoreScreenContent(
         ) {
             ThemeBottomSheetContent(
                 state = state,
-                onThemeSelected = { selectedTheme ->
-                    listener.onChangeTheme(selectedTheme)
-                },
-                onConfirm = { listener.onDismissThemeBottomSheet() }
+                onConfirm = { selectedTheme ->
+                    listener.onConfirmChangeTheme(selectedTheme)
+                }
             )
         }
         BottomSheet(

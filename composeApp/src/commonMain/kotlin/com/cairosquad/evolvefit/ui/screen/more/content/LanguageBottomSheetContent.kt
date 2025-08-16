@@ -15,7 +15,7 @@ import com.cairosquad.evolvefit.design_system.component.CheckboxItem
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.domain.model.Language
-import com.cairosquad.evolvefit.viewmodel.profile.MoreScreenState
+import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arabic
 import evolvefit.composeapp.generated.resources.english
