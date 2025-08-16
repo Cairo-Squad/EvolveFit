@@ -5,6 +5,7 @@ import com.cairosquad.evolvefit.repository.execption.callApi
 import com.cairosquad.evolvefit.repository.workout.remote.dto.CreateWorkoutRequest
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDetailsDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDto
+import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutHistoryDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -25,7 +26,7 @@ class WorkoutRemoteDataSourceImpl(
     }
 
     override suspend fun getSuggestedWorkouts(): List<WorkoutDto> {
-        val res= client.get("workout/suggested") {
+        val res = client.get("workout/suggested") {
             contentType(ContentType.Application.Json)
         }
         println(res)
@@ -33,19 +34,24 @@ class WorkoutRemoteDataSourceImpl(
     }
 
     override suspend fun getCommunityWorkouts(): List<WorkoutDto> {
-        return client.get("workout/community"){
+        return client.get("workout/community") {
             contentType(ContentType.Application.Json)
         }.body()
     }
+
     override suspend fun getFavoriteWorkout(): List<WorkoutDto> {
         return callApi { client.get("favorite/workout") }
     }
 
     override suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDetailsDto> {
-        return client.get("workout/community"){
+        return client.get("workout/community") {
             contentType(ContentType.Application.Json)
-            parameter("focusArea",focusArea.name)
+            parameter("focusArea", focusArea.name)
         }.body()
+    }
+
+    override suspend fun getWorkoutHistory(): List<WorkoutHistoryDto> {
+        return client.get("workout/history").body()
     }
 
     override suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDto> {
