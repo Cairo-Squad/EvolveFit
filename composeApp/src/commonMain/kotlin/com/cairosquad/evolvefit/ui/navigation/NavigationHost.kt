@@ -129,7 +129,7 @@ fun NavigationHost(
                 navigateToWorkoutHistory = { navController.navigate(WorkoutHistoryRoute) },
                 navigateToEditProfile = { navController.navigate(EditProfileRoute) },
                 navigateToLogIn = {
-                    authenticationPreferences.clearAccessToken()
+                    authenticationPreferences.clear()
                     navController.navigate(LoginRoute){
                     popUpTo(OnboardingRoute) { inclusive = true }
                     launchSingleTop = true
