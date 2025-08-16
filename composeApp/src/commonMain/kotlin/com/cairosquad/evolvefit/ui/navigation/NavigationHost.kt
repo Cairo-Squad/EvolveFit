@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -129,8 +128,10 @@ fun NavigationHost(
                 navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) },
                 navigateToWorkoutHistory = { navController.navigate(WorkoutHistoryRoute) },
                 navigateToEditProfile = { navController.navigate(EditProfileRoute) },
-                navigateToLogIn = { navController.navigate(LoginRoute){
-                    popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
+                navigateToLogIn = {
+                    authenticationPreferences.clearAccessToken()
+                    navController.navigate(LoginRoute){
+                    popUpTo(OnboardingRoute) { inclusive = true }
                     launchSingleTop = true
                     restoreState = false
                 } },
