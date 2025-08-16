@@ -15,7 +15,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun DashboardGridSection(
     screenState: ReportScreenState,
-    onDropDownMenuItemClicked: (String) -> Unit,
+    onDropDownMenuItemClicked: (ReportScreenState.WeekItem) -> Unit,
     onDropDownMenuDismiss: () -> Unit,
     isAnimationStarted: Boolean
 ) {
@@ -38,11 +38,12 @@ fun DashboardGridSection(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .width(160.dp),
-            items = listOf("This Week", "Last Week"),
-            selectedItem = "Week",
+            items = screenState.weeks,
+            selectedItem = screenState.selectedWeek,
             expanded = screenState.isDropDownMenuOpen,
             onItemClicked = onDropDownMenuItemClicked,
-            onDismissRequest = onDropDownMenuDismiss
+            onDismissRequest = onDropDownMenuDismiss,
+            enableShadow = true
         )
     }
 }

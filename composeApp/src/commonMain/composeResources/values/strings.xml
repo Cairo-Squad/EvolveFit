@@ -326,4 +326,20 @@
     <string name="icon_description">%1$s icon</string>
     <string name="profile_image">Profile Image</string>
     <string name="arrow_icon">icon</string>
+
+    <string name="monday_short">Mon</string>
+    <string name="tuesday_short">Tue</string>
+    <string name="wednesday_short">Wed</string>
+    <string name="thursday_short">Thu</string>
+    <string name="friday_short">Fri</string>
+    <string name="saturday_short">Sat</string>
+    <string name="sunday_short">Sun</string>
+
+    <string name="back_muscle">Back</string>
+    <string name="legs">Legs</string>
+    <string name="shoulders">Shoulders</string>
+    <string name="arms">Arms</string>
+    <string name="core">Core</string>
+    <string name="chest">Chest</string>
+    <string name="last_week">Last Week</string>
 </resources>

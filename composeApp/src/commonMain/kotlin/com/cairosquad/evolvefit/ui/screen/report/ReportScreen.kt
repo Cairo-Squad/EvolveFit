@@ -84,6 +84,7 @@ private fun ReportScreenContent(
         ) {
             item {
                 ActivityRow(
+                    screenState = screenState,
                     onMenuClicked = listener::onDropDownMenuClicked
                 )
             }
@@ -96,35 +97,44 @@ private fun ReportScreenContent(
                 )
             }
             item {
-                BarChartCard(
-                    modifier = Modifier.padding(top = 16.dp),
-                    data = screenState.report.workoutPerWeek.workoutsCount.map { it.toFloat() },
-                    labels = screenState.report.workoutPerWeek.day,
-                    isAnimationStarted = isAnimationStarted
-                )
+                if (screenState.report.workoutPerWeek.day.isNotEmpty()) {
+                    BarChartCard(
+                        modifier = Modifier.padding(top = 16.dp),
+                        data = screenState.report.workoutPerWeek.workoutsCount.map { it.toFloat() },
+                        labels = screenState.report.workoutPerWeek.day,
+                        isAnimationStarted = isAnimationStarted
+                    )
+                }
             }
             item {
-                LineChartCard(
-                    modifier = Modifier.padding(top = 16.dp),
-                    data = screenState.report.timeSpentPerWeek.timeInMilliSeconds.map { it.toFloat() },
-                    labels = screenState.report.timeSpentPerWeek.day,
-                    totalTime = screenState.report.timeSpent,
-                    isAnimationStarted = isAnimationStarted
-                )
+                if (screenState.report.timeSpentPerWeek.day.isNotEmpty()) {
+                    LineChartCard(
+                        modifier = Modifier.padding(top = 16.dp),
+                        data = screenState.report.timeSpentPerWeek.timeInSeconds.map { it.toFloat() },
+                        labels = screenState.report.timeSpentPerWeek.day,
+                        totalTime = screenState.report.timeSpent,
+                        isAnimationStarted = isAnimationStarted
+                    )
+                }
             }
             item {
-                MusclesCard(
-                    modifier = Modifier.padding(top = 16.dp),
-                    musclesName = screenState.report.mostTrainedMuscles.muscle,
-                    trainedMusclesPercentage = screenState.report.mostTrainedMuscles.percentage,
-                    isAnimationStarted = isAnimationStarted
-                )
+                if (screenState.report.mostTrainedMuscles.muscle.isNotEmpty()) {
+                    MusclesCard(
+                        modifier = Modifier.padding(top = 16.dp),
+                        musclesName = screenState.report.mostTrainedMuscles.muscle,
+                        trainedMusclesPercentage = screenState.report.mostTrainedMuscles.percentage,
+                        isAnimationStarted = isAnimationStarted
+                    )
+                }
             }
             item {
-                HistoryWorkoutCard(
-                    modifier = Modifier.padding(top = 16.dp),
-                    onViewAllHistoryClicked = navigateToWorkoutHistory,
-                )
+                if (screenState.workoutHistory.isNotEmpty()) {
+                    HistoryWorkoutCard(
+                        modifier = Modifier.padding(top = 16.dp),
+                        state = screenState,
+                        onViewAllHistoryClicked = navigateToWorkoutHistory,
+                    )
+                }
             }
         }
     }
@@ -142,7 +152,7 @@ private fun ReportScreenPreview() {
                 override fun onShareClicked() {}
                 override fun onDropDownMenuClicked() {}
                 override fun onDropDownMenuDismiss() {}
-                override fun onDropDownMenuItemClicked(item: String) {}
+                override fun onDropDownMenuItemClicked(item: ReportScreenState.WeekItem) {}
             }
         )
     }
