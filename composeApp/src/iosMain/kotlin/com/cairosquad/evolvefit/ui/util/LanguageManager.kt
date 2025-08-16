@@ -22,7 +22,6 @@ actual class LanguageManager actual constructor(
     }
 
     actual fun applyStoredLanguage() {
-        val savedLanguage = languagePreferences.getLanguage()
-        applyLanguage(savedLanguage)
+        applyLanguage(languagePreferences.getLanguage())
     }
 }

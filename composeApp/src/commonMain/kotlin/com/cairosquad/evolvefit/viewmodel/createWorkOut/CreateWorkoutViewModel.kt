@@ -116,7 +116,6 @@ class CreateWorkoutViewModel(
 
     private fun handleWorkoutError(throwable: Throwable) {
         throwable.printStackTrace()
-        println("sadasd error $throwable")
         updateState { it.copy(status = CreateWorkOutScreenState.ScreenStatus.ERROR) }
     }
 

@@ -4,13 +4,13 @@ import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.repository.LanguageRepository
 
 class ManageLanguageUseCase(
-    private val repo: LanguageRepository
+    private val languageRepository: LanguageRepository
 ) {
     fun save(language: Language) {
-        repo.saveLanguage(language)
+        languageRepository.saveLanguage(language)
     }
 
     fun get(): Language {
-        return repo.getLanguage()
+        return languageRepository.getLanguage()
     }
 }

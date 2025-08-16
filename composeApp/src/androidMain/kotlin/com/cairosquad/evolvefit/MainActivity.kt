@@ -23,8 +23,7 @@ class MainActivity : ComponentActivity() {
         instance = this
         installSplashScreen()
         enableEdgeToEdge()
-        val languageManager = get<LanguageManager>()
-        languageManager.applyStoredLanguage()
+        get<LanguageManager>().applyStoredLanguage()
         deepLinkRoute = getDeepLinkRoute(intent)
         setContent {
             App(deepLinkRoute)

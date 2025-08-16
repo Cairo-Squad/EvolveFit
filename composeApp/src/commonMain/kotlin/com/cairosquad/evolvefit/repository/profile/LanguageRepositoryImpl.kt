@@ -5,14 +5,14 @@ import com.cairosquad.evolvefit.domain.repository.LanguageRepository
 import com.cairosquad.evolvefit.repository.profile.local.LanguagePreferences
 
 class LanguageRepositoryImpl(
-    private val prefs: LanguagePreferences
+    private val languagePreferences: LanguagePreferences
 ) : LanguageRepository {
 
     override fun saveLanguage(language: Language) {
-        prefs.saveLanguage(language)
+        languagePreferences.saveLanguage(language)
     }
 
     override fun getLanguage(): Language {
-        return prefs.getLanguage()
+        return languagePreferences.getLanguage()
     }
 }
