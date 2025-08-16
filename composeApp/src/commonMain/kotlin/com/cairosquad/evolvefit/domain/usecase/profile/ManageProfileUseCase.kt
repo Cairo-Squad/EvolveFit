@@ -14,9 +14,8 @@ class ManageProfileUseCase(
     suspend fun getUserWorkoutDays(): Set<WeekDay> {
         return profileRepository.getUserWorkoutDays()
     }
-    suspend fun editUserWorkoutDays(workoutDays : Set<WeekDay>)
-    {
+
+    suspend fun editUserWorkoutDays(workoutDays : Set<WeekDay>) {
         profileRepository.editUserWorkoutDays(workoutDays)
     }
-
 }

@@ -36,7 +36,7 @@ fun UserProfileImage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .padding(bottom = 8.dp)
                 .clip(CircleShape)
                 .size(100.dp)

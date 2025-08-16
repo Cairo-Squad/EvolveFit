@@ -80,9 +80,9 @@ fun InputField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onClick: (() -> Unit)? = null,
     verticalPadding : Dp =20.dp,
-    horizentalPadding : Dp =12.dp
-
-) {
+    horizentalPadding : Dp =12.dp,
+    isError: Boolean = false,
+    ) {
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
     }
@@ -110,7 +110,7 @@ fun InputField(
             modifier = Modifier
                 .border(
                     width = 1.dp,
-                    color = if (error.isNotBlank()) Theme.color.system.error else Color.Transparent,
+                    color = if (isError) Theme.color.system.error else Color.Transparent,
                     shape = RoundedCornerShape(8.dp)
                 )
                 .clip(RoundedCornerShape(8.dp))

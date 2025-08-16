@@ -199,7 +199,7 @@ private fun BottomSection(
 
 @Composable
 private fun BottomSectionReps(
-    reps: Int,
+    reps: Int?,
     onClickDone: () -> Unit,
     onClickForward: () -> Unit,
     onClickBack: () -> Unit,
@@ -226,7 +226,7 @@ private fun BottomSectionReps(
 
 @Composable
 private fun BottomSectionTime(
-    timeInSeconds: Int,
+    timeInSeconds: Int?,
     onTimeFinish: () -> Unit,
     onClickForward: () -> Unit,
     onClickBack: () -> Unit,

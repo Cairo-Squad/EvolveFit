@@ -81,7 +81,7 @@ private fun WorkoutsScreenContent(
             AppBar(listener::onClickCommunity)
 
             FocusAreaFilter(
-                focusArea = state.focusAreas,
+                focusArea = WorkoutScreenState.FocusAreaUiState.entries,
                 selectedFocusArea = state.selectedFocusArea,
                 onSelectFocusArea = listener::onSelectFocusArea
             )
@@ -126,7 +126,7 @@ private fun AppBar(onCommunityClick: () -> Unit) {
 
 @Composable
 private fun Workouts(
-    workouts: List<WorkoutScreenState.WorkoutUiState>,
+    workouts: List<WorkoutScreenState.WorkoutSuggestedUiState>,
     onClickWorkout: (String) -> Unit
 ) {
     LazyColumn(

@@ -5,4 +5,5 @@ import com.cairosquad.evolvefit.repository.exercise.remote.dto.ExerciseResponseD
 
 interface ExerciseRemoteDataSource {
     suspend fun createExercise(exercise: ExerciseDto): ExerciseResponseDto
+    suspend fun getAllExercises(): List<ExerciseResponseDto>
 }

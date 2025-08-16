@@ -40,7 +40,6 @@ actual fun provideHttpClient(
                         BearerTokens(access, refresh)
                     else null
                 }
-
                 refreshTokens {
                     val refresh = authenticationPreferences.getRefreshToken()
                     if (refresh != null) {
@@ -57,12 +56,11 @@ actual fun provideHttpClient(
                         }
                     }
                     else null
-                }
-            }
+                }}
         }
 
         install(Logging) {
-            level = LogLevel.BODY
+            level = LogLevel.ALL
         }
     }
 }

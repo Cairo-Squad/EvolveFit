@@ -40,12 +40,12 @@ fun CreateExerciseState.toDomainExercise(): Exercise {
 
 private fun CreateExerciseState.FocusArea.toDomain(): FocusArea {
     return when (this) {
-        CreateExerciseState.FocusArea.Quadriceps -> FocusArea.QUADRICEPS
-        CreateExerciseState.FocusArea.Abs -> FocusArea.ABS
-        CreateExerciseState.FocusArea.Calves -> FocusArea.CALVES
-        CreateExerciseState.FocusArea.LowerBack -> FocusArea.LOWER_BACK
-        CreateExerciseState.FocusArea.Core -> FocusArea.CORE
-        CreateExerciseState.FocusArea.Shoulders -> FocusArea.SHOULDERS
+        CreateExerciseState.FocusArea.SHOULDERS -> FocusArea.SHOULDERS
+        CreateExerciseState.FocusArea.CORE -> FocusArea.CORE
+        CreateExerciseState.FocusArea.ARMS -> FocusArea.ARMS
+        CreateExerciseState.FocusArea.BACK -> FocusArea.BACK
+        CreateExerciseState.FocusArea.LEGS -> FocusArea.LEGS
+        CreateExerciseState.FocusArea.CHEST -> FocusArea.CHEST
     }
 }
 

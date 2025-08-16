@@ -233,6 +233,23 @@
     <string name="completed">مكتمل</string>
     <string name="the_goal">الهدف</string>
     <string name="current_weight">الوزن الحالي</string>
+
+    <string name="cross_icon_desc_">إغلاق</string>
+    <string name="create_workout_title_">إنشاء تمرين</string>
+    <string name="create_workout_subtitle_">خطط وقم بتخصيص تمرينك ليتوافق مع أهدافك \nالرياضية.</string>
+    <string name="enter_workout_name_">أدخل اسم التمرين</string>
+    <string name="choose_your_goal_">اختر هدفك</string>
+    <string name="enter_description_">أدخل الوصف</string>
+    <string name="next_button_">التالي</string>
+
+    <string name="add_exercise_title_">إضافة تمرين</string>
+    <string name="back_icon_desc_">رجوع</string>
+    <string name="add_icon_desc_">إضافة</string>
+    <string name="search_exercise_placeholder_">ابحث عن اسم التمرين</string>
+    <string name="all_exercises_title_">جميع التمارين</string>
+    <string name="add_exercise_button_">إضافة تمرين</string>
+    <string name="add_exercise_button_with_count_">إضافة %1$d تمرين</string>
+    <string name="add_exercises_button_with_count_">إضافة %1$d تمارين</string>
     <string name="start_workout">بدء التمرين</string>
     <string name="close">اغلاق</string>
     <string name="second">ثانية</string>
@@ -270,6 +287,24 @@
     <string name="goal_lose_weight">إنقاص الوزن</string>
     <string name="goal_gain_weight">زيادة الوزن</string>
     <string name="goal_stay_in_shape">الحفاظ على اللياقة</string>
+    <string name="language_description">سيتم استخدام هذه اللغة في جميع أنحاء التطبيق.</string>
+    <string name="logo">شعار</string>
+    <string name="confirm_logout">تأكيد تسجيل الخروج</string>
+    <string name="logout_message">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
+    <string name="choose_theme">اختر النمط</string>
+    <string name="theme_description">اختر المظهر الذي تفضله للتطبيق.</string>
+    <string name="dark_mode">الوضع الداكن</string>
+    <string name="light_mode">الوضع الفاتح</string>
+    <string name="account">الحساب</string>
+    <string name="favorites">المفضلة</string>
+    <string name="notification_settings">إعدادات الإشعارات</string>
+    <string name="theme">المظهر</string>
+    <string name="language">اللغة</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="age">العمر</string>
+    <string name="icon_description">أيقونة %1$s</string>
+    <string name="profile_image">صورة الملف الشخصي</string>
+    <string name="arrow_icon">أيقونة</string>
 
     <string name="favorites_title">المفضلة</string>
     <string name="workouts_tab_title">التمارين</string>

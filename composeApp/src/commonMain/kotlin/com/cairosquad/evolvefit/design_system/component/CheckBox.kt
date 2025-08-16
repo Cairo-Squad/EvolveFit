@@ -37,6 +37,7 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_green_check_circle
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -49,7 +50,8 @@ fun CheckboxItem(
     modifier: Modifier = Modifier,
     description: String? = null,
     titleColor: Color = Theme.color.surfaces.onSurface,
-    style: CheckboxStyle = CheckboxStyle.Tick
+    style: CheckboxStyle = CheckboxStyle.Tick,
+    icon: DrawableResource? = null
 ) {
     Row(
         modifier = modifier
@@ -59,8 +61,15 @@ fun CheckboxItem(
             .clickable { onCheckedChange(!isChecked) }
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
+        if (icon != null){
+        Icon(
+            painter = painterResource(icon),
+            contentDescription = "",
+            modifier = Modifier.size(24.dp)
+        )
+        }
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
@@ -83,7 +92,7 @@ fun CheckboxItem(
         }
         when (style) {
             CheckboxStyle.Tick -> {
-                CustomTick(isChecked = isChecked)
+                CustomTick(isChecked = isChecked, onCheckedChange = onCheckedChange)
             }
 
             CheckboxStyle.Switch -> {
@@ -146,7 +155,8 @@ enum class CheckboxStyle {
 @Composable
 fun CustomTick(
     isChecked: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCheckedChange: (Boolean) -> Unit ={}
 ) {
     val backgroundColor by animateColorAsState(
         targetValue =

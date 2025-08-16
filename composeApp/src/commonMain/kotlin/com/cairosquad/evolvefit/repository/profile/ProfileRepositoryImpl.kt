@@ -5,22 +5,15 @@ import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.domain.repository.ProfileRepository
+import com.cairosquad.evolvefit.repository.execption.callDataSource
+import com.cairosquad.evolvefit.repository.profile.remote.RemoteProfileDataSource
 import kotlinx.datetime.LocalDate
 
-class ProfileRepositoryImpl : ProfileRepository {
-    override suspend fun getProfile(): Profile{
-        return Profile(
-            name = "John Doe",
-            email = "john.doe@example.com",
-            dateOfBirth = LocalDate(1995, 5, 20),
-            gender = Profile.Gender.MALE,
-            preferredMeasurementStandard = MeasurementStandard.METRIC,
-            preferredLanguage = Language.ENGLISH,
-            height = 180f,
-            weight = 75f,
-            goal = Profile.FitnessGoal.GAIN_WEIGHT,
-            imageUrl = "https://example.com/images/john_doe.jpg"
-        )
+class ProfileRepositoryImpl(
+    private val remoteProfileDataSource: RemoteProfileDataSource
+) : ProfileRepository {
+    override suspend fun getProfile(): Profile {
+        return callDataSource { remoteProfileDataSource.getProfile().toEntity() }
     }
 
     override suspend fun getUserWorkoutDays(): Set<WeekDay>{
@@ -28,7 +21,6 @@ class ProfileRepositoryImpl : ProfileRepository {
     }
 
     override suspend fun editUserWorkoutDays(weekDays: Set<WeekDay>){
-
+        TODO("Not yet implemented")
     }
-
 }

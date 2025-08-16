@@ -237,6 +237,30 @@
 
     <string name="the_goal">The Goal</string>
     <string name="current_weight">Current weight</string>
+    <string name="create_workout_title">Create Workout</string>
+    <string name="create_workout_description">Plan and customize your workout to match your \n fitness goals.</string>
+    <string name="cross_icon_desc">Cross</string>
+    <string name="enter_workout_name">Enter workout name</string>
+    <string name="choose_goal">Choose your goal</string>
+    <string name="enter_description">Enter description</string>
+    <string name="next_button">Next</string>
+
+    <string name="cross_icon_desc_">Cross</string>
+    <string name="create_workout_title_">Create Workout</string>
+    <string name="create_workout_subtitle_">Plan and customize your workout to match your \nfitness goals.</string>
+    <string name="enter_workout_name_">Enter workout name</string>
+    <string name="choose_your_goal_">Choose your goal</string>
+    <string name="enter_description_">Enter description</string>
+    <string name="next_button_">Next</string>
+
+    <string name="add_exercise_title_">Add Exercise</string>
+    <string name="back_icon_desc_">Back</string>
+    <string name="add_icon_desc_">Add</string>
+    <string name="search_exercise_placeholder_">Search exercise name</string>
+    <string name="all_exercises_title_">All Exercises</string>
+    <string name="add_exercise_button_">Add Exercise</string>
+    <string name="add_exercise_button_with_count_">Add %1$d Exercise</string>
+    <string name="add_exercises_button_with_count_">Add %1$d Exercises</string>
     <string name="workout_saved_successfully">Workout Saved Successfully!</string>
     <string name="share_to">Share to</string>
     <string name="copy_link">Copy link</string>
@@ -289,4 +313,22 @@
     <string name="failed_to_load_equipments">Failed to load equipments</string>
     <string name="failed_to_load_user_profile">Failed to load user profile</string>
     <string name="failed_to_load_user_equipments">Failed to load user equipments</string>
+    <string name="language_description">This language will be used throughout the app.</string>
+    <string name="logo">logo</string>
+    <string name="confirm_logout">Confirm Logout</string>
+    <string name="logout_message">Are you sure you want to log out?</string>
+    <string name="logout">Logout</string>
+    <string name="choose_theme">Choose Theme</string>
+    <string name="theme_description">Select your preferred look and feel for the app.</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="light_mode">Light Mode</string>
+    <string name="account">Account</string>
+    <string name="favorites">Favorites</string>
+    <string name="notification_settings">Notification Settings</string>
+    <string name="theme">Theme</string>
+    <string name="language">Language</string>
+    <string name="age">Age</string>
+    <string name="icon_description">%1$s icon</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="arrow_icon">icon</string>
 </resources>

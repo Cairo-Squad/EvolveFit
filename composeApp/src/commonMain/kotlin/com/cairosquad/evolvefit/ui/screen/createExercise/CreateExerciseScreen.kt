@@ -432,7 +432,7 @@ private fun CreateExerciseScreenPreview() {
                 measurementType = CreateExerciseState.MeasurementType.REPS,
                 isRepsChecked = true,
                 measurementInputValue = "10",
-                selectedFocusAreas = setOf(CreateExerciseState.FocusArea.Abs)
+                selectedFocusAreas = setOf(CreateExerciseState.FocusArea.ARMS)
             ),
             listener = object : CreateExerciseInteractionListener {
                 override fun onNameChanged(name: String) {}

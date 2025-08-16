@@ -141,7 +141,7 @@ private fun HomeContent(
 
         HomeSection(
             title = stringResource(Res.string.today_nutrition),
-            visibilityKey = state.caloriesCount > 0.toUInt() && state.waterCount > 0,
+            visibilityKey = true,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 32.dp)

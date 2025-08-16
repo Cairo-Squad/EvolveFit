@@ -16,11 +16,11 @@ class FavoritesViewModel(
     }
 
     override fun onMealTabSelected() {
-        TODO("Not yet implemented")
+        updateState { it.copy(isMealTabSelected = true, isWorkoutTabSelected = false) }
     }
 
     override fun onWorkoutTabSelected() {
-        TODO("Not yet implemented")
+        updateState { it.copy(isMealTabSelected = false, isWorkoutTabSelected = true) }
     }
 
     override fun onBackClicked() {

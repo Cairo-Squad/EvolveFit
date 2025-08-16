@@ -4,6 +4,8 @@ import com.cairosquad.evolvefit.repository.execption.callApi
 import com.cairosquad.evolvefit.repository.exercise.remote.dto.ExerciseDto
 import com.cairosquad.evolvefit.repository.exercise.remote.dto.ExerciseResponseDto
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -18,4 +20,10 @@ class ExerciseRemoteDataSourceImpl(private val client: HttpClient) : ExerciseRem
             }
         }
     }
+    override suspend fun getAllExercises(): List<ExerciseResponseDto> {
+        return client.get("exercise/all") {
+            contentType(ContentType.Application.Json)
+        }.body()
+    }
+
 }
