@@ -286,4 +286,12 @@
     <string name="icon_description">أيقونة %1$s</string>
     <string name="profile_image">صورة الملف الشخصي</string>
     <string name="arrow_icon">أيقونة</string>
+
+    <string name="favorites_title">المفضلة</string>
+    <string name="workouts_tab_title">التمارين</string>
+    <string name="meals_tab_title">الوجبات</string>
+    <string name="empty_workouts_title">لا توجد تمارين مضافة</string>
+    <string name="empty_workouts_description">قم بإضافة تمارين لبدء رحلتك الرياضية.</string>
+    <string name="empty_meals_title">قائمة المفضلة فارغة</string>
+    <string name="empty_meals_description">أضف وجباتك المفضلة للوصول إليها بسهولة لاحقًا.</string>
 </resources>

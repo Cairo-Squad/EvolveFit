@@ -250,6 +250,14 @@
     <string name="error_meal_not_found">Meal not found</string>
     <string name="error_unknown">An error occurred, please try again</string>
     <string name="try_again_button">try again</string>
+
+    <string name="favorites_title">Favorites</string>
+    <string name="workouts_tab_title">Workouts</string>
+    <string name="meals_tab_title">Meals</string>
+    <string name="empty_workouts_title">Your workouts is empty</string>
+    <string name="empty_workouts_description">Add workouts to start your fitness journey.</string>
+    <string name="empty_meals_title">Your favorites is empty</string>
+    <string name="empty_meals_description">Add your favorite meals to access them anytime.</string>
     <string name="full_name">Full Name</string>
     <string name="personal_information">Personal Information</string>
     <string name="email">Email</string>
