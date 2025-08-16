@@ -8,6 +8,8 @@ import com.cairosquad.evolvefit.repository.exercise.remote.ExerciseRemoteDataSou
 import com.cairosquad.evolvefit.repository.exercise.remote.ExerciseRemoteDataSourceImpl
 import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSource
 import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSourceImpl
+import com.cairosquad.evolvefit.repository.profile.remote.RemoteProfileDataSource
+import com.cairosquad.evolvefit.repository.profile.remote.RemoteProfileDataSourceImpl
 import com.cairosquad.evolvefit.repository.utils.RefreshTokenProvider
 import com.cairosquad.evolvefit.repository.utils.provideHttpClient
 import com.cairosquad.evolvefit.repository.workout.remote.WorkoutRemoteDataSource
@@ -18,6 +20,8 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val remoteModule = module {
@@ -42,4 +46,6 @@ val remoteModule = module {
             refreshTokenProvider = get()
         )
     }
+
+    singleOf(::RemoteProfileDataSourceImpl) bind RemoteProfileDataSource::class
 }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -22,15 +23,15 @@ import org.jetbrains.compose.resources.stringResource
 fun NutritionHeader() {
     Row(
         modifier = Modifier
+            .windowInsetsPadding(WindowInsets.statusBars)
             .padding(bottom = 16.dp)
-            .fillMaxWidth()
-            .background(Theme.color.surfaces.surface),
+            .height(48.dp)
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.statusBars),
+            modifier = Modifier,
             text = stringResource(Res.string.nutrition),
             style = Theme.textStyle.title.largeBold16,
             color = Theme.color.surfaces.onSurface

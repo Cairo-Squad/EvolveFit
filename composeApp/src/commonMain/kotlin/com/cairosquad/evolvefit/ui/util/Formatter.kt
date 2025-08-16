@@ -1,5 +1,8 @@
 package com.cairosquad.evolvefit.ui.util
 
+import kotlin.math.pow
+import kotlin.math.roundToInt
+
 object Formatter {
 
     fun oneDecimalPlaceWithThousandSeparators(number: Float): String {
@@ -18,7 +21,6 @@ object Formatter {
         return numberStr
     }
 
-
     fun addThousandSeparators(number: String): String {
         val parts = number.split(".")
         val intPart = parts[0]
@@ -29,5 +31,11 @@ object Formatter {
             .joinToString(",")
             .reversed()
         return if (decimalPart != null) "$withCommas.$decimalPart" else withCommas
+    }
+
+    fun toString(number: Float, numOfDecimal: Int): String {
+        val integerDigits = number.toInt()
+        val floatDigits = ((number - integerDigits) * 10f.pow(numOfDecimal)).roundToInt()
+        return "${integerDigits}.${floatDigits}"
     }
 }

@@ -79,8 +79,6 @@ kotlin {
 
             // settings
             implementation(libs.multiplatform.settings.no.arg)
-
-            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
