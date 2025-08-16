@@ -2,10 +2,12 @@ package com.cairosquad.evolvefit.viewmodel.more
 
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseCase
+import com.cairosquad.evolvefit.domain.usecase.profile.ManageLanguageUseCase
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 
 class MoreViewModel(
+    private val manageLanguageUseCase: ManageLanguageUseCase,
     private val manageProfileUseCase: ManageProfileUseCase,
     private val authenticationUseCase: AuthenticationUseCase
 ) : BaseViewModel<MoreScreenState, MoreEffect>(
@@ -18,7 +20,12 @@ class MoreViewModel(
     private fun loadProfile() {
         tryToCall(
             block = { manageProfileUseCase.getProfile() },
-            onSuccess = { profile -> updateState { it.copy(profile = profile.toUiState()) } },
+            onSuccess = { profile ->
+                val userLanguage = profile.preferredLanguage
+                manageLanguageUseCase.save(userLanguage)
+                updateState { it.copy(profile = profile.toUiState()) }
+                sendEffect(MoreEffect.ChangeLanguage(userLanguage))
+            },
             onError = { },
             onStart = { updateState { it.copy(isLoading = true) } },
             onEnd = { updateState { it.copy(isLoading = false) } },
@@ -51,7 +58,10 @@ class MoreViewModel(
 
     override fun onConfirmChangeLanguage(language: Language) {
         tryToCall(
-            block = { language },
+            block = {
+                manageLanguageUseCase.save(language)
+                language
+            },
             onSuccess = { updatedLanguage ->
                 updateState {
                     it.copy(
@@ -74,7 +84,8 @@ class MoreViewModel(
                 updateState {
                     it.copy(
                         isLogoutBottomSheetEnabled = false
-                    )}
+                    )
+                }
                 sendEffect(MoreEffect.Logout)
             },
             onError = { },
@@ -113,4 +124,3 @@ class MoreViewModel(
         )
     }
 }
-
