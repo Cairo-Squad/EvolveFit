@@ -4,20 +4,25 @@ import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.repository.ExerciseRepository
 import com.cairosquad.evolvefit.repository.exercise.remote.ExerciseRemoteDataSource
 import com.cairosquad.evolvefit.repository.exercise.remote.toDto
+import com.cairosquad.evolvefit.repository.exercise.remote.toDomain
 
 class ExerciseRepositoryImpl(
-    private val remote: ExerciseRemoteDataSource
+    private val remoteDataSource: ExerciseRemoteDataSource
 ) : ExerciseRepository {
-    override suspend fun createExercise(exercise: Exercise) {
-        val exerciseDto = exercise.toDto()
-        remote.createExercise(exerciseDto)
-    }
 
     override suspend fun getAllExercises(): List<Exercise> {
-        TODO("Not yet implemented")
+        return remoteDataSource.getAllExercises().map { it.toDomain() }
     }
 
+    override suspend fun createExercise(exercise: Exercise) {
+        val exerciseDto = exercise.toDto()
+        remoteDataSource.createExercise(exerciseDto)
+    }
+
+
+
     override suspend fun getExercisesByQuery(query: String): List<Exercise> {
-        TODO("Not yet implemented")
+        // TODO: implement search filtering if needed
+        return emptyList()
     }
 }

@@ -53,8 +53,8 @@ fun ClockTimer(
 
     val time by clockTimerState.currentTimeInSeconds.collectAsState(initial = clockTimerState.totalTimeInSeconds)
 
-    val minutes = minOf(time / 60, 99)
-    val seconds = time % 60
+    val minutes = minOf(time?.div(60) ?: 0, 99)
+    val seconds = time?.rem(60) ?: 0
 
     val minutesText = minutes.toString().padStart(2, '0')
     val secondsText = seconds.toString().padStart(2, '0')

@@ -20,7 +20,6 @@ import com.cairosquad.evolvefit.ui.screen.app.AppScreen
 import com.cairosquad.evolvefit.ui.screen.communityWorkout.CommunityWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.createExercise.CreateExerciseScreen
 import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
-import com.cairosquad.evolvefit.ui.screen.editProfile.EditProfileScreen
 import com.cairosquad.evolvefit.ui.screen.login.LoginScreen
 import com.cairosquad.evolvefit.ui.screen.mealDetails.MealDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.mealsHistory.MealsHistoryScreen
@@ -28,6 +27,8 @@ import com.cairosquad.evolvefit.ui.screen.onboarding.OnboardingScreen
 import com.cairosquad.evolvefit.ui.screen.playWorkout.PlayWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
 import com.cairosquad.evolvefit.ui.screen.suggestedMeals.SuggestedMealsScreen
+import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
+import com.cairosquad.evolvefit.ui.screen.editProfile.EditProfileScreen
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.WorkoutDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.WorkoutHistoryScreen
 import org.koin.compose.koinInject
@@ -134,7 +135,9 @@ fun NavigationHost(
         composable<CreateWorkoutRoute> {
             CreateWorkoutScreen(
                 navigateBack = navController::popBackStack,
-                navigateToCreateExercise = { navController.navigate(CreateExerciseRoute) }
+                navigateToCreateExercise = { navController.navigate(CreateExerciseRoute) },
+                navigateToWorkOuts = {},
+                navigateToAllExercises = {}
             )
         }
 

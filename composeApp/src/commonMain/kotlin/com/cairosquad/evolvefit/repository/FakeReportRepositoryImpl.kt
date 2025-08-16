@@ -45,12 +45,12 @@ class FakeReportRepositoryImpl : ReportRepository {
 
     private fun getFocusedArea(): List<Pair<FocusArea, Int>> {
         return listOf(
-            Pair(FocusArea.QUADRICEPS, 10),
-            Pair(FocusArea.ABS, 35),
-            Pair(FocusArea.CALVES, 40),
-            Pair(FocusArea.LOWER_BACK, 5),
-            Pair(FocusArea.CORE, 9),
-            Pair(FocusArea.SHOULDERS, 7),
+//            Pair(FocusArea.QUADRICEPS, 10),
+//            Pair(FocusArea.ABS, 35),
+//            Pair(FocusArea.CALVES, 40),
+//            Pair(FocusArea.LOWER_BACK, 5),
+//            Pair(FocusArea.CORE, 9),
+//            Pair(FocusArea.SHOULDERS, 7),
         )
     }
 

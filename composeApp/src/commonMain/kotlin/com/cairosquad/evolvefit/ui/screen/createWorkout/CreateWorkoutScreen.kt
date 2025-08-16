@@ -1,54 +1,50 @@
 package com.cairosquad.evolvefit.ui.screen.createWorkout
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.theme.Theme
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.cairosquad.evolvefit.ui.screen.createWorkout.content.AllExercisesContent
+import com.cairosquad.evolvefit.ui.screen.createWorkout.content.CreateWorkoutContent
+import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutEffect
+import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState.CreateWorkoutStep
+import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkoutViewModel
+import kotlinx.coroutines.flow.collectLatest
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun CreateWorkoutScreen(
+    viewModel: CreateWorkoutViewModel = koinViewModel(),
     navigateBack: () -> Unit,
-    navigateToCreateExercise: () -> Unit
-){
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Theme.color.surfaces.surface)
-            .statusBarsPadding(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
+    navigateToCreateExercise: () -> Unit,
+    navigateToWorkOuts: () -> Unit,
+    navigateToAllExercises : () -> Unit
+) {
+    val state by viewModel.screenState.collectAsState()
 
-        Text(
-            modifier = Modifier.padding(12.dp),
-            text = "Create Workout Screen", color = Theme.color.surfaces.onSurface
-        )
-
-        Button(
-            onClick = navigateToCreateExercise
-        ) {
-            Text("create an exercise")
+    LaunchedEffect(Unit) {
+        viewModel.effect.collectLatest { effect ->
+            when (effect) {
+                CreateWorkOutEffect.NavigateBack -> navigateBack()
+                CreateWorkOutEffect.NavigateToCreateExercise -> navigateToCreateExercise()
+                CreateWorkOutEffect.NavigateToAllExercises -> navigateToAllExercises()
+                CreateWorkOutEffect.NavigateToWorkouts -> navigateToWorkOuts()
+            }
+        }
+    }
+    when (state.currentStep) {
+        CreateWorkoutStep.DETAILS -> {
+            CreateWorkoutContent(
+                state = state,
+                listener = viewModel,
+            )
         }
 
-        Button(
-            onClick = navigateBack
-        ) {
-            Text("finish creating the workout")
-        }
-
-        Button(
-            onClick = navigateBack
-        ) {
-            Text("Cancel creating a workout")
+        CreateWorkoutStep.EXERCISES -> {
+            AllExercisesContent(
+                state = state,
+                listener = viewModel
+            )
         }
     }
 }
