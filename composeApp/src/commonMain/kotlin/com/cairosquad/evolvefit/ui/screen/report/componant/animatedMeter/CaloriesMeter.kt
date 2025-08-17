@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -34,11 +35,6 @@ fun CaloriesMeter(
     isAnimationStarted: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val backgroundColor = Theme.color.surfaces.outlineVariant
-    val progressColor = Theme.color.system.success
-    val dashedArcColor = Theme.color.surfaces.outlineVariant
-
-
     val animateCurrentPercentage by animateFloatAsState(
         targetValue = if (isAnimationStarted) (takenCalories.toFloat() / expectedCalories) else 0f,
         animationSpec = tween(
@@ -61,9 +57,16 @@ fun CaloriesMeter(
             easing = LinearOutSlowInEasing
         )
     )
-
-    val sweepAngle = 180f * animateCurrentPercentage
+    val animatedSweepAnglePercentage =
+        if (takenCalories <= expectedCalories) animateCurrentPercentage else 1f
+    val sweepAngle = 180f * animatedSweepAnglePercentage
     val strokeWidth = 13.dp
+
+    val backgroundColor = Theme.color.surfaces.outlineVariant
+    val progressColor by animateColorAsState(
+        targetValue = if (takenCalories < expectedCalories) Theme.color.system.success else Theme.color.system.error
+    )
+    val dashedArcColor = Theme.color.surfaces.outlineVariant
 
     Box(
         modifier = modifier
