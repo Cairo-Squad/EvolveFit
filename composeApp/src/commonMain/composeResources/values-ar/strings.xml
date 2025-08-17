@@ -213,7 +213,7 @@
 
     <string name="error_no_internet">لا يوجد اتصال بالإنترنت.</string>
     <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>
-    <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.</string>
+    <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.التنسيق الصحيح: example@domain.com.</string>
     <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل.</string>
     <string name="error_unexpected">حدث خطأ غير متوقع.</string>
     <string name="liters1">لترات</string>
