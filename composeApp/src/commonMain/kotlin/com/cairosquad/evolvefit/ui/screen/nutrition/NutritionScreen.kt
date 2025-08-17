@@ -32,6 +32,7 @@ import com.cairosquad.evolvefit.design_system.component.StateMessage
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.RefreshBox
+import com.cairosquad.evolvefit.ui.screen.nutrition.component.LoadingNutritionScreen
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.SeeAll
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.MealHistoryItem
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.NutritionHeader
@@ -123,17 +124,7 @@ private fun NutritionContent(
                         }
 
                         NutritionScreenState.ScreenStatus.LOADING -> {
-                            LazyVerticalGrid(
-                                columns = GridCells.Adaptive(124.dp),
-                                verticalArrangement = Arrangement.spacedBy(12.dp),
-                                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .systemBarsPadding()
-                                    .padding(16.dp)
-                            ) {
-                                items(20) { LoadingMealCard() }
-                            }
+                            LoadingNutritionScreen()
                         }
 
                         NutritionScreenState.ScreenStatus.FAIL -> {
