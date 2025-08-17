@@ -52,10 +52,10 @@ data class ExerciseResponseDto(
     val exerciseType: String = "",
 
     @SerialName("durationSeconds")
-    val durationSeconds: Int = 0,
+    val durationSeconds: Int? = null,
 
     @SerialName("reps")
-    val reps: Int = 0
+    val reps: Int? = null
 )
 
 

@@ -1,28 +1,36 @@
 package com.cairosquad.evolvefit.viewmodel.more
 
+import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseCase
+import com.cairosquad.evolvefit.domain.usecase.profile.ManageLanguageUseCase
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 
 class MoreViewModel(
+    private val manageLanguageUseCase: ManageLanguageUseCase,
     private val manageProfileUseCase: ManageProfileUseCase,
     private val authenticationUseCase: AuthenticationUseCase
-) : BaseViewModel<MoreScreenState, MoreEffect>(
-    initialState = MoreScreenState()
-), MoreInteractionListener {
+) : BaseViewModel<MoreScreenState, MoreEffect>(MoreScreenState()),
+    MoreInteractionListener {
     init {
         loadProfile()
     }
 
     private fun loadProfile() {
         tryToCall(
-            block = { manageProfileUseCase.getProfile() },
-            onSuccess = { profile -> updateState { it.copy(profile = profile.toUiState()) } },
-            onError = { },
             onStart = { updateState { it.copy(isLoading = true) } },
+            block = { manageProfileUseCase.getProfile() },
+            onSuccess = ::onSuccessLoadProfile,
+            onError = { },
             onEnd = { updateState { it.copy(isLoading = false) } },
         )
+    }
+
+    private fun onSuccessLoadProfile(profile: Profile) {
+        manageLanguageUseCase.saveLanguage(profile.preferredLanguage)
+        updateState { it.copy(profile = profile.toUiState()) }
+        sendEffect(MoreEffect.ChangeLanguage(profile.preferredLanguage))
     }
 
     override fun onClickPersonInformation() {
@@ -51,36 +59,37 @@ class MoreViewModel(
 
     override fun onConfirmChangeLanguage(language: Language) {
         tryToCall(
-            block = { language },
-            onSuccess = { updatedLanguage ->
-                updateState {
-                    it.copy(
-                        profile = it.profile.copy(preferredLanguage = updatedLanguage),
-                        isLanguageBottomSheetEnabled = false
-                    )
-                }
-                sendEffect(MoreEffect.ChangeLanguage(updatedLanguage))
-            },
-            onError = { },
             onStart = { updateState { it.copy(isLoading = true) } },
+            block = { manageLanguageUseCase.saveLanguage(language) },
+            onSuccess = { onSuccessChangeLanguage(language) },
+            onError = { },
             onEnd = { updateState { it.copy(isLoading = false) } },
         )
     }
 
+    private fun onSuccessChangeLanguage(updatedLanguage: Language) {
+        updateState {
+            it.copy(
+                profile = it.profile.copy(preferredLanguage = updatedLanguage),
+                isLanguageBottomSheetEnabled = false
+            )
+        }
+        sendEffect(MoreEffect.ChangeLanguage(updatedLanguage))
+    }
+
     override fun onLogout() {
         tryToCall(
-            block = { authenticationUseCase.logout() },
-            onSuccess = {
-                updateState {
-                    it.copy(
-                        isLogoutBottomSheetEnabled = false
-                    )}
-                sendEffect(MoreEffect.Logout)
-            },
-            onError = { },
             onStart = { updateState { it.copy(isLoading = true) } },
+            block = { authenticationUseCase.logout() },
+            onSuccess = ::onSuccessfulLogout,
+            onError = { },
             onEnd = { updateState { it.copy(isLoading = false) } },
         )
+    }
+
+    private fun onSuccessfulLogout(unit: Unit) {
+        updateState { it.copy(isLogoutBottomSheetEnabled = false) }
+        sendEffect(MoreEffect.Logout)
     }
 
     override fun onDismissLanguageBottomSheet() {
@@ -96,21 +105,12 @@ class MoreViewModel(
     }
 
     override fun onConfirmChangeTheme(theme: MoreScreenState.Theme) {
-        tryToCall(
-            block = { theme },
-            onSuccess = { updatedTheme ->
-                updateState {
-                    it.copy(
-                        currentTheme = updatedTheme,
-                        isThemeBottomSheetEnabled = false
-                    )
-                }
-                sendEffect(MoreEffect.ChangeTheme(updatedTheme))
-            },
-            onError = { },
-            onStart = { updateState { it.copy(isLoading = true) } },
-            onEnd = { updateState { it.copy(isLoading = false) } }
-        )
+        updateState {
+            it.copy(
+                currentTheme = theme,
+                isThemeBottomSheetEnabled = false
+            )
+        }
+        sendEffect(MoreEffect.ChangeTheme(theme))
     }
 }
-
