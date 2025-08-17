@@ -19,23 +19,28 @@ class WorkoutRemoteDataSourceImpl(
     private val client: HttpClient
 ) : WorkoutRemoteDataSource {
     override suspend fun createWorkout(request: CreateWorkoutRequest) {
-        return client.post("workout/create") {
-            contentType(ContentType.Application.Json)
-            setBody(request)
-        }.body()
+        return callApi {
+            client.post("workout/create") {
+                contentType(ContentType.Application.Json)
+                setBody(request)
+            }.body()
+        }
     }
 
     override suspend fun getSuggestedWorkouts(): List<WorkoutDto> {
-        val res = client.get("workout/suggested") {
-            contentType(ContentType.Application.Json)
+        return callApi {
+            client.get("workout/suggested") {
+                contentType(ContentType.Application.Json)
+            }
         }
-        return res.body()
     }
 
     override suspend fun getCommunityWorkouts(): List<WorkoutDto> {
-        return client.get("workout/community") {
-            contentType(ContentType.Application.Json)
-        }.body()
+        return callApi {
+            client.get("workout/community") {
+                contentType(ContentType.Application.Json)
+            }.body()
+        }
     }
 
     override suspend fun getFavoriteWorkout(): List<WorkoutDto> {
@@ -43,27 +48,33 @@ class WorkoutRemoteDataSourceImpl(
     }
 
     override suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDetailsDto> {
-        return client.get("workout/community") {
-            contentType(ContentType.Application.Json)
-            parameter("focusArea", focusArea.name)
-        }.body()
+        return callApi {
+            client.get("workout/community") {
+                contentType(ContentType.Application.Json)
+                parameter("focusArea", focusArea.name)
+            }.body()
+        }
     }
 
     override suspend fun getWorkoutHistory(): List<WorkoutHistoryDto> {
-        return client.get("workout/history").body()
+        return callApi { client.get("workout/history").body() }
     }
 
     override suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDto> {
-        return client.get("workout/suggested") {
-            contentType(ContentType.Application.Json)
-            parameter("focusArea", focusArea.name)
-        }.body()
+        return callApi {
+            client.get("workout/suggested") {
+                contentType(ContentType.Application.Json)
+                parameter("focusArea", focusArea.name)
+            }.body()
+        }
     }
 
     override suspend fun getWorkoutDetails(workoutId: String): WorkoutDetailsDto {
-        return client.get("workout/details") {
-            contentType(ContentType.Application.Json)
-            parameter("workoutId", workoutId)
-        }.body()
+        return callApi {
+            client.get("workout/details") {
+                contentType(ContentType.Application.Json)
+                parameter("workoutId", workoutId)
+            }.body()
+        }
     }
 }

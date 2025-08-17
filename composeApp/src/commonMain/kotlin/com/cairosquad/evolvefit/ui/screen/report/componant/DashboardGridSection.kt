@@ -40,10 +40,10 @@ fun DashboardGridSection(
                 .width(160.dp),
             items = screenState.weeks,
             selectedItem = screenState.selectedWeek,
-            expanded = screenState.isDropDownMenuOpen,
+            isExpanded = screenState.isDropDownMenuOpen,
             onItemClicked = onDropDownMenuItemClicked,
             onDismissRequest = onDropDownMenuDismiss,
-            enableShadow = true
+            isShadowEnabled = true
         )
     }
 }

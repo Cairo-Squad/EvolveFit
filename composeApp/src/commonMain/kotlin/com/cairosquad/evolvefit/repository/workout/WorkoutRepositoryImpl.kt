@@ -1,7 +1,5 @@
 package com.cairosquad.evolvefit.repository.workout
 
-import com.cairosquad.evolvefit.domain.entity.Equipment
-import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
@@ -51,6 +49,6 @@ class WorkoutRepositoryImpl(
     }
 
     override suspend fun getWorkoutHistory(): List<WorkoutHistory> {
-        return workoutRemoteDataSource.getWorkoutHistory().map { it.toDomain() }
+        return callDataSource { workoutRemoteDataSource.getWorkoutHistory().map { it.toDomain() } }
     }
 }

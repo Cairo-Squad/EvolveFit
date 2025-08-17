@@ -25,14 +25,14 @@ import org.jetbrains.compose.resources.stringResource
 fun DropdownMenu(
     items: List<String>,
     selectedItem: String?,
-    expanded: Boolean,
+    isExpanded: Boolean,
     onItemClicked: (String) -> Unit,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     AnimatedVisibility(
         modifier = modifier,
-        visible = expanded,
+        visible = isExpanded,
         enter = fadeIn(animationSpec = tween(500)),
         exit = fadeOut(animationSpec = tween(500))
     ) {
@@ -63,22 +63,22 @@ fun DropdownMenu(
 fun DropdownMenu(
     items: List<ReportScreenState.WeekItem>,
     selectedItem: ReportScreenState.WeekItem,
-    expanded: Boolean,
+    isExpanded: Boolean,
     onItemClicked: (ReportScreenState.WeekItem) -> Unit,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    enableShadow: Boolean = false
+    isShadowEnabled: Boolean = false
 ) {
     AnimatedVisibility(
         modifier = modifier,
-        visible = expanded,
+        visible = isExpanded,
         enter = fadeIn(animationSpec = tween(500)),
         exit = fadeOut(animationSpec = tween(500))
     ) {
         Column(
             modifier = modifier
                 .then(
-                    if (enableShadow) {
+                    if (isShadowEnabled) {
                         Modifier.dropShadow(
                             shape = RoundedCornerShape(8.dp),
                             color = Color.White.copy(0.16f),
