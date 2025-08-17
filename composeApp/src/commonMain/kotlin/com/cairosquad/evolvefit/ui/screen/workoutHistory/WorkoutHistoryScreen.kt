@@ -5,15 +5,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
@@ -22,8 +26,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.RefreshBox
-import com.cairosquad.evolvefit.ui.screen.report.componant.cards.LoadingHistoryWorkoutCard
-import com.cairosquad.evolvefit.ui.screen.workoutHistory.content.WorkoutScreenSuccessContent
+import com.cairosquad.evolvefit.ui.screen.workoutHistory.content.workoutHistoryScreenLoadingContent
+import com.cairosquad.evolvefit.ui.screen.workoutHistory.content.workoutHistoryScreenSuccessContent
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.workoutHistory.WorkoutHistoryEffect
 import com.cairosquad.evolvefit.viewmodel.workoutHistory.WorkoutHistoryInteractionListener
@@ -91,20 +95,25 @@ private fun WorkoutHistoryContent(
         RefreshBox(
             isRefreshing = state.isRefreshing,
             onRefresh = listener::onRefresh
-        ){
-            when (state.screenStatus) {
-                WorkoutHistoryScreenState.ScreenStatus.LOADING -> {
-                    repeat(10) {
-                        LoadingHistoryWorkoutCard()
+        ) {
+            LazyColumn(
+                modifier = Modifier.navigationBarsPadding(),
+                horizontalAlignment = Alignment.Start,
+                contentPadding = PaddingValues(16.dp)
+            ) {
+
+                when (state.screenStatus) {
+                    WorkoutHistoryScreenState.ScreenStatus.LOADING -> {
+                        workoutHistoryScreenLoadingContent()
                     }
-                }
 
-                WorkoutHistoryScreenState.ScreenStatus.SUCCESS -> {
-                    WorkoutScreenSuccessContent(state = state)
-                }
+                    WorkoutHistoryScreenState.ScreenStatus.SUCCESS -> {
+                        workoutHistoryScreenSuccessContent(state)
+                    }
 
-                WorkoutHistoryScreenState.ScreenStatus.ERROR -> {
+                    WorkoutHistoryScreenState.ScreenStatus.ERROR -> {
 
+                    }
                 }
             }
         }

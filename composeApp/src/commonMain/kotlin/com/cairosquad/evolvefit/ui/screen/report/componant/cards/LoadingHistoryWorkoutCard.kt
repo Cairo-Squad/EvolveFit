@@ -11,7 +11,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -69,15 +70,17 @@ fun LoadingHistoryWorkoutCard() {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    Box(modifier = Modifier
-                        .size(width = 136.dp, height = 19.dp)
-                        .clip(CircleShape)
-                        .background(Theme.color.surfaces.surfaceVariant)
+                    Box(
+                        modifier = Modifier
+                            .size(width = 136.dp, height = 19.dp)
+                            .clip(CircleShape)
+                            .background(Theme.color.surfaces.surfaceVariant)
                     )
-                    Box(modifier = Modifier
-                        .size(width = 83.dp, height = 14.dp)
-                        .clip(CircleShape)
-                        .background(Theme.color.surfaces.surfaceVariant)
+                    Box(
+                        modifier = Modifier
+                            .size(width = 83.dp, height = 14.dp)
+                            .clip(CircleShape)
+                            .background(Theme.color.surfaces.surfaceVariant)
                     )
                 }
             }
@@ -89,31 +92,17 @@ fun LoadingHistoryWorkoutCard() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Box(modifier = Modifier
-                        .size(width = 49.dp, height = 14.dp)
-                        .clip(CircleShape)
-                        .background(Theme.color.surfaces.surfaceVariant)
+                    Box(
+                        modifier = Modifier
+                            .size(width = 49.dp, height = 14.dp)
+                            .clip(CircleShape)
+                            .background(Theme.color.surfaces.surfaceVariant)
                     )
-                    Box(modifier = Modifier
-                        .size(width = 17.dp, height = 17.dp)
-                        .clip(CircleShape)
-                        .background(Theme.color.surfaces.surfaceVariant)
-                    )
-                }
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Box(modifier = Modifier
-                        .size(width = 47.dp, height = 14.dp)
-                        .clip(CircleShape)
-                        .background(Theme.color.surfaces.surfaceVariant)
-                    )
-                    Box(modifier = Modifier
-                        .size(width = 43.dp, height = 17.dp)
-                        .clip(CircleShape)
-                        .background(Theme.color.surfaces.surfaceVariant)
+                    Box(
+                        modifier = Modifier
+                            .size(width = 17.dp, height = 17.dp)
+                            .clip(CircleShape)
+                            .background(Theme.color.surfaces.surfaceVariant)
                     )
                 }
                 Column(
@@ -121,21 +110,42 @@ fun LoadingHistoryWorkoutCard() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Box(modifier = Modifier
-                        .size(width = 28.dp, height = 14.dp)
-                        .clip(CircleShape)
-                        .background(Theme.color.surfaces.surfaceVariant)
+                    Box(
+                        modifier = Modifier
+                            .size(width = 47.dp, height = 14.dp)
+                            .clip(CircleShape)
+                            .background(Theme.color.surfaces.surfaceVariant)
                     )
-                    Box(modifier = Modifier
-                        .size(width = 57.dp, height = 17.dp)
-                        .clip(CircleShape)
-                        .background(Theme.color.surfaces.surfaceVariant)
+                    Box(
+                        modifier = Modifier
+                            .size(width = 43.dp, height = 17.dp)
+                            .clip(CircleShape)
+                            .background(Theme.color.surfaces.surfaceVariant)
+                    )
+                }
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(width = 28.dp, height = 14.dp)
+                            .clip(CircleShape)
+                            .background(Theme.color.surfaces.surfaceVariant)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .size(width = 57.dp, height = 17.dp)
+                            .clip(CircleShape)
+                            .background(Theme.color.surfaces.surfaceVariant)
                     )
                 }
             }
         }
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.height(123.dp)
+                .fillMaxWidth()
                 .background(brush, RoundedCornerShape(8.dp))
         )
     }

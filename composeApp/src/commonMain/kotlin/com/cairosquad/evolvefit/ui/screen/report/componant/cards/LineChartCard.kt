@@ -68,8 +68,9 @@ fun LineChartCard(
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 for (i in steps downTo 0) {
+                    val stepValue = maxValue / steps * i
                     Text(
-                        text = "${(maxValue / steps * i).toInt()} min",
+                        text = formatDurationLabel(stepValue),
                         style = Theme.textStyle.body.smallRegular10,
                         color = Theme.color.surfaces.onSurfaceVariant
                     )
@@ -117,6 +118,20 @@ fun LineChartCard(
                 }
             }
         }
+    }
+}
+
+private fun formatDurationLabel(seconds: Float): String {
+    val totalSeconds = seconds.toLong()
+    val hours = totalSeconds / 3600
+    val minutes = (totalSeconds % 3600) / 60
+    val secs = totalSeconds % 60
+
+    return when {
+        hours > 0 && minutes == 0L -> "$hours hr"
+        hours > 0 && minutes > 0L -> "$hours hr $minutes min"
+        minutes > 0 -> "$minutes min"
+        else -> "$secs sec"
     }
 }
 
