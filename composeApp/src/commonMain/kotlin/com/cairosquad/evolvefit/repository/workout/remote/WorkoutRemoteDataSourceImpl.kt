@@ -2,12 +2,12 @@ package com.cairosquad.evolvefit.repository.workout.remote
 
 import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.repository.execption.callApi
-import com.cairosquad.evolvefit.repository.execption.callDataSource
 import com.cairosquad.evolvefit.repository.workout.remote.dto.CreateWorkoutRequest
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDetailsDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
@@ -47,8 +47,8 @@ class WorkoutRemoteDataSourceImpl(
         return callApi<List<WorkoutDto>> { client.get("favorite/workout") }
     }
 
-    override suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDetailsDto> {
-        return callApi<List<WorkoutDetailsDto>> {
+    override suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDto> {
+        return callApi<List<WorkoutDto>> {
             client.get("workout/community") {
                 contentType(ContentType.Application.Json)
                 parameter("focusArea", focusArea.name)
@@ -56,8 +56,26 @@ class WorkoutRemoteDataSourceImpl(
         }
     }
 
+    override suspend fun addFavoriteWorkOut(workOutId: String) {
+        return callApi {
+            client.post("favorite/workout") {
+                parameter("workoutId", workOutId)
+                contentType(ContentType.Application.Json)
+            }.body()
+        }
+    }
+
+    override suspend fun deleteFavoriteWorkOut(workOutId: String) {
+        return callApi {
+            client.delete("favorite/workout") {
+                parameter("workoutId", workOutId)
+                contentType(ContentType.Application.Json)
+            }.body()
+        }
+    }
+
     override suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDto> {
-        return callApi< List<WorkoutDto>> {
+        return callApi<List<WorkoutDto>> {
             client.get("workout/suggested") {
                 contentType(ContentType.Application.Json)
                 parameter("focusArea", focusArea.name)
