@@ -4,7 +4,6 @@ import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
-import com.cairosquad.evolvefit.repository.execption.callApi
 import com.cairosquad.evolvefit.repository.execption.callDataSource
 import com.cairosquad.evolvefit.repository.workout.remote.WorkoutRemoteDataSource
 import com.cairosquad.evolvefit.repository.workout.remote.toCreateRequest
@@ -33,8 +32,10 @@ class WorkoutRepositoryImpl(
         }
     }
 
-    override suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<Workout> {
-        TODO("Not yet implemented")
+    override suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested> {
+        return callDataSource {
+            workoutRemoteDataSource.getCommunityWorkoutsByFocusArea(focusArea).map { it.toDomain() }
+        }
     }
 
     override suspend fun getFavoriteWorkouts(): List<WorkoutSuggested> {
@@ -51,7 +52,15 @@ class WorkoutRepositoryImpl(
     }
 
     override suspend fun addWorkoutToFavorites(workoutId: String) {
-        TODO("Not yet implemented")
+        callDataSource {
+            workoutRemoteDataSource.addFavoriteWorkOut(workoutId)
+        }
+    }
+
+    override suspend fun deleteWorkoutToFavorites(workoutId: String) {
+        callDataSource {
+            workoutRemoteDataSource.deleteFavoriteWorkOut(workoutId)
+        }
     }
 
     override suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested> {
