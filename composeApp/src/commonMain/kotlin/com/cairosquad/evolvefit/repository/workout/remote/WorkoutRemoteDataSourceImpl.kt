@@ -29,7 +29,6 @@ class WorkoutRemoteDataSourceImpl(
         val res = client.get("workout/suggested") {
             contentType(ContentType.Application.Json)
         }
-        println(res)
         return res.body()
     }
 

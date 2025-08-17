@@ -155,11 +155,9 @@ private fun RegisterScreenContentSelectHeightAndWeightPreview() {
                 ),
                 listener = object : RegisterInteractionListener {
                     override fun onHeightChanged(height: Float) {
-                        println("Height changed to: $height")
                     }
 
                     override fun onWeightChanged(weight: Float) {
-                        println("Weight changed to: $weight")
                     }
 
                     override fun onNotificationToggled(type: RegisterScreenState.NotificationType) {
