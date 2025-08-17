@@ -100,7 +100,6 @@ private fun MealDetailsScreenContent(
                     state.mealDetails.mealType.name,
                     state.mealDetails.description
                 )
-                Spacer(modifier = Modifier.height(12.dp))
                 NutritionalInfo(
                     modifier = Modifier.padding(top = 12.dp),
                      calories = state.mealDetails.calories,
