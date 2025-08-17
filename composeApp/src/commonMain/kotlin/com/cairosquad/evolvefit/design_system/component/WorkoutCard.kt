@@ -81,19 +81,19 @@ fun WorkoutCard(
                     Text(
                         duration,
                         style = Theme.textStyle.label.smallRegular12,
-                        color = Theme.color.surfaces.onSurfaceContainer
+                        color = Theme.color.surfaces.textColor
                     )
                     Box(
                         modifier = Modifier
                             .padding(horizontal = 8.dp)
                             .fillMaxHeight()
                             .width(1.dp)
-                            .background(Theme.color.surfaces.onSurfaceContainer)
+                            .background(Theme.color.surfaces.textColor)
                     )
                     Text(
                         focusArea,
                         style = Theme.textStyle.label.smallRegular12,
-                        color = Theme.color.surfaces.onSurfaceContainer
+                        color = Theme.color.surfaces.textColor
                     )
                 }
             }

@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.nutrition.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,12 +37,15 @@ fun SuggestedMeals(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
-        items(state.suggestedMeals) { meal ->
+        items(state.suggestedMeals) {
             MealCard(
-                title = meal.name,
-                mealType = stringResource(meal.type.displayName),
-                calories = meal.calories,
-                model = meal.imageUrl,
+                modifier = Modifier.clickable{
+                    listener.onSuggestedMealClicked(it.id)
+                },
+                title = it.name,
+                mealType = stringResource(it.type.displayName),
+                calories = it.calories,
+                model = it.imageUrl
             )
         }
     }

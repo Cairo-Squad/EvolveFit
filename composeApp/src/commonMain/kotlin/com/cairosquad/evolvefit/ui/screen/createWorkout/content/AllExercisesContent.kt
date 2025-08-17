@@ -122,7 +122,7 @@ fun AllExercisesContent(
 
                                 ExerciseCard(
                                     title = exercise.name,
-                                    model = exercise.imageUrls.toString(),
+                                    model = exercise.imageUrls.firstOrNull() ?: "",
                                     time = "0"
 //                                    timeInSeconds = when (exercise.specification) {
 //                                        is Exercise.Specification.Reps -> null

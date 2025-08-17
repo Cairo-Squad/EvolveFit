@@ -6,6 +6,7 @@ import com.cairosquad.evolvefit.domain.repository.ExerciseRepository
 import com.cairosquad.evolvefit.domain.repository.HomeRepository
 import com.cairosquad.evolvefit.domain.repository.NutritionRepository
 import com.cairosquad.evolvefit.domain.repository.ProfileRepository
+import com.cairosquad.evolvefit.domain.repository.LanguageRepository
 import com.cairosquad.evolvefit.domain.repository.ReportRepository
 import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
 import com.cairosquad.evolvefit.repository.FakeReportRepositoryImpl
@@ -15,6 +16,7 @@ import com.cairosquad.evolvefit.repository.exercise.ExerciseRepositoryImpl
 import com.cairosquad.evolvefit.repository.home.HomeRepositoryImpl
 import com.cairosquad.evolvefit.repository.nutrition.NutritionRepositoryImpl
 import com.cairosquad.evolvefit.repository.profile.ProfileRepositoryImpl
+import com.cairosquad.evolvefit.repository.profile.LanguageRepositoryImpl
 import com.cairosquad.evolvefit.repository.workout.WorkoutRepositoryImpl
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -28,6 +30,7 @@ val repositoryModule = module {
     singleOf(::EquipmentRepositoryImpl) bind EquipmentRepository::class
     singleOf(::ProfileRepositoryImpl) bind ProfileRepository::class
     singleOf(::ExerciseRepositoryImpl) bind ExerciseRepository::class
-    single<NutritionRepository> { NutritionRepositoryImpl(get()) }
+    singleOf(::LanguageRepositoryImpl) bind LanguageRepository::class
+    singleOf(::NutritionRepositoryImpl) bind NutritionRepository::class
     singleOf(::ProfileRepositoryImpl) bind ProfileRepository::class
 }

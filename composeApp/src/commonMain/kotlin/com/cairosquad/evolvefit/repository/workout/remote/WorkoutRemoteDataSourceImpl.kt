@@ -25,26 +25,26 @@ class WorkoutRemoteDataSourceImpl(
     }
 
     override suspend fun getSuggestedWorkouts(): List<WorkoutDto> {
-        val res= client.get("workout/suggested") {
+        val res = client.get("workout/suggested") {
             contentType(ContentType.Application.Json)
         }
-        println(res)
         return res.body()
     }
 
     override suspend fun getCommunityWorkouts(): List<WorkoutDto> {
-        return client.get("workout/community"){
+        return client.get("workout/community") {
             contentType(ContentType.Application.Json)
         }.body()
     }
+
     override suspend fun getFavoriteWorkout(): List<WorkoutDto> {
         return callApi { client.get("favorite/workout") }
     }
 
     override suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDetailsDto> {
-        return client.get("workout/community"){
+        return client.get("workout/community") {
             contentType(ContentType.Application.Json)
-            parameter("focusArea",focusArea.name)
+            parameter("focusArea", focusArea.name)
         }.body()
     }
 
