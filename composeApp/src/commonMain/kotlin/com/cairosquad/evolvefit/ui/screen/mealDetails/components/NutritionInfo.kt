@@ -29,11 +29,11 @@ fun NutritionalInfo(
     calories: Int,
     carbs: Int,
     protein: Int,
-    fat: Int
+    fat: Int,
+    modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

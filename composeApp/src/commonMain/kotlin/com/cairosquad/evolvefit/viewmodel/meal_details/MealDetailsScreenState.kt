@@ -23,7 +23,6 @@ data class MealDetailsScreenState(
         val carbs : Int = 0,
         val fat : Int = 0,
         val ingredients : List<String> = emptyList()
-
     )
     enum class MealTypeUiState(val displayName: StringResource) {
         Breakfast(Res.string.meal_type_breakfast),
@@ -36,6 +35,4 @@ data class MealDetailsScreenState(
         ERROR,
         SUCCESS
     }
-
-
 }

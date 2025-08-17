@@ -51,7 +51,4 @@ MealDetailsInteractionListener
             )
         }
     }
-
-
-
 }

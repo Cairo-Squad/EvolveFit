@@ -74,7 +74,7 @@ private fun MealDetailsScreenContent(
                 model = state.mealDetails.imgUrl,
                 contentDescription = stringResource(Res.string.meal_image),
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .height(331.dp),
                 contentScale = ContentScale.Crop
             )
@@ -87,7 +87,7 @@ private fun MealDetailsScreenContent(
         Box(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .offset(y = 280.dp)
+                .offset(y = 307.dp)
                 .background(
                     Theme.color.surfaces.surface,
                     shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
@@ -102,10 +102,11 @@ private fun MealDetailsScreenContent(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 NutritionalInfo(
-                    state.mealDetails.calories,
-                    state.mealDetails.carbs,
-                    state.mealDetails.protein,
-                    state.mealDetails.fat
+                    modifier = Modifier.padding(top = 12.dp),
+                     calories = state.mealDetails.calories,
+                    carbs = state.mealDetails.carbs,
+                    protein = state.mealDetails.protein,
+                    fat = state.mealDetails.fat
                 )
                 Spacer(modifier = Modifier.height(32.dp))
                 IngredientsList(
