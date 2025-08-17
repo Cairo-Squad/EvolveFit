@@ -7,4 +7,5 @@ interface ReportInteractionListener {
     fun onDropDownMenuClicked()
     fun onDropDownMenuDismiss()
     fun onDropDownMenuItemClicked(item: ReportScreenState.WeekItem)
+    fun onRefresh()
 }

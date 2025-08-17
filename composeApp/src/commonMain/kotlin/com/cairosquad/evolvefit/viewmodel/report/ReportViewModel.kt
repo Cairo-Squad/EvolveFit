@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.report
 
+import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.entity.Report
 import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
 import com.cairosquad.evolvefit.domain.usecase.report.ReportUseCase
@@ -7,6 +8,8 @@ import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.last_week
 import evolvefit.composeapp.generated.resources.this_week
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
@@ -27,12 +30,12 @@ class ReportViewModel(
         loadWeeks()
     }
 
-    fun loadWorkoutReport() {
+    fun loadWorkoutReport(weekRange: Pair<String, String> = getCurrentWeekRange()) {
         tryToCall(
             block = {
                 reportUseCase.getReport(
-                    getCurrentWeekRange().first,
-                    getCurrentWeekRange().second
+                    weekRange.first,
+                    weekRange.second
                 )
             },
             onSuccess = ::onLoadWorkoutSuccess,
@@ -45,7 +48,6 @@ class ReportViewModel(
             block = reportUseCase::getWorkoutHistory,
             onSuccess = ::onLoadWorkoutHistorySuccess,
             onError = ::onLoadWorkoutHistoryError
-
         )
     }
 
@@ -53,10 +55,10 @@ class ReportViewModel(
         updateState {
             it.copy(
                 weeks = listOf(
-                    ReportScreenState.WeekItem("this_week", Res.string.this_week),
-                    ReportScreenState.WeekItem("last_week", Res.string.last_week)
+                    THIS_WEEK,
+                    LAST_WEEK
                 ),
-                selectedWeek = ReportScreenState.WeekItem("this_week", Res.string.this_week)
+                selectedWeek = ReportScreenState.WeekItem(THIS_WEEK_KEY, Res.string.this_week)
             )
         }
     }
@@ -94,11 +96,24 @@ class ReportViewModel(
     }
 
     override fun onDropDownMenuItemClicked(item: ReportScreenState.WeekItem) {
+        when (item.key) {
+            THIS_WEEK_KEY -> loadWorkoutReport()
+            LAST_WEEK_KEY -> loadWorkoutReport(getLastWeekRange())
+        }
         updateState { state ->
             state.copy(
                 isDropDownMenuOpen = false,
                 selectedWeek = item
             )
+        }
+    }
+
+    override fun onRefresh() {
+        updateState { it.copy(isRefreshing = true) }
+        loadWorkoutReport()
+        viewModelScope.launch {
+            delay(500)
+            updateState { it.copy(isRefreshing = false, selectedWeek = THIS_WEEK) }
         }
     }
 
@@ -134,5 +149,12 @@ class ReportViewModel(
         }
 
         return Pair(formatter(lastWeekSaturday), formatter(lastWeekFriday))
+    }
+
+    private companion object {
+        const val THIS_WEEK_KEY = "this_week"
+        const val LAST_WEEK_KEY = "last_week"
+        val THIS_WEEK = ReportScreenState.WeekItem(THIS_WEEK_KEY, Res.string.this_week)
+        val LAST_WEEK = ReportScreenState.WeekItem(LAST_WEEK_KEY, Res.string.last_week)
     }
 }

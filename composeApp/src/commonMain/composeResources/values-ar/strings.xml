@@ -324,4 +324,5 @@
     <string name="chest">الصدر</string>
     <string name="this_week">الأسبوع الحالي</string>
     <string name="last_week">الأسبوع الماضي</string>
+    <string name="workout_history">سجل التداريب السابقة</string>
 </resources>

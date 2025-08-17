@@ -9,7 +9,9 @@ data class ReportScreenState(
     val workoutHistory: List<WorkoutHistoryUiState> = emptyList(),
     val isDropDownMenuOpen: Boolean = false,
     val weeks: List<WeekItem> = emptyList(),
-    val selectedWeek: WeekItem = WeekItem()
+    val selectedWeek: WeekItem = WeekItem(),
+
+    val isRefreshing: Boolean = false
 ) {
     data class WeekItem(
         val key: String = "",
