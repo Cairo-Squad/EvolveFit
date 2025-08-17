@@ -150,8 +150,9 @@ class CreateExerciseViewModel(
     }
 
 
-    private suspend fun saveExercise() =
+    private suspend fun saveExercise() {
         manageExerciseUseCase.createExercise(screenState.value.toDomainExercise())
+    }
 
     override fun onExitClicked() {
         updateState { it.copy(showExitBottomSheet = true) }

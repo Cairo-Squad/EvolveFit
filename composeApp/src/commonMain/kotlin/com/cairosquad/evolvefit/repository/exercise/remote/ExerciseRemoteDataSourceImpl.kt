@@ -21,9 +21,10 @@ class ExerciseRemoteDataSourceImpl(private val client: HttpClient) : ExerciseRem
         }
     }
     override suspend fun getAllExercises(): List<ExerciseResponseDto> {
-        return client.get("exercise/all") {
-            contentType(ContentType.Application.Json)
-        }.body()
+        return callApi<List<ExerciseResponseDto>> {
+            client.get("exercise/all") {
+                contentType(ContentType.Application.Json)
+            }
+        }
     }
-
 }
