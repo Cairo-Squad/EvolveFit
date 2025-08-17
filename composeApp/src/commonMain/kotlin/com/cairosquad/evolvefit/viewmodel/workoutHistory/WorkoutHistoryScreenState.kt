@@ -2,7 +2,8 @@ package com.cairosquad.evolvefit.viewmodel.workoutHistory
 
 data class WorkoutHistoryScreenState(
     val workoutHistory: List<WorkoutHistoryUiState> = emptyList(),
-    val screenStatus: ScreenStatus = ScreenStatus.LOADING
+    val screenStatus: ScreenStatus = ScreenStatus.LOADING,
+    val isRefreshing: Boolean = false
 ) {
     data class WorkoutHistoryUiState(
         val imageUrl: String = "",

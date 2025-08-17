@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.component.RefreshBox
 import com.cairosquad.evolvefit.ui.screen.report.componant.cards.LoadingHistoryWorkoutCard
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.content.WorkoutScreenSuccessContent
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
@@ -87,19 +88,24 @@ private fun WorkoutHistoryContent(
                 }
             }
         )
-        when (state.screenStatus) {
-            WorkoutHistoryScreenState.ScreenStatus.LOADING -> {
-                repeat(10) {
-                    LoadingHistoryWorkoutCard()
+        RefreshBox(
+            isRefreshing = state.isRefreshing,
+            onRefresh = listener::onRefresh
+        ){
+            when (state.screenStatus) {
+                WorkoutHistoryScreenState.ScreenStatus.LOADING -> {
+                    repeat(10) {
+                        LoadingHistoryWorkoutCard()
+                    }
                 }
-            }
 
-            WorkoutHistoryScreenState.ScreenStatus.SUCCESS -> {
-                WorkoutScreenSuccessContent(state = state)
-            }
+                WorkoutHistoryScreenState.ScreenStatus.SUCCESS -> {
+                    WorkoutScreenSuccessContent(state = state)
+                }
 
-            WorkoutHistoryScreenState.ScreenStatus.ERROR -> {
+                WorkoutHistoryScreenState.ScreenStatus.ERROR -> {
 
+                }
             }
         }
     }

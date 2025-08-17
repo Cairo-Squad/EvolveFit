@@ -3,6 +3,7 @@ package com.cairosquad.evolvefit.ui.screen.workoutHistory.content
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -18,11 +19,11 @@ import com.cairosquad.evolvefit.viewmodel.workoutHistory.WorkoutHistoryScreenSta
 
 @Composable
 fun WorkoutScreenSuccessContent(
-    state: WorkoutHistoryScreenState
+    state: WorkoutHistoryScreenState,
 ) {
     val groupedHistory = state.workoutHistory.groupBy { it.dateGroup }
-
     LazyColumn(
+        modifier = Modifier.navigationBarsPadding(),
         horizontalAlignment = Alignment.Start,
         contentPadding = PaddingValues(16.dp)
     ) {
@@ -39,7 +40,7 @@ fun WorkoutScreenSuccessContent(
                     color = Theme.color.surfaces.onSurfaceVariant
                 )
             }
-            itemsIndexed(workouts) { index, workout->
+            itemsIndexed(workouts) { index, workout ->
                 HistoryWorkoutItem(
                     modifier = Modifier
                         .fillMaxWidth()
