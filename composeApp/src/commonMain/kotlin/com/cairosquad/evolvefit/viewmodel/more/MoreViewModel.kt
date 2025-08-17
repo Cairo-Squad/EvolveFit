@@ -11,9 +11,8 @@ class MoreViewModel(
     private val manageLanguageUseCase: ManageLanguageUseCase,
     private val manageProfileUseCase: ManageProfileUseCase,
     private val authenticationUseCase: AuthenticationUseCase
-) : BaseViewModel<MoreScreenState, MoreEffect>(
-    initialState = MoreScreenState()
-), MoreInteractionListener {
+) : BaseViewModel<MoreScreenState, MoreEffect>(MoreScreenState()),
+    MoreInteractionListener {
     init {
         loadProfile()
     }
@@ -29,7 +28,7 @@ class MoreViewModel(
     }
 
     private fun onSuccessLoadProfile(profile: Profile) {
-        manageLanguageUseCase.save(profile.preferredLanguage)
+        manageLanguageUseCase.saveLanguage(profile.preferredLanguage)
         updateState { it.copy(profile = profile.toUiState()) }
         sendEffect(MoreEffect.ChangeLanguage(profile.preferredLanguage))
     }
@@ -60,13 +59,10 @@ class MoreViewModel(
 
     override fun onConfirmChangeLanguage(language: Language) {
         tryToCall(
-            block = {
-                manageLanguageUseCase.save(language)
-                language
-            },
-            onSuccess = ::onSuccessChangeLanguage,
-            onError = { },
             onStart = { updateState { it.copy(isLoading = true) } },
+            block = { manageLanguageUseCase.saveLanguage(language) },
+            onSuccess = { onSuccessChangeLanguage(language) },
+            onError = { },
             onEnd = { updateState { it.copy(isLoading = false) } },
         )
     }
@@ -83,10 +79,10 @@ class MoreViewModel(
 
     override fun onLogout() {
         tryToCall(
+            onStart = { updateState { it.copy(isLoading = true) } },
             block = { authenticationUseCase.logout() },
             onSuccess = ::onSuccessfulLogout,
             onError = { },
-            onStart = { updateState { it.copy(isLoading = true) } },
             onEnd = { updateState { it.copy(isLoading = false) } },
         )
     }

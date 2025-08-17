@@ -31,7 +31,6 @@ val repositoryModule = module {
     singleOf(::ProfileRepositoryImpl) bind ProfileRepository::class
     singleOf(::ExerciseRepositoryImpl) bind ExerciseRepository::class
     singleOf(::LanguageRepositoryImpl) bind LanguageRepository::class
-
-    single<NutritionRepository> { NutritionRepositoryImpl(get()) }
+    singleOf(::NutritionRepositoryImpl) bind NutritionRepository::class
     singleOf(::ProfileRepositoryImpl) bind ProfileRepository::class
 }

@@ -37,7 +37,6 @@ fun MoreScreen(
             is MoreEffect.ChangeLanguage -> {
                 languageManager.applyLanguage(effect.language)
                 recreateCurrentScreen()
-
             }
             is MoreEffect.ChangeTheme -> {
                 onThemeChanged(effect.theme)
@@ -57,4 +56,3 @@ fun MoreScreen(
         listener = viewModel
     )
 }
-

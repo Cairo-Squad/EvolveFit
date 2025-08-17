@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.ui.util
 
-
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.repository.profile.local.LanguagePreferences
 

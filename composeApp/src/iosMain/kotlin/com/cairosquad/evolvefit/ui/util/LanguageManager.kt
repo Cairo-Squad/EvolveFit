@@ -10,8 +10,8 @@ actual class LanguageManager actual constructor(
 ) {
     actual fun applyLanguage(language: Language) {
         val languageCode = when (language) {
-            Language.ARABIC -> "ar"
-            Language.ENGLISH -> "en"
+            Language.ARABIC -> ARABIC_CODE
+            Language.ENGLISH -> ENGLISH_CODE
         }
 
         NSUserDefaults.standardUserDefaults.setObject(
@@ -23,5 +23,10 @@ actual class LanguageManager actual constructor(
 
     actual fun applyStoredLanguage() {
         applyLanguage(languagePreferences.getLanguage())
+    }
+
+    private companion object {
+        const val ARABIC_CODE = "ar"
+        const val ENGLISH_CODE = "en"
     }
 }

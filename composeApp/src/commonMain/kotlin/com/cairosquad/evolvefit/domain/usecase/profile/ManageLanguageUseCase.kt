@@ -6,11 +6,11 @@ import com.cairosquad.evolvefit.domain.repository.LanguageRepository
 class ManageLanguageUseCase(
     private val languageRepository: LanguageRepository
 ) {
-    fun save(language: Language) {
+    fun saveLanguage(language: Language) {
         languageRepository.saveLanguage(language)
     }
 
-    fun get(): Language {
+    fun getLanguage(): Language {
         return languageRepository.getLanguage()
     }
 }
