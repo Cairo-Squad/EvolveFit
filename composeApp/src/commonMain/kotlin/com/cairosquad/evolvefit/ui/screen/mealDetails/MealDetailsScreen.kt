@@ -73,10 +73,11 @@ private fun MealDetailsScreenContent(
             NetworkImage(
                 model = state.mealDetails.imgUrl,
                 contentDescription = stringResource(Res.string.meal_image),
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxSize()
                     .height(331.dp),
-                contentScale = ContentScale.Crop
+
             )
             MealDetailsAppBar(
                 onBackClick = { listener.onBackClicked() },
