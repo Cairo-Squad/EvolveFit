@@ -25,7 +25,6 @@ class WorkoutRepositoryImpl(
         }
     }
 
-
     override suspend fun getCommunityWorkouts(): List<WorkoutSuggested> {
         return callDataSource {
             workoutRemoteDataSource.getCommunityWorkouts().map { it.toDomain() }
@@ -43,7 +42,6 @@ class WorkoutRepositoryImpl(
             workoutRemoteDataSource.getFavoriteWorkout().map { it.toDomain() }
         }
     }
-
 
     override suspend fun createWorkout(workout: Workout) {
         callDataSource {

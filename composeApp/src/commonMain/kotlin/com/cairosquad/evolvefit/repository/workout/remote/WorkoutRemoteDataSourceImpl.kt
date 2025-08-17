@@ -18,9 +18,10 @@ import io.ktor.http.contentType
 class WorkoutRemoteDataSourceImpl(
     private val client: HttpClient
 ) : WorkoutRemoteDataSource {
+
     override suspend fun createWorkout(request: CreateWorkoutRequest) {
         return callApi {
-            client.post("workout/create") {
+            client.post("$WORKOUT_PATH/create") {
                 contentType(ContentType.Application.Json)
                 setBody(request)
             }.body()
@@ -28,28 +29,30 @@ class WorkoutRemoteDataSourceImpl(
     }
 
     override suspend fun getSuggestedWorkouts(): List<WorkoutDto> {
-        return callApi<List<WorkoutDto>> {
-            client.get("workout/suggested") {
+        return callApi {
+            client.get("$WORKOUT_PATH/suggested") {
                 contentType(ContentType.Application.Json)
             }.body()
         }
     }
 
     override suspend fun getCommunityWorkouts(): List<WorkoutDto> {
-        return callApi<List<WorkoutDto>> {
-            client.get("workout/community") {
+        return callApi {
+            client.get("$WORKOUT_PATH/community") {
                 contentType(ContentType.Application.Json)
             }.body()
         }
     }
 
     override suspend fun getFavoriteWorkout(): List<WorkoutDto> {
-        return callApi<List<WorkoutDto>> { client.get("favorite/workout") }
+        return callApi {
+            client.get(FAVORITE_WORKOUT).body()
+        }
     }
 
     override suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDto> {
-        return callApi<List<WorkoutDto>> {
-            client.get("workout/community") {
+        return callApi {
+            client.get("$WORKOUT_PATH/community") {
                 contentType(ContentType.Application.Json)
                 parameter("focusArea", focusArea.name)
             }.body()
@@ -58,7 +61,7 @@ class WorkoutRemoteDataSourceImpl(
 
     override suspend fun addFavoriteWorkOut(workOutId: String) {
         return callApi {
-            client.post("favorite/workout") {
+            client.post(FAVORITE_WORKOUT) {
                 parameter("workoutId", workOutId)
                 contentType(ContentType.Application.Json)
             }.body()
@@ -67,7 +70,7 @@ class WorkoutRemoteDataSourceImpl(
 
     override suspend fun deleteFavoriteWorkOut(workOutId: String) {
         return callApi {
-            client.delete("favorite/workout") {
+            client.delete(FAVORITE_WORKOUT) {
                 parameter("workoutId", workOutId)
                 contentType(ContentType.Application.Json)
             }.body()
@@ -75,8 +78,8 @@ class WorkoutRemoteDataSourceImpl(
     }
 
     override suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDto> {
-        return callApi<List<WorkoutDto>> {
-            client.get("workout/suggested") {
+        return callApi {
+            client.get("$WORKOUT_PATH/suggested") {
                 contentType(ContentType.Application.Json)
                 parameter("focusArea", focusArea.name)
             }.body()
@@ -84,11 +87,16 @@ class WorkoutRemoteDataSourceImpl(
     }
 
     override suspend fun getWorkoutDetails(workoutId: String): WorkoutDetailsDto {
-        return callApi<WorkoutDetailsDto> {
-            client.get("workout/details") {
+        return callApi {
+            client.get("$WORKOUT_PATH/details") {
                 contentType(ContentType.Application.Json)
                 parameter("workoutId", workoutId)
             }.body()
         }
+    }
+
+    companion object {
+        private const val FAVORITE_WORKOUT = "favorite/workout"
+        private const val WORKOUT_PATH = "workout"
     }
 }
