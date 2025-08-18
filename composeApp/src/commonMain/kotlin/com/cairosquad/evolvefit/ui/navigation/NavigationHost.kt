@@ -29,7 +29,6 @@ import com.cairosquad.evolvefit.ui.screen.playWorkout.PlayWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
 import com.cairosquad.evolvefit.ui.screen.suggestedMeals.SuggestedMealsScreen
 import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
-import com.cairosquad.evolvefit.ui.screen.editProfile.EditProfileScreen
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.WorkoutDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.WorkoutHistoryScreen
 import org.koin.compose.koinInject
@@ -217,11 +216,7 @@ fun NavigationHost(
                 navigateBack = navController::popBackStack
             )
         }
-        composable<EditProfileRoute> {
-            EditProfileScreen(
-                navigateBack = navController::popBackStack
-            )
-        }
+
         composable<FavoritesScreenRoute> {
             FavoritesScreen(
                 navigateBack = navController::popBackStack
