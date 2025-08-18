@@ -43,7 +43,7 @@ data class ProfileDto(
             gender = getGender(gender),
             preferredMeasurementStandard = getMeasurementStandard(measurementType),
             preferredLanguage = Language.ENGLISH,
-            equipments = gymEquipments,
+            equipments = gymEquipments.toSet(),
             workoutDays = workoutDays.filterNotNull().map { WeekDay.valueOf(it) }.toSet()
         )
     }
