@@ -39,6 +39,11 @@ val lightThemeColors = ThemeColors(
             Color.Transparent,
             Color(0xFFFFFFFF),
             Color.Transparent,
+        ),
+        loadingGradientColors = listOf(
+            Color.Transparent,
+            Color(0xFFF8F8F8),
+            Color.Transparent,
         )
     )
 )

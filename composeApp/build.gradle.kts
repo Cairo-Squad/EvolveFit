@@ -79,6 +79,9 @@ kotlin {
 
             // settings
             implementation(libs.multiplatform.settings.no.arg)
+
+            // drop shadow
+            implementation(libs.compose.shadow)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

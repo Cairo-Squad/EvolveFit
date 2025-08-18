@@ -23,12 +23,23 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter.AnimatedLineChart
 import com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter.chartComponent.ChartGrid
+import com.cairosquad.evolvefit.ui.util.TimeUtil
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.friday_short
+import evolvefit.composeapp.generated.resources.monday_short
+import evolvefit.composeapp.generated.resources.saturday_short
+import evolvefit.composeapp.generated.resources.sunday_short
+import evolvefit.composeapp.generated.resources.thursday_short
+import evolvefit.composeapp.generated.resources.tuesday_short
+import evolvefit.composeapp.generated.resources.wednesday_short
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun LineChartCard(
     data: List<Float>,
-    labels: List<String>,
+    labels: List<StringResource>,
     totalTime: String,
     isAnimationStarted: Boolean,
     modifier: Modifier = Modifier,
@@ -58,8 +69,9 @@ fun LineChartCard(
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 for (i in steps downTo 0) {
+                    val stepValue = maxValue / steps * i
                     Text(
-                        text = "${(maxValue / steps * i).toInt()} min",
+                        text = TimeUtil.formatDurationLabel(stepValue),
                         style = Theme.textStyle.body.smallRegular10,
                         color = Theme.color.surfaces.onSurfaceVariant
                     )
@@ -80,7 +92,7 @@ fun LineChartCard(
                     AnimatedLineChart(
                         modifier = Modifier
                             .height(112.dp)
-                            .offset(y= (-6).dp),
+                            .offset(y = (-6).dp),
                         data = data,
                         lineColor = lineColor,
                         areaColor = areaColor,
@@ -97,7 +109,7 @@ fun LineChartCard(
                     barCenters.forEachIndexed { index, offset ->
                         val isMax = index == maxIndex
                         Text(
-                            text = labels.getOrNull(index) ?: "",
+                            text = stringResource(labels[index]),
                             color = if (isMax) focusedLabelColor else unFocusedLabelColor,
                             style = Theme.textStyle.label.smallRegular12,
                             modifier = Modifier
@@ -109,7 +121,6 @@ fun LineChartCard(
         }
     }
 }
-
 @Preview
 @Composable
 private fun LineChartCardPreview() {
@@ -117,13 +128,13 @@ private fun LineChartCardPreview() {
     val labels by remember {
         mutableStateOf(
             listOf(
-                "Sat",
-                "Sun",
-                "Mon",
-                "Tue",
-                "Wed",
-                "Thu",
-                "Fri"
+                Res.string.saturday_short,
+                Res.string.sunday_short,
+                Res.string.monday_short,
+                Res.string.tuesday_short,
+                Res.string.wednesday_short,
+                Res.string.thursday_short,
+                Res.string.friday_short
             )
         )
     }

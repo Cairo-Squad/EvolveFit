@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.util.toFormattedString
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -34,11 +36,6 @@ fun CaloriesMeter(
     isAnimationStarted: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val backgroundColor = Theme.color.surfaces.outlineVariant
-    val progressColor = Theme.color.system.success
-    val dashedArcColor = Theme.color.surfaces.outlineVariant
-
-
     val animateCurrentPercentage by animateFloatAsState(
         targetValue = if (isAnimationStarted) (takenCalories.toFloat() / expectedCalories) else 0f,
         animationSpec = tween(
@@ -61,9 +58,16 @@ fun CaloriesMeter(
             easing = LinearOutSlowInEasing
         )
     )
-
-    val sweepAngle = 180f * animateCurrentPercentage
+    val animatedSweepAnglePercentage =
+        if (takenCalories <= expectedCalories) animateCurrentPercentage else 1f
+    val sweepAngle = 180f * animatedSweepAnglePercentage
     val strokeWidth = 13.dp
+
+    val backgroundColor = Theme.color.surfaces.outlineVariant
+    val progressColor by animateColorAsState(
+        targetValue = if (takenCalories < expectedCalories) Theme.color.system.success else Theme.color.system.error
+    )
+    val dashedArcColor = Theme.color.surfaces.outlineVariant
 
     Box(
         modifier = modifier
@@ -136,12 +140,12 @@ fun CaloriesMeter(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = takenCalories.toString(),
+                text = takenCalories.toUInt().toFormattedString(),
                 style = Theme.textStyle.headline.largeBold18,
                 color = Theme.color.surfaces.onSurfaceContainer
             )
             Text(
-                text = "From $expectedCalories kcal",
+                text = "From ${expectedCalories.toUInt().toFormattedString()} kcal",
                 style = Theme.textStyle.label.smallRegular12,
                 color = Theme.color.surfaces.onSurfaceVariant
             )
