@@ -12,5 +12,7 @@ interface WorkoutRemoteDataSource {
     suspend fun getSuggestedWorkouts(): List<WorkoutDto>
     suspend fun getCommunityWorkouts(): List<WorkoutDto>
     suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDto>
-    suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDetailsDto>
+    suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDto>
+    suspend fun addFavoriteWorkOut(workOutId : String)
+    suspend fun deleteFavoriteWorkOut(workOutId : String)
 }
