@@ -2,6 +2,7 @@ package com.cairosquad.evolvefit.di
 
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutViewModel
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkoutViewModel
+import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileViewModel
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseViewModel
 import com.cairosquad.evolvefit.viewmodel.favorites.FavoritesViewModel
 import com.cairosquad.evolvefit.viewmodel.home.HomeViewModel
@@ -31,6 +32,7 @@ val viewModelModule = module {
     viewModelOf(::HomeViewModel)
     viewModelOf(::CreateWorkoutViewModel)
     viewModelOf(::ReportViewModel)
+    viewModelOf(::EditProfileViewModel)
     viewModelOf(::MoreViewModel)
     viewModelOf(::SuggestedMealsViewModel)
     viewModelOf(::FavoritesViewModel)
