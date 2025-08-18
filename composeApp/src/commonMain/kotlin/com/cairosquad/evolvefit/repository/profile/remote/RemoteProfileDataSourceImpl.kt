@@ -41,7 +41,11 @@ class RemoteProfileDataSourceImpl(
                         key = "file",
                         value = fileBytes,
                         headers = Headers.build {
-                            append(HttpHeaders.ContentDisposition, "filename=$fileName")
+                            append(HttpHeaders.ContentType, "image/jpeg")
+                            append(
+                                HttpHeaders.ContentDisposition,
+                                "form-data; name=\"file\"; filename=\"$fileName\""
+                            )
                         }
                     )
                 }
