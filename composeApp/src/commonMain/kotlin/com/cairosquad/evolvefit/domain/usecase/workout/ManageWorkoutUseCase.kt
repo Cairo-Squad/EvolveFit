@@ -21,7 +21,7 @@ class ManageWorkoutUseCase(
         return workoutRepository.getCommunityWorkouts()
     }
 
-    suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<Workout> {
+    suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested> {
         return workoutRepository.getCommunityWorkoutsByFocusArea(focusArea)
     }
 
@@ -29,7 +29,7 @@ class ManageWorkoutUseCase(
         return workoutRepository.getFavoriteWorkouts()
     }
 
-    suspend  fun createWorkOut(workout: Workout) {
+    suspend fun createWorkOut(workout: Workout) {
         workoutRepository.createWorkout(workout)
     }
 
