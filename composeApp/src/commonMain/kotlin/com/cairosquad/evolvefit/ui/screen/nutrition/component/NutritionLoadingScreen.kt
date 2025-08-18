@@ -309,20 +309,12 @@ private fun SuggestedMealCard(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        ShimmerOverlayShape(
+        Row(
             modifier = Modifier
-                .size(height = 124.dp, width = 158.dp),
-            shape = RoundedCornerShape(8.dp),
-            background = Theme.color.surfaces.surfaceVariant,
-            shimmerBrush = shimmerBrush
-        )
-        // TODO remove shimmer or row after opinion designer
-//        Row(
-//            modifier = Modifier
-//                .size(height = 124.dp, width = 158.dp)
-//                .clip(RoundedCornerShape(8.dp))
-//                .background(Theme.color.surfaces.surfaceVariant)
-//        ) {}
+                .size(height = 124.dp, width = 158.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Theme.color.surfaces.surfaceVariant)
+        ) {}
         ShimmerOverlayShape(
             modifier = Modifier
                 .padding(top = 8.dp, bottom = 4.dp)

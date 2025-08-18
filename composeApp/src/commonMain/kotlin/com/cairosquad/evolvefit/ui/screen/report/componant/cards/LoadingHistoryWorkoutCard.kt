@@ -40,7 +40,7 @@ fun LoadingHistoryWorkoutCard() {
         initialValue = -200f,
         targetValue = 500f,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 1200, easing = EaseInOut),
+            animation = tween(durationMillis = 1500, easing = EaseInOut),
             repeatMode = RepeatMode.Restart
         )
     )
