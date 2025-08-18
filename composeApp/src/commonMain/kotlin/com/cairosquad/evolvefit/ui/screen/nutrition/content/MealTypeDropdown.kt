@@ -114,7 +114,7 @@ fun MealTypeDropdownMenu(
                     DropdownMenu(
                         items = mealTypeUiStateOptions.values.toList(),
                         selectedItem = mealTypeUiStateOptions[state.selectedMeal] ?: "",
-                        expanded = state.isMealTypeMenuExpanded,
+                        isExpanded = state.isMealTypeMenuExpanded,
                         onItemClicked = { selected ->
                             val selectedType =
                                 mealTypeUiStateOptions.entries.first { it.value == selected }.key

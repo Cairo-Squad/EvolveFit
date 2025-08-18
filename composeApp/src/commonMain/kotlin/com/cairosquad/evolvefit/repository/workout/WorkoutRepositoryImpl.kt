@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.repository.workout
 
 import com.cairosquad.evolvefit.domain.entity.Workout
+import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
@@ -65,5 +66,9 @@ class WorkoutRepositoryImpl(
         return callDataSource {
             workoutRemoteDataSource.getWorkoutsByFocusArea(focusArea).map { it.toDomain() }
         }
+    }
+
+    override suspend fun getWorkoutHistory(): List<WorkoutHistory> {
+        return callDataSource { workoutRemoteDataSource.getWorkoutHistory().map { it.toDomain() } }
     }
 }

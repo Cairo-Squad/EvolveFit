@@ -5,6 +5,7 @@ import com.cairosquad.evolvefit.repository.execption.callApi
 import com.cairosquad.evolvefit.repository.workout.remote.dto.CreateWorkoutRequest
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDetailsDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDto
+import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutHistoryDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
@@ -75,6 +76,10 @@ class WorkoutRemoteDataSourceImpl(
                 contentType(ContentType.Application.Json)
             }.body()
         }
+    }
+
+    override suspend fun getWorkoutHistory(): List<WorkoutHistoryDto> {
+        return callApi { client.get("$WORKOUT_PATH/history").body() }
     }
 
     override suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDto> {

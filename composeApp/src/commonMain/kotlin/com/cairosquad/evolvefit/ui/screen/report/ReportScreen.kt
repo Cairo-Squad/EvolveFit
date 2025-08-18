@@ -21,6 +21,7 @@ import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.component.RefreshBox
 import com.cairosquad.evolvefit.ui.screen.report.componant.ActivityRow
 import com.cairosquad.evolvefit.ui.screen.report.componant.DashboardGridSection
 import com.cairosquad.evolvefit.ui.screen.report.componant.cards.BarChartCard
@@ -79,52 +80,67 @@ private fun ReportScreenContent(
                 )
             }
         )
-        LazyColumn(
-            contentPadding = PaddingValues(16.dp)
-        ) {
-            item {
-                ActivityRow(
-                    onMenuClicked = listener::onDropDownMenuClicked
-                )
-            }
-            item {
-                DashboardGridSection(
-                    screenState = screenState,
-                    onDropDownMenuItemClicked = listener::onDropDownMenuItemClicked,
-                    onDropDownMenuDismiss = listener::onDropDownMenuDismiss,
-                    isAnimationStarted = isAnimationStarted
-                )
-            }
-            item {
-                BarChartCard(
-                    modifier = Modifier.padding(top = 16.dp),
-                    data = screenState.report.workoutPerWeek.workoutsCount.map { it.toFloat() },
-                    labels = screenState.report.workoutPerWeek.day,
-                    isAnimationStarted = isAnimationStarted
-                )
-            }
-            item {
-                LineChartCard(
-                    modifier = Modifier.padding(top = 16.dp),
-                    data = screenState.report.timeSpentPerWeek.timeInMilliSeconds.map { it.toFloat() },
-                    labels = screenState.report.timeSpentPerWeek.day,
-                    totalTime = screenState.report.timeSpent,
-                    isAnimationStarted = isAnimationStarted
-                )
-            }
-            item {
-                MusclesCard(
-                    modifier = Modifier.padding(top = 16.dp),
-                    musclesName = screenState.report.mostTrainedMuscles.muscle,
-                    trainedMusclesPercentage = screenState.report.mostTrainedMuscles.percentage,
-                    isAnimationStarted = isAnimationStarted
-                )
-            }
-            item {
-                HistoryWorkoutCard(
-                    modifier = Modifier.padding(top = 16.dp),
-                    onViewAllHistoryClicked = navigateToWorkoutHistory,
-                )
+        RefreshBox(
+            isRefreshing = screenState.isRefreshing,
+            onRefresh = listener::onRefresh
+        ){
+            LazyColumn(
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                item {
+                    ActivityRow(
+                        screenState = screenState,
+                        onMenuClicked = listener::onDropDownMenuClicked
+                    )
+                }
+                item {
+                    DashboardGridSection(
+                        screenState = screenState,
+                        onDropDownMenuItemClicked = listener::onDropDownMenuItemClicked,
+                        onDropDownMenuDismiss = listener::onDropDownMenuDismiss,
+                        isAnimationStarted = isAnimationStarted
+                    )
+                }
+                item {
+                    if (screenState.report.workoutPerWeek.day.isNotEmpty()) {
+                        BarChartCard(
+                            modifier = Modifier.padding(top = 16.dp),
+                            data = screenState.report.workoutPerWeek.workoutsCount.map { it.toFloat() },
+                            labels = screenState.report.workoutPerWeek.day,
+                            isAnimationStarted = isAnimationStarted
+                        )
+                    }
+                }
+                item {
+                    if (screenState.report.timeSpentPerWeek.day.isNotEmpty()) {
+                        LineChartCard(
+                            modifier = Modifier.padding(top = 16.dp),
+                            data = screenState.report.timeSpentPerWeek.timeInSeconds.map { it.toFloat() },
+                            labels = screenState.report.timeSpentPerWeek.day,
+                            totalTime = screenState.report.timeSpent,
+                            isAnimationStarted = isAnimationStarted
+                        )
+                    }
+                }
+                item {
+                    if (screenState.report.mostTrainedMuscles.muscle.isNotEmpty()) {
+                        MusclesCard(
+                            modifier = Modifier.padding(top = 16.dp),
+                            musclesName = screenState.report.mostTrainedMuscles.muscle,
+                            trainedMusclesPercentage = screenState.report.mostTrainedMuscles.percentage,
+                            isAnimationStarted = isAnimationStarted
+                        )
+                    }
+                }
+                item {
+                    if (screenState.workoutHistory.isNotEmpty()) {
+                        HistoryWorkoutCard(
+                            modifier = Modifier.padding(top = 16.dp),
+                            state = screenState,
+                            onViewAllHistoryClicked = navigateToWorkoutHistory,
+                        )
+                    }
+                }
             }
         }
     }
@@ -142,7 +158,8 @@ private fun ReportScreenPreview() {
                 override fun onShareClicked() {}
                 override fun onDropDownMenuClicked() {}
                 override fun onDropDownMenuDismiss() {}
-                override fun onDropDownMenuItemClicked(item: String) {}
+                override fun onDropDownMenuItemClicked(item: ReportScreenState.WeekItem) {}
+                override fun onRefresh() {}
             }
         )
     }

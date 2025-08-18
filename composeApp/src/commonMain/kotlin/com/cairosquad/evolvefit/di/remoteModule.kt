@@ -10,6 +10,8 @@ import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataS
 import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSourceImpl
 import com.cairosquad.evolvefit.repository.profile.remote.RemoteProfileDataSource
 import com.cairosquad.evolvefit.repository.profile.remote.RemoteProfileDataSourceImpl
+import com.cairosquad.evolvefit.repository.report.remote.ReportRemoteDataSource
+import com.cairosquad.evolvefit.repository.report.remote.ReportRemoteDataSourceImpl
 import com.cairosquad.evolvefit.repository.utils.RefreshTokenProvider
 import com.cairosquad.evolvefit.repository.utils.provideHttpClient
 import com.cairosquad.evolvefit.repository.workout.remote.WorkoutRemoteDataSource
@@ -30,6 +32,7 @@ val remoteModule = module {
     single<EquipmentsRemoteDataSource> { EquipmentRemoteDataSourceImpl(get()) }
     single<RemoteNutritionDataSource> { RemoteNutritionDataSourceImpl(get()) }
     single<WorkoutRemoteDataSource> { WorkoutRemoteDataSourceImpl(get()) }
+    singleOf(::ReportRemoteDataSourceImpl) bind ReportRemoteDataSource::class
     single {
         RefreshTokenProvider(HttpClient {
             install(ContentNegotiation) {
