@@ -41,7 +41,7 @@ fun Profile.toDto(): ProfileDto {
         height = height.toDouble(),
         weight = weight.toDouble(),
         goal = getFitnessGoalName(goal),
-        gymEquipments = emptyList(),
+        gymEquipments = equipments.toList(),
         workoutDays = workoutDays.map { it.name }
     )
 }
