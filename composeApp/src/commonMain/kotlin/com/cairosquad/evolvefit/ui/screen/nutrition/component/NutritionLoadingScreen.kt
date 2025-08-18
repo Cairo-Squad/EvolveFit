@@ -19,9 +19,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
@@ -36,17 +33,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.component.ShimmerOverlayShape
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.shimmer_loading
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun LoadingNutritionScreen() {
+fun NutritionLoadingScreen() {
     val infiniteTransition =
         rememberInfiniteTransition(label = stringResource(Res.string.shimmer_loading))
 
@@ -54,7 +51,7 @@ fun LoadingNutritionScreen() {
         initialValue = -200f,
         targetValue = 500f,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 5000, easing = EaseInOut),
+            animation = tween(durationMillis = 1500, easing = EaseInOut),
             repeatMode = RepeatMode.Restart
         )
     )
@@ -69,38 +66,35 @@ fun LoadingNutritionScreen() {
             .background(Theme.color.surfaces.surface),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
-            NutritionSummaryCard(
-                brush = brush
-            )
-        }
-        item { TodayMealsSummary(brush = brush) }
-        item { SuggestedMeals(brush = brush) }
-        mealHistorySection(shimmerBackground = brush)
+        item { NutritionSummaryCard(shimmerBrush = brush) }
+        item { TodayMealsSummary(shimmerBrush = brush) }
+        item { SuggestedMeals(shimmerBrush = brush) }
+        mealHistorySection(shimmerBrush = brush)
     }
 }
 
 @Composable
 private fun NutritionSummaryCard(
-    brush: Brush,
+    shimmerBrush: Brush,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-        ,
+            .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
         DailySummaryCard(
-            modifier = Modifier.weight(1f).padding(end = 12.dp),
-            shimmerBackground = brush,
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 12.dp),
+            shimmerBrush = shimmerBrush,
             isWaterCard = false
         )
         DailySummaryCard(
             modifier = Modifier.weight(1f),
-            shimmerBackground = brush,
+            shimmerBrush = shimmerBrush,
             isWaterCard = true
         )
     }
@@ -108,25 +102,24 @@ private fun NutritionSummaryCard(
 
 @Composable
 private fun DailySummaryCard(
-    shimmerBackground: Brush,
+    shimmerBrush: Brush,
     modifier: Modifier = Modifier,
     isWaterCard: Boolean = false
 ) {
     Column(
         modifier = modifier
-           .height(178.dp)
+            .height(178.dp)
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(Theme.color.surfaces.surfaceContainer)
-            .padding(horizontal = 8.dp, vertical = 12.dp)
-           ,
+            .padding(horizontal = 8.dp, vertical = 12.dp),
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            ShimmeredShape(
+            ShimmerOverlayShape(
                 modifier = Modifier
                     .align(Alignment.TopStart)
                     .size(height = 20.dp, width = 79.dp),
-                shimmerBackground = shimmerBackground
+                shimmerBrush = shimmerBrush
             )
             Row(
                 modifier = Modifier
@@ -135,7 +128,6 @@ private fun DailySummaryCard(
                     .clip(CircleShape)
                     .border(
                         width = 8.dp,
-                        //brush = shimmerBackground,
                         color = Theme.color.surfaces.surfaceVariant,
                         shape = CircleShape
                     )
@@ -143,103 +135,92 @@ private fun DailySummaryCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                ShimmeredShape(
+                ShimmerOverlayShape(
                     modifier = Modifier
                         .size(height = 19.dp, width = 32.dp),
-                    shimmerBackground = shimmerBackground
+                    shimmerBrush = shimmerBrush
                 )
             }
-            ShimmeredShape(
+            ShimmerOverlayShape(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .padding(bottom = 9.dp)
                     .size(height = 14.dp, width = 97.dp),
-                shimmerBackground = shimmerBackground
+                shimmerBrush = shimmerBrush
             )
             if (isWaterCard) {
-                ShimmeredShape(
+                ShimmerOverlayShape(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .size(32.dp),
-                    shimmerBackground = shimmerBackground
+                    shimmerBrush = shimmerBrush
                 )
             }
-
         }
     }
 }
 
 @Composable
 private fun TodayMealsSummary(
-    brush: Brush,
+    shimmerBrush: Brush,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
-        Row(
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-                .padding(top = 32.dp, bottom = 12.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start
-        ) {
-            ShimmeredShape(
-                modifier = Modifier
-                    .size(height = 19.dp, width = 98.dp),
-                shimmerBackground = brush
-            )
-        }
-        Column(
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
-                .background(Theme.color.surfaces.surfaceContainer)
-                .padding(vertical = 16.dp, horizontal = 12.dp)
-        ) {
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(76.dp),
-                modifier = Modifier
+    Box() {
+        Column(modifier = modifier) {
+            TodayMealsTitle(shimmerBrush = shimmerBrush)
+            Column(
+                modifier = modifier
+                    .padding(horizontal = 16.dp)
                     .fillMaxWidth()
-                    .heightIn(max = 150.dp),
-                userScrollEnabled = false
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Theme.color.surfaces.surfaceContainer)
+                    .padding(vertical = 16.dp, horizontal = 12.dp)
             ) {
-                items(4) { meal ->
-                    TodayMealItem(
-                        shimmerBackground = brush
-                    )
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .padding(top = 20.dp, bottom = 8.dp)
-                    .fillMaxWidth()
-                    .height(1.dp)
-                    .clip(CircleShape)
-                    .background(Theme.color.surfaces.outlineVariant)
-            ) { }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    ShimmeredShape(
-                        modifier = Modifier
-                            .size(height = 17.dp, width = 65.dp),
-                        shimmerBackground = brush
-                    )
-                    ShimmeredShape(
-                        modifier = Modifier
-                            .padding(top = 4.dp)
-                            .size(height = 14.dp, width = 45.dp),
-                        shimmerBackground = brush
-                    )
-                }
-                ShimmeredShape(
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(76.dp),
                     modifier = Modifier
-                        .size(height = 20.dp, width = 88.dp),
-                    shimmerBackground = brush
-                )
+                        .fillMaxWidth()
+                        .heightIn(max = 150.dp),
+                    userScrollEnabled = false
+                ) {
+                    items(4) { meal ->
+                        TodayMealItem(
+                            shimmerBrush = shimmerBrush
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .padding(top = 20.dp, bottom = 8.dp)
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .clip(CircleShape)
+                        .background(Theme.color.surfaces.outlineVariant)
+                ) { }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        ShimmerOverlayShape(
+                            modifier = Modifier
+                                .size(height = 17.dp, width = 65.dp),
+                            shimmerBrush = shimmerBrush
+                        )
+                        ShimmerOverlayShape(
+                            modifier = Modifier
+                                .padding(top = 4.dp)
+                                .size(height = 14.dp, width = 45.dp),
+                            shimmerBrush = shimmerBrush
+                        )
+                    }
+                    ShimmerOverlayShape(
+                        modifier = Modifier
+                            .size(height = 20.dp, width = 88.dp),
+                        shimmerBrush = shimmerBrush
+                    )
+                }
             }
         }
     }
@@ -247,36 +228,59 @@ private fun TodayMealsSummary(
 
 @Composable
 private fun TodayMealItem(
-    shimmerBackground: Brush,
+    shimmerBrush: Brush,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.wrapContentHeight(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        ShimmeredShape(
-            modifier = Modifier
-                .size(48.dp),
-            shimmerBackground = shimmerBackground
-        )
-        ShimmeredShape(
-            modifier = Modifier
-                .padding(top = 8.dp, bottom = 4.dp)
-                .size(height = 17.dp, width = 38.dp),
-            shimmerBackground = shimmerBackground
-        )
-        ShimmeredShape(
-            modifier = Modifier
-                .size(height = 14.dp, width = 45.dp),
-            shimmerBackground = shimmerBackground
-        )
+    Box() {
+        Column(
+            modifier = modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ShimmerOverlayShape(
+                modifier = Modifier
+                    .size(48.dp),
+                shimmerBrush = shimmerBrush
+            )
+            ShimmerOverlayShape(
+                modifier = Modifier
+                    .padding(top = 8.dp, bottom = 4.dp)
+                    .size(height = 17.dp, width = 38.dp),
+                shimmerBrush = shimmerBrush
+            )
+            ShimmerOverlayShape(
+                modifier = Modifier
+                    .size(height = 14.dp, width = 45.dp),
+                shimmerBrush = shimmerBrush
+            )
 
+        }
+    }
+}
+
+@Composable
+fun TodayMealsTitle(
+    shimmerBrush: Brush,
+    modifier: Modifier = Modifier) {
+    Box(modifier = modifier) {
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(top = 32.dp, bottom = 12.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            ShimmerOverlayShape(
+                modifier = Modifier
+                    .size(height = 19.dp, width = 98.dp),
+                shimmerBrush = shimmerBrush
+            )
+        }
     }
 }
 
 @Composable
 private fun SuggestedMeals(
-    brush: Brush,
+    shimmerBrush: Brush,
     modifier: Modifier = Modifier
 ) {
     SeeAll(
@@ -284,7 +288,7 @@ private fun SuggestedMeals(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .padding(top = 32.dp, bottom = 12.dp),
-        shimmerBackground = brush
+        shimmerBackground = shimmerBrush
     )
     LazyRow(
         modifier = modifier.fillMaxWidth(),
@@ -293,7 +297,7 @@ private fun SuggestedMeals(
     ) {
         items(20) {
             SuggestedMealCard(
-                shimmerBackground = brush
+                shimmerBrush = shimmerBrush
             )
         }
     }
@@ -301,32 +305,40 @@ private fun SuggestedMeals(
 
 @Composable
 private fun SuggestedMealCard(
-    shimmerBackground: Brush,
+    shimmerBrush: Brush,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        Row(
+        ShimmerOverlayShape(
             modifier = Modifier
-                .size(height = 124.dp, width = 158.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(Theme.color.surfaces.surfaceVariant)
-        ) {}
-        ShimmeredShape(
+                .size(height = 124.dp, width = 158.dp),
+            shape = RoundedCornerShape(8.dp),
+            background = Theme.color.surfaces.surfaceVariant,
+            shimmerBrush = shimmerBrush
+        )
+        // TODO remove shimmer or row after opinion designer
+//        Row(
+//            modifier = Modifier
+//                .size(height = 124.dp, width = 158.dp)
+//                .clip(RoundedCornerShape(8.dp))
+//                .background(Theme.color.surfaces.surfaceVariant)
+//        ) {}
+        ShimmerOverlayShape(
             modifier = Modifier
                 .padding(top = 8.dp, bottom = 4.dp)
                 .size(height = 17.dp, width = 78.dp),
-            shimmerBackground = shimmerBackground
+            shimmerBrush = shimmerBrush
         )
-        ShimmeredShape(
+        ShimmerOverlayShape(
             modifier = Modifier
                 .size(height = 14.dp, width = 36.dp),
-            shimmerBackground = shimmerBackground
+            shimmerBrush = shimmerBrush
         )
     }
 }
 
 private fun LazyListScope.mealHistorySection(
-    shimmerBackground: Brush,
+    shimmerBrush: Brush,
 ) {
     item {
         SeeAll(
@@ -334,31 +346,30 @@ private fun LazyListScope.mealHistorySection(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .padding(top = 32.dp, bottom = 12.dp),
-            shimmerBackground = shimmerBackground
+            shimmerBackground = shimmerBrush
         )
     }
     items(30) { mealHistory ->
-        MealHistoryItem(shimmerBackground = shimmerBackground)
+        MealHistoryItem(shimmerBrush = shimmerBrush)
     }
 }
 
 @Composable
 fun MealHistoryItem(
-    shimmerBackground: Brush,
+    shimmerBrush: Brush,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(brush = shimmerBackground)
             .padding(vertical = 12.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        ShimmeredShape(
+        ShimmerOverlayShape(
             modifier = Modifier
                 .size(48.dp),
-            shimmerBackground = shimmerBackground
+            shimmerBrush = shimmerBrush
         )
         Column(
             modifier = Modifier
@@ -366,31 +377,31 @@ fun MealHistoryItem(
                 .padding(start = 12.dp),
             verticalArrangement = Arrangement.Center
         ) {
-            ShimmeredShape(
+            ShimmerOverlayShape(
                 modifier = Modifier
                     .size(height = 17.dp, width = 123.dp),
-                shimmerBackground = shimmerBackground
+                shimmerBrush = shimmerBrush
             )
-            ShimmeredShape(
+            ShimmerOverlayShape(
                 modifier = Modifier
                     .padding(top = 8.dp)
                     .size(height = 14.dp, width = 83.dp),
-                shimmerBackground = shimmerBackground
+                shimmerBrush = shimmerBrush
             )
         }
         Column(
             horizontalAlignment = Alignment.End
         ) {
-            ShimmeredShape(
+            ShimmerOverlayShape(
                 modifier = Modifier
                     .size(height = 17.dp, width = 53.dp),
-                shimmerBackground = shimmerBackground
+                shimmerBrush = shimmerBrush
             )
-            ShimmeredShape(
+            ShimmerOverlayShape(
                 modifier = Modifier
                     .padding(top = 4.dp)
                     .size(height = 12.dp, width = 42.dp),
-                shimmerBackground = shimmerBackground
+                shimmerBrush = shimmerBrush
             )
         }
     }
@@ -402,40 +413,27 @@ private fun SeeAll(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier.background(brush = shimmerBackground),
+        modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ShimmeredShape(
+        ShimmerOverlayShape(
             modifier = Modifier
                 .size(height = 19.dp, width = 119.dp),
-            shimmerBackground = shimmerBackground
+            shimmerBrush = shimmerBackground
         )
-        ShimmeredShape(
+        ShimmerOverlayShape(
             modifier = Modifier
                 .size(height = 17.dp, width = 71.dp),
-            shimmerBackground = shimmerBackground
+            shimmerBrush = shimmerBackground
         )
     }
-}
-
-@Composable
-fun ShimmeredShape(
-    shimmerBackground: Brush?=null,
-    modifier: Modifier = Modifier,
-    background: Color = Theme.color.surfaces.surfaceVariant
-) {
-    Row(
-        modifier = modifier
-            .clip(CircleShape)
-            .background(background)
-    ) {}
 }
 
 @Preview
 @Composable
 private fun LoadingNutritionScreenPrev() {
     AppTheme(isDarkTheme = true) {
-        LoadingNutritionScreen()
+        NutritionLoadingScreen()
     }
 }
