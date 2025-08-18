@@ -29,3 +29,38 @@ fun getMeasurementStandard(measurementType: String): MeasurementStandard {
     }
 
 }
+
+fun Profile.toDto(): ProfileDto {
+    return ProfileDto(
+        name = name,
+        email = email,
+        birthDate = dateOfBirth.toString(),
+        gender = getGenderName(gender),
+        imageUrl = imageUrl,
+        measurementType = getMeasurementTypeName(preferredMeasurementStandard),
+        height = height.toDouble(),
+        weight = weight.toDouble(),
+        goal = getFitnessGoalName(goal),
+        gymEquipments = emptyList(),
+        workoutDays = workoutDays.map { it.name }
+    )
+}
+
+fun getFitnessGoalName(goal: Profile.FitnessGoal): String =
+    when (goal) {
+        Profile.FitnessGoal.LOSE_WEIGHT -> "LOSE_WEIGHT"
+        Profile.FitnessGoal.GAIN_WEIGHT -> "GAIN_WEIGHT"
+        Profile.FitnessGoal.STAY_IN_SHAPE -> "STAY_IN"
+    }
+
+fun getGenderName(gender: Profile.Gender): String =
+    when (gender) {
+        Profile.Gender.MALE -> "MALE"
+        Profile.Gender.FEMALE -> "FEMALE"
+    }
+
+fun getMeasurementTypeName(type: MeasurementStandard): String =
+    when (type) {
+        MeasurementStandard.METRIC -> "METRIC"
+        MeasurementStandard.IMPERIAL -> "IMPERIAL"
+    }

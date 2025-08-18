@@ -2,6 +2,7 @@ package com.cairosquad.evolvefit.domain.entity
 
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
+import com.cairosquad.evolvefit.domain.model.WeekDay
 import kotlinx.datetime.LocalDate
 
 data class Profile(
@@ -15,7 +16,8 @@ data class Profile(
     val weight: Float,
     val goal: FitnessGoal,
     val imageUrl:String,
-
+    val equipments: List<String>,
+    val workoutDays: Set<WeekDay>
     ) {
     enum class FitnessGoal {
         LOSE_WEIGHT,

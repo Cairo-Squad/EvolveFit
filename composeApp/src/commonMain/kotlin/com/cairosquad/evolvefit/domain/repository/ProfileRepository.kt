@@ -1,10 +1,9 @@
 package com.cairosquad.evolvefit.domain.repository
 
 import com.cairosquad.evolvefit.domain.entity.Profile
-import com.cairosquad.evolvefit.domain.model.WeekDay
 
 interface ProfileRepository {
     suspend fun getProfile(): Profile
-    suspend fun getUserWorkoutDays(): Set<WeekDay>
-    suspend fun editUserWorkoutDays(weekDays: Set<WeekDay>)
+    suspend fun editProfile(profile: Profile): Profile
+    suspend fun uploadProfileImage(fileBytes: ByteArray, fileName: String): Profile
 }
