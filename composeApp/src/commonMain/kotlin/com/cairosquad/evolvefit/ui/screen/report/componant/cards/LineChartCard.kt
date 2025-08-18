@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter.AnimatedLineChart
 import com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter.chartComponent.ChartGrid
+import com.cairosquad.evolvefit.ui.util.TimeUtil
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.friday_short
 import evolvefit.composeapp.generated.resources.monday_short
@@ -70,7 +71,7 @@ fun LineChartCard(
                 for (i in steps downTo 0) {
                     val stepValue = maxValue / steps * i
                     Text(
-                        text = formatDurationLabel(stepValue),
+                        text = TimeUtil.formatDurationLabel(stepValue),
                         style = Theme.textStyle.body.smallRegular10,
                         color = Theme.color.surfaces.onSurfaceVariant
                     )
@@ -120,21 +121,6 @@ fun LineChartCard(
         }
     }
 }
-
-private fun formatDurationLabel(seconds: Float): String {
-    val totalSeconds = seconds.toLong()
-    val hours = totalSeconds / 3600
-    val minutes = (totalSeconds % 3600) / 60
-    val secs = totalSeconds % 60
-
-    return when {
-        hours > 0 && minutes == 0L -> "$hours hr"
-        hours > 0 && minutes > 0L -> "$hours hr $minutes min"
-        minutes > 0 -> "$minutes min"
-        else -> "$secs sec"
-    }
-}
-
 @Preview
 @Composable
 private fun LineChartCardPreview() {

@@ -79,7 +79,7 @@ class WorkoutRemoteDataSourceImpl(
     }
 
     override suspend fun getWorkoutHistory(): List<WorkoutHistoryDto> {
-        return callApi { client.get("workout/history").body() }
+        return callApi { client.get("$WORKOUT_PATH/history").body() }
     }
 
     override suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutDto> {

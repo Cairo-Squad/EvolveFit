@@ -127,7 +127,7 @@ class ReportViewModel(
         val endOfWeekDate = startOfWeekDate.plus(7, DateTimeUnit.DAY)
 
         val formatter: (LocalDate) -> String = { date ->
-            "${date}T00:00:00"
+            "$date$START_OF_THE_DAY"
         }
 
         return Pair(formatter(startOfWeekDate), formatter(endOfWeekDate))
@@ -145,7 +145,7 @@ class ReportViewModel(
         val lastWeekFriday = lastWeekSaturday.plus(6, DateTimeUnit.DAY)
 
         val formatter: (LocalDate) -> String = { date ->
-            "${date}T00:00:00"
+            "$date$START_OF_THE_DAY"
         }
 
         return Pair(formatter(lastWeekSaturday), formatter(lastWeekFriday))
@@ -154,6 +154,7 @@ class ReportViewModel(
     private companion object {
         const val THIS_WEEK_KEY = "this_week"
         const val LAST_WEEK_KEY = "last_week"
+        const val START_OF_THE_DAY = "T00:00:00"
         val THIS_WEEK = ReportScreenState.WeekItem(THIS_WEEK_KEY, Res.string.this_week)
         val LAST_WEEK = ReportScreenState.WeekItem(LAST_WEEK_KEY, Res.string.last_week)
     }
