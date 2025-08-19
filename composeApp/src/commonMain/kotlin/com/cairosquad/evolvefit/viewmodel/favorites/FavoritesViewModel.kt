@@ -28,10 +28,10 @@ class FavoritesViewModel(
     }
 
     private fun loadMeals() {
-
         tryToCall(
             block = { getFavoriteMealsUseCase.getFavouriteMeals() },
-            onError = {},
+            onError = { error ->
+            },
             onSuccess = { meals ->
                 updateState { it.copy(mealsList = meals.map { it.toUiState() }) }
             }
@@ -41,7 +41,8 @@ class FavoritesViewModel(
     private fun loadWorkouts() {
         tryToCall(
             block = { manageWorkoutUseCase.getFavoriteWorkouts() },
-            onError = {},
+            onError = { error ->
+            },
             onSuccess = { workouts ->
                 updateState { it.copy(workoutsList = workouts.map { it.toUiState() }) }
             }

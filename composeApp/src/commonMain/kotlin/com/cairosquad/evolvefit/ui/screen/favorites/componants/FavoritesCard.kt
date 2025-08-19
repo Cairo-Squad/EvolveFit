@@ -51,10 +51,17 @@ fun FavoritesCard(
             placeholderImageSize = DpSize(92.dp, 72.dp),
         )
         Box(
+            modifier = Modifier.fillMaxSize()
+                .height(172.dp)
+                .background(Theme.color.surfaces.onSurfaceAt3)
+                .clip(RoundedCornerShape(8.dp))
+            ,
+        )
+        Box(
             modifier = Modifier
-                .padding( 12.dp)
+                .padding(12.dp)
                 .clip(CircleShape)
-                .align (Alignment.TopEnd)
+                .align(Alignment.TopEnd)
                 .background(Theme.color.surfaces.onSurfaceAt3),
             contentAlignment = Alignment.Center
         ) {
