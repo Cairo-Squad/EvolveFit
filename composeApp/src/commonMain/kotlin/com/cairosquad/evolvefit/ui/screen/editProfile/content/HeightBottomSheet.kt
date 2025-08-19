@@ -61,7 +61,7 @@ fun HeightBottomSheetContent(
     modifier: Modifier = Modifier
 ) {
     val (heightMeasureUnit, minHeight, maxHeight, dpPerHeightUnit, heightStep) =
-        if (measurementStandard == MeasurementStandard.METRIC ){
+        if (measurementStandard == MeasurementStandard.METRIC){
             HeightMeasurementData(
                 unit = stringResource(Res.string.cm),
                 minValue = HeightWeightConstants.MIN_HEIGHT_CM,

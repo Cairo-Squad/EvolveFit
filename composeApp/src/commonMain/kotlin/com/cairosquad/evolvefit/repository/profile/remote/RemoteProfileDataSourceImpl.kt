@@ -25,7 +25,7 @@ class RemoteProfileDataSourceImpl(
     }
 
     override suspend fun editProfile(profileRequest: ProfilePostDto): ProfileGetDto {
-        println("data source REQUEST: ${profileRequest.goal}")
+        println("data source REQUEST: ${profileRequest}")
 
         val response = callApi<ProfileGetDto> {
             httpClient.put("user/profile") {
