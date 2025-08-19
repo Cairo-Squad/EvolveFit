@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.viewmodel.more
 
 import com.cairosquad.evolvefit.domain.entity.Profile
+import com.cairosquad.evolvefit.domain.model.Language
 import kotlinx.datetime.toLocalDateTime
 
 fun Profile.toUiState(): MoreScreenState.Profile {
@@ -14,7 +15,12 @@ fun Profile.toUiState(): MoreScreenState.Profile {
         preferredLanguage = this.preferredLanguage
     )
 }
-
+fun languageToLanguageCode(language: Language): String{
+    return when(language){
+        Language.ARABIC -> "ar"
+        Language.ENGLISH -> "en"
+    }
+}
 private fun calculateAge(dateOfBirth: kotlinx.datetime.LocalDate): Int {
     val currentDate = kotlinx.datetime.Clock.System.now()
         .toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault()).date

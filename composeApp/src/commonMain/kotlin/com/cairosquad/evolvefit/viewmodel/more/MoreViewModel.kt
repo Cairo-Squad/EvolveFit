@@ -3,12 +3,10 @@ package com.cairosquad.evolvefit.viewmodel.more
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseCase
-import com.cairosquad.evolvefit.domain.usecase.profile.ManageLanguageUseCase
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 
 class MoreViewModel(
-    private val manageLanguageUseCase: ManageLanguageUseCase,
     private val manageProfileUseCase: ManageProfileUseCase,
     private val authenticationUseCase: AuthenticationUseCase
 ) : BaseViewModel<MoreScreenState, MoreEffect>(MoreScreenState()),
@@ -28,9 +26,8 @@ class MoreViewModel(
     }
 
     private fun onSuccessLoadProfile(profile: Profile) {
-        manageLanguageUseCase.saveLanguage(profile.preferredLanguage)
         updateState { it.copy(profile = profile.toUiState()) }
-        sendEffect(MoreEffect.ChangeLanguage(profile.preferredLanguage))
+        sendEffect(MoreEffect.ChangeLanguage(languageToLanguageCode(profile.preferredLanguage)))
     }
 
     override fun onClickPersonInformation() {
@@ -60,7 +57,7 @@ class MoreViewModel(
     override fun onConfirmChangeLanguage(language: Language) {
         tryToCall(
             onStart = { updateState { it.copy(isLoading = true) } },
-            block = { manageLanguageUseCase.saveLanguage(language) },
+            block = { },
             onSuccess = { onSuccessChangeLanguage(language) },
             onError = { },
             onEnd = { updateState { it.copy(isLoading = false) } },
@@ -74,7 +71,7 @@ class MoreViewModel(
                 isLanguageBottomSheetEnabled = false
             )
         }
-        sendEffect(MoreEffect.ChangeLanguage(updatedLanguage))
+        sendEffect(MoreEffect.ChangeLanguage(languageToLanguageCode(updatedLanguage)))
     }
 
     override fun onLogout() {

@@ -28,16 +28,18 @@ import com.cairosquad.evolvefit.ui.screen.onboarding.OnboardingScreen
 import com.cairosquad.evolvefit.ui.screen.playWorkout.PlayWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
 import com.cairosquad.evolvefit.ui.screen.suggestedMeals.SuggestedMealsScreen
-import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.editProfile.EditProfileScreen
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.WorkoutDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.WorkoutHistoryScreen
+import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import org.koin.compose.koinInject
 
 @Composable
 fun NavigationHost(
     authenticationPreferences: AuthenticationPreferences = koinInject(),
-    deepLinkRoute: Any? = null
+    deepLinkRoute: Any? = null,
+    onLanguageChange: (String) -> Unit,
+    onThemeChange: (MoreScreenState.Theme) -> Unit
 ) {
     val isUserLoggedIn = authenticationPreferences.getAccessToken().isNullOrBlank().not()
     val startDestination = if (isUserLoggedIn) AppRoute else OnboardingRoute
@@ -137,8 +139,10 @@ fun NavigationHost(
                     launchSingleTop = true
                     restoreState = false
                 } },
-                navigateToFavoritesScreen = {navController.navigate(FavoritesScreenRoute)}
-                )
+                navigateToFavoritesScreen = {navController.navigate(FavoritesScreenRoute)},
+                onLanguageChange = onLanguageChange,
+                onThemeChange = onThemeChange
+            )
         }
 
         composable<CreateWorkoutRoute> {

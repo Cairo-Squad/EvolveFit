@@ -5,10 +5,16 @@ import coil3.ImageLoader
 import coil3.compose.setSingletonImageLoaderFactory
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.ui.navigation.NavigationHost
+import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import io.github.vinceglb.filekit.coil.addPlatformFileSupport
 
 @Composable
-fun App(deepLinkRoute: Any? = null) {
+fun App(
+    deepLinkRoute: Any? = null,
+    currentTheme: MoreScreenState.Theme = MoreScreenState.Theme.LIGHT,
+    onLanguageChange: (String) -> Unit = {},
+    onThemeChange: (MoreScreenState.Theme) -> Unit = {},
+) {
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)
             .components {
@@ -16,7 +22,7 @@ fun App(deepLinkRoute: Any? = null) {
             }
             .build()
     }
-    AppTheme {
-        NavigationHost(deepLinkRoute = deepLinkRoute)
+    AppTheme(isDarkTheme = currentTheme == MoreScreenState.Theme.DARK) {
+        NavigationHost(deepLinkRoute = deepLinkRoute, onLanguageChange = onLanguageChange,            onThemeChange = onThemeChange)
     }
 }

@@ -18,6 +18,7 @@ import com.cairosquad.evolvefit.ui.screen.nutrition.NutritionScreen
 import com.cairosquad.evolvefit.ui.screen.more.MoreScreen
 import com.cairosquad.evolvefit.ui.screen.report.ReportScreen
 import com.cairosquad.evolvefit.ui.screen.workout.WorkoutScreen
+import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.dashboard
 import evolvefit.composeapp.generated.resources.dashboard_filled
@@ -45,8 +46,10 @@ fun AppScreen(
     navigateToWorkoutHistory: () -> Unit,
     navigateToEditProfile: () -> Unit,
     navigateToLogIn: () -> Unit,
-    navigateToFavoritesScreen: () -> Unit
-    ) {
+    navigateToFavoritesScreen: () -> Unit,
+    onLanguageChange: (String) -> Unit,
+    onThemeChange: (MoreScreenState.Theme) -> Unit
+) {
     var selectedScreenIndex by rememberSaveable { mutableIntStateOf(0) }
 
     val navigationItemsRes = remember {
@@ -89,6 +92,7 @@ fun AppScreen(
                 0 -> HomeScreen(
                     navigateToWorkout = navigateToWorkoutDetails
                 )
+
                 1 -> NutritionScreen(
                     navigateToSuggestedMeals = navigateToSuggestedMeals,
                     navigateToMealDetails = navigateToMealDetails,
@@ -108,7 +112,8 @@ fun AppScreen(
                 4 -> MoreScreen(
                     navigateToFavorites = navigateToFavoritesScreen,
                     navigateToNotificationSettings = { },
-                    onThemeChanged = {  },
+                    onThemeChanged = onThemeChange,
+                    onLanguageChange = onLanguageChange,
                     onLogout = navigateToLogIn,
                     navigateToEditProfile = navigateToEditProfile
 
