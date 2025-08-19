@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,7 +29,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
@@ -213,14 +216,19 @@ fun CreateExerciseScreenContent(
                                 .size(100.dp)
                                 .rotate(-5f)
                                 .offset(x = (-15).dp, y = (-18).dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(Theme.color.surfaces.surfaceContainer)
                                 .clickable { listener.onEndImageClicked() },
                             contentAlignment = Alignment.Center
                         ) {
                             if (state.image2 != null) {
                                 UiImageDisplayer(
-                                    modifier = Modifier.fillMaxSize(),
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .fillMaxSize(),
                                     image = state.image2,
-                                    contentDescription = stringResource(Res.string.exercise_image)
+                                    contentDescription = stringResource(Res.string.exercise_image),
+                                    contentScale = ContentScale.Crop
                                 )
                             } else {
                                 Image(
@@ -234,14 +242,19 @@ fun CreateExerciseScreenContent(
                         Box(
                             modifier = Modifier
                                 .size(100.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(Theme.color.surfaces.surfaceContainer)
                                 .clickable { listener.onStartImageClicked() },
                             contentAlignment = Alignment.Center
                         ) {
                             if (state.image1 != null) {
                                 UiImageDisplayer(
-                                    modifier = Modifier.fillMaxSize(),
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .fillMaxSize(),
                                     image = state.image1,
-                                    contentDescription = stringResource(Res.string.exercise_image)
+                                    contentDescription = stringResource(Res.string.exercise_image),
+                                    contentScale = ContentScale.Crop
                                 )
                             } else {
                                 Image(
