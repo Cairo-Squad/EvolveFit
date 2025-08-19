@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.viewmodel.editProfile
 
 import com.cairosquad.evolvefit.domain.entity.Equipment
+import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import kotlinx.datetime.LocalDate
 
 interface EditProfileInteractionListener {
@@ -25,6 +26,7 @@ interface EditProfileInteractionListener {
     fun onMainGoalChanged(mainGoal: String)
     fun onPreferredMeasurementStandardChanged(measurementStandard: String)
     fun onImageUrlChanged(imageUrl: String)
+    fun onImageRetrieved(image: UiImage)
     fun onBottomSheetDismissed()
     fun onImagePickerDismissed()
 
