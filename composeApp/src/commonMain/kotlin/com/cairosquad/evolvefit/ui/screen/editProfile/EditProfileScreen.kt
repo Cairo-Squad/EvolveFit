@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -65,7 +66,6 @@ import evolvefit.composeapp.generated.resources.your_tools
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.round
 
@@ -73,11 +73,10 @@ import kotlin.math.round
 @Composable
 fun EditProfileScreen(
     navigateBack: () -> Unit,
-    viewModel: EditProfileViewModel = koinViewModel(),
-    modifier: Modifier = Modifier
+    viewModel: EditProfileViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
-    EditProfileScreenContent(state, viewModel,navigateBack)
+    EditProfileScreenContent(state, viewModel, navigateBack)
 
 }
 
@@ -85,14 +84,15 @@ fun EditProfileScreen(
 fun EditProfileScreenContent(
     state: EditProfileScreenState,
     listener: EditProfileInteractionListener,
-    navigateBack:() ->Unit,
+    navigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(color = Theme.color.surfaces.surface)
-            .windowInsetsPadding(WindowInsets.statusBars).padding(top=15.dp),
+            .windowInsetsPadding(WindowInsets.statusBars).padding(top = 15.dp)
+            .windowInsetsPadding(WindowInsets.navigationBars),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomAppBar(
@@ -106,7 +106,7 @@ fun EditProfileScreenContent(
                         .clickable { navigateBack() }
                 )
             },
-            modifier = Modifier.padding(start=16.dp)
+            modifier = Modifier.padding(start = 16.dp)
         )
         Column(
             modifier = Modifier
@@ -123,9 +123,17 @@ fun EditProfileScreenContent(
                 onImagePickerDismiss = { listener.onImagePickerDismissed() },
                 onImagePickerClick = { listener.onImageUrlClicked() },
                 onImageRetrieved = { uiImage ->
-                    if (uiImage is UiImage.ImageUrl) {
-                        listener.onImageUrlChanged(uiImage.url)
-                        listener.onImagePickerDismissed()
+                    when (uiImage) {
+                        is UiImage.ImageFile -> {
+                            listener.onImageRetrieved(uiImage)
+                        }
+
+                        is UiImage.ImageUrl -> {
+                            listener.onImageUrlChanged(uiImage.url)
+                            listener.onImagePickerDismissed()
+                        }
+
+                        else -> Unit
                     }
                 }
             )
@@ -197,7 +205,7 @@ fun EditProfileScreenContent(
                 ) {
                     LabeledInputField(
                         label = stringResource(Res.string.height),
-                        value =(round(state.profile.height * 10) / 10).toString(),
+                        value = (round(state.profile.height * 10) / 10).toString(),
                         onValueChange = {},
                         readOnly = false,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -233,7 +241,7 @@ fun EditProfileScreenContent(
                     value = if (state.profile.equipments.isEmpty()) {
                         stringResource(Res.string.no_tools_title)
                     } else {
-                        state.profile.equipments.joinToString(", ") {it.name }
+                        state.profile.equipments.joinToString(", ") { it.name }
                     },
                     onValueChange = { listener::onEquipmentChanged },
                     readOnly = true,
@@ -250,7 +258,10 @@ fun EditProfileScreenContent(
                                 EditProfileScreenState.WeekDayUiState.SUNDAY -> stringResource(Res.string.sunday)
                                 EditProfileScreenState.WeekDayUiState.MONDAY -> stringResource(Res.string.monday)
                                 EditProfileScreenState.WeekDayUiState.TUESDAY -> stringResource(Res.string.tuesday)
-                                EditProfileScreenState.WeekDayUiState.WEDNESDAY -> stringResource(Res.string.wednesday)
+                                EditProfileScreenState.WeekDayUiState.WEDNESDAY -> stringResource(
+                                    Res.string.wednesday
+                                )
+
                                 EditProfileScreenState.WeekDayUiState.THURSDAY -> stringResource(Res.string.thursday)
                                 EditProfileScreenState.WeekDayUiState.FRIDAY -> stringResource(Res.string.friday)
                                 EditProfileScreenState.WeekDayUiState.SATURDAY -> stringResource(Res.string.saturday)

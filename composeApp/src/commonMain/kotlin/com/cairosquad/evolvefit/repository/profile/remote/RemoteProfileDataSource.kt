@@ -6,5 +6,5 @@ import com.cairosquad.evolvefit.repository.profile.dto.ProfilePostDto
 interface RemoteProfileDataSource {
     suspend fun getProfile(): ProfileGetDto
     suspend fun editProfile(profileRequest: ProfilePostDto): ProfileGetDto
-    suspend fun uploadProfileImage(fileBytes: ByteArray, fileName: String): ProfileGetDto
+    suspend fun uploadProfileImage(fileBytes: ByteArray, fileName: String): String
 }

@@ -15,7 +15,7 @@ class ManageProfileUseCase(
         return profileRepository.editProfile(profile)
     }
 
-    suspend fun uploadProfileImage(fileBytes: ByteArray, fileName: String): Profile {
+    suspend fun uploadProfileImage(fileBytes: ByteArray, fileName: String): String {
         return profileRepository.uploadProfileImage(fileBytes, fileName)
     }
 }
