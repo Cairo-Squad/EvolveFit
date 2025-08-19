@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -65,7 +66,6 @@ import evolvefit.composeapp.generated.resources.your_tools
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.round
 
@@ -73,8 +73,7 @@ import kotlin.math.round
 @Composable
 fun EditProfileScreen(
     navigateBack: () -> Unit,
-    viewModel: EditProfileViewModel = koinViewModel(),
-    modifier: Modifier = Modifier
+    viewModel: EditProfileViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
     EditProfileScreenContent(state, viewModel, navigateBack)
@@ -92,7 +91,8 @@ fun EditProfileScreenContent(
         modifier = modifier
             .fillMaxSize()
             .background(color = Theme.color.surfaces.surface)
-            .windowInsetsPadding(WindowInsets.statusBars).padding(top = 15.dp),
+            .windowInsetsPadding(WindowInsets.statusBars).padding(top = 15.dp)
+            .windowInsetsPadding(WindowInsets.navigationBars),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomAppBar(
