@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.ui.screen.register.content.HeightWeightConstants
 import com.cairosquad.evolvefit.ui.screen.register.content.MeasureSection
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
@@ -26,7 +27,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun WeightBottomSheet(
     selectedWeight: Float,
-    measurementStandard:String,
+    measurementStandard:MeasurementStandard,
     isWeightBottomSheetOpen: Boolean=true,
     onWeightBottomSheetDismiss: () -> Unit,
     onWeightChange: (Float) -> Unit,
@@ -52,13 +53,13 @@ fun WeightBottomSheet(
 @Composable
 fun WeightBottomSheetContent(
     selectedWeight: Float,
-    measurementStandard: String,
+    measurementStandard: MeasurementStandard,
     onWeightChange: (Float) -> Unit,
     onWeightBottomSheetDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val (weightMeasureUnit, minWeight, maxWeight, dpPerWeightUnit, weightStep) =
-        if (measurementStandard == stringResource(Res.string.unit_metric)) {
+        if (measurementStandard == MeasurementStandard.METRIC) {
             WeightMeasurementData(
                 unit = stringResource(Res.string.kg),
                 minValue = HeightWeightConstants.MIN_WEIGHT_KG,

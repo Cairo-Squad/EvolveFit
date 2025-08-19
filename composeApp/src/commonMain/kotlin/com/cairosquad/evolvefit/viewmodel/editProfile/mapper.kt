@@ -10,28 +10,28 @@ fun Profile.toUiState() = EditProfileScreenState.ProfileUiState(
     fullName = name,
     email = email,
     dateOfBirth = dateOfBirth,
-    gender = gender.name,
+    gender = gender,
     height = height,
     weight = weight,
-    mainGoal = goal.name,
+    mainGoal = goal,
     imageUrl = imageUrl,
-    preferredMeasurementStandard = preferredMeasurementStandard.name,
+    preferredMeasurementStandard = preferredMeasurementStandard,
     equipments= equipments.toEquipmentUiStateSet(),
     workoutDays = workoutDays.toWeekDayUiStateSet(),
-    preferredLanguage = preferredLanguage.name
+    preferredLanguage = preferredLanguage
 
     )
 fun EditProfileScreenState.ProfileUiState.toDomain() = Profile(
     name = fullName,
     email = email,
     dateOfBirth = dateOfBirth!! ,
-    gender = Profile.Gender.valueOf(gender),
-    preferredMeasurementStandard = MeasurementStandard.valueOf(preferredMeasurementStandard),
+    gender = gender,
+    preferredMeasurementStandard = preferredMeasurementStandard,
     height = height,
     weight = weight,
-    goal = Profile.FitnessGoal.valueOf(mainGoal),
+    goal = mainGoal,
     imageUrl = imageUrl,
-    preferredLanguage = Language.valueOf(preferredLanguage),
+    preferredLanguage = preferredLanguage,
     equipments = equipments.toEquipmentDomainSet(),
     workoutDays = workoutDays.toWeekDayDomainSet()
 )

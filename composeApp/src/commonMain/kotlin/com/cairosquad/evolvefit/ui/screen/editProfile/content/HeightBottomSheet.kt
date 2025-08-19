@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.ui.screen.register.content.HeightWeightConstants
 import com.cairosquad.evolvefit.ui.screen.register.content.MeasureSection
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
@@ -28,7 +29,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun HeightBottomSheet(
     selectedHeight: Float,
-    measurementStandard: String,
+    measurementStandard: MeasurementStandard,
     isHeightBottomSheetOpen: Boolean = true,
     onHeightBottomSheetDismiss: () -> Unit,
     onHeightChange: (Float) -> Unit,
@@ -54,13 +55,13 @@ fun HeightBottomSheet(
 @Composable
 fun HeightBottomSheetContent(
     selectedHeight: Float,
-    measurementStandard: String,
+    measurementStandard: MeasurementStandard,
     onHeightChange: (Float) -> Unit,
     onHeightBottomSheetDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val (heightMeasureUnit, minHeight, maxHeight, dpPerHeightUnit, heightStep) =
-        if (measurementStandard == stringResource(Res.string.unit_metric) ){
+        if (measurementStandard == MeasurementStandard.METRIC ){
             HeightMeasurementData(
                 unit = stringResource(Res.string.cm),
                 minValue = HeightWeightConstants.MIN_HEIGHT_CM,

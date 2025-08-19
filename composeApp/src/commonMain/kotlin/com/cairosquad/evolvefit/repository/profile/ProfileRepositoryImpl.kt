@@ -15,6 +15,7 @@ class ProfileRepositoryImpl(
     }
 
     override suspend fun editProfile(profile: Profile): Profile {
+        println("repo: ${profile}")
         return callDataSource { remoteProfileDataSource.editProfile(profile.toProfilePostDto()).toEntity() }
     }
 
