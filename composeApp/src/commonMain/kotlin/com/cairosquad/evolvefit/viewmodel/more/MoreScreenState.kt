@@ -7,7 +7,7 @@ data class MoreScreenState(
     val isThemeBottomSheetEnabled: Boolean = false,
     val isLanguageBottomSheetEnabled: Boolean = false,
     val isLogoutBottomSheetEnabled: Boolean = false,
-    val currentTheme: Theme = Theme.DARK,
+    val currentTheme: Theme = Theme.LIGHT,
     val currentLanguage: Language = Language.ENGLISH,
     val profile: Profile = Profile()
 ) {

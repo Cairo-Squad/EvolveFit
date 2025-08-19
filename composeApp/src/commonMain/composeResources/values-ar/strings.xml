@@ -287,8 +287,8 @@
     <string name="logout_message">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
     <string name="choose_theme">اختر النمط</string>
     <string name="theme_description">اختر المظهر الذي تفضله للتطبيق.</string>
-    <string name="dark_mode">الوضع الداكن</string>
-    <string name="light_mode">الوضع الفاتح</string>
+    <string name="dark_mode">داكن</string>
+    <string name="light_mode">فاتح</string>
     <string name="account">الحساب</string>
     <string name="favorites">المفضلة</string>
     <string name="notification_settings">إعدادات الإشعارات</string>
