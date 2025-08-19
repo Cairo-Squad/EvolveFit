@@ -47,7 +47,7 @@ fun Profile.toDto(): ProfileGetDto {
     )
 }
 fun Profile.toProfilePostDto(): ProfilePostDto {
-    return ProfilePostDto(
+    val dto = ProfilePostDto(
         name = name,
         email = email,
         birthDate = dateOfBirth.toString(),
@@ -57,12 +57,11 @@ fun Profile.toProfilePostDto(): ProfilePostDto {
         height = height.toDouble(),
         weight = weight.toDouble(),
         goal = getFitnessGoalName(goal),
-        gymEquipments = equipments.map{it.id},
+        gymEquipments = equipments.map { it.id },
         workoutDays = workoutDays.map { it.name }
     )
+    return dto
 }
-
-
 fun getFitnessGoalName(goal: Profile.FitnessGoal): String =
     when (goal) {
         Profile.FitnessGoal.LOSE_WEIGHT -> "LOSE_WEIGHT"

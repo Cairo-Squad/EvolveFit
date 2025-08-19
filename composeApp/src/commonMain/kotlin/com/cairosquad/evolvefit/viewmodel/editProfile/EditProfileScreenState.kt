@@ -23,6 +23,7 @@ data class EditProfileScreenState(
         val mainGoal: String = "",
         val imageUrl: String="",
         val preferredMeasurementStandard: String ="",
+        val preferredLanguage : String="",
         val equipments: Set<EquipmentUiState> = emptySet(),
         val workoutDays: Set<WeekDayUiState> = emptySet(),
     )
@@ -55,6 +56,11 @@ data class EditProfileScreenState(
     enum class MeasurementStandard {
         Metric,
         Imperial
+    }
+
+    enum class Language {
+        ARABIC,
+        ENGLISH
     }
 
 }

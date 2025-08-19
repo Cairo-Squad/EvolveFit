@@ -35,7 +35,7 @@ data class ProfileGetDto(
     val workoutDays: List<String> = emptyList()
 ) {
     fun toEntity(): Profile {
-        return Profile(
+        val entity =  Profile(
             name = name,
             email = email,
             imageUrl = imageUrl,
@@ -49,5 +49,7 @@ data class ProfileGetDto(
             equipments = gymEquipments.map{it.toDomain()}.toSet(),
             workoutDays = workoutDays.filterNotNull().map { WeekDay.valueOf(it) }.toSet()
         )
+        return entity
+
     }
 }

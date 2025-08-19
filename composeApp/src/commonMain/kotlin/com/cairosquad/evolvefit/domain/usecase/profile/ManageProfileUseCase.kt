@@ -11,6 +11,7 @@ class ManageProfileUseCase(
     }
 
     suspend fun editProfile(profile: Profile): Profile {
+        println("use case: ${profile.name}")
         return profileRepository.editProfile(profile)
     }
 

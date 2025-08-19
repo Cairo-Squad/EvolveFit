@@ -18,6 +18,7 @@ fun Profile.toUiState() = EditProfileScreenState.ProfileUiState(
     preferredMeasurementStandard = preferredMeasurementStandard.name,
     equipments= equipments.toEquipmentUiStateSet(),
     workoutDays = workoutDays.toWeekDayUiStateSet(),
+    preferredLanguage = preferredLanguage.name
 
     )
 fun EditProfileScreenState.ProfileUiState.toDomain() = Profile(
@@ -30,7 +31,7 @@ fun EditProfileScreenState.ProfileUiState.toDomain() = Profile(
     weight = weight,
     goal = Profile.FitnessGoal.valueOf(mainGoal),
     imageUrl = imageUrl,
-    preferredLanguage = Language.valueOf(preferredMeasurementStandard),
+    preferredLanguage = Language.valueOf(preferredLanguage),
     equipments = equipments.toEquipmentDomainSet(),
     workoutDays = workoutDays.toWeekDayDomainSet()
 )

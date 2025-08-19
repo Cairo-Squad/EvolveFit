@@ -30,7 +30,8 @@ class EditProfileViewModel(
             onSuccess = { profile->
                 updateState { it.copy(profile=profile.toUiState()) }
             },
-            onError = {
+            onError = { throwable ->
+
                 updateState { it.copy(errorMessage = Res.string.failed_to_load_user_profile) }
             }
 
@@ -45,6 +46,7 @@ class EditProfileViewModel(
                 updateState { it.copy(profile=profile.toUiState()) }
             },
             onError = {
+
                 updateState { it.copy(errorMessage = Res.string.failed_to_load_user_profile) }
             }
 
