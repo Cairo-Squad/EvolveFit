@@ -1,5 +1,8 @@
 package com.cairosquad.evolvefit.viewmodel.editProfile
 
+import com.cairosquad.evolvefit.domain.entity.Profile
+import com.cairosquad.evolvefit.domain.entity.Profile.Gender
+import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.domain.usecase.equipment.ManageEquipmentUseCase
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
@@ -72,6 +75,7 @@ class EditProfileViewModel(
     override fun onSaveChangesClicked(profile: EditProfileScreenState.ProfileUiState) {
         editProfile(profile)
         sendEffect(EditProfileEffect.NavigateBack)
+
     }
 
 
@@ -139,7 +143,7 @@ class EditProfileViewModel(
         }
     }
 
-    override fun onGenderChanged(gender: String) {
+    override fun onGenderChanged(gender: Gender) {
         updateState { state ->
             state.copy(profile = state.profile.copy(gender = gender))
         }
@@ -158,13 +162,13 @@ class EditProfileViewModel(
         }
     }
 
-    override fun onMainGoalChanged(mainGoal: String) {
+    override fun onMainGoalChanged(mainGoal: Profile.FitnessGoal) {
         updateState { state ->
             state.copy(profile = state.profile.copy(mainGoal = mainGoal))
         }
     }
 
-    override fun onPreferredMeasurementStandardChanged(measurementStandard: String) {
+    override fun onPreferredMeasurementStandardChanged(measurementStandard: MeasurementStandard) {
         updateState { state ->
             state.copy(profile = state.profile.copy(preferredMeasurementStandard = measurementStandard))
         }

@@ -8,7 +8,7 @@ fun getFitnessGoal(goal: String): Profile.FitnessGoal {
     return when (goal) {
         "LOSE_WEIGHT" -> Profile.FitnessGoal.LOSE_WEIGHT
         "GAIN_WEIGHT" -> Profile.FitnessGoal.GAIN_WEIGHT
-        "STAY_IN" -> Profile.FitnessGoal.STAY_IN_SHAPE
+        "STAY_IN_SHAPE" -> Profile.FitnessGoal.STAY_IN_SHAPE
         else -> Profile.FitnessGoal.STAY_IN_SHAPE
     }
 }
@@ -66,7 +66,7 @@ fun getFitnessGoalName(goal: Profile.FitnessGoal): String =
     when (goal) {
         Profile.FitnessGoal.LOSE_WEIGHT -> "LOSE_WEIGHT"
         Profile.FitnessGoal.GAIN_WEIGHT -> "GAIN_WEIGHT"
-        Profile.FitnessGoal.STAY_IN_SHAPE -> "STAY_IN"
+        Profile.FitnessGoal.STAY_IN_SHAPE -> "STAY_IN_SHAPE"
     }
 
 fun getGenderName(gender: Profile.Gender): String =

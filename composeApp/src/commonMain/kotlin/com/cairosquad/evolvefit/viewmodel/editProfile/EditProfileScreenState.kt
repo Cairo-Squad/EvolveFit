@@ -1,6 +1,10 @@
 package com.cairosquad.evolvefit.viewmodel.editProfile
 
 import com.cairosquad.evolvefit.domain.entity.Equipment
+import com.cairosquad.evolvefit.domain.entity.Profile
+import com.cairosquad.evolvefit.domain.entity.Profile.Gender
+import com.cairosquad.evolvefit.domain.model.Language
+import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.domain.model.WeekDay
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.StringResource
@@ -17,13 +21,13 @@ data class EditProfileScreenState(
         val fullName: String = "",
         val email: String = "",
         val dateOfBirth: LocalDate? = null,
-        val gender: String = "",
+        val gender:Gender= Gender.FEMALE,
         val height: Float = 0f,
         val weight: Float = 0f,
-        val mainGoal: String = "",
+        val mainGoal: Profile.FitnessGoal = Profile.FitnessGoal.GAIN_WEIGHT,
         val imageUrl: String="",
-        val preferredMeasurementStandard: String ="",
-        val preferredLanguage : String="",
+        val preferredMeasurementStandard: MeasurementStandard=MeasurementStandard.METRIC,
+        val preferredLanguage : Language= Language.ENGLISH,
         val equipments: Set<EquipmentUiState> = emptySet(),
         val workoutDays: Set<WeekDayUiState> = emptySet(),
     )
@@ -53,14 +57,6 @@ data class EditProfileScreenState(
         SATURDAY,
         SUNDAY
     }
-    enum class MeasurementStandard {
-        Metric,
-        Imperial
-    }
 
-    enum class Language {
-        ARABIC,
-        ENGLISH
-    }
 
 }

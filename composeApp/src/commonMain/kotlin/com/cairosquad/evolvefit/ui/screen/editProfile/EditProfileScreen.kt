@@ -180,7 +180,7 @@ fun EditProfileScreenContent(
 
                     LabeledInputField(
                         label = stringResource(Res.string.gender),
-                        value = state.profile.gender,
+                        value = state.profile.gender.name,
                         onValueChange = {},
                         readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -192,7 +192,7 @@ fun EditProfileScreenContent(
 
                 LabeledInputField(
                     label = stringResource(Res.string.units),
-                    value = state.profile.preferredMeasurementStandard,
+                    value = state.profile.preferredMeasurementStandard.name,
                     onValueChange = { },
                     readOnly = false,
                     onClick = { listener.onPreferredMeasurementStandardClicked() },
@@ -228,7 +228,7 @@ fun EditProfileScreenContent(
 
                 LabeledInputField(
                     label = stringResource(Res.string.goal),
-                    value = state.profile.mainGoal,
+                    value = state.profile.mainGoal.name,
                     onValueChange = {},
                     readOnly = true,
                     trailingIcon = Res.drawable.ic_arrow_down,
@@ -397,61 +397,4 @@ fun EditProfileScreenContent(
 
         null -> Unit
     }
-}
-
-
-@Preview()
-@Composable
-private fun EditProfileScreenPreview() {
-    val sampleProfile = EditProfileScreenState.ProfileUiState(
-        fullName = "Hawraa Mahmood",
-        email = "hawraamahmood@gmail.com",
-        dateOfBirth = null,
-        gender = "Female",
-        height = 166f,
-        weight = 64.5f,
-        mainGoal = "Los Weight",
-        imageUrl = "",
-        preferredMeasurementStandard = "Metric"
-    )
-
-    val sampleState = EditProfileScreenState(
-        profile = sampleProfile
-    )
-
-    EditProfileScreenContent(
-        navigateBack = {},
-        state = sampleState,
-        listener = object : EditProfileInteractionListener {
-            override fun onBackClicked() {}
-            override fun onSaveChangesClicked(profile: EditProfileScreenState.ProfileUiState) {}
-            override fun onDateOfBirthClicked() {}
-            override fun onGenderClicked() {}
-            override fun onHeightClicked() {}
-            override fun onWeightClicked() {}
-            override fun onMainGoalClicked() {}
-            override fun onEquipmentClicked() {}
-            override fun onWorkoutDaysClicked() {}
-            override fun onEquipmentChanged(equipments: Set<EditProfileScreenState.EquipmentUiState>) {}
-            override fun onWorkoutDaysChanged(workoutsDays: Set<EditProfileScreenState.WeekDayUiState>) {}
-            override fun onPreferredMeasurementStandardClicked() {}
-            override fun onImageUrlClicked() {}
-            override fun onFullNameChanged(fullName: String) {}
-            override fun onDateOfBirthChanged(dateOfBirth: LocalDate) {}
-            override fun onGenderChanged(gender: String) {}
-            override fun onHeightChanged(height: Float) {}
-            override fun onWeightChanged(weight: Float) {}
-            override fun onMainGoalChanged(mainGoal: String) {}
-            override fun onPreferredMeasurementStandardChanged(measurementStandard: String) {}
-            override fun onImageUrlChanged(imageUrl: String) {}
-            override fun onImageRetrieved(image: UiImage) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onImagePickerDismissed() {}
-            override fun onBottomSheetDismissed() {
-                TODO("Not yet implemented")
-            }
-        }
-    )
 }
