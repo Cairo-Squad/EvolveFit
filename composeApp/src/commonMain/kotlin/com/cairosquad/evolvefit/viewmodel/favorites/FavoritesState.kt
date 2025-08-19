@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.viewmodel.favorites
 
-import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.entity.nutrition.MealType
 import com.cairosquad.evolvefit.domain.entity.nutrition.SuggestedMeal
@@ -38,21 +37,11 @@ fun SuggestedMeal.toUiState(): MealsUiModel {
     )
 }
 
-fun Workout.toUiState(): WorkoutsUiModel {
-    return WorkoutsUiModel(
-        name = name,
-        estimatedTimeInSeconds = estimatedTimeInSeconds,
-        focusArea = "", //TODO()
-        imageUrl = imageUrl
-
-    )
-}
-
 fun WorkoutSuggested.toUiState(): WorkoutsUiModel {
     return WorkoutsUiModel(
         name = name,
         estimatedTimeInSeconds = durationSeconds,
-        focusArea = "", //TODO()
+        focusArea = focusArea.joinToString(separator = " , ") { it.name },
         imageUrl = imageUrl
 
     )

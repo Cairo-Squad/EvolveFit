@@ -9,6 +9,7 @@ import com.cairosquad.evolvefit.repository.nutrition.dto.SuggestedMealDto
 import com.cairosquad.evolvefit.repository.nutrition.remote.utils.MealConstants.MEALS_PATH
 import com.cairosquad.evolvefit.repository.nutrition.remote.utils.MealConstants.NUTRITION_PATH
 import com.cairosquad.evolvefit.repository.execption.callApi
+import com.cairosquad.evolvefit.repository.nutrition.dto.FavouriteMealDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
@@ -31,8 +32,8 @@ class RemoteNutritionDataSourceImpl(
         }
     }
 
-    override suspend fun getFavouriteMeals(): List<SuggestedMealDto> {
-        return callApi<List<SuggestedMealDto>> {
+    override suspend fun getFavouriteMeals(): List<FavouriteMealDto> {
+        return callApi<List<FavouriteMealDto>> {
             httpClient.get("favorite/meal")
                 .body()
         }

@@ -2,12 +2,13 @@ package com.cairosquad.evolvefit.repository.workout.remote
 
 import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.repository.workout.remote.dto.CreateWorkoutRequest
+import com.cairosquad.evolvefit.repository.workout.remote.dto.FavoritesWorkoutDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDetailsDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutHistoryDto
 
 interface WorkoutRemoteDataSource {
-    suspend fun getFavoriteWorkout(): List<WorkoutDto>
+    suspend fun getFavoriteWorkout(): List<FavoritesWorkoutDto>
     suspend fun createWorkout(request: CreateWorkoutRequest)
     suspend fun getWorkoutDetails(workoutId: String): WorkoutDetailsDto
     suspend fun getSuggestedWorkouts(): List<WorkoutDto>
