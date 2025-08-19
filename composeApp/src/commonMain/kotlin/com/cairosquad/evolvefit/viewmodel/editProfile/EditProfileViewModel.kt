@@ -4,31 +4,30 @@ import com.cairosquad.evolvefit.domain.usecase.equipment.ManageEquipmentUseCase
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState.EditProfileBottomSheetType
+import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
+import com.cairosquad.evolvefit.viewmodel.utils.asByteArray
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.failed_to_load_equipments
-import evolvefit.composeapp.generated.resources.failed_to_load_user_equipments
 import evolvefit.composeapp.generated.resources.failed_to_load_user_profile
-import evolvefit.composeapp.generated.resources.failed_to_load_user_workout_days
-import evolvefit.composeapp.generated.resources.failed_to_update_equipments
-import evolvefit.composeapp.generated.resources.failed_to_update_workout_days
+import evolvefit.composeapp.generated.resources.failed_to_update_user_profile_image
 import kotlinx.datetime.LocalDate
 
 class EditProfileViewModel(
-    private val manageProfileUseCase : ManageProfileUseCase,
+    private val manageProfileUseCase: ManageProfileUseCase,
     private val manageEquipmentUseCase: ManageEquipmentUseCase
-) :BaseViewModel<EditProfileScreenState, EditProfileEffect>(
-    EditProfileScreenState()) , EditProfileInteractionListener
-{
+) : BaseViewModel<EditProfileScreenState, EditProfileEffect>(
+    EditProfileScreenState()
+), EditProfileInteractionListener {
     init {
         getProfile()
         getAllEquipment()
     }
-    private fun editProfile(profile : EditProfileScreenState.ProfileUiState)
-    {
+
+    private fun editProfile(profile: EditProfileScreenState.ProfileUiState) {
         tryToCall(
-            block={manageProfileUseCase.editProfile(profile.toDomain() )},
-            onSuccess = { profile->
-                updateState { it.copy(profile=profile.toUiState()) }
+            block = { manageProfileUseCase.editProfile(profile.toDomain()) },
+            onSuccess = { profile ->
+                updateState { it.copy(profile = profile.toUiState()) }
             },
             onError = { throwable ->
 
@@ -38,12 +37,11 @@ class EditProfileViewModel(
         )
     }
 
-    private fun getProfile()
-    {
+    private fun getProfile() {
         tryToCall(
-            block={manageProfileUseCase.getProfile()},
-            onSuccess ={profile->
-                updateState { it.copy(profile=profile.toUiState()) }
+            block = { manageProfileUseCase.getProfile() },
+            onSuccess = { profile ->
+                updateState { it.copy(profile = profile.toUiState()) }
             },
             onError = {
 
@@ -52,11 +50,11 @@ class EditProfileViewModel(
 
         )
     }
-    private fun getAllEquipment()
-    {
+
+    private fun getAllEquipment() {
         tryToCall(
-            block={manageEquipmentUseCase.getAllEquipments()},
-            onSuccess ={equipment->
+            block = { manageEquipmentUseCase.getAllEquipments() },
+            onSuccess = { equipment ->
                 updateState { it.copy(allEquipments = equipment.toEquipmentUiStateSet()) }
             },
             onError = {
@@ -70,10 +68,10 @@ class EditProfileViewModel(
     override fun onBackClicked() {
         sendEffect(EditProfileEffect.NavigateBack)
     }
+
     override fun onSaveChangesClicked(profile: EditProfileScreenState.ProfileUiState) {
         editProfile(profile)
         sendEffect(EditProfileEffect.NavigateBack)
-
     }
 
 
@@ -81,24 +79,23 @@ class EditProfileViewModel(
         updateState { it.copy(bottomSheetType = EditProfileBottomSheetType.BIRTHDAY) }
     }
 
-    override fun onEquipmentClicked()  {
+    override fun onEquipmentClicked() {
         updateState { it.copy(bottomSheetType = EditProfileBottomSheetType.EQUIPMENT) }
 
     }
+
     override fun onWorkoutDaysClicked() {
         updateState { it.copy(bottomSheetType = EditProfileBottomSheetType.WORKOUTS_DAYS) }
     }
 
-    override fun onEquipmentChanged(equipments:Set<EditProfileScreenState.EquipmentUiState>) {
-        updateState {
-                state->
-            state.copy(profile = state.profile.copy(equipments=equipments))
+    override fun onEquipmentChanged(equipments: Set<EditProfileScreenState.EquipmentUiState>) {
+        updateState { state ->
+            state.copy(profile = state.profile.copy(equipments = equipments))
         }
     }
 
     override fun onWorkoutDaysChanged(workoutDays: Set<EditProfileScreenState.WeekDayUiState>) {
-        updateState {
-                state->
+        updateState { state ->
             state.copy(profile = state.profile.copy(workoutDays = workoutDays))
         }
     }
@@ -179,9 +176,32 @@ class EditProfileViewModel(
         }
     }
 
+    override fun onImageRetrieved(image: UiImage) {
+        updateState { it.copy(isImagePickerOpened = false) }
+
+        tryToCall(
+            block = {
+                val (bytes, fileName) = image.asByteArray()
+                val uploadedProfile = manageProfileUseCase.uploadProfileImage(bytes, fileName)
+                uploadedProfile
+            },
+            onSuccess = { url ->
+                updateState { state ->
+                    state.copy(
+                        profile = state.profile.copy(imageUrl = url)
+                    )
+                }
+            },
+            onError = { error ->
+                updateState { it.copy(errorMessage = Res.string.failed_to_update_user_profile_image) }
+            }
+        )
+    }
+
     override fun onImagePickerDismissed() {
         updateState { it.copy(isImagePickerOpened = false) }
     }
+
     override fun onBottomSheetDismissed() {
         updateState { it.copy(bottomSheetType = null) }
     }
