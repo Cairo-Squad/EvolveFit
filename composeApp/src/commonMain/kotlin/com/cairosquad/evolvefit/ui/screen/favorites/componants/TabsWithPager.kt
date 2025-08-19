@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.ui.screen.favorites.componants
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +21,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -38,9 +40,6 @@ import evolvefit.composeapp.generated.resources.im_empty_list_dark
 import evolvefit.composeapp.generated.resources.im_empty_list_light
 import evolvefit.composeapp.generated.resources.meals_tab_title
 import evolvefit.composeapp.generated.resources.workouts_tab_title
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -61,14 +60,16 @@ fun TabsWithPager(
             } else {
                 pagerState.animateScrollToPage(1)
             }
-        } catch (_: Exception) {}
+        } catch (_: Exception) {
+        }
     }
 
     Column {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp, bottom = 16.dp),
+                .padding(top = 8.dp, bottom = 16.dp)
+                .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             TabItem(
@@ -89,7 +90,7 @@ fun TabsWithPager(
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
-            userScrollEnabled = false
+            userScrollEnabled = true
         ) { page ->
             when (page) {
                 0 -> {
@@ -123,6 +124,12 @@ private fun TabItem(
     modifier: Modifier,
     onTabClicked: () -> Unit
 ) {
+    val targetColor = if (selected)
+        Theme.color.brand.primary
+    else
+        Theme.color.surfaces.onSurface
+
+    val textColor by animateColorAsState(targetValue = targetColor)
     Column(
         modifier = modifier
             .clickable { onTabClicked() },
@@ -132,7 +139,7 @@ private fun TabItem(
             modifier = Modifier
                 .padding(vertical = 16.dp, horizontal = 12.dp),
             text = title,
-            color = Theme.color.brand.primary,
+            color = textColor,
             style = Theme.textStyle.body.mediumMedium14
         )
         if (selected) {
