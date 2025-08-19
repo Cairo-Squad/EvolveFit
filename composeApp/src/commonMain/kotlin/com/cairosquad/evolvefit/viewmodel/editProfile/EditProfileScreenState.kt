@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.editProfile
 
+import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.model.WeekDay
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.StringResource
@@ -25,6 +26,9 @@ data class EditProfileScreenState(
         val equipments: Set<EquipmentUiState> = emptySet(),
         val workoutDays: Set<WeekDayUiState> = emptySet(),
     )
+
+
+
     enum class EditProfileBottomSheetType {
         WORKOUTS_DAYS,
         EQUIPMENT,

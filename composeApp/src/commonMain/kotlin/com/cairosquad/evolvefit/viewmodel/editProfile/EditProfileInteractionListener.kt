@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.editProfile
 
+import com.cairosquad.evolvefit.domain.entity.Equipment
 import kotlinx.datetime.LocalDate
 
 interface EditProfileInteractionListener {

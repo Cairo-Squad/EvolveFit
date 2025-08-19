@@ -1,7 +1,8 @@
 package com.cairosquad.evolvefit.repository.profile.remote
 
 import com.cairosquad.evolvefit.repository.execption.callApi
-import com.cairosquad.evolvefit.repository.profile.dto.ProfileDto
+import com.cairosquad.evolvefit.repository.profile.dto.ProfileGetDto
+import com.cairosquad.evolvefit.repository.profile.dto.ProfilePostDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.formData
@@ -17,13 +18,13 @@ import io.ktor.http.contentType
 class RemoteProfileDataSourceImpl(
     private val httpClient: HttpClient
 ) : RemoteProfileDataSource {
-    override suspend fun getProfile(): ProfileDto {
+    override suspend fun getProfile(): ProfileGetDto {
         return callApi {
             httpClient.get("user/profile").body()
         }
     }
 
-    override suspend fun editProfile(profileRequest: ProfileDto): ProfileDto {
+    override suspend fun editProfile(profileRequest: ProfilePostDto): ProfileGetDto {
         return callApi {
             httpClient.put("user/profile") {
                 contentType(ContentType.Application.Json)
@@ -32,7 +33,7 @@ class RemoteProfileDataSourceImpl(
         }
     }
 
-    override suspend fun uploadProfileImage(fileBytes: ByteArray, fileName: String): ProfileDto {
+    override suspend fun uploadProfileImage(fileBytes: ByteArray, fileName: String): ProfileGetDto {
         return callApi {
             httpClient.submitFormWithBinaryData(
                 url = "user/profile/image",

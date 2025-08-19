@@ -16,10 +16,10 @@ fun Profile.toUiState() = EditProfileScreenState.ProfileUiState(
     mainGoal = goal.name,
     imageUrl = imageUrl,
     preferredMeasurementStandard = preferredMeasurementStandard.name,
-    equipments=equipments.toEquipmentUiStateSet(),
+    equipments= equipments.toEquipmentUiStateSet(),
     workoutDays = workoutDays.toWeekDayUiStateSet(),
 
-)
+    )
 fun EditProfileScreenState.ProfileUiState.toDomain() = Profile(
     name = fullName,
     email = email,
@@ -34,6 +34,7 @@ fun EditProfileScreenState.ProfileUiState.toDomain() = Profile(
     equipments = equipments.toEquipmentDomainSet(),
     workoutDays = workoutDays.toWeekDayDomainSet()
 )
+
 fun Equipment.toUiState(): EditProfileScreenState.EquipmentUiState {
     return EditProfileScreenState.EquipmentUiState(
         id = this.id,

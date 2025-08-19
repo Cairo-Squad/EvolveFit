@@ -2,6 +2,7 @@ package com.cairosquad.evolvefit.repository.profile.dto
 
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
+import com.cairosquad.evolvefit.repository.equipment.remot.toDto
 
 fun getFitnessGoal(goal: String): Profile.FitnessGoal {
     return when (goal) {
@@ -30,8 +31,8 @@ fun getMeasurementStandard(measurementType: String): MeasurementStandard {
 
 }
 
-fun Profile.toDto(): ProfileDto {
-    return ProfileDto(
+fun Profile.toDto(): ProfileGetDto {
+    return ProfileGetDto(
         name = name,
         email = email,
         birthDate = dateOfBirth.toString(),
@@ -41,10 +42,26 @@ fun Profile.toDto(): ProfileDto {
         height = height.toDouble(),
         weight = weight.toDouble(),
         goal = getFitnessGoalName(goal),
-        gymEquipments = equipments.toList(),
+        gymEquipments = equipments.map{it.toDto()}.toList(),
         workoutDays = workoutDays.map { it.name }
     )
 }
+fun Profile.toProfilePostDto(): ProfilePostDto {
+    return ProfilePostDto(
+        name = name,
+        email = email,
+        birthDate = dateOfBirth.toString(),
+        gender = getGenderName(gender),
+        imageUrl = imageUrl,
+        measurementType = getMeasurementTypeName(preferredMeasurementStandard),
+        height = height.toDouble(),
+        weight = weight.toDouble(),
+        goal = getFitnessGoalName(goal),
+        gymEquipments = equipments.map{it.id},
+        workoutDays = workoutDays.map { it.name }
+    )
+}
+
 
 fun getFitnessGoalName(goal: Profile.FitnessGoal): String =
     when (goal) {

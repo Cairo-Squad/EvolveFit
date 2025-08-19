@@ -16,7 +16,7 @@ data class Profile(
     val weight: Float,
     val goal: FitnessGoal,
     val imageUrl:String,
-    val equipments: Set<String>,
+    val equipments: Set<Equipment>,
     val workoutDays: Set<WeekDay>
     ) {
     enum class FitnessGoal {
