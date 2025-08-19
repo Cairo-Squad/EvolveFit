@@ -22,7 +22,7 @@ data class RegisterScreenState(
     val dateOfBirthInput: String = "",
     val isNextButtonEnabled: Boolean = false,
     val selectedGender: Gender? = null,
-    val selectedMeasurementStandard: MeasurementStandard? = null,
+    val selectedMeasurementStandard: MeasurementStandard? = MeasurementStandard.Metric,
     val selectedGoal: Goal? = null,
     val notificationSettings: NotificationSettings = NotificationSettings(),
     val selectedWeekDayUiState: Set<WeekDayUiState> = emptySet(),

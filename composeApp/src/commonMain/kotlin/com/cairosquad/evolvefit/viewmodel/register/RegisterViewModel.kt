@@ -12,6 +12,7 @@ class RegisterViewModel(
     private val manageEquipmentUseCase: ManageEquipmentUseCase,
 ) : BaseViewModel<RegisterScreenState, RegisterEffect>(RegisterScreenState()),
     RegisterInteractionListener {
+
     override fun onClickNext() {
         updateState {
             it.copy(currentStep = it.currentStep + 1)
@@ -39,7 +40,7 @@ class RegisterViewModel(
                         gender = state.selectedGender.toDomain(),
                         preferredMeasurementStandard = state.selectedMeasurementStandard.toDomain(),
                         height = state.selectedHeight,
-                        weight = state.selectedHeight,
+                        weight = state.selectedWeight,
                         goal = state.selectedGoal.toDomain(),
                         imageUrl=state.image.toString(),
                         preferredLanguage = state.preferredLanguage.toDomain(),

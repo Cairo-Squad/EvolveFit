@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
@@ -41,7 +40,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
@@ -58,7 +56,6 @@ import evolvefit.composeapp.generated.resources.weight
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlin.math.floor
 
 @Composable
 fun RegisterScreenContentSelectHeightAndWeight(
@@ -66,20 +63,7 @@ fun RegisterScreenContentSelectHeightAndWeight(
     listener: RegisterInteractionListener,
     modifier: Modifier = Modifier
 ) {
-    if(state.selectedHeight==0f && state.selectedWeight==0f)
-    {
-        if( state.selectedMeasurementStandard== RegisterScreenState.MeasurementStandard.Metric)
-        {
-            listener.onHeightChanged(150f)
-            listener.onWeightChanged(70f)
-        }
-        else
-        {
-            listener.onHeightChanged(7f)
-            listener.onWeightChanged(110f)
 
-        }
-    }
     Column(
         modifier = modifier.fillMaxSize()
             .padding(top = 16.dp),
@@ -122,8 +106,19 @@ fun RegisterScreenContentSelectHeightAndWeight(
             heightStep = HeightWeightConstants.HEIGHT_STEP_FT
             weightStep = HeightWeightConstants.WEIGHT_STEP_LB
         }
+        var height = state.selectedHeight
+        var weight =state.selectedWeight
+            if (state.selectedHeight == 0f && state.selectedWeight == 0f) {
+            if (state.selectedMeasurementStandard == RegisterScreenState.MeasurementStandard.Metric) {
+                height = 170f
+                weight =70f
+            } else {
+                height = 5.6f
+                weight =150f
+            }
+        }
         MeasureSection(
-            selectedMeasure = state.selectedHeight,
+            selectedMeasure = height,
             measureType = stringResource(Res.string.height),
             measureIcon = painterResource(Res.drawable.ic_ruler),
             minMeasureValue = minHeight,
@@ -137,7 +132,7 @@ fun RegisterScreenContentSelectHeightAndWeight(
         )
 
         MeasureSection(
-            selectedMeasure = state.selectedWeight,
+            selectedMeasure = weight,
             measureType = stringResource(Res.string.weight),
             measureIcon = painterResource(Res.drawable.ic_scale),
             minMeasureValue = minWeight,
@@ -325,7 +320,7 @@ fun MeasurementCard(
     measureUnit: String,
     measureIcon: Painter,
     modifier: Modifier = Modifier
-){
+) {
     Row(
         modifier = modifier
             .background(
@@ -365,20 +360,23 @@ fun Ruler(
     onValueChanged: (Float) -> Unit
 ) {
 
-    val clampedAndAlignedValue = kotlin.math.round(selectedValue.coerceIn(minValue, maxValue) / step) * step
-    var currentValue by remember(clampedAndAlignedValue) { mutableFloatStateOf(clampedAndAlignedValue) }
+    val initialValue = if (selectedValue == 0f) ((minValue + maxValue) / 2f) else selectedValue
 
+    val clampedAndAlignedValue = kotlin.math.round(
+        initialValue.coerceIn(minValue, maxValue) / step
+    ) * step
+
+    var currentValue by remember(clampedAndAlignedValue) {
+        mutableFloatStateOf(
+            clampedAndAlignedValue
+        )
+    }
     val density = LocalDensity.current
     val textMeasurer = rememberTextMeasurer()
     val outlineColor = Theme.color.surfaces.outline
     val textStyle = Theme.textStyle.body.smallRegular10
 
     val pixelsPerUnit = with(density) { dpPerUnit.dp.toPx() }
-
-    // Update currentValue when selectedValue changes
-    LaunchedEffect(clampedAndAlignedValue) {
-        currentValue = clampedAndAlignedValue
-    }
 
     Column(
         modifier = modifier
@@ -503,10 +501,11 @@ fun DrawScope.drawRuler(
         index++
     }
 }
+
 @Composable
 fun DrawIndicatorTriangle(
     modifier: Modifier = Modifier,
-){
+) {
     val indicatorColor = Theme.color.surfaces.onSurfaceVariant
 
     Canvas(
@@ -529,7 +528,8 @@ fun DrawIndicatorTriangle(
 fun formatToOneDecimal(value: Float): String {
     return (kotlin.math.round(value * 10) / 10f).toString()
 }
- object HeightWeightConstants {
+
+object HeightWeightConstants {
     const val MIN_HEIGHT_CM = 50f
     const val MAX_HEIGHT_CM = 250f
     const val HEIGHT_STEP_CM = 1f
@@ -550,3 +550,4 @@ fun formatToOneDecimal(value: Float): String {
     const val WEIGHT_STEP_LB = 2f
     const val DP_PER_LB = 5f
 }
+
