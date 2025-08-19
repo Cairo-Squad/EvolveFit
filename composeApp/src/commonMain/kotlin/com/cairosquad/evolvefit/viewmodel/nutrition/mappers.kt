@@ -1,8 +1,8 @@
 package com.cairosquad.evolvefit.viewmodel.nutrition
 
-import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
-import com.cairosquad.evolvefit.entity.nutrition.MealType
-import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
+import com.cairosquad.evolvefit.domain.entity.nutrition.ConsumedMeal
+import com.cairosquad.evolvefit.domain.entity.nutrition.MealType
+import com.cairosquad.evolvefit.domain.entity.nutrition.SuggestedMeal
 import com.cairosquad.evolvefit.viewmodel.utils.formatIsoToTodayTime
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_coffee

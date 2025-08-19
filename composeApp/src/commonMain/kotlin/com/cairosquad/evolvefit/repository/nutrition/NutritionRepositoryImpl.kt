@@ -1,11 +1,11 @@
 package com.cairosquad.evolvefit.repository.nutrition
 
 import com.cairosquad.evolvefit.domain.repository.NutritionRepository
-import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
-import com.cairosquad.evolvefit.entity.nutrition.DailyCalorieSummary
-import com.cairosquad.evolvefit.entity.nutrition.DailyWaterSummary
-import com.cairosquad.evolvefit.entity.nutrition.Meal
-import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
+import com.cairosquad.evolvefit.domain.entity.nutrition.ConsumedMeal
+import com.cairosquad.evolvefit.domain.entity.nutrition.DailyCalorieSummary
+import com.cairosquad.evolvefit.domain.entity.nutrition.DailyWaterSummary
+import com.cairosquad.evolvefit.domain.entity.nutrition.Meal
+import com.cairosquad.evolvefit.domain.entity.nutrition.SuggestedMeal
 import com.cairosquad.evolvefit.repository.execption.callDataSource
 import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSource
 import com.cairosquad.evolvefit.repository.nutrition.remote.toDomain

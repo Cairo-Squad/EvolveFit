@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.repository.nutrition.remote
 
-import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
 import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealRequestDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.DailyCalorieSummaryDto

@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.remote.utils
+package com.cairosquad.evolvefit.repository.nutrition.remote.utils
 
 object MealConstants {
     const val NUTRITION_PATH="nutrition"

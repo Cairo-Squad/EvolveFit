@@ -5,11 +5,11 @@ import com.cairosquad.evolvefit.domain.exceptions.ExceededWaterLimitException
 import com.cairosquad.evolvefit.domain.exceptions.InvalidNumberFormatException
 import com.cairosquad.evolvefit.domain.exceptions.MealNotFoundException
 import com.cairosquad.evolvefit.domain.repository.NutritionRepository
-import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
-import com.cairosquad.evolvefit.entity.nutrition.DailyCalorieSummary
-import com.cairosquad.evolvefit.entity.nutrition.DailyWaterSummary
-import com.cairosquad.evolvefit.entity.nutrition.Meal
-import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
+import com.cairosquad.evolvefit.domain.entity.nutrition.ConsumedMeal
+import com.cairosquad.evolvefit.domain.entity.nutrition.DailyCalorieSummary
+import com.cairosquad.evolvefit.domain.entity.nutrition.DailyWaterSummary
+import com.cairosquad.evolvefit.domain.entity.nutrition.Meal
+import com.cairosquad.evolvefit.domain.entity.nutrition.SuggestedMeal
 
 class ManageNutritionUseCase(private val nutritionRepository: NutritionRepository) {
     suspend fun getSuggestedMeals(): List<SuggestedMeal> {

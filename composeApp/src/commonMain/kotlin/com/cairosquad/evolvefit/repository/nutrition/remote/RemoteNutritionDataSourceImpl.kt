@@ -6,8 +6,8 @@ import com.cairosquad.evolvefit.repository.nutrition.dto.DailyCalorieSummaryDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.DailyWaterSummaryDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.MealDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.SuggestedMealDto
-import com.cairosquad.evolvefit.remote.utils.MealConstants.MEALS_PATH
-import com.cairosquad.evolvefit.remote.utils.MealConstants.NUTRITION_PATH
+import com.cairosquad.evolvefit.repository.nutrition.remote.utils.MealConstants.MEALS_PATH
+import com.cairosquad.evolvefit.repository.nutrition.remote.utils.MealConstants.NUTRITION_PATH
 import com.cairosquad.evolvefit.repository.execption.callApi
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

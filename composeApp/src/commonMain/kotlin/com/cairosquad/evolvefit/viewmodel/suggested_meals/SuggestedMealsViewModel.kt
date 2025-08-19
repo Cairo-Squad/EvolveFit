@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.viewmodel.suggested_meals
 
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
-import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
+import com.cairosquad.evolvefit.domain.entity.nutrition.SuggestedMeal
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 
 class SuggestedMealsViewModel(

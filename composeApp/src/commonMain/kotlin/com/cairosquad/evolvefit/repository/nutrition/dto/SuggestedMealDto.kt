@@ -1,6 +1,6 @@
 package com.cairosquad.evolvefit.repository.nutrition.dto
 
-import com.cairosquad.evolvefit.entity.nutrition.MealType
+import com.cairosquad.evolvefit.domain.entity.nutrition.MealType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

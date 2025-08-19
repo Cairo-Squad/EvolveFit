@@ -1,6 +1,4 @@
-package com.cairosquad.evolvefit.entity.nutrition
-
-import com.cairosquad.evolvefit.entity.nutrition.MealType
+package com.cairosquad.evolvefit.domain.entity.nutrition
 
 data class Meal(
     val id: String,

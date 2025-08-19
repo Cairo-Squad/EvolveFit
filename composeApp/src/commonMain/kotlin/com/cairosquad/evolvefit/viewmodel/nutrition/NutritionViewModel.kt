@@ -9,11 +9,11 @@ import com.cairosquad.evolvefit.domain.exceptions.MealNotFoundException
 import com.cairosquad.evolvefit.domain.exceptions.NetworkException
 import com.cairosquad.evolvefit.domain.exceptions.TimeoutException
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
-import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
-import com.cairosquad.evolvefit.entity.nutrition.DailyCalorieSummary
-import com.cairosquad.evolvefit.entity.nutrition.DailyWaterSummary
-import com.cairosquad.evolvefit.entity.nutrition.MealType
-import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
+import com.cairosquad.evolvefit.domain.entity.nutrition.ConsumedMeal
+import com.cairosquad.evolvefit.domain.entity.nutrition.DailyCalorieSummary
+import com.cairosquad.evolvefit.domain.entity.nutrition.DailyWaterSummary
+import com.cairosquad.evolvefit.domain.entity.nutrition.MealType
+import com.cairosquad.evolvefit.domain.entity.nutrition.SuggestedMeal
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.utils.getTodayDate
 import evolvefit.composeapp.generated.resources.Res

@@ -2,8 +2,8 @@ package com.cairosquad.evolvefit.viewmodel.suggested_meals
 
 
 
-import com.cairosquad.evolvefit.entity.nutrition.MealType
-import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
+import com.cairosquad.evolvefit.domain.entity.nutrition.MealType
+import com.cairosquad.evolvefit.domain.entity.nutrition.SuggestedMeal
 
 fun SuggestedMeal.toSuggestedMealUiState() : SuggestedMealsScreenState.SuggestedMealUiState{
     return SuggestedMealsScreenState.SuggestedMealUiState(
