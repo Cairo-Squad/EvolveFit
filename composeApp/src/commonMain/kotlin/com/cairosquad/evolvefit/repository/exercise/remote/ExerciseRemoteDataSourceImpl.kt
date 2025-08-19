@@ -14,7 +14,7 @@ import io.ktor.http.contentType
 class ExerciseRemoteDataSourceImpl(private val client: HttpClient) : ExerciseRemoteDataSource {
     override suspend fun createExercise(exercise: ExerciseDto): ExerciseResponseDto {
         return callApi<ExerciseResponseDto> {
-            client.post("exercises") {
+            client.post("exercise/create") {
                 contentType(ContentType.Application.Json)
                 setBody(exercise)
             }
