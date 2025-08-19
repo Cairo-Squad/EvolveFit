@@ -185,8 +185,11 @@ class EditProfileViewModel(
 
         tryToCall(
             block = {
-                val (bytes, fileName) = image.asByteArray()
-                val uploadedProfile = manageProfileUseCase.uploadProfileImage(bytes, fileName)
+                val imageFileData = image.asByteArray()
+                val uploadedProfile = manageProfileUseCase.uploadProfileImage(
+                    imageFileData.bytes,
+                    imageFileData.fileName
+                )
                 uploadedProfile
             },
             onSuccess = { url ->
