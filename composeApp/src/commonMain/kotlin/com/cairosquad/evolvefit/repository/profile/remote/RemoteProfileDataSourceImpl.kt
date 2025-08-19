@@ -5,9 +5,10 @@ import com.cairosquad.evolvefit.repository.profile.dto.ProfileGetDto
 import com.cairosquad.evolvefit.repository.profile.dto.ProfilePostDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
-import io.ktor.client.request.forms.submitFormWithBinaryData
 import io.ktor.client.request.get
+import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -20,7 +21,7 @@ class RemoteProfileDataSourceImpl(
 ) : RemoteProfileDataSource {
     override suspend fun getProfile(): ProfileGetDto {
         return callApi {
-            httpClient.get("user/profile").body()
+            httpClient.get(USER_PROFILE_PATH).body()
         }
     }
 
@@ -28,7 +29,7 @@ class RemoteProfileDataSourceImpl(
         println("data source REQUEST: ${profileRequest.name}")
 
         val response = callApi<ProfileGetDto> {
-            httpClient.put("user/profile") {
+            httpClient.put(USER_PROFILE_PATH) {
                 contentType(ContentType.Application.Json)
                 setBody(profileRequest)
             }
@@ -40,24 +41,28 @@ class RemoteProfileDataSourceImpl(
         return response
     }
 
-    override suspend fun uploadProfileImage(fileBytes: ByteArray, fileName: String): ProfileGetDto {
-        return callApi {
-            httpClient.submitFormWithBinaryData(
-                url = "user/profile/image",
-                formData = formData {
-                    append(
-                        key = "file",
-                        value = fileBytes,
-                        headers = Headers.build {
-                            append(HttpHeaders.ContentType, "image/jpeg")
+    override suspend fun uploadProfileImage(fileBytes: ByteArray, fileName: String): String {
+        return callApi<String> {
+            val response = httpClient.post("${USER_PROFILE_PATH}/image") {
+                setBody(
+                    MultiPartFormDataContent(
+                        formData {
                             append(
-                                HttpHeaders.ContentDisposition,
-                                "form-data; name=\"file\"; filename=\"$fileName\""
+                                key = "file",
+                                value = fileBytes,
+                                headers = Headers.build {
+                                    append(HttpHeaders.ContentType, "multipart/form-data")
+                                    append(HttpHeaders.ContentDisposition, "filename=\"$fileName\"")
+                                }
                             )
                         }
-                    )
-                }
-            ).body()
+                    ))
+            }
+            response.body()
         }
+    }
+
+    private companion object {
+        const val USER_PROFILE_PATH = "user/profile"
     }
 }
