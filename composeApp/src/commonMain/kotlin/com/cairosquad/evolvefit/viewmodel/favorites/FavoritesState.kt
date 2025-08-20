@@ -10,10 +10,15 @@ data class FavoritesState(
     val mealsList: List<MealsUiModel> = emptyList(),
     val isWorkoutTabSelected: Boolean = true,
     val isMealTabSelected: Boolean = false,
-    val isSnackBarVisible: Boolean = false
-)
+    val isSnackBarVisible: Boolean = false,
+    val lastDeletedMeal: MealsUiModel? = null,
+    val lastDeletedWorkout: WorkoutsUiModel? = null,
+    val lastDeletedMealIndex: Int? = null,
+    val lastDeletedWorkoutIndex: Int? = null,
+    )
 
 data class WorkoutsUiModel(
+    val id: String ,
     val name: String,
     val estimatedTimeInSeconds: Int,
     val focusArea: String,
@@ -40,6 +45,7 @@ fun SuggestedMeal.toUiState(): MealsUiModel {
 
 fun WorkoutSuggested.toUiState(): WorkoutsUiModel {
     return WorkoutsUiModel(
+        id = id,
         name = name,
         estimatedTimeInSeconds = durationSeconds,
         focusArea = focusArea.joinToString(separator = " , ") { it.name },
