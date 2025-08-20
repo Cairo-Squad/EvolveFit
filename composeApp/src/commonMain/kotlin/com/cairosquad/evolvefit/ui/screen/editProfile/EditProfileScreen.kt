@@ -66,8 +66,27 @@ import evolvefit.composeapp.generated.resources.your_tools
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.round
+import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
+import com.cairosquad.evolvefit.domain.entity.Profile.Gender
+import com.cairosquad.evolvefit.domain.model.MeasurementStandard
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.GenderBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.HeightBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.MainGoalBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.MeasurementBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.ToolsBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.WeightBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.WorkoutDaysBottomSheet
+import evolvefit.composeapp.generated.resources.female
+import evolvefit.composeapp.generated.resources.friday
+import evolvefit.composeapp.generated.resources.gain_weight
+import evolvefit.composeapp.generated.resources.lose_weight
+import evolvefit.composeapp.generated.resources.male
+import evolvefit.composeapp.generated.resources.stay_in_shape
+import evolvefit.composeapp.generated.resources.unit_imperial
+import evolvefit.composeapp.generated.resources.unit_metric
 
 
 @Composable
@@ -180,7 +199,7 @@ fun EditProfileScreenContent(
 
                     LabeledInputField(
                         label = stringResource(Res.string.gender),
-                        value = state.profile.gender.name,
+                        value = mapGenderToString(state.profile.gender),
                         onValueChange = {},
                         readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -228,7 +247,7 @@ fun EditProfileScreenContent(
 
                 LabeledInputField(
                     label = stringResource(Res.string.goal),
-                    value = state.profile.mainGoal.name,
+                    value = mapMainGoalToString(state.profile.mainGoal),
                     onValueChange = {},
                     readOnly = true,
                     trailingIcon = Res.drawable.ic_arrow_down,
@@ -249,35 +268,10 @@ fun EditProfileScreenContent(
                     isDividerVisible = true,
                     onClick = { listener.onEquipmentClicked() }
                 )
-                val workoutDaysText = if (state.profile.workoutDays.isEmpty()) {
-                    stringResource(Res.string.no_workouts)
-                } else {
-                    state.profile.workoutDays
-                        .map { day ->
-                            when (day) {
-                                EditProfileScreenState.WeekDayUiState.SUNDAY -> stringResource(Res.string.sunday)
-                                EditProfileScreenState.WeekDayUiState.MONDAY -> stringResource(Res.string.monday)
-                                EditProfileScreenState.WeekDayUiState.TUESDAY -> stringResource(Res.string.tuesday)
-                                EditProfileScreenState.WeekDayUiState.WEDNESDAY -> stringResource(
-                                    Res.string.wednesday
-                                )
-
-                                EditProfileScreenState.WeekDayUiState.THURSDAY -> stringResource(Res.string.thursday)
-                                EditProfileScreenState.WeekDayUiState.FRIDAY -> stringResource(Res.string.friday)
-                                EditProfileScreenState.WeekDayUiState.SATURDAY -> stringResource(Res.string.saturday)
-                            }
-                        }
-                        .joinToString(", ")
-                }
-
 
                 LabeledInputField(
                     label = stringResource(Res.string.workouts_days),
-                    value = if (state.profile.workoutDays.isEmpty()) {
-                        stringResource(Res.string.no_workouts)
-                    } else {
-                        workoutDaysText
-                    },
+                    value = mapWorkoutDaysToString(state.profile.workoutDays),
                     onValueChange = { },
                     readOnly = true,
                     trailingIcon = Res.drawable.ic_arrow_down,
@@ -293,6 +287,7 @@ fun EditProfileScreenContent(
             )
         }
     }
+
     when (state.bottomSheetType) {
         EditProfileScreenState.EditProfileBottomSheetType.BIRTHDAY -> {
             DateBottomSheet(
@@ -396,5 +391,53 @@ fun EditProfileScreenContent(
         }
 
         null -> Unit
+    }
+
+}
+
+@Composable
+private fun mapWorkoutDaysToString(workoutDays: Set<EditProfileScreenState.WeekDayUiState>): String {
+    return if (workoutDays.isEmpty()) {
+        stringResource(Res.string.no_workouts)
+    } else {
+        workoutDays
+            .map { day ->
+                when (day) {
+                    EditProfileScreenState.WeekDayUiState.SUNDAY -> stringResource(Res.string.sunday)
+                    EditProfileScreenState.WeekDayUiState.MONDAY -> stringResource(Res.string.monday)
+                    EditProfileScreenState.WeekDayUiState.TUESDAY -> stringResource(Res.string.tuesday)
+                    EditProfileScreenState.WeekDayUiState.WEDNESDAY -> stringResource(Res.string.wednesday)
+                    EditProfileScreenState.WeekDayUiState.THURSDAY -> stringResource(Res.string.thursday)
+                    EditProfileScreenState.WeekDayUiState.FRIDAY -> stringResource(Res.string.friday)
+                    EditProfileScreenState.WeekDayUiState.SATURDAY -> stringResource(Res.string.saturday)
+                }
+            }
+            .joinToString(", ")
+    }
+}
+
+@Composable
+private fun mapGenderToString(gender: Gender): String {
+    return when (gender) {
+        Gender.MALE -> stringResource(Res.string.male)
+        Gender.FEMALE -> stringResource(Res.string.female)
+    }
+}
+
+@Composable
+private fun mapMeasurementStandardToString(standard: MeasurementStandard): String {
+    return when (standard) {
+        MeasurementStandard.METRIC -> stringResource(Res.string.unit_metric)
+        MeasurementStandard.IMPERIAL -> stringResource(Res.string.unit_imperial)
+    }
+}
+
+@Composable
+private fun mapMainGoalToString(goal: FitnessGoal): String {
+    return when (goal) {
+        FitnessGoal.LOSE_WEIGHT -> stringResource(Res.string.lose_weight)
+        FitnessGoal.GAIN_WEIGHT -> stringResource(Res.string.gain_weight)
+        FitnessGoal.STAY_IN_SHAPE-> stringResource(Res.string.stay_in_shape)
+
     }
 }
