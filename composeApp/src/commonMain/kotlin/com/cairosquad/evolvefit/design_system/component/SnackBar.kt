@@ -107,9 +107,7 @@ fun SnackBar(
             if (isUndo) {
                 Text(
                     modifier = Modifier
-                        .clickable(
-                            onClick = onUndoClicked
-                        ),
+                        .clickable(onClick = onUndoClicked),
                     text = stringResource(Res.string.undo),
                     color = Theme.color.brand.primary,
                     style = Theme.textStyle.label.mediumMedium16,
