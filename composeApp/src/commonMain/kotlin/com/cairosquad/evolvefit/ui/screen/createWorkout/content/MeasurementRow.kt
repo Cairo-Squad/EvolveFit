@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.workoutDetails.component
+package com.cairosquad.evolvefit.ui.screen.createWorkout.content
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -18,17 +18,15 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_count
 import evolvefit.composeapp.generated.resources.ic_time
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
-
 
 @Composable
 fun MeasurementRow(
-    exerciseType: WorkoutDetailsScreenState.ExerciseType,
+    exerciseType: CreateWorkOutScreenState.ExerciseType,
     modifier: Modifier = Modifier,
     iconTint: Color = Theme.color.surfaces.onSurfaceVariant,
     textColor: Color =Theme.color.surfaces.onSurfaceVariant,
     textStyle: TextStyle =  Theme.textStyle.label.smallRegular12
-    ){
+){
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(1.dp),
@@ -37,11 +35,11 @@ fun MeasurementRow(
 
         Icon(
             painter = when (exerciseType) {
-                is WorkoutDetailsScreenState.ExerciseType.Duration -> painterResource(
+                is CreateWorkOutScreenState.ExerciseType.Duration -> painterResource(
                     Res.drawable.ic_time
                 )
 
-                is WorkoutDetailsScreenState.ExerciseType.Reps -> painterResource(Res.drawable.ic_count)
+                is CreateWorkOutScreenState.ExerciseType.Reps -> painterResource(Res.drawable.ic_count)
             },
             contentDescription = "Measurement icon",
             tint = iconTint,
@@ -49,27 +47,11 @@ fun MeasurementRow(
         )
         Text(
             text = when (exerciseType) {
-                is WorkoutDetailsScreenState.ExerciseType.Duration -> "${exerciseType.seconds} Second"
-                is WorkoutDetailsScreenState.ExerciseType.Reps -> "X${exerciseType.count}"
+                is CreateWorkOutScreenState.ExerciseType.Duration -> "${exerciseType.seconds} Second"
+                is CreateWorkOutScreenState.ExerciseType.Reps -> "X${exerciseType.count}"
             },
             color = textColor,
             style = textStyle,
         )
     }
-}
-
-@Preview()
-@Composable
-fun MeasurementRowPreview_Duration() {
-    MeasurementRow(
-        exerciseType = WorkoutDetailsScreenState.ExerciseType.Duration(seconds = 45)
-    )
-}
-
-@Preview()
-@Composable
-fun MeasurementRowPreview_Reps() {
-    MeasurementRow(
-        exerciseType = WorkoutDetailsScreenState.ExerciseType.Reps(count = 12)
-    )
 }
