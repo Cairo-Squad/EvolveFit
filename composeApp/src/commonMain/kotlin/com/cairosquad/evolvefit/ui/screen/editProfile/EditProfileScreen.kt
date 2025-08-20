@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -68,16 +69,35 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.round
+import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
+import com.cairosquad.evolvefit.domain.entity.Profile.Gender
+import com.cairosquad.evolvefit.domain.model.MeasurementStandard
+import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
+import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileEffect
+import com.cairosquad.evolvefit.viewmodel.register.RegisterEffect
+import evolvefit.composeapp.generated.resources.female
+
+import evolvefit.composeapp.generated.resources.gain_weight
+import evolvefit.composeapp.generated.resources.lose_weight
+import evolvefit.composeapp.generated.resources.male
+import evolvefit.composeapp.generated.resources.stay_in_shape
+import evolvefit.composeapp.generated.resources.unit_imperial
+import evolvefit.composeapp.generated.resources.unit_metric
 
 
 @Composable
 fun EditProfileScreen(
     navigateBack: () -> Unit,
-    viewModel: EditProfileViewModel = koinViewModel(),
-    modifier: Modifier = Modifier
+    viewModel: EditProfileViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
-    EditProfileScreenContent(state, viewModel,navigateBack)
+    ObserveAsEffect(viewModel.effect) {effect->
+        when(effect){
+            EditProfileEffect.NavigateBack->navigateBack()
+        }
+
+    }
+    EditProfileScreenContent(state, viewModel, navigateBack)
 
 }
 
@@ -85,14 +105,15 @@ fun EditProfileScreen(
 fun EditProfileScreenContent(
     state: EditProfileScreenState,
     listener: EditProfileInteractionListener,
-    navigateBack:() ->Unit,
+    navigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(color = Theme.color.surfaces.surface)
-            .windowInsetsPadding(WindowInsets.statusBars).padding(top=15.dp),
+            .windowInsetsPadding(WindowInsets.statusBars).padding(top = 15.dp)
+            .windowInsetsPadding(WindowInsets.navigationBars),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomAppBar(
@@ -106,26 +127,33 @@ fun EditProfileScreenContent(
                         .clickable { navigateBack() }
                 )
             },
-            modifier = Modifier.padding(start=16.dp)
+            modifier = Modifier.padding(start = 16.dp)
         )
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
-                .padding(top = 15.dp),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        ){
             UserProfileImage(
-                modifier = Modifier.padding(top = 24.dp, bottom = 32.dp),
+                modifier = Modifier.padding(top = 24.dp, bottom = 24.dp),
                 image = UiImage.ImageUrl(state.profile.imageUrl),
                 isImagePickerOpen = state.isImagePickerOpened,
                 onImagePickerDismiss = { listener.onImagePickerDismissed() },
                 onImagePickerClick = { listener.onImageUrlClicked() },
                 onImageRetrieved = { uiImage ->
-                    if (uiImage is UiImage.ImageUrl) {
-                        listener.onImageUrlChanged(uiImage.url)
-                        listener.onImagePickerDismissed()
+                    when (uiImage) {
+                        is UiImage.ImageFile -> {
+                            listener.onImageRetrieved(uiImage)
+                        }
+
+                        is UiImage.ImageUrl -> {
+                            listener.onImageUrlChanged(uiImage.url)
+                            listener.onImagePickerDismissed()
+                        }
+
+                        else -> Unit
                     }
                 }
             )
@@ -172,7 +200,7 @@ fun EditProfileScreenContent(
 
                     LabeledInputField(
                         label = stringResource(Res.string.gender),
-                        value = state.profile.gender,
+                        value = mapGenderToString(state.profile.gender),
                         onValueChange = {},
                         readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -184,7 +212,7 @@ fun EditProfileScreenContent(
 
                 LabeledInputField(
                     label = stringResource(Res.string.units),
-                    value = state.profile.preferredMeasurementStandard,
+                    value = mapMeasurementStandardToString(state.profile.preferredMeasurementStandard),
                     onValueChange = { },
                     readOnly = false,
                     onClick = { listener.onPreferredMeasurementStandardClicked() },
@@ -197,7 +225,7 @@ fun EditProfileScreenContent(
                 ) {
                     LabeledInputField(
                         label = stringResource(Res.string.height),
-                        value =(round(state.profile.height * 10) / 10).toString(),
+                        value = (round(state.profile.height * 10) / 10).toString(),
                         onValueChange = {},
                         readOnly = false,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -220,7 +248,7 @@ fun EditProfileScreenContent(
 
                 LabeledInputField(
                     label = stringResource(Res.string.goal),
-                    value = state.profile.mainGoal,
+                    value = mapMainGoalToString(state.profile.mainGoal),
                     onValueChange = {},
                     readOnly = true,
                     trailingIcon = Res.drawable.ic_arrow_down,
@@ -230,43 +258,21 @@ fun EditProfileScreenContent(
 
                 LabeledInputField(
                     label = stringResource(Res.string.your_tools),
-                    value = if (state.userEquipments.isEmpty()) {
+                    value = if (state.profile.equipments.isEmpty()) {
                         stringResource(Res.string.no_tools_title)
                     } else {
-                        state.userEquipments.joinToString(", ") { it.name }
+                        state.profile.equipments.joinToString(", ") { it.name }
                     },
-                    onValueChange = { listener::onEquipmentChanged },
+                    onValueChange = { },
                     readOnly = true,
                     trailingIcon = Res.drawable.ic_arrow_down,
                     isDividerVisible = true,
                     onClick = { listener.onEquipmentClicked() }
                 )
-                val workoutDaysText = if (state.userWorkoutsDays.isEmpty()) {
-                    stringResource(Res.string.no_workouts)
-                } else {
-                    state.userWorkoutsDays
-                        .map { day ->
-                            when (day) {
-                                EditProfileScreenState.WeekDayUiState.SUNDAY -> stringResource(Res.string.sunday)
-                                EditProfileScreenState.WeekDayUiState.MONDAY -> stringResource(Res.string.monday)
-                                EditProfileScreenState.WeekDayUiState.TUESDAY -> stringResource(Res.string.tuesday)
-                                EditProfileScreenState.WeekDayUiState.WEDNESDAY -> stringResource(Res.string.wednesday)
-                                EditProfileScreenState.WeekDayUiState.THURSDAY -> stringResource(Res.string.thursday)
-                                EditProfileScreenState.WeekDayUiState.FRIDAY -> stringResource(Res.string.friday)
-                                EditProfileScreenState.WeekDayUiState.SATURDAY -> stringResource(Res.string.saturday)
-                            }
-                        }
-                        .joinToString(", ")
-                }
-
 
                 LabeledInputField(
                     label = stringResource(Res.string.workouts_days),
-                    value = if (state.userWorkoutsDays.isEmpty()) {
-                        stringResource(Res.string.no_workouts)
-                    } else {
-                        workoutDaysText
-                    },
+                    value = mapWorkoutDaysToString(state.profile.workoutDays),
                     onValueChange = { },
                     readOnly = true,
                     trailingIcon = Res.drawable.ic_arrow_down,
@@ -278,10 +284,11 @@ fun EditProfileScreenContent(
             PrimaryButton(
                 modifier = Modifier.padding(top = 29.dp, bottom = 32.dp),
                 text = stringResource(Res.string.save_changes),
-                onClick = { listener.onSaveChangesClicked() }
+                onClick = { listener.onSaveChangesClicked(state.profile) }
             )
         }
     }
+
     when (state.bottomSheetType) {
         EditProfileScreenState.EditProfileBottomSheetType.BIRTHDAY -> {
             DateBottomSheet(
@@ -298,12 +305,11 @@ fun EditProfileScreenContent(
 
         EditProfileScreenState.EditProfileBottomSheetType.EQUIPMENT -> {
             ToolsBottomSheet(
-                userEquipments = state.userEquipments,
+                userEquipments = state.profile.equipments,
                 allEquipments = state.allEquipments,
                 onEquipmentBottomSheetDismiss = { listener.onBottomSheetDismissed() },
                 onEquipmentChange = { tools ->
                     listener.onEquipmentChanged(tools)
-                    listener.onBottomSheetDismissed()
 
                 }
             )
@@ -313,7 +319,7 @@ fun EditProfileScreenContent(
 
         EditProfileScreenState.EditProfileBottomSheetType.WORKOUTS_DAYS -> {
             WorkoutDaysBottomSheet(
-                userWorkoutDays = state.userWorkoutsDays,
+                userWorkoutDays = state.profile.workoutDays,
                 isWorkoutDaysBottomSheetOpen = true,
                 onWorkoutDaysBottomSheetDismiss = { listener.onBottomSheetDismissed() },
                 onWorkoutDaysChange = { workoutDays ->
@@ -386,57 +392,52 @@ fun EditProfileScreenContent(
 
         null -> Unit
     }
+
 }
 
-
-@Preview()
 @Composable
-private fun EditProfileScreenPreview() {
-    val sampleProfile = EditProfileScreenState.ProfileUiState(
-        fullName = "Hawraa Mahmood",
-        email = "hawraamahmood@gmail.com",
-        dateOfBirth = null,
-        gender = "Female",
-        height = 166f,
-        weight = 64.5f,
-        mainGoal = "Los Weight",
-        imageUrl = "",
-        preferredMeasurementStandard = "Metric"
-    )
-
-    val sampleState = EditProfileScreenState(
-        profile = sampleProfile
-    )
-
-    EditProfileScreenContent(
-        navigateBack = {},
-        state = sampleState,
-        listener = object : EditProfileInteractionListener {
-            override fun onBackClicked() {}
-            override fun onSaveChangesClicked() {}
-            override fun onDateOfBirthClicked() {}
-            override fun onGenderClicked() {}
-            override fun onHeightClicked() {}
-            override fun onWeightClicked() {}
-            override fun onMainGoalClicked() {}
-            override fun onEquipmentClicked() {}
-            override fun onWorkoutDaysClicked() {}
-            override fun onEquipmentChanged(equipments: Set<EditProfileScreenState.EquipmentUiState>) {}
-            override fun onWorkoutDaysChanged(workoutsDays: Set<EditProfileScreenState.WeekDayUiState>) {}
-            override fun onPreferredMeasurementStandardClicked() {}
-            override fun onImageUrlClicked() {}
-            override fun onFullNameChanged(fullName: String) {}
-            override fun onDateOfBirthChanged(dateOfBirth: LocalDate) {}
-            override fun onGenderChanged(gender: String) {}
-            override fun onHeightChanged(height: Float) {}
-            override fun onWeightChanged(weight: Float) {}
-            override fun onMainGoalChanged(mainGoal: String) {}
-            override fun onPreferredMeasurementStandardChanged(measurementStandard: String) {}
-            override fun onImageUrlChanged(imageUrl: String) {}
-            override fun onImagePickerDismissed() {}
-            override fun onBottomSheetDismissed() {
-                TODO("Not yet implemented")
+private fun mapWorkoutDaysToString(workoutDays: Set<EditProfileScreenState.WeekDayUiState>): String {
+    return if (workoutDays.isEmpty()) {
+        stringResource(Res.string.no_workouts)
+    } else {
+        workoutDays
+            .map { day ->
+                when (day) {
+                    EditProfileScreenState.WeekDayUiState.SUNDAY -> stringResource(Res.string.sunday)
+                    EditProfileScreenState.WeekDayUiState.MONDAY -> stringResource(Res.string.monday)
+                    EditProfileScreenState.WeekDayUiState.TUESDAY -> stringResource(Res.string.tuesday)
+                    EditProfileScreenState.WeekDayUiState.WEDNESDAY -> stringResource(Res.string.wednesday)
+                    EditProfileScreenState.WeekDayUiState.THURSDAY -> stringResource(Res.string.thursday)
+                    EditProfileScreenState.WeekDayUiState.FRIDAY -> stringResource(Res.string.friday)
+                    EditProfileScreenState.WeekDayUiState.SATURDAY -> stringResource(Res.string.saturday)
+                }
             }
-        }
-    )
+            .joinToString(", ")
+    }
+}
+
+@Composable
+private fun mapGenderToString(gender: Gender): String {
+    return when (gender) {
+        Gender.MALE -> stringResource(Res.string.male)
+        Gender.FEMALE -> stringResource(Res.string.female)
+    }
+}
+
+@Composable
+private fun mapMeasurementStandardToString(standard: MeasurementStandard): String {
+    return when (standard) {
+        MeasurementStandard.METRIC -> stringResource(Res.string.unit_metric)
+        MeasurementStandard.IMPERIAL -> stringResource(Res.string.unit_imperial)
+    }
+}
+
+@Composable
+private fun mapMainGoalToString(goal: FitnessGoal): String {
+    return when (goal) {
+        FitnessGoal.LOSE_WEIGHT -> stringResource(Res.string.lose_weight)
+        FitnessGoal.GAIN_WEIGHT -> stringResource(Res.string.gain_weight)
+        FitnessGoal.STAY_IN_SHAPE-> stringResource(Res.string.stay_in_shape)
+
+    }
 }
