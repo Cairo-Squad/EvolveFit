@@ -131,7 +131,6 @@ class EditProfileViewModel(
 
     override fun onImageUrlClicked() {
         updateState { it.copy(isImagePickerOpened = true) }
-        sendEffect(EditProfileEffect.OpenImagePicker)
     }
 
     override fun onFullNameChanged(fullName: String) {

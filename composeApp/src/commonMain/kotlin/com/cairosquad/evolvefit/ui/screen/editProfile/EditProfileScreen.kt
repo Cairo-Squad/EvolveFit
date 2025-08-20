@@ -72,13 +72,9 @@ import kotlin.math.round
 import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
 import com.cairosquad.evolvefit.domain.entity.Profile.Gender
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
-import com.cairosquad.evolvefit.ui.screen.editProfile.content.GenderBottomSheet
-import com.cairosquad.evolvefit.ui.screen.editProfile.content.HeightBottomSheet
-import com.cairosquad.evolvefit.ui.screen.editProfile.content.MainGoalBottomSheet
-import com.cairosquad.evolvefit.ui.screen.editProfile.content.MeasurementBottomSheet
-import com.cairosquad.evolvefit.ui.screen.editProfile.content.ToolsBottomSheet
-import com.cairosquad.evolvefit.ui.screen.editProfile.content.WeightBottomSheet
-import com.cairosquad.evolvefit.ui.screen.editProfile.content.WorkoutDaysBottomSheet
+import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
+import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileEffect
+import com.cairosquad.evolvefit.viewmodel.register.RegisterEffect
 import evolvefit.composeapp.generated.resources.female
 import evolvefit.composeapp.generated.resources.friday
 import evolvefit.composeapp.generated.resources.gain_weight
@@ -95,6 +91,12 @@ fun EditProfileScreen(
     viewModel: EditProfileViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
+    ObserveAsEffect(viewModel.effect) {effect->
+        when(effect){
+            EditProfileEffect.NavigateBack->navigateBack()
+        }
+
+    }
     EditProfileScreenContent(state, viewModel, navigateBack)
 
 }
