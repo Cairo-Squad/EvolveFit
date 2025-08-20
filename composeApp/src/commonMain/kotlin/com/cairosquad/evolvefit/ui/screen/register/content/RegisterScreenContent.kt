@@ -86,7 +86,6 @@ fun RegisterScreenContent(
                     stringResource(Res.string.next),
             onClick = {
                 if (state.currentStep == 8) {
-                    println("onclick")
                     listener.onClickStartNow()
                 } else {
                     listener.onClickNext()

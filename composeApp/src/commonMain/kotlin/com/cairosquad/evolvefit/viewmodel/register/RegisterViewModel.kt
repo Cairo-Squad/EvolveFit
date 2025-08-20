@@ -53,12 +53,9 @@ class RegisterViewModel(
                 )
             },
             onSuccess = {
-                println("suc")
                 sendEffect(RegisterEffect.NavigateToHome)
             },
             onError = { error ->
-                error.printStackTrace()
-                println("error: ${error.message}")
                 updateState { it.copy(errorMessage = error.message ?: "Registration failed") }
             },
             onStart = {

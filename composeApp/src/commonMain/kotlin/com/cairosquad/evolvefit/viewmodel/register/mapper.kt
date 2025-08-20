@@ -1,12 +1,16 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
+import androidx.compose.runtime.Composable
 import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
 import com.cairosquad.evolvefit.domain.entity.Profile.Gender
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.domain.model.WeekDay
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.invalid_date_format
 import kotlinx.datetime.LocalDate
+import org.jetbrains.compose.resources.stringResource
 
 fun RegisterScreenState.WeekDayUiState.toDomain(): WeekDay {
     return when (this) {
@@ -57,7 +61,6 @@ fun RegisterScreenState.EquipmentUiState.toDomain(): Equipment {
 }
 
 
-
 fun dateUiStateToDomain(date: String): LocalDate {
     return when {
         Regex("""\d{4}-\d{2}-\d{2}""").matches(date) -> {
@@ -68,9 +71,7 @@ fun dateUiStateToDomain(date: String): LocalDate {
             val (d, m, y) = date.split("/").map { it.toInt() }
             LocalDate(y, m, d)
         }
-        else -> throw IllegalArgumentException(
-            "Invalid date format: $date. Expected dd/MM/yyyy or yyyy-MM-dd"
-        )
+        else -> throw IllegalArgumentException("" )
     }
 }
 
