@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -61,8 +62,9 @@ fun EquipmentBottomSheetContent(
     onEquipmentBottomSheetDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val selectedEquipments = remember(userEquipments) { userEquipments.toMutableSet() }
-    val isNoEquipmentSelected = remember(selectedEquipments) { selectedEquipments.isEmpty() }
+    val selectedEquipments = remember { mutableStateOf(userEquipments.toMutableSet()) }
+    val isNoEquipmentSelected = selectedEquipments.value.isEmpty()
+
 
     Column(
         modifier = modifier
@@ -74,17 +76,17 @@ fun EquipmentBottomSheetContent(
             title = stringResource(Res.string.your_tools_title),
         )
         CheckboxItem(
-            modifier = Modifier.padding(bottom = 8.dp),
             text = stringResource(Res.string.no_tools_title),
             isChecked = isNoEquipmentSelected,
             onCheckedChange = {
                 if (it) {
-                    selectedEquipments.clear()
-                    onEquipmentChange(selectedEquipments.toSet())
+                    selectedEquipments.value = mutableSetOf()
+                    onEquipmentChange(emptySet())
                 }
             },
             style = CheckboxStyle.Tick
         )
+
 
         Text(
             modifier = Modifier.padding(vertical = 16.dp),
@@ -101,24 +103,23 @@ fun EquipmentBottomSheetContent(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(allEquipments.toList()) { equipment ->
-                val isSelected = selectedEquipments.contains(equipment)
-                val isEnabled = !isNoEquipmentSelected
 
                 CheckboxItem(
                     text = equipment.name,
-                    isChecked = isSelected,
+                    isChecked = selectedEquipments.value.contains(equipment),
                     onCheckedChange = { checked ->
-                        if (isEnabled) {
-                            if (checked) {
-                                selectedEquipments.add(equipment)
-                            } else {
-                                selectedEquipments.remove(equipment)
-                            }
-                            onEquipmentChange(selectedEquipments.toSet())
+                        val updated = selectedEquipments.value.toMutableSet()
+                        if (checked) {
+                            updated.add(equipment)
+                        } else {
+                            updated.remove(equipment)
                         }
+                        selectedEquipments.value = updated
+                        onEquipmentChange(updated)
                     },
                     style = CheckboxStyle.Tick
                 )
+
             }
         }
 

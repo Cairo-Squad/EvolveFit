@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
@@ -57,7 +56,6 @@ import evolvefit.composeapp.generated.resources.weight
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlin.math.floor
 
 @Composable
 fun RegisterScreenContentSelectHeightAndWeight(
@@ -65,6 +63,7 @@ fun RegisterScreenContentSelectHeightAndWeight(
     listener: RegisterInteractionListener,
     modifier: Modifier = Modifier
 ) {
+
     Column(
         modifier = modifier.fillMaxSize()
             .padding(top = 16.dp),
@@ -107,8 +106,19 @@ fun RegisterScreenContentSelectHeightAndWeight(
             heightStep = HeightWeightConstants.HEIGHT_STEP_FT
             weightStep = HeightWeightConstants.WEIGHT_STEP_LB
         }
+        var height = state.selectedHeight
+        var weight =state.selectedWeight
+            if (state.selectedHeight == 0f && state.selectedWeight == 0f) {
+            if (state.selectedMeasurementStandard == RegisterScreenState.MeasurementStandard.Metric) {
+                height = 170f
+                weight =70f
+            } else {
+                height = 5.6f
+                weight =150f
+            }
+        }
         MeasureSection(
-            selectedMeasure = state.selectedHeight,
+            selectedMeasure = height,
             measureType = stringResource(Res.string.height),
             measureIcon = painterResource(Res.drawable.ic_ruler),
             minMeasureValue = minHeight,
@@ -122,7 +132,7 @@ fun RegisterScreenContentSelectHeightAndWeight(
         )
 
         MeasureSection(
-            selectedMeasure = state.selectedWeight,
+            selectedMeasure = weight,
             measureType = stringResource(Res.string.weight),
             measureIcon = painterResource(Res.drawable.ic_scale),
             minMeasureValue = minWeight,
@@ -251,23 +261,26 @@ fun MeasureSection(
     dpPerUnit: Float,
     step: Float,
     modifier: Modifier = Modifier,
-    isDescriptionFound:Boolean=true,
-    textStyle: TextStyle=Theme.textStyle.headline.mediumMedium18,
-    bottomPadding:Dp=8.dp,
-    startPadding:Dp=16.dp,
+    isDescriptionFound: Boolean = true,
+    textStyle: TextStyle = Theme.textStyle.headline.mediumMedium18,
+    bottomPadding: Dp = 8.dp,
+    startPadding: Dp = 16.dp,
 ) {
+
+    val alignedSelectedMeasure = kotlin.math.round(selectedMeasure / step) * step
+
     Column(
         modifier = modifier
     ) {
         BasicText(
             text = measureType,
-            style =textStyle.copy(
+            style = textStyle.copy(
                 color = Theme.color.surfaces.onSurface
             ),
             modifier = Modifier
                 .padding(bottom = bottomPadding, start = startPadding, end = 16.dp)
         )
-        if(isDescriptionFound) {
+        if (isDescriptionFound) {
             BasicText(
                 text = stringResource(Res.string.select_measurement) + measureType.replaceFirstChar { it.lowercase() },
                 style = Theme.textStyle.label.smallRegular14.copy(
@@ -278,16 +291,20 @@ fun MeasureSection(
         }
 
         Ruler(
-            selectedValue = selectedMeasure,
+            selectedValue = alignedSelectedMeasure,
             minValue = minMeasureValue,
             maxValue = maxMeasureValue,
             dpPerUnit = dpPerUnit,
             step = step,
-            onValueChanged = onMeasureChanged
+            onValueChanged = { newValue ->
+
+                val alignedNewValue = kotlin.math.round(newValue / step) * step
+                onMeasureChanged(alignedNewValue)
+            }
         )
 
         MeasurementCard(
-            selectedMeasure = selectedMeasure,
+            selectedMeasure = alignedSelectedMeasure,
             measureUnit = measureUnit,
             measureIcon = measureIcon,
             modifier = Modifier
@@ -303,7 +320,7 @@ fun MeasurementCard(
     measureUnit: String,
     measureIcon: Painter,
     modifier: Modifier = Modifier
-){
+) {
     Row(
         modifier = modifier
             .background(
@@ -331,7 +348,6 @@ fun MeasurementCard(
     }
 }
 
-
 @OptIn(ExperimentalTextApi::class)
 @Composable
 fun Ruler(
@@ -343,10 +359,18 @@ fun Ruler(
     step: Float,
     onValueChanged: (Float) -> Unit
 ) {
-    val initialValue = (minValue + maxValue) / 2f
 
-    var currentValue by remember(selectedValue) { mutableFloatStateOf(selectedValue) }
+    val initialValue = if (selectedValue == 0f) ((minValue + maxValue) / 2f) else selectedValue
 
+    val clampedAndAlignedValue = kotlin.math.round(
+        initialValue.coerceIn(minValue, maxValue) / step
+    ) * step
+
+    var currentValue by remember(clampedAndAlignedValue) {
+        mutableFloatStateOf(
+            clampedAndAlignedValue
+        )
+    }
     val density = LocalDensity.current
     val textMeasurer = rememberTextMeasurer()
     val outlineColor = Theme.color.surfaces.outline
@@ -354,13 +378,7 @@ fun Ruler(
 
     val pixelsPerUnit = with(density) { dpPerUnit.dp.toPx() }
 
-    LaunchedEffect(initialValue) {
-        if (selectedValue != initialValue) {
-            onValueChanged(initialValue)
-        }
-    }
-
-    Column (
+    Column(
         modifier = modifier
             .fillMaxWidth()
             .height(79.dp),
@@ -376,12 +394,12 @@ fun Ruler(
                     detectDragGestures { _, dragAmount ->
                         val newValue = (currentValue - dragAmount.x / pixelsPerUnit)
                             .coerceIn(minValue, maxValue)
-                        currentValue = newValue
-                        onValueChanged(newValue)
+                        val alignedNewValue = kotlin.math.round(newValue / step) * step
+                        currentValue = alignedNewValue
+                        onValueChanged(alignedNewValue)
                     }
                 }
         ) {
-
             drawRuler(
                 selectedValue = currentValue,
                 minValue = minValue,
@@ -397,30 +415,8 @@ fun Ruler(
     }
 }
 
-@Composable
-fun DrawIndicatorTriangle(
-    modifier: Modifier = Modifier,
-){
-    val indicatorColor = Theme.color.surfaces.onSurfaceVariant
-
-    Canvas(
-        modifier = modifier
-            .width(15.dp)
-            .height(12.dp)
-            .offset(y = (-8).dp)
-    ) {
-        val path = Path().apply {
-            moveTo(size.width / 2, size.height)
-            lineTo(0f, 0f)
-            lineTo(size.width, 0f)
-            close()
-        }
-        drawPath(path, indicatorColor)
-    }
-}
-
 @OptIn(ExperimentalTextApi::class)
- fun DrawScope.drawRuler(
+fun DrawScope.drawRuler(
     selectedValue: Float,
     minValue: Float,
     maxValue: Float,
@@ -431,33 +427,29 @@ fun DrawIndicatorTriangle(
     pixelsPerUnit: Float,
     step: Float
 ) {
-    val effectiveSelectedValue = if (selectedValue in minValue..maxValue) {
-        selectedValue
-    } else {
-        (minValue + maxValue) / 2f
-    }
+
     val canvasWidth = size.width
     val centerX = canvasWidth / 2
 
-    var startValue = effectiveSelectedValue - (canvasWidth / pixelsPerUnit) / 2
-    var endValue = effectiveSelectedValue + (canvasWidth / pixelsPerUnit) / 2
+    var startValue = selectedValue - (canvasWidth / pixelsPerUnit) / 2
+    var endValue = selectedValue + (canvasWidth / pixelsPerUnit) / 2
 
-    startValue = (startValue / step).toInt() * step
-    endValue = (endValue / step).toInt() * step + step
+
+    startValue = kotlin.math.floor(startValue / step) * step
+    endValue = kotlin.math.ceil(endValue / step) * step
 
     var currentValue = startValue
-
-    var index = floor(currentValue / step).toInt()
+    var index = kotlin.math.round(currentValue / step).toInt()
 
     while (currentValue <= endValue) {
-
         if (currentValue < minValue || currentValue > maxValue) {
             currentValue += step
             index++
             continue
         }
 
-        val x = centerX + (currentValue - effectiveSelectedValue) * pixelsPerUnit
+        val x = centerX + (currentValue - selectedValue) * pixelsPerUnit
+
         val isMediumMark = (index % 5) % 2 == 0
         val isLargeMark = index % 5 == 0
 
@@ -483,7 +475,7 @@ fun DrawIndicatorTriangle(
                 color = outlineColor
             )
 
-            val valueText = formatToOneDecimal(currentValue.toFloat())
+            val valueText = formatToOneDecimal(currentValue)
 
             val textLayoutResult = textMeasurer.measure(
                 text = valueText,
@@ -510,10 +502,34 @@ fun DrawIndicatorTriangle(
     }
 }
 
+@Composable
+fun DrawIndicatorTriangle(
+    modifier: Modifier = Modifier,
+) {
+    val indicatorColor = Theme.color.surfaces.onSurfaceVariant
+
+    Canvas(
+        modifier = modifier
+            .width(15.dp)
+            .height(12.dp)
+            .offset(y = (-8).dp)
+    ) {
+        val path = Path().apply {
+            moveTo(size.width / 2, size.height)
+            lineTo(0f, 0f)
+            lineTo(size.width, 0f)
+            close()
+        }
+        drawPath(path, indicatorColor)
+    }
+}
+
+
 fun formatToOneDecimal(value: Float): String {
     return (kotlin.math.round(value * 10) / 10f).toString()
 }
- object HeightWeightConstants {
+
+object HeightWeightConstants {
     const val MIN_HEIGHT_CM = 50f
     const val MAX_HEIGHT_CM = 250f
     const val HEIGHT_STEP_CM = 1f
@@ -534,3 +550,4 @@ fun formatToOneDecimal(value: Float): String {
     const val WEIGHT_STEP_LB = 2f
     const val DP_PER_LB = 5f
 }
+
