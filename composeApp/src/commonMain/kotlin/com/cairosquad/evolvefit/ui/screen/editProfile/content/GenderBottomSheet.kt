@@ -15,6 +15,7 @@ import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -29,10 +30,10 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun GenderBottomSheet(
-    selectedGender: String,
+    selectedGender: Profile.Gender,
     isGenderBottomSheetOpen: Boolean=true,
     onGenderBottomSheetDismiss: () -> Unit,
-    onGenderChange: (String) -> Unit,
+    onGenderChange: (Profile.Gender) -> Unit,
     modifier: Modifier = Modifier
 ) {
     BottomSheet(
@@ -51,8 +52,8 @@ fun GenderBottomSheet(
 
 @Composable
 fun GenderBottomSheetContent(
-    selectedGender: String,
-    onGenderChange: (String) -> Unit,
+    selectedGender: Profile.Gender,
+    onGenderChange: (Profile.Gender) -> Unit,
     onGenderBottomSheetDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -73,16 +74,16 @@ fun GenderBottomSheetContent(
                 .padding(bottom = 40.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            RegisterScreenState.Gender.entries.forEach { gender ->
+            Profile.Gender.entries.forEach { gender ->
                 val genderText = when (gender) {
-                    RegisterScreenState.Gender.Male -> stringResource(Res.string.male)
-                    RegisterScreenState.Gender.Female -> stringResource(Res.string.female)
+                    Profile.Gender.MALE -> stringResource(Res.string.male)
+                    Profile.Gender.FEMALE -> stringResource(Res.string.female)
                 }
 
                 CheckboxItem(
                     text = genderText,
-                    isChecked = tempGender == genderText,
-                    onCheckedChange = { tempGender = genderText }
+                    isChecked = tempGender == gender,
+                    onCheckedChange = { tempGender = gender }
                 )
             }
         }
