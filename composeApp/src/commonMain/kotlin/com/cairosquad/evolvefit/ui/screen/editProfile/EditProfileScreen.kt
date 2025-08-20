@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
@@ -20,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.LabeledInputField
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
@@ -117,7 +120,9 @@ fun EditProfileScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             UserProfileImage(
-                modifier = Modifier.padding(top = 24.dp, bottom = 32.dp),
+                modifier = Modifier
+                    .padding(top = 24.dp, bottom = 32.dp)
+                    .clip(CircleShape).size(100.dp),
                 image = UiImage.ImageUrl(state.profile.imageUrl),
                 isImagePickerOpen = state.isImagePickerOpened,
                 onImagePickerDismiss = { listener.onImagePickerDismissed() },
