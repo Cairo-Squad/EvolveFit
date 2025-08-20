@@ -11,9 +11,6 @@ data object LoginRoute
 @Serializable
 data object RegisterRoute
 
-//@Serializable
-//data object AppRoute
-
 @Serializable
 data object CreateWorkoutRoute
 
@@ -57,14 +54,19 @@ data object FavoritesScreenRoute
 sealed class NavBarRoute(val index: Int) {
     @Serializable
     data object Home: NavBarRoute(0)
+
     @Serializable
     data object Nutrition: NavBarRoute(1)
+
     @Serializable
     data object Workout: NavBarRoute(2)
+
     @Serializable
     data object Report: NavBarRoute(3)
+
     @Serializable
     data object More: NavBarRoute(4)
+
     companion object {
         fun fromIndex(index: Int): NavBarRoute {
             return when (index) {
