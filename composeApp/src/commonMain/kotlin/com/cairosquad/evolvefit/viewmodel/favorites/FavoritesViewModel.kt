@@ -32,49 +32,22 @@ class FavoritesViewModel(
     }
 
     override fun onUndoClicked() {
-        val lastDeletedMeal = screenState.value.lastDeletedMeal
-        val lastMealIndex = screenState.value.lastDeletedMealIndex
-        val lastDeletedWorkout = screenState.value.lastDeletedWorkout
-        val lastWorkoutIndex = screenState.value.lastDeletedWorkoutIndex
-
-        if (lastDeletedMeal != null && lastMealIndex != null) {
-            tryToCall(
-                block = { addFavoriteMeal(lastDeletedMeal.id) },
-                onError = { error -> },
-                onSuccess = {restoreDeletedMeal(lastDeletedMeal, lastMealIndex)
-                }
-            )
-        } else if (lastDeletedWorkout != null && lastWorkoutIndex != null) {
-            tryToCall(
-                block = { addFavoriteWorkout(lastDeletedWorkout.id) },
-                onError = { error -> },
-                onSuccess = {restoreDeletedWorkout(lastDeletedWorkout, lastWorkoutIndex)
-                }
-
-            )
+        if (hasDeletedMeal()) {
+            handleMealUndo()
+        } else if (hasDeletedWorkout()) {
+            handleWorkoutUndo()
         }
-
     }
 
     override fun deleteMeal(mealId: String) {
         val currentList = screenState.value.mealsList
         val deletedMeal = currentList.find { it.id == mealId }
         val index = currentList.indexOfFirst { it.id == mealId }
+
         tryToCall(
             block = { deleteFavoriteMeal(mealId) },
-            onError = { error -> },
-            onSuccess = {
-                showSnackBar()
-                updateState {
-                    it.copy(
-                        lastDeletedMeal = deletedMeal,
-                        lastDeletedMealIndex = index
-                    )
-                }
-                updateState { current ->
-                    current.copy(mealsList = current.mealsList.filterNot { it.id == mealId })
-                }
-            }
+            onError = {},
+            onSuccess = { handleMealDeletionSuccess(mealId, deletedMeal, index) }
         )
     }
 
@@ -82,29 +55,53 @@ class FavoritesViewModel(
         val currentList = screenState.value.workoutsList
         val deletedWorkout = currentList.find { it.id == workoutId }
         val index = currentList.indexOfFirst { it.id == workoutId }
+
         tryToCall(
             block = { deleteFavoriteWorkout(workoutId) },
-            onError = { error -> },
-            onSuccess = {
-                updateState {
-                    showSnackBar()
-                    it.copy(
-                        lastDeletedWorkout = deletedWorkout,
-                        lastDeletedWorkoutIndex = index
-                    )
-                }
-                updateState { current ->
-                    current.copy(workoutsList = current.workoutsList.filterNot { it.id == workoutId })
-                }
-            }
+            onError = {},
+            onSuccess = { handleWorkoutDeletionSuccess(workoutId, deletedWorkout, index) }
         )
     }
+
+    private fun handleMealDeletionSuccess(mealId: String, deletedMeal: MealsUiModel?, index: Int) {
+        showSnackBar()
+
+        updateState {
+            it.copy(
+                lastDeletedMeal = deletedMeal,
+                lastDeletedMealIndex = index
+            )
+        }
+
+        updateState { current ->
+            current.copy(mealsList = current.mealsList.filterNot { it.id == mealId })
+        }
+    }
+
+    private fun handleWorkoutDeletionSuccess(
+        workoutId: String,
+        deletedWorkout: WorkoutsUiModel?,
+        index: Int
+    ) {
+        showSnackBar()
+
+        updateState {
+            it.copy(
+                lastDeletedWorkout = deletedWorkout,
+                lastDeletedWorkoutIndex = index
+            )
+        }
+
+        updateState { current ->
+            current.copy(workoutsList = current.workoutsList.filterNot { it.id == workoutId })
+        }
+    }
+
 
     private fun loadMeals() {
         tryToCall(
             block = ::loadFavoriteMeals,
-            onError = { error ->
-            },
+            onError = {},
             onSuccess = { meals ->
                 updateState { it.copy(mealsList = meals.map { it.toUiState() }) }
             }
@@ -114,8 +111,7 @@ class FavoritesViewModel(
     private fun loadWorkouts() {
         tryToCall(
             block = ::loadFavoriteWorkouts,
-            onError = { error ->
-            },
+            onError = {},
             onSuccess = { workouts ->
                 updateState { it.copy(workoutsList = workouts.map { it.toUiState() }) }
             }
@@ -124,18 +120,36 @@ class FavoritesViewModel(
 
     private fun showSnackBar() {
         viewModelScope.launch(Dispatchers.Main) {
-            updateState {
-                it.copy(
-                    isSnackBarVisible = true,
-                )
-            }
+            updateState { it.copy(isSnackBarVisible = true) }
             delay(3000)
-            updateState {
-                it.copy(
-                    isSnackBarVisible = false,
-                )
-            }
+            updateState { it.copy(isSnackBarVisible = false) }
         }
+    }
+
+    private fun hasDeletedMeal() =
+        screenState.value.lastDeletedMeal != null && screenState.value.lastDeletedMealIndex != null
+
+    private fun hasDeletedWorkout() =
+        screenState.value.lastDeletedWorkout != null && screenState.value.lastDeletedWorkoutIndex != null
+
+    private fun handleMealUndo() {
+        val meal = screenState.value.lastDeletedMeal!!
+        val index = screenState.value.lastDeletedMealIndex!!
+        tryToCall(
+            block = { addFavoriteMeal(meal.id) },
+            onError = { },
+            onSuccess = { restoreDeletedMeal(meal, index) }
+        )
+    }
+
+    private fun handleWorkoutUndo() {
+        val workout = screenState.value.lastDeletedWorkout!!
+        val index = screenState.value.lastDeletedWorkoutIndex!!
+        tryToCall(
+            block = { addFavoriteWorkout(workout.id) },
+            onError = { },
+            onSuccess = { restoreDeletedWorkout(workout, index) }
+        )
     }
 
     private suspend fun loadFavoriteMeals() = getFavoriteMealsUseCase.getFavouriteMeals()
@@ -166,6 +180,7 @@ class FavoritesViewModel(
             )
         }
     }
+
     private fun restoreDeletedMeal(meal: MealsUiModel, index: Int) {
         val updatedList = screenState.value.mealsList.toMutableList()
         updatedList.add(index, meal)
