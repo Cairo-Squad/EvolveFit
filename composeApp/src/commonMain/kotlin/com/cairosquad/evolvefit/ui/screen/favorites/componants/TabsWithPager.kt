@@ -68,7 +68,7 @@ fun TabsWithPager(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp, bottom = 16.dp)
+                .padding(top = 8.dp)
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -90,7 +90,7 @@ fun TabsWithPager(
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
-            userScrollEnabled = true
+            userScrollEnabled = false
         ) { page ->
             when (page) {
                 0 -> {
@@ -99,7 +99,13 @@ fun TabsWithPager(
                         emptyTitle = stringResource(Res.string.empty_workouts_title),
                         emptyDescription = stringResource(Res.string.empty_workouts_description)
                     ) {
-                        WorkoutList(workouts = workouts)
+                        WorkoutList(workouts = workouts,
+                            onSaveIconClick = {
+                                listener.deleteWorkout(it)
+                                listener.onUndoClicked()
+                            }
+
+                        )
                     }
                 }
 
@@ -109,7 +115,12 @@ fun TabsWithPager(
                         emptyTitle = stringResource(Res.string.empty_meals_title),
                         emptyDescription = stringResource(Res.string.empty_meals_description)
                     ) {
-                        MealsList(meals = meals)
+                        MealsList(meals = meals,
+                            onSaveIconClick = {
+                                listener.deleteMeal(it)
+                                listener.onUndoClicked()
+                            }
+                            )
                     }
                 }
             }
