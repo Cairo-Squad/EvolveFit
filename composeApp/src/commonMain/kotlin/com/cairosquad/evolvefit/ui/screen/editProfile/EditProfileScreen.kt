@@ -263,7 +263,7 @@ fun EditProfileScreenContent(
                     } else {
                         state.profile.equipments.joinToString(", ") { it.name }
                     },
-                    onValueChange = { listener::onEquipmentChanged },
+                    onValueChange = { },
                     readOnly = true,
                     trailingIcon = Res.drawable.ic_arrow_down,
                     isDividerVisible = true,
@@ -310,7 +310,6 @@ fun EditProfileScreenContent(
                 onEquipmentBottomSheetDismiss = { listener.onBottomSheetDismissed() },
                 onEquipmentChange = { tools ->
                     listener.onEquipmentChanged(tools)
-                    listener.onBottomSheetDismissed()
 
                 }
             )
