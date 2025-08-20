@@ -56,7 +56,7 @@ fun UserProfileImage(
             }
 
             UiImageDisplayer(
-                image = localImage,
+                image = image,
                 contentDescription = "Profile picture",
                 defaultImageSize = 32.dp
             )

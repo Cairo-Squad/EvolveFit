@@ -136,9 +136,9 @@ fun EditProfileScreenContent(
                 .padding(horizontal = 16.dp)
                 .padding(top = 15.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        ){
             UserProfileImage(
-                modifier = Modifier.padding(top = 24.dp, bottom = 32.dp),
+                modifier = Modifier.padding(top = 24.dp, bottom = 24.dp),
                 image = UiImage.ImageUrl(state.profile.imageUrl),
                 isImagePickerOpen = state.isImagePickerOpened,
                 onImagePickerDismiss = { listener.onImagePickerDismissed() },
@@ -213,7 +213,7 @@ fun EditProfileScreenContent(
 
                 LabeledInputField(
                     label = stringResource(Res.string.units),
-                    value = state.profile.preferredMeasurementStandard.name,
+                    value = mapMeasurementStandardToString(state.profile.preferredMeasurementStandard),
                     onValueChange = { },
                     readOnly = false,
                     onClick = { listener.onPreferredMeasurementStandardClicked() },

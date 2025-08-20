@@ -41,11 +41,15 @@ class EditProfileViewModel(
         )
     }
 
+
     private fun getProfile()
     {
+
         tryToCall(
             block={manageProfileUseCase.getProfile()},
             onSuccess ={profile->
+                val im=UiImage.ImageUrl(profile.imageUrl)
+                println("get profile $im")
                 updateState { it.copy(profile=profile.toUiState()) }
             },
             onError = {
@@ -195,11 +199,7 @@ class EditProfileViewModel(
                 uploadedProfile
             },
             onSuccess = { url ->
-                updateState { state ->
-                    state.copy(
-                        profile = state.profile.copy(imageUrl = url)
-                    )
-                }
+                onImageUrlChanged(url)
             },
             onError = { error ->
                 updateState { it.copy(errorMessage = Res.string.failed_to_update_user_profile_image) }
