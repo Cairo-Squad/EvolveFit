@@ -80,13 +80,21 @@ fun RegisterScreenContent(
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 24.dp),
             text =
-                if (state.currentStep == 8) stringResource(Res.string.start_now)
-                else stringResource(Res.string.next),
-            onClick =
-                if (state.currentStep == 8) listener::onClickStartNow
-                else listener::onClickNext,
+                if (state.currentStep == 8)
+                    stringResource(Res.string.start_now)
+                else
+                    stringResource(Res.string.next),
+            onClick = {
+                if (state.currentStep == 8) {
+                    println("onclick")
+                    listener.onClickStartNow()
+                } else {
+                    listener.onClickNext()
+                }
+            },
             isEnabled = state.isNextButtonEnabled
         )
+
     }
 }
 
