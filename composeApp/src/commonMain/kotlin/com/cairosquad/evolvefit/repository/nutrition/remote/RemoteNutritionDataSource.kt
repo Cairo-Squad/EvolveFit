@@ -5,12 +5,13 @@ import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealRequestDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.DailyCalorieSummaryDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.DailyWaterSummaryDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.FavouriteMealDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.MealDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.SuggestedMealDto
 
 interface RemoteNutritionDataSource {
     suspend fun getSuggestedMeals(): List<SuggestedMealDto>
-    suspend fun getFavouriteMeals(): List<SuggestedMealDto>
+    suspend fun getFavouriteMeals(): List<FavouriteMealDto>
     suspend fun addFavouriteMealById(mealId: String)
     suspend fun deleteFavouriteMeal(mealId: String)
     suspend fun getMealHistory(): List<ConsumedMealDto>

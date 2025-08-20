@@ -62,11 +62,11 @@ fun FavoritesScreenContent(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Theme.color.surfaces.surface)
-            .windowInsetsPadding(WindowInsets.systemBars)
-            .padding(horizontal = 16.dp),
+            .windowInsetsPadding(WindowInsets.systemBars),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomAppBar(
+            modifier = Modifier.padding(horizontal = 16.dp),
             title = stringResource(Res.string.favorites_title),
             header = {
                 ActionIconButton(
