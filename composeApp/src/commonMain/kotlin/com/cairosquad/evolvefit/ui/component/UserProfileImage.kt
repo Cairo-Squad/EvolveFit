@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -87,10 +88,11 @@ fun UserProfileImage(
                     .clickable { onImagePickerClick() },
                 contentAlignment = Alignment.Center
             ) {
-                Image(
+                Icon(
                     painter = painterResource(Res.drawable.ic_camera),
                     contentDescription = null,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(20.dp),
+                    tint=Theme.color.brand.primary
                 )
             }
         }

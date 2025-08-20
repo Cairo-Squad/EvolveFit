@@ -29,42 +29,25 @@ class EditProfileViewModel(
     private fun editProfile(profile: EditProfileScreenState.ProfileUiState) {
         tryToCall(
             block = { manageProfileUseCase.editProfile(profile.toDomain()) },
-            onSuccess = { profile ->
-                updateState { it.copy(profile = profile.toUiState()) }
-            },
-            onError = { throwable ->
-
-                updateState { it.copy(errorMessage = Res.string.failed_to_load_user_profile) }
-            }
-
+            onSuccess = { profile -> updateState { it.copy(profile = profile.toUiState()) } },
+            onError = { throwable -> updateState { it.copy(errorMessage = Res.string.failed_to_load_user_profile) } }
         )
     }
 
 
     private fun getProfile() {
-
         tryToCall(
             block = { manageProfileUseCase.getProfile() },
-            onSuccess = { profile ->
-                updateState { it.copy(profile = profile.toUiState()) }
-            },
-            onError = {
-
-                updateState { it.copy(errorMessage = Res.string.failed_to_load_user_profile) }
-            }
-
+            onSuccess = { profile -> updateState { it.copy(profile = profile.toUiState()) } },
+            onError = { updateState { it.copy(errorMessage = Res.string.failed_to_load_user_profile) } }
         )
     }
 
     private fun getAllEquipment() {
         tryToCall(
             block = { manageEquipmentUseCase.getAllEquipments() },
-            onSuccess = { equipment ->
-                updateState { it.copy(allEquipments = equipment.toEquipmentUiStateSet()) }
-            },
-            onError = {
-                updateState { it.copy(errorMessage = Res.string.failed_to_load_equipments) }
-            }
+            onSuccess = { equipment -> updateState { it.copy(allEquipments = equipment.toEquipmentUiStateSet()) } },
+            onError = { updateState { it.copy(errorMessage = Res.string.failed_to_load_equipments) } }
 
         )
 
@@ -183,7 +166,6 @@ class EditProfileViewModel(
 
     override fun onImageRetrieved(image: UiImage) {
         updateState { it.copy(isImagePickerOpened = false) }
-
         tryToCall(
             block = {
                 val imageFileData = image.asByteArray()
@@ -193,12 +175,8 @@ class EditProfileViewModel(
                 )
                 uploadedProfile
             },
-            onSuccess = { url ->
-                onImageUrlChanged(url)
-            },
-            onError = { error ->
-                updateState { it.copy(errorMessage = Res.string.failed_to_update_user_profile_image) }
-            }
+            onSuccess = { url -> onImageUrlChanged(url) },
+            onError = { error -> updateState { it.copy(errorMessage = Res.string.failed_to_update_user_profile_image) } }
         )
     }
 
