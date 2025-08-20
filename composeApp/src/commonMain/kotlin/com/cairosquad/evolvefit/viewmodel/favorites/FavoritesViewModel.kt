@@ -39,37 +39,16 @@ class FavoritesViewModel(
 
         if (lastDeletedMeal != null && lastMealIndex != null) {
             tryToCall(
-                block = { getFavoriteMealsUseCase.addFavouriteMealById(lastDeletedMeal.id) },
+                block = { addFavoriteMeal(lastDeletedMeal.id) },
                 onError = { error -> },
-                onSuccess = {
-                    val updatedList = screenState.value.mealsList.toMutableList()
-                    updatedList.add(lastMealIndex, lastDeletedMeal)
-                    updateState {
-                        it.copy(
-                            mealsList = updatedList,
-                            lastDeletedMeal = null,
-                            lastDeletedMealIndex = null,
-                            isSnackBarVisible = false
-                        )
-                    }
+                onSuccess = {restoreDeletedMeal(lastDeletedMeal, lastMealIndex)
                 }
             )
         } else if (lastDeletedWorkout != null && lastWorkoutIndex != null) {
             tryToCall(
-                block = { manageWorkoutUseCase.addWorkoutToFavorites(lastDeletedWorkout.id) },
+                block = { addFavoriteWorkout(lastDeletedWorkout.id) },
                 onError = { error -> },
-                onSuccess = {
-                    updateState {
-                        val updatedList = screenState.value.workoutsList.toMutableList()
-                        updatedList.add(lastWorkoutIndex, lastDeletedWorkout)
-
-                        it.copy(
-                            workoutsList = updatedList,
-                            lastDeletedWorkout = null,
-                            lastDeletedWorkoutIndex = null,
-                            isSnackBarVisible = false
-                        )
-                    }
+                onSuccess = {restoreDeletedWorkout(lastDeletedWorkout, lastWorkoutIndex)
                 }
 
             )
@@ -82,7 +61,7 @@ class FavoritesViewModel(
         val deletedMeal = currentList.find { it.id == mealId }
         val index = currentList.indexOfFirst { it.id == mealId }
         tryToCall(
-            block = { getFavoriteMealsUseCase.deleteFavouriteMeal(mealId) },
+            block = { deleteFavoriteMeal(mealId) },
             onError = { error -> },
             onSuccess = {
                 showSnackBar()
@@ -94,7 +73,8 @@ class FavoritesViewModel(
                 }
                 updateState { current ->
                     current.copy(mealsList = current.mealsList.filterNot { it.id == mealId })
-                }            }
+                }
+            }
         )
     }
 
@@ -103,7 +83,7 @@ class FavoritesViewModel(
         val deletedWorkout = currentList.find { it.id == workoutId }
         val index = currentList.indexOfFirst { it.id == workoutId }
         tryToCall(
-            block = { manageWorkoutUseCase.deleteFavouriteWorkout(workoutId) },
+            block = { deleteFavoriteWorkout(workoutId) },
             onError = { error -> },
             onSuccess = {
                 updateState {
@@ -115,13 +95,14 @@ class FavoritesViewModel(
                 }
                 updateState { current ->
                     current.copy(workoutsList = current.workoutsList.filterNot { it.id == workoutId })
-                }            }
+                }
+            }
         )
     }
 
     private fun loadMeals() {
         tryToCall(
-            block = { getFavoriteMealsUseCase.getFavouriteMeals() },
+            block = ::loadFavoriteMeals,
             onError = { error ->
             },
             onSuccess = { meals ->
@@ -132,7 +113,7 @@ class FavoritesViewModel(
 
     private fun loadWorkouts() {
         tryToCall(
-            block = { manageWorkoutUseCase.getFavoriteWorkouts() },
+            block = ::loadFavoriteWorkouts,
             onError = { error ->
             },
             onSuccess = { workouts ->
@@ -157,4 +138,44 @@ class FavoritesViewModel(
         }
     }
 
+    private suspend fun loadFavoriteMeals() = getFavoriteMealsUseCase.getFavouriteMeals()
+
+    private suspend fun loadFavoriteWorkouts() = manageWorkoutUseCase.getFavoriteWorkouts()
+
+    private suspend fun deleteFavoriteMeal(mealId: String) =
+        getFavoriteMealsUseCase.deleteFavouriteMeal(mealId)
+
+    private suspend fun deleteFavoriteWorkout(workoutId: String) =
+        manageWorkoutUseCase.deleteFavouriteWorkout(workoutId)
+
+    private suspend fun addFavoriteMeal(mealId: String) =
+        getFavoriteMealsUseCase.addFavouriteMealById(mealId)
+
+    private suspend fun addFavoriteWorkout(workoutId: String) =
+        manageWorkoutUseCase.addWorkoutToFavorites(workoutId)
+
+    private fun restoreDeletedWorkout(workout: WorkoutsUiModel, index: Int) {
+        val updatedList = screenState.value.workoutsList.toMutableList()
+        updatedList.add(index, workout)
+        updateState {
+            it.copy(
+                workoutsList = updatedList,
+                lastDeletedWorkout = null,
+                lastDeletedWorkoutIndex = null,
+                isSnackBarVisible = false
+            )
+        }
+    }
+    private fun restoreDeletedMeal(meal: MealsUiModel, index: Int) {
+        val updatedList = screenState.value.mealsList.toMutableList()
+        updatedList.add(index, meal)
+        updateState {
+            it.copy(
+                mealsList = updatedList,
+                lastDeletedMeal = null,
+                lastDeletedMealIndex = null,
+                isSnackBarVisible = false
+            )
+        }
+    }
 }
