@@ -4,4 +4,5 @@ interface FavoritesInteractionListener {
   fun onMealTabSelected()
   fun onWorkoutTabSelected()
   fun onBackClicked()
+  fun onUndoClicked()
 }

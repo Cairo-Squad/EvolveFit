@@ -9,7 +9,8 @@ data class FavoritesState(
     val workoutsList: List<WorkoutsUiModel> = emptyList(),
     val mealsList: List<MealsUiModel> = emptyList(),
     val isWorkoutTabSelected: Boolean = true,
-    val isMealTabSelected: Boolean = false
+    val isMealTabSelected: Boolean = false,
+    val isSnackBarVisible: Boolean = false
 )
 
 data class WorkoutsUiModel(

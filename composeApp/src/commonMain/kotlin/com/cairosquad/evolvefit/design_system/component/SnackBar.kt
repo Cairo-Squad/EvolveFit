@@ -6,8 +6,10 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -35,8 +37,11 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_green_check_circle
+import evolvefit.composeapp.generated.resources.ic_warning
+import evolvefit.composeapp.generated.resources.undo
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -44,17 +49,19 @@ fun SnackBar(
     text: String,
     isVisible: Boolean,
     modifier: Modifier = Modifier,
-    paddingBottom: Dp =12.dp,
+    paddingBottom: Dp = 12.dp,
+    isUndo: Boolean = false,
     icon: Painter = painterResource(Res.drawable.ic_green_check_circle),
     backgroundColor: Color = Theme.color.surfaces.surface,
     textColor: Color = Theme.color.surfaces.onSurface,
     textStyle: TextStyle = Theme.textStyle.label.mediumMedium14,
+    onUndoClicked: () -> Unit = {}
 ) {
     val density = LocalDensity.current
     AnimatedVisibility(
         modifier = modifier
             .navigationBarsPadding()
-            .padding( horizontal = 16.dp),
+            .padding(horizontal = 16.dp),
         visible = isVisible,
         enter = slideInVertically {
             with(density) {
@@ -66,7 +73,7 @@ fun SnackBar(
                 it + paddingBottom.roundToPx()
             }
         } + fadeOut()
-    ){
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -89,6 +96,17 @@ fun SnackBar(
                 color = textColor,
                 style = textStyle,
             )
+            if (isUndo) {
+                Text(
+                    modifier = Modifier
+                        .clickable(
+                            onClick = onUndoClicked
+                        ),
+                    text = stringResource(Res.string.undo),
+                    color = Theme.color.brand.primary,
+                    style = Theme.textStyle.label.mediumMedium16,
+                )
+            }
         }
     }
 }
@@ -97,9 +115,22 @@ fun SnackBar(
 @Composable
 private fun LightSnackBarPreview() {
     AppTheme(isDarkTheme = true) {
-        SnackBar(text = "Meal added to your history.", isVisible = true)
+        SnackBar(text = "Meal added to your history.", isVisible = true, isUndo = false)
     }
 }
+
+@Preview
+@Composable
+private fun UndoLightSnackBarPreview() {
+    AppTheme(isDarkTheme = true) {
+        SnackBar(
+            text = "Remove from favorites?",
+            icon = painterResource(Res.drawable.ic_warning),
+            isVisible = true, isUndo = true
+        )
+    }
+}
+
 @Preview
 @Composable
 private fun DarkSnackBarPreview() {

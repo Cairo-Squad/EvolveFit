@@ -27,6 +27,10 @@ class FavoritesViewModel(
         sendEffect(FavoritesEffect.NavigateBack)
     }
 
+    override fun onUndoClicked() {
+
+    }
+
     private fun loadMeals() {
         tryToCall(
             block = { getFavoriteMealsUseCase.getFavouriteMeals() },
