@@ -68,7 +68,7 @@ fun CreateWorkoutContent(
                         icon = painterResource(Res.drawable.ic_cross),
                         contentDescription = stringResource(Res.string.cross_icon_desc_),
                         tint = Theme.color.surfaces.onSurface,
-                        onClick = listener::onBackClicked,
+                        onClick = listener::onExitClicked,
                     )
                 },
                 modifier = Modifier

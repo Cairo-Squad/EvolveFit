@@ -47,7 +47,9 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.ui.component.CaloriesNutritionCard
+import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
 import com.cairosquad.evolvefit.ui.component.WaterNutritionCard
+import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.base.ErrorState
 import com.cairosquad.evolvefit.viewmodel.home.HomeInteractionListener
@@ -80,11 +82,33 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomeScreen(
-    navigateToWorkout: (String) -> Unit,
+    navigateToWorkout: (id: String) -> Unit,
+    onSelectNavBarRoute: (navBarRoute: NavBarRoute) -> Unit,
     homeViewModel: HomeViewModel = koinViewModel(),
 ) {
     val state by homeViewModel.screenState.collectAsState()
 
+    HandleHomeEffects(
+        homeViewModel = homeViewModel,
+        navigateToWorkout = navigateToWorkout,
+    )
+
+    Scaffold(
+        currentRoute = NavBarRoute.Home,
+        onSelectNavBarRoute = onSelectNavBarRoute
+    ) {
+        HomeContent(
+            state = state,
+            listener = homeViewModel
+        )
+    }
+}
+
+@Composable
+private fun HandleHomeEffects(
+    homeViewModel: HomeViewModel,
+    navigateToWorkout: (id: String) -> Unit,
+) {
     ObserveAsEffect(homeViewModel.effect) { effect ->
         when (effect) {
             is HomeScreenEffect.NavigateToWorkout -> {
@@ -96,26 +120,32 @@ fun HomeScreen(
             }
         }
     }
-
-    if (state.isLoading) {
-        HomeLoadingContent()
-    } else if (state.error != null) {
-        HomeErrorContent(
-            error = state.error!!,
-            onRetry = homeViewModel::onRetryClick
-        )
-    } else {
-        HomeContent(
-            state = state,
-            interactionListener = homeViewModel
-        )
-    }
 }
 
 @Composable
 private fun HomeContent(
     state: HomeScreenState,
-    interactionListener: HomeInteractionListener
+    listener: HomeInteractionListener,
+) {
+    if (state.isLoading) {
+        HomeLoadingContent()
+    } else if (state.error != null) {
+        HomeErrorContent(
+            error = state.error,
+            onRetry = listener::onRetryClick
+        )
+    } else {
+        HomeSuccessContent(
+            state = state,
+            listener = listener
+        )
+    }
+}
+
+@Composable
+private fun HomeSuccessContent(
+    state: HomeScreenState,
+    listener: HomeInteractionListener,
 ) {
     Column(
         modifier = Modifier
@@ -163,8 +193,8 @@ private fun HomeContent(
         ) {
             PersonalizedWorkouts(
                 workouts = state.personalizedWorkouts,
-                onWorkoutClick = interactionListener::onWorkoutClick,
-                onSavedWorkoutClick = interactionListener::onSavedWorkoutClick
+                onWorkoutClick = listener::onWorkoutClick,
+                onSavedWorkoutClick = listener::onSavedWorkoutClick
             )
         }
     }

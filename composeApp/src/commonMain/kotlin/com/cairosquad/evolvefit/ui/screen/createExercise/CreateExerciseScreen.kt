@@ -78,12 +78,13 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun CreateExerciseScreen(
     navigateBack: () -> Unit,
+    onExerciseCreationSuccess: (() -> Unit)?,
     viewModel: CreateExerciseViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
-            CreateExerciseEffect.CloseScreen -> {}
+            CreateExerciseEffect.CloseScreen -> { navigateBack() }
             CreateExerciseEffect.NavigateToAllExercises -> {}
             is CreateExerciseEffect.ShowError -> {}
         }

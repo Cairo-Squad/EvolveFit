@@ -11,8 +11,8 @@ data object LoginRoute
 @Serializable
 data object RegisterRoute
 
-@Serializable
-data object AppRoute
+//@Serializable
+//data object AppRoute
 
 @Serializable
 data object CreateWorkoutRoute
@@ -53,3 +53,28 @@ data object EditProfileRoute
 @Serializable
 data object FavoritesScreenRoute
 
+@Serializable
+sealed class NavBarRoute(val index: Int) {
+    @Serializable
+    data object Home: NavBarRoute(0)
+    @Serializable
+    data object Nutrition: NavBarRoute(1)
+    @Serializable
+    data object Workout: NavBarRoute(2)
+    @Serializable
+    data object Report: NavBarRoute(3)
+    @Serializable
+    data object More: NavBarRoute(4)
+    companion object {
+        fun fromIndex(index: Int): NavBarRoute {
+            return when (index) {
+                0 -> Home
+                1 -> Nutrition
+                2 -> Workout
+                3 -> Report
+                4 -> More
+                else -> throw IllegalArgumentException("Invalid index")
+            }
+        }
+    }
+}

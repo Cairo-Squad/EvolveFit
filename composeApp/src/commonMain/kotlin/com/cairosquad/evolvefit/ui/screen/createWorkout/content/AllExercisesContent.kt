@@ -207,6 +207,10 @@ fun PreviewAllExercisesContent_Empty() {
             override fun onImagePickerDismiss() {
                 TODO("Not yet implemented")
             }
+
+            override fun onExitClicked() {
+                TODO("Not yet implemented")
+            }
         }
     )
 }
@@ -265,6 +269,9 @@ fun PreviewAllExercisesContent_Success() {
             override fun onImageSelected(image: UiImage) {}
 
             override fun onImagePickerDismiss() {}
+            override fun onExitClicked() {
+                TODO("Not yet implemented")
+            }
         }
     )
 }

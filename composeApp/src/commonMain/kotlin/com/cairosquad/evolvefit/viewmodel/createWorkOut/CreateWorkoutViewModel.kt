@@ -134,5 +134,8 @@ class CreateWorkoutViewModel(
         )
     }
 
+    override fun onExitClicked() {
+        sendEffect(CreateWorkOutEffect.NavigateBack)
+    }
 }
 
