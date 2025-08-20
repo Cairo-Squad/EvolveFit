@@ -48,8 +48,6 @@ class EditProfileViewModel(
         tryToCall(
             block={manageProfileUseCase.getProfile()},
             onSuccess ={profile->
-                val im=UiImage.ImageUrl(profile.imageUrl)
-                println("get profile $im")
                 updateState { it.copy(profile=profile.toUiState()) }
             },
             onError = {
