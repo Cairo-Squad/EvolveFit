@@ -37,6 +37,7 @@ import evolvefit.composeapp.generated.resources.ic_profile
 import evolvefit.composeapp.generated.resources.ic_visibility_off
 import evolvefit.composeapp.generated.resources.ic_visibility_on
 import evolvefit.composeapp.generated.resources.password
+import evolvefit.composeapp.generated.resources.upload_image
 import evolvefit.composeapp.generated.resources.user_profile
 import evolvefit.composeapp.generated.resources.user_profile_description
 import org.jetbrains.compose.resources.stringResource
@@ -113,7 +114,8 @@ private fun UserProfileStep(
                 .align(Alignment.CenterHorizontally)
                 .padding(
                     bottom = 32.dp
-                )
+                ),
+            text=stringResource(Res.string.upload_image)
         )
 
         UserProfileForm(
