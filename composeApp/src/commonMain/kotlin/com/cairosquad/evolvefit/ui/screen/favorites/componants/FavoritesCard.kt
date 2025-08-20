@@ -27,7 +27,9 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_save_full
+import evolvefit.composeapp.generated.resources.save_icon
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -72,7 +74,7 @@ fun FavoritesCard(
                 ,
                 tint = Theme.color.surfaces.textColor,
                 painter = painterResource(Res.drawable.ic_save_full),
-                contentDescription = "save icon"
+                contentDescription = stringResource(Res.string.save_icon)
             )
         }
         Row(
