@@ -76,7 +76,7 @@ import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileEffect
 import com.cairosquad.evolvefit.viewmodel.register.RegisterEffect
 import evolvefit.composeapp.generated.resources.female
-import evolvefit.composeapp.generated.resources.friday
+
 import evolvefit.composeapp.generated.resources.gain_weight
 import evolvefit.composeapp.generated.resources.lose_weight
 import evolvefit.composeapp.generated.resources.male
@@ -133,8 +133,7 @@ fun EditProfileScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
-                .padding(top = 15.dp),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             UserProfileImage(
