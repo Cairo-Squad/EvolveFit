@@ -51,22 +51,21 @@ fun FavoritesScreen(
             }
         }
     }
-    Box() {
+    Box {
         FavoritesScreenContent(
             state = state,
             listener = favoritesViewModel
         )
         DeleteFavoritesSnackBar(
-            modifier = Modifier.align(Alignment.BottomCenter),
+            modifier = Modifier
+                .padding(bottom = 40.dp)
+                .padding(vertical = 16.dp)
+                .align(Alignment.BottomCenter),
             isVisible = state.isSnackBarVisible,
             onUndoClicked = { favoritesViewModel.onUndoClicked() }
         )
 
     }
-    FavoritesScreenContent(
-        state = state,
-        listener = favoritesViewModel
-    )
 }
 
 @Composable
@@ -136,6 +135,8 @@ private fun FavoritesScreenContentPreview() {
                 override fun onWorkoutTabSelected() {}
                 override fun onBackClicked() {}
                 override fun onUndoClicked() {}
+                override fun deleteMeal(mealId: String) {}
+                override fun deleteWorkout(workoutId: String) {}
             }
         )
     }
