@@ -35,7 +35,8 @@ fun UserProfileImage(
     onImageRetrieved: (UiImage) -> Unit,
     modifier: Modifier = Modifier,
     text: String? = null,
-    isEditScreen: Boolean = false
+    isEditScreen: Boolean = false,
+
 ) {
     var localImage by remember { mutableStateOf(image) }
 
@@ -102,7 +103,10 @@ fun UserProfileImage(
             Text(
                 text = text,
                 style = Theme.textStyle.label.mediumMedium14,
-                color = Theme.color.surfaces.onSurfaceVariant
+                color = Theme.color.surfaces.onSurfaceVariant,
+                modifier=Modifier.padding(
+                    bottom = 32.dp
+                    ),
             )
         }
 

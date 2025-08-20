@@ -111,10 +111,7 @@ private fun UserProfileStep(
             onImagePickerClick = onImagePickerClick,
             onImageRetrieved = onImageRetrieved,
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(
-                    bottom = 32.dp
-                ),
+                .align(Alignment.CenterHorizontally),
             text=stringResource(Res.string.upload_image)
         )
 
