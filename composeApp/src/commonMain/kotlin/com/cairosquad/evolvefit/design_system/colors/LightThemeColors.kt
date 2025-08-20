@@ -23,6 +23,7 @@ val lightThemeColors = ThemeColors(
         onSurfaceAt2 = Color(0x66000000),
         onSurfaceAt3 = Color(0x3D000000),
         onSurfaceAt4 = Color(0x66919191),
+        dropShadowLight = Color(0x29FFFFFF)
     ),
     system = System(
         warning = Color(0xFFD9CB00),
