@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,7 +57,8 @@ fun CreateWorkoutContent(
         modifier = Modifier
             .fillMaxSize()
             .background(Theme.color.surfaces.surface)
-            .windowInsetsPadding(WindowInsets.statusBars),
+            .windowInsetsPadding(WindowInsets.statusBars)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -68,7 +71,7 @@ fun CreateWorkoutContent(
                         icon = painterResource(Res.drawable.ic_cross),
                         contentDescription = stringResource(Res.string.cross_icon_desc_),
                         tint = Theme.color.surfaces.onSurface,
-                        onClick = listener::onBackClicked,
+                        onClick = listener::onExitClicked,
                     )
                 },
                 modifier = Modifier
@@ -104,9 +107,10 @@ fun CreateWorkoutContent(
                 onImagePickerClick = listener::onImageClicked,
                 onImageRetrieved = listener::onImageSelected,
                 modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .clip(shape = RoundedCornerShape(8.dp))
                     .align(Alignment.CenterHorizontally)
                     .size(100.dp)
-                    .clip(shape = RoundedCornerShape(8.dp))
             )
 
             InputField(
@@ -151,7 +155,7 @@ fun CreateWorkoutContent(
                 BasicText(
                     text = stringResource(
                         Res.string.characters_left,
-                        3000 - state.description.length
+                        3000 - state.description.trim().length
                     ),
                     style = Theme.textStyle.label.smallRegular12.copy(
                         color = Theme.color.surfaces.onSurfaceVariant
