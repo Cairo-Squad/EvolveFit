@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.adamglin.composeshadow.dropShadow
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
@@ -76,6 +77,13 @@ fun SnackBar(
     ) {
         Row(
             modifier = Modifier
+                .dropShadow(shape = RoundedCornerShape(8.dp),
+                    color = Color(0x29FFFFFF),
+                    offsetX = 0.dp,
+                    offsetY = 40.dp,
+                    blur = 80.dp,
+                    spread = 0.dp
+                )
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
                 .background(backgroundColor)
