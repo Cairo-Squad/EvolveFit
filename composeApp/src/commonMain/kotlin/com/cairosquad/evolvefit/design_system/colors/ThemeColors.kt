@@ -38,6 +38,8 @@ data class System(
 
 data class Gradiant(
     val barGradiant: List<Color>,
+    val iconGradiant:List<Color>,
     val shimmerGradientColors: List<Color>,
-    val loadingGradientColors: List<Color>
+    val loadingGradientColors: List<Color>,
+
 )
