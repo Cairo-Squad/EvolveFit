@@ -33,8 +33,10 @@ import com.cairosquad.evolvefit.viewmodel.login.LoginViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arrow_back_description
 import evolvefit.composeapp.generated.resources.email_placeholder
+import evolvefit.composeapp.generated.resources.enter_your_email
 import evolvefit.composeapp.generated.resources.ic_app_logo
 import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.ic_email
 import evolvefit.composeapp.generated.resources.ic_lock
 import evolvefit.composeapp.generated.resources.ic_profile
 import evolvefit.composeapp.generated.resources.ic_visibility_off
@@ -140,8 +142,8 @@ private fun LoginScreenContent(
                         .padding(bottom = 12.dp),
                     value = state.email,
                     onValueChange = listener::onEmailChanged,
-                    placeholder = stringResource(Res.string.email_placeholder),
-                    leadingIcon = Res.drawable.ic_profile,
+                    placeholder = stringResource(Res.string.enter_your_email),
+                    leadingIcon = Res.drawable.ic_email,
                     isErrorMessageShown = state.emailError != null,
                     error = state.emailError?.let { stringResource(it) } ?: "",
                     isError = state.emailError != null || state.isFormError
