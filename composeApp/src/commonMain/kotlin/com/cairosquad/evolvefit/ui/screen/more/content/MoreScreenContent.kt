@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -267,10 +268,12 @@ fun ProfileInfo(
         NetworkImage(
             model = userImage,
             contentDescription = stringResource(Res.string.profile_image),
-            modifier = Modifier.size(80.dp).clip(shape = CircleShape).padding(bottom=12.dp)
+            modifier = Modifier
+                .size(80.dp)
+                .clip(shape = CircleShape)
         )
         Text(
-            modifier= Modifier.padding(bottom=4.dp),
+            modifier= Modifier.padding(bottom=4.dp,top=12.dp),
             text = userName,
             color = Theme.color.surfaces.onSurfaceContainer,
             style = Theme.textStyle.label.mediumMedium14
