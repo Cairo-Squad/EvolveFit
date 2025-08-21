@@ -21,8 +21,7 @@ fun UiImageDisplayer(
     image: UiImage,
     contentDescription: String,
     defaultImageSize: Dp = 32.dp,
-    modifier: Modifier = Modifier,
-    contentScale: ContentScale = ContentScale.None,
+    modifier: Modifier = Modifier
 ) {
     when (image) {
         is UiImage.ImageFile -> {
@@ -31,7 +30,6 @@ fun UiImageDisplayer(
                 contentDescription = contentDescription,
                 defaultImageSize = defaultImageSize,
                 modifier = modifier,
-                contentScale = contentScale,
             )
         }
 
@@ -43,7 +41,6 @@ fun UiImageDisplayer(
                 model = image.url,
                 contentDescription = contentDescription,
                 placeholderImageSize = DpSize(defaultImageSize, defaultImageSize),
-                contentScale = contentScale,
             )
         }
 
@@ -51,7 +48,6 @@ fun UiImageDisplayer(
             Image(
                 painter = painterResource(image.resourceId),
                 contentDescription = contentDescription,
-                contentScale = contentScale,
                 modifier = modifier
                     .size(defaultImageSize),
             )
@@ -64,13 +60,12 @@ private fun FileImageDisplayer(
     file: PlatformFile,
     contentDescription: String,
     defaultImageSize: Dp,
-    modifier: Modifier = Modifier,
-    contentScale: ContentScale = ContentScale.None,
+    modifier: Modifier = Modifier
 ) {
     AsyncImage(
         model = file,
         contentDescription = contentDescription,
         modifier = modifier,
-        contentScale = contentScale,
+        contentScale = ContentScale.Crop
     )
 }

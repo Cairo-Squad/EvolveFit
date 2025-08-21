@@ -16,6 +16,7 @@ import com.cairosquad.evolvefit.entity.nutrition.MealType
 import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.utils.getTodayDate
+import com.cairosquad.evolvefit.viewmodel.utils.toErrorMessageRes
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.error_exceeded_calories
 import evolvefit.composeapp.generated.resources.error_exceeded_water
@@ -362,19 +363,6 @@ class NutritionViewModel(
         viewModelScope.launch {
             delay(500L)
             updateState { it.copy(isRefreshing = false) }
-        }
-    }
-
-    private fun Throwable.toErrorMessageRes(): StringResource {
-        return when (this) {
-            is InvalidNumberFormatException -> Res.string.error_invalid_number
-            is ExceededCaloriesException -> Res.string.error_exceeded_calories
-            is ExceededWaterLimitException -> Res.string.error_exceeded_water
-            is MealNotFoundException -> Res.string.error_meal_not_found
-            is InternetConnectionException -> Res.string.error_no_internet
-            is TimeoutException -> Res.string.error_no_internet
-            is NetworkException -> Res.string.error_no_internet
-            else -> Res.string.error_unknown
         }
     }
 

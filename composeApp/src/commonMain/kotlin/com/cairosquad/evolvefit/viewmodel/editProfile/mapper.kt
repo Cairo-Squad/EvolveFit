@@ -2,6 +2,7 @@ package com.cairosquad.evolvefit.viewmodel.editProfile
 
 import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Profile
+import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.domain.model.WeekDay
 
@@ -9,24 +10,32 @@ fun Profile.toUiState() = EditProfileScreenState.ProfileUiState(
     fullName = name,
     email = email,
     dateOfBirth = dateOfBirth,
-    gender = gender.name,
+    gender = gender,
     height = height,
     weight = weight,
-    mainGoal = goal.name,
+    mainGoal = goal,
     imageUrl = imageUrl,
-    preferredMeasurementStandard = preferredMeasurementStandard.name,
-)
-fun EditProfileScreenState.ProfileUiState.toDomain(existingProfile: Profile) = existingProfile.copy(
+    preferredMeasurementStandard = preferredMeasurementStandard,
+    equipments= equipments.toEquipmentUiStateSet(),
+    workoutDays = workoutDays.toWeekDayUiStateSet(),
+    preferredLanguage = preferredLanguage
+
+    )
+fun EditProfileScreenState.ProfileUiState.toDomain() = Profile(
     name = fullName,
     email = email,
-    dateOfBirth = dateOfBirth ?: existingProfile.dateOfBirth,
-    gender = Profile.Gender.valueOf(gender),
-    preferredMeasurementStandard = MeasurementStandard.valueOf(preferredMeasurementStandard),
+    dateOfBirth = dateOfBirth!! ,
+    gender = gender,
+    preferredMeasurementStandard = preferredMeasurementStandard,
     height = height,
     weight = weight,
-    goal = Profile.FitnessGoal.valueOf(mainGoal),
-    imageUrl = imageUrl
+    goal = mainGoal,
+    imageUrl = imageUrl,
+    preferredLanguage = preferredLanguage,
+    equipments = equipments.toEquipmentDomainSet(),
+    workoutDays = workoutDays.toWeekDayDomainSet()
 )
+
 fun Equipment.toUiState(): EditProfileScreenState.EquipmentUiState {
     return EditProfileScreenState.EquipmentUiState(
         id = this.id,

@@ -6,8 +6,8 @@ import com.cairosquad.evolvefit.repository.nutrition.dto.DailyCalorieSummaryDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.DailyWaterSummaryDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.MealDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.SuggestedMealDto
-import com.cairosquad.evolvefit.remote.utils.MealConstants.MEALS_PATH
-import com.cairosquad.evolvefit.remote.utils.MealConstants.NUTRITION_PATH
+import com.cairosquad.evolvefit.repository.nutrition.utils.MealConstants.MEALS_PATH
+import com.cairosquad.evolvefit.repository.nutrition.utils.MealConstants.NUTRITION_PATH
 import com.cairosquad.evolvefit.repository.execption.callApi
 import com.cairosquad.evolvefit.repository.nutrition.dto.FavouriteMealDto
 import io.ktor.client.HttpClient
@@ -34,14 +34,14 @@ class RemoteNutritionDataSourceImpl(
 
     override suspend fun getFavouriteMeals(): List<FavouriteMealDto> {
         return callApi<List<FavouriteMealDto>> {
-            httpClient.get("favorite/meal")
+            httpClient.get(FAVORITE_MEAL)
                 .body()
         }
     }
 
     override suspend fun addFavouriteMealById(mealId: String) {
         return callApi {
-            httpClient.post("favorite/meal"){
+            httpClient.post(FAVORITE_MEAL){
                 parameter("mealId", mealId)
             }
                 .body()
@@ -50,7 +50,10 @@ class RemoteNutritionDataSourceImpl(
 
     override suspend fun deleteFavouriteMeal(mealId: String) {
         return callApi {
-            httpClient.delete("favorite/meal")
+            httpClient.delete(FAVORITE_MEAL){
+                parameter("mealId", mealId)
+                contentType(ContentType.Application.Json)
+            }.body()
         }
     }
 
@@ -103,5 +106,9 @@ class RemoteNutritionDataSourceImpl(
         return callApi<DailyWaterSummaryDto> {
             httpClient.get("${NUTRITION_PATH}/water").body()
         }
+    }
+
+    companion object {
+        private const val FAVORITE_MEAL = "favorite/meal"
     }
 }

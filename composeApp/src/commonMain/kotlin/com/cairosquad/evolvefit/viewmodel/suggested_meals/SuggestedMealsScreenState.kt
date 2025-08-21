@@ -14,6 +14,7 @@ data class SuggestedMealsScreenState(
 
 ) {
     data class SuggestedMealUiState(
+        val id : String = "",
         val name: String = "",
         val type: MealTypeUiState = MealTypeUiState.Breakfast,
         val calories: Int = 0,
