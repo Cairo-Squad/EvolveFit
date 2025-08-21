@@ -7,6 +7,7 @@ import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseViewModel
 import com.cairosquad.evolvefit.viewmodel.favorites.FavoritesViewModel
 import com.cairosquad.evolvefit.viewmodel.home.HomeViewModel
 import com.cairosquad.evolvefit.viewmodel.login.LoginViewModel
+import com.cairosquad.evolvefit.viewmodel.meal_history.MealHistoryViewModel
 import com.cairosquad.evolvefit.viewmodel.more.MoreViewModel
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.OnBoardingViewModel
@@ -46,4 +47,6 @@ val viewModelModule = module {
         WorkoutDetailsViewModel(workoutId, get())
     }
 
+    viewModelOf(::SuggestedMealsViewModel)
+    viewModelOf(::MealHistoryViewModel)
 }
