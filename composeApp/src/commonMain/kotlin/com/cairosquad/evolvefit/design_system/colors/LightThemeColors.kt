@@ -36,6 +36,10 @@ val lightThemeColors = ThemeColors(
             Color(0xFF86D01D),
             Color(0x03FFFFFF)
         ),
+        iconGradiant =listOf(
+            Color(0xFF86D01D),
+            Color(0xFFCAE99F)
+        ),
         shimmerGradientColors = listOf(
             Color.Transparent,
             Color(0xFFFFFFFF),
@@ -45,6 +49,6 @@ val lightThemeColors = ThemeColors(
             Color.Transparent,
             Color(0xFFF8F8F8),
             Color.Transparent,
-        )
+        ),
     )
 )
