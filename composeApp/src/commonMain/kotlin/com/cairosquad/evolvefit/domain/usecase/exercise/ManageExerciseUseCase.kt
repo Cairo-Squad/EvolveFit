@@ -9,6 +9,12 @@ class ManageExerciseUseCase(
     suspend fun createExercise(exercise: Exercise) {
         exerciseRepository.createExercise(exercise)
     }
+    suspend fun uploadExerciseImage(
+        fileBytes: ByteArray,
+        fileName: String
+    ): String {
+        return exerciseRepository.uploadExerciseImage(fileBytes, fileName)
+    }
 
     suspend fun getAllExercises(): List<Exercise> {
         return exerciseRepository.getAllExercises()

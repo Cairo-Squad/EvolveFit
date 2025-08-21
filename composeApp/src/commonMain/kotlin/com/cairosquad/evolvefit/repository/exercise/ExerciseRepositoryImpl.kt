@@ -21,8 +21,14 @@ class ExerciseRepositoryImpl(
         }
     }
 
+    override suspend fun uploadExerciseImage(
+        fileBytes: ByteArray,
+        fileName: String
+    ): String {
+       return remoteDataSource.uploadExerciseImage(fileBytes,fileName)
+    }
+
     override suspend fun getExercisesByQuery(query: String): List<Exercise> {
-        // TODO: implement search filtering if needed
-        return emptyList()
+     return remoteDataSource.getExercisesByQuery(query).map { it.toDomain() }
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -20,7 +21,8 @@ fun UiImageDisplayer(
     image: UiImage,
     contentDescription: String,
     defaultImageSize: Dp = 32.dp,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    contentScale: ContentScale = ContentScale.None,
 ) {
     when (image) {
         is UiImage.ImageFile -> {
@@ -29,6 +31,7 @@ fun UiImageDisplayer(
                 contentDescription = contentDescription,
                 defaultImageSize = defaultImageSize,
                 modifier = modifier,
+                contentScale = contentScale,
             )
         }
 
@@ -40,6 +43,7 @@ fun UiImageDisplayer(
                 model = image.url,
                 contentDescription = contentDescription,
                 placeholderImageSize = DpSize(defaultImageSize, defaultImageSize),
+                contentScale = contentScale,
             )
         }
 
@@ -47,6 +51,7 @@ fun UiImageDisplayer(
             Image(
                 painter = painterResource(image.resourceId),
                 contentDescription = contentDescription,
+                contentScale = contentScale,
                 modifier = modifier
                     .size(defaultImageSize),
             )
@@ -59,11 +64,13 @@ private fun FileImageDisplayer(
     file: PlatformFile,
     contentDescription: String,
     defaultImageSize: Dp,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    contentScale: ContentScale = ContentScale.None,
 ) {
     AsyncImage(
         model = file,
         contentDescription = contentDescription,
-        modifier = modifier
+        modifier = modifier,
+        contentScale = contentScale,
     )
 }

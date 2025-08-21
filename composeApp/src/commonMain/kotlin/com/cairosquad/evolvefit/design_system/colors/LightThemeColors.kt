@@ -23,6 +23,7 @@ val lightThemeColors = ThemeColors(
         onSurfaceAt2 = Color(0x66000000),
         onSurfaceAt3 = Color(0x3D000000),
         onSurfaceAt4 = Color(0x66919191),
+        dropShadowLight = Color(0x29FFFFFF)
     ),
     system = System(
         warning = Color(0xFFD9CB00),
@@ -35,6 +36,10 @@ val lightThemeColors = ThemeColors(
             Color(0xFF86D01D),
             Color(0x03FFFFFF)
         ),
+        iconGradiant =listOf(
+            Color(0xFF86D01D),
+            Color(0xFFCAE99F)
+        ),
         shimmerGradientColors = listOf(
             Color.Transparent,
             Color(0xFFFFFFFF),
@@ -44,6 +49,6 @@ val lightThemeColors = ThemeColors(
             Color.Transparent,
             Color(0xFFF8F8F8),
             Color.Transparent,
-        )
+        ),
     )
 )

@@ -1,6 +1,7 @@
 <resources>
     <string name="dashboard">Dashboard</string>
     <string name="nutrition">Nutrition</string>
+    <string name="ingredients">Ingredients</string>
     <string name="workouts">Workouts</string>
     <string name="reports">Reports</string>
     <string name="more">More</string>
@@ -197,6 +198,11 @@
     <string name="characters_left">%1$d character left</string>
     <string name="select_focus_area">Select focus area</string>
     <string name="choose_available_tools">Choose available tools</string>
+    <string name="calories_format">Calories: %1$d Kcal</string>
+    <string name="carbs_format">Carbs: %1$d g</string>
+    <string name="protein_format">Protein: %1$d g</string>
+    <string name="fat_format">Fat: %1$d g</string>
+    <string name="just_for_you">Just For You</string>
 
     <string name="exit_confirmation_title">Do you want to exit?</string>
     <string name="exit_confirmation_message">You haven’t saved your workout yet. All progress might be lost.</string>
@@ -344,4 +350,8 @@
     <string name="chest">Chest</string>
     <string name="last_week">Last Week</string>
     <string name="workout_history">Workout History</string>
+    <string name="invalid_date_format">Invalid date format</string>
+    <string name="undo">Undo</string>
+    <string name="save_icon">save icon</string>
+    <string name="remove_from_favorites">Remove from favorites?</string>
 </resources>

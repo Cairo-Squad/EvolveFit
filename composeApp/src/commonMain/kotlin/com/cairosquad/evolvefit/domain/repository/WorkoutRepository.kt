@@ -13,7 +13,7 @@ interface WorkoutRepository {
     suspend fun getFavoriteWorkouts(): List<WorkoutSuggested>
     suspend fun createWorkout(workout: Workout)
     suspend fun addWorkoutToFavorites(workoutId: String)
-    suspend fun deleteWorkoutToFavorites(workoutId: String)
+    suspend fun deleteFavoriteWorkout(workoutId: String)
     suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested>
     suspend fun getWorkoutHistory(): List<WorkoutHistory>
 }
