@@ -28,7 +28,9 @@ class ManageWorkoutUseCase(
     suspend fun getFavoriteWorkouts(): List<WorkoutSuggested> {
         return workoutRepository.getFavoriteWorkouts()
     }
-
+    suspend fun deleteFavouriteWorkout(mealId: String) {
+        return workoutRepository.deleteFavoriteWorkout(mealId)
+    }
     suspend fun createWorkOut(workout: Workout) {
         workoutRepository.createWorkout(workout)
     }

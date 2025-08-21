@@ -1,6 +1,7 @@
 <resources>
     <string name="dashboard">Dashboard</string>
     <string name="nutrition">Nutrition</string>
+    <string name="ingredients">Ingredients</string>
     <string name="workouts">Workouts</string>
     <string name="reports">Reports</string>
     <string name="more">More</string>
@@ -345,5 +346,7 @@
     <string name="last_week">Last Week</string>
     <string name="workout_history">Workout History</string>
     <string name="invalid_date_format">Invalid date format</string>
-
+    <string name="undo">Undo</string>
+    <string name="save_icon">save icon</string>
+    <string name="remove_from_favorites">Remove from favorites?</string>
 </resources>
