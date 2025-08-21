@@ -92,12 +92,16 @@ fun FavoritesScreenContent(
                 )
             }
         )
-        TabsWithPager(
-            meals = state.mealsList,
-            workouts = state.workoutsList,
-            state = state,
-            listener = listener
-        )
+        if (state.isLoading) {
+            FavoritesLoadingScreen()
+        } else {
+            TabsWithPager(
+                meals = state.mealsList,
+                workouts = state.workoutsList,
+                state = state,
+                listener = listener
+            )
+        }
     }
 }
 
