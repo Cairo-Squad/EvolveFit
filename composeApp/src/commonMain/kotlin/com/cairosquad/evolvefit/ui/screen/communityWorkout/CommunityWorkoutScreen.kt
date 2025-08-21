@@ -3,7 +3,6 @@ package com.cairosquad.evolvefit.ui.screen.communityWorkout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +25,7 @@ import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.component.RefreshBox
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutEffect
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutInteractionListener
@@ -62,7 +62,10 @@ private fun WorkoutsScreenContent(
     listener: CommunityWorkoutInteractionListener,
     navigateBack: () -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    RefreshBox(
+        isRefreshing = state.isRefreshing,
+        onRefresh = listener::onRefresh
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

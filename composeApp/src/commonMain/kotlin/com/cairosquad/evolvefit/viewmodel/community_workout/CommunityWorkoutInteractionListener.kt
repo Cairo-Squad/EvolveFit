@@ -7,4 +7,5 @@ interface CommunityWorkoutInteractionListener {
     fun onClickWorkout(id: String)
     fun onClickBack()
     fun getCommunityWorkout()
+    fun onRefresh()
 }

@@ -5,6 +5,7 @@ data class WorkoutScreenState(
     val selectedFocusArea: FocusAreaUiState = FocusAreaUiState.CORE,
     val allWorkouts: List<WorkoutSuggestedUiState> = emptyList(),
     val focusAreas: List<FocusAreaUiState> = FocusAreaUiState.entries,
+    val isRefreshing: Boolean = false,
     val errorMessage: String? = null
 
 ) {

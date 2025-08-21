@@ -32,7 +32,7 @@ class WorkoutViewModel(
     }
 
     override fun onSelectFocusArea(focusArea: FocusAreaUiState) {
-        updateState { it.copy(selectedFocusArea = focusArea) }
+        updateState { it.copy(selectedFocusArea = focusArea, errorMessage = null) }
 
         if (focusArea == FocusAreaUiState.CORE) {
             loadAllWorkouts()
@@ -54,18 +54,60 @@ class WorkoutViewModel(
     }
 
     private fun onGetSuggestedWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
-        updateState { st -> st.copy(allWorkouts = workouts.map { it.toUiState() }) }
+        updateState { st ->
+            st.copy(
+                allWorkouts = workouts.map { it.toUiState() },
+                errorMessage = null
+            )
+        }
     }
 
     private fun onGetSuggestedWorkoutError(t: Throwable) {
-        updateState { it.copy(errorMessage = t.message ?: "Failed to load community workouts") }
+        updateState { it.copy(errorMessage = t.message ?: "Failed to load suggested workouts") }
     }
 
     private fun onLoadWorkoutByFocusAreaSuccess(workouts: List<WorkoutSuggested>) {
-        updateState { st -> st.copy(allWorkouts = workouts.map { it.toUiState() }) }
+        updateState { st ->
+            st.copy(
+                allWorkouts = workouts.map { it.toUiState() },
+                errorMessage = null
+            )
+        }
     }
 
     private fun onLoadWorkoutByFocusAreaError(t: Throwable) {
         updateState { it.copy(errorMessage = t.message ?: "Failed to load workouts by focus") }
+    }
+
+    override fun onRefresh() {
+        updateState { it.copy(isRefreshing = true, errorMessage = null) }
+        val selected = screenState.value.selectedFocusArea
+
+        tryToCall(
+            block = {
+                if (selected == WorkoutScreenState.FocusAreaUiState.CORE) {
+                    workoutUseCase.getSuggestedWorkouts()
+                } else {
+                    workoutUseCase.getSuggestedWorkoutsByFocusArea(selected.toDomain())
+                }
+            },
+            onSuccess = { list ->
+                updateState {
+                    it.copy(
+                        allWorkouts = list.map { w -> w.toUiState() },
+                        isRefreshing = false,
+                        errorMessage = null
+                    )
+                }
+            },
+            onError = { t ->
+                updateState {
+                    it.copy(
+                        isRefreshing = false,
+                        errorMessage = t.message ?: "Failed to refresh workouts"
+                    )
+                }
+            }
+        )
     }
 }

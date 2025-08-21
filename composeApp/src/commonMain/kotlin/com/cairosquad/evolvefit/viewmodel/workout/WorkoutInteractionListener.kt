@@ -5,4 +5,5 @@ interface WorkoutInteractionListener {
     fun onClickWorkout(id: String)
     fun onClickAddWorkout()
     fun onClickCommunity()
+    fun onRefresh()
 }
