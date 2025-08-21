@@ -77,8 +77,7 @@ private fun CreateExerciseScreenPreview() {
                 override fun canSaveExercise(): Boolean {
                     return true
                 }
-            },
-            //navigateBack = {}
+            }
         )
     }
 }

@@ -30,5 +30,4 @@ interface CreateExerciseInteractionListener {
     fun onFocusAreaDismiss()
     fun onEquipmentDismiss()
     fun canSaveExercise(): Boolean
-
 }

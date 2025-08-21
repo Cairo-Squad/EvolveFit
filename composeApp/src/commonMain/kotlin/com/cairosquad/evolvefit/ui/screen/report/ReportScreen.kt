@@ -22,6 +22,8 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.RefreshBox
+import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
+import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
 import com.cairosquad.evolvefit.ui.screen.report.componant.ActivityRow
 import com.cairosquad.evolvefit.ui.screen.report.componant.DashboardGridSection
 import com.cairosquad.evolvefit.ui.screen.report.componant.cards.BarChartCard
@@ -41,15 +43,22 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ReportScreen(
-    viewModel: ReportViewModel = koinViewModel(),
-    navigateToWorkoutHistory: () -> Unit
+    navigateToWorkoutHistory: () -> Unit,
+    onSelectNavBarRoute: (navBarRoute: NavBarRoute) -> Unit,
+    viewModel: ReportViewModel = koinViewModel()
 ) {
     val uiState by viewModel.screenState.collectAsStateWithLifecycle()
-    ReportScreenContent(
-        screenState = uiState,
-        listener = viewModel,
-        navigateToWorkoutHistory = navigateToWorkoutHistory
-    )
+
+    Scaffold(
+        currentRoute = NavBarRoute.Report,
+        onSelectNavBarRoute = onSelectNavBarRoute
+    ) {
+        ReportScreenContent(
+            screenState = uiState,
+            listener = viewModel,
+            navigateToWorkoutHistory = navigateToWorkoutHistory
+        )
+    }
 }
 
 @Composable
