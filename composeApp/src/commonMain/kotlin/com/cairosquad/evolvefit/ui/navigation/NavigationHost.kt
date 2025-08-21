@@ -30,6 +30,7 @@ import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
 import com.cairosquad.evolvefit.ui.screen.suggestedMeals.SuggestedMealsScreen
 import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.editProfile.EditProfileScreen
+import com.cairosquad.evolvefit.ui.screen.workout.WorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.WorkoutDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.WorkoutHistoryScreen
 import org.koin.compose.koinInject
@@ -145,7 +146,7 @@ fun NavigationHost(
             CreateWorkoutScreen(
                 navigateBack = navController::popBackStack,
                 navigateToCreateExercise = { navController.navigate(CreateExerciseRoute) },
-                navigateToWorkOuts = {},
+                navigateToWorkOuts = navController::popBackStack,
                 navigateToAllExercises = {}
             )
         }
