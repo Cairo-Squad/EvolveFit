@@ -53,7 +53,9 @@ import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.ui.component.CaloriesNutritionCard
 import com.cairosquad.evolvefit.ui.component.RefreshBox
+import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
 import com.cairosquad.evolvefit.ui.component.WaterNutritionCard
+import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.home.HomeInteractionListener
 import com.cairosquad.evolvefit.viewmodel.home.HomeScreenEffect
@@ -91,11 +93,33 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomeScreen(
-    navigateToWorkout: (String) -> Unit,
+    navigateToWorkout: (id: String) -> Unit,
+    onSelectNavBarRoute: (navBarRoute: NavBarRoute) -> Unit,
     homeViewModel: HomeViewModel = koinViewModel(),
 ) {
     val state by homeViewModel.screenState.collectAsState()
 
+    HandleHomeEffects(
+        homeViewModel = homeViewModel,
+        navigateToWorkout = navigateToWorkout,
+    )
+
+    Scaffold(
+        currentRoute = NavBarRoute.Home,
+        onSelectNavBarRoute = onSelectNavBarRoute
+    ) {
+        HomeContent(
+            state = state,
+            listener = homeViewModel
+        )
+    }
+}
+
+@Composable
+private fun HandleHomeEffects(
+    homeViewModel: HomeViewModel,
+    navigateToWorkout: (id: String) -> Unit,
+) {
     ObserveAsEffect(homeViewModel.effect) { effect ->
         when (effect) {
             is HomeScreenEffect.NavigateToWorkout -> {
@@ -107,10 +131,17 @@ fun HomeScreen(
             }
         }
     }
+}
+
+@Composable
+private fun HomeContent(
+    state: HomeScreenState,
+    listener: HomeInteractionListener,
+) {
     Box(modifier = Modifier.fillMaxSize()) {
         RefreshBox(
             isRefreshing = state.isRefreshing,
-            onRefresh = { homeViewModel.onRefresh() }
+            onRefresh = { listener.onRefresh() }
         ) {
             Crossfade(
                 targetState = state.screenStatus,
@@ -121,9 +152,9 @@ fun HomeScreen(
             ) {
                 when (state.screenStatus) {
                     HomeScreenState.ScreenStatus.SUCCESS -> {
-                        HomeContent(
+                        HomeSuccessContent(
                             state = state,
-                            interactionListener = homeViewModel
+                            listener = listener
                         )
                     }
 
@@ -133,7 +164,7 @@ fun HomeScreen(
 
                     HomeScreenState.ScreenStatus.FAIL -> {
                         HomeErrorContent(
-                            onRetry = homeViewModel::onRetryClick
+                            onRetry = listener::onRetryClick
                         )
                     }
                 }
@@ -143,9 +174,9 @@ fun HomeScreen(
 }
 
 @Composable
-private fun HomeContent(
+private fun HomeSuccessContent(
     state: HomeScreenState,
-    interactionListener: HomeInteractionListener
+    listener: HomeInteractionListener,
 ) {
     Column(
         modifier = Modifier
@@ -193,8 +224,8 @@ private fun HomeContent(
         ) {
             PersonalizedWorkouts(
                 workouts = state.personalizedWorkouts,
-                onWorkoutClick = interactionListener::onWorkoutClick,
-                onSavedWorkoutClick = interactionListener::onSavedWorkoutClick
+                onWorkoutClick = listener::onWorkoutClick,
+                onSavedWorkoutClick = listener::onSavedWorkoutClick
             )
         }
     }
