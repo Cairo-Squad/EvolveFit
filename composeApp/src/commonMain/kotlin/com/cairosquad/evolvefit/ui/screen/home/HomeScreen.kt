@@ -53,9 +53,9 @@ import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.ui.component.CaloriesNutritionCard
 import com.cairosquad.evolvefit.ui.component.RefreshBox
-import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
 import com.cairosquad.evolvefit.ui.component.WaterNutritionCard
 import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
+import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.home.HomeInteractionListener
 import com.cairosquad.evolvefit.viewmodel.home.HomeScreenEffect
@@ -202,7 +202,7 @@ private fun HomeSuccessContent(
 
         HomeSection(
             title = stringResource(Res.string.today_nutrition),
-            visibilityKey = true,
+            visibilityKey = state.nutritionVisibility,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 32.dp)
