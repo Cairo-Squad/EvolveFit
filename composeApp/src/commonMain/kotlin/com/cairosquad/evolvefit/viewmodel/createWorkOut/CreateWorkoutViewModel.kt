@@ -29,7 +29,7 @@ class CreateWorkoutViewModel(
         }
     }
 
-    private fun loadExercises() {
+    fun loadExercises() {
         tryToCall(
             block = { manageExerciseUseCase.getAllExercises() },
             onSuccess = ::handleExercisesResultSuccess,
@@ -53,11 +53,17 @@ class CreateWorkoutViewModel(
 
     override fun onNameChanged(newName: String) {
         val cleanName = if (newName.isBlank()) "" else newName
-        updateState { it.copy(name = cleanName, isNextEnabled = validate(cleanName, it.goal.name, it.description)) }
+        updateState {
+            it.copy(
+                name = cleanName,
+                isNextEnabled = validate(cleanName, it.goal.name, it.description)
+            )
+        }
     }
 
     override fun onGoalSelected(goalName: String) {
-        val selectedGoal = enumValues<WorkoutLevel>().firstOrNull { it.name == goalName } ?: WorkoutLevel.BEGINNER
+        val selectedGoal =
+            enumValues<WorkoutLevel>().firstOrNull { it.name == goalName } ?: WorkoutLevel.BEGINNER
         updateState {
             it.copy(
                 goal = selectedGoal,
@@ -68,7 +74,12 @@ class CreateWorkoutViewModel(
 
     override fun onDescriptionChanged(desc: String) {
         val trimmed = desc.take(3000)
-        updateState { it.copy(description = trimmed, isNextEnabled = validate(it.name, it.goal.name, trimmed)) }
+        updateState {
+            it.copy(
+                description = trimmed,
+                isNextEnabled = validate(it.name, it.goal.name, trimmed)
+            )
+        }
     }
 
     private fun validate(name: String, goal: String, desc: String): Boolean {
