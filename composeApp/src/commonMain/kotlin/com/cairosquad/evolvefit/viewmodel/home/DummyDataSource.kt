@@ -1,6 +1,9 @@
 package com.cairosquad.evolvefit.viewmodel.home
 
 import com.cairosquad.evolvefit.domain.entity.Profile
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.kg
+import evolvefit.composeapp.generated.resources.weight_loss
 
 
 object DummyDataSource {
@@ -11,9 +14,9 @@ object DummyDataSource {
     )
 
     val weeklyProgress = HomeScreenState.WeeklyProgressUiState(
-        goal = "Weight loss",
+        goal = Res.string.weight_loss,
         currentWeight = 64.5f,
-        weightUnit = "kg",
+        weightUnit = Res.string.kg,
         activityPercentage = 30.toUInt(),
         progressDays = mapOf(
             22 to true,

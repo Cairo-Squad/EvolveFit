@@ -216,7 +216,7 @@ private fun HomeSuccessContent(
         }
 
         HomeSection(
-            title =  stringResource(Res.string.just_for_you),
+            title = stringResource(Res.string.just_for_you),
             visibilityKey = state.personalizedWorkouts.isNotEmpty(),
             modifier = Modifier
                 .padding(bottom = 32.dp),
@@ -306,12 +306,16 @@ private fun HomeProgressBox(
                 progressDays = progress?.progressDays ?: emptyMap()
             )
 
-            StatsRow(
-                goal = progress?.goal ?: "",
-                currentWeight = progress?.currentWeight ?: 0f,
-                weightUnit = progress?.weightUnit ?: "",
-                activityPercentage = progress?.activityPercentage ?: 0.toUInt()
-            )
+            progress?.goal?.let {
+                progress.weightUnit?.let { resource ->
+                    StatsRow(
+                        goal = stringResource(it),
+                        currentWeight = progress.currentWeight,
+                        weightUnit = stringResource(resource),
+                        activityPercentage = progress.activityPercentage
+                    )
+                }
+            }
         }
     }
 }
@@ -590,7 +594,7 @@ private fun SimpleNutritionRow(
 private fun PersonalizedWorkouts(
     workouts: List<HomeScreenState.HomeWorkoutUiState>,
     onWorkoutClick: (String) -> Unit,
-    onSavedWorkoutClick: (String) -> Unit,
+    onSavedWorkoutClick: (String, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -618,7 +622,7 @@ private fun PersonalizedWorkouts(
 
                 SaveButton(
                     isSaved = workout.isSaved,
-                    onClick = { onSavedWorkoutClick(workout.id) },
+                    onClick = { onSavedWorkoutClick(workout.id, workout.isSaved) },
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(12.dp)
