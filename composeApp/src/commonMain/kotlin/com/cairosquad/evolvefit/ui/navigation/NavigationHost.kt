@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
 import com.cairosquad.evolvefit.ui.screen.app.AppScreen
 import com.cairosquad.evolvefit.ui.screen.communityWorkout.CommunityWorkoutScreen
@@ -41,6 +42,7 @@ fun NavigationHost(
     onLanguageChange: (String) -> Unit,
     onThemeChange: (MoreScreenState.Theme) -> Unit,
     currentTheme: MoreScreenState.Theme,
+    currentLanguage: Language
     ) {
 
     val isUserLoggedIn = authenticationPreferences.getAccessToken().isNullOrBlank().not()
@@ -144,7 +146,8 @@ fun NavigationHost(
                 navigateToFavoritesScreen = {navController.navigate(FavoritesScreenRoute)},
                 onLanguageChange = onLanguageChange,
                 onThemeChange = onThemeChange,
-                currentTheme = currentTheme
+                currentTheme = currentTheme,
+                currentLanguage = currentLanguage
             )
         }
 

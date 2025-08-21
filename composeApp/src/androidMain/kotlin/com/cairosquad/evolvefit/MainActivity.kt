@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.ui.navigation.WorkoutDetailsRoute
 import com.cairosquad.evolvefit.ui.util.changeLanguage
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
@@ -47,6 +48,7 @@ class MainActivity : ComponentActivity() {
                 App(
                     deepLinkRoute = deepLinkRoute,
                     currentTheme = appTheme,
+                    currentLanguage = languageCodeToLanguage(languageCode),
                     onLanguageChange = { newLang ->
                         languageCode = newLang
                         saveLanguage(newLang)
@@ -85,4 +87,11 @@ private fun getDeepLinkRoute(intent: Intent?): Any? {
         return WorkoutDetailsRoute(workoutId)
     }
     return null
+}
+
+private fun languageCodeToLanguage(languageCode: String): Language{
+    return when(languageCode){
+        "en" -> Language.ENGLISH
+        else -> Language.ARABIC
+    }
 }

@@ -11,11 +11,14 @@ import evolvefit.composeapp.generated.resources.failed_to_update_user_profile_im
 class MoreViewModel(
     private val manageProfileUseCase: ManageProfileUseCase,
     private val authenticationUseCase: AuthenticationUseCase,
-    savedTheme: MoreScreenState.Theme
+    savedTheme: MoreScreenState.Theme,
+    currentLanguage: Language
 ) : BaseViewModel<MoreScreenState, MoreEffect>(
     MoreScreenState(
         currentTheme = savedTheme,
-        isDarkChecked = savedTheme == MoreScreenState.Theme.DARK
+        isDarkChecked = savedTheme == MoreScreenState.Theme.DARK,
+        currentLanguage = currentLanguage,
+        isEnglishChecked = currentLanguage == Language.ENGLISH
     )
 ),
     MoreInteractionListener {

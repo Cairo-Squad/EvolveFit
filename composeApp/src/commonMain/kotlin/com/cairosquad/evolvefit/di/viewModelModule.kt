@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.di
 
+import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutViewModel
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkoutViewModel
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileViewModel
@@ -40,8 +41,8 @@ val viewModelModule = module {
     viewModelOf(::FavoritesViewModel)
     viewModelOf(::MoreViewModel)
     viewModelOf(::WorkoutHistoryViewModel)
-    viewModel { (savedTheme: MoreScreenState.Theme) ->
-        MoreViewModel(get(), get(), savedTheme)
+    viewModel { (savedTheme: MoreScreenState.Theme, currentLanguage: Language) ->
+        MoreViewModel(get(), get(), savedTheme = savedTheme, currentLanguage = currentLanguage)
     }
     viewModelOf(::MealDetailsViewModel)
 

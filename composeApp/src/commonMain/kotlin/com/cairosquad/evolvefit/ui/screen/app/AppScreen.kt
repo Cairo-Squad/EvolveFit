@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.cairosquad.evolvefit.design_system.component.NavigationBar
 import com.cairosquad.evolvefit.design_system.component.NavigationBarItem
+import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.ui.screen.home.HomeScreen
 import com.cairosquad.evolvefit.ui.screen.nutrition.NutritionScreen
 import com.cairosquad.evolvefit.ui.screen.more.MoreScreen
@@ -50,6 +51,7 @@ fun AppScreen(
     onLanguageChange: (String) -> Unit,
     onThemeChange: (MoreScreenState.Theme) -> Unit,
     currentTheme: MoreScreenState.Theme,
+    currentLanguage: Language
 ) {
     var selectedScreenIndex by rememberSaveable { mutableIntStateOf(0) }
 
@@ -117,7 +119,8 @@ fun AppScreen(
                     onLanguageChange = onLanguageChange,
                     onLogout = navigateToLogIn,
                     navigateToEditProfile = navigateToEditProfile,
-                    currentTheme = currentTheme
+                    currentTheme = currentTheme,
+                    currentLanguage = currentLanguage
                 )
 
             }
