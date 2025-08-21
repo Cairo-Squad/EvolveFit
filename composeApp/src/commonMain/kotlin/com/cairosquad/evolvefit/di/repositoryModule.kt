@@ -14,6 +14,8 @@ import com.cairosquad.evolvefit.repository.exercise.ExerciseRepositoryImpl
 import com.cairosquad.evolvefit.repository.home.HomeRepositoryImpl
 import com.cairosquad.evolvefit.repository.nutrition.NutritionRepositoryImpl
 import com.cairosquad.evolvefit.repository.profile.ProfileRepositoryImpl
+import com.cairosquad.evolvefit.repository.profile.local.ProfilePrefrences
+import com.cairosquad.evolvefit.repository.profile.local.ProfilePrefrencesImpl
 import com.cairosquad.evolvefit.repository.report.ReportRepositoryImpl
 import com.cairosquad.evolvefit.repository.workout.WorkoutRepositoryImpl
 import org.koin.core.module.dsl.singleOf
@@ -30,4 +32,6 @@ val repositoryModule = module {
     singleOf(::ExerciseRepositoryImpl) bind ExerciseRepository::class
     singleOf(::NutritionRepositoryImpl) bind NutritionRepository::class
     singleOf(::ProfileRepositoryImpl) bind ProfileRepository::class
+    singleOf(::ProfilePrefrencesImpl) bind ProfilePrefrences::class
+
 }

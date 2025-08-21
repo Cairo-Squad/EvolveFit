@@ -1,23 +1,24 @@
-package com.cairosquad.evolvefit
+package com.cairosquad.evolvefit.repository.profile.local
 
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import com.russhwolf.settings.Settings
-import com.russhwolf.settings.set
 import com.russhwolf.settings.get
+import com.russhwolf.settings.set
 
-class AppSettingsManager {
-    private val settings = Settings()
+class ProfilePrefrencesImpl(
+    private val settings: Settings = Settings()
+) : ProfilePrefrences {
 
     companion object {
         private const val KEY_THEME = "theme"
         private const val KEY_LANGUAGE = "language"
     }
 
-    fun saveTheme(theme: MoreScreenState.Theme) {
+    override fun saveTheme(theme: MoreScreenState.Theme) {
         settings[KEY_THEME] = theme.name
     }
 
-    fun getSavedTheme(): MoreScreenState.Theme {
+    override fun getSavedTheme(): MoreScreenState.Theme {
         val themeName = settings[KEY_THEME, "LIGHT"]
         return when (themeName) {
             "DARK" -> MoreScreenState.Theme.DARK
@@ -25,11 +26,11 @@ class AppSettingsManager {
         }
     }
 
-    fun saveLanguage(language: String) {
+    override fun saveLanguage(language: String) {
         settings[KEY_LANGUAGE] = language
     }
 
-    fun getSavedLanguage(): String {
+    override fun getSavedLanguage(): String {
         return settings[KEY_LANGUAGE, "en"]
     }
 }
