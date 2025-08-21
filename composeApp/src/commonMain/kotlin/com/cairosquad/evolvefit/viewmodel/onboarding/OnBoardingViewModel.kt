@@ -10,6 +10,9 @@ class OnBoardingViewModel :
         updateState {
             it.copy(bottomSheetSelectedLanguage = language)
         }
+        updateState {
+            it.copy(selectedLanguage = language)
+        }
     }
 
     override fun onConfirmClicked() {
