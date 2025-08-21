@@ -57,8 +57,14 @@ class RemoteNutritionDataSourceImpl(
         }
     }
 
-    override suspend fun getMealHistory(): List<ConsumedMealDto> {
-        return callApi<List<ConsumedMealDto>> { httpClient.get("${NUTRITION_PATH}/meals").body() }
+    override suspend fun getMealHistory(
+    ): List<ConsumedMealDto> {
+        return callApi<List<ConsumedMealDto>> { httpClient.get("${NUTRITION_PATH}/meals"){
+            // to todo : add dynamic date
+            parameter("startDate", "2025-08-06T00:00:00")
+            parameter("endDate", "2025-08-20T00:00:00")
+
+        }.body() }
 
     }
 
