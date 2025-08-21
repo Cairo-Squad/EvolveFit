@@ -23,8 +23,10 @@ fun CreateExerciseScreen(
     val state by viewModel.screenState.collectAsState()
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
-            CreateExerciseEffect.CloseScreen -> {}
-            CreateExerciseEffect.NavigateToAllExercises -> {}
+            CreateExerciseEffect.NavigateToAllExercises -> {
+                navigateBack()
+            }
+
             is CreateExerciseEffect.ShowError -> {}
         }
     }
@@ -68,12 +70,15 @@ private fun CreateExerciseScreenPreview() {
                 override fun onDismissFocusAreasDropdownMenuRequest() {}
                 override fun onSaveClicked() {}
                 override fun onExitClicked() {}
-                override fun onExitOptionSelected(saveBeforeExit: Boolean) {}
+                override fun onExitWithoutSavingClicked() {}
+                override fun onCancelClicked() {}
                 override fun onFocusAreaDismiss() {}
                 override fun onEquipmentDismiss() {}
                 override fun canSaveExercise(): Boolean {
                     return true
                 }
-            })
+            },
+            //navigateBack = {}
+        )
     }
 }

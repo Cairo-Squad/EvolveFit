@@ -54,7 +54,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun CreateExerciseScreenContent(
     state: CreateExerciseState,
-    listener: CreateExerciseInteractionListener,
+    listener: CreateExerciseInteractionListener
 ) {
     val selectedImage1 = state.image1
     val selectedImage2 = state.image2
@@ -277,8 +277,8 @@ fun CreateExerciseScreenContent(
             ExitCreateExerciseBottomSheet(
                 isVisible = state.showExitBottomSheet,
                 onDismiss = listener::onExitClicked,
-                onCancelClicked = { listener.onExitOptionSelected(true) },
-                onExitWithoutSavingClicked = { listener.onExitOptionSelected(false) }
+                onCancelClicked = { listener.onCancelClicked()},
+                onExitWithoutSavingClicked = { listener.onExitWithoutSavingClicked() }
             )
         }
     }
