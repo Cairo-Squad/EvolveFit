@@ -8,6 +8,7 @@ import com.cairosquad.evolvefit.viewmodel.favorites.FavoritesViewModel
 import com.cairosquad.evolvefit.viewmodel.home.HomeViewModel
 import com.cairosquad.evolvefit.viewmodel.login.LoginViewModel
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
+import com.cairosquad.evolvefit.viewmodel.meal_details.MealDetailsViewModel
 import com.cairosquad.evolvefit.viewmodel.more.MoreViewModel
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.OnBoardingViewModel
@@ -41,6 +42,8 @@ val viewModelModule = module {
     viewModel { (savedTheme: MoreScreenState.Theme) ->
         MoreViewModel(get(), get(), savedTheme)
     }
+    viewModelOf(::MealDetailsViewModel)
+
     viewModel { (workoutId: String) ->
         PlayWorkoutViewModel(workoutId, manageWorkoutUseCase = get())
     }

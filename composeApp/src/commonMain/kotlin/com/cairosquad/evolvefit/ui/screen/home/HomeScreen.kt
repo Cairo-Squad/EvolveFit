@@ -2,6 +2,8 @@ package com.cairosquad.evolvefit.ui.screen.home
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -10,6 +12,7 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,14 +45,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.component.PrimaryButton
+import com.cairosquad.evolvefit.design_system.component.StateMessage
 import com.cairosquad.evolvefit.design_system.component.WorkoutCard
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.ui.component.CaloriesNutritionCard
+import com.cairosquad.evolvefit.ui.component.RefreshBox
 import com.cairosquad.evolvefit.ui.component.WaterNutritionCard
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
-import com.cairosquad.evolvefit.viewmodel.base.ErrorState
 import com.cairosquad.evolvefit.viewmodel.home.HomeInteractionListener
 import com.cairosquad.evolvefit.viewmodel.home.HomeScreenEffect
 import com.cairosquad.evolvefit.viewmodel.home.HomeScreenState
@@ -62,9 +67,14 @@ import evolvefit.composeapp.generated.resources.hello_user
 import evolvefit.composeapp.generated.resources.ic_bookmark_big
 import evolvefit.composeapp.generated.resources.ic_bookmark_big_filled
 import evolvefit.composeapp.generated.resources.ic_crown
+import evolvefit.composeapp.generated.resources.ic_no_internet_light
 import evolvefit.composeapp.generated.resources.ic_progress
 import evolvefit.composeapp.generated.resources.ic_scale
 import evolvefit.composeapp.generated.resources.ic_thin_check_mark
+import evolvefit.composeapp.generated.resources.im_no_internet
+import evolvefit.composeapp.generated.resources.internet_is_not_available
+import evolvefit.composeapp.generated.resources.just_for_you
+import evolvefit.composeapp.generated.resources.please_make_sure_you_are_connected_to_the_internet_and_try_again
 import evolvefit.composeapp.generated.resources.profile_picture
 import evolvefit.composeapp.generated.resources.ready_text_female
 import evolvefit.composeapp.generated.resources.ready_text_male
@@ -72,6 +82,7 @@ import evolvefit.composeapp.generated.resources.save
 import evolvefit.composeapp.generated.resources.the_goal
 import evolvefit.composeapp.generated.resources.this_week
 import evolvefit.composeapp.generated.resources.today_nutrition
+import evolvefit.composeapp.generated.resources.try_again_button
 import evolvefit.composeapp.generated.resources.your_progress
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -96,19 +107,38 @@ fun HomeScreen(
             }
         }
     }
+    Box(modifier = Modifier.fillMaxSize()) {
+        RefreshBox(
+            isRefreshing = state.isRefreshing,
+            onRefresh = { homeViewModel.onRefresh() }
+        ) {
+            Crossfade(
+                targetState = state.screenStatus,
+                animationSpec = tween(
+                    durationMillis = 400,
+                    easing = FastOutSlowInEasing
+                )
+            ) {
+                when (state.screenStatus) {
+                    HomeScreenState.ScreenStatus.SUCCESS -> {
+                        HomeContent(
+                            state = state,
+                            interactionListener = homeViewModel
+                        )
+                    }
 
-    if (state.isLoading) {
-        HomeLoadingContent()
-    } else if (state.error != null) {
-        HomeErrorContent(
-            error = state.error!!,
-            onRetry = homeViewModel::onRetryClick
-        )
-    } else {
-        HomeContent(
-            state = state,
-            interactionListener = homeViewModel
-        )
+                    HomeScreenState.ScreenStatus.LOADING -> {
+                        HomeLoadingScreen()
+                    }
+
+                    HomeScreenState.ScreenStatus.FAIL -> {
+                        HomeErrorContent(
+                            onRetry = homeViewModel::onRetryClick
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -155,7 +185,7 @@ private fun HomeContent(
         }
 
         HomeSection(
-            title = "Just For You", // TODO: convert to string resources
+            title =  stringResource(Res.string.just_for_you),
             visibilityKey = state.personalizedWorkouts.isNotEmpty(),
             modifier = Modifier
                 .padding(bottom = 32.dp),
@@ -606,13 +636,28 @@ private fun SaveButton(
 
 @Composable
 private fun HomeErrorContent(
-    error: ErrorState,
     onRetry: () -> Unit
 ) {
-    // TODO
-}
-
-@Composable
-private fun HomeLoadingContent() {
-    // TODO
+    val noInternetIcon = if (isSystemInDarkTheme()) {
+        Res.drawable.im_no_internet
+    } else {
+        Res.drawable.ic_no_internet_light
+    }
+    Box(modifier = Modifier.fillMaxSize()) {
+        StateMessage(
+            image = painterResource(noInternetIcon),
+            title = stringResource(Res.string.internet_is_not_available),
+            description = stringResource(Res.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
+            modifier = Modifier.align(Alignment.Center)
+        )
+        PrimaryButton(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 16.dp, vertical = 24.dp),
+            text = stringResource(Res.string.try_again_button),
+            enabledTextColor = Theme.color.brand.onPrimary,
+            textStyle = Theme.textStyle.body.mediumMedium14,
+            onClick = onRetry
+        )
+    }
 }

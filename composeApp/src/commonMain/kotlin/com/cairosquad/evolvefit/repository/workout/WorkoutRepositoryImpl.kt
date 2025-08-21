@@ -52,13 +52,13 @@ class WorkoutRepositoryImpl(
 
     override suspend fun addWorkoutToFavorites(workoutId: String) {
         callDataSource {
-            workoutRemoteDataSource.addFavoriteWorkOut(workoutId)
+            workoutRemoteDataSource.addFavoriteWorkout(workoutId)
         }
     }
 
-    override suspend fun deleteWorkoutToFavorites(workoutId: String) {
+    override suspend fun deleteFavoriteWorkout(workoutId: String) {
         callDataSource {
-            workoutRemoteDataSource.deleteFavoriteWorkOut(workoutId)
+            workoutRemoteDataSource.deleteFavoriteWorkout(workoutId)
         }
     }
 
