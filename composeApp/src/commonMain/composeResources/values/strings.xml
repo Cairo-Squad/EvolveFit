@@ -202,6 +202,7 @@
     <string name="carbs_format">Carbs: %1$d g</string>
     <string name="protein_format">Protein: %1$d g</string>
     <string name="fat_format">Fat: %1$d g</string>
+    <string name="just_for_you">Just For You</string>
 
     <string name="exit_confirmation_title">Do you want to exit?</string>
     <string name="exit_confirmation_message">You haven’t saved your workout yet. All progress might be lost.</string>
