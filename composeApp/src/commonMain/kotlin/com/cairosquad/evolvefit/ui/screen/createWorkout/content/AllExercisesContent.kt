@@ -1,32 +1,53 @@
 package com.cairosquad.evolvefit.ui.screen.createWorkout.content
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.component.ExerciseCard
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.StateMessage
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.composables.InputField
+import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.domain.entity.Exercise
+import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState.ScreenStatus
-import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.add_exercise_button_
 import evolvefit.composeapp.generated.resources.add_exercise_button_with_count_
@@ -35,10 +56,10 @@ import evolvefit.composeapp.generated.resources.add_exercises_button_with_count_
 import evolvefit.composeapp.generated.resources.add_icon_desc_
 import evolvefit.composeapp.generated.resources.all_exercises_title_
 import evolvefit.composeapp.generated.resources.back_icon_desc_
+import evolvefit.composeapp.generated.resources.exercise_image
 import evolvefit.composeapp.generated.resources.ic_addcircle
 import evolvefit.composeapp.generated.resources.ic_back
-import evolvefit.composeapp.generated.resources.ic_empty_workout
-import evolvefit.composeapp.generated.resources.ic_error
+import evolvefit.composeapp.generated.resources.ic_green_check_circle
 import evolvefit.composeapp.generated.resources.ic_search
 import evolvefit.composeapp.generated.resources.im_no_internet
 import evolvefit.composeapp.generated.resources.search_exercise_placeholder_
@@ -57,11 +78,11 @@ fun AllExercisesContent(
             .fillMaxSize()
             .background(color = Theme.color.surfaces.surface)
             .statusBarsPadding(),
-        verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.fillMaxWidth()
         ) {
             CustomAppBar(
                 title = stringResource(Res.string.add_exercise_title_),
@@ -98,59 +119,66 @@ fun AllExercisesContent(
                 ),
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
+        }
 
-            Box() {
-                when (state.status) {
-                    ScreenStatus.LOADING -> {
-                        // Loading indicator
-                    }
-                    ScreenStatus.EMPTY -> {
-                        StateMessage(
-                            image = painterResource(Res.drawable.im_no_internet),
-                            title = "No exercises found",
-                            description = "Try adjusting your search terms or make sure the exercise name is spelled correctly.",
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                    ScreenStatus.SUCCESS -> {
-                        LazyColumn(
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                        ) {
-                            items(state.filteredExercises) { exercise ->
-                                val isChecked = state.selectedExercises.any { it.id == exercise.id }
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+        ) {
+            when (state.status) {
+                ScreenStatus.LOADING -> {
+                    // Loading indicator
+                }
 
-                                ExerciseCard(
-                                    title = exercise.name,
-                                    model = exercise.imageUrls.firstOrNull() ?: "",
-                                    time = "0"
-//                                    timeInSeconds = when (exercise.specification) {
-//                                        is Exercise.Specification.Reps -> null
-//                                        is Exercise.Specification.Time -> exercise.specification.timeInSeconds
-//                                    },
-//                                    reps = when (exercise.specification) {
-//                                        is Exercise.Specification.Reps -> exercise.specification.reps
-//                                        is Exercise.Specification.Time -> null
-//                                    },
-//                                    sets = null,
-//                                    isChecked = isChecked,
-//                                    onCheckedChange = {
-//                                        listener.onExerciseCheckedChanged(exercise)
-//                                    },
-                                )
-                            }
+                ScreenStatus.EMPTY -> {
+                    StateMessage(
+                        image = painterResource(Res.drawable.im_no_internet),
+                        title = "No exercises found",
+                        description = "Try adjusting your search terms or make sure the exercise name is spelled correctly.",
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                ScreenStatus.SUCCESS -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentPadding = PaddingValues(horizontal = 16.dp)
+                    ) {
+                        items(state.filteredExercises) { exercise ->
+                            ExerciseCardWithTick(
+                                title = exercise.name,
+                                time = "",
+                                model = exercise.images.firstOrNull() ?: "",
+                                isChecked = state.selectedExercises.any { it.id == exercise.id },
+                                onCheckedChange = { isChecked ->
+                                    listener.onExerciseCheckedChanged(exercise)
+                                },
+                                measurementContent = {
+                                    MeasurementRow(exercise.type)
+                                }
+                            )
                         }
                     }
-                    ScreenStatus.ERROR -> {
-                        // Error UI
-                    }
+                }
+
+                ScreenStatus.ERROR -> {
+                    // Error UI
                 }
             }
         }
+
         PrimaryButton(
             text = when {
-                state.exerciseCount > 1 -> stringResource(Res.string.add_exercises_button_with_count_, state.exerciseCount)
-                state.exerciseCount == 1 -> stringResource(Res.string.add_exercise_button_with_count_, state.exerciseCount)
+                state.exerciseCount > 1 -> stringResource(
+                    Res.string.add_exercises_button_with_count_,
+                    state.exerciseCount
+                )
+                state.exerciseCount == 1 -> stringResource(
+                    Res.string.add_exercise_button_with_count_,
+                    state.exerciseCount
+                )
                 else -> stringResource(Res.string.add_exercise_button_)
             },
             onClick = { listener.onAddWorkoutClicked() },
@@ -163,108 +191,107 @@ fun AllExercisesContent(
     }
 }
 
-@Preview()
 @Composable
-fun PreviewAllExercisesContent_Empty() {
-    AllExercisesContent(
-        state = CreateWorkOutScreenState(
-            searchQuery = "",
-            filteredExercises = emptyList(),
-            selectedExercises = emptyList(),
-            exerciseCount = 0,
-            status = ScreenStatus.EMPTY
-        ),
-        listener = object : CreateWorkOutInteractionListener {
-            override fun onNameChanged(newName: String) {
-                TODO("Not yet implemented")
+fun ExerciseCardWithTick(
+    title: String,
+    time: String,
+    model: String,
+    isChecked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    measurementContent: @Composable () -> Unit
+) {
+    Row(
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        NetworkImage(
+            modifier = Modifier
+                .size(width = 88.dp, height = 68.dp)
+                .clip(RoundedCornerShape(8.dp)),
+            model = model,
+            contentDescription = stringResource(Res.string.exercise_image),
+        )
+        Column(
+            modifier = Modifier.weight(1f)
+                .padding(start = 12.dp),
+        ) {
+            Text(
+                text = title,
+                style = Theme.textStyle.body.mediumMedium14,
+                color = Theme.color.surfaces.onSurface
+            )
+            if (time.isNotEmpty()) {
+                Text(
+                    text = time,
+                    style = Theme.textStyle.label.smallRegular12,
+                    color = Theme.color.surfaces.onSurfaceVariant
+                )
             }
-
-            override fun onGoalSelected(goal: String) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onDescriptionChanged(desc: String) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onImageClicked() {
-                TODO("Not yet implemented")
-            }
-
-            override fun onNextClicked() {
-                TODO("Not yet implemented")
-            }
-
-            override fun onBackClicked() {}
-            override fun onAddClicked() {}
-            override fun onSearchQueryChanged(query: String) {}
-            override fun onExerciseCheckedChanged(exercise: Exercise) {}
-            override fun onAddWorkoutClicked() {}
-            override fun onImageSelected(image: UiImage) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onImagePickerDismiss() {
-                TODO("Not yet implemented")
-            }
+            Spacer(modifier = Modifier.height(8.dp))
+            measurementContent()
         }
-    )
+
+        CreateCustomTick(
+            isChecked = isChecked,
+            onCheckedChange = onCheckedChange
+        )
+    }
 }
 
-@Preview()
 @Composable
-fun PreviewAllExercisesContent_Success() {
-    AllExercisesContent(
-        state = CreateWorkOutScreenState(
-            searchQuery = "",
-            filteredExercises = listOf(
-                Exercise(
-                    id = "1",
-                    name = "Push Ups",
-                    imageUrls = listOf("https://via.placeholder.com/150"),
-                    specification = Exercise.Specification.Reps(reps = 10),
-                    instructions = TODO(),
-                    equipment = TODO(),
-                    focusAreas = TODO(),
-                    estimatedTimeInSeconds = TODO()
-                ),
-                Exercise(
-                    id = "2",
-                    name = "Plank",
-                    imageUrls = listOf("https://via.placeholder.com/150"),
-                    specification = Exercise.Specification.Time(timeInSeconds = 60),
-                    instructions = TODO(),
-                    equipment = TODO(),
-                    focusAreas = TODO(),
-                    estimatedTimeInSeconds = TODO()
-                )
-            ),
-            selectedExercises = emptyList(),
-            exerciseCount = 0,
-            status = ScreenStatus.SUCCESS
-        ),
-        listener = object : CreateWorkOutInteractionListener {
-            override fun onNameChanged(newName: String) {
-            }
-
-            override fun onGoalSelected(goal: String) {
-            }
-
-            override fun onDescriptionChanged(desc: String) {
-            }
-
-            override fun onImageClicked() {}
-
-            override fun onNextClicked() {}
-
-            override fun onBackClicked() {}
-            override fun onAddClicked() {}
-            override fun onSearchQueryChanged(query: String) {}
-            override fun onExerciseCheckedChanged(exercise: Exercise) {}
-            override fun onAddWorkoutClicked() {}
-            override fun onImageSelected(image: UiImage) {}
-
-            override fun onImagePickerDismiss() {}
-        }
+fun CreateCustomTick(
+    isChecked: Boolean,
+    modifier: Modifier = Modifier,
+    onCheckedChange: (Boolean) -> Unit = {}
+) {
+    val backgroundColor by animateColorAsState(
+        targetValue =
+            if (isChecked) Theme.color.surfaces.surfaceContainer
+            else Theme.color.surfaces.surfaceContainer.copy(alpha = 0.0f),
+        animationSpec = tween(300)
     )
+
+    val boxModifier = modifier
+        .size(24.dp)
+        .clip(CircleShape)
+        .background(
+            color = backgroundColor,
+            shape = CircleShape
+        )
+        .then(
+            if (!isChecked) {
+                Modifier.border(
+                    width = 1.dp,
+                    color = Theme.color.surfaces.outlineVariant,
+                    shape = CircleShape
+                )
+            } else Modifier
+        )
+        .toggleable(
+            value = isChecked,
+            onValueChange = onCheckedChange,
+            role = Role.Checkbox
+        )
+
+    Box(
+        modifier = boxModifier,
+        contentAlignment = Alignment.Center
+    ) {
+        AnimatedVisibility(
+            visible = isChecked,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Icon(
+                painter = painterResource(Res.drawable.ic_green_check_circle),
+                contentDescription = null,
+                tint = Theme.color.brand.primary,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+    }
 }

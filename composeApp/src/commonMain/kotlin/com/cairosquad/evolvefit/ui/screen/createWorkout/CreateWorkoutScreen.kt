@@ -12,11 +12,12 @@ import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkoutViewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.compose.viewmodel.koinViewModel
 
+
 @Composable
 fun CreateWorkoutScreen(
     viewModel: CreateWorkoutViewModel = koinViewModel(),
     navigateBack: () -> Unit,
-    navigateToCreateExercise: () -> Unit,
+    navigateToCreateExercise: (onExerciseCreationSuccess: (() -> Unit)?) -> Unit,
     navigateToWorkOuts: () -> Unit,
     navigateToAllExercises : () -> Unit
 ) {
@@ -25,10 +26,10 @@ fun CreateWorkoutScreen(
     LaunchedEffect(Unit) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
-                CreateWorkOutEffect.NavigateBack -> navigateBack()
-                CreateWorkOutEffect.NavigateToCreateExercise -> navigateToCreateExercise()
+                CreateWorkOutEffect.NavigateToCreateExercise -> navigateToCreateExercise(viewModel::loadExercises)
                 CreateWorkOutEffect.NavigateToAllExercises -> navigateToAllExercises()
                 CreateWorkOutEffect.NavigateToWorkouts -> navigateToWorkOuts()
+                CreateWorkOutEffect.NavigateBack -> navigateBack()
             }
         }
     }

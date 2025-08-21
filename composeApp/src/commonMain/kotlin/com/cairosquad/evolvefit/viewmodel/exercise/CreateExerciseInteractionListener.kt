@@ -25,9 +25,9 @@ interface CreateExerciseInteractionListener {
     fun onDismissFocusAreasDropdownMenuRequest()
     fun onSaveClicked()
     fun onExitClicked()
-    fun onExitOptionSelected(saveBeforeExit: Boolean)
+    fun onExitWithoutSavingClicked()
+    fun onCancelClicked()
     fun onFocusAreaDismiss()
     fun onEquipmentDismiss()
     fun canSaveExercise(): Boolean
-
 }

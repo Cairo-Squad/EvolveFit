@@ -6,6 +6,8 @@ import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.FocusArea
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.MeasurementType
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
+import com.cairosquad.evolvefit.viewmodel.utils.asByteArray
+import log
 
 class CreateExerciseViewModel(
     private val manageExerciseUseCase: ManageExerciseUseCase,
@@ -50,8 +52,8 @@ class CreateExerciseViewModel(
             .firstOrNull { it.name == toolName }?.id ?: return
 
         onEquipmentToggled(id)
+        updateState { it.copy(isEquipmentExpanded = false) }
     }
-
 
     override fun onStartImageClicked() {
         updateState { it.copy(isImage1PickerOpen = true) }
@@ -65,21 +67,17 @@ class CreateExerciseViewModel(
         updateState { it.copy(isImage1PickerOpen = false) }
     }
 
-
     override fun onEndImageClicked() {
         updateState { it.copy(isImage2PickerOpen = true) }
     }
-
 
     override fun onEndImageRetrieved(image: UiImage) {
         updateState { it.copy(image2 = image, isImage2PickerOpen = false) }
     }
 
-
     override fun onEndImagePickerDismiss() {
         updateState { it.copy(isImage2PickerOpen = false) }
     }
-
 
     override fun onFocusAreaToggled(focusArea: FocusArea) {
         updateState {
@@ -133,22 +131,13 @@ class CreateExerciseViewModel(
 
     override fun onSaveClicked() {
         tryToCall(
+            onStart = { updateState { it.copy(isExerciseSaved = true) } },
             block = ::saveExercise,
-            onSuccess = {
-                sendEffect(CreateExerciseEffect.NavigateToAllExercises)
-            },
-            onError = { e ->
-                sendEffect(CreateExerciseEffect.ShowError(e.message ?: "Unknown error"))
-            },
-            onStart = {
-                updateState { it.copy(isExerciseSaved = true) }
-            },
-            onEnd = {
-                updateState { it.copy(isExerciseSaved = false) }
-            }
+            onSuccess = { sendEffect(CreateExerciseEffect.NavigateToAllExercises) },
+            onError = {},
+            onEnd = { updateState { it.copy(isExerciseSaved = false) } }
         )
     }
-
 
     private suspend fun saveExercise() {
         manageExerciseUseCase.createExercise(screenState.value.toDomainExercise())
@@ -158,14 +147,14 @@ class CreateExerciseViewModel(
         updateState { it.copy(showExitBottomSheet = true) }
     }
 
-    override fun onExitOptionSelected(saveBeforeExit: Boolean) {
+    override fun onExitWithoutSavingClicked() {
         updateState { it.copy(showExitBottomSheet = false) }
 
-        if (saveBeforeExit) {
-            onSaveClicked()
-        } else {
-            sendEffect(CreateExerciseEffect.CloseScreen)
-        }
+        sendEffect(CreateExerciseEffect.CancelCreateExercise)
+    }
+
+    override fun onCancelClicked() {
+        updateState { it.copy(showExitBottomSheet = false) }
     }
 
     override fun onFocusAreaDismiss() {

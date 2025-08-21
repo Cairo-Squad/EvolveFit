@@ -1,23 +1,25 @@
 package com.cairosquad.evolvefit.viewmodel.createWorkOut
 
-import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
+import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.im_upload1
 
 data class CreateWorkOutScreenState(
-    val image: UiImage = UiImage.ImageUrl(""),
+    val image: UiImage = UiImage.ImageResource(Res.drawable.im_upload1),
     val name: String = "",
-    val goal: WorkoutLevel= WorkoutLevel.BEGINNER,
+    val goal: WorkoutLevel = WorkoutLevel.BEGINNER,
     val description: String = "",
     val isNextEnabled: Boolean = false,
     val isImagePickerOpen: Boolean = false,
 
-    val allExercises: List<Exercise> = emptyList(),
-    val filteredExercises: List<Exercise> = emptyList(),
-    val selectedExercises: List<Exercise> = emptyList(),
+    val allExercises: List<ExerciseUiState> = emptyList(),
+    val filteredExercises: List<ExerciseUiState> = emptyList(),
+    val selectedExercises: List<ExerciseUiState> = emptyList(),
     val isAddExercisesEnabled: Boolean = false,
     val isLoading: Boolean = false,
     val searchQuery: String = "",
-    val exerciseCount : Int =0,
+    val exerciseCount: Int =0,
 
     val currentStep: CreateWorkoutStep = CreateWorkoutStep.DETAILS,
     val status: ScreenStatus = ScreenStatus.LOADING,
@@ -39,4 +41,33 @@ data class CreateWorkOutScreenState(
         ERROR,
         EMPTY
     }
+
+    data class ExerciseUiState(
+        val id: String,
+        val name: String,
+        val instructions: List<String>,
+        val images: List<String>,
+        val type: ExerciseType,
+        val equipment: EquipmentUiState,
+        val focusAreas: List<FocusArea>
+    )
+
+    sealed class ExerciseType {
+        data class Duration(val seconds: Int) : ExerciseType()
+        data class Reps(val count: Int) : ExerciseType()
+    }
+
+    enum class FocusArea {
+        BACK,
+        LEGS,
+        SHOULDERS,
+        ARMS,
+        CORE,
+        CHEST
+    }
+
+    data class EquipmentUiState(
+        val name: String = "",
+        val id: Int = 0,
+    )
 }

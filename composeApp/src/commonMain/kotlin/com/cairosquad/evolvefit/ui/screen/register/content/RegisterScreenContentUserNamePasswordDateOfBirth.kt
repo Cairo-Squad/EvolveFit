@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -38,6 +41,7 @@ import evolvefit.composeapp.generated.resources.ic_visibility_off
 import evolvefit.composeapp.generated.resources.ic_visibility_on
 import evolvefit.composeapp.generated.resources.password
 import evolvefit.composeapp.generated.resources.upload_image
+import evolvefit.composeapp.generated.resources.upload_image
 import evolvefit.composeapp.generated.resources.user_profile
 import evolvefit.composeapp.generated.resources.user_profile_description
 import org.jetbrains.compose.resources.stringResource
@@ -47,7 +51,7 @@ fun RegisterScreenContentUserNamePasswordDateOfBirth(
     state: RegisterScreenState,
     listener: RegisterInteractionListener,
     modifier: Modifier = Modifier
-){
+) {
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -111,6 +115,11 @@ private fun UserProfileStep(
             onImagePickerClick = onImagePickerClick,
             onImageRetrieved = onImageRetrieved,
             modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(
+                    bottom = 8.dp
+                ).size(100.dp)
+                .clip(CircleShape)
                 .align(Alignment.CenterHorizontally),
             text=stringResource(Res.string.upload_image)
         )
