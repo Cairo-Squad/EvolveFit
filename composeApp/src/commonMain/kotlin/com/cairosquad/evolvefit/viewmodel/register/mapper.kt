@@ -7,8 +7,6 @@ import com.cairosquad.evolvefit.domain.entity.Profile.Gender
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.domain.model.WeekDay
-import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.invalid_date_format
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.stringResource
 
