@@ -8,4 +8,6 @@ interface CommunityWorkoutInteractionListener {
     fun onClickBack()
     fun getCommunityWorkout()
     fun onRefresh()
+    fun onRetryClicked()
+
 }

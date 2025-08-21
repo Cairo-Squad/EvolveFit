@@ -17,6 +17,12 @@ class CommunityWorkoutViewModel(
     }
 
     private fun loadAllCommunityWorkouts() {
+        updateState {
+            it.copy(
+                screenStatus = WorkoutScreenState.ScreenStatus.LOADING,
+                errorMessage = null
+            )
+        }
         tryToCall(
             block = workoutUseCase::getCommunityWorkouts,
             onSuccess = ::onGetSuggestedWorkoutsSuccess,
@@ -25,6 +31,12 @@ class CommunityWorkoutViewModel(
     }
 
     private fun loadCommunityWorkoutsByFocusArea(focusAreaUiState: WorkoutScreenState.FocusAreaUiState) {
+        updateState {
+            it.copy(
+                screenStatus = WorkoutScreenState.ScreenStatus.LOADING,
+                errorMessage = null
+            )
+        }
         tryToCall(
             block = { workoutUseCase.getCommunityWorkoutsByFocusArea(focusAreaUiState.toDomain()) },
             onSuccess = ::onLoadWorkoutByFocusAreaSuccess,
@@ -52,18 +64,15 @@ class CommunityWorkoutViewModel(
     }
 
     override fun getCommunityWorkout() {
-        tryToCall(
-            block = workoutUseCase::getCommunityWorkouts,
-            onSuccess = ::onGetSuggestedWorkoutsSuccess,
-            onError = ::onGetSuggestedWorkoutError
-        )
+        loadAllCommunityWorkouts()
     }
 
     private fun onGetSuggestedWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
         updateState { st ->
             st.copy(
                 allWorkouts = workouts.map { it.toUiState() },
-                errorMessage = null
+                errorMessage = null,
+                screenStatus = WorkoutScreenState.ScreenStatus.SUCCESS
             )
         }
     }
@@ -72,7 +81,9 @@ class CommunityWorkoutViewModel(
         updateState {
             it.copy(
                 errorMessage =
-                    t.message ?: "Failed to load community workouts"
+                    t.message ?: "Failed to load community workouts",
+                screenStatus = WorkoutScreenState.ScreenStatus.FAIL
+
             )
         }
     }
@@ -81,13 +92,19 @@ class CommunityWorkoutViewModel(
         updateState { st ->
             st.copy(
                 allWorkouts = workouts.map { it.toUiState() },
-                errorMessage = null
+                errorMessage = null, screenStatus = WorkoutScreenState.ScreenStatus.SUCCESS
+
             )
         }
     }
 
     private fun onLoadWorkoutByFocusAreaError(t: Throwable) {
-        updateState { it.copy(errorMessage = t.message ?: "Failed to load workouts by focus") }
+        updateState {
+            it.copy(
+                errorMessage = t.message ?: "Failed to load workouts by focus",
+                screenStatus = WorkoutScreenState.ScreenStatus.FAIL
+            )
+        }
 
     }
 
@@ -121,5 +138,11 @@ class CommunityWorkoutViewModel(
                 }
             }
         )
+    }
+
+    override fun onRetryClicked() {
+        val selected = screenState.value.selectedFocusArea
+        if (selected == WorkoutScreenState.FocusAreaUiState.CORE) loadAllCommunityWorkouts()
+        else loadCommunityWorkoutsByFocusArea(selected)
     }
 }

@@ -1,5 +1,7 @@
 package com.cairosquad.evolvefit.ui.screen.workout
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -100,25 +102,50 @@ private fun WorkoutsScreenContent(
                 onSelectFocusArea = listener::onSelectFocusArea
             )
 
-            Workouts(
-                workouts = state.allWorkouts,
-                onClickWorkout = listener::onClickWorkout
-            )
+            androidx.compose.animation.Crossfade(
+                targetState = state.screenStatus,
+                animationSpec = tween(
+                    durationMillis = 400,
+                    easing = FastOutSlowInEasing
+                )
+            ) { status ->
+                when (status) {
+                    WorkoutScreenState.ScreenStatus.SUCCESS -> {
+                        Workouts(
+                            workouts = state.allWorkouts,
+                            onClickWorkout = listener::onClickWorkout
+                        )
+                    }
 
+                    WorkoutScreenState.ScreenStatus.LOADING -> {
+                        WorkoutsLoadingScreen()
+                    }
+
+                    WorkoutScreenState.ScreenStatus.FAIL -> {
+                        WorkoutsErrorScreen(
+                            message = state.errorMessage ?: "Something went wrong",
+                            onRetry = listener::onRetryClicked
+                        )
+                    }
+                }
+            }
         }
-        FloatingActionButton(
-            onClick = listener::onClickAddWorkout,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(24.dp),
-            containerColor = Theme.color.brand.primary,
-            shape = CircleShape
-        ) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_plus),
-                contentDescription = "Create Workout",
-                modifier = Modifier.padding(12.dp).size(24.dp)
-            )
+
+        if (state.screenStatus == WorkoutScreenState.ScreenStatus.SUCCESS) {
+            FloatingActionButton(
+                onClick = listener::onClickAddWorkout,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(24.dp),
+                containerColor = Theme.color.brand.primary,
+                shape = CircleShape
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.ic_plus),
+                    contentDescription = "Create Workout",
+                    modifier = Modifier.padding(12.dp).size(24.dp)
+                )
+            }
         }
     }
 }

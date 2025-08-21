@@ -1,5 +1,7 @@
 package com.cairosquad.evolvefit.ui.screen.communityWorkout
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +28,8 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.RefreshBox
+import com.cairosquad.evolvefit.ui.screen.workout.WorkoutsErrorScreen
+import com.cairosquad.evolvefit.ui.screen.workout.WorkoutsLoadingScreen
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutEffect
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutInteractionListener
@@ -83,10 +87,33 @@ private fun WorkoutsScreenContent(
                 onSelectFocusArea = listener::onSelectFocusArea
             )
 
-            Workouts(
-                state.allWorkouts,
-                listener::onClickWorkout
-            )
+            androidx.compose.animation.Crossfade(
+                targetState = state.screenStatus,
+                animationSpec = tween(
+                    durationMillis = 400,
+                    easing = FastOutSlowInEasing
+                )
+            ) { status ->
+                when (status) {
+                    WorkoutScreenState.ScreenStatus.SUCCESS -> {
+                        Workouts(
+                            workouts = state.allWorkouts,
+                            onClickWorkout = listener::onClickWorkout
+                        )
+                    }
+
+                    WorkoutScreenState.ScreenStatus.LOADING -> {
+                        WorkoutsLoadingScreen()
+                    }
+
+                    WorkoutScreenState.ScreenStatus.FAIL -> {
+                        WorkoutsErrorScreen(
+                            message = state.errorMessage ?: "Something went wrong",
+                            onRetry = listener::onRetryClicked
+                        )
+                    }
+                }
+            }
         }
     }
 }
