@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.repository.home
 
+import com.cairosquad.evolvefit.domain.model.WeeklyProgress
 import com.cairosquad.evolvefit.domain.repository.HomeRepository
-import com.cairosquad.evolvefit.domain.usecase.home.model.WeeklyProgress
 import com.cairosquad.evolvefit.repository.execption.callDataSource
 import com.cairosquad.evolvefit.repository.home.data_source.remote.RemoteHomeDataSource
 import com.cairosquad.evolvefit.repository.utils.localDateToLocalDateTimeAtMidnight

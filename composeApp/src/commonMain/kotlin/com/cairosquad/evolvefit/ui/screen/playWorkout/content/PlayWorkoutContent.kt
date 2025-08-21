@@ -75,8 +75,8 @@ fun PlayWorkoutContent(
             visible = screenState.haseCancelWorkoutClicked
         ) {
             EndWorkoutConfirmation(
-                onClinkStayInWorkout = listener::onClinkStayInWorkout,
-                onClinkEnd = listener::onClinkEnd,
+                onClinkStayInWorkout = listener::onStayInWorkoutClinked,
+                onClinkEnd = listener::onEndClinked,
             )
         }
         ExerciseInfoBottomSheet(

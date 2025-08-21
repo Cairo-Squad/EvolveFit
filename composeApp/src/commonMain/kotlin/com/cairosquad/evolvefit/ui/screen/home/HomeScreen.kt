@@ -164,7 +164,7 @@ private fun HomeContent(
 
                     HomeScreenState.ScreenStatus.FAIL -> {
                         HomeErrorContent(
-                            onRetry = listener::onRetryClick
+                            onRetry = listener::onRetryClicked
                         )
                     }
                 }
@@ -224,8 +224,8 @@ private fun HomeSuccessContent(
         ) {
             PersonalizedWorkouts(
                 workouts = state.personalizedWorkouts,
-                onWorkoutClick = listener::onWorkoutClick,
-                onSavedWorkoutClick = listener::onSavedWorkoutClick
+                onWorkoutClick = listener::onWorkoutClicked,
+                onSavedWorkoutClick = listener::onSavedWorkoutClicked
             )
         }
     }

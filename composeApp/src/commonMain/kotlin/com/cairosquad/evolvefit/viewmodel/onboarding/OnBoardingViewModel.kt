@@ -12,9 +12,7 @@ class OnBoardingViewModel(
     OnboardingScreenListener {
 
     override fun onChangeLanguage(language: OnboardingScreenState.Language) {
-        updateState {
-            it.copy(bottomSheetSelectedLanguage = language)
-        }
+        updateState { it.copy(bottomSheetSelectedLanguage = language) }
         updateState {
             it.copy(selectedLanguage = language)
         }
@@ -38,16 +36,10 @@ class OnBoardingViewModel(
     }
 
     override fun toggleBottomSheet(isOpen: Boolean) {
-        updateState {
-            it.copy(isBottomSheetOpen = isOpen)
-        }
+        updateState { it.copy(isBottomSheetOpen = isOpen) }
     }
 
-    override fun onSignUpClicked() {
-        sendEffect(OnboardingScreenEffect.NavigateToRegister)
-    }
+    override fun onSignUpClicked() { sendEffect(OnboardingScreenEffect.NavigateToRegister) }
 
-    override fun onLoginClicked() {
-        sendEffect(OnboardingScreenEffect.NavigateToLogin)
-    }
+    override fun onLoginClicked() { sendEffect(OnboardingScreenEffect.NavigateToLogin) }
 }

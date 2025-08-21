@@ -1,15 +1,15 @@
 package com.cairosquad.evolvefit.repository.nutrition.remote
 
-import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealRequestDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.DailyCalorieSummaryDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.DailyWaterSummaryDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.MealDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.SuggestedMealDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.ConsumedMealDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.ConsumedMealRequestDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.DailyCalorieSummaryDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.DailyWaterSummaryDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.MealDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.SuggestedMealDto
 import com.cairosquad.evolvefit.repository.nutrition.utils.MealConstants.MEALS_PATH
 import com.cairosquad.evolvefit.repository.nutrition.utils.MealConstants.NUTRITION_PATH
 import com.cairosquad.evolvefit.repository.execption.callApi
-import com.cairosquad.evolvefit.repository.nutrition.dto.FavouriteMealDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.FavouriteMealDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
