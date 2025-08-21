@@ -112,10 +112,13 @@ fun RegisterScreenContentSelectHeightAndWeight(
             if (state.selectedMeasurementStandard == RegisterScreenState.MeasurementStandard.Metric) {
                 height = 170f
                 weight =70f
+
             } else {
                 height = 5.6f
                 weight =150f
             }
+                listener.onHeightChanged(height)
+                listener.onWeightChanged(weight)
         }
         MeasureSection(
             selectedMeasure = height,

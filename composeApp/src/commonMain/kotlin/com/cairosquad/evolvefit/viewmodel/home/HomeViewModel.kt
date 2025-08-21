@@ -2,7 +2,6 @@ package com.cairosquad.evolvefit.viewmodel.home
 
 import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.entity.Profile
-import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.usecase.home.GetNutritionProgressUseCase
 import com.cairosquad.evolvefit.domain.usecase.home.GetPersonalizedWorkoutsUseCase

@@ -71,6 +71,6 @@ private fun FileImageDisplayer(
         model = file,
         contentDescription = contentDescription,
         modifier = modifier,
-        contentScale = contentScale,
+        contentScale = contentScale
     )
 }

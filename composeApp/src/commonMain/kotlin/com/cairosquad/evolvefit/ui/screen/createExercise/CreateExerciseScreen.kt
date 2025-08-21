@@ -18,6 +18,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun CreateExerciseScreen(
     navigateBack: () -> Unit,
+    onExerciseCreationSuccess: (() -> Unit)?,
     viewModel: CreateExerciseViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
@@ -77,8 +78,6 @@ private fun CreateExerciseScreenPreview() {
                 override fun canSaveExercise(): Boolean {
                     return true
                 }
-            },
-            //navigateBack = {}
-        )
+            })
     }
 }
