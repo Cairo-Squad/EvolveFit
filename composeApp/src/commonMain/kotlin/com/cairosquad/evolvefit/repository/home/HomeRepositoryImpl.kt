@@ -1,15 +1,29 @@
 package com.cairosquad.evolvefit.repository.home
 
 import com.cairosquad.evolvefit.domain.repository.HomeRepository
+import com.cairosquad.evolvefit.domain.usecase.home.model.WeeklyProgress
+import com.cairosquad.evolvefit.repository.execption.callDataSource
+import com.cairosquad.evolvefit.repository.home.data_source.remote.RemoteHomeDataSource
+import com.cairosquad.evolvefit.repository.utils.localDateToLocalDateTimeAtMidnight
+import kotlinx.datetime.LocalDate
 import com.cairosquad.evolvefit.domain.model.User
 import com.cairosquad.evolvefit.domain.model.WeeklyProgress
 
-class HomeRepositoryImpl : HomeRepository {
-    override suspend fun getUser(): User {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getWeeklyProgress(): WeeklyProgress {
-        TODO("Not yet implemented")
+class HomeRepositoryImpl(
+    private val remoteHomeDataSource: RemoteHomeDataSource
+) : HomeRepository {
+    override suspend fun getWeeklyProgress(
+        startDate: LocalDate,
+        endDate: LocalDate
+    ): WeeklyProgress {
+        return callDataSource {
+            remoteHomeDataSource.getWeeklyProgress(
+                startDate = localDateToLocalDateTimeAtMidnight(startDate).toString(),
+                endDate = localDateToLocalDateTimeAtMidnight(endDate).toString()
+            ).toEntity(
+                startDate = startDate,
+                endDate = endDate
+            )
+        }
     }
 }
