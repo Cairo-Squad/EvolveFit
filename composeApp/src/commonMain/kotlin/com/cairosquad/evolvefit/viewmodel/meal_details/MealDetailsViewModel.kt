@@ -19,22 +19,24 @@ class MealDetailsViewModel(
     override fun onSaveMealClicked(mealId: String) {
         tryToCall(
             block = { manageNutritionUseCase.addFavouriteMealById(mealId) },
-            onSuccess = {
-                viewModelScope.launch {
-                    updateState { current ->
-                        current.copy(
-                            mealDetails = current.mealDetails.copy(
-                                isFavouriteMeal = true,
-                            ),
-                            showSaveMealSuccessSnackBar = true
-                        )
-                    }
-                    delay(3000)
-                    updateState {it.copy(showSaveMealSuccessSnackBar = false)}
-                }
-            },
+            onSuccess = { handleSaveMealSuccess() },
             onError = {}
         )
+    }
+
+    private fun handleSaveMealSuccess() {
+        viewModelScope.launch {
+            updateState { current ->
+                current.copy(
+                    mealDetails = current.mealDetails.copy(
+                        isFavouriteMeal = true,
+                    ),
+                    showSaveMealSuccessSnackBar = true
+                )
+            }
+            delay(3000)
+            updateState { it.copy(showSaveMealSuccessSnackBar = false) }
+        }
     }
 
     fun getMealDetails(mealId: String) {
