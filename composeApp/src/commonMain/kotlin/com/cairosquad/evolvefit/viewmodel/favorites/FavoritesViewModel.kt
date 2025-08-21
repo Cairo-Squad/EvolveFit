@@ -5,6 +5,7 @@ import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -47,7 +48,10 @@ class FavoritesViewModel(
         tryToCall(
             block = { deleteFavoriteMeal(mealId) },
             onError = {},
-            onSuccess = { handleMealDeletionSuccess(mealId, deletedMeal, index) }
+            onSuccess = {
+                handleMealDeletionSuccess(mealId, deletedMeal, index)
+                loadMeals()
+            }
         )
     }
 
@@ -59,7 +63,10 @@ class FavoritesViewModel(
         tryToCall(
             block = { deleteFavoriteWorkout(workoutId) },
             onError = {},
-            onSuccess = { handleWorkoutDeletionSuccess(workoutId, deletedWorkout, index) }
+            onSuccess = {
+                handleWorkoutDeletionSuccess(workoutId, deletedWorkout, index)
+                loadWorkouts()
+            }
         )
     }
 
@@ -118,11 +125,21 @@ class FavoritesViewModel(
         )
     }
 
+    private var snackBarJob: Job? = null
     private fun showSnackBar() {
-        viewModelScope.launch(Dispatchers.Main) {
+        snackBarJob?.cancel()
+        snackBarJob = viewModelScope.launch(Dispatchers.Main) {
             updateState { it.copy(isSnackBarVisible = true) }
             delay(3000)
-            updateState { it.copy(isSnackBarVisible = false) }
+            updateState {
+                it.copy(
+                    isSnackBarVisible = false,
+                    lastDeletedMeal = null,
+                    lastDeletedMealIndex = null,
+                    lastDeletedWorkout = null,
+                    lastDeletedWorkoutIndex = null
+                )
+            }
         }
     }
 
@@ -170,7 +187,9 @@ class FavoritesViewModel(
 
     private fun restoreDeletedWorkout(workout: WorkoutsUiModel, index: Int) {
         val updatedList = screenState.value.workoutsList.toMutableList()
-        updatedList.add(index, workout)
+        val safeIndex = minOf(index, updatedList.size)
+        updatedList.add(safeIndex, workout)
+
         updateState {
             it.copy(
                 workoutsList = updatedList,
@@ -183,7 +202,8 @@ class FavoritesViewModel(
 
     private fun restoreDeletedMeal(meal: MealsUiModel, index: Int) {
         val updatedList = screenState.value.mealsList.toMutableList()
-        updatedList.add(index, meal)
+        val safeIndex = minOf(index, updatedList.size)
+        updatedList.add(safeIndex, meal)
         updateState {
             it.copy(
                 mealsList = updatedList,
