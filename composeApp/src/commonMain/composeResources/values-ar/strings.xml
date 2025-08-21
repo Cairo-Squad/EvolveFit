@@ -199,6 +199,8 @@
     <string name="failed_to_load_equipments">فشل في تحميل المعدات</string>
     <string name="failed_to_load_user_profile">فشل في تحميل حساب المستخدم</string>
     <string name="failed_to_update_user_profile_image">فشل في تحديث صورة المستخدم</string>
+    <string name="failed_to_update_user_profile">فشل في تحديث حساب المستخدم</string>
+    <string name="failed_to_logout">فشل في تسجيل الخروج</string>
     <string name="failed_to_load_user_equipments">فشل في تحميل معدات المستخدم</string>
     <string name="community">المجتمع</string>
     <string name="birth">تاريخ الميلاد</string>

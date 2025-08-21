@@ -6,7 +6,8 @@ import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseC
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.failed_to_update_user_profile_image
+import evolvefit.composeapp.generated.resources.failed_to_logout
+import evolvefit.composeapp.generated.resources.failed_to_update_user_profile
 
 class MoreViewModel(
     private val manageProfileUseCase: ManageProfileUseCase,
@@ -31,12 +32,10 @@ class MoreViewModel(
             onStart = { updateState { it.copy(isLoading = true) } },
             block = { manageProfileUseCase.getProfile() },
             onSuccess = ::onSuccessLoadProfile,
-            onError = { error -> updateState { it.copy(errorMessage = Res.string.failed_to_update_user_profile_image) } },
+            onError = { onLoadProfileFailed() },
             onEnd = { updateState { it.copy(isLoading = false) } },
         )
     }
-
-    private fun onSuccessLoadProfile(profile: Profile) { updateState { it.copy(profile = profile.toUiState(),) } }
 
     override fun onClickPersonInformation() {
         sendEffect(MoreEffect.NavigateToEditProfile)
@@ -78,7 +77,7 @@ class MoreViewModel(
             onStart = { updateState { it.copy(isLoading = true) } },
             block = { authenticationUseCase.logout() },
             onSuccess = { onSuccessfulLogout() },
-            onError = { error -> updateState { it.copy(errorMessage = Res.string.failed_to_update_user_profile_image) } },
+            onError = { onLogoutFailed() },
             onEnd = { updateState { it.copy(isLoading = false) } },
         )
     }
@@ -121,5 +120,17 @@ class MoreViewModel(
     override fun onConfirmChangeTheme(theme: MoreScreenState.Theme) {
         updateState { it.copy(currentTheme = theme, isThemeBottomSheetEnabled = false) }
         sendEffect(MoreEffect.ChangeTheme(theme))
+    }
+
+    private fun onLogoutFailed() {
+        updateState { it.copy(errorMessage = Res.string.failed_to_logout) }
+    }
+
+    private fun onLoadProfileFailed() {
+        updateState { it.copy(errorMessage = Res.string.failed_to_update_user_profile) }
+    }
+
+    private fun onSuccessLoadProfile(profile: Profile) {
+        updateState { it.copy(profile = profile.toUiState()) }
     }
 }

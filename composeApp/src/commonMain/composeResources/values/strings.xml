@@ -314,6 +314,8 @@
     <string name="failed_to_load_equipments">Failed to load equipments</string>
     <string name="failed_to_load_user_profile">Failed to load user profile</string>
     <string name="failed_to_update_user_profile_image">Failed to update user profile image</string>
+    <string name="failed_to_update_user_profile">Failed to update user profile</string>
+    <string name="failed_to_logout">Failed to logout</string>
     <string name="failed_to_load_user_equipments">Failed to load user equipments</string>
     <string name="language_description">This language will be used throughout the app.</string>
     <string name="logo">logo</string>
