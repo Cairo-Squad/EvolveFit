@@ -4,14 +4,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
-import androidx.compose.material3.RadioButtonDefaults.colors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -20,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
@@ -29,7 +25,7 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.screen.login.content.SignUpPromptRow
+import com.cairosquad.evolvefit.ui.screen.login.content.component.SignUpPromptRow
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.login.LoginInteractionListener
@@ -38,14 +34,11 @@ import com.cairosquad.evolvefit.viewmodel.login.LoginScreenUiState
 import com.cairosquad.evolvefit.viewmodel.login.LoginViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arrow_back_description
-import evolvefit.composeapp.generated.resources.email_placeholder
 import evolvefit.composeapp.generated.resources.enter_your_email
 import evolvefit.composeapp.generated.resources.ic_app_logo
 import evolvefit.composeapp.generated.resources.ic_back
 import evolvefit.composeapp.generated.resources.ic_email
-import evolvefit.composeapp.generated.resources.ic_icon_login
 import evolvefit.composeapp.generated.resources.ic_lock
-import evolvefit.composeapp.generated.resources.ic_profile
 import evolvefit.composeapp.generated.resources.ic_visibility_off
 import evolvefit.composeapp.generated.resources.ic_visibility_on
 import evolvefit.composeapp.generated.resources.login

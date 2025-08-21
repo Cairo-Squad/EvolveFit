@@ -30,7 +30,7 @@ import com.cairosquad.evolvefit.ui.screen.onboarding.OnboardingScreen
 import com.cairosquad.evolvefit.ui.screen.playWorkout.PlayWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
 import com.cairosquad.evolvefit.ui.screen.report.ReportScreen
-import com.cairosquad.evolvefit.ui.screen.suggestedMeals.SuggestedMealsScreen
+import com.cairosquad.evolvefit.ui.screen.suggested_meals.SuggestedMealsScreen
 import com.cairosquad.evolvefit.ui.screen.workout.WorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.WorkoutDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.WorkoutHistoryScreen

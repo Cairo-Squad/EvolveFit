@@ -28,13 +28,13 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.DateBottomSheet
 import com.cairosquad.evolvefit.ui.component.UserProfileImage
-import com.cairosquad.evolvefit.ui.screen.editProfile.content.GenderBottomSheet
-import com.cairosquad.evolvefit.ui.screen.editProfile.content.HeightBottomSheet
-import com.cairosquad.evolvefit.ui.screen.editProfile.content.MainGoalBottomSheet
-import com.cairosquad.evolvefit.ui.screen.editProfile.content.MeasurementBottomSheet
-import com.cairosquad.evolvefit.ui.screen.editProfile.content.ToolsBottomSheet
-import com.cairosquad.evolvefit.ui.screen.editProfile.content.WeightBottomSheet
-import com.cairosquad.evolvefit.ui.screen.editProfile.content.WorkoutDaysBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.component.GenderBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.component.HeightBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.component.MainGoalBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.component.MeasurementBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.component.ToolsBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.component.WeightBottomSheet
+import com.cairosquad.evolvefit.ui.screen.editProfile.content.component.WorkoutDaysBottomSheet
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileInteractionListener
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileViewModel
@@ -66,7 +66,6 @@ import evolvefit.composeapp.generated.resources.your_tools
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.round
 import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
@@ -74,7 +73,6 @@ import com.cairosquad.evolvefit.domain.entity.Profile.Gender
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileEffect
-import com.cairosquad.evolvefit.viewmodel.register.RegisterEffect
 import evolvefit.composeapp.generated.resources.female
 
 import evolvefit.composeapp.generated.resources.gain_weight

@@ -20,10 +20,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
-import com.cairosquad.evolvefit.ui.screen.mealDetails.components.IngredientsList
-import com.cairosquad.evolvefit.ui.screen.mealDetails.components.MealDescription
-import com.cairosquad.evolvefit.ui.screen.mealDetails.components.MealDetailsAppBar
-import com.cairosquad.evolvefit.ui.screen.mealDetails.components.NutritionalInfo
+import com.cairosquad.evolvefit.ui.screen.mealDetails.content.components.IngredientsList
+import com.cairosquad.evolvefit.ui.screen.mealDetails.content.components.MealDescription
+import com.cairosquad.evolvefit.ui.screen.mealDetails.content.components.MealDetailsAppBar
+import com.cairosquad.evolvefit.ui.screen.mealDetails.content.components.NutritionalInfo
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.meal_details.MealDetailsEffect
 import com.cairosquad.evolvefit.viewmodel.meal_details.MealDetailsInteractionListener

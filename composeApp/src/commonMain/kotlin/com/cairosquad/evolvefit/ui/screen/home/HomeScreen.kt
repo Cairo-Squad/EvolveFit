@@ -56,6 +56,7 @@ import com.cairosquad.evolvefit.ui.component.RefreshBox
 import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
 import com.cairosquad.evolvefit.ui.component.WaterNutritionCard
 import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
+import com.cairosquad.evolvefit.ui.screen.home.content.HomeLoadingScreen
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.home.HomeInteractionListener
 import com.cairosquad.evolvefit.viewmodel.home.HomeScreenEffect

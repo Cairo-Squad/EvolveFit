@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.screen.report.componant.cards.HistoryWorkoutItem
+import com.cairosquad.evolvefit.ui.screen.report.content.componant.cards.HistoryWorkoutItem
 import com.cairosquad.evolvefit.viewmodel.workoutHistory.WorkoutHistoryScreenState
 
 fun LazyListScope.workoutHistoryScreenSuccessContent(state: WorkoutHistoryScreenState) {

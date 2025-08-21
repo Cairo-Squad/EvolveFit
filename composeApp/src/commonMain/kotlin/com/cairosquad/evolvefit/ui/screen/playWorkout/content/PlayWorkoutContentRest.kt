@@ -23,9 +23,9 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
-import com.cairosquad.evolvefit.ui.screen.playWorkout.component.ColumnWithBackgroundImage
-import com.cairosquad.evolvefit.ui.screen.playWorkout.component.ExerciseNameAndInfoIcon
-import com.cairosquad.evolvefit.ui.screen.playWorkout.component.RestTimer
+import com.cairosquad.evolvefit.ui.screen.playWorkout.content.component.ColumnWithBackgroundImage
+import com.cairosquad.evolvefit.ui.screen.playWorkout.content.component.ExerciseNameAndInfoIcon
+import com.cairosquad.evolvefit.ui.screen.playWorkout.content.component.RestTimer
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutViewModel

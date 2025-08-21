@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.suggestedMeals
+package com.cairosquad.evolvefit.ui.screen.suggested_meals
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
@@ -26,7 +26,7 @@ import com.cairosquad.evolvefit.design_system.component.StateMessage
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.screen.suggested_meals.LoadingMealCard
+import com.cairosquad.evolvefit.ui.screen.suggested_meals.content.LoadingMealCard
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsEffect
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsInteractionListener
