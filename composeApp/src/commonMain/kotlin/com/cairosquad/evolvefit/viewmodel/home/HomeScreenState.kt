@@ -15,6 +15,7 @@ data class HomeScreenState(
     val caloriesGoal: UInt = 0.toUInt(),
     val waterCount: Float = 0f,
     val waterGoal: Float = 0f,
+    val nutritionVisibility: Boolean = false,
     val personalizedWorkouts: List<HomeWorkoutUiState> = emptyList()
 ) {
     data class HomeUserUiState(

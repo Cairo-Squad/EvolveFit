@@ -89,7 +89,8 @@ class HomeViewModel(
         updateState {
             it.copy(
                 waterCount = nutritionProgress.currentProgress,
-                waterGoal = nutritionProgress.goal
+                waterGoal = nutritionProgress.goal,
+                nutritionVisibility = true
             )
         }
 
