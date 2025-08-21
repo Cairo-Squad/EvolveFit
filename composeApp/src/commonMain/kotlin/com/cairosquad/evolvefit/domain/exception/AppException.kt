@@ -14,32 +14,24 @@ class InvalidEmailFormatException(message: String = "") : AppException(message)
 
 class InvalidPasswordException(message: String = "") : AppException(message)
 
-open class EvolveException(message: String = "", cause: Throwable? = null) : Exception(message, cause)
-
-class TimeoutException(message: String = "Request timed out", cause: Throwable? = null) :
-    EvolveException(message, cause)
+class TimeoutException(message: String = "") : AppException(message)
 
 open class NutritionException(
     message: String = "Nutrition error",
-    cause: Throwable? = null
-) : EvolveException(message, cause)
+) : AppException(message)
 
 class ExceededCaloriesException(
     message: String = "Not enough remaining calories",
-    cause: Throwable? = null
-) : NutritionException(message, cause)
+) : NutritionException(message)
 
 class ExceededWaterLimitException(
     message: String = "Not enough remaining water allowance",
-    cause: Throwable? = null
-) : NutritionException(message, cause)
+) : NutritionException(message)
 
 class MealNotFoundException(
     message: String = "Meal not found",
-    cause: Throwable? = null
-) : NutritionException(message, cause)
+) : NutritionException(message)
 
 class InvalidNumberFormatException(
     message: String = "Only numbers and decimal point are allowed",
-    cause: Throwable? = null
-) : EvolveException(message, cause)
+) : AppException(message)
