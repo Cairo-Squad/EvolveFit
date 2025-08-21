@@ -563,7 +563,7 @@ private fun SimpleNutritionRow(
 private fun PersonalizedWorkouts(
     workouts: List<HomeScreenState.HomeWorkoutUiState>,
     onWorkoutClick: (String) -> Unit,
-    onSavedWorkoutClick: (String) -> Unit,
+    onSavedWorkoutClick: (String, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -591,7 +591,7 @@ private fun PersonalizedWorkouts(
 
                 SaveButton(
                     isSaved = workout.isSaved,
-                    onClick = { onSavedWorkoutClick(workout.id) },
+                    onClick = { onSavedWorkoutClick(workout.id, workout.isSaved) },
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(12.dp)

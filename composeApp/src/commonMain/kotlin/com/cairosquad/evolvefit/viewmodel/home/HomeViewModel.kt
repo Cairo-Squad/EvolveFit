@@ -33,7 +33,6 @@ class HomeViewModel(
         loadProgress()
         loadNutrition()
         loadPersonalizedWorkouts()
-
     }
 
     private fun loadUserInfo() {
@@ -119,7 +118,8 @@ class HomeViewModel(
         tryToCall(
             block = { getPersonalizedWorkoutsUseCase.getWorkouts() },
             onSuccess = ::handleLoadPersonalizedWorkoutsSuccess,
-            onError = ::handleHomeErrors
+            onError = ::handleHomeErrors,
+            onEnd = ::loadFavoriteWorkouts
         )
     }
 
@@ -133,20 +133,64 @@ class HomeViewModel(
                 }
             )
         }
+    }
+
+    private fun loadFavoriteWorkouts() {
+        tryToCall(
+            block = { manageWorkoutUseCase.getFavoriteWorkouts() },
+            onSuccess = ::handleLoadFavoriteWorkoutsSuccess,
+            onError = ::handleHomeErrors
+        )
+    }
+
+    private fun handleLoadFavoriteWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
+        updateWorkouts(workouts.map { it.toHomeWorkoutUiState(isSaved = true) })
+    }
+
+    private fun updateWorkouts(workouts: List<HomeScreenState.HomeWorkoutUiState>) {
+        updateState {
+            it.copy(
+                personalizedWorkouts = it.personalizedWorkouts.map { workout ->
+                    getWorkoutWithSavedStatus(
+                        workout = workout,
+                        workouts = workouts
+                    )
+                }
+            )
+        }
 
         stopLoading(HomeScreenState.ScreenStatus.SUCCESS)
+    }
+
+    private fun getWorkoutWithSavedStatus(
+        workout: HomeScreenState.HomeWorkoutUiState,
+        workouts: List<HomeScreenState.HomeWorkoutUiState>
+    ): HomeScreenState.HomeWorkoutUiState {
+        return if (workouts.map { it.id }.contains(workout.id)) {
+            workout.copy(isSaved = true)
+        } else {
+            workout
+        }
     }
 
     override fun onWorkoutClick(id: String) {
         sendEffect(HomeScreenEffect.NavigateToWorkout(id))
     }
 
-    override fun onSavedWorkoutClick(id: String) {
+    override fun onSavedWorkoutClick(id: String, isSaved: Boolean) {
         tryToCall(
-            block = { manageWorkoutUseCase.addWorkoutToFavorites(id) },
+            block = { toggleWorkoutSavedStatus(id, isSaved) },
             onSuccess = { handleSaveWorkoutSuccess(id) },
             onError = ::handleHomeErrors,
         )
+    }
+
+    private suspend fun toggleWorkoutSavedStatus(id: String, isSaved: Boolean) {
+        if (isSaved) {
+            manageWorkoutUseCase.deleteFavouriteWorkout(id)
+        } else {
+            manageWorkoutUseCase.addWorkoutToFavorites(id)
+        }
     }
 
     private fun handleSaveWorkoutSuccess(id: String) {
