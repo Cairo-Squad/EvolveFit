@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -63,15 +64,14 @@ fun HomeLoadingScreen() {
 private fun HomeLoadingScreenContent(shimmerBrush: Brush) {
     Column(
         modifier = Modifier
-            .height(726.dp)
-            .width(360.dp)
+            .fillMaxSize()
             .background(Theme.color.surfaces.surface)
             .padding(horizontal = 16.dp)
     ) {
         Profile(
             modifier = Modifier
                 .windowInsetsPadding(WindowInsets.statusBars)
-                .padding(bottom = 24.dp),
+                .padding(top = 16.dp),
             shimmerBrush = shimmerBrush,
         )
         DailyProgressContent(shimmerBrush = shimmerBrush)
@@ -79,10 +79,11 @@ private fun HomeLoadingScreenContent(shimmerBrush: Brush) {
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.Center
         ) {
-            CaloriesCard(shimmerBrush = shimmerBrush)
-            WaterCard(shimmerBrush = shimmerBrush)
+            CaloriesCard(shimmerBrush = shimmerBrush, modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.width(12.dp))
+            WaterCard(shimmerBrush = shimmerBrush, modifier = Modifier.weight(1f))
         }
         RecommendationTitle(shimmerBrush = shimmerBrush)
         WorkoutsForYou(shimmerBrush = shimmerBrush)
@@ -95,7 +96,9 @@ private fun Profile(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier
+            .padding(bottom = 24.dp)
+            .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -184,11 +187,11 @@ private fun DaysOfWeek(
     shimmerBrush: Brush,
     modifier: Modifier = Modifier
 ) {
-    LazyRow(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        items(7) {
+        (1..7).forEach {
             ShimmerOverlayShape(
                 modifier = Modifier.size(36.dp),
                 shimmerBrush = shimmerBrush
