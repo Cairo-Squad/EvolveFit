@@ -1,24 +1,43 @@
 package com.cairosquad.evolvefit.viewmodel.meal_details
 
+import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
 import com.cairosquad.evolvefit.entity.nutrition.Meal
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MealDetailsViewModel(
-     private val manageNutritionUseCase: ManageNutritionUseCase
+    private val manageNutritionUseCase: ManageNutritionUseCase
 ) : BaseViewModel<MealDetailsScreenState, MealDetailsEffect>(MealDetailsScreenState()),
-MealDetailsInteractionListener
-{
+    MealDetailsInteractionListener {
 
     override fun onBackClicked() {
         sendEffect(MealDetailsEffect.NavigateBack)
     }
 
     override fun onSaveMealClicked(mealId: String) {
-        updateState { it.copy(showSaveMealSnackBar = true) }
+        tryToCall(
+            block = { manageNutritionUseCase.addFavouriteMealById(mealId) },
+            onSuccess = {
+                viewModelScope.launch {
+                    updateState { current ->
+                        current.copy(
+                            mealDetails = current.mealDetails.copy(
+                                isFavouriteMeal = true,
+                            ),
+                            showSaveMealSuccessSnackBar = true
+                        )
+                    }
+                    delay(3000)
+                    updateState {it.copy(showSaveMealSuccessSnackBar = false)}
+                }
+            },
+            onError = {}
+        )
     }
 
-     fun getMealDetails(mealId: String) {
+    fun getMealDetails(mealId: String) {
         tryToCall(
             block = { manageNutritionUseCase.getMealById(mealId) },
             onStart = { setScreenStatus(MealDetailsScreenState.ScreenStatus.LOADING) },
@@ -33,7 +52,7 @@ MealDetailsInteractionListener
         }
     }
 
-    private fun onGetMealDetailsSuccess(meal : Meal) {
+    private fun onGetMealDetailsSuccess(meal: Meal) {
         updateState { current ->
             current.copy(
                 mealDetails = meal.toMealDetailsUiState(),
