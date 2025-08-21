@@ -141,7 +141,7 @@ private fun HomeContent(
     Box(modifier = Modifier.fillMaxSize()) {
         RefreshBox(
             isRefreshing = state.isRefreshing,
-            onRefresh = { homeViewModel.onRefresh() }
+            onRefresh = { listener.onRefresh() }
         ) {
             Crossfade(
                 targetState = state.screenStatus,
@@ -152,9 +152,9 @@ private fun HomeContent(
             ) {
                 when (state.screenStatus) {
                     HomeScreenState.ScreenStatus.SUCCESS -> {
-                        HomeContent(
+                        HomeSuccessContent(
                             state = state,
-                            interactionListener = homeViewModel
+                            listener = listener
                         )
                     }
 
@@ -164,7 +164,7 @@ private fun HomeContent(
 
                     HomeScreenState.ScreenStatus.FAIL -> {
                         HomeErrorContent(
-                            onRetry = homeViewModel::onRetryClick
+                            onRetry = listener::onRetryClick
                         )
                     }
                 }
