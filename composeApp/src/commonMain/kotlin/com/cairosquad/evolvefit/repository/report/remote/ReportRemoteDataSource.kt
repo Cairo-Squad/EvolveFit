@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.repository.report.remote
 
-import com.cairosquad.evolvefit.repository.report.dto.NutritionReportDto
-import com.cairosquad.evolvefit.repository.report.dto.WorkoutReportDto
+import com.cairosquad.evolvefit.repository.report.remote.dto.NutritionReportDto
+import com.cairosquad.evolvefit.repository.report.remote.dto.WorkoutReportDto
 
 interface ReportRemoteDataSource {
 

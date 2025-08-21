@@ -28,9 +28,7 @@ class LoginViewModel(
         setLoadingState()
 
         tryToCall(
-            block = {
-                authenticationUseCase.login(current.email, current.password)
-            },
+            block = { authenticationUseCase.login(current.email, current.password) },
             onSuccess = { handleLoginSuccess() },
             onError = { error ->
                 handleLoginError(error)
@@ -143,5 +141,4 @@ class LoginViewModel(
             updated.copy(canSubmit = isSubmitAllowed(updated))
         }
     }
-
 }

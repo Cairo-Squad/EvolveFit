@@ -1,8 +1,8 @@
 package com.cairosquad.evolvefit.viewmodel.nutrition
 
-import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
-import com.cairosquad.evolvefit.entity.nutrition.MealType
-import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
+import com.cairosquad.evolvefit.domain.entity.ConsumedMeal
+import com.cairosquad.evolvefit.domain.entity.SuggestedMeal
+import com.cairosquad.evolvefit.domain.model.MealType
 import com.cairosquad.evolvefit.viewmodel.utils.formatIsoToTodayTime
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_coffee
@@ -24,7 +24,7 @@ fun NutritionScreenState.MealTypeUiState.toMealType(): MealType {
         NutritionScreenState.MealTypeUiState.Breakfast -> MealType.BREAKFAST
         NutritionScreenState.MealTypeUiState.Lunch -> MealType.LUNCH
         NutritionScreenState.MealTypeUiState.Dinner -> MealType.DINNER
-        NutritionScreenState.MealTypeUiState.Snack -> MealType.SNACK
+        NutritionScreenState.MealTypeUiState.Snack -> MealType.SNACKS
     }
 }
 fun MealType.toMealUiState(): NutritionScreenState.MealTypeUiState {
@@ -32,7 +32,7 @@ fun MealType.toMealUiState(): NutritionScreenState.MealTypeUiState {
         MealType.BREAKFAST -> NutritionScreenState.MealTypeUiState.Breakfast
         MealType.LUNCH ->  NutritionScreenState.MealTypeUiState.Lunch
         MealType.DINNER ->NutritionScreenState.MealTypeUiState.Dinner
-        MealType.SNACK -> NutritionScreenState.MealTypeUiState.Snack
+        MealType.SNACKS -> NutritionScreenState.MealTypeUiState.Snack
     }
 }
 fun ConsumedMeal.toMealHistoryUi(): NutritionScreenState.ConsumedMealUiState {

@@ -2,8 +2,8 @@ package com.cairosquad.evolvefit.viewmodel.suggested_meals
 
 
 
-import com.cairosquad.evolvefit.entity.nutrition.MealType
-import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
+import com.cairosquad.evolvefit.domain.entity.SuggestedMeal
+import com.cairosquad.evolvefit.domain.model.MealType
 
 fun SuggestedMeal.toSuggestedMealUiState() : SuggestedMealsScreenState.SuggestedMealUiState{
     return SuggestedMealsScreenState.SuggestedMealUiState(
@@ -21,6 +21,6 @@ fun MealType.toMealUiState(): SuggestedMealsScreenState.MealTypeUiState {
         MealType.BREAKFAST -> SuggestedMealsScreenState.MealTypeUiState.Breakfast
         MealType.LUNCH ->  SuggestedMealsScreenState.MealTypeUiState.Lunch
         MealType.DINNER ->SuggestedMealsScreenState.MealTypeUiState.Dinner
-        MealType.SNACK -> SuggestedMealsScreenState.MealTypeUiState.Snacks
+        MealType.SNACKS -> SuggestedMealsScreenState.MealTypeUiState.Snacks
     }
 }

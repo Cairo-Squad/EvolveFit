@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.viewmodel.meal_history
 
+import com.cairosquad.evolvefit.domain.entity.ConsumedMeal
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
-import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
 import com.cairosquad.evolvefit.viewmodel.utils.getDayHeader

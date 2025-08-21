@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.viewmodel.meal_details
 
-import com.cairosquad.evolvefit.entity.nutrition.Meal
-import com.cairosquad.evolvefit.entity.nutrition.MealType
+import com.cairosquad.evolvefit.domain.entity.Meal
+import com.cairosquad.evolvefit.domain.model.MealType
 
 
 fun Meal.toMealDetailsUiState(): MealDetailsScreenState.MealDetailsUiState {
@@ -10,10 +10,10 @@ fun Meal.toMealDetailsUiState(): MealDetailsScreenState.MealDetailsUiState {
         imgUrl = imageUrl,
         description = description,
         mealType = type.toMealUiState(),
-        calories= nutrition.calories,
-        protein =nutrition.protein,
-        carbs = nutrition.carbs,
-        fat  =  nutrition.fat,
+        calories= nutrition.caloriesInKcal,
+        protein =nutrition.proteinInGrams,
+        carbs = nutrition.carbsInGrams,
+        fat  =  nutrition.fatInGrams,
         ingredients = ingredients
 
     )
@@ -23,6 +23,6 @@ fun MealType.toMealUiState(): MealDetailsScreenState.MealTypeUiState {
         MealType.BREAKFAST -> MealDetailsScreenState.MealTypeUiState.Breakfast
         MealType.LUNCH ->  MealDetailsScreenState.MealTypeUiState.Lunch
         MealType.DINNER -> MealDetailsScreenState.MealTypeUiState.Dinner
-        MealType.SNACK -> MealDetailsScreenState.MealTypeUiState.Snacks
+        MealType.SNACKS -> MealDetailsScreenState.MealTypeUiState.Snacks
     }
 }

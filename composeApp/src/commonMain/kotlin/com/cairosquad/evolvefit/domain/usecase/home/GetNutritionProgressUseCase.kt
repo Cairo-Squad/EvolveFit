@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.domain.usecase.home
 
 import com.cairosquad.evolvefit.domain.repository.NutritionRepository
-import com.cairosquad.evolvefit.domain.usecase.home.model.NutritionProgress
+import com.cairosquad.evolvefit.domain.model.NutritionProgress
 
 class GetNutritionProgressUseCase(
     private val nutritionRepository: NutritionRepository

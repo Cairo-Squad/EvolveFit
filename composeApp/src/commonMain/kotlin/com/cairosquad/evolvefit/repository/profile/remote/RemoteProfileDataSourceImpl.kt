@@ -1,8 +1,8 @@
 package com.cairosquad.evolvefit.repository.profile.remote
 
 import com.cairosquad.evolvefit.repository.execption.callApi
-import com.cairosquad.evolvefit.repository.profile.dto.ProfileGetDto
-import com.cairosquad.evolvefit.repository.profile.dto.ProfilePostDto
+import com.cairosquad.evolvefit.repository.profile.remote.dto.ProfileGetDto
+import com.cairosquad.evolvefit.repository.profile.remote.dto.ProfilePostDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.MultiPartFormDataContent

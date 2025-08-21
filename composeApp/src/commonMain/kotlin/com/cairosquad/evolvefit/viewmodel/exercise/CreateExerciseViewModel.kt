@@ -23,13 +23,9 @@ class CreateExerciseViewModel(
         tryToCall(
             block = { manageEquipmentUseCase.getAllEquipments() },
             onSuccess = { equipments ->
-                updateState {
-                    it.copy(availableEquipments = equipments.map { it.toUiState() }.toSet())
-                }
+                updateState { it.copy(availableEquipments = equipments.map { it.toUiState() }.toSet()) }
             },
-            onError = {
-                updateState { it.copy(errorMessage = "Failed to load equipments") }
-            }
+            onError = {updateState { it.copy(errorMessage = "Failed to load equipments") } }
         )
     }
 
@@ -125,16 +121,14 @@ class CreateExerciseViewModel(
         }
     }
 
-    override fun onMeasurementValueChanged(value: String) {
-        updateState { it.copy(measurementInputValue = value) }
-    }
+    override fun onMeasurementValueChanged(value: String) { updateState { it.copy(measurementInputValue = value) } }
 
     override fun onSaveClicked() {
         tryToCall(
             onStart = { updateState { it.copy(isExerciseSaved = true) } },
             block = ::saveExercise,
             onSuccess = { sendEffect(CreateExerciseEffect.NavigateToAllExercises) },
-            onError = {},
+            onError = {  },
             onEnd = { updateState { it.copy(isExerciseSaved = false) } }
         )
     }
@@ -143,9 +137,7 @@ class CreateExerciseViewModel(
         manageExerciseUseCase.createExercise(screenState.value.toDomainExercise())
     }
 
-    override fun onExitClicked() {
-        updateState { it.copy(showExitBottomSheet = true) }
-    }
+    override fun onExitClicked() { updateState { it.copy(showExitBottomSheet = true) } }
 
     override fun onExitWithoutSavingClicked() {
         updateState { it.copy(showExitBottomSheet = false) }
@@ -157,13 +149,9 @@ class CreateExerciseViewModel(
         updateState { it.copy(showExitBottomSheet = false) }
     }
 
-    override fun onFocusAreaDismiss() {
-        updateState { it.copy(isFocusAreaExpanded = false) }
-    }
+    override fun onFocusAreaDismiss() { updateState { it.copy(isFocusAreaExpanded = false) } }
 
-    override fun onEquipmentDismiss() {
-        updateState { it.copy(isEquipmentExpanded = false) }
-    }
+    override fun onEquipmentDismiss() { updateState { it.copy(isEquipmentExpanded = false) } }
 
     override fun canSaveExercise(): Boolean {
         val currentState = screenState.value

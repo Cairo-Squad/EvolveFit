@@ -1,19 +1,19 @@
 package com.cairosquad.evolvefit.viewmodel.nutrition
 
 import androidx.lifecycle.viewModelScope
-import com.cairosquad.evolvefit.domain.exceptions.ExceededCaloriesException
-import com.cairosquad.evolvefit.domain.exceptions.ExceededWaterLimitException
-import com.cairosquad.evolvefit.domain.exceptions.InternetConnectionException
-import com.cairosquad.evolvefit.domain.exceptions.InvalidNumberFormatException
-import com.cairosquad.evolvefit.domain.exceptions.MealNotFoundException
-import com.cairosquad.evolvefit.domain.exceptions.NetworkException
-import com.cairosquad.evolvefit.domain.exceptions.TimeoutException
+import com.cairosquad.evolvefit.domain.exception.ExceededCaloriesException
+import com.cairosquad.evolvefit.domain.exception.ExceededWaterLimitException
+import com.cairosquad.evolvefit.domain.exception.InternetConnectionException
+import com.cairosquad.evolvefit.domain.exception.InvalidNumberFormatException
+import com.cairosquad.evolvefit.domain.exception.MealNotFoundException
+import com.cairosquad.evolvefit.domain.exception.NetworkException
+import com.cairosquad.evolvefit.domain.exception.TimeoutException
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
-import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
-import com.cairosquad.evolvefit.entity.nutrition.DailyCalorieSummary
-import com.cairosquad.evolvefit.entity.nutrition.DailyWaterSummary
-import com.cairosquad.evolvefit.entity.nutrition.MealType
-import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
+import com.cairosquad.evolvefit.domain.entity.ConsumedMeal
+import com.cairosquad.evolvefit.domain.entity.DailyCalorieSummary
+import com.cairosquad.evolvefit.domain.entity.DailyWaterSummary
+import com.cairosquad.evolvefit.domain.entity.SuggestedMeal
+import com.cairosquad.evolvefit.domain.model.MealType
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.utils.getTodayDate
 import com.cairosquad.evolvefit.viewmodel.utils.toErrorMessageRes
@@ -43,25 +43,21 @@ class NutritionViewModel(
 
     private fun fetchNutritionData() {
         tryToCall(
-            block = {
-                fetchAllNutritionSections()
-            },
-            onStart = {
-                updateState { it.copy(screenStatus = NutritionScreenState.ScreenStatus.LOADING) }
-            },
-            onSuccess = {
-                updateState { it.copy(screenStatus = NutritionScreenState.ScreenStatus.SUCCESS) }
-            },
-            onError = { throwable ->
-                updateState {
-                    it.copy(
-                        screenStatus = NutritionScreenState.ScreenStatus.FAIL,
-                        screenErrorMessage = throwable.toErrorMessageRes()
-                    )
-                }
-                handleNutritionErrors(throwable)
-            }
+            block = { fetchAllNutritionSections() },
+            onStart = { updateState { it.copy(screenStatus = NutritionScreenState.ScreenStatus.LOADING) } },
+            onSuccess = { updateState { it.copy(screenStatus = NutritionScreenState.ScreenStatus.SUCCESS) } },
+            onError = ::handleFetchNutritionError
         )
+    }
+
+    private fun handleFetchNutritionError(throwable: Throwable) {
+        updateState {
+            it.copy(
+                screenStatus = NutritionScreenState.ScreenStatus.FAIL,
+                screenErrorMessage = throwable.toErrorMessageRes()
+            )
+        }
+        handleNutritionErrors(throwable)
     }
 
     private suspend fun fetchAllNutritionSections() {
@@ -153,9 +149,7 @@ class NutritionViewModel(
     private fun loadSuggestedMeals() {
         callWithNutritionHandler(
             block = { manageNutritionUseCase.getSuggestedMeals() },
-            onSuccess = {
-                handleSuggestedMeals(meals = it)
-            }
+            onSuccess = { handleSuggestedMeals(meals = it) }
         )
     }
 
@@ -190,9 +184,7 @@ class NutritionViewModel(
         val consumedWaterInput = screenState.value.consumedWaterInput
         val remaining = screenState.value.dailyWaterGoal - screenState.value.todayConsumedWater
         callWithNutritionHandler(
-            block = {
-                manageNutritionUseCase.saveConsumedWater(consumedWaterInput, remaining)
-            },
+            block = { manageNutritionUseCase.saveConsumedWater(consumedWaterInput, remaining) },
             onSuccess = ::onAddWaterSuccess
         )
     }
@@ -216,9 +208,7 @@ class NutritionViewModel(
 
     override fun onWaterAmountChange(waterAmount: String) {
         updateState {
-            it.copy(
-                consumedWaterInput = waterAmount, isAddButtonEnabled = waterAmount.isNotBlank()
-            )
+            it.copy(consumedWaterInput = waterAmount, isAddButtonEnabled = waterAmount.isNotBlank())
         }
     }
 
@@ -242,9 +232,7 @@ class NutritionViewModel(
             id = "0"
         )
         callWithNutritionHandler(
-            block = {
-                manageNutritionUseCase.saveConsumedMeal(caloriesInput, meal, remainingCalories)
-            },
+            block = {manageNutritionUseCase.saveConsumedMeal(caloriesInput, meal, remainingCalories)},
             onSuccess = ::onAddMealSuccess
         )
     }
@@ -422,7 +410,7 @@ class NutritionViewModel(
 
     private companion object {
         val defaultTypes = listOf(
-            MealType.BREAKFAST, MealType.LUNCH, MealType.DINNER, MealType.SNACK
+            MealType.BREAKFAST, MealType.LUNCH, MealType.DINNER, MealType.SNACKS
         )
         const val START_DAY_TIME = "T00:00:00"
         const val END_DAY_TIME = "T23:59:59"

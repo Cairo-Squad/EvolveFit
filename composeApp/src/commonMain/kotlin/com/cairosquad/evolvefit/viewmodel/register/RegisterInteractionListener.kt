@@ -6,9 +6,9 @@ import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.MeasurementStandard
 
 interface RegisterInteractionListener {
-    fun onClickNext()
-    fun onClickBack()
-    fun onClickStartNow()
+    fun onNextClicked()
+    fun onBackClicked()
+    fun onStartNowClicked()
     fun onGenderClicked(gender: Gender)
     fun onMeasurementUnitClicked(unit: MeasurementStandard)
     fun onGoalClicked(goal: Goal)
