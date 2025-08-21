@@ -16,6 +16,10 @@ class FavoritesViewModel(
     FavoritesInteractionListener {
 
     init {
+        loadData()
+    }
+
+    private fun loadData(){
         loadMeals()
         loadWorkouts()
     }
@@ -74,12 +78,8 @@ class FavoritesViewModel(
         showSnackBar()
 
         updateState {
-            it.copy(
-                lastDeletedMeal = deletedMeal,
-                lastDeletedMealIndex = index
-            )
+            it.copy(lastDeletedMeal = deletedMeal, lastDeletedMealIndex = index)
         }
-
         updateState { current ->
             current.copy(mealsList = current.mealsList.filterNot { it.id == mealId })
         }

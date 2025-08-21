@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.domain.usecase.home
 
 import com.cairosquad.evolvefit.domain.repository.HomeRepository
-import com.cairosquad.evolvefit.domain.usecase.home.model.WeeklyProgress
+import com.cairosquad.evolvefit.domain.model.WeeklyProgress
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate

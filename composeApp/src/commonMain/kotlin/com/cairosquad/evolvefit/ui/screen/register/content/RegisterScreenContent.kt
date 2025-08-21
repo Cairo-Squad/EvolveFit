@@ -54,7 +54,7 @@ fun RegisterScreenContent(
             modifier = Modifier.padding(horizontal = 16.dp),
             currentStep = state.currentStep,
             totalSteps = RegisterViewModel.MAX_STEPS,
-            onClickLeadingIcon = listener::onClickBack,
+            onClickLeadingIcon = listener::onBackClicked,
         )
         HorizontalPager(
             modifier = Modifier
@@ -86,9 +86,9 @@ fun RegisterScreenContent(
                     stringResource(Res.string.next),
             onClick = {
                 if (state.currentStep == 8) {
-                    listener.onClickStartNow()
+                    listener.onStartNowClicked()
                 } else {
-                    listener.onClickNext()
+                    listener.onNextClicked()
                 }
             },
             isEnabled = state.isNextButtonEnabled

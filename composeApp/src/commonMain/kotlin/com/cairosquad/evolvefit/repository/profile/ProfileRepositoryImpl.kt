@@ -3,7 +3,7 @@ package com.cairosquad.evolvefit.repository.profile
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.repository.ProfileRepository
 import com.cairosquad.evolvefit.repository.execption.callDataSource
-import com.cairosquad.evolvefit.repository.profile.dto.toProfilePostDto
+import com.cairosquad.evolvefit.repository.profile.remote.toProfilePostDto
 import com.cairosquad.evolvefit.repository.profile.remote.RemoteProfileDataSource
 
 class ProfileRepositoryImpl(

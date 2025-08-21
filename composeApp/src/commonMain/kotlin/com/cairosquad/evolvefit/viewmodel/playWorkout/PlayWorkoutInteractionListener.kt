@@ -1,18 +1,19 @@
 package com.cairosquad.evolvefit.viewmodel.playWorkout
 
 interface PlayWorkoutInteractionListener {
-    fun onClickCancelWorkout()
+    fun onCancelWorkoutClicked()
     fun onGetReadyCounterFinish()
-    fun onClickStart()
-    fun onClickExerciseInfo(id: String)
-    fun onClickRestFinish()
+    fun onStartClicked()
+    fun onExerciseInfoClicked(id: String)
+    fun onRestFinishClicked()
     fun onFinishExercise()
-    fun onClickForward()
-    fun onClickBack()
-    fun onClickSkipRest()
-    fun onClickNextToAnotherWorkout()
-    fun onClickFinish()
-    fun onClinkStayInWorkout()
-    fun onClinkEnd()
+    fun onForwardClicked()
+    fun onBackClicked()
+    fun onSkipRestClicked()
+    fun onNextToAnotherWorkoutClicked()
+    fun onFinishClicked()
+    fun onStayInWorkoutClinked()
+    fun onEndClinked()
     fun onDismissExerciseInfo()
+
 }

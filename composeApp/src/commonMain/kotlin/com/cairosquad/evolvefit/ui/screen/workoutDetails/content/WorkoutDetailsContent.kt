@@ -106,7 +106,7 @@ fun WorkoutDetailsContent(
                     icon = painterResource(Res.drawable.ic_back),
                     contentDescription = stringResource(Res.string.back),
                     tint = iconTint,
-                    onClick = listener::onClickBack
+                    onClick = listener::onBackClicked
                 )
             },
             tail = {
@@ -115,13 +115,13 @@ fun WorkoutDetailsContent(
                     else painterResource(Res.drawable.ic_bookmark),
                     contentDescription = stringResource(Res.string.bookmark),
                     tint = iconTint,
-                    onClick = { listener.onClickAddToFavorite(state.workout.workoutID) }
+                    onClick = { listener.onAddToFavoriteClicked(state.workout.workoutID) }
                 )
                 ActionIconButton(
                     icon = painterResource(Res.drawable.ic_share),
                     contentDescription = stringResource(Res.string.share),
                     tint = iconTint,
-                    onClick = listener::onClickShare
+                    onClick = listener::onShareClicked
                 )
             }
         )
@@ -172,7 +172,7 @@ fun WorkoutDetailsContent(
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth(),
                     exercises = state.workout.exercises,
-                    onExerciseClick = { listener.onClickExercise(it) }
+                    onExerciseClick = { listener.onExerciseClicked(it) }
                 )
             }
         }
@@ -194,11 +194,11 @@ fun WorkoutDetailsContent(
         ShareBottomSheetContent(
             onShareOptionClick = { platform ->
                 val workoutUrl = "https://evolvefit.com/workouts/${state.workout.workoutID}"
-                shareToPlatform(platform, workoutUrl, onDismiss = listener::onClickShare)
+                shareToPlatform(platform, workoutUrl, onDismiss = listener::onShareClicked)
             },
             onCopyLinkClick = {},
             onShareWithCommunityClick = {
-                listener.onClickShareWithCommunity(state.workout.workoutID)
+                listener.onShareWithCommunityClicked(state.workout.workoutID)
             }
         )
     }
@@ -217,7 +217,7 @@ fun WorkoutDetailsContent(
             .padding(horizontal = 16.dp)
             .padding(bottom = 24.dp),
         text = stringResource(Res.string.start_workout),
-        onClick = { listener.onClickStartWorkout(state.workout.workoutID) },
+        onClick = { listener.onStartWorkoutClicked(state.workout.workoutID) },
         isEnabled = true
     )
 }
@@ -231,81 +231,5 @@ private fun shareToPlatform(platform: String, workoutUrl: String, onDismiss: () 
         "Instagram" -> Share.shareOnInstagram(workoutUrl) { onDismiss }
         "Facebook" -> Share.shareOnFacebook(workoutUrl) { onDismiss }
         "X" -> Share.shareOnX(workoutUrl) { onDismiss }
-    }
-}
-
-@Preview
-@Composable
-fun WorkoutDetailsPreview() {
-    val dummyState = WorkoutDetailsScreenState(
-        isLoading = false,
-        workout = WorkoutDetailsScreenState.Workout(
-            workoutID = "1",
-            workoutImage = "https://phxgymwitham.co.uk/wp-content/uploads/2024/05/Upper-body-gym-workout-1024x681.jpg",
-            workoutTitle = "Full Body Workout",
-            workoutDescription = "A complete workout targeting all major muscle groups.",
-            level = WorkoutDetailsScreenState.WorkoutLevel.INTERMEDIATE,
-            estimatedTimeInSeconds = 1800,
-            exercises = listOf(
-                WorkoutDetailsScreenState.ExerciseUiState(
-                    name = "Push Ups",
-                    instructions = listOf(
-                        "Place your hands on the floor.",
-                        "Lower your body until your chest nearly touches the floor.",
-                        "Push yourself back up."
-                    ),
-                    images = listOf(
-                        "https://res.cloudinary.com/dqd5lvkpz/image/upload/v1755011701/evolveFit/images/exercises/747060f3-dca1-46dd-816e-e308eb57eb17-1755011700.png",
-                        "https://res.cloudinary.com/dqd5lvkpz/image/upload/v1755011701/evolveFit/images/exercises/747060f3-dca1-46dd-816e-e308eb57eb17-1755011700.png"
-                    ),
-                    type = WorkoutDetailsScreenState.ExerciseType.Reps(15),
-                    equipment = "Bodyweight",
-                    focusAreas = listOf(
-                        WorkoutDetailsScreenState.FocusArea.CORE,
-                        WorkoutDetailsScreenState.FocusArea.SHOULDERS
-                    )
-                ),
-                WorkoutDetailsScreenState.ExerciseUiState(
-                    name = "Plank",
-                    instructions = listOf(
-                        "Place your forearms on the ground.",
-                        "Keep your body straight.",
-                        "Hold this position."
-                    ),
-                    images = listOf(
-                        "https://res.cloudinary.com/dqd5lvkpz/image/upload/v1755011701/evolveFit/images/exercises/747060f3-dca1-46dd-816e-e308eb57eb17-1755011700.png",
-                        "https://res.cloudinary.com/dqd5lvkpz/image/upload/v1755011701/evolveFit/images/exercises/747060f3-dca1-46dd-816e-e308eb57eb17-1755011700.png"
-                    ),
-                    type = WorkoutDetailsScreenState.ExerciseType.Duration(60),
-                    equipment = "Bodyweight",
-                    focusAreas = listOf(
-                        WorkoutDetailsScreenState.FocusArea.ABS,
-                        WorkoutDetailsScreenState.FocusArea.CORE
-                    )
-                )
-            )
-        ),
-        isShareClicked = false,
-        isFavorite = true
-    )
-
-    val dummyListener = object : WorkoutDetailsInteractionListener {
-        override fun onClickBack() {}
-        override fun onClickAddToFavorite(workoutId: String) {}
-        override fun onClickShare() {}
-        override fun onClickExercise(exercise: WorkoutDetailsScreenState.ExerciseUiState) {}
-        override fun onExerciseBottomSheetDismiss() {}
-        override fun onShareBottomSheetDismiss() {}
-
-        override fun onClickStartWorkout(workoutId: String) {}
-        override fun onClickShareWithCommunity(workoutId: String) {}
-        override fun onClickCopyLink(workoutId: String) {}
-    }
-
-    AppTheme {
-        WorkoutDetailsContent(
-            state = dummyState,
-            listener = dummyListener
-        )
     }
 }

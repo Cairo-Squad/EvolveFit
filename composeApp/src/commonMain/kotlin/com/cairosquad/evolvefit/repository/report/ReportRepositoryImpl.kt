@@ -2,9 +2,9 @@ package com.cairosquad.evolvefit.repository.report
 
 import com.cairosquad.evolvefit.domain.entity.Report
 import com.cairosquad.evolvefit.domain.repository.ReportRepository
-import com.cairosquad.evolvefit.repository.report.dto.NutritionReportDto
-import com.cairosquad.evolvefit.repository.report.dto.WorkoutReportDto
-import com.cairosquad.evolvefit.repository.report.dto.reportDtoToReport
+import com.cairosquad.evolvefit.repository.report.remote.dto.NutritionReportDto
+import com.cairosquad.evolvefit.repository.report.remote.dto.WorkoutReportDto
+import com.cairosquad.evolvefit.repository.report.remote.reportDtoToReport
 import com.cairosquad.evolvefit.repository.report.remote.ReportRemoteDataSource
 
 class ReportRepositoryImpl(
