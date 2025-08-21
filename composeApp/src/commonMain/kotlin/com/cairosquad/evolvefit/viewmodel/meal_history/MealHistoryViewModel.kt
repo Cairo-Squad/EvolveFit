@@ -26,97 +26,12 @@ class MealHistoryViewModel(
         sendEffect(MealHistoryEffect.NavigateBack)
     }
 
-//    private fun loadMealsHistory() {
-//        val fakeData = listOf(
-//            MealHistoryScreenState.DayGroupedMealsUiState(
-//                dayHeader = "Today's",
-//                date = "2025-08-14",
-//                meals = listOf(
-//                    MealHistoryScreenState.MealHistoryUiState(
-//                        name = "Oatmeal with Fruits",
-//                        type = MealHistoryScreenState.MealType.Breakfast,
-//                        calories = 320,
-//                        date = "2025-08-14T07:30"
-//                    ),
-//                    MealHistoryScreenState.MealHistoryUiState(
-//                        name = "Quinoa Bowl",
-//                        type = MealHistoryScreenState.MealType.Lunch,
-//                        calories = 450,
-//                        date = "2025-08-14T12:15"
-//                    ),
-//                    MealHistoryScreenState.MealHistoryUiState(
-//                        name = "Greek Yogurt & Berries",
-//                        type = MealHistoryScreenState.MealType.Snacks,
-//                        calories = 180,
-//                        date = "2025-08-14T15:45"
-//                    ),
-//                    MealHistoryScreenState.MealHistoryUiState(
-//                        name = "Berry Smoothie Bowl",
-//                        type = MealHistoryScreenState.MealType.Dinner,
-//                        calories = 360,
-//                        date = "2025-08-14T19:30"
-//                    )
-//                )
-//            ),
-//            MealHistoryScreenState.DayGroupedMealsUiState(
-//                dayHeader = "Yesterday",
-//                date = "2025-08-13",
-//                meals = listOf(
-//                    MealHistoryScreenState.MealHistoryUiState(
-//                        name = "Oatmeal with Fruits",
-//                        type = MealHistoryScreenState.MealType.Breakfast,
-//                        calories = 320,
-//                        date = "2025-08-13T07:30"
-//                    ),
-//                    MealHistoryScreenState.MealHistoryUiState(
-//                        name = "Quinoa Bowl",
-//                        type = MealHistoryScreenState.MealType.Lunch,
-//                        calories = 450,
-//                        date = "2025-08-13T12:15"
-//                    ),
-//                    MealHistoryScreenState.MealHistoryUiState(
-//                        name = "Greek Yogurt & Berries",
-//                        type = MealHistoryScreenState.MealType.Snacks,
-//                        calories = 180,
-//                        date = "2025-08-13T15:45"
-//                    ),
-//                    MealHistoryScreenState.MealHistoryUiState(
-//                        name = "Berry Smoothie Bowl",
-//                        type = MealHistoryScreenState.MealType.Dinner,
-//                        calories = 360,
-//                        date = "2025-08-13T19:30"
-//                    )
-//                )
-//            ),
-//            MealHistoryScreenState.DayGroupedMealsUiState(
-//                dayHeader = "Thursday",
-//                date = "2025-08-12",
-//                meals = listOf(
-//                    MealHistoryScreenState.MealHistoryUiState(
-//                        name = "Oatmeal with Fruits",
-//                        type = MealHistoryScreenState.MealType.Breakfast,
-//                        calories = 320,
-//                        date = "2025-08-12T07:30"
-//                    )
-//                )
-//            )
-//        )
-//
-//        updateState {
-//            it.copy(
-//                mealsHistories = fakeData,
-//                screenStatus = MealHistoryScreenState.ScreenStatus.SUCCESS,
-//                errorMessage = null
-//            )
-//        }
-//    }
 
 
      fun loadMealsHistory() {
         tryToCall(
             block = {
                 val meals = manageMealHistoryUseCase.getMealHistory()
-                print("retro ${meals.size}")
                     return@tryToCall meals},
             onStart = { setScreenStatus(MealHistoryScreenState.ScreenStatus.LOADING) },
             onSuccess = ::onLoadMealsHistorySuccess,
@@ -142,7 +57,6 @@ class MealHistoryViewModel(
     private fun groupMealsByDay(
         meals: List<MealHistoryScreenState.MealHistoryUiState>
     ): List<MealHistoryScreenState.DayGroupedMealsUiState> {
-        print("sayed $meals")
         return meals
             .groupBy { LocalDateTime.parse(it.date).date } // <- extract date only
             .map { (date, mealsList) ->
@@ -183,7 +97,6 @@ class MealHistoryViewModel(
     }
 
     private fun onLoadMealsHistoryError(e: Throwable) {
-        println("sayed $e")
         updateState { current ->
             current.copy(
                 errorMessage = e.message,
