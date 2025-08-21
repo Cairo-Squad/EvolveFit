@@ -24,6 +24,7 @@ import com.cairosquad.evolvefit.ui.screen.mealDetails.components.IngredientsList
 import com.cairosquad.evolvefit.ui.screen.mealDetails.components.MealDescription
 import com.cairosquad.evolvefit.ui.screen.mealDetails.components.MealDetailsAppBar
 import com.cairosquad.evolvefit.ui.screen.mealDetails.components.NutritionalInfo
+import com.cairosquad.evolvefit.ui.screen.mealDetails.components.SaveMealSuccessSnackBar
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.meal_details.MealDetailsEffect
 import com.cairosquad.evolvefit.viewmodel.meal_details.MealDetailsInteractionListener
@@ -80,6 +81,7 @@ private fun MealDetailsScreenContent(
 
             )
             MealDetailsAppBar(
+                state =state,
                 onBackClick = { listener.onBackClicked() },
                 onBookmarkClick = { listener.onSaveMealClicked(mealId) }
             )
@@ -113,6 +115,18 @@ private fun MealDetailsScreenContent(
                     ingredients = state.mealDetails.ingredients
                 )
             }
+        }
+    }
+    if (state.showSaveMealSuccessSnackBar) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            SaveMealSuccessSnackBar(
+                isVisible = state.showSaveMealSuccessSnackBar
+            )
         }
     }
 }
