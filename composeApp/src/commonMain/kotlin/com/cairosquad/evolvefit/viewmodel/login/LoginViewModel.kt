@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.login
 
+import com.cairosquad.evolvefit.domain.exception.InternetConnectionException
 import com.cairosquad.evolvefit.domain.exception.InvalidEmailFormatException
 import com.cairosquad.evolvefit.domain.exception.InvalidPasswordException
 import com.cairosquad.evolvefit.domain.exception.NetworkException
@@ -87,10 +88,20 @@ class LoginViewModel(
         updateState { it.copy(isLoading = false) }
 
         when (error) {
-            is NetworkException -> showError(Res.string.error_no_internet)
+            is NetworkException -> {
+                setErrorState(
+                    passwordError = Res.string.error_unknown_credentials,
+                    isFormError = true                )
+            }
+
+            is InternetConnectionException -> {
+                setErrorState(
+                    passwordError = Res.string.error_no_internet,
+                    isFormError = true                )
+            }
 
             is UnknownException -> setErrorState(
-                emailError = null,
+                isFormError = true,
                 passwordError = Res.string.error_unknown_credentials
             )
 
@@ -106,7 +117,7 @@ class LoginViewModel(
                 val unexpectedError = Res.string.error_unexpected
                 showError(unexpectedError)
                 setErrorState(
-                    emailError = unexpectedError,
+                    isFormError = true,
                     passwordError = unexpectedError
                 )
             }
@@ -120,12 +131,14 @@ class LoginViewModel(
 
     private fun setErrorState(
         emailError: StringResource? = null,
-        passwordError: StringResource? = null
+        passwordError: StringResource? = null,
+        isFormError: Boolean = false
     ) {
         updateState {
             val updated = it.copy(
                 emailError = emailError,
-                passwordError = passwordError
+                passwordError = passwordError,
+                isFormError = isFormError
             )
             updated.copy(canSubmit = isSubmitAllowed(updated))
         }

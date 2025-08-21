@@ -10,6 +10,7 @@ import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealRequestDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.DailyCalorieSummaryDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.DailyWaterSummaryDto
+import com.cairosquad.evolvefit.repository.nutrition.dto.FavouriteMealDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.MealDto
 import com.cairosquad.evolvefit.repository.nutrition.dto.SuggestedMealDto
 
@@ -30,6 +31,15 @@ fun ConsumedMeal.toDto(): ConsumedMealRequestDto {
     )
 }
 fun SuggestedMealDto.toDomain(): SuggestedMeal {
+    return SuggestedMeal(
+        id = id,
+        name = name,
+        type =type,
+        calories = calories,
+        imageUrl = imageUrl
+    )
+}
+fun FavouriteMealDto.toDomain(): SuggestedMeal {
     return SuggestedMeal(
         id = id,
         name = name,

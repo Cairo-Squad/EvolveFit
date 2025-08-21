@@ -21,7 +21,8 @@ data class Surfaces(
     val onSurfaceAt1: Color,
     val onSurfaceAt2: Color,
     val onSurfaceAt3: Color,
-    val onSurfaceAt4: Color
+    val onSurfaceAt4: Color,
+    val dropShadowLight: Color
 )
 data class Brand(
     val primary: Color,
@@ -38,5 +39,8 @@ data class System(
 
 data class Gradiant(
     val barGradiant: List<Color>,
-    val shimmerGradientColors: List<Color>
+    val iconGradiant:List<Color>,
+    val shimmerGradientColors: List<Color>,
+    val loadingGradientColors: List<Color>,
+
 )

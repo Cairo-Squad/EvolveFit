@@ -1,22 +1,25 @@
 package com.cairosquad.evolvefit.di
 
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutViewModel
-import com.cairosquad.evolvefit.viewmodel.home.HomeViewModel
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkoutViewModel
 import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileViewModel
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseViewModel
 import com.cairosquad.evolvefit.viewmodel.favorites.FavoritesViewModel
+import com.cairosquad.evolvefit.viewmodel.home.HomeViewModel
 import com.cairosquad.evolvefit.viewmodel.login.LoginViewModel
+import com.cairosquad.evolvefit.viewmodel.meal_details.MealDetailsViewModel
+import com.cairosquad.evolvefit.viewmodel.meal_history.MealHistoryViewModel
+import com.cairosquad.evolvefit.viewmodel.more.MoreViewModel
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.OnBoardingViewModel
 import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutViewModel
-import com.cairosquad.evolvefit.viewmodel.more.MoreViewModel
 import com.cairosquad.evolvefit.viewmodel.register.RegisterViewModel
 import com.cairosquad.evolvefit.viewmodel.report.ReportViewModel
-import com.cairosquad.evolvefit.viewmodel.workout.WorkoutViewModel
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsViewModel
-import org.koin.core.module.dsl.viewModel
+import com.cairosquad.evolvefit.viewmodel.workout.WorkoutViewModel
 import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsViewModel
+import com.cairosquad.evolvefit.viewmodel.workoutHistory.WorkoutHistoryViewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -33,6 +36,11 @@ val viewModelModule = module {
     viewModelOf(::ReportViewModel)
     viewModelOf(::EditProfileViewModel)
     viewModelOf(::MoreViewModel)
+    viewModelOf(::SuggestedMealsViewModel)
+    viewModelOf(::FavoritesViewModel)
+    viewModelOf(::MoreViewModel)
+    viewModelOf(::WorkoutHistoryViewModel)
+    viewModelOf(::MealDetailsViewModel)
 
     viewModel { (workoutId: String) ->
         PlayWorkoutViewModel(workoutId, manageWorkoutUseCase = get())
@@ -42,5 +50,5 @@ val viewModelModule = module {
     }
 
     viewModelOf(::SuggestedMealsViewModel)
-    viewModelOf(::FavoritesViewModel)
+    viewModelOf(::MealHistoryViewModel)
 }

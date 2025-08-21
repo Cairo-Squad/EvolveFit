@@ -1,6 +1,7 @@
 <resources>
     <string name="dashboard">Dashboard</string>
     <string name="nutrition">Nutrition</string>
+    <string name="ingredients">Ingredients</string>
     <string name="workouts">Workouts</string>
     <string name="reports">Reports</string>
     <string name="more">More</string>
@@ -184,6 +185,10 @@
     <string name="bullet_point">•  %1$s</string>
     <string name="previous">Previous</string>
     <string name="bookmark">Bookmark</string>
+    <string name="calories_format">Calories: %1$d Kcal</string>
+    <string name="carbs_format">Carbs: %1$d g</string>
+    <string name="protein_format">Protein: %1$d g</string>
+    <string name="fat_format">Fat: %1$d g</string>
     <string name="create_exercise_title">Create Exercise</string>
     <string name="create_exercise_description">Add a new exercise to personalize your workout and stay on track.</string>
     <string name="back">Back</string>
@@ -210,7 +215,7 @@
 
     <string name="error_no_internet">There is no internet connection.</string>
     <string name="error_unknown_credentials">Email or password you entered are incorrect.</string>
-    <string name="error_invalid_email_format">Invalid email format.</string>
+    <string name="error_invalid_email_format">Invalid email format. valid format is: example@domain.com.</string>
     <string name="error_invalid_password">Password must be at least 8 characters.</string>
     <string name="error_unexpected">An unexpected error occurred.</string>
     <string name="liters1">Litres</string>
@@ -220,6 +225,7 @@
     <string name="liters_small">liters</string>
     <string name="remaining_formatted">%1$s %2$s remaining</string>
     <string name="today_nutrition">Today’s Nutrition</string>
+    <string name="just_for_you">Just For You</string>
 
     <string name="profile_picture">Profile Picture</string>
     <string name="hello_user">Hello %1$s</string>
@@ -307,6 +313,7 @@
     <string name="failed_to_load_user_workout_days">Failed to load user workout days</string>
     <string name="failed_to_load_equipments">Failed to load equipments</string>
     <string name="failed_to_load_user_profile">Failed to load user profile</string>
+    <string name="failed_to_update_user_profile_image">Failed to update user profile image</string>
     <string name="failed_to_load_user_equipments">Failed to load user equipments</string>
     <string name="language_description">This language will be used throughout the app.</string>
     <string name="logo">logo</string>
@@ -326,4 +333,25 @@
     <string name="icon_description">%1$s icon</string>
     <string name="profile_image">Profile Image</string>
     <string name="arrow_icon">icon</string>
+
+    <string name="monday_short">Mon</string>
+    <string name="tuesday_short">Tue</string>
+    <string name="wednesday_short">Wed</string>
+    <string name="thursday_short">Thu</string>
+    <string name="friday_short">Fri</string>
+    <string name="saturday_short">Sat</string>
+    <string name="sunday_short">Sun</string>
+
+    <string name="back_muscle">Back</string>
+    <string name="legs">Legs</string>
+    <string name="shoulders">Shoulders</string>
+    <string name="arms">Arms</string>
+    <string name="core">Core</string>
+    <string name="chest">Chest</string>
+    <string name="last_week">Last Week</string>
+    <string name="workout_history">Workout History</string>
+
+    <string name="undo">Undo</string>
+    <string name="save_icon">save icon</string>
+    <string name="remove_from_favorites">Remove from favorites?</string>
 </resources>

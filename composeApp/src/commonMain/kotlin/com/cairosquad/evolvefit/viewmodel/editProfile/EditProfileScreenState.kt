@@ -1,5 +1,11 @@
 package com.cairosquad.evolvefit.viewmodel.editProfile
 
+import com.cairosquad.evolvefit.domain.entity.Equipment
+import com.cairosquad.evolvefit.domain.entity.Profile
+import com.cairosquad.evolvefit.domain.entity.Profile.Gender
+import com.cairosquad.evolvefit.domain.model.Language
+import com.cairosquad.evolvefit.domain.model.MeasurementStandard
+import com.cairosquad.evolvefit.domain.model.WeekDay
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.StringResource
 
@@ -7,9 +13,7 @@ data class EditProfileScreenState(
     val profile: ProfileUiState = ProfileUiState(),
     val bottomSheetType: EditProfileBottomSheetType? = null,
     val errorMessage: StringResource? = null,
-    val userEquipments: Set<EquipmentUiState> = emptySet(),
     val allEquipments: Set<EquipmentUiState> = emptySet(),
-    val userWorkoutsDays: Set<WeekDayUiState> = emptySet(),
     val isImagePickerOpened : Boolean = false
 
 ) {
@@ -17,13 +21,19 @@ data class EditProfileScreenState(
         val fullName: String = "",
         val email: String = "",
         val dateOfBirth: LocalDate? = null,
-        val gender: String = "",
+        val gender:Gender= Gender.FEMALE,
         val height: Float = 0f,
         val weight: Float = 0f,
-        val mainGoal: String = "",
+        val mainGoal: Profile.FitnessGoal = Profile.FitnessGoal.GAIN_WEIGHT,
         val imageUrl: String="",
-        val preferredMeasurementStandard: String ="",
+        val preferredMeasurementStandard: MeasurementStandard=MeasurementStandard.METRIC,
+        val preferredLanguage : Language= Language.ENGLISH,
+        val equipments: Set<EquipmentUiState> = emptySet(),
+        val workoutDays: Set<WeekDayUiState> = emptySet(),
     )
+
+
+
     enum class EditProfileBottomSheetType {
         WORKOUTS_DAYS,
         EQUIPMENT,
@@ -47,9 +57,6 @@ data class EditProfileScreenState(
         SATURDAY,
         SUNDAY
     }
-    enum class MeasurementStandard {
-        Metric,
-        Imperial
-    }
+
 
 }

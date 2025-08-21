@@ -1,10 +1,13 @@
 package com.cairosquad.evolvefit.viewmodel.editProfile
 
+import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
+import com.cairosquad.evolvefit.domain.entity.Profile
+import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import kotlinx.datetime.LocalDate
 
 interface EditProfileInteractionListener {
     fun onBackClicked()
-    fun onSaveChangesClicked()
+    fun onSaveChangesClicked(profile: EditProfileScreenState.ProfileUiState)
     fun onDateOfBirthClicked()
     fun onGenderClicked()
     fun onHeightClicked()
@@ -18,12 +21,13 @@ interface EditProfileInteractionListener {
     fun onImageUrlClicked()
     fun onFullNameChanged(fullName: String)
     fun onDateOfBirthChanged(dateOfBirth: LocalDate)
-    fun onGenderChanged(gender: String)
+    fun onGenderChanged(gender: Profile.Gender)
     fun onHeightChanged(height: Float)
     fun onWeightChanged(weight: Float)
-    fun onMainGoalChanged(mainGoal: String)
-    fun onPreferredMeasurementStandardChanged(measurementStandard: String)
+    fun onMainGoalChanged(mainGoal: Profile.FitnessGoal)
+    fun onPreferredMeasurementStandardChanged(measurementStandard: MeasurementStandard)
     fun onImageUrlChanged(imageUrl: String)
+    fun onImageRetrieved(image: UiImage)
     fun onBottomSheetDismissed()
     fun onImagePickerDismissed()
 

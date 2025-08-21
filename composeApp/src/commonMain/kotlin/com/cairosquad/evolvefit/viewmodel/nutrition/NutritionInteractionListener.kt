@@ -18,4 +18,5 @@ interface NutritionInteractionListener {
     fun onDroppedMenuClick()
     fun onSnackBarHided()
     fun onRetryClicked()
+    fun onRefresh()
 }

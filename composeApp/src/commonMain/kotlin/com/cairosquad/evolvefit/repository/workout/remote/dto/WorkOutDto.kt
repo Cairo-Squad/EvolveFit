@@ -45,4 +45,17 @@ data class WorkoutDto(
     @SerialName("focusArea")
     val focusArea: List<FocusArea>
 )
+@Serializable
+data class FavoritesWorkoutDto(
+    @SerialName("workoutId")
+    val id: String,
+    @SerialName("name")
+    val name: String,
+    @SerialName("durationSeconds")
+    val durationSeconds: Int,
+    @SerialName("imageUrl")
+    val imageUrl: String,
+    @SerialName("focusArea")
+    val focusArea: List<FocusArea>
+)
 

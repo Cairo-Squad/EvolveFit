@@ -7,6 +7,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.cairosquad.evolvefit.ui.navigation.WorkoutDetailsRoute
+import com.cairosquad.evolvefit.ui.util.LanguageManager
+import org.koin.android.ext.android.get
 
 class MainActivity : ComponentActivity() {
     private var deepLinkRoute: Any? = null
@@ -21,6 +23,7 @@ class MainActivity : ComponentActivity() {
         instance = this
         installSplashScreen()
         enableEdgeToEdge()
+        get<LanguageManager>().applyStoredLanguage()
         deepLinkRoute = getDeepLinkRoute(intent)
         setContent {
             App(deepLinkRoute)

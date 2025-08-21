@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -80,9 +81,9 @@ fun InputField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onClick: (() -> Unit)? = null,
     verticalPadding : Dp =20.dp,
-    horizentalPadding : Dp =12.dp
-
-) {
+    horizentalPadding : Dp =12.dp,
+    isError: Boolean = false,
+    ) {
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
     }
@@ -108,9 +109,10 @@ fun InputField(
     ) {
         BasicTextField(
             modifier = Modifier
+                .heightIn(min = minHeight)
                 .border(
                     width = 1.dp,
-                    color = if (error.isNotBlank()) Theme.color.system.error else Color.Transparent,
+                    color = if (isError) Theme.color.system.error else Color.Transparent,
                     shape = RoundedCornerShape(8.dp)
                 )
                 .clip(RoundedCornerShape(8.dp))

@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.repository.workout
 
 import com.cairosquad.evolvefit.domain.entity.Workout
+import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
@@ -14,36 +15,60 @@ class WorkoutRepositoryImpl(
 ) : WorkoutRepository {
 
     override suspend fun getWorkoutById(id: String): Workout {
-        return workoutRemoteDataSource.getWorkoutDetails(id).toDomain()
+        return callDataSource {
+            workoutRemoteDataSource.getWorkoutDetails(id).toDomain()
+        }
     }
 
     override suspend fun getSuggestedWorkouts(): List<WorkoutSuggested> {
-        val result = workoutRemoteDataSource.getSuggestedWorkouts().map { it.toDomain() }
-        return result
+        return callDataSource {
+            workoutRemoteDataSource.getSuggestedWorkouts().map { it.toDomain() }
+        }
     }
-
 
     override suspend fun getCommunityWorkouts(): List<WorkoutSuggested> {
-        return workoutRemoteDataSource.getCommunityWorkouts().map { it.toDomain() }
+        return callDataSource {
+            workoutRemoteDataSource.getCommunityWorkouts().map { it.toDomain() }
+        }
     }
 
-    override suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<Workout> {
-        TODO("Not yet implemented")
+    override suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested> {
+        return callDataSource {
+            workoutRemoteDataSource.getCommunityWorkoutsByFocusArea(focusArea).map { it.toDomain() }
+        }
     }
 
-    override suspend fun getFavoriteWorkouts(): List<WorkoutSuggested> =
-        callDataSource { workoutRemoteDataSource.getFavoriteWorkout().map { it.toDomain() } }
-
+    override suspend fun getFavoriteWorkouts(): List<WorkoutSuggested> {
+        return callDataSource {
+            workoutRemoteDataSource.getFavoriteWorkout().map { it.toDomain() }
+        }
+    }
 
     override suspend fun createWorkout(workout: Workout) {
-        workoutRemoteDataSource.createWorkout(workout.toCreateRequest())
+        callDataSource {
+            workoutRemoteDataSource.createWorkout(workout.toCreateRequest())
+        }
     }
 
     override suspend fun addWorkoutToFavorites(workoutId: String) {
-        TODO("Not yet implemented")
+        callDataSource {
+            workoutRemoteDataSource.addFavoriteWorkout(workoutId)
+        }
+    }
+
+    override suspend fun deleteFavoriteWorkout(workoutId: String) {
+        callDataSource {
+            workoutRemoteDataSource.deleteFavoriteWorkout(workoutId)
+        }
     }
 
     override suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested> {
-        return workoutRemoteDataSource.getWorkoutsByFocusArea(focusArea).map { it.toDomain() }
+        return callDataSource {
+            workoutRemoteDataSource.getWorkoutsByFocusArea(focusArea).map { it.toDomain() }
+        }
+    }
+
+    override suspend fun getWorkoutHistory(): List<WorkoutHistory> {
+        return callDataSource { workoutRemoteDataSource.getWorkoutHistory().map { it.toDomain() } }
     }
 }

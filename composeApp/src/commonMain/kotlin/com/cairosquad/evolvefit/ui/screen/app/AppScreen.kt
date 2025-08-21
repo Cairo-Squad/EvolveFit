@@ -108,7 +108,6 @@ fun AppScreen(
                 4 -> MoreScreen(
                     navigateToFavorites = navigateToFavoritesScreen,
                     navigateToNotificationSettings = { },
-                    onLanguageChanged = {  },
                     onThemeChanged = {  },
                     onLogout = navigateToLogIn,
                     navigateToEditProfile = navigateToEditProfile

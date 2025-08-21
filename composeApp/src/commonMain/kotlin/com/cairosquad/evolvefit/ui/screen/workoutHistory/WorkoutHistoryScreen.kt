@@ -8,32 +8,65 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.screen.report.componant.cards.HistoryWorkoutItem
+import com.cairosquad.evolvefit.ui.component.RefreshBox
+import com.cairosquad.evolvefit.ui.screen.workoutHistory.content.workoutHistoryScreenLoadingContent
+import com.cairosquad.evolvefit.ui.screen.workoutHistory.content.workoutHistoryScreenSuccessContent
+import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
+import com.cairosquad.evolvefit.viewmodel.workoutHistory.WorkoutHistoryEffect
+import com.cairosquad.evolvefit.viewmodel.workoutHistory.WorkoutHistoryInteractionListener
+import com.cairosquad.evolvefit.viewmodel.workoutHistory.WorkoutHistoryScreenState
+import com.cairosquad.evolvefit.viewmodel.workoutHistory.WorkoutHistoryViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.workout_history
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun WorkoutHistoryScreen(
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    viewModel: WorkoutHistoryViewModel = koinViewModel()
+) {
+
+    val state by viewModel.screenState.collectAsStateWithLifecycle()
+
+    ObserveAsEffect(viewModel.effect) { effect ->
+        when (effect) {
+            WorkoutHistoryEffect.NavigateBack -> {
+                navigateBack()
+            }
+        }
+    }
+
+    WorkoutHistoryContent(
+        state = state,
+        listener = viewModel
+    )
+}
+
+@Composable
+private fun WorkoutHistoryContent(
+    state: WorkoutHistoryScreenState,
+    listener: WorkoutHistoryInteractionListener
 ) {
     Column(
         modifier = Modifier
@@ -43,12 +76,12 @@ fun WorkoutHistoryScreen(
     ) {
         CustomAppBar(
             modifier = Modifier.padding(horizontal = 16.dp),
-            title = "Workout History",
+            title = stringResource(Res.string.workout_history),
             header = {
                 Box(
                     modifier = Modifier.size(40.dp)
                         .clip(CircleShape)
-                        .clickable(onClick = navigateBack)
+                        .clickable(onClick = listener::onBackClicked)
                         .padding(8.dp)
                 ) {
                     Image(
@@ -59,74 +92,29 @@ fun WorkoutHistoryScreen(
                 }
             }
         )
-        LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            contentPadding = PaddingValues(16.dp)
+        RefreshBox(
+            isRefreshing = state.isRefreshing,
+            onRefresh = listener::onRefresh
         ) {
-            stickyHeader {
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.Start)
-                        .fillMaxWidth()
-                        .background(Theme.color.surfaces.surface)
-                        .padding(vertical = 12.dp),
-                    text = "Today",
-                    style = Theme.textStyle.label.smallRegular14,
-                    color = Theme.color.surfaces.onSurfaceVariant
-                )
-            }
-            items(10) {
-                HistoryWorkoutItem(
-                    modifier = Modifier
-                        .then(
-                            if (it == 9) Modifier.padding(bottom = 16.dp) else Modifier.padding(
-                                bottom = 12.dp
-                            )
-                        )
-                        .background(
-                            color = Theme.color.surfaces.surfaceContainer,
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                        .padding(12.dp),
-                    workoutName = "Bodyweight Squats",
-                    workoutDate = "Today, 8:30 AM",
-                    workoutImage = "",
-                    exerciseCount = 15,
-                    duration = "45 Min",
-                    level = "Beginner"
-                )
-            }
-            stickyHeader {
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.Start)
-                        .fillMaxWidth()
-                        .background(Theme.color.surfaces.surface)
-                        .padding(vertical = 12.dp),
-                    text = "Yesterday",
-                    style = Theme.textStyle.label.smallRegular14,
-                    color = Theme.color.surfaces.onSurfaceVariant
-                )
-            }
-            items(10) {
-                HistoryWorkoutItem(
-                    modifier = Modifier
-                        .then(
-                            if (it == 9) Modifier.padding(bottom = 16.dp)
-                            else Modifier.padding(bottom = 12.dp)
-                        )
-                        .background(
-                            color = Theme.color.surfaces.surfaceContainer,
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                        .padding(12.dp),
-                    workoutName = "Bodyweight Squats",
-                    workoutDate = "Today, 8:30 AM",
-                    workoutImage = "",
-                    exerciseCount = 15,
-                    duration = "45 Min",
-                    level = "Beginner"
-                )
+            LazyColumn(
+                modifier = Modifier.navigationBarsPadding(),
+                horizontalAlignment = Alignment.Start,
+                contentPadding = PaddingValues(16.dp)
+            ) {
+
+                when (state.screenStatus) {
+                    WorkoutHistoryScreenState.ScreenStatus.LOADING -> {
+                        workoutHistoryScreenLoadingContent()
+                    }
+
+                    WorkoutHistoryScreenState.ScreenStatus.SUCCESS -> {
+                        workoutHistoryScreenSuccessContent(state)
+                    }
+
+                    WorkoutHistoryScreenState.ScreenStatus.ERROR -> {
+
+                    }
+                }
             }
         }
     }

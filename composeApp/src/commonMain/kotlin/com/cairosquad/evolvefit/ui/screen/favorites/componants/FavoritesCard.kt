@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.ui.screen.favorites.componants
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,7 +27,9 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_save_full
+import evolvefit.composeapp.generated.resources.save_icon
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -37,6 +40,7 @@ fun FavoritesCard(
     info: String,
     model: String,
     modifier: Modifier = Modifier,
+    onSaveIconClick: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
@@ -51,18 +55,26 @@ fun FavoritesCard(
             placeholderImageSize = DpSize(92.dp, 72.dp),
         )
         Box(
+            modifier = Modifier.fillMaxSize()
+                .background(Theme.color.surfaces.onSurfaceAt3)
+                .clip(RoundedCornerShape(8.dp))
+            ,
+        )
+        Box(
             modifier = Modifier
-                .padding( 12.dp)
+                .padding(12.dp)
                 .clip(CircleShape)
-                .align (Alignment.TopEnd)
+                .align(Alignment.TopEnd)
                 .background(Theme.color.surfaces.onSurfaceAt3),
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier.padding(10.dp)
+                    .clickable(onClick = onSaveIconClick)
+                ,
                 tint = Theme.color.surfaces.textColor,
                 painter = painterResource(Res.drawable.ic_save_full),
-                contentDescription = "Play Button"
+                contentDescription = stringResource(Res.string.save_icon)
             )
         }
         Row(
@@ -99,19 +111,19 @@ fun FavoritesCard(
                     Text(
                         subtitle,
                         style = Theme.textStyle.label.smallRegular12,
-                        color = Theme.color.surfaces.onSurfaceContainer
+                        color = Theme.color.surfaces.textColor
                     )
                     Box(
                         modifier = Modifier
                             .padding(horizontal = 8.dp)
                             .fillMaxHeight()
                             .width(1.dp)
-                            .background(Theme.color.surfaces.onSurfaceContainer)
+                            .background(Theme.color.surfaces.textColor)
                     )
                     Text(
                         info,
                         style = Theme.textStyle.label.smallRegular12,
-                        color = Theme.color.surfaces.onSurfaceContainer
+                        color = Theme.color.surfaces.textColor
                     )
                 }
             }
