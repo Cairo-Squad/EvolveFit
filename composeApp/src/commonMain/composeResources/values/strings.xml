@@ -45,6 +45,8 @@
     <string name="meal_type_lunch">Lunch</string>
     <string name="meal_type_dinner">Dinner</string>
     <string name="meal_type_snacks">Snacks</string>
+    <string name="meal_added_to_your_favourites">Meal added to your Favourites </string>
+    <string name="failed_to_add_meal_your_favourites">Failed to add meal to your Favourites </string>
     <string name="suggested_meals">Suggested Meals</string>
     <string name="shimmer_loading">Loading animation</string>
     <string name="todays_meals">Today's Meals</string>

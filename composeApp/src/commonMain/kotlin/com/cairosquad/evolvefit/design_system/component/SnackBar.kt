@@ -53,6 +53,7 @@ fun SnackBar(
     paddingBottom: Dp = 12.dp,
     isUndo: Boolean = false,
     icon: Painter = painterResource(Res.drawable.ic_green_check_circle),
+    iconTint : Color = Color.Unspecified,
     backgroundColor: Color = Theme.color.surfaces.surface,
     textColor: Color = Theme.color.surfaces.onSurface,
     textStyle: TextStyle = Theme.textStyle.label.mediumMedium14,
@@ -95,7 +96,7 @@ fun SnackBar(
                 modifier = Modifier.padding(end = 8.dp),
                 painter = icon,
                 contentDescription = null,
-                tint = Color.Unspecified
+                tint = iconTint
             )
             Text(
                 modifier = Modifier
