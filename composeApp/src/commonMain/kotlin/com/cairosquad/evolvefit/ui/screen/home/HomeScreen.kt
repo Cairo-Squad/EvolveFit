@@ -275,12 +275,16 @@ private fun HomeProgressBox(
                 progressDays = progress?.progressDays ?: emptyMap()
             )
 
-            StatsRow(
-                goal = progress?.goal ?: "",
-                currentWeight = progress?.currentWeight ?: 0f,
-                weightUnit = progress?.weightUnit ?: "",
-                activityPercentage = progress?.activityPercentage ?: 0.toUInt()
-            )
+            progress?.goal?.let {
+                progress?.weightUnit?.let { resource ->
+                    StatsRow(
+                        goal = stringResource(it),
+                        currentWeight = progress?.currentWeight ?: 0f,
+                        weightUnit = stringResource(resource),
+                        activityPercentage = progress?.activityPercentage ?: 0.toUInt()
+                    )
+                }
+            }
         }
     }
 }
@@ -410,13 +414,15 @@ private fun StatsRow(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        StatsSection(
-            iconRes = Res.drawable.ic_crown,
-            title = stringResource(Res.string.the_goal),
-            value = goal,
-            modifier = Modifier
-                .padding(end = 8.dp)
-        )
+        goal?.let {
+            StatsSection(
+                iconRes = Res.drawable.ic_crown,
+                title = stringResource(Res.string.the_goal),
+                value = it,
+                modifier = Modifier
+                    .padding(end = 8.dp)
+            )
+        }
 
         VerticalDivider(
             color = Theme.color.surfaces.outlineVariant,

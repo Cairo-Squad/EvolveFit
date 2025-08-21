@@ -354,4 +354,12 @@
     <string name="undo">Undo</string>
     <string name="save_icon">save icon</string>
     <string name="remove_from_favorites">Remove from favorites?</string>
+
+    <string name="weight_loss">Weight loss</string>
+    <string name="weight_gain">Weight gain</string>
+    <string name="stay_shape">Staying in shape</string>
+
+    <string name="kilogram">Kg</string>
+    <string name="pound">lbs</string>
+
 </resources>

@@ -2,14 +2,13 @@ package com.cairosquad.evolvefit.viewmodel.home
 
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.viewmodel.base.ErrorState
-import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
 import org.jetbrains.compose.resources.StringResource
 
 data class HomeScreenState(
     val isLoading: Boolean = false,
     val error: ErrorState? = null,
     val screenErrorMessage: StringResource? = null,
-    val isRefreshing :Boolean = false,
+    val isRefreshing: Boolean = false,
     val user: HomeUserUiState? = null,
     val screenStatus: ScreenStatus = ScreenStatus.LOADING,
     val weeklyProgress: WeeklyProgressUiState? = null,
@@ -26,9 +25,9 @@ data class HomeScreenState(
     )
 
     data class WeeklyProgressUiState(
-        val goal: String = "",
+        val goal: StringResource? = null,
         val currentWeight: Float = 0f,
-        val weightUnit: String = "",
+        val weightUnit: StringResource? = null,
         val activityPercentage: UInt = 0.toUInt(),
         val progressDays: Map<Int, Boolean> = emptyMap(),
     )
@@ -41,6 +40,7 @@ data class HomeScreenState(
         val type: String = "",
         val isSaved: Boolean = false,
     )
+
     enum class ScreenStatus {
         SUCCESS, LOADING, FAIL
     }
