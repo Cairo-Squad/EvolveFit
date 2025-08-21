@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,29 +13,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.cairosquad.evolvefit.ui.navigation.WorkoutDetailsRoute
-import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
-import androidx.core.content.edit
 import com.cairosquad.evolvefit.ui.util.changeLanguage
+import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 
 val LocalLocalization = staticCompositionLocalOf { "en" }
 val LocalTheme = staticCompositionLocalOf { MoreScreenState.Theme.LIGHT }
 
 class MainActivity : ComponentActivity() {
-    private lateinit var preferences: SharedPreferences
+    private val settingsManager = AppSettingsManager()
     private var deepLinkRoute: Any? = null
 
     companion object {
         lateinit var instance: MainActivity
             private set
-        private const val PREFS_NAME = "evolvefit_preferences"
-        private const val KEY_THEME = "theme"
-        private const val KEY_LANGUAGE = "language"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         instance = this
-        preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         installSplashScreen()
         enableEdgeToEdge()
         deepLinkRoute = getDeepLinkRoute(intent)
@@ -61,34 +55,26 @@ class MainActivity : ComponentActivity() {
                     onThemeChange = { newTheme ->
                         appTheme = newTheme
                         saveTheme(newTheme)
-                    }
+                    },
                 )
             }
         }
     }
 
-    private fun getSavedTheme(): MoreScreenState.Theme {
-        val themeName = preferences.getString(KEY_THEME, "LIGHT")
-        return when (themeName) {
-            "DARK" -> MoreScreenState.Theme.DARK
-            else -> MoreScreenState.Theme.LIGHT
-        }
+    fun getSavedTheme(): MoreScreenState.Theme {
+        return settingsManager.getSavedTheme()
     }
 
     private fun getSavedLanguage(): String {
-        return preferences.getString(KEY_LANGUAGE, "en") ?: "en"
+        return settingsManager.getSavedLanguage()
     }
 
     private fun saveTheme(theme: MoreScreenState.Theme) {
-        preferences.edit {
-            putString(KEY_THEME, theme.name)
-        }
+        settingsManager.saveTheme(theme)
     }
 
     private fun saveLanguage(language: String) {
-        preferences.edit {
-            putString(KEY_LANGUAGE, language)
-        }
+        settingsManager.saveLanguage(language)
     }
 }
 
