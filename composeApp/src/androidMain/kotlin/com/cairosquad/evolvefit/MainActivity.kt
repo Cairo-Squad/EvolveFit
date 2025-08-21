@@ -23,12 +23,6 @@ val LocalTheme = staticCompositionLocalOf { MoreScreenState.Theme.LIGHT }
 class MainActivity : ComponentActivity() {
     private val settingsManager = AppSettingsManager()
     private var deepLinkRoute: Any? = null
-
-    companion object {
-        lateinit var instance: MainActivity
-            private set
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         instance = this
@@ -77,6 +71,11 @@ class MainActivity : ComponentActivity() {
 
     private fun saveLanguage(language: String) {
         settingsManager.saveLanguage(language)
+    }
+
+    companion object {
+        lateinit var instance: MainActivity
+            private set
     }
 }
 
