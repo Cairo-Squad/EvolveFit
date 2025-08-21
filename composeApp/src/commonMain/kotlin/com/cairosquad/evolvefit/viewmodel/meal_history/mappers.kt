@@ -2,14 +2,15 @@ package com.cairosquad.evolvefit.viewmodel.meal_history
 
 import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
 import com.cairosquad.evolvefit.entity.nutrition.MealType
+import com.cairosquad.evolvefit.viewmodel.utils.formatIsoToTodayTime
 
 fun ConsumedMeal.toMealHistoryUiState(): MealHistoryScreenState.MealHistoryUiState {
     return MealHistoryScreenState.MealHistoryUiState(
         name = name,
         type = type.toMealHistoryType(),
         calories = calories,
-        date = dateTime
-
+        rawDate = dateTime,
+        date = formatIsoToTodayTime(dateTime)
     )
 }
 

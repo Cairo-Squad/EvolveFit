@@ -3,14 +3,9 @@ package com.cairosquad.evolvefit.viewmodel.meal_history
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
 import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
-import kotlinx.datetime.Clock
-import kotlinx.datetime.DatePeriod
+import com.cairosquad.evolvefit.viewmodel.utils.getDayHeader
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.Month
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.minus
-import kotlinx.datetime.todayIn
 
 
 class MealHistoryViewModel(
@@ -27,12 +22,12 @@ class MealHistoryViewModel(
     }
 
 
-
-     fun loadMealsHistory() {
+    fun loadMealsHistory() {
         tryToCall(
             block = {
                 val meals = manageMealHistoryUseCase.getMealHistory()
-                    return@tryToCall meals},
+                return@tryToCall meals
+            },
             onStart = { setScreenStatus(MealHistoryScreenState.ScreenStatus.LOADING) },
             onSuccess = ::onLoadMealsHistorySuccess,
             onError = ::onLoadMealsHistoryError
@@ -58,7 +53,7 @@ class MealHistoryViewModel(
         meals: List<MealHistoryScreenState.MealHistoryUiState>
     ): List<MealHistoryScreenState.DayGroupedMealsUiState> {
         return meals
-            .groupBy { LocalDateTime.parse(it.date).date } // <- extract date only
+            .groupBy { LocalDateTime.parse(it.rawDate).date }
             .map { (date, mealsList) ->
                 MealHistoryScreenState.DayGroupedMealsUiState(
                     dayHeader = getDayHeader(date),
@@ -67,33 +62,6 @@ class MealHistoryViewModel(
                 )
             }
             .sortedByDescending { LocalDate.parse(it.date) }
-    }
-
-    private fun getDayHeader(date: LocalDate): String {
-        val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
-        return when {
-            date == today -> "Today"
-            date == today.minus(DatePeriod(days = 1)) -> "Yesterday"
-            date > today.minus(DatePeriod(days = 7)) ->
-                date.dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }
-            else -> "${date.dayOfMonth} ${date.month.toAbbreviation()}"
-        }
-    }
-
-    private fun Month.toAbbreviation(): String = when (this) {
-        Month.JANUARY -> "Jan"
-        Month.FEBRUARY -> "Feb"
-        Month.MARCH -> "Mar"
-        Month.APRIL -> "Apr"
-        Month.MAY -> "May"
-        Month.JUNE -> "Jun"
-        Month.JULY -> "Jul"
-        Month.AUGUST -> "Aug"
-        Month.SEPTEMBER -> "Sep"
-        Month.OCTOBER -> "Oct"
-        Month.NOVEMBER -> "Nov"
-        Month.DECEMBER -> "Dec"
-        else -> "Unknown"
     }
 
     private fun onLoadMealsHistoryError(e: Throwable) {
