@@ -4,6 +4,7 @@ import com.cairosquad.evolvefit.domain.repository.HomeRepository
 import com.cairosquad.evolvefit.domain.usecase.home.model.WeeklyProgress
 import com.cairosquad.evolvefit.repository.execption.callDataSource
 import com.cairosquad.evolvefit.repository.home.data_source.remote.RemoteHomeDataSource
+import com.cairosquad.evolvefit.repository.utils.localDateToLocalDateTimeAtMidnight
 import kotlinx.datetime.LocalDate
 
 class HomeRepositoryImpl(
@@ -15,8 +16,8 @@ class HomeRepositoryImpl(
     ): WeeklyProgress {
         return callDataSource {
             remoteHomeDataSource.getWeeklyProgress(
-                startDate = startDate.toString(),
-                endDate = endDate.toString()
+                startDate = localDateToLocalDateTimeAtMidnight(startDate).toString(),
+                endDate = localDateToLocalDateTimeAtMidnight(endDate).toString()
             ).toEntity(
                 startDate = startDate,
                 endDate = endDate

@@ -185,7 +185,7 @@ private fun HomeContent(
         }
 
         HomeSection(
-            title =  stringResource(Res.string.just_for_you),
+            title = stringResource(Res.string.just_for_you),
             visibilityKey = state.personalizedWorkouts.isNotEmpty(),
             modifier = Modifier
                 .padding(bottom = 32.dp),
@@ -276,12 +276,12 @@ private fun HomeProgressBox(
             )
 
             progress?.goal?.let {
-                progress?.weightUnit?.let { resource ->
+                progress.weightUnit?.let { resource ->
                     StatsRow(
                         goal = stringResource(it),
-                        currentWeight = progress?.currentWeight ?: 0f,
+                        currentWeight = progress.currentWeight,
                         weightUnit = stringResource(resource),
-                        activityPercentage = progress?.activityPercentage ?: 0.toUInt()
+                        activityPercentage = progress.activityPercentage
                     )
                 }
             }
@@ -414,15 +414,13 @@ private fun StatsRow(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        goal?.let {
-            StatsSection(
-                iconRes = Res.drawable.ic_crown,
-                title = stringResource(Res.string.the_goal),
-                value = it,
-                modifier = Modifier
-                    .padding(end = 8.dp)
-            )
-        }
+        StatsSection(
+            iconRes = Res.drawable.ic_crown,
+            title = stringResource(Res.string.the_goal),
+            value = goal,
+            modifier = Modifier
+                .padding(end = 8.dp)
+        )
 
         VerticalDivider(
             color = Theme.color.surfaces.outlineVariant,

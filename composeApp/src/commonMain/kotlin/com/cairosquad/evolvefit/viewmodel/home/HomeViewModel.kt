@@ -24,22 +24,11 @@ class HomeViewModel(
 ) : BaseViewModel<HomeScreenState, HomeScreenEffect>(HomeScreenState()), HomeInteractionListener {
 
     init {
-        loadHomeData()
-    }
-
-    private fun loadHomeData() {
-        tryToCall(
-            block = { loadAllData() },
-            onStart = { startLoading() },
-            onSuccess = { stopLoading(HomeScreenState.ScreenStatus.SUCCESS) },
-            onError = { throwable ->
-                stopLoading(HomeScreenState.ScreenStatus.FAIL)
-                updateState { it.copy(screenErrorMessage = throwable.toErrorMessageRes()) }
-            }
-        )
+        loadAllData()
     }
 
     private fun loadAllData() {
+        startLoading()
         loadUserInfo()
         loadProgress()
         loadNutrition()
@@ -62,6 +51,8 @@ class HomeViewModel(
                 weeklyProgress = profile.toWeeklyProgressUiState(it.weeklyProgress)
             )
         }
+
+        stopLoading(HomeScreenState.ScreenStatus.SUCCESS)
     }
 
     private fun loadProgress() {
@@ -78,7 +69,7 @@ class HomeViewModel(
                 weeklyProgress = progress.toWeeklyProgressUiState(it.weeklyProgress)
             )
         }
-        stopLoading(HomeScreenState.ScreenStatus.LOADING)
+        stopLoading(HomeScreenState.ScreenStatus.SUCCESS)
     }
 
     private fun loadNutrition() {
@@ -101,6 +92,8 @@ class HomeViewModel(
                 waterGoal = nutritionProgress.goal
             )
         }
+
+        stopLoading(HomeScreenState.ScreenStatus.SUCCESS)
     }
 
     private fun loadCaloriesNutrition() {
@@ -118,6 +111,8 @@ class HomeViewModel(
                 caloriesGoal = nutritionProgress.goal.toUInt()
             )
         }
+
+        stopLoading(HomeScreenState.ScreenStatus.SUCCESS)
     }
 
     private fun loadPersonalizedWorkouts() {
@@ -138,6 +133,8 @@ class HomeViewModel(
                 }
             )
         }
+
+        stopLoading(HomeScreenState.ScreenStatus.SUCCESS)
     }
 
     override fun onWorkoutClick(id: String) {
@@ -167,12 +164,12 @@ class HomeViewModel(
     }
 
     override fun onRetryClick() {
-        loadHomeData()
+        loadAllData()
     }
 
     override fun onRefresh() {
         updateState { it.copy(isRefreshing = true) }
-        loadHomeData()
+        loadAllData()
         viewModelScope.launch {
             delay(500L)
             updateState { it.copy(isRefreshing = false) }
