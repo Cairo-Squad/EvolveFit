@@ -10,6 +10,10 @@
     <string name="select_measurement">يرجى اختيار قياس ل</string>
     <string name="height">الطول</string>
     <string name="weight">الوزن</string>
+    <string name="calories_format">السعرات الحرارية: %1$d سعرة</string>
+    <string name="carbs_format">الكربوهيدرات: %1$d جم</string>
+    <string name="protein_format">البروتين: %1$d جم</string>
+    <string name="fat_format">الدهون: %1$d جم</string>
     <string name="just_for_you">فقط من أجلك</string>
     <string name="internet_is_not_available">الإنترنت غير متوفر</string>
     <string name="please_make_sure_you_are_connected_to_the_internet_and_try_again">يرجى التأكد من أنك متصل بالإنترنت وحاول مرة أخرى.</string>
