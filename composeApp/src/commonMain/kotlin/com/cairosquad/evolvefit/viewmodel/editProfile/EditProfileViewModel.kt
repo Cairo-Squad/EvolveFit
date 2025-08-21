@@ -22,6 +22,10 @@ class EditProfileViewModel(
     EditProfileScreenState()
 ), EditProfileInteractionListener {
     init {
+        loadData()
+    }
+
+    private fun loadData(){
         getProfile()
         getAllEquipment()
     }
@@ -187,6 +191,4 @@ class EditProfileViewModel(
     override fun onBottomSheetDismissed() {
         updateState { it.copy(bottomSheetType = null) }
     }
-
-
 }

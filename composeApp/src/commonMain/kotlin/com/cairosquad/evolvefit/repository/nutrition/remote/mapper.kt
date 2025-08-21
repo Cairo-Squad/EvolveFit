@@ -1,18 +1,18 @@
 package com.cairosquad.evolvefit.repository.nutrition.remote
 
-import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
-import com.cairosquad.evolvefit.entity.nutrition.DailyCalorieSummary
-import com.cairosquad.evolvefit.entity.nutrition.DailyWaterSummary
-import com.cairosquad.evolvefit.entity.nutrition.Meal
-import com.cairosquad.evolvefit.entity.nutrition.MealType
-import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
-import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealRequestDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.DailyCalorieSummaryDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.DailyWaterSummaryDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.FavouriteMealDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.MealDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.SuggestedMealDto
+import com.cairosquad.evolvefit.domain.entity.ConsumedMeal
+import com.cairosquad.evolvefit.domain.entity.DailyCalorieSummary
+import com.cairosquad.evolvefit.domain.entity.DailyWaterSummary
+import com.cairosquad.evolvefit.domain.entity.Meal
+import com.cairosquad.evolvefit.domain.entity.SuggestedMeal
+import com.cairosquad.evolvefit.domain.model.MealType
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.ConsumedMealDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.ConsumedMealRequestDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.DailyCalorieSummaryDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.DailyWaterSummaryDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.FavouriteMealDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.MealDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.SuggestedMealDto
 
 fun ConsumedMealDto.toDomain(): ConsumedMeal {
     return ConsumedMeal(
@@ -56,10 +56,10 @@ fun MealDto.toDomain(): Meal{
         ingredients = ingredients,
         imageUrl = imageUrl,
         nutrition = Meal.Nutrition(
-            calories = calories,
-            fat = fat,
-            protein = protein,
-            carbs = carbs
+            caloriesInKcal = calories,
+            fatInGrams = fat,
+            proteinInGrams = protein,
+            carbsInGrams = carbs,
         ),
         type = type
     )

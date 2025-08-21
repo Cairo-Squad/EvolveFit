@@ -18,9 +18,7 @@ class CreateWorkoutViewModel(
         loadExercises()
     }
 
-    private fun handleExercisesResultSuccess(
-        exercises: List<Exercise>
-    ) {
+    private fun handleExercisesResultSuccess(exercises: List<Exercise>) {
         val uiExercises = exercises.map { it.toUiState() }
         updateState {
             it.copy(

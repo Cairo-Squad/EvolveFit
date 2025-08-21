@@ -5,7 +5,7 @@ import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.usecase.home.GetNutritionProgressUseCase
 import com.cairosquad.evolvefit.domain.usecase.home.GetPersonalizedWorkoutsUseCase
-import com.cairosquad.evolvefit.domain.usecase.home.model.NutritionProgress
+import com.cairosquad.evolvefit.domain.model.NutritionProgress
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
@@ -117,19 +117,17 @@ class HomeViewModel(
         updateState {
             it.copy(
                 personalizedWorkouts = workouts.map { workout ->
-                    workout.toHomeWorkoutUiState(
-                        isSaved = false
-                    )
+                    workout.toHomeWorkoutUiState(isSaved = false)
                 }
             )
         }
     }
 
-    override fun onWorkoutClick(id: String) {
+    override fun onWorkoutClicked(id: String) {
         sendEffect(HomeScreenEffect.NavigateToWorkout(id))
     }
 
-    override fun onSavedWorkoutClick(id: String) {
+    override fun onSavedWorkoutClicked(id: String) {
         tryToCall(
             block = {  manageWorkoutUseCase.addWorkoutToFavorites(id)},
             onSuccess = {onSaveWorkoutSuccess(id)},
@@ -137,9 +135,8 @@ class HomeViewModel(
                 updateState { it.copy(screenErrorMessage = throwable.toErrorMessageRes()) }
             },
         )
-
-
     }
+
     private  fun onSaveWorkoutSuccess(id: String){
         updateState {
             it.copy(
@@ -153,7 +150,8 @@ class HomeViewModel(
             )
         }
     }
-    override fun onRetryClick() {
+
+    override fun onRetryClicked() {
         loadHomeData()
     }
     override fun onRefresh() {
@@ -164,22 +162,12 @@ class HomeViewModel(
             updateState { it.copy(isRefreshing = false) }
         }
     }
+
     private fun startLoading() {
-        updateState {
-            it.copy(
-                isLoading = true,
-                screenStatus = HomeScreenState.ScreenStatus.LOADING
-            )
-        }
+        updateState {it.copy(isLoading = true, screenStatus = HomeScreenState.ScreenStatus.LOADING) }
     }
 
     private fun stopLoading(screenStatus: HomeScreenState.ScreenStatus) {
-        updateState {
-            it.copy(
-                isLoading = false,
-                screenStatus = screenStatus
-            )
-        }
+        updateState { it.copy(isLoading = false, screenStatus = screenStatus) }
     }
-
 }

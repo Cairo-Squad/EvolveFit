@@ -1,12 +1,12 @@
 package com.cairosquad.evolvefit.viewmodel.utils
 
-import com.cairosquad.evolvefit.domain.exceptions.ExceededCaloriesException
-import com.cairosquad.evolvefit.domain.exceptions.ExceededWaterLimitException
-import com.cairosquad.evolvefit.domain.exceptions.InternetConnectionException
-import com.cairosquad.evolvefit.domain.exceptions.InvalidNumberFormatException
-import com.cairosquad.evolvefit.domain.exceptions.MealNotFoundException
-import com.cairosquad.evolvefit.domain.exceptions.NetworkException
-import com.cairosquad.evolvefit.domain.exceptions.TimeoutException
+import com.cairosquad.evolvefit.domain.exception.ExceededCaloriesException
+import com.cairosquad.evolvefit.domain.exception.ExceededWaterLimitException
+import com.cairosquad.evolvefit.domain.exception.InternetConnectionException
+import com.cairosquad.evolvefit.domain.exception.InvalidNumberFormatException
+import com.cairosquad.evolvefit.domain.exception.MealNotFoundException
+import com.cairosquad.evolvefit.domain.exception.NetworkException
+import com.cairosquad.evolvefit.domain.exception.TimeoutException
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.error_exceeded_calories
 import evolvefit.composeapp.generated.resources.error_exceeded_water

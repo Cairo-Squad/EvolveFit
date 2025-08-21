@@ -39,95 +39,59 @@ class PlayWorkoutViewModel(
         }
     }
 
-    override fun onClickCancelWorkout() {
+    override fun onCancelWorkoutClicked() {
         updateState { it.copy(haseCancelWorkoutClicked = true) }
     }
 
     override fun onGetReadyCounterFinish() {
-        updateState {
-            it.copy(
-                stage = Stage.PERFORM,
-                currentStep = 1
-            )
-        }
+        updateState { it.copy(stage = Stage.PERFORM, currentStep = 1) }
     }
 
-    override fun onClickStart() {
-        updateState {
-            it.copy(
-                stage = Stage.PERFORM,
-                currentStep = 1
-            )
-        }
+    override fun onStartClicked() {
+        updateState { it.copy(stage = Stage.PERFORM, currentStep = 1)}
     }
 
-    override fun onClickExerciseInfo(id: String) {
+    override fun onExerciseInfoClicked(id: String) {
         updateState { it.copy(showExerciseInfo = true) }
     }
 
-    override fun onClickRestFinish() {
-        updateState {
-            it.copy(
-                stage = Stage.PERFORM,
-            )
-        }
+    override fun onRestFinishClicked() {
+        updateState { it.copy(stage = Stage.PERFORM,) }
     }
 
     override fun onFinishExercise() {
         if (isLastExercise) {
-            updateState {
-                it.copy(
-                    stage = Stage.FINISH,
-                    totalTimeMinutes = totalTimeSoFarMinutes
-                )
-            }
+            updateState { it.copy(stage = Stage.FINISH, totalTimeMinutes = totalTimeSoFarMinutes) }
             return
         }
-        updateState {
-            it.copy(
-                stage = Stage.REST,
-                currentStep = nextStep
-            )
-        }
+        updateState {it.copy(stage = Stage.REST, currentStep = nextStep) }
     }
 
-    override fun onClickForward() {
-        updateState {
-            it.copy(
-                currentStep = nextStep
-            )
-        }
+    override fun onForwardClicked() {
+        updateState { it.copy(currentStep = nextStep) }
     }
 
-    override fun onClickBack() {
-        updateState {
-            it.copy(
-                currentStep = previousStep
-            )
-        }
+    override fun onBackClicked() {
+        updateState { it.copy(currentStep = previousStep) }
     }
 
-    override fun onClickSkipRest() {
-        updateState {
-            it.copy(
-                stage = Stage.PERFORM
-            )
-        }
+    override fun onSkipRestClicked() {
+        updateState { it.copy(stage = Stage.PERFORM) }
     }
 
-    override fun onClickNextToAnotherWorkout() {
+    override fun onNextToAnotherWorkoutClicked() {
         sendEffect(PlayWorkoutEffect.NavigateBackToApp)
     }
 
-    override fun onClickFinish() {
+    override fun onFinishClicked() {
         sendEffect(PlayWorkoutEffect.NavigateBack)
     }
 
-    override fun onClinkStayInWorkout() {
+    override fun onStayInWorkoutClinked() {
         updateState { it.copy(haseCancelWorkoutClicked = false) }
     }
 
-    override fun onClinkEnd() {
+    override fun onEndClinked() {
         sendEffect(PlayWorkoutEffect.NavigateBack)
     }
 

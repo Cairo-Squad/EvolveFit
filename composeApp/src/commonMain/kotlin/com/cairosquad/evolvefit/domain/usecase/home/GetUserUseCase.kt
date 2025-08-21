@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.domain.usecase.home
 
 import com.cairosquad.evolvefit.domain.repository.HomeRepository
-import com.cairosquad.evolvefit.domain.usecase.home.model.User
+import com.cairosquad.evolvefit.domain.model.User
 
 class GetUserUseCase(
     private val homeRepository: HomeRepository

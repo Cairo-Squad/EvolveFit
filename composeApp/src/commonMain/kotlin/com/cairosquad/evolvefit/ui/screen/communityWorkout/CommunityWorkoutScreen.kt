@@ -82,7 +82,7 @@ private fun WorkoutsScreenContent(
 
             Workouts(
                 state.allWorkouts,
-                listener::onClickWorkout
+                listener::onWorkoutClicked
             )
         }
     }
