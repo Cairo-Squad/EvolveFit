@@ -50,6 +50,7 @@ class CreateExerciseViewModel(
             .firstOrNull { it.name == toolName }?.id ?: return
 
         onEquipmentToggled(id)
+        updateState { it.copy(isEquipmentExpanded = false) }
     }
 
 
