@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.nutrition.content
+package com.cairosquad.evolvefit.ui.screen.nutrition.component
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -114,7 +114,7 @@ fun MealTypeDropdownMenu(
                     DropdownMenu(
                         items = mealTypeUiStateOptions.values.toList(),
                         selectedItem = mealTypeUiStateOptions[state.selectedMeal] ?: "",
-                        expanded = state.isMealTypeMenuExpanded,
+                        isExpanded = state.isMealTypeMenuExpanded,
                         onItemClicked = { selected ->
                             val selectedType =
                                 mealTypeUiStateOptions.entries.first { it.value == selected }.key

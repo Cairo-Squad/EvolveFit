@@ -10,6 +10,7 @@
     <string name="select_measurement">يرجى اختيار قياس ل</string>
     <string name="height">الطول</string>
     <string name="weight">الوزن</string>
+    <string name="just_for_you">فقط من أجلك</string>
     <string name="internet_is_not_available">الإنترنت غير متوفر</string>
     <string name="please_make_sure_you_are_connected_to_the_internet_and_try_again">يرجى التأكد من أنك متصل بالإنترنت وحاول مرة أخرى.</string>
     <string name="lose_weight">خسارة الوزن</string>
@@ -197,6 +198,7 @@
     <string name="failed_to_load_user_workout_days">فشل في تحميل ايام تدريب المستخدم</string>
     <string name="failed_to_load_equipments">فشل في تحميل المعدات</string>
     <string name="failed_to_load_user_profile">فشل في تحميل حساب المستخدم</string>
+    <string name="failed_to_update_user_profile_image">فشل في تحديث صورة المستخدم</string>
     <string name="failed_to_load_user_equipments">فشل في تحميل معدات المستخدم</string>
     <string name="community">المجتمع</string>
     <string name="birth">تاريخ الميلاد</string>
@@ -214,7 +216,7 @@
 
     <string name="error_no_internet">لا يوجد اتصال بالإنترنت.</string>
     <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>
-    <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.</string>
+    <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.التنسيق الصحيح: example@domain.com.</string>
     <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل.</string>
     <string name="error_unexpected">حدث خطأ غير متوقع.</string>
     <string name="liters1">لترات</string>
@@ -229,7 +231,6 @@
     <string name="ready_text_male">مستعد لتدريب اليوم؟</string>
     <string name="ready_text_female">مستعدة لتدريب اليوم؟</string>
     <string name="your_progress">تقدمك</string>
-    <string name="this_week">هذا الأسبوع</string>
     <string name="completed">مكتمل</string>
     <string name="the_goal">الهدف</string>
     <string name="current_weight">الوزن الحالي</string>
@@ -313,4 +314,22 @@
     <string name="empty_workouts_description">قم بإضافة تمارين لبدء رحلتك الرياضية.</string>
     <string name="empty_meals_title">قائمة المفضلة فارغة</string>
     <string name="empty_meals_description">أضف وجباتك المفضلة للوصول إليها بسهولة لاحقًا.</string>
+
+    <string name="monday_short">الإثنين</string>
+    <string name="tuesday_short">الثلاثاء</string>
+    <string name="wednesday_short">الأربعاء</string>
+    <string name="thursday_short">الخميس</string>
+    <string name="friday_short">الجمعة</string>
+    <string name="saturday_short">السبت</string>
+    <string name="sunday_short">الأحد</string>
+
+    <string name="back_muscle">الظهر</string>
+    <string name="legs">الساقين</string>
+    <string name="shoulders">الكتفين</string>
+    <string name="arms">الذراعين</string>
+    <string name="core">الجذع</string>
+    <string name="chest">الصدر</string>
+    <string name="this_week">الأسبوع الحالي</string>
+    <string name="last_week">الأسبوع الماضي</string>
+    <string name="workout_history">سجل التداريب السابقة</string>
 </resources>

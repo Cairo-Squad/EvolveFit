@@ -21,12 +21,22 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter.AnimatedBarChart
 import com.cairosquad.evolvefit.ui.screen.report.componant.animatedMeter.chartComponent.ChartGrid
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.friday_short
+import evolvefit.composeapp.generated.resources.monday_short
+import evolvefit.composeapp.generated.resources.saturday_short
+import evolvefit.composeapp.generated.resources.sunday_short
+import evolvefit.composeapp.generated.resources.thursday_short
+import evolvefit.composeapp.generated.resources.tuesday_short
+import evolvefit.composeapp.generated.resources.wednesday_short
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun BarChartCard(
     data: List<Float>,
-    labels: List<String>,
+    labels: List<StringResource>,
     isAnimationStarted: Boolean,
     modifier: Modifier = Modifier,
     focusedBarColor: Color = Theme.color.brand.primary,
@@ -90,7 +100,7 @@ fun BarChartCard(
                     barCenters.forEachIndexed { index, centerX ->
                         val isMax = index == maxIndex
                         Text(
-                            text = labels.getOrNull(index) ?: "",
+                            text = stringResource(labels[index]),
                             color = if (isMax) focusedLabelColor else unFocusedLabelColor,
                             style = Theme.textStyle.label.smallRegular12,
                             modifier = Modifier
@@ -110,13 +120,13 @@ private fun BarChartCardPreview() {
     val labels by remember {
         mutableStateOf(
             listOf(
-                "Sat",
-                "Sun",
-                "Mon",
-                "Tue",
-                "Wed",
-                "Thu",
-                "Fri"
+                Res.string.saturday_short,
+                Res.string.sunday_short,
+                Res.string.monday_short,
+                Res.string.tuesday_short,
+                Res.string.wednesday_short,
+                Res.string.thursday_short,
+                Res.string.friday_short
             )
         )
     }

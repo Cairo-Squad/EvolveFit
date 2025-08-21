@@ -1,12 +1,14 @@
 package com.cairosquad.evolvefit.repository.workout.remote
 
 import com.cairosquad.evolvefit.domain.entity.Workout
+import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.repository.exercise.remote.toDomain
 import com.cairosquad.evolvefit.repository.workout.remote.dto.CreateWorkoutRequest
+import com.cairosquad.evolvefit.repository.workout.remote.dto.FavoritesWorkoutDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDetailsDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDto
-
+import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutHistoryDto
 
 fun Workout.toDto(): WorkoutDto {
     return WorkoutDto(
@@ -37,6 +39,15 @@ fun WorkoutDto.toDomain(): WorkoutSuggested {
         focusArea = focusArea
     )
 }
+fun FavoritesWorkoutDto.toDomain(): WorkoutSuggested {
+    return WorkoutSuggested(
+        id = id,
+        name = name,
+        durationSeconds = durationSeconds,
+        imageUrl = imageUrl,
+        focusArea = focusArea
+    )
+}
 fun WorkoutDetailsDto.toDomain(): Workout {
     return Workout(
         id = id,
@@ -54,5 +65,11 @@ fun WorkoutDetailsDto.toDomain(): Workout {
     )
 }
 
-
-
+fun WorkoutHistoryDto.toDomain() = WorkoutHistory(
+    name = name,
+    imageUrl = imageUrl,
+    createdAt = createdAt,
+    exercisesCount = exercisesCount,
+    durationInSeconds = durationSeconds,
+    level = WorkoutHistory.WorkoutLevel.valueOf(level)
+)

@@ -14,27 +14,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import com.cairosquad.evolvefit.viewmodel.report.ReportScreenState
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.workout_history
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun HistoryWorkoutCard(
     onViewAllHistoryClicked: () -> Unit,
+    state: ReportScreenState,
     modifier: Modifier = Modifier
 ) {
     ReportCard(
         modifier = modifier,
-        title = "Workout History",
+        title = stringResource(Res.string.workout_history),
         value = ""
     ) {
-        repeat(4) {
+        val workouts = state.workoutHistory.take(3)
+        repeat(workouts.size) { index ->
             HistoryWorkoutItem(
                 modifier = Modifier.padding(vertical = 12.dp),
-                workoutName = "Bodyweight Squats",
-                workoutDate = "Today, 8:30 AM",
-                workoutImage = "",
-                exerciseCount = 5,
-                duration = "25 min",
-                level = "Beginner",
+                workoutName = workouts[index].name,
+                workoutDate = workouts[index].date,
+                workoutImage = workouts[index].imageUrl,
+                exerciseCount = workouts[index].exercisesCount,
+                duration = workouts[index].duration,
+                level = workouts[index].level,
             )
             Box(
                 modifier = Modifier.fillMaxWidth()
@@ -43,10 +48,11 @@ fun HistoryWorkoutCard(
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Box(modifier = Modifier
-            .clip(CircleShape)
-            .clickable(onClick = onViewAllHistoryClicked)
-            .padding(horizontal = 8.dp, vertical = 4.dp)
+        Box(
+            modifier = Modifier
+                .clip(CircleShape)
+                .clickable(onClick = onViewAllHistoryClicked)
+                .padding(horizontal = 8.dp, vertical = 4.dp)
         ) {
             Text(
                 text = "View all",
@@ -55,10 +61,4 @@ fun HistoryWorkoutCard(
             )
         }
     }
-}
-
-@Preview
-@Composable
-private fun HistoryWorkoutCardPreview() {
-    HistoryWorkoutCard({})
 }

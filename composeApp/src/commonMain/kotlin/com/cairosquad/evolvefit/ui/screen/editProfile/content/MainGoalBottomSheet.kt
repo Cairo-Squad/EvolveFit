@@ -13,6 +13,7 @@ import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
 import com.cairosquad.evolvefit.design_system.component.CheckboxStyle
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
+import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -27,10 +28,10 @@ import evolvefit.composeapp.generated.resources.select_goal_title
 import org.jetbrains.compose.resources.stringResource
 @Composable
 fun MainGoalBottomSheet(
-    selectedGoal:String,
-    isGoalBottomSheetOpen: Boolean=true,
+    selectedGoal: Profile.FitnessGoal,
+    isGoalBottomSheetOpen: Boolean = true,
     onGoalBottomSheetDismiss: () -> Unit,
-    onGoalChange: (String) -> Unit,
+    onGoalChange: ( Profile.FitnessGoal) -> Unit,
     modifier: Modifier = Modifier
 ) {
     BottomSheet(
@@ -44,15 +45,15 @@ fun MainGoalBottomSheet(
             onGoalBottomSheetDismiss = onGoalBottomSheetDismiss,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .padding(bottom= 16.dp)
+                .padding(bottom = 16.dp)
         )
     }
 }
 
 @Composable
 fun MainGoalBottomSheetContent(
-    selectedGoal: String,
-    onGoalChange: (String) -> Unit,
+    selectedGoal: Profile.FitnessGoal,
+    onGoalChange:  (Profile.FitnessGoal) -> Unit,
     onGoalBottomSheetDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -70,16 +71,16 @@ fun MainGoalBottomSheetContent(
                 .padding(bottom = 40.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            RegisterScreenState.Goal.entries.forEach { goal ->
+            Profile.FitnessGoal.entries.forEach { goal ->
                 val goalText = when (goal) {
-                    RegisterScreenState.Goal.LoseWeight -> stringResource(Res.string.goal_lose_weight)
-                    RegisterScreenState.Goal.GainWeight -> stringResource(Res.string.goal_gain_weight)
-                    RegisterScreenState.Goal.StayInShape -> stringResource(Res.string.goal_stay_in_shape)
+                    Profile.FitnessGoal.LOSE_WEIGHT -> stringResource(Res.string.goal_lose_weight)
+                    Profile.FitnessGoal.GAIN_WEIGHT -> stringResource(Res.string.goal_gain_weight)
+                    Profile.FitnessGoal.STAY_IN_SHAPE -> stringResource(Res.string.goal_stay_in_shape)
                 }
                 CheckboxItem(
-                    text =goalText,
-                    isChecked = selectedGoal == goalText,
-                    onCheckedChange = { onGoalChange(goalText) },
+                    text = goalText,
+                    isChecked = selectedGoal == goal,
+                    onCheckedChange = { onGoalChange(goal) },
                 )
             }
         }

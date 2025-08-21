@@ -11,6 +11,7 @@ import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -24,10 +25,10 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MeasurementBottomSheet(
-    selectedMeasurementStandard: String,
+    selectedMeasurementStandard: MeasurementStandard,
     isBottomSheetOpen: Boolean = true,
     onDismiss: () -> Unit,
-    onMeasurementChange: (String) -> Unit,
+    onMeasurementChange: (MeasurementStandard) -> Unit,
     modifier: Modifier = Modifier
 ) {
     BottomSheet(
@@ -48,8 +49,8 @@ fun MeasurementBottomSheet(
 
 @Composable
 fun MeasurementBottomSheetContent(
-    selectedMeasurementStandard: String,
-    onMeasurementChange: (String) -> Unit,
+    selectedMeasurementStandard: MeasurementStandard,
+    onMeasurementChange: (MeasurementStandard) -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -68,16 +69,16 @@ fun MeasurementBottomSheetContent(
                 .padding(bottom = 40.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            RegisterScreenState.MeasurementStandard.entries.forEach { unit ->
+            MeasurementStandard.entries.forEach { unit ->
                 val unitText = when (unit) {
-                    RegisterScreenState.MeasurementStandard.Metric -> stringResource(Res.string.unit_metric)
-                    RegisterScreenState.MeasurementStandard.Imperial -> stringResource(Res.string.unit_imperial)
+                  MeasurementStandard.METRIC -> stringResource(Res.string.unit_metric)
+                    MeasurementStandard.IMPERIAL -> stringResource(Res.string.unit_imperial)
                 }
 
                 CheckboxItem(
                     text = unitText,
-                    isChecked = selectedMeasurementStandard == unitText,
-                    onCheckedChange = { onMeasurementChange(unitText) }
+                    isChecked = selectedMeasurementStandard == unit,
+                    onCheckedChange = { onMeasurementChange(unit) }
                 )
             }
         }
