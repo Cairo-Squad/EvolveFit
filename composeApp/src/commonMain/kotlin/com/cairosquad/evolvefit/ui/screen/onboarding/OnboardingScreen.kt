@@ -29,12 +29,17 @@ import com.cairosquad.evolvefit.design_system.component.CheckboxItem
 import com.cairosquad.evolvefit.design_system.component.CheckboxStyle
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.domain.model.Language
+import com.cairosquad.evolvefit.ui.util.LanguageManager
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.ui.util.noRippleClickable
+import com.cairosquad.evolvefit.ui.util.recreateCurrentScreen
 import com.cairosquad.evolvefit.viewmodel.onboarding.OnBoardingViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.OnboardingScreenEffect
 import com.cairosquad.evolvefit.viewmodel.onboarding.OnboardingScreenListener
 import com.cairosquad.evolvefit.viewmodel.onboarding.OnboardingScreenState
+import com.cairosquad.evolvefit.viewmodel.onboarding.toDomain
+import com.cairosquad.evolvefit.viewmodel.register.toDomain
 import evolvefit.composeapp.generated.resources.Onboarding
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arrow_down
@@ -46,7 +51,9 @@ import evolvefit.composeapp.generated.resources.ready_to_start
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
+
 
 @Composable
 fun OnboardingScreen(
@@ -54,6 +61,7 @@ fun OnboardingScreen(
     navigateToRegister: () -> Unit,
     navigateToLogin: () -> Unit,
 ) {
+    val languageManager = koinInject<LanguageManager>()
     val state by viewmodel.screenState.collectAsStateWithLifecycle()
     ObserveAsEffect(viewmodel.effect) { effect ->
         when (effect) {
@@ -63,6 +71,11 @@ fun OnboardingScreen(
             OnboardingScreenEffect.NavigateToRegister -> {
                 navigateToRegister()
             }
+            is OnboardingScreenEffect.ChangeLanguage-> {
+                languageManager.applyLanguage(effect.language)
+                recreateCurrentScreen()
+            }
+
         }
     }
     OnboardingScreenContent(
@@ -103,7 +116,7 @@ fun OnboardingScreenContent(
             selectedLanguage = state.selectedLanguage,
             onDismiss = { listener.toggleBottomSheet(false) },
             onLanguageSelected = listener::onChangeLanguage,
-            onConfirmClick = listener::onConfirmClicked,
+            onConfirmClick = { selectedLanguage -> listener.onConfirmClicked(selectedLanguage) },
             modifier = Modifier
         )
     }
@@ -182,14 +195,13 @@ private fun LanguageSelectionButton(
     }
 }
 
-
 @Composable
 private fun LanguageBottomSheet(
     isVisible: Boolean,
     selectedLanguage: OnboardingScreenState.Language,
     onDismiss: () -> Unit,
     onLanguageSelected: (language: OnboardingScreenState.Language) -> Unit,
-    onConfirmClick: () -> Unit,
+    onConfirmClick: (Language) -> Unit,
     modifier: Modifier = Modifier
 ) {
     BottomSheet(
@@ -221,41 +233,13 @@ private fun LanguageBottomSheet(
                     )
                 }
                 PrimaryButton(
-                    text = "Confirm", onClick = onConfirmClick, modifier = Modifier.padding(
+                    text = "Confirm",
+                    onClick = { onConfirmClick(selectedLanguage.toDomain()) },
+                    modifier = Modifier.padding(
                         start = 16.dp, end = 16.dp, bottom = 16.dp, top = 28.dp
                     )
                 )
             }
         },
-    )
-}
-
-@Preview
-@Composable
-private fun OnboardingScreenPreview() {
-    OnboardingScreenContent(
-        state = OnboardingScreenState(),
-        listener = object : OnboardingScreenListener {
-            override fun onChangeLanguage(language: OnboardingScreenState.Language) {
-                TODO("Not yet implemented")
-            }
-
-            override fun toggleBottomSheet(isOpen: Boolean) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onSignUpClicked() {
-                TODO("Not yet implemented")
-            }
-
-            override fun onLoginClicked() {
-                TODO("Not yet implemented")
-            }
-
-            override fun onConfirmClicked() {
-                TODO("Not yet implemented")
-            }
-
-        }
     )
 }
