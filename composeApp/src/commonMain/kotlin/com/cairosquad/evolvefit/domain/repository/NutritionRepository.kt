@@ -11,7 +11,7 @@ interface NutritionRepository {
     suspend fun getFavouriteMeals(): List<SuggestedMeal>
     suspend fun addFavouriteMealById(mealId: String)
     suspend fun deleteFavouriteMeal(mealId: String)
-    suspend fun getMealHistory(): List<ConsumedMeal>
+    suspend fun getMealHistory(startDate: String, endDate: String): List<ConsumedMeal>
     suspend fun getConsumedMealsByDate(startDate: String, endDate: String): List<ConsumedMeal>
     suspend fun getMealById(id: String): Meal
     suspend fun saveConsumedMeal(consumedMeal: ConsumedMeal): Boolean
