@@ -4,6 +4,7 @@ import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.usecase.exercise.ManageExerciseUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutEffect.NavigateBack
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState.WorkoutLevel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 
@@ -20,8 +21,9 @@ class CreateWorkoutViewModel(
     private fun handleExercisesResultSuccess(
         exercises: List<Exercise>
     ) {
-        val uiExercises = exercises.map { it }
-        updateState { it.copy(
+        val uiExercises = exercises.map { it.toUiState() }
+        updateState {
+            it.copy(
                 status = CreateWorkOutScreenState.ScreenStatus.SUCCESS,
                 allExercises = uiExercises,
                 filteredExercises = uiExercises
@@ -52,12 +54,18 @@ class CreateWorkoutViewModel(
     }
 
     override fun onNameChanged(newName: String) {
-        updateState { it.copy(name = newName, isNextEnabled = validate(newName, it.goal.name, it.description)) }
+        val cleanName = if (newName.isBlank()) "" else newName
+        updateState { it.copy(name = cleanName, isNextEnabled = validate(cleanName, it.goal.name, it.description)) }
     }
 
     override fun onGoalSelected(goalName: String) {
-        val selectedGoal = WorkoutLevel.valueOf(goalName)
-        updateState { it.copy(goal = selectedGoal, isNextEnabled = validate(it.name, selectedGoal.name, it.description)) }
+        val selectedGoal = enumValues<WorkoutLevel>().firstOrNull { it.name == goalName } ?: WorkoutLevel.BEGINNER
+        updateState {
+            it.copy(
+                goal = selectedGoal,
+                isNextEnabled = validate(it.name, selectedGoal.name, it.description)
+            )
+        }
     }
 
     override fun onDescriptionChanged(desc: String) {
@@ -69,13 +77,11 @@ class CreateWorkoutViewModel(
         return name.isNotBlank() && goal.isNotBlank() && desc.isNotBlank()
     }
 
-    override fun onExerciseCheckedChanged(exercise: Exercise) {
+    override fun onExerciseCheckedChanged(exercise: CreateWorkOutScreenState.ExerciseUiState) {
         updateState { currentState ->
-            val selected = currentState.selectedExercises.toMutableList()
-            if (selected.any { it.id == exercise.id }) {
-                selected.removeAll { it.id == exercise.id }
-            } else {
-                selected.add(exercise)
+            val selected = currentState.selectedExercises.toMutableList().apply {
+                if (any { it.id == exercise.id }) removeAll { it.id == exercise.id }
+                else add(exercise)
             }
             currentState.copy(
                 selectedExercises = selected,
@@ -87,6 +93,10 @@ class CreateWorkoutViewModel(
 
     override fun onBackClicked() {
         updateState { it.copy(currentStep = CreateWorkOutScreenState.CreateWorkoutStep.DETAILS) }
+    }
+
+    override fun onExitClicked() {
+        sendEffect(NavigateBack)
     }
 
     override fun onAddClicked() {
@@ -133,9 +143,4 @@ class CreateWorkoutViewModel(
             onStart = ::handleWorkoutLoading
         )
     }
-
-    override fun onExitClicked() {
-        sendEffect(CreateWorkOutEffect.NavigateBack)
-    }
 }
-

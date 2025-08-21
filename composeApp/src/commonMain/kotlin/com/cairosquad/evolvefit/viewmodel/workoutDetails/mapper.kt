@@ -32,4 +32,3 @@ fun Exercise.toUiState(): WorkoutDetailsScreenState.ExerciseUiState {
         focusAreas = focusAreas.map { WorkoutDetailsScreenState.FocusArea.valueOf(it.name) }
     )
 }
-

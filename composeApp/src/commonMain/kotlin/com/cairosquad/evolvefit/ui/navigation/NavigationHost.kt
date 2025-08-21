@@ -166,7 +166,7 @@ fun NavigationHost(
                     navController.navigate(CreateExerciseRoute)
                     navController.saveInSavedState(onExerciseCreationSuccess)
                 },
-                navigateToWorkOuts = {},
+                navigateToWorkOuts = navController::popBackStack,
                 navigateToAllExercises = {}
             )
         }
