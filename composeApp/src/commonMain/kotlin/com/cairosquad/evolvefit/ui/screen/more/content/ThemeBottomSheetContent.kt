@@ -29,9 +29,9 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ThemeBottomSheetContent(
     state: MoreScreenState,
-    onConfirm: (MoreScreenState.Theme) -> Unit
+    onConfirm: (MoreScreenState.Theme) -> Unit,
+    onSelectTheme: (MoreScreenState.Theme) -> Unit
 ) {
-    var tempSelectedTheme by remember { mutableStateOf(state.currentTheme) }
 
     Column(
         modifier = Modifier.padding(horizontal = 16.dp),
@@ -55,19 +55,21 @@ fun ThemeBottomSheetContent(
 
         CheckboxItem(
             text = stringResource(Res.string.dark_mode),
-            isChecked = tempSelectedTheme == MoreScreenState.Theme.DARK,
+            isChecked = state.currentTheme == MoreScreenState.Theme.DARK,
             icon = Res.drawable.dark,
-            onCheckedChange = { tempSelectedTheme = MoreScreenState.Theme.DARK }
+            onCheckedChange = { onSelectTheme(MoreScreenState.Theme.DARK) }
         )
+
         CheckboxItem(
             text = stringResource(Res.string.light_mode),
-            isChecked = tempSelectedTheme == MoreScreenState.Theme.LIGHT,
+            isChecked = state.currentTheme == MoreScreenState.Theme.LIGHT,
             icon = Res.drawable.light,
-            onCheckedChange = { tempSelectedTheme = MoreScreenState.Theme.LIGHT }
+            onCheckedChange = { onSelectTheme(MoreScreenState.Theme.LIGHT) }
         )
+
         PrimaryButton(
             text = stringResource(Res.string.confirm),
-            onClick = { onConfirm(tempSelectedTheme) },
+            onClick = { onConfirm(state.currentTheme) },
             modifier = Modifier.padding(bottom = 16.dp, top = 38.dp),
             isEnabled = true,
             enabledTextColor = Theme.color.brand.onPrimary,

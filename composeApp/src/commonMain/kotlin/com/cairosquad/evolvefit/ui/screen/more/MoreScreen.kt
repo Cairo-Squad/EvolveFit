@@ -3,6 +3,7 @@ package com.cairosquad.evolvefit.ui.screen.more
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import com.cairosquad.evolvefit.AppSettingsManager
 import com.cairosquad.evolvefit.ui.screen.more.content.MoreScreenContent
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.more.MoreEffect
@@ -33,6 +34,8 @@ fun MoreScreen(
                 navigateToNotificationSettings()
             }
             is MoreEffect.ChangeLanguage -> {
+                val appSettingsManager = AppSettingsManager()
+                appSettingsManager.saveLanguage(effect.languageCode)
                 onLanguageChange(effect.languageCode)
             }
             is MoreEffect.ChangeTheme -> {

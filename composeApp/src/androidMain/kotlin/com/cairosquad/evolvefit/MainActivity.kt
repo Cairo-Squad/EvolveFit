@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
                     onThemeChange = { newTheme ->
                         appTheme = newTheme
                         saveTheme(newTheme)
-                    },
+                    }
                 )
             }
         }

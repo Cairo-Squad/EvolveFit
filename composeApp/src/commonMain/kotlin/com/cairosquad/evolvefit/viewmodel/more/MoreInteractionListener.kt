@@ -15,5 +15,7 @@ interface MoreInteractionListener {
     fun onConfirmChangeTheme(theme: MoreScreenState.Theme)
     fun onConfirmChangeLanguage(language: Language)
     fun onLogout()
+    fun onSelectTheme(theme: MoreScreenState.Theme)
+    fun onSelectLanguage(language: Language)
 
 }
