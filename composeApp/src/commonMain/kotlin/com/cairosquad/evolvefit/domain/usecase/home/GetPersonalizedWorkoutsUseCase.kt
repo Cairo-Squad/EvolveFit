@@ -7,7 +7,6 @@ import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
 class GetPersonalizedWorkoutsUseCase(
     private val workoutRepository: WorkoutRepository
 ) {
-
     suspend fun getWorkouts(): List<WorkoutSuggested> {
         return workoutRepository.getSuggestedWorkouts()
     }

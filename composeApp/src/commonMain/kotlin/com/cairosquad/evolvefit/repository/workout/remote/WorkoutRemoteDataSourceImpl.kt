@@ -61,7 +61,7 @@ class WorkoutRemoteDataSourceImpl(
         }
     }
 
-    override suspend fun addFavoriteWorkOut(workOutId: String) {
+    override suspend fun addFavoriteWorkout(workOutId: String) {
         return callApi {
             client.post(FAVORITE_WORKOUT) {
                 parameter("workoutId", workOutId)
@@ -70,10 +70,10 @@ class WorkoutRemoteDataSourceImpl(
         }
     }
 
-    override suspend fun deleteFavoriteWorkOut(workOutId: String) {
+    override suspend fun deleteFavoriteWorkout(workoutId: String) {
         return callApi {
             client.delete(FAVORITE_WORKOUT) {
-                parameter("workoutId", workOutId)
+                parameter("workoutId", workoutId)
                 contentType(ContentType.Application.Json)
             }.body()
         }

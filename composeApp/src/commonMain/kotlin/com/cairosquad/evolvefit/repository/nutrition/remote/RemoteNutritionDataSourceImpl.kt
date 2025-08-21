@@ -34,14 +34,14 @@ class RemoteNutritionDataSourceImpl(
 
     override suspend fun getFavouriteMeals(): List<FavouriteMealDto> {
         return callApi<List<FavouriteMealDto>> {
-            httpClient.get("favorite/meal")
+            httpClient.get(FAVORITE_MEAL)
                 .body()
         }
     }
 
     override suspend fun addFavouriteMealById(mealId: String) {
         return callApi {
-            httpClient.post("favorite/meal"){
+            httpClient.post(FAVORITE_MEAL){
                 parameter("mealId", mealId)
             }
                 .body()
@@ -50,12 +50,21 @@ class RemoteNutritionDataSourceImpl(
 
     override suspend fun deleteFavouriteMeal(mealId: String) {
         return callApi {
-            httpClient.delete("favorite/meal")
+            httpClient.delete(FAVORITE_MEAL){
+                parameter("mealId", mealId)
+                contentType(ContentType.Application.Json)
+            }.body()
         }
     }
 
-    override suspend fun getMealHistory(): List<ConsumedMealDto> {
-        return callApi<List<ConsumedMealDto>> { httpClient.get("${NUTRITION_PATH}/meals").body() }
+    override suspend fun getMealHistory(
+    ): List<ConsumedMealDto> {
+        return callApi<List<ConsumedMealDto>> { httpClient.get("${NUTRITION_PATH}/meals"){
+            // to todo : add dynamic date
+            parameter("startDate", "2025-08-06T00:00:00")
+            parameter("endDate", "2025-08-20T00:00:00")
+
+        }.body() }
 
     }
 
@@ -103,5 +112,9 @@ class RemoteNutritionDataSourceImpl(
         return callApi<DailyWaterSummaryDto> {
             httpClient.get("${NUTRITION_PATH}/water").body()
         }
+    }
+
+    companion object {
+        private const val FAVORITE_MEAL = "favorite/meal"
     }
 }

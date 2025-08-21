@@ -11,11 +11,17 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
+import androidx.compose.material3.RadioButtonDefaults.colors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
@@ -33,8 +39,11 @@ import com.cairosquad.evolvefit.viewmodel.login.LoginViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arrow_back_description
 import evolvefit.composeapp.generated.resources.email_placeholder
+import evolvefit.composeapp.generated.resources.enter_your_email
 import evolvefit.composeapp.generated.resources.ic_app_logo
 import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.ic_email
+import evolvefit.composeapp.generated.resources.ic_icon_login
 import evolvefit.composeapp.generated.resources.ic_lock
 import evolvefit.composeapp.generated.resources.ic_profile
 import evolvefit.composeapp.generated.resources.ic_visibility_off
@@ -116,12 +125,23 @@ private fun LoginScreenContent(
         ) {
 
             item {
+                val gradientBrush = Brush.linearGradient(Theme.color.gradiant.iconGradiant)
+
                 Icon(
-                    modifier = Modifier
-                        .padding(bottom = 24.dp, top = 20.dp),
                     painter = painterResource(Res.drawable.ic_app_logo),
                     contentDescription = stringResource(Res.string.logo_description),
-                    tint = Theme.color.brand.primary,
+                    modifier = Modifier
+                        .padding(bottom = 24.dp, top = 20.dp)
+                        .graphicsLayer(alpha = 0.99f)
+                        .drawWithCache {
+                            onDrawWithContent {
+                                drawContent()
+                                drawRect(
+                                    brush = gradientBrush,
+                                    blendMode = BlendMode.SrcAtop
+                                )
+                            }
+                        }
                 )
             }
 
@@ -140,8 +160,8 @@ private fun LoginScreenContent(
                         .padding(bottom = 12.dp),
                     value = state.email,
                     onValueChange = listener::onEmailChanged,
-                    placeholder = stringResource(Res.string.email_placeholder),
-                    leadingIcon = Res.drawable.ic_profile,
+                    placeholder = stringResource(Res.string.enter_your_email),
+                    leadingIcon = Res.drawable.ic_email,
                     isErrorMessageShown = state.emailError != null,
                     error = state.emailError?.let { stringResource(it) } ?: "",
                     isError = state.emailError != null || state.isFormError
@@ -180,6 +200,8 @@ private fun LoginScreenContent(
         SignUpPromptRow(onJoinNowClicked = listener::onJoinNowClicked)
     }
 }
+
+
 
 @Preview()
 @Composable

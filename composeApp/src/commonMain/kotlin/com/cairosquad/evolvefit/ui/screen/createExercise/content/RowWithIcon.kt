@@ -38,13 +38,6 @@ fun RowWithIcon(
     background: Color = Theme.color.surfaces.surfaceContainer,
     onIconClicked: () -> Unit = {}
 ) {
-    val arrowDirection = if (isIconClicked) {
-        painterResource(Res.drawable.ic_arrow_down)
-
-    } else {
-        painterResource(Res.drawable.ic_arrow_up)
-    }
-
     Row(
         modifier = modifier
             .clickable(onClick = onIconClicked)
@@ -68,9 +61,9 @@ fun RowWithIcon(
             }
         ) { target ->
             val iconPainter = if (target) {
-                painterResource(Res.drawable.ic_arrow_down)
-            } else {
                 painterResource(Res.drawable.ic_arrow_up)
+            } else {
+                painterResource(Res.drawable.ic_arrow_down)
             }
 
             Icon(
