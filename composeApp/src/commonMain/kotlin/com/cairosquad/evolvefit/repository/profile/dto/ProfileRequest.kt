@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ProfilePostDto(
+data class ProfileRequest(
     @SerialName("name")
     val name: String = "",
     @SerialName("email")

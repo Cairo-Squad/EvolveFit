@@ -1,8 +1,8 @@
 package com.cairosquad.evolvefit.repository.profile.remote
 
 import com.cairosquad.evolvefit.repository.execption.callApi
-import com.cairosquad.evolvefit.repository.profile.dto.ProfileGetDto
-import com.cairosquad.evolvefit.repository.profile.dto.ProfilePostDto
+import com.cairosquad.evolvefit.repository.profile.dto.ProfileResponse
+import com.cairosquad.evolvefit.repository.profile.dto.ProfileRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.MultiPartFormDataContent
@@ -19,14 +19,14 @@ import io.ktor.http.contentType
 class RemoteProfileDataSourceImpl(
     private val httpClient: HttpClient
 ) : RemoteProfileDataSource {
-    override suspend fun getProfile(): ProfileGetDto {
+    override suspend fun getProfile(): ProfileResponse {
         return callApi {
             httpClient.get(USER_PROFILE_PATH).body()
         }
     }
 
-    override suspend fun editProfile(profileRequest: ProfilePostDto): ProfileGetDto {
-        val response = callApi<ProfileGetDto> {
+    override suspend fun editProfile(profileRequest: ProfileRequest): ProfileResponse {
+        val response = callApi<ProfileResponse> {
             httpClient.put(USER_PROFILE_PATH) {
                 contentType(ContentType.Application.Json)
                 setBody(profileRequest)
