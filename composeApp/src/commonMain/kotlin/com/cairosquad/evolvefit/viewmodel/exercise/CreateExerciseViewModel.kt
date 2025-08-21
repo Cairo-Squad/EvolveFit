@@ -131,19 +131,11 @@ class CreateExerciseViewModel(
 
     override fun onSaveClicked() {
         tryToCall(
+            onStart = { updateState { it.copy(isExerciseSaved = true) } },
             block = ::saveExercise,
-            onSuccess = {
-                sendEffect(CreateExerciseEffect.NavigateToAllExercises)
-            },
-            onError = { e ->
-                sendEffect(CreateExerciseEffect.ShowError(e.message ?: "Unknown error"))
-            },
-            onStart = {
-                updateState { it.copy(isExerciseSaved = true) }
-            },
-            onEnd = {
-                updateState { it.copy(isExerciseSaved = false) }
-            }
+            onSuccess = { sendEffect(CreateExerciseEffect.NavigateToAllExercises) },
+            onError = {},
+            onEnd = { updateState { it.copy(isExerciseSaved = false) } }
         )
     }
 
@@ -158,7 +150,7 @@ class CreateExerciseViewModel(
     override fun onExitWithoutSavingClicked() {
         updateState { it.copy(showExitBottomSheet = false) }
 
-        sendEffect(CreateExerciseEffect.NavigateToAllExercises)
+        sendEffect(CreateExerciseEffect.CancelCreateExercise)
     }
 
     override fun onCancelClicked() {

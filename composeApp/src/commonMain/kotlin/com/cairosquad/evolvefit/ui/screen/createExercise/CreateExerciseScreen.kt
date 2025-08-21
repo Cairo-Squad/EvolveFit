@@ -25,10 +25,12 @@ fun CreateExerciseScreen(
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
             CreateExerciseEffect.NavigateToAllExercises -> {
+                onExerciseCreationSuccess?.invoke()
                 navigateBack()
             }
-
-            is CreateExerciseEffect.ShowError -> {}
+            CreateExerciseEffect.CancelCreateExercise -> {
+                navigateBack()
+            }
         }
     }
     CreateExerciseScreenContent(

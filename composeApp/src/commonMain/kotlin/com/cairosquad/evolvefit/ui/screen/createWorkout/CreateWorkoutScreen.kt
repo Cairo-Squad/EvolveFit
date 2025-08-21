@@ -26,7 +26,7 @@ fun CreateWorkoutScreen(
     LaunchedEffect(Unit) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
-                CreateWorkOutEffect.NavigateToCreateExercise -> navigateToCreateExercise(null /* but your function here */)
+                CreateWorkOutEffect.NavigateToCreateExercise -> navigateToCreateExercise(viewModel::loadExercises)
                 CreateWorkOutEffect.NavigateToAllExercises -> navigateToAllExercises()
                 CreateWorkOutEffect.NavigateToWorkouts -> navigateToWorkOuts()
                 CreateWorkOutEffect.NavigateBack -> navigateBack()
