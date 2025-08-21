@@ -220,6 +220,7 @@
     <string name="liters_small">liters</string>
     <string name="remaining_formatted">%1$s %2$s remaining</string>
     <string name="today_nutrition">Today’s Nutrition</string>
+    <string name="just_for_you">Just For You</string>
 
     <string name="profile_picture">Profile Picture</string>
     <string name="hello_user">Hello %1$s</string>
