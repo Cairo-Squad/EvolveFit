@@ -10,6 +10,10 @@
     <string name="select_measurement">يرجى اختيار قياس ل</string>
     <string name="height">الطول</string>
     <string name="weight">الوزن</string>
+    <string name="calories_format">السعرات الحرارية: %1$d سعرة</string>
+    <string name="carbs_format">الكربوهيدرات: %1$d جم</string>
+    <string name="protein_format">البروتين: %1$d جم</string>
+    <string name="fat_format">الدهون: %1$d جم</string>
     <string name="just_for_you">فقط من أجلك</string>
     <string name="internet_is_not_available">الإنترنت غير متوفر</string>
     <string name="please_make_sure_you_are_connected_to_the_internet_and_try_again">يرجى التأكد من أنك متصل بالإنترنت وحاول مرة أخرى.</string>
@@ -271,10 +275,6 @@
     <string name="previous">السابق</string>
     <string name="back">رجوع</string>
     <string name="bookmark">إضافة للمفضلة</string>
-    <string name="calories_format">السعرات الحرارية: %1$d سعرة</string>
-    <string name="carbs_format">الكربوهيدرات: %1$d جم</string>
-    <string name="protein_format">البروتين: %1$d جم</string>
-    <string name="fat_format">الدهون: %1$d جم</string>
     <string name="workout_saved_successfully">تم حفظ التمرين بنجاح!</string>
     <string name="share_to">مشاركة عبر</string>
     <string name="copy_link">نسخ الرابط</string>
@@ -334,7 +334,7 @@
     <string name="this_week">الأسبوع الحالي</string>
     <string name="last_week">الأسبوع الماضي</string>
     <string name="workout_history">سجل التداريب السابقة</string>
-
+    <string name="invalid_date_format">فورمات تاريخ غير صحيح</string>
     <string name="undo">تراجع</string>
     <string name="save_icon">ايقونة الحفظ</string>
     <string name="remove_from_favorites">إزالة من المفضلة</string>
