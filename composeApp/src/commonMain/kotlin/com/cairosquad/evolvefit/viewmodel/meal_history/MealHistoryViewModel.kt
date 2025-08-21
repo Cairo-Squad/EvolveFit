@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.viewmodel.meal_history
 
-import com.cairosquad.evolvefit.domain.usecase.mealHistory.ManageMealHistoryUseCase
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
 import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
@@ -12,7 +11,6 @@ import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import kotlinx.datetime.todayIn
-import kotlin.time.ExperimentalTime
 
 
 class MealHistoryViewModel(
