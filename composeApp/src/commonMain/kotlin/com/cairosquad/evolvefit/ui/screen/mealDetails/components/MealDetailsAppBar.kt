@@ -17,7 +17,6 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.back
 import evolvefit.composeapp.generated.resources.bookmark
 import evolvefit.composeapp.generated.resources.ic_back
-import evolvefit.composeapp.generated.resources.ic_bookmark
 import evolvefit.composeapp.generated.resources.ic_bookmark_big
 import evolvefit.composeapp.generated.resources.ic_bookmark_big_filled
 import org.jetbrains.compose.resources.painterResource
