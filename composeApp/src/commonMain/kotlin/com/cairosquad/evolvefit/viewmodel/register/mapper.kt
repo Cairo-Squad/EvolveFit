@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
+import androidx.compose.runtime.Composable
 import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
 import com.cairosquad.evolvefit.domain.entity.Profile.Gender
@@ -7,6 +8,7 @@ import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.domain.model.WeekDay
 import kotlinx.datetime.LocalDate
+import org.jetbrains.compose.resources.stringResource
 
 fun RegisterScreenState.WeekDayUiState.toDomain(): WeekDay {
     return when (this) {
@@ -56,7 +58,20 @@ fun RegisterScreenState.EquipmentUiState.toDomain(): Equipment {
     return Equipment(id = toolId, name = toolName)
 }
 
+
 fun dateUiStateToDomain(date: String): LocalDate {
-    val (day, month, year) = date.split("/").map { it.toInt() }
-    return LocalDate(year, month, day)
+    return when {
+        Regex("""\d{4}-\d{2}-\d{2}""").matches(date) -> {
+            val (y, m, d) = date.split("-").map { it.toInt() }
+            LocalDate(y, m, d)
+        }
+        Regex("""\d{2}/\d{2}/\d{4}""").matches(date) -> {
+            val (d, m, y) = date.split("/").map { it.toInt() }
+            LocalDate(y, m, d)
+        }
+        else -> throw IllegalArgumentException("" )
+    }
 }
+
+
+
