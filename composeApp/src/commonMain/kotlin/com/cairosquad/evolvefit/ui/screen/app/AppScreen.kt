@@ -48,7 +48,8 @@ fun AppScreen(
     navigateToLogIn: () -> Unit,
     navigateToFavoritesScreen: () -> Unit,
     onLanguageChange: (String) -> Unit,
-    onThemeChange: (MoreScreenState.Theme) -> Unit
+    onThemeChange: (MoreScreenState.Theme) -> Unit,
+    currentTheme: MoreScreenState.Theme,
 ) {
     var selectedScreenIndex by rememberSaveable { mutableIntStateOf(0) }
 
@@ -115,8 +116,8 @@ fun AppScreen(
                     onThemeChanged = onThemeChange,
                     onLanguageChange = onLanguageChange,
                     onLogout = navigateToLogIn,
-                    navigateToEditProfile = navigateToEditProfile
-
+                    navigateToEditProfile = navigateToEditProfile,
+                    currentTheme = currentTheme
                 )
 
             }

@@ -9,19 +9,20 @@ import com.cairosquad.evolvefit.viewmodel.more.MoreEffect
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import com.cairosquad.evolvefit.viewmodel.more.MoreViewModel
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MoreScreen(
     navigateToFavorites: () -> Unit,
     navigateToNotificationSettings: () -> Unit,
     onThemeChanged: (MoreScreenState.Theme) -> Unit,
+    currentTheme: MoreScreenState.Theme,
     onLanguageChange: (String) -> Unit,
     onLogout: () -> Unit,
     navigateToEditProfile: () -> Unit,
-    viewModel: MoreViewModel = koinViewModel(),
+    viewModel: MoreViewModel = koinViewModel(parameters = { parametersOf(currentTheme) }),
     ) {
     val state by viewModel.screenState.collectAsState()
-
 
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
@@ -44,6 +45,7 @@ fun MoreScreen(
             MoreEffect.NavigateToEditProfile -> {
                 navigateToEditProfile()
             }
+
         }
     }
 

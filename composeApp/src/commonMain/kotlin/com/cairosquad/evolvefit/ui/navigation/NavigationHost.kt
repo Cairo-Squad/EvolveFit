@@ -39,8 +39,10 @@ fun NavigationHost(
     authenticationPreferences: AuthenticationPreferences = koinInject(),
     deepLinkRoute: Any? = null,
     onLanguageChange: (String) -> Unit,
-    onThemeChange: (MoreScreenState.Theme) -> Unit
-) {
+    onThemeChange: (MoreScreenState.Theme) -> Unit,
+    currentTheme: MoreScreenState.Theme,
+    ) {
+
     val isUserLoggedIn = authenticationPreferences.getAccessToken().isNullOrBlank().not()
     val startDestination = if (isUserLoggedIn) AppRoute else OnboardingRoute
 
@@ -141,7 +143,8 @@ fun NavigationHost(
                 } },
                 navigateToFavoritesScreen = {navController.navigate(FavoritesScreenRoute)},
                 onLanguageChange = onLanguageChange,
-                onThemeChange = onThemeChange
+                onThemeChange = onThemeChange,
+                currentTheme = currentTheme
             )
         }
 

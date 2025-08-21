@@ -14,7 +14,7 @@ fun App(
     currentTheme: MoreScreenState.Theme = MoreScreenState.Theme.LIGHT,
     onLanguageChange: (String) -> Unit = {},
     onThemeChange: (MoreScreenState.Theme) -> Unit = {},
-) {
+    ) {
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)
             .components {
@@ -23,6 +23,6 @@ fun App(
             .build()
     }
     AppTheme(isDarkTheme = currentTheme == MoreScreenState.Theme.DARK) {
-        NavigationHost(deepLinkRoute = deepLinkRoute, onLanguageChange = onLanguageChange,            onThemeChange = onThemeChange)
+        NavigationHost(deepLinkRoute = deepLinkRoute, onLanguageChange = onLanguageChange, onThemeChange = onThemeChange,currentTheme = currentTheme)
     }
 }
