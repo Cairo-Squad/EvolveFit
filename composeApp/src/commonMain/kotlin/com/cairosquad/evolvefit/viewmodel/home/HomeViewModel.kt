@@ -12,6 +12,7 @@ import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.utils.toErrorMessageRes
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -223,25 +224,35 @@ class HomeViewModel(
     private fun startLoading() {
         updateState {
             it.copy(
-                isLoading = true,
                 screenStatus = HomeScreenState.ScreenStatus.LOADING
             )
+        }
+
+        observeRequest()
+    }
+
+    private fun observeRequest() {
+        viewModelScope.launch(Dispatchers.Unconfined) {
+            delay(REQUEST_TIME_LIMIT_IN_MILLISECONDS)
+            if (screenState.value.screenStatus == HomeScreenState.ScreenStatus.LOADING) {
+                stopLoading(HomeScreenState.ScreenStatus.FAIL)
+            }
         }
     }
 
     private fun stopLoading(screenStatus: HomeScreenState.ScreenStatus) {
         updateState {
             it.copy(
-                isLoading = false,
                 screenStatus = screenStatus
             )
         }
     }
 
     private fun handleHomeErrors(error: Throwable) {
-        // TODO
         updateState { it.copy(screenErrorMessage = error.toErrorMessageRes()) }
-        println("error: $error")
     }
 
+    companion object {
+        private const val REQUEST_TIME_LIMIT_IN_MILLISECONDS = 7000L
+    }
 }

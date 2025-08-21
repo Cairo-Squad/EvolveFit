@@ -5,7 +5,6 @@ import com.cairosquad.evolvefit.viewmodel.base.ErrorState
 import org.jetbrains.compose.resources.StringResource
 
 data class HomeScreenState(
-    val isLoading: Boolean = false,
     val error: ErrorState? = null,
     val screenErrorMessage: StringResource? = null,
     val isRefreshing: Boolean = false,
