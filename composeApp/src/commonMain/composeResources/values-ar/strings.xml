@@ -332,4 +332,8 @@
     <string name="this_week">الأسبوع الحالي</string>
     <string name="last_week">الأسبوع الماضي</string>
     <string name="workout_history">سجل التداريب السابقة</string>
+
+    <string name="undo">تراجع</string>
+    <string name="save_icon">ايقونة الحفظ</string>
+    <string name="remove_from_favorites">إزالة من المفضلة</string>
 </resources>

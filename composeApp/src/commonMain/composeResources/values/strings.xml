@@ -350,4 +350,8 @@
     <string name="chest">Chest</string>
     <string name="last_week">Last Week</string>
     <string name="workout_history">Workout History</string>
+
+    <string name="undo">Undo</string>
+    <string name="save_icon">save icon</string>
+    <string name="remove_from_favorites">Remove from favorites?</string>
 </resources>
