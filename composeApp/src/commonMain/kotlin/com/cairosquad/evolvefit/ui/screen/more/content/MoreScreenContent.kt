@@ -261,16 +261,16 @@ fun ProfileInfo(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.clip(RoundedCornerShape(8.dp)),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         NetworkImage(
             model = userImage,
             contentDescription = stringResource(Res.string.profile_image),
-            modifier = Modifier.size(80.dp).clip(shape = CircleShape)
+            modifier = Modifier.size(80.dp).clip(shape = CircleShape).padding(bottom=12.dp)
         )
         Text(
+            modifier= Modifier.padding(bottom=4.dp),
             text = userName,
             color = Theme.color.surfaces.onSurfaceContainer,
             style = Theme.textStyle.label.mediumMedium14
