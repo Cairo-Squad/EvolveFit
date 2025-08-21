@@ -35,7 +35,7 @@ fun StepsIndicator(
                 targetValue = if (index < currentStep)
                     Theme.color.brand.primary
                 else
-                    Theme.color.surfaces.surfaceVariant,
+                    Theme.color.brand.primaryContainer,
                 animationSpec = tween(300),
                 label = "stepColor"
             )
