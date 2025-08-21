@@ -7,6 +7,7 @@ import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
 
 fun SuggestedMeal.toSuggestedMealUiState() : SuggestedMealsScreenState.SuggestedMealUiState{
     return SuggestedMealsScreenState.SuggestedMealUiState(
+        id = id,
         name = name,
         type = type.toMealUiState(),
         calories= calories,

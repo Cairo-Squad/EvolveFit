@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.ui.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -35,7 +34,9 @@ fun UserProfileImage(
     onImagePickerClick: () -> Unit,
     onImageRetrieved: (UiImage) -> Unit,
     modifier: Modifier = Modifier,
-    text: String? = null
+    text: String? = null,
+    isEditScreen: Boolean = false,
+
 ) {
     var localImage by remember { mutableStateOf(image) }
 
@@ -70,30 +71,32 @@ fun UserProfileImage(
                 UiImageDisplayer(
                     image = image,
                     contentDescription = "Profile picture",
-                    defaultImageSize = 32.dp
+                    defaultImageSize = 32.dp,
+
                 )
             }
-
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .size(32.dp)
-                    .clip(CircleShape)
-                    .background(Theme.color.surfaces.surface)
-                    .border(
-                        width = 1.dp,
-                        color = Theme.color.surfaces.outlineVariant,
-                        shape = CircleShape
+            if (isEditScreen) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .size(32.dp)
+                        .clip(CircleShape)
+                        .background(Theme.color.surfaces.surface)
+                        .border(
+                            width = 1.dp,
+                            color = Theme.color.surfaces.outlineVariant,
+                            shape = CircleShape
+                        )
+                        .clickable { onImagePickerClick() },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(Res.drawable.ic_camera),
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp),
+                        tint = Theme.color.brand.primary
                     )
-                    .clickable { onImagePickerClick() },
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_camera),
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp),
-                    tint=Theme.color.brand.primary
-                )
+                }
             }
         }
 
@@ -101,7 +104,10 @@ fun UserProfileImage(
             Text(
                 text = text,
                 style = Theme.textStyle.label.mediumMedium14,
-                color = Theme.color.surfaces.onSurfaceVariant
+                color = Theme.color.surfaces.onSurfaceVariant,
+                modifier=Modifier.padding(
+                    bottom = 32.dp
+                    ),
             )
         }
 
