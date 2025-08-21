@@ -155,7 +155,8 @@ fun EditProfileScreenContent(
 
                         else -> Unit
                     }
-                }
+                },
+                isEditScreen = true,
             )
 
             Column(

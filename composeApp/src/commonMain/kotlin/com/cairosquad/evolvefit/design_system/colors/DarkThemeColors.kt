@@ -41,6 +41,10 @@ val darkThemeColors = ThemeColors(
             Color(0xFF1A1A1A),
             Color.Transparent,
         ),
+        iconGradiant =listOf(
+            Color(0xFF86D01D),
+            Color(0xFFCAE99F)
+        ),
         loadingGradientColors = listOf(
             Color.Transparent,
             Color(0xFF1C1C1C),
