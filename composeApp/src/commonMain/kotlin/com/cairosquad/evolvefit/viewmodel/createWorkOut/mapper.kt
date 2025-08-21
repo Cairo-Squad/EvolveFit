@@ -66,8 +66,6 @@ private fun CreateWorkOutScreenState.FocusArea.toDomain(): FocusArea {
     }
 }
 
-
-
 private fun CreateWorkOutScreenState.WorkoutLevel.toDomain(): WorkoutLevel{
     return when (this) {
         CreateWorkOutScreenState.WorkoutLevel.BEGINNER -> WorkoutLevel.BEGINNER

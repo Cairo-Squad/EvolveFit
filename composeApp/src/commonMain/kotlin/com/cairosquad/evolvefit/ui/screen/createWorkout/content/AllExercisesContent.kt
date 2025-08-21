@@ -10,6 +10,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -142,8 +143,8 @@ fun AllExercisesContent(
                 ScreenStatus.SUCCESS -> {
                     LazyColumn(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 16.dp)
+                            .fillMaxSize(),
+                        contentPadding = PaddingValues(horizontal = 16.dp)
                     ) {
                         items(state.filteredExercises) { exercise ->
                             ExerciseCardWithTick(
@@ -293,25 +294,4 @@ fun CreateCustomTick(
             )
         }
     }
-}
-
-
-@Preview()
-@Composable
-fun PreviewExerciseCard() {
-
-    AppTheme(isDarkTheme = true) {
-        var isChecked by remember { mutableStateOf(true) }
-        ExerciseCardWithTick(
-            title = "Push Ups",
-            time = "",
-            model = "",
-            isChecked = isChecked,
-            onCheckedChange = { isChecked = it },
-            measurementContent = {
-                MeasurementRow(CreateWorkOutScreenState.ExerciseType.Reps(count = 12))
-            }
-        )
-    }
-
 }

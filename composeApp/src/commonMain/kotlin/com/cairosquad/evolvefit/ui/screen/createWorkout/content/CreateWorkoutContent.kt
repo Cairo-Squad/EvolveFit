@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.ui.screen.createWorkout.content
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,10 +17,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CustomDropDownMenu
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
@@ -28,6 +31,7 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.UserProfileImage
+import com.cairosquad.evolvefit.ui.screen.createWorkout.component.WorkoutImage
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState.WorkoutLevel
@@ -43,7 +47,9 @@ import evolvefit.composeapp.generated.resources.enter_workout_name_
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_cross
 import evolvefit.composeapp.generated.resources.ic_image
+import evolvefit.composeapp.generated.resources.im_upload1
 import evolvefit.composeapp.generated.resources.next_button_
+import evolvefit.composeapp.generated.resources.upload_image
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -100,8 +106,8 @@ fun CreateWorkoutContent(
 
             }
 
-            UserProfileImage(
-                image = state.image ?: ImageResource(Res.drawable.ic_image),
+            WorkoutImage(
+                image = state.image,
                 isImagePickerOpen = state.isImagePickerOpen,
                 onImagePickerDismiss = listener::onImagePickerDismiss,
                 onImagePickerClick = listener::onImageClicked,
@@ -110,7 +116,16 @@ fun CreateWorkoutContent(
                     .padding(bottom = 8.dp)
                     .clip(shape = RoundedCornerShape(8.dp))
                     .align(Alignment.CenterHorizontally)
-                    .size(100.dp)
+            )
+
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp),
+                text = stringResource(Res.string.upload_image),
+                style = Theme.textStyle.label.smallRegular12,
+                color = Theme.color.surfaces.onSurfaceVariant,
+                textAlign = TextAlign.Center
             )
 
             InputField(
