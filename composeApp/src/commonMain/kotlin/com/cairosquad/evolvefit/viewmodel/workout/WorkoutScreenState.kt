@@ -4,7 +4,8 @@ package com.cairosquad.evolvefit.viewmodel.workout
 data class WorkoutScreenState(
     val selectedFocusArea: FocusAreaUiState = FocusAreaUiState.CORE,
     val allWorkouts: List<WorkoutSuggestedUiState> = emptyList(),
-    val focusAreas: List<FocusAreaUiState> = listOf()
+    val focusAreas: List<FocusAreaUiState> = listOf(),
+    val errorMessage: String? = null
 
 ) {
     data class WorkoutSuggestedUiState(

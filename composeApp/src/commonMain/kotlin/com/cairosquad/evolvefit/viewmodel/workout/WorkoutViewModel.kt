@@ -25,7 +25,7 @@ class WorkoutViewModel(
 
     private fun loadWorkoutsByFocusArea(focusAreaUiState: FocusAreaUiState) {
         tryToCall(
-            block = { workoutUseCase.getWorkoutsByFocusArea(focusAreaUiState.toDomain()) },
+            block = { workoutUseCase.getSuggestedWorkoutsByFocusArea(focusAreaUiState.toDomain()) },
             onSuccess = ::onLoadWorkoutByFocusAreaSuccess,
             onError = ::onLoadWorkoutByFocusAreaError
         )
@@ -58,7 +58,7 @@ class WorkoutViewModel(
     }
 
     private fun onGetSuggestedWorkoutError(t: Throwable) {
-        // TODO: show snackbar/effect
+        updateState { it.copy(errorMessage = t.message ?: "Failed to load community workouts") }
     }
 
     private fun onLoadWorkoutByFocusAreaSuccess(workouts: List<WorkoutSuggested>) {
@@ -66,6 +66,6 @@ class WorkoutViewModel(
     }
 
     private fun onLoadWorkoutByFocusAreaError(t: Throwable) {
-        // TODO:  snackbar/effect
+        updateState { it.copy(errorMessage = t.message ?: "Failed to load workouts by focus") }
     }
 }
