@@ -44,6 +44,7 @@ import evolvefit.composeapp.generated.resources.Onboarding
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arrow_down
 import evolvefit.composeapp.generated.resources.choose_language
+import evolvefit.composeapp.generated.resources.confirm
 import evolvefit.composeapp.generated.resources.do_you_have_an_account
 import evolvefit.composeapp.generated.resources.language_selection_description
 import evolvefit.composeapp.generated.resources.login
@@ -233,7 +234,7 @@ private fun LanguageBottomSheet(
                     )
                 }
                 PrimaryButton(
-                    text = "Confirm",
+                    text = stringResource(Res.string.confirm),
                     onClick = { onConfirmClick(selectedLanguage.toDomain()) },
                     modifier = Modifier.padding(
                         start = 16.dp, end = 16.dp, bottom = 16.dp, top = 28.dp
