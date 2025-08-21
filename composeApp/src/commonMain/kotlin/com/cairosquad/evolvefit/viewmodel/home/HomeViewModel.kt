@@ -7,7 +7,7 @@ import com.cairosquad.evolvefit.domain.usecase.home.GetNutritionProgressUseCase
 import com.cairosquad.evolvefit.domain.usecase.home.GetPersonalizedWorkoutsUseCase
 import com.cairosquad.evolvefit.domain.usecase.home.GetWeeklyProgressUseCase
 import com.cairosquad.evolvefit.domain.model.NutritionProgress
-import com.cairosquad.evolvefit.domain.usecase.home.model.WeeklyProgress
+import com.cairosquad.evolvefit.domain.model.WeeklyProgress
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
