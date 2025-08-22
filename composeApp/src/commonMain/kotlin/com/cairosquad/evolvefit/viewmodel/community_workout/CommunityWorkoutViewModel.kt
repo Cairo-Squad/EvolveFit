@@ -35,7 +35,7 @@ class CommunityWorkoutViewModel(
         )
     }
 
-    override fun onSelectFocusArea(focusArea: WorkoutScreenState.FocusAreaUiState) {
+    override fun onFocusAreaSelected(focusArea: WorkoutScreenState.FocusAreaUiState) {
         updateState { it.copy(selectedFocusArea = focusArea, errorMessage = null) }
         if (focusArea == WorkoutScreenState.FocusAreaUiState.All) {
             loadAllCommunityWorkouts()
@@ -44,11 +44,11 @@ class CommunityWorkoutViewModel(
         }
     }
 
-    override fun onClickWorkout(id: String) {
+    override fun onWorkoutClicked(id: String) {
         sendEffect(CommunityWorkoutEffect.NavigateToWorkoutDetails(id))
     }
 
-    override fun onClickBack() {
+    override fun onBackClicked() {
         sendEffect(CommunityWorkoutEffect.NavigateBack)
     }
 
@@ -110,7 +110,7 @@ class CommunityWorkoutViewModel(
         )
     }
 
-    override fun onClickRetry() {
+    override fun onRetryClicked() {
         val selected = screenState.value.selectedFocusArea
         if (selected == WorkoutScreenState.FocusAreaUiState.All) loadAllCommunityWorkouts()
         else loadCommunityWorkoutsByFocusArea(selected)

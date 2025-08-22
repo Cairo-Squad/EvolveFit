@@ -33,7 +33,7 @@ class WorkoutViewModel(
         )
     }
 
-    override fun onSelectFocusArea(focusArea: FocusAreaUiState) {
+    override fun onFocusAreaSelected(focusArea: FocusAreaUiState) {
         updateState { it.copy(selectedFocusArea = focusArea, errorMessage = null) }
 
         if (focusArea == FocusAreaUiState.All) {
@@ -49,20 +49,16 @@ class WorkoutViewModel(
         else loadWorkoutsByFocusArea(selected)
     }
 
-    override fun onClickWorkout(id: String) {
+    override fun onWorkoutClicked(id: String) {
         sendEffect(WorkoutEffect.NavigateToWorkoutDetails(id))
     }
 
-    override fun onClickAddWorkout() {
+    override fun onAddWorkoutClicked() {
         sendEffect(WorkoutEffect.NavigateToCreateWorkout)
     }
 
-    override fun onClickCommunity() {
+    override fun onCommunityClicked() {
         sendEffect(WorkoutEffect.NavigateToCommunityWorkout)
-    }
-
-    override fun onWorkoutClicked(id: String) {
-        sendEffect(WorkoutEffect.NavigateToWorkoutDetails(id))
     }
 
     private fun onGetSuggestedWorkoutsSuccess(workouts: List<WorkoutSuggested>) {

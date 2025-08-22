@@ -95,12 +95,12 @@ private fun WorkoutsScreenContent(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            AppBar(listener::onClickCommunity)
+            AppBar(listener::onCommunityClicked)
 
             FocusAreaFilter(
                 focusArea = WorkoutScreenState.FocusAreaUiState.entries,
                 selectedFocusArea = state.selectedFocusArea,
-                onSelectFocusArea = listener::onSelectFocusArea
+                onSelectFocusArea = listener::onFocusAreaSelected
             )
 
             Crossfade(
@@ -114,7 +114,7 @@ private fun WorkoutsScreenContent(
                     WorkoutScreenState.ScreenStatus.SUCCESS -> {
                         Workouts(
                             workouts = state.allWorkouts,
-                            onClickWorkout = listener::onClickWorkout
+                            onClickWorkout = listener::onWorkoutClicked
                         )
                     }
 
@@ -134,7 +134,7 @@ private fun WorkoutsScreenContent(
         if (state.screenStatus == WorkoutScreenState.ScreenStatus.SUCCESS) {
             AddWorkoutBtn(
                 modifier = Modifier.align(Alignment.BottomEnd),
-                listener::onClickAddWorkout
+                listener::onAddWorkoutClicked
             )
         }
     }

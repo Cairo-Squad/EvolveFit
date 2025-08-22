@@ -85,7 +85,7 @@ private fun WorkoutsScreenContent(
             FocusAreaFilter(
                 focusArea = WorkoutScreenState.FocusAreaUiState.entries,
                 selectedFocusArea = state.selectedFocusArea,
-                onSelectFocusArea = listener::onSelectFocusArea
+                onSelectFocusArea = listener::onFocusAreaSelected
             )
 
             Crossfade(
@@ -99,7 +99,7 @@ private fun WorkoutsScreenContent(
                     WorkoutScreenState.ScreenStatus.SUCCESS -> {
                         Workouts(
                             workouts = state.allWorkouts,
-                            onClickWorkout = listener::onClickWorkout
+                            onClickWorkout = listener::onWorkoutClicked
                         )
                     }
 
@@ -110,7 +110,7 @@ private fun WorkoutsScreenContent(
                     WorkoutScreenState.ScreenStatus.FAIL -> {
                         WorkoutsErrorScreen(
                             message = state.errorMessage ?: "Something went wrong",
-                            onRetry = listener::onClickRetry
+                            onRetry = listener::onRetryClicked
                         )
                     }
                 }
