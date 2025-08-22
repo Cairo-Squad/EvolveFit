@@ -129,6 +129,10 @@ class MoreViewModel(
         )
     }
 
+    fun onReturnToScreen() {
+        loadProfile()
+    }
+
     private fun onLogoutFailed() {
         updateState { it.copy(errorMessage = Res.string.failed_to_logout) }
     }

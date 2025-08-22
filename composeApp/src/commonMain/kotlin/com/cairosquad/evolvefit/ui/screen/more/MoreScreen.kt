@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.ui.screen.more
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
@@ -22,6 +23,9 @@ fun MoreScreen(
     ) {
     val state by viewModel.screenState.collectAsState()
 
+    LaunchedEffect(key1 = true){
+        viewModel.onReturnToScreen()
+    }
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
             is MoreEffect.NavigateToFavorites -> {
