@@ -34,10 +34,8 @@ fun getMeasurementStandard(measurementType: String): MeasurementStandard {
 fun Profile.toProfileRequest(): ProfileRequest {
     val dto = ProfileRequest(
         name = name,
-        email = email,
         birthDate = dateOfBirth.toString(),
         gender = getGenderName(gender),
-        imageUrl = imageUrl,
         measurementType = getMeasurementTypeName(preferredMeasurementStandard),
         height = height.toDouble(),
         weight = weight.toDouble(),
