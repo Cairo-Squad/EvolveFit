@@ -52,6 +52,7 @@ class WorkoutViewModel(
     override fun onClickWorkout(id: String) {
         sendEffect(WorkoutEffect.NavigateToWorkoutDetails(id))
     }
+
     override fun onClickAddWorkout() {
         sendEffect(WorkoutEffect.NavigateToCreateWorkout)
     }
@@ -65,8 +66,8 @@ class WorkoutViewModel(
     }
 
     private fun onGetSuggestedWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
-        updateState { st ->
-            st.copy(
+        updateState { it ->
+            it.copy(
                 allWorkouts = workouts.map { it.toUiState() },
                 errorMessage = null,
                 screenStatus = WorkoutScreenState.ScreenStatus.SUCCESS
@@ -84,8 +85,8 @@ class WorkoutViewModel(
     }
 
     private fun onLoadWorkoutByFocusAreaSuccess(workouts: List<WorkoutSuggested>) {
-        updateState { st ->
-            st.copy(
+        updateState { it ->
+            it.copy(
                 allWorkouts = workouts.map { it.toUiState() },
                 errorMessage = null,
                 screenStatus = WorkoutScreenState.ScreenStatus.SUCCESS

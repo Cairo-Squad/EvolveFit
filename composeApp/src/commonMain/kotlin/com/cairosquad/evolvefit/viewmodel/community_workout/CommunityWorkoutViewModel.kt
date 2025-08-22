@@ -57,8 +57,8 @@ class CommunityWorkoutViewModel(
     }
 
     private fun onGetSuggestedWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
-        updateState { st ->
-            st.copy(
+        updateState { it ->
+            it.copy(
                 allWorkouts = workouts.map { it.toUiState() },
                 errorMessage = null,
                 screenStatus = WorkoutScreenState.ScreenStatus.SUCCESS
@@ -78,8 +78,8 @@ class CommunityWorkoutViewModel(
     }
 
     private fun onLoadWorkoutByFocusAreaSuccess(workouts: List<WorkoutSuggested>) {
-        updateState { st ->
-            st.copy(
+        updateState { it ->
+            it.copy(
                 allWorkouts = workouts.map { it.toUiState() },
                 errorMessage = null,
                 screenStatus = WorkoutScreenState.ScreenStatus.SUCCESS
@@ -105,13 +105,7 @@ class CommunityWorkoutViewModel(
 
         tryToCall(
             block = onGetCommunityWorkoutsByFocusArea(selected),
-            onSuccess = { list ->
-                if (screenState.value.selectedFocusArea == selected) {
-                    onRefreshSuccess(list)
-                } else {
-                    isRefreshing(false)
-                }
-            },
+            onSuccess = { list -> onRefreshSuccess(selected, list) },
             onError = ::onRefreshError
         )
     }
@@ -136,12 +130,22 @@ class CommunityWorkoutViewModel(
         )
     }
 
-    private fun onRefreshSuccess(list: List<WorkoutSuggested>) = updateState {
-        it.copy(
-            allWorkouts = list.map { w -> w.toUiState() },
-            isRefreshing = false,
-            errorMessage = null
-        )
+    private fun onRefreshSuccess(
+        selected: WorkoutScreenState.FocusAreaUiState,
+        list: List<WorkoutSuggested>
+    ) {
+        if (screenState.value.selectedFocusArea != selected) {
+            isRefreshing(false)
+            return
+        }
+
+        updateState {
+            it.copy(
+                allWorkouts = list.map { w -> w.toUiState() },
+                isRefreshing = false,
+                errorMessage = null
+            )
+        }
     }
 
     private fun onRefreshError(t: Throwable) = updateState {

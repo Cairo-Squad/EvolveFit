@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.workout
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -102,7 +103,7 @@ private fun WorkoutsScreenContent(
                 onSelectFocusArea = listener::onSelectFocusArea
             )
 
-            androidx.compose.animation.Crossfade(
+            Crossfade(
                 targetState = state.screenStatus,
                 animationSpec = tween(
                     durationMillis = 400,
