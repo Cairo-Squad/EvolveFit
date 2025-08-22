@@ -26,6 +26,9 @@ data class ExerciseDto(
 
     @SerialName("durationSeconds")
     val durationSeconds: Int? = null,
+
+    @SerialName("images")
+    val images: List<String> = emptyList(),
 )
 
 @Serializable
