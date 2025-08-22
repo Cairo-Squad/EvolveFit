@@ -20,7 +20,7 @@ fun CreateWorkOutScreenState.toDomainWorkout(exercises: List<CreateWorkOutScreen
         name = name,
         description = description,
         imageUrl = listOfNotNull(imageUrl.takeIf { it.isNotBlank() }).toString(),
-        level = goal.toDomain(),
+        level = level!!.toDomain(),
         estimatedTimeInSeconds = exercises.sumOf {
             when (val t = it.type) {
                 is CreateWorkOutScreenState.ExerciseType.Duration -> t.seconds

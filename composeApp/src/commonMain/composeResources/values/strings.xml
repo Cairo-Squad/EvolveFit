@@ -364,6 +364,8 @@
 
     <string name="kilogram">Kg</string>
     <string name="pound">lbs</string>
+    <string name="choose_level">Choose level</string>
+
 
     <string name="error_invalid_number">Please enter a valid number or decimal</string>
     <string name="error_number_too_large">The number is too large, try a smaller value</string>
