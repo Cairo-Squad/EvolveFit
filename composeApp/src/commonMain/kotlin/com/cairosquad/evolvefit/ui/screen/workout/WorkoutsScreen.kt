@@ -5,7 +5,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -31,8 +30,9 @@ import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
+import com.cairosquad.evolvefit.ui.component.RefreshBox
 import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
+import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutEffect
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutInteractionListener
@@ -95,7 +95,6 @@ private fun WorkoutsScreenContent(
         ) {
 
             AppBar(listener::onClickCommunity)
-//            onCommunityClicked
 
             FocusAreaFilter(
                 focusArea = WorkoutScreenState.FocusAreaUiState.entries,
@@ -115,7 +114,6 @@ private fun WorkoutsScreenContent(
                         Workouts(
                             workouts = state.allWorkouts,
                             onClickWorkout = listener::onClickWorkout
-                            //onWorkoutClicked
                         )
                     }
 
@@ -133,11 +131,10 @@ private fun WorkoutsScreenContent(
             }
         }
         if (state.screenStatus == WorkoutScreenState.ScreenStatus.SUCCESS) {
-                AddWorkoutBtn(
-                    modifier = Modifier.align(Alignment.BottomEnd),
-                    listener::onClickAddWorkout
-                    //onAddWorkoutClicked
-                )
+            AddWorkoutBtn(
+                modifier = Modifier.align(Alignment.BottomEnd),
+                listener::onClickAddWorkout
+            )
         }
     }
 }
@@ -150,7 +147,6 @@ fun AddWorkoutBtn(
     FloatingActionButton(
         onClick = onClickAddWorkout,
         modifier = modifier
-//            .align(Alignment.BottomEnd)
             .padding(24.dp),
         containerColor = Theme.color.brand.primary,
         shape = CircleShape,

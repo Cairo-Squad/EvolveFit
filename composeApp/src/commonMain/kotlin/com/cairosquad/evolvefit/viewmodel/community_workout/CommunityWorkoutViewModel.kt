@@ -44,11 +44,11 @@ class CommunityWorkoutViewModel(
         }
     }
 
-    override fun onWorkoutClicked(id: String) {
+    override fun onClickWorkout(id: String) {
         sendEffect(CommunityWorkoutEffect.NavigateToWorkoutDetails(id))
     }
 
-    override fun onBackClicked() {
+    override fun onClickBack() {
         sendEffect(CommunityWorkoutEffect.NavigateBack)
     }
 
@@ -116,7 +116,7 @@ class CommunityWorkoutViewModel(
         )
     }
 
-    override fun onRetryClicked() {
+    override fun onClickRetry() {
         val selected = screenState.value.selectedFocusArea
         if (selected == WorkoutScreenState.FocusAreaUiState.All) loadAllCommunityWorkouts()
         else loadCommunityWorkoutsByFocusArea(selected)

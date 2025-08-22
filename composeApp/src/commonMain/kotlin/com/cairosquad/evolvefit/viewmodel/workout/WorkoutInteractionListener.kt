@@ -8,6 +8,4 @@ interface WorkoutInteractionListener {
     fun onRefresh()
     fun onRetryClicked()
     fun onWorkoutClicked(id: String)
-    fun onAddWorkoutClicked()
-    fun onCommunityClicked()
 }
