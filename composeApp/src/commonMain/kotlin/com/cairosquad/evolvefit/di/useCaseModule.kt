@@ -10,7 +10,7 @@ import com.cairosquad.evolvefit.domain.usecase.home.GetWeeklyProgressUseCase
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
 import com.cairosquad.evolvefit.domain.usecase.profile.ManagePreferencesUseCase
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
-import com.cairosquad.evolvefit.domain.usecase.report.ReportUseCase
+import com.cairosquad.evolvefit.domain.usecase.report.ManageReportsUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -18,7 +18,7 @@ import org.koin.dsl.module
 val useCaseModule = module {
     singleOf(::AuthenticationUseCase)
     singleOf(::ManageExerciseUseCase)
-    singleOf(::ReportUseCase)
+    singleOf(::ManageReportsUseCase)
     singleOf(::ManageWorkoutUseCase)
     singleOf(::ManageProfileUseCase)
     singleOf(::ManageNutritionUseCase)

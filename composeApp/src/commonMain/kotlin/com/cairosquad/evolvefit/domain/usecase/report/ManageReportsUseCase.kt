@@ -5,7 +5,7 @@ import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
 import com.cairosquad.evolvefit.domain.repository.ReportRepository
 import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
 
-class ReportUseCase(
+class ManageReportsUseCase(
     private val reportRepository: ReportRepository,
     private val workoutRepository: WorkoutRepository
 ) {

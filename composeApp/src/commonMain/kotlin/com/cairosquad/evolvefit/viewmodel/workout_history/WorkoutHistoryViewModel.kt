@@ -2,13 +2,13 @@ package com.cairosquad.evolvefit.viewmodel.workout_history
 
 import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
-import com.cairosquad.evolvefit.domain.usecase.report.ReportUseCase
+import com.cairosquad.evolvefit.domain.usecase.report.ManageReportsUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class WorkoutHistoryViewModel(
-    private val reportUseCase: ReportUseCase,
+    private val manageReportsUseCase: ManageReportsUseCase,
 ) : BaseViewModel<WorkoutHistoryScreenState, WorkoutHistoryEffect>(WorkoutHistoryScreenState()),
     WorkoutHistoryInteractionListener {
 
@@ -18,7 +18,7 @@ class WorkoutHistoryViewModel(
 
     fun loadWorkoutHistory() {
         tryToCall(
-            block = reportUseCase::getWorkoutHistory,
+            block = manageReportsUseCase::getWorkoutHistory,
             onSuccess = ::onLoadWorkoutHistorySuccess,
             onError = ::onLoadWorkoutHistoryError
         )
