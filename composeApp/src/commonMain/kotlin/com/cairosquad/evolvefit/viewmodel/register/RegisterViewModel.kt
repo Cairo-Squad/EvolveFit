@@ -48,7 +48,10 @@ class RegisterViewModel(
                         weight = state.selectedWeight,
                         goal = state.selectedGoal.toDomain(),
                         imageUrl=state.image.toString(),
-                        equipments = state.equipments.map{it.toDomain()}.toSet(),
+                        equipments = state.availableEquipments
+                            .filter { state.selectedEquipments.contains(it.toolId) }
+                            .map { it.toDomain() }
+                            .toSet(),
                         workoutDays =state.workoutDays
                     ),
                     password = state.userPasswordInput,
@@ -63,22 +66,25 @@ class RegisterViewModel(
         )
     }
 
-    private fun handleEquipmentsSuccess(tools: List<Equipment>) {
-        val equipments = tools.map { tool ->
-            RegisterScreenState.EquipmentUiState(
-                toolId = tool.id,
-                isSelected = false
-            )
-        }
-        updateState { it.copy(availableEquipments = equipments) }
-    }
-
     private fun getEquipments() {
         tryToCall(
-            block = { manageEquipmentUseCase.getAllEquipments().toList() },
+            block = { manageEquipmentUseCase.getAllEquipments() },
             onSuccess = ::handleEquipmentsSuccess,
-            onError = { updateState { it.copy(errorMessage = "") } }
+            onError = ::handleEquipmentsError
         )
+    }
+
+    private fun handleEquipmentsSuccess(equipments: Set<Equipment>) {
+        updateState {
+            it.copy(availableEquipments = equipments.map { equipment -> equipment.toUiState() }
+                .toSet())
+        }
+    }
+
+    private fun handleEquipmentsError(throwable: Throwable) {
+        updateState {
+            it.copy(errorMessage = "Failed to load equipments")
+        }
     }
 
     override fun onHeightChanged(height: Float) {
