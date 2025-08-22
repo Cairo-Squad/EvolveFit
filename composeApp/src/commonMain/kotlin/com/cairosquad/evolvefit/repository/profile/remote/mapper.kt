@@ -2,8 +2,7 @@ package com.cairosquad.evolvefit.repository.profile.remote
 
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
-import com.cairosquad.evolvefit.repository.profile.remote.dto.ProfileGetDto
-import com.cairosquad.evolvefit.repository.profile.remote.dto.ProfilePostDto
+import com.cairosquad.evolvefit.repository.profile.remote.dto.ProfileRequest
 
 fun getFitnessGoal(goal: String): Profile.FitnessGoal {
     return when (goal) {
