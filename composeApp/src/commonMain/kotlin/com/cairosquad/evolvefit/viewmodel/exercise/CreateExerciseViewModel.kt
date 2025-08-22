@@ -204,7 +204,7 @@ class CreateExerciseViewModel(
 
     private fun handleEquipmentsError(throwable: Throwable) {
         updateState {
-            it.copy(errorMessage = "Failed to load equipments")
+            it.copy(errorMessage = "")
         }
 
     }
