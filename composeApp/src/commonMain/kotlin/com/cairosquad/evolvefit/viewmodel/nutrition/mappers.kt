@@ -24,7 +24,7 @@ fun NutritionScreenState.MealTypeUiState.toMealType(): MealType {
         NutritionScreenState.MealTypeUiState.Breakfast -> MealType.BREAKFAST
         NutritionScreenState.MealTypeUiState.Lunch -> MealType.LUNCH
         NutritionScreenState.MealTypeUiState.Dinner -> MealType.DINNER
-        NutritionScreenState.MealTypeUiState.Snack -> MealType.SNACKS
+        NutritionScreenState.MealTypeUiState.Snack -> MealType.SNACK
     }
 }
 fun MealType.toMealUiState(): NutritionScreenState.MealTypeUiState {
@@ -32,7 +32,7 @@ fun MealType.toMealUiState(): NutritionScreenState.MealTypeUiState {
         MealType.BREAKFAST -> NutritionScreenState.MealTypeUiState.Breakfast
         MealType.LUNCH ->  NutritionScreenState.MealTypeUiState.Lunch
         MealType.DINNER ->NutritionScreenState.MealTypeUiState.Dinner
-        MealType.SNACKS -> NutritionScreenState.MealTypeUiState.Snack
+        MealType.SNACK -> NutritionScreenState.MealTypeUiState.Snack
     }
 }
 fun ConsumedMeal.toMealHistoryUi(): NutritionScreenState.ConsumedMealUiState {
