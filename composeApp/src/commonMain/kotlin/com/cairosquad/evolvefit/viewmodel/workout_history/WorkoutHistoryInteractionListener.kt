@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.workoutHistory
+package com.cairosquad.evolvefit.viewmodel.workout_history
 
 interface WorkoutHistoryInteractionListener {
     fun onBackClicked()

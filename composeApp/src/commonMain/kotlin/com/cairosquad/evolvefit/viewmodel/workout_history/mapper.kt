@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.workoutHistory
+package com.cairosquad.evolvefit.viewmodel.workout_history
 
 import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
 import com.cairosquad.evolvefit.viewmodel.utils.formatIsoToTodayTime

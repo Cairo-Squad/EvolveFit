@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.workoutDetails
+package com.cairosquad.evolvefit.viewmodel.workout_details
 
 import org.jetbrains.compose.resources.StringResource
 

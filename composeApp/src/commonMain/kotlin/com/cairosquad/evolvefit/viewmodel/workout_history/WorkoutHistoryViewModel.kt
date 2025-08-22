@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.workoutHistory
+package com.cairosquad.evolvefit.viewmodel.workout_history
 
 import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.entity.WorkoutHistory

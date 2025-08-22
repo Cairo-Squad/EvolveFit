@@ -1,9 +1,9 @@
-package com.cairosquad.evolvefit.viewmodel.playWorkout
+package com.cairosquad.evolvefit.viewmodel.play_workout
 
 import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
-import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState.Stage
+import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState.Stage
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 

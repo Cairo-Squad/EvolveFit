@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.workoutDetails
+package com.cairosquad.evolvefit.viewmodel.workout_details
 
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.ui.util.Share

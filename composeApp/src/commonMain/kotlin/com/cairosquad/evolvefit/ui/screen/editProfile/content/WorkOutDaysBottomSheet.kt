@@ -18,19 +18,18 @@ import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.SelectableDayBox
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
-import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState
+import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.confirm
 import evolvefit.composeapp.generated.resources.friday
 import evolvefit.composeapp.generated.resources.monday
 import evolvefit.composeapp.generated.resources.saturday
-import evolvefit.composeapp.generated.resources.save
 import evolvefit.composeapp.generated.resources.sunday
 import evolvefit.composeapp.generated.resources.thursday
 import evolvefit.composeapp.generated.resources.tuesday
 import evolvefit.composeapp.generated.resources.wednesday
-import evolvefit.composeapp.generated.resources.workout_days_title
 import evolvefit.composeapp.generated.resources.workout_days_description
+import evolvefit.composeapp.generated.resources.workout_days_title
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

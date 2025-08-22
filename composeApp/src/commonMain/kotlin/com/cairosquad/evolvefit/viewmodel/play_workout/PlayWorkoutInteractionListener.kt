@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.playWorkout
+package com.cairosquad.evolvefit.viewmodel.play_workout
 
 interface PlayWorkoutInteractionListener {
     fun onCancelWorkoutClicked()

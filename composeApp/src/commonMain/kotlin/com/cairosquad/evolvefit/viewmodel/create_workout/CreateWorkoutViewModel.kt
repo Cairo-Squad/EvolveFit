@@ -1,11 +1,11 @@
-package com.cairosquad.evolvefit.viewmodel.createWorkOut
+package com.cairosquad.evolvefit.viewmodel.create_workout
 
 import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.usecase.exercise.ManageExerciseUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
-import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutEffect.NavigateBack
-import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState.WorkoutLevel
+import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutEffect.NavigateBack
+import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState.WorkoutLevel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 
 class CreateWorkoutViewModel(

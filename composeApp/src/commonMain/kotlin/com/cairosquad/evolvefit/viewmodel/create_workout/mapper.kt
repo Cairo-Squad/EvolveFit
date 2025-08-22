@@ -1,14 +1,11 @@
-package com.cairosquad.evolvefit.viewmodel.createWorkOut
+package com.cairosquad.evolvefit.viewmodel.create_workout
 
 import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.entity.Workout.WorkoutLevel
 import com.cairosquad.evolvefit.domain.model.FocusArea
-import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState
-import com.cairosquad.evolvefit.viewmodel.exercise.toDomain
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
-import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
 import io.github.vinceglb.filekit.path
 
 fun CreateWorkOutScreenState.toDomainWorkout(exercises: List<CreateWorkOutScreenState.ExerciseUiState> = emptyList()): Workout {

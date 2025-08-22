@@ -1,6 +1,5 @@
-package com.cairosquad.evolvefit.viewmodel.createWorkOut
+package com.cairosquad.evolvefit.viewmodel.create_workout
 
-import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 
 interface CreateWorkOutInteractionListener {

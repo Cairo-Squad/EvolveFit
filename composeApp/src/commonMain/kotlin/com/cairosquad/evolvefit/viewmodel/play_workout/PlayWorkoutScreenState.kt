@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.playWorkout
+package com.cairosquad.evolvefit.viewmodel.play_workout
 
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.advanced

@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.createWorkOut
+package com.cairosquad.evolvefit.viewmodel.create_workout
 
 sealed interface CreateWorkOutEffect {
     data object NavigateBack : CreateWorkOutEffect

@@ -2,8 +2,6 @@ package com.cairosquad.evolvefit.ui.screen.editProfile.content
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,14 +18,11 @@ import com.cairosquad.evolvefit.design_system.component.CheckboxStyle
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
-import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState
+import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.confirm
-import evolvefit.composeapp.generated.resources.no_tools_description
 import evolvefit.composeapp.generated.resources.no_tools_title
 import evolvefit.composeapp.generated.resources.or_select_one_or_more
-import evolvefit.composeapp.generated.resources.save
-import evolvefit.composeapp.generated.resources.your_tools_description
 import evolvefit.composeapp.generated.resources.your_tools_title
 import org.jetbrains.compose.resources.stringResource
 

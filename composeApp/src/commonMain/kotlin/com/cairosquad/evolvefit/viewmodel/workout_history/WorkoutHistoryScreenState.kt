@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.workoutHistory
+package com.cairosquad.evolvefit.viewmodel.workout_history
 
 data class WorkoutHistoryScreenState(
     val workoutHistory: List<WorkoutHistoryUiState> = emptyList(),

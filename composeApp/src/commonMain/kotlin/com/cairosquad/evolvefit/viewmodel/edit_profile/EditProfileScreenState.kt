@@ -1,11 +1,9 @@
-package com.cairosquad.evolvefit.viewmodel.editProfile
+package com.cairosquad.evolvefit.viewmodel.edit_profile
 
-import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.entity.Profile.Gender
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
-import com.cairosquad.evolvefit.domain.model.WeekDay
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.StringResource
 

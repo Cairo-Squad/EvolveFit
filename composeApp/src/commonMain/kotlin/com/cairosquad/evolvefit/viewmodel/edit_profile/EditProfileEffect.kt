@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.editProfile
+package com.cairosquad.evolvefit.viewmodel.edit_profile
 
 sealed class EditProfileEffect {
     object NavigateBack:EditProfileEffect()

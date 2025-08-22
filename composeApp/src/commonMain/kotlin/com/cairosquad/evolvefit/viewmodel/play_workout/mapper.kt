@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.playWorkout
+package com.cairosquad.evolvefit.viewmodel.play_workout
 
 import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.entity.Workout

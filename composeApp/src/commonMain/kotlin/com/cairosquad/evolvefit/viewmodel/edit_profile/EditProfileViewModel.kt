@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.editProfile
+package com.cairosquad.evolvefit.viewmodel.edit_profile
 
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.entity.Profile.Gender
@@ -6,7 +6,7 @@ import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.domain.usecase.equipment.ManageEquipmentUseCase
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
-import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState.EditProfileBottomSheetType
+import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileScreenState.EditProfileBottomSheetType
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.utils.asByteArray
 import evolvefit.composeapp.generated.resources.Res

@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.viewmodel.editProfile
+package com.cairosquad.evolvefit.viewmodel.edit_profile
 
 import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Profile
