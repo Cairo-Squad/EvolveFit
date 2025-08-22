@@ -9,3 +9,10 @@ fun OnboardingScreenState.Language.toDomain(): Language {
 
     }
 }
+
+fun languageToLanguageCode(language: Language): String {
+    return when (language) {
+        Language.ARABIC -> "ar"
+        Language.ENGLISH -> "en"
+    }
+}

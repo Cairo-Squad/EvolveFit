@@ -20,6 +20,12 @@ fun languageToLanguageCode(language: Language): String{
         Language.ENGLISH -> "en"
     }
 }
+fun languageCodeToLanguage(languageCode: String): Language{
+    return when(languageCode){
+        "ar" -> Language.ARABIC
+        else -> Language.ENGLISH
+    }
+}
 private fun calculateAge(dateOfBirth: kotlinx.datetime.LocalDate): Int {
     val currentDate = kotlinx.datetime.Clock.System.now()
         .toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault()).date

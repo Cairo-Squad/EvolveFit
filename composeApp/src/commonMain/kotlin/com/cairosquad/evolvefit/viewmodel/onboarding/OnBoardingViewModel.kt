@@ -1,12 +1,10 @@
 package com.cairosquad.evolvefit.viewmodel.onboarding
 
 import com.cairosquad.evolvefit.domain.model.Language
-import com.cairosquad.evolvefit.domain.usecase.profile.ManageLanguageUseCase
+import com.cairosquad.evolvefit.domain.usecase.profile.ManagePreferencesUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
-import com.cairosquad.evolvefit.viewmodel.more.MoreEffect
-
 class OnBoardingViewModel(
-    private val manageLanguageUseCase: ManageLanguageUseCase
+    private val managePreferencesUseCase: ManagePreferencesUseCase
 ) :
     BaseViewModel<OnboardingScreenState, OnboardingScreenEffect>(OnboardingScreenState()),
     OnboardingScreenListener {
@@ -20,7 +18,7 @@ class OnBoardingViewModel(
 
     override fun onConfirmClicked(language: Language) {
         tryToCall(
-            block = { manageLanguageUseCase.saveLanguage(language) },
+            block = { managePreferencesUseCase.saveLanguage(languageToLanguageCode(language)) },
             onSuccess = { onSuccessChangeLanguage(language) },
             onError = { },
         )
