@@ -5,16 +5,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ProfileRequest(
-    @SerialName("name")
+    @SerialName("fullName")
     val name: String = "",
-    @SerialName("email")
-    val email: String = "",
     @SerialName("birthDate")
     val birthDate: String = "",
     @SerialName("gender")
     val gender: String = "",
-    @SerialName("imageUrl")
-    val imageUrl: String = "",
     @SerialName("measurementType")
     val measurementType: String = "",
     @SerialName("height")
