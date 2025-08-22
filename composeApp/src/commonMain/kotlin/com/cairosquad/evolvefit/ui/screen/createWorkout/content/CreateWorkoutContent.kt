@@ -29,9 +29,9 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.createWorkout.component.WorkoutImage
-import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutInteractionListener
-import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState
-import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState.WorkoutLevel
+import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutInteractionListener
+import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState
+import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState.WorkoutLevel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.characters_left
