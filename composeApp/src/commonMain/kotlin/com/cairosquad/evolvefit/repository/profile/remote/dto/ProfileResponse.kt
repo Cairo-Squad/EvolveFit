@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.repository.profile.remote.dto
 
 import com.cairosquad.evolvefit.domain.entity.Profile
-import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.repository.equipment.remote.dto.GymEquipmentDto
 import com.cairosquad.evolvefit.repository.equipment.remote.toDomain
@@ -12,7 +11,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.datetime.LocalDate
 @Serializable
-data class ProfileGetDto(
+data class ProfileResponse(
     @SerialName("name")
     val name: String = "",
     @SerialName("email")
@@ -47,9 +46,8 @@ data class ProfileGetDto(
             dateOfBirth = LocalDate.parse(birthDate),
             gender = getGender(gender),
             preferredMeasurementStandard = getMeasurementStandard(measurementType),
-            preferredLanguage = Language.ENGLISH,
             equipments = gymEquipments.map{it.toDomain()}.toSet(),
-            workoutDays = workoutDays.filterNotNull().map { WeekDay.valueOf(it) }.toSet()
+            workoutDays = workoutDays.map { WeekDay.valueOf(it) }.toSet()
         )
         return entity
 

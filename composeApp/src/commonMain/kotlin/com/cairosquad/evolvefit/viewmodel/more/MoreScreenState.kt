@@ -1,16 +1,20 @@
 package com.cairosquad.evolvefit.viewmodel.more
 
 import com.cairosquad.evolvefit.domain.model.Language
+import org.jetbrains.compose.resources.StringResource
 
 data class MoreScreenState(
     val isLoading: Boolean = false,
     val isThemeBottomSheetEnabled: Boolean = false,
     val isLanguageBottomSheetEnabled: Boolean = false,
     val isLogoutBottomSheetEnabled: Boolean = false,
-    val currentTheme: Theme = Theme.DARK,
+    val isDarkChecked: Boolean = false,
+    val isEnglishChecked: Boolean = true,
+    val currentTheme: Theme = Theme.LIGHT,
     val currentLanguage: Language = Language.ENGLISH,
-    val profile: Profile = Profile()
-) {
+    val profile: Profile = Profile(),
+    val errorMessage: StringResource? = null
+    ) {
     enum class Theme {
         DARK, LIGHT
     }
@@ -22,6 +26,5 @@ data class MoreScreenState(
         val height: Float = 0.0f,
         val weight: Float = 0.0f,
         val age: Int = 0,
-        val preferredLanguage: Language = Language.ENGLISH
     )
 }

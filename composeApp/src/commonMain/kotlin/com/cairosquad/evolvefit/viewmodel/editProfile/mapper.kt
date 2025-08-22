@@ -2,8 +2,6 @@ package com.cairosquad.evolvefit.viewmodel.editProfile
 
 import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Profile
-import com.cairosquad.evolvefit.domain.model.Language
-import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.domain.model.WeekDay
 
 fun Profile.toUiState() = EditProfileScreenState.ProfileUiState(
@@ -17,9 +15,7 @@ fun Profile.toUiState() = EditProfileScreenState.ProfileUiState(
     imageUrl = imageUrl,
     preferredMeasurementStandard = preferredMeasurementStandard,
     equipments= equipments.toEquipmentUiStateSet(),
-    workoutDays = workoutDays.toWeekDayUiStateSet(),
-    preferredLanguage = preferredLanguage
-
+    workoutDays = workoutDays.toWeekDayUiStateSet()
     )
 fun EditProfileScreenState.ProfileUiState.toDomain() = Profile(
     name = fullName,
@@ -31,7 +27,6 @@ fun EditProfileScreenState.ProfileUiState.toDomain() = Profile(
     weight = weight,
     goal = mainGoal,
     imageUrl = imageUrl,
-    preferredLanguage = preferredLanguage,
     equipments = equipments.toEquipmentDomainSet(),
     workoutDays = workoutDays.toWeekDayDomainSet()
 )

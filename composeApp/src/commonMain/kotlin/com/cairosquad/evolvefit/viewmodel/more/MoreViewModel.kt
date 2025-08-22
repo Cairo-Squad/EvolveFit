@@ -3,17 +3,22 @@ package com.cairosquad.evolvefit.viewmodel.more
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseCase
-import com.cairosquad.evolvefit.domain.usecase.profile.ManageLanguageUseCase
+import com.cairosquad.evolvefit.domain.usecase.profile.ManagePreferencesUseCase
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.failed_to_logout
+import evolvefit.composeapp.generated.resources.failed_to_update_user_profile
 
 class MoreViewModel(
-    private val manageLanguageUseCase: ManageLanguageUseCase,
     private val manageProfileUseCase: ManageProfileUseCase,
-    private val authenticationUseCase: AuthenticationUseCase
-) : BaseViewModel<MoreScreenState, MoreEffect>(MoreScreenState()),
-    MoreInteractionListener {
+    private val authenticationUseCase: AuthenticationUseCase,
+    private val managePreferencesUseCase: ManagePreferencesUseCase
+) : BaseViewModel<MoreScreenState, MoreEffect>(MoreScreenState())
+    , MoreInteractionListener {
     init {
+        loadThemePreferences()
+        loadLanguagePreferences()
         loadProfile()
     }
 
@@ -22,15 +27,25 @@ class MoreViewModel(
             onStart = { updateState { it.copy(isLoading = true) } },
             block = { manageProfileUseCase.getProfile() },
             onSuccess = ::onSuccessLoadProfile,
-            onError = { },
+            onError = { onLoadProfileFailed() },
             onEnd = { updateState { it.copy(isLoading = false) } },
         )
     }
 
-    private fun onSuccessLoadProfile(profile: Profile) {
-        manageLanguageUseCase.saveLanguage(profile.preferredLanguage)
-        updateState { it.copy(profile = profile.toUiState()) }
-        sendEffect(MoreEffect.ChangeLanguage(profile.preferredLanguage))
+    private fun loadThemePreferences() {
+        tryToCall(
+            block = { managePreferencesUseCase.getTheme() },
+            onSuccess = { theme -> updateState { it.copy(currentTheme = theme) } },
+            onError = { },
+        )
+    }
+
+    private fun loadLanguagePreferences() {
+        tryToCall(
+            block = { managePreferencesUseCase.getLanguage() },
+            onSuccess = {languageCode -> updateState { it.copy(currentLanguage = languageCodeToLanguage(languageCode)) } },
+            onError = { },
+        )
     }
 
     override fun onPersonInformationClicked() {
@@ -59,37 +74,39 @@ class MoreViewModel(
 
     override fun onConfirmChangeLanguage(language: Language) {
         tryToCall(
-            onStart = { updateState { it.copy(isLoading = true) } },
-            block = { manageLanguageUseCase.saveLanguage(language) },
-            onSuccess = { onSuccessChangeLanguage(language) },
-            onError = { },
-            onEnd = { updateState { it.copy(isLoading = false) } },
+            block = { managePreferencesUseCase.saveLanguage(languageToLanguageCode(language)) },
+            onSuccess = { onSuccessChangeLanguage() },
+            onError = {},
         )
-    }
 
-    private fun onSuccessChangeLanguage(updatedLanguage: Language) {
-        updateState {
-            it.copy(
-                profile = it.profile.copy(preferredLanguage = updatedLanguage),
-                isLanguageBottomSheetEnabled = false
-            )
-        }
-        sendEffect(MoreEffect.ChangeLanguage(updatedLanguage))
     }
 
     override fun onLogout() {
         tryToCall(
             onStart = { updateState { it.copy(isLoading = true) } },
             block = { authenticationUseCase.logout() },
-            onSuccess = ::onSuccessfulLogout,
-            onError = { },
+            onSuccess = { onSuccessfulLogout() },
+            onError = { onLogoutFailed() },
             onEnd = { updateState { it.copy(isLoading = false) } },
         )
     }
 
-    private fun onSuccessfulLogout(unit: Unit) {
-        updateState { it.copy(isLogoutBottomSheetEnabled = false) }
-        sendEffect(MoreEffect.Logout)
+    override fun onSelectTheme(theme: MoreScreenState.Theme) {
+        updateState {
+            it.copy(
+                currentTheme = theme,
+                isDarkChecked = theme == MoreScreenState.Theme.DARK
+            )
+        }
+    }
+
+    override fun onSelectLanguage(language: Language) {
+        updateState {
+            it.copy(
+                currentLanguage = language,
+                isEnglishChecked = language == Language.ENGLISH
+            )
+        }
     }
 
     override fun onDismissLanguageBottomSheet() {
@@ -105,12 +122,47 @@ class MoreViewModel(
     }
 
     override fun onConfirmChangeTheme(theme: MoreScreenState.Theme) {
+        tryToCall(
+            block = {managePreferencesUseCase.saveTheme(theme)},
+            onSuccess = {onSuccessChangeTheme()},
+            onError = {}
+        )
+    }
+
+    fun onReturnToScreen() {
+        loadProfile()
+    }
+
+    private fun onLogoutFailed() {
+        updateState { it.copy(errorMessage = Res.string.failed_to_logout) }
+    }
+
+    private fun onLoadProfileFailed() {
+        updateState { it.copy(errorMessage = Res.string.failed_to_update_user_profile) }
+    }
+
+    private fun onSuccessLoadProfile(profile: Profile) {
+        updateState { it.copy(profile = profile.toUiState()) }
+    }
+
+    private fun onSuccessChangeLanguage() {
+        val languageCode = managePreferencesUseCase.getLanguage()
+        val language = languageCodeToLanguage(languageCode)
         updateState {
             it.copy(
-                currentTheme = theme,
-                isThemeBottomSheetEnabled = false
+                currentLanguage = language,
+                isEnglishChecked = language == Language.ENGLISH,
+                isLanguageBottomSheetEnabled = false
             )
         }
-        sendEffect(MoreEffect.ChangeTheme(theme))
     }
+    private fun onSuccessChangeTheme(){
+        val theme = managePreferencesUseCase.getTheme()
+        updateState { it.copy(currentTheme = theme, isThemeBottomSheetEnabled = false) }
+    }
+    private fun onSuccessfulLogout() {
+        updateState { it.copy(isLogoutBottomSheetEnabled = false) }
+        sendEffect(MoreEffect.Logout)
+    }
+
 }

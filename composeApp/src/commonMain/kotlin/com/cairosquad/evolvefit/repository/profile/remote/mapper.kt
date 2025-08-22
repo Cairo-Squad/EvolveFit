@@ -2,9 +2,7 @@ package com.cairosquad.evolvefit.repository.profile.remote
 
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
-import com.cairosquad.evolvefit.repository.equipment.remote.toDto
-import com.cairosquad.evolvefit.repository.profile.remote.dto.ProfileGetDto
-import com.cairosquad.evolvefit.repository.profile.remote.dto.ProfilePostDto
+import com.cairosquad.evolvefit.repository.profile.remote.dto.ProfileRequest
 
 fun getFitnessGoal(goal: String): Profile.FitnessGoal {
     return when (goal) {
@@ -33,23 +31,8 @@ fun getMeasurementStandard(measurementType: String): MeasurementStandard {
 
 }
 
-fun Profile.toDto(): ProfileGetDto {
-    return ProfileGetDto(
-        name = name,
-        email = email,
-        birthDate = dateOfBirth.toString(),
-        gender = getGenderName(gender),
-        imageUrl = imageUrl,
-        measurementType = getMeasurementTypeName(preferredMeasurementStandard),
-        height = height.toDouble(),
-        weight = weight.toDouble(),
-        goal = getFitnessGoalName(goal),
-        gymEquipments = equipments.map { it.toDto() }.toList(),
-        workoutDays = workoutDays.map { it.name }
-    )
-}
-fun Profile.toProfilePostDto(): ProfilePostDto {
-    val dto = ProfilePostDto(
+fun Profile.toProfileRequest(): ProfileRequest {
+    val dto = ProfileRequest(
         name = name,
         email = email,
         birthDate = dateOfBirth.toString(),

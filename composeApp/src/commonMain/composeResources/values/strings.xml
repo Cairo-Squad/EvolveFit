@@ -316,6 +316,8 @@
     <string name="failed_to_load_equipments">Failed to load equipments</string>
     <string name="failed_to_load_user_profile">Failed to load user profile</string>
     <string name="failed_to_update_user_profile_image">Failed to update user profile image</string>
+    <string name="failed_to_update_user_profile">Failed to update user profile</string>
+    <string name="failed_to_logout">Failed to logout</string>
     <string name="failed_to_load_user_equipments">Failed to load user equipments</string>
     <string name="language_description">This language will be used throughout the app.</string>
     <string name="logo">logo</string>
@@ -324,8 +326,8 @@
     <string name="logout">Logout</string>
     <string name="choose_theme">Choose Theme</string>
     <string name="theme_description">Select your preferred look and feel for the app.</string>
-    <string name="dark_mode">Dark Mode</string>
-    <string name="light_mode">Light Mode</string>
+    <string name="dark_mode">Dark</string>
+    <string name="light_mode">Light</string>
     <string name="account">Account</string>
     <string name="favorites">Favorites</string>
     <string name="notification_settings">Notification Settings</string>
