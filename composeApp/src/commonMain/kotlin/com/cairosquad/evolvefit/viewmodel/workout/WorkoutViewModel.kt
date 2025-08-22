@@ -16,6 +16,7 @@ class WorkoutViewModel(
     }
 
     private fun loadAllWorkouts() {
+        onLoading()
         tryToCall(
             block = workoutUseCase::getSuggestedWorkouts,
             onSuccess = ::onGetSuggestedWorkoutsSuccess,
@@ -24,21 +25,28 @@ class WorkoutViewModel(
     }
 
     private fun loadWorkoutsByFocusArea(focusAreaUiState: FocusAreaUiState) {
+        onLoading()
         tryToCall(
-            block = { workoutUseCase.getWorkoutsByFocusArea(focusAreaUiState.toDomain()) },
+            block = { workoutUseCase.getSuggestedWorkoutsByFocusArea(focusAreaUiState.toDomain()) },
             onSuccess = ::onLoadWorkoutByFocusAreaSuccess,
             onError = ::onLoadWorkoutByFocusAreaError
         )
     }
 
-    override fun onSelectFocusArea(focusArea: FocusAreaUiState) {
-        updateState { it.copy(selectedFocusArea = focusArea) }
+    override fun onFocusAreaSelected(focusArea: FocusAreaUiState) {
+        updateState { it.copy(selectedFocusArea = focusArea, errorMessage = null) }
 
-        if (focusArea == FocusAreaUiState.CORE) {
+        if (focusArea == FocusAreaUiState.ALL) {
             loadAllWorkouts()
         } else {
             loadWorkoutsByFocusArea(focusArea)
         }
+    }
+
+    override fun onRetryClicked() {
+        val selected = screenState.value.selectedFocusArea
+        if (selected == FocusAreaUiState.ALL) loadAllWorkouts()
+        else loadWorkoutsByFocusArea(selected)
     }
 
     override fun onWorkoutClicked(id: String) {
@@ -54,18 +62,94 @@ class WorkoutViewModel(
     }
 
     private fun onGetSuggestedWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
-        updateState { st -> st.copy(allWorkouts = workouts.map { it.toUiState() }) }
+        updateState { it ->
+            it.copy(
+                allWorkouts = workouts.map { it.toUiState() },
+                errorMessage = null,
+                screenStatus = WorkoutScreenState.ScreenStatus.SUCCESS
+            )
+        }
     }
 
-    private fun onGetSuggestedWorkoutError(throwable: Throwable) {
-        // TODO: show snackbar/effect
+    private fun onGetSuggestedWorkoutError(t: Throwable) {
+        updateState {
+            it.copy(
+                errorMessage = t.message ?: "Failed to load suggested workouts",
+                screenStatus = WorkoutScreenState.ScreenStatus.FAIL
+            )
+        }
     }
 
     private fun onLoadWorkoutByFocusAreaSuccess(workouts: List<WorkoutSuggested>) {
-        updateState { st -> st.copy(allWorkouts = workouts.map { it.toUiState() }) }
+        updateState { it ->
+            it.copy(
+                allWorkouts = workouts.map { it.toUiState() },
+                errorMessage = null,
+                screenStatus = WorkoutScreenState.ScreenStatus.SUCCESS
+            )
+        }
     }
 
-    private fun onLoadWorkoutByFocusAreaError(throwable: Throwable) {
-        // TODO:  snackbar/effect
+    private fun onLoadWorkoutByFocusAreaError(t: Throwable) {
+        updateState {
+            it.copy(
+                errorMessage = t.message ?: "Failed to load workouts by focus Area",
+                screenStatus = WorkoutScreenState.ScreenStatus.FAIL
+            )
+        }
     }
+
+    override fun onRefresh() {
+        if (screenState.value.isRefreshing) return
+        isRefreshing(true)
+        val selected = screenState.value.selectedFocusArea
+        tryToCall(
+            block = onGetWorkoutsByFocusArea(selected),
+            onSuccess = ::onRefreshSuccess,
+            onError = ::onRefreshError
+        )
+    }
+
+    private fun onLoading() {
+        updateState {
+            it.copy(
+                screenStatus = WorkoutScreenState.ScreenStatus.LOADING,
+                errorMessage = null
+            )
+        }
+    }
+
+    private fun isRefreshing(isRefreshing: Boolean) {
+        updateState {
+            it.copy(
+                isRefreshing = isRefreshing,
+                errorMessage = if (isRefreshing) null else it.errorMessage
+            )
+        }
+    }
+
+    private fun onRefreshSuccess(list: List<WorkoutSuggested>) {
+        isRefreshing(false)
+        updateState {
+            it.copy(
+                allWorkouts = list.map { w -> w.toUiState() },
+                errorMessage = null
+            )
+        }
+    }
+
+    private fun onRefreshError(t: Throwable) {
+        isRefreshing(false)
+        updateState {
+            it.copy(errorMessage = t.message ?: "Failed to refresh workouts")
+        }
+    }
+
+    private fun onGetWorkoutsByFocusArea(focusArea: FocusAreaUiState): suspend () -> List<WorkoutSuggested> =
+        {
+            if (focusArea == FocusAreaUiState.ALL)
+                workoutUseCase.getSuggestedWorkouts()
+            else
+                workoutUseCase.getSuggestedWorkoutsByFocusArea(focusArea.toDomain())
+        }
 }
