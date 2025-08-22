@@ -76,7 +76,7 @@ fun PlayWorkoutContentGetReady(
                 .padding(bottom = 40.dp),
             text = stringResource(Res.string.ready_to_workout),
             style = Theme.textStyle.display.largeBold24,
-            color = Theme.color.surfaces.onSurfaceContainer,
+            color = Theme.color.surfaces.textColor,
         )
         CircularTimer(
             modifier = Modifier
@@ -101,7 +101,8 @@ fun PlayWorkoutContentGetReady(
         ExerciseNameAndInfoIcon(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             exerciseName = firstExercise.name,
-            onClickInfo = { listener.onExerciseInfoClicked(firstExercise.id) }
+            onClickInfo = { listener.onExerciseInfoClicked(firstExercise.id) },
+            textColor = Theme.color.surfaces.textColor
         )
         Spacer(Modifier.weight(lowerSpaceWeight))
         PrimaryButton(

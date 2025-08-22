@@ -19,6 +19,7 @@ fun Exercise.toDto(): ExerciseDto {
         },
         reps = (specification as? Exercise.Specification.Reps)?.reps ?: 0,
         durationSeconds = (specification as? Exercise.Specification.Time)?.timeInSeconds ?: 0,
+        images = this.imageUrls
     )
 }
 
@@ -36,9 +37,9 @@ fun ExerciseDto.toDomain(
     val focusAreas = focusArea.map { FocusArea.valueOf(it.uppercase()) }.toSet()
     return Exercise(
         id = "",
-        name = name ?: "",
+        name = name,
         instructions = instructions,
-        imageUrls = emptyList(),
+        imageUrls = images,
         equipment = equipment,
         specification = spec,
         focusAreas = focusAreas,

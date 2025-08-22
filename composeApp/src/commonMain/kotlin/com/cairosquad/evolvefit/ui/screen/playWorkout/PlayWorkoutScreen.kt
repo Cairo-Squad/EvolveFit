@@ -21,8 +21,10 @@ fun PlayWorkoutScreen(
     val screenState by viewModel.screenState.collectAsState()
 
     PlatformBackHandler (
-        enabled = !screenState.haseCancelWorkoutClicked,
-        onBack = viewModel::onCancelWorkoutClicked
+        onBack = {
+            if (screenState.haseCancelWorkoutClicked) viewModel.onStayInWorkoutClinked()
+            else viewModel.onCancelWorkoutClicked()
+        }
     )
 
     ObserveAsEffect(viewModel.effect) { effect ->

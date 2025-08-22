@@ -2,8 +2,10 @@ package com.cairosquad.evolvefit.repository.workout.remote
 
 import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.repository.execption.callApi
+import com.cairosquad.evolvefit.repository.utils.EmptyResponse
 import com.cairosquad.evolvefit.repository.workout.remote.dto.CreateWorkoutRequest
 import com.cairosquad.evolvefit.repository.workout.remote.dto.FavoritesWorkoutDto
+import com.cairosquad.evolvefit.repository.workout.remote.dto.PlayedWorkoutDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDetailsDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutHistoryDto
@@ -97,6 +99,15 @@ class WorkoutRemoteDataSourceImpl(
         }
     }
 
+    override suspend fun submitPlayedWorkout(playedWorkout: PlayedWorkoutDto) {
+        callApi<EmptyResponse> {
+            client.post(PLAYED_WORKOUT) {
+                contentType(ContentType.Application.Json)
+                setBody(playedWorkout)
+            }
+        }
+    }
+
     override suspend fun getWorkoutDetails(workoutId: String): WorkoutDetailsDto {
         return callApi {
             client.get("$WORKOUT_PATH/details") {
@@ -136,5 +147,6 @@ class WorkoutRemoteDataSourceImpl(
     companion object {
         private const val FAVORITE_WORKOUT = "favorite/workout"
         private const val WORKOUT_PATH = "workout"
+        private const val PLAYED_WORKOUT = "workout/submit"
     }
 }
