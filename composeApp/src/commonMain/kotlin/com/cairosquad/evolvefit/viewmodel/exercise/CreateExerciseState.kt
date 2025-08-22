@@ -21,6 +21,7 @@ data class CreateExerciseState(
     val isRepsChecked: Boolean = false,
     val isFocusAreaExpanded: Boolean = false,
     val isEquipmentExpanded: Boolean = false,
+    val exerciseId : String? = null,
 ) {
 
     val equipmentNames: List<String>

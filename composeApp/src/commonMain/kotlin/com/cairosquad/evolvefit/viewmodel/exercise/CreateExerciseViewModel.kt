@@ -57,13 +57,18 @@ class CreateExerciseViewModel(
     }
 
     override fun onStartImageRetrieved(image: UiImage) {
+        println("SAYEDMAGDY onStartImageRetrieved : ${image}")
         updateState { it.copy(image1 = image, isImage1PickerOpen = false) }
+    }
+    private fun pushStartImage(id : String){
+        val image = screenState.value.image1
         tryToCall(
             block = {
-                val imageFileData = image.asByteArray()
+                val imageFileData = image!!.asByteArray()
                 val uploadedImage = manageExerciseUseCase.uploadExerciseImage(
                     imageFileData.bytes,
-                    imageFileData.fileName
+                    imageFileData.fileName,
+                    id
                 )
                 uploadedImage
             },
@@ -74,23 +79,15 @@ class CreateExerciseViewModel(
 
         )
     }
-
-    override fun onStartImagePickerDismiss() {
-        updateState { it.copy(isImage1PickerOpen = false) }
-    }
-
-    override fun onEndImageClicked() {
-        updateState { it.copy(isImage2PickerOpen = true) }
-    }
-
-    override fun onEndImageRetrieved(image: UiImage) {
-        updateState { it.copy(image2 = image, isImage2PickerOpen = false) }
+    private fun pushStartImage2(id: String){
+        val image = screenState.value.image2
         tryToCall(
             block = {
-                val imageFileData = image.asByteArray()
+                val imageFileData = image!!.asByteArray()
                 val uploadedImage = manageExerciseUseCase.uploadExerciseImage(
                     imageFileData.bytes,
-                    imageFileData.fileName
+                    imageFileData.fileName,
+                    id
                 )
                 uploadedImage
             },
@@ -104,6 +101,20 @@ class CreateExerciseViewModel(
             }
 
         )
+    }
+
+    override fun onStartImagePickerDismiss() {
+        updateState { it.copy(isImage1PickerOpen = false) }
+    }
+
+    override fun onEndImageClicked() {
+        updateState { it.copy(isImage2PickerOpen = true) }
+    }
+
+    override fun onEndImageRetrieved(image: UiImage) {
+        println("SAYEDMAGDY onEndImageRetrieved : ${image}")
+        updateState { it.copy(image2 = image, isImage2PickerOpen = false) }
+
     }
 
     override fun onEndImagePickerDismiss() {
@@ -162,14 +173,21 @@ class CreateExerciseViewModel(
         tryToCall(
             onStart = { updateState { it.copy(isExerciseSaved = true) } },
             block = ::saveExercise,
-            onSuccess = { sendEffect(CreateExerciseEffect.NavigateToAllExercises) },
+            onSuccess = {it ->
+                pushStartImage(it)
+                pushStartImage2(it)
+                        },
             onError = {  },
             onEnd = { updateState { it.copy(isExerciseSaved = false) } }
         )
+
     }
 
-    private suspend fun saveExercise() {
-        manageExerciseUseCase.createExercise(screenState.value.toDomainExercise())
+    private suspend fun saveExercise(): String {
+     val response =    manageExerciseUseCase.createExercise(screenState.value.toDomainExercise())
+        println("SAYEDMAGDY saveExercise  id: ${response.id}")
+        updateState { it.copy(exerciseId = response.id) }
+    return response.id
     }
 
     override fun onExitClicked() { updateState { it.copy(showExitBottomSheet = true) } }
