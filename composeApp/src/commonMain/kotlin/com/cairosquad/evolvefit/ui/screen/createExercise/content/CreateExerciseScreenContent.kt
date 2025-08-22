@@ -56,8 +56,8 @@ fun CreateExerciseScreenContent(
     state: CreateExerciseState,
     listener: CreateExerciseInteractionListener
 ) {
-    val selectedImage1 = state.image1
-    val selectedImage2 = state.image2
+    val selectedImage1 = state.frontImage
+    val selectedImage2 = state.backImage
     val uploadExercisesImg1 = if (selectedImage1 != null) {
         null
     } else if (isSystemInDarkTheme()) {
@@ -158,8 +158,8 @@ fun CreateExerciseScreenContent(
                 }
                 item {
                     ExerciseImages(
-                        startImage = state.image1,
-                        endImage = state.image2,
+                        startImage = state.frontImage,
+                        endImage = state.backImage,
                         uploadExercisesImg1 = uploadExercisesImg1,
                         uploadExercisesImg2 = uploadExercisesImg2,
                         onStartImageClicked = listener::onStartImageClicked,
@@ -251,6 +251,7 @@ fun CreateExerciseScreenContent(
                     PrimaryButton(
                         modifier = Modifier.padding(vertical = 40.dp),
                         isEnabled = listener.canSaveExercise(),
+                        isLoading = state.isLoading,
                         text = stringResource(Res.string.save_exercise),
                         onClick = { listener.onSaveClicked() }
                     )
@@ -258,14 +259,14 @@ fun CreateExerciseScreenContent(
             }
         }
 
-        if (state.isImage1PickerOpen) {
+        if (state.isFrontImagePickerOpen) {
             ImagePicker(
                 onImageRetrieved = listener::onStartImageRetrieved,
                 onImagePickerDismiss = listener::onStartImagePickerDismiss
             )
         }
 
-        if (state.isImage2PickerOpen) {
+        if (state.isBackImagePickerOpen) {
             ImagePicker(
                 onImageRetrieved = listener::onEndImageRetrieved,
                 onImagePickerDismiss = listener::onEndImagePickerDismiss
