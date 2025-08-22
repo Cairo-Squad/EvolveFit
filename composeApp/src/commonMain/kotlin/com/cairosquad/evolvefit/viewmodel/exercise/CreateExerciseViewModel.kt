@@ -18,9 +18,7 @@ class CreateExerciseViewModel(
         getEquipments()
     }
 
-    override fun onNameChanged(name: String) {
-        updateState { it.copy(name = name) }
-    }
+    override fun onNameChanged(name: String) = updateState { it.copy(name = name) }
 
     override fun onEquipmentToggled(equipmentId: Int) {
         updateState {
@@ -44,31 +42,21 @@ class CreateExerciseViewModel(
         updateState { it.copy(isEquipmentExpanded = false) }
     }
 
-    override fun onStartImageClicked() {
-        updateState { it.copy(isFrontImagePickerOpen = true) }
-    }
+    override fun onStartImageClicked() = updateState { it.copy(isFrontImagePickerOpen = true) }
 
-    override fun onEndImageClicked() {
-        updateState { it.copy(isBackImagePickerOpen = true) }
-    }
+    override fun onEndImageClicked() = updateState { it.copy(isBackImagePickerOpen = true) }
 
-    override fun onStartImageRetrieved(image: UiImage) {
+    override fun onStartImageRetrieved(image: UiImage) =
         updateState { it.copy(frontImage = image, isFrontImagePickerOpen = false) }
-    }
 
-    override fun onEndImageRetrieved(image: UiImage) {
+
+    override fun onEndImageRetrieved(image: UiImage) =
         updateState { it.copy(backImage = image, isBackImagePickerOpen = false) }
 
-    }
-
-
-    override fun onStartImagePickerDismiss() {
+    override fun onStartImagePickerDismiss() =
         updateState { it.copy(isFrontImagePickerOpen = false) }
-    }
 
-    override fun onEndImagePickerDismiss() {
-        updateState { it.copy(isBackImagePickerOpen = false) }
-    }
+    override fun onEndImagePickerDismiss() = updateState { it.copy(isBackImagePickerOpen = false) }
 
     override fun onMeasurementTypeSelected(type: MeasurementType) {
         updateState {
@@ -80,9 +68,8 @@ class CreateExerciseViewModel(
         }
     }
 
-    override fun onMeasurementValueChanged(value: String) {
+    override fun onMeasurementValueChanged(value: String) =
         updateState { it.copy(measurementInputValue = value) }
-    }
 
     override fun onFocusAreaToggled(focusArea: FocusArea) {
         updateState {
@@ -96,25 +83,21 @@ class CreateExerciseViewModel(
         }
     }
 
-    override fun onDescriptionChanged(description: String) {
+    override fun onDescriptionChanged(description: String) =
         updateState { it.copy(description = description) }
-    }
 
-    override fun onAvailableEquipmentsIconClicked() {
+    override fun onAvailableEquipmentsIconClicked() =
         updateState { it.copy(isEquipmentExpanded = !it.isEquipmentExpanded) }
-    }
 
-    override fun onFocusAreaIconClicked() {
+
+    override fun onFocusAreaIconClicked() =
         updateState { it.copy(isFocusAreaExpanded = !it.isFocusAreaExpanded) }
-    }
 
-    override fun onDismissEquipmentsDropdownMenuRequest() {
+    override fun onDismissEquipmentsDropdownMenuRequest() =
         updateState { it.copy(isEquipmentExpanded = false) }
-    }
 
-    override fun onDismissFocusAreasDropdownMenuRequest() {
+    override fun onDismissFocusAreasDropdownMenuRequest() =
         updateState { it.copy(isFocusAreaExpanded = false) }
-    }
 
     override fun onSaveClicked() {
         if (screenState.value.isLoading) return
@@ -132,9 +115,8 @@ class CreateExerciseViewModel(
 
     }
 
-    override fun onExitClicked() {
+    override fun onExitClicked() =
         updateState { it.copy(showExitBottomSheet = true) }
-    }
 
     override fun onExitWithoutSavingClicked() {
         updateState { it.copy(showExitBottomSheet = false) }
@@ -142,17 +124,14 @@ class CreateExerciseViewModel(
         sendEffect(CreateExerciseEffect.CancelCreateExercise)
     }
 
-    override fun onCancelClicked() {
+    override fun onCancelClicked() =
         updateState { it.copy(showExitBottomSheet = false) }
-    }
 
-    override fun onFocusAreaDismiss() {
+    override fun onFocusAreaDismiss() =
         updateState { it.copy(isFocusAreaExpanded = false) }
-    }
 
-    override fun onEquipmentDismiss() {
+    override fun onEquipmentDismiss() =
         updateState { it.copy(isEquipmentExpanded = false) }
-    }
 
     override fun canSaveExercise(): Boolean {
         val currentState = screenState.value
