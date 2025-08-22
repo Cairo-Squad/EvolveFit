@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.createWorkout.content
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
@@ -30,12 +28,11 @@ import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.component.UserProfileImage
 import com.cairosquad.evolvefit.ui.screen.createWorkout.component.WorkoutImage
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState.WorkoutLevel
-import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage.ImageResource
+import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.characters_left
 import evolvefit.composeapp.generated.resources.choose_your_goal_
@@ -46,7 +43,6 @@ import evolvefit.composeapp.generated.resources.enter_description_
 import evolvefit.composeapp.generated.resources.enter_workout_name_
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_cross
-import evolvefit.composeapp.generated.resources.ic_image
 import evolvefit.composeapp.generated.resources.im_upload1
 import evolvefit.composeapp.generated.resources.next_button_
 import evolvefit.composeapp.generated.resources.upload_image
@@ -107,7 +103,7 @@ fun CreateWorkoutContent(
             }
 
             WorkoutImage(
-                image = state.image,
+                image = state.image ?: UiImage.ImageResource(Res.drawable.im_upload1),
                 isImagePickerOpen = state.isImagePickerOpen,
                 onImagePickerDismiss = listener::onImagePickerDismiss,
                 onImagePickerClick = listener::onImageClicked,

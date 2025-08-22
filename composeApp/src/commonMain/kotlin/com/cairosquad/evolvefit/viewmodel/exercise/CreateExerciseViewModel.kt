@@ -6,8 +6,6 @@ import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.FocusArea
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.MeasurementType
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
-import com.cairosquad.evolvefit.viewmodel.utils.asByteArray
-import log
 
 class CreateExerciseViewModel(
     private val manageExerciseUseCase: ManageExerciseUseCase,

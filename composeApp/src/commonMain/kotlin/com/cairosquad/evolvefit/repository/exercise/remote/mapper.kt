@@ -3,6 +3,7 @@ package com.cairosquad.evolvefit.repository.exercise.remote
 import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.model.FocusArea
+import com.cairosquad.evolvefit.repository.equipment.remote.dto.GymEquipmentDto
 import com.cairosquad.evolvefit.repository.exercise.remote.dto.ExerciseDto
 import com.cairosquad.evolvefit.repository.exercise.remote.dto.ExerciseResponseDto
 
@@ -33,7 +34,6 @@ fun ExerciseDto.toDomain(
         ?: Equipment(0, "Unknown")
 
     val focusAreas = focusArea.map { FocusArea.valueOf(it.uppercase()) }.toSet()
-
     return Exercise(
         id = "",
         name = name ?: "",
@@ -63,7 +63,7 @@ fun ExerciseResponseDto.toDomain(): Exercise {
         id = id,
         name = name,
         specification = spec,
-        imageUrls = images,
+        imageUrls = images ?: emptyList(),
         equipment = equipment,
         focusAreas = focusAreas,
         instructions = instructions,

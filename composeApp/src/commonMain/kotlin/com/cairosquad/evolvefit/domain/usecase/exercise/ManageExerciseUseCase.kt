@@ -11,7 +11,8 @@ class ManageExerciseUseCase(
     }
     suspend fun uploadExerciseImage(
         fileBytes: ByteArray,
-        fileName: String
+        fileName: String,
+        id: String
     ): String {
         return exerciseRepository.uploadExerciseImage(fileBytes, fileName)
     }

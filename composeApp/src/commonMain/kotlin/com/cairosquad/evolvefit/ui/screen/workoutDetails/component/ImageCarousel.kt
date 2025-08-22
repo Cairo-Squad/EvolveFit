@@ -59,10 +59,11 @@ fun ImageCarousel(
             .height(200.dp)
     ) {
         NetworkImage(
-            model = images[currentIndex],
+            model = images.firstOrNull() ?: "",
             contentDescription = stringResource(Res.string.exercise_image),
             modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)),
         )
+
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
             Icon(
                 painter = painterResource(Res.drawable.ic_arrow_left),

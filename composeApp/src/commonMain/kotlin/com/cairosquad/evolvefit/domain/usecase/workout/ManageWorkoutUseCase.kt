@@ -17,6 +17,15 @@ class ManageWorkoutUseCase(
         return workoutRepository.getSuggestedWorkouts()
     }
 
+    suspend fun uploadWorkoutImage(
+        fileBytes: ByteArray,
+        fileName: String,
+        workoutId : String
+    ): String {
+        return workoutRepository.uploadWorkoutImage(fileBytes, fileName,workoutId)
+    }
+
+
     suspend fun getCommunityWorkouts(): List<WorkoutSuggested> {
         return workoutRepository.getCommunityWorkouts()
     }
@@ -31,8 +40,8 @@ class ManageWorkoutUseCase(
     suspend fun deleteFavouriteWorkout(mealId: String) {
         return workoutRepository.deleteFavoriteWorkout(mealId)
     }
-    suspend fun createWorkOut(workout: Workout) {
-        workoutRepository.createWorkout(workout)
+    suspend fun createWorkOut(workout: Workout): Workout {
+        return workoutRepository.createWorkout(workout)
     }
 
     suspend fun addWorkoutToFavorites(workoutId: String) {
