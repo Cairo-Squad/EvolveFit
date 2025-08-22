@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.exercise
 
+import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.usecase.equipment.ManageEquipmentUseCase
 import com.cairosquad.evolvefit.domain.usecase.exercise.ManageExerciseUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
@@ -197,12 +198,22 @@ class CreateExerciseViewModel(
     private fun getEquipments() {
         tryToCall(
             block = { manageEquipmentUseCase.getAllEquipments() },
-            onSuccess = { equipments ->
-                updateState {
-                    it.copy(availableEquipments = equipments.map { it.toUiState() }.toSet())
-                }
-            },
-            onError = { updateState { it.copy(errorMessage = "Failed to load equipments") } }
+            onSuccess = ::handleEquipmentsSuccess,
+            onError = ::handleEquipmentsError
         )
+    }
+
+    private fun handleEquipmentsSuccess(equipments: Set<Equipment>) {
+        updateState {
+            it.copy(availableEquipments = equipments.map { equipment -> equipment.toUiState() }
+                .toSet())
+        }
+    }
+
+    private fun handleEquipmentsError(throwable: Throwable) {
+        updateState {
+            it.copy(errorMessage = "Failed to load equipments")
+        }
+
     }
 }
