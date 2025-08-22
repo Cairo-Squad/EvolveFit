@@ -30,14 +30,14 @@ fun UiImageDisplayer(
                 file = image.platformFile,
                 contentDescription = contentDescription,
                 defaultImageSize = defaultImageSize,
-                modifier = modifier,
                 contentScale = contentScale,
+                modifier = Modifier.size(defaultImageSize)
             )
         }
 
         is UiImage.ImageUrl -> {
             NetworkImage(
-                modifier = modifier,
+                modifier = Modifier.size(defaultImageSize),
                 defaultImage = painterResource(Res.drawable.im_img),
                 loadingPlaceHolder = painterResource(Res.drawable.im_img),
                 model = image.url,
