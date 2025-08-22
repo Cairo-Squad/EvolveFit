@@ -19,26 +19,45 @@ import evolvefit.composeapp.generated.resources.sunday_short
 import evolvefit.composeapp.generated.resources.thursday_short
 import evolvefit.composeapp.generated.resources.tuesday_short
 import evolvefit.composeapp.generated.resources.wednesday_short
+import kotlin.math.round
 
-fun Report.toUiState() = ReportScreenState.ReportUiState(
-    waterConsumed = waterTakenInLiter,
-    timeSpent = formatDuration(timeSpentInSeconds),
-    takenCaloriesInKcal = takenCaloriesInKcal,
-    expectedCalories = expectedCalories,
-    totalWorkouts = totalWorkouts.toString(),
-    workoutPerWeek = ReportScreenState.WorkoutPerWeek(
-        day = workoutsPerWeek.map { (day, _) -> day.stringRes() },
-        workoutsCount = workoutsPerWeek.map { (_, count) -> count },
-    ),
-    timeSpentPerWeek = ReportScreenState.TimeSpentPerWeek(
-        day = timeSpentPerWeek.map { (day, _) -> day.stringRes() },
-        timeInSeconds = timeSpentPerWeek.map { (_, time) -> time }
-    ),
-    mostTrainedMuscles = ReportScreenState.TrainedMuscle(
-        muscle = focusedAreas.map { (focusArea, _) -> focusArea.stringRes() },
-        percentage = focusedAreas.map { (_, percentage) -> percentage.toFloat() / 100f }
-    ),
-)
+fun Report.toUiState(): ReportScreenState.ReportUiState {
+    val allDays = WeekDay.entries.toTypedArray()
+
+    val workoutsPerWeekUi = if (workoutsPerWeek.isEmpty()) {
+        ReportScreenState.WorkoutPerWeek()
+    } else {
+        val map = workoutsPerWeek.toMap()
+        ReportScreenState.WorkoutPerWeek(
+            day = allDays.map { it.stringRes() },
+            workoutsCount = allDays.map { map[it] ?: 0 }
+        )
+    }
+
+    val timeSpentPerWeekUi = if (timeSpentPerWeek.isEmpty()) {
+        ReportScreenState.TimeSpentPerWeek()
+    } else {
+        val map = timeSpentPerWeek.toMap()
+        ReportScreenState.TimeSpentPerWeek(
+            day = allDays.map { it.stringRes() },
+            timeInSeconds = allDays.map { map[it] ?: 0L }
+        )
+    }
+
+    return ReportScreenState.ReportUiState(
+        waterConsumed = (round(waterTakenInLiter * 10) / 10),
+        timeSpent = formatDuration(timeSpentInSeconds),
+        takenCaloriesInKcal = takenCaloriesInKcal,
+        expectedCalories = expectedCalories,
+        totalWorkouts = totalWorkouts.toString(),
+        workoutPerWeek = workoutsPerWeekUi,
+        timeSpentPerWeek = timeSpentPerWeekUi,
+        mostTrainedMuscles = ReportScreenState.TrainedMuscle(
+            muscle = focusedAreas.map { (focusArea, _) -> focusArea.stringRes() },
+            percentage = focusedAreas.map { (_, percentage) -> percentage.toFloat() / 100f }
+        ),
+    )
+}
 
 fun WorkoutHistory.toUiState() = ReportScreenState.WorkoutHistoryUiState(
     name = name,

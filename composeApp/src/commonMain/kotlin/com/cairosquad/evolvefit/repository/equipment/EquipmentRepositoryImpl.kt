@@ -12,10 +12,4 @@ class EquipmentRepositoryImpl(
     override suspend fun getAllEquipments(): Set<Equipment> = callDataSource{
          remote.getEquipments().map { it.toDomain() }.toSet()
     }
-
-    override suspend fun getUserEquipments(): Set<Equipment> {
-        return emptySet()
-    }
-
-    override suspend fun editUserEquipments(equipments:Set<Equipment>) {}
 }

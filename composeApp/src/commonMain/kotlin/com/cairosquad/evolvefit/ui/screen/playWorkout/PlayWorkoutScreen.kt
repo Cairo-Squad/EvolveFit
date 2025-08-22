@@ -6,8 +6,8 @@ import androidx.compose.runtime.getValue
 import com.cairosquad.evolvefit.ui.screen.playWorkout.content.PlayWorkoutContent
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.ui.util.PlatformBackHandler
-import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutEffect
-import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutViewModel
+import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutEffect
+import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
