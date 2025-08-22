@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.exercise
 
+import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.usecase.equipment.ManageEquipmentUseCase
 import com.cairosquad.evolvefit.domain.usecase.exercise.ManageExerciseUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
@@ -57,6 +58,21 @@ class CreateExerciseViewModel(
 
     override fun onStartImageRetrieved(image: UiImage) {
         updateState { it.copy(image1 = image, isImage1PickerOpen = false) }
+        tryToCall(
+            block = {
+                val imageFileData = image.asByteArray()
+                val uploadedImage = manageExerciseUseCase.uploadExerciseImage(
+                    imageFileData.bytes,
+                    imageFileData.fileName
+                )
+                uploadedImage
+            },
+            onSuccess = {
+                log("$it", "onStartImageRetrieved")
+            },
+            onError = {}
+
+        )
     }
 
     override fun onStartImagePickerDismiss() {
@@ -69,6 +85,25 @@ class CreateExerciseViewModel(
 
     override fun onEndImageRetrieved(image: UiImage) {
         updateState { it.copy(image2 = image, isImage2PickerOpen = false) }
+        tryToCall(
+            block = {
+                val imageFileData = image.asByteArray()
+                val uploadedImage = manageExerciseUseCase.uploadExerciseImage(
+                    imageFileData.bytes,
+                    imageFileData.fileName
+                )
+                uploadedImage
+            },
+            onSuccess = {
+                println("onStartImageRetrieved onSuccess $it")
+
+            },
+            onError = {
+                println("onStartImageRetrieved onError $it")
+
+            }
+
+        )
     }
 
     override fun onEndImagePickerDismiss() {
