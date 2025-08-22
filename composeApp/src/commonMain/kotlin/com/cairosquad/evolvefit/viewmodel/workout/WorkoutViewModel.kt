@@ -50,14 +50,15 @@ class WorkoutViewModel(
     }
 
     override fun onClickWorkout(id: String) {
+    override fun onWorkoutClicked(id: String) {
         sendEffect(WorkoutEffect.NavigateToWorkoutDetails(id))
     }
 
-    override fun onClickAddWorkout() {
+    override fun onAddWorkoutClicked() {
         sendEffect(WorkoutEffect.NavigateToCreateWorkout)
     }
 
-    override fun onClickCommunity() {
+    override fun onCommunityClicked() {
         sendEffect(WorkoutEffect.NavigateToCommunityWorkout)
     }
 

@@ -27,9 +27,6 @@ import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.component.RefreshBox
-import com.cairosquad.evolvefit.ui.screen.workout.WorkoutsErrorScreen
-import com.cairosquad.evolvefit.ui.screen.workout.WorkoutsLoadingScreen
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutEffect
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutInteractionListener
@@ -99,6 +96,7 @@ private fun WorkoutsScreenContent(
                         Workouts(
                             workouts = state.allWorkouts,
                             onClickWorkout = listener::onClickWorkout
+                            //onWorkoutClicked
                         )
                     }
 

@@ -106,7 +106,7 @@ fun PlayWorkoutContentFinish(
                 .fillMaxWidth()
                 .padding(16.dp),
             text = stringResource(Res.string.next_workout_button),
-            onClick = listener::onClickNextToAnotherWorkout
+            onClick = listener::onNextToAnotherWorkoutClicked
         )
         SecondaryButton(
             modifier = Modifier
@@ -114,7 +114,7 @@ fun PlayWorkoutContentFinish(
                 .padding(bottom = 24.dp)
                 .padding(horizontal = 16.dp),
             text = stringResource(Res.string.finish),
-            onClick = listener::onClickFinish
+            onClick = listener::onFinishClicked
         )
     }
 }
@@ -243,86 +243,3 @@ private fun ColumnWithBackgroundAndFireworks(
         )
     }
 }
-
-
-@Preview
-@Composable
-private fun PlayWorkoutContentFinishPreview() {
-    AppTheme(
-        isDarkTheme = true
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Theme.color.surfaces.surface)
-        ) {
-            PlayWorkoutContentFinish(
-                screenState = PlayWorkoutScreenState(
-                    workout = PlayWorkoutScreenState.WorkoutUiState(
-                        name = "Upper Body",
-                        imageUrl = "https://phxgymwitham.co.uk/wp-content/uploads/2024/05/Upper-body-gym-workout-1024x681.jpg"
-                    ),
-                    totalTimeMinutes = 25
-                ),
-                listener = object : PlayWorkoutInteractionListener {
-                    override fun onClickCancelWorkout() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onGetReadyCounterFinish() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClickStart() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClickExerciseInfo(id: String) {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClickRestFinish() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onFinishExercise() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClickForward() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClickBack() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClickSkipRest() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClickNextToAnotherWorkout() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClickFinish() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClinkStayInWorkout() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClinkEnd() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onDismissExerciseInfo() {
-                        TODO("Not yet implemented")
-                    }
-                },
-            )
-        }
-    }
-}
-

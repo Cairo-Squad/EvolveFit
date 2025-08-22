@@ -1,8 +1,8 @@
 package com.cairosquad.evolvefit.viewmodel.favorites
 
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
-import com.cairosquad.evolvefit.entity.nutrition.MealType
-import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
+import com.cairosquad.evolvefit.domain.entity.SuggestedMeal
+import com.cairosquad.evolvefit.domain.model.MealType
 
 data class FavoritesState(
     val isLoading: Boolean = false,

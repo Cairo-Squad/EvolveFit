@@ -4,7 +4,7 @@ import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
-import com.cairosquad.evolvefit.domain.usecase.home.model.WeeklyProgress
+import com.cairosquad.evolvefit.domain.model.WeeklyProgress
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.kilogram
 import evolvefit.composeapp.generated.resources.pound

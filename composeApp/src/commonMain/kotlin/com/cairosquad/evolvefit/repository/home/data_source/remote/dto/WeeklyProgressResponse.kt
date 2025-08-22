@@ -1,6 +1,6 @@
 package com.cairosquad.evolvefit.repository.home.data_source.remote.dto
 
-import com.cairosquad.evolvefit.domain.usecase.home.model.WeeklyProgress
+import com.cairosquad.evolvefit.domain.model.WeeklyProgress
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

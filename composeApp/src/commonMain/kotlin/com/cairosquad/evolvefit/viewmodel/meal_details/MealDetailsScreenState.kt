@@ -11,7 +11,7 @@ data class MealDetailsScreenState(
     val mealDetails: MealDetailsUiState = MealDetailsUiState(),
     val errorMessage: String? = null,
     val screenStatus: ScreenStatus = ScreenStatus.LOADING,
-    val showSaveMealSnackBar : Boolean = false
+    val showSaveMealSuccessSnackBar : Boolean = false
 ){
     data class MealDetailsUiState(
         val name : String = "",
@@ -22,7 +22,8 @@ data class MealDetailsScreenState(
         val protein : Int = 0,
         val carbs : Int = 0,
         val fat : Int = 0,
-        val ingredients : List<String> = emptyList()
+        val ingredients : List<String> = emptyList(),
+        val isFavouriteMeal : Boolean = false
     )
     enum class MealTypeUiState(val displayName: StringResource) {
         Breakfast(Res.string.meal_type_breakfast),

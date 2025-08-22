@@ -95,14 +95,14 @@ fun MoreScreenContent(
                 modifier = Modifier.align(Alignment.Start).padding(top = 24.dp)
             )
             AccountRow(
-                modifier = Modifier.clickable { listener.onClickPersonInformation() },
+                modifier = Modifier.clickable { listener.onPersonInformationClicked() },
                 icon = Res.drawable.ic_profile,
                 title = stringResource(Res.string.personal_information)
             )
             AccountRow(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable { listener.onClickFavorites() },
+                    .clickable { listener.onFavoritesClicked() },
                 icon = Res.drawable.ic_bookmark_big,
                 title = stringResource(Res.string.favorites)
             )
@@ -114,7 +114,7 @@ fun MoreScreenContent(
             AccountRow(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable { listener.onClickTheme() },
+                    .clickable { listener.onThemeClicked() },
                 icon = Res.drawable.art,
                 title = stringResource(Res.string.theme),
                 text = if (state.currentTheme == MoreScreenState.Theme.DARK) stringResource(Res.string.dark_mode) else stringResource(
@@ -124,7 +124,7 @@ fun MoreScreenContent(
             AccountRow(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable { listener.onClickLanguage() },
+                    .clickable { listener.onLanguageClicked() },
                 icon = Res.drawable.earth,
                 text = if (state.profile.preferredLanguage == Language.ENGLISH) stringResource(Res.string.english) else stringResource(
                     Res.string.arabic
@@ -134,7 +134,7 @@ fun MoreScreenContent(
             AccountRow(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable { listener.onClickLogout() },
+                    .clickable { listener.onLogout() },
                 icon = Res.drawable.logout,
                 title = stringResource(Res.string.logout)
             )

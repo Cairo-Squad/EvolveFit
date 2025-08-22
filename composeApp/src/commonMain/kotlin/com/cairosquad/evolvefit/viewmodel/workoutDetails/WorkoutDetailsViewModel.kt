@@ -24,15 +24,15 @@ class WorkoutDetailsViewModel(
         )
     }
 
-    override fun onClickBack() {
+    override fun onBackClicked() {
         sendEffect(WorkoutDetailsEffect.NavigateBack)
     }
 
-    override fun onClickShare() {
+    override fun onShareClicked() {
         updateState {it.copy(isShareClicked = true) }
     }
 
-    override fun onClickAddToFavorite(workoutId: String) {
+    override fun onAddToFavoriteClicked(workoutId: String) {
         updateState { it.copy(isFavorite = it.isFavorite.not()) }
         tryToCall(
             block = { manageWorkoutUseCase.addWorkoutToFavorites(workoutId) },
@@ -43,7 +43,7 @@ class WorkoutDetailsViewModel(
         )
     }
 
-    override fun onClickExercise(exercise: WorkoutDetailsScreenState.ExerciseUiState) {
+    override fun onExerciseClicked(exercise: WorkoutDetailsScreenState.ExerciseUiState) {
         updateState { state -> state.copy(workout = state.workout.copy(selectedExercise = exercise)) }
     }
 
@@ -56,21 +56,20 @@ class WorkoutDetailsViewModel(
         updateState {it.copy(isShareClicked = false) }
     }
 
-    override fun onClickStartWorkout(workoutId: String) {
+    override fun onStartWorkoutClicked(workoutId: String) {
         sendEffect(WorkoutDetailsEffect.NavigateToPlayWorkout)
     }
 
-    override fun onClickShareWithCommunity(workoutId: String) {
+    override fun onShareWithCommunityClicked(workoutId: String) {
         sendEffect(WorkoutDetailsEffect.NavigateToShareWithCommunity(workoutId))
 
     }
 
-    override fun onClickCopyLink(workoutId: String) {
+    override fun onCopyLinkClicked(workoutId: String) {
         Share.copyLink("https://evolvefit.com/workouts/$workoutId") { message, _ ->
             updateState {
                 it.copy(snackBarMessageId = message)
             }
         }
     }
-
 }

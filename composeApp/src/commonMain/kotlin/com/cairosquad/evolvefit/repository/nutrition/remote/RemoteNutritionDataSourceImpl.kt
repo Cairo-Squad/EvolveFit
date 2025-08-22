@@ -1,15 +1,15 @@
 package com.cairosquad.evolvefit.repository.nutrition.remote
 
-import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.ConsumedMealRequestDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.DailyCalorieSummaryDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.DailyWaterSummaryDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.MealDto
-import com.cairosquad.evolvefit.repository.nutrition.dto.SuggestedMealDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.ConsumedMealDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.ConsumedMealRequestDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.DailyCalorieSummaryDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.DailyWaterSummaryDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.MealDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.SuggestedMealDto
 import com.cairosquad.evolvefit.repository.nutrition.utils.MealConstants.MEALS_PATH
 import com.cairosquad.evolvefit.repository.nutrition.utils.MealConstants.NUTRITION_PATH
 import com.cairosquad.evolvefit.repository.execption.callApi
-import com.cairosquad.evolvefit.repository.nutrition.dto.FavouriteMealDto
+import com.cairosquad.evolvefit.repository.nutrition.remote.dto.FavouriteMealDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
@@ -41,7 +41,7 @@ class RemoteNutritionDataSourceImpl(
 
     override suspend fun addFavouriteMealById(mealId: String) {
         return callApi {
-            httpClient.post(FAVORITE_MEAL){
+            httpClient.post(FAVORITE_MEAL) {
                 parameter("mealId", mealId)
             }
                 .body()
@@ -50,7 +50,7 @@ class RemoteNutritionDataSourceImpl(
 
     override suspend fun deleteFavouriteMeal(mealId: String) {
         return callApi {
-            httpClient.delete(FAVORITE_MEAL){
+            httpClient.delete(FAVORITE_MEAL) {
                 parameter("mealId", mealId)
                 contentType(ContentType.Application.Json)
             }.body()
@@ -58,14 +58,16 @@ class RemoteNutritionDataSourceImpl(
     }
 
     override suspend fun getMealHistory(
+        startDate: String,
+        endDate: String
     ): List<ConsumedMealDto> {
-        return callApi<List<ConsumedMealDto>> { httpClient.get("${NUTRITION_PATH}/meals"){
-            // to todo : add dynamic date
-            parameter("startDate", "2025-08-06T00:00:00")
-            parameter("endDate", "2025-08-20T00:00:00")
+        return callApi<List<ConsumedMealDto>> {
+            httpClient.get("${NUTRITION_PATH}/meals") {
+                parameter("startDate", startDate)
+                parameter("endDate", endDate)
 
-        }.body() }
-
+            }.body()
+        }
     }
 
     override suspend fun getConsumedMealsByDate(

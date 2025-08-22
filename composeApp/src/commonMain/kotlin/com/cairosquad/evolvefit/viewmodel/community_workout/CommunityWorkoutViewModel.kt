@@ -44,11 +44,11 @@ class CommunityWorkoutViewModel(
         }
     }
 
-    override fun onClickWorkout(id: String) {
+    override fun onWorkoutClicked(id: String) {
         sendEffect(CommunityWorkoutEffect.NavigateToWorkoutDetails(id))
     }
 
-    override fun onClickBack() {
+    override fun onBackClicked() {
         sendEffect(CommunityWorkoutEffect.NavigateBack)
     }
 

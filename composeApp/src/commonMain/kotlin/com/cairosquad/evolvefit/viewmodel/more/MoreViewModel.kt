@@ -33,19 +33,19 @@ class MoreViewModel(
         sendEffect(MoreEffect.ChangeLanguage(profile.preferredLanguage))
     }
 
-    override fun onClickPersonInformation() {
+    override fun onPersonInformationClicked() {
         sendEffect(MoreEffect.NavigateToEditProfile)
     }
 
-    override fun onClickFavorites() {
+    override fun onFavoritesClicked() {
         sendEffect(MoreEffect.NavigateToFavorites)
     }
 
-    override fun onClickNotification() {
+    override fun onNotificationClicked() {
         sendEffect(MoreEffect.NavigateToNotificationSettings)
     }
 
-    override fun onClickTheme() {
+    override fun onThemeClicked() {
         updateState { it.copy(isThemeBottomSheetEnabled = true) }
     }
 
@@ -53,7 +53,7 @@ class MoreViewModel(
         updateState { it.copy(isThemeBottomSheetEnabled = false) }
     }
 
-    override fun onClickLanguage() {
+    override fun onLanguageClicked() {
         updateState { it.copy(isLanguageBottomSheetEnabled = true) }
     }
 
@@ -96,7 +96,7 @@ class MoreViewModel(
         updateState { it.copy(isLanguageBottomSheetEnabled = false) }
     }
 
-    override fun onClickLogout() {
+    override fun onLogoutClicked() {
         updateState { it.copy(isLogoutBottomSheetEnabled = true) }
     }
 

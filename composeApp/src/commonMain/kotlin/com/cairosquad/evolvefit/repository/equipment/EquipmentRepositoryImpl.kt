@@ -2,8 +2,8 @@ package com.cairosquad.evolvefit.repository.equipment
 
 import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.repository.EquipmentRepository
-import com.cairosquad.evolvefit.repository.equipment.remot.EquipmentsRemoteDataSource
-import com.cairosquad.evolvefit.repository.equipment.remot.toDomain
+import com.cairosquad.evolvefit.repository.equipment.remote.EquipmentsRemoteDataSource
+import com.cairosquad.evolvefit.repository.equipment.remote.toDomain
 import com.cairosquad.evolvefit.repository.execption.callDataSource
 
 class EquipmentRepositoryImpl(
@@ -17,7 +17,5 @@ class EquipmentRepositoryImpl(
         return emptySet()
     }
 
-    override suspend fun editUserEquipments(equipments:Set<Equipment>) {
-
-    }
+    override suspend fun editUserEquipments(equipments:Set<Equipment>) {}
 }

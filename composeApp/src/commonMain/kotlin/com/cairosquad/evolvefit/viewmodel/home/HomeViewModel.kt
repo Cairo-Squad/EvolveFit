@@ -6,8 +6,8 @@ import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.usecase.home.GetNutritionProgressUseCase
 import com.cairosquad.evolvefit.domain.usecase.home.GetPersonalizedWorkoutsUseCase
 import com.cairosquad.evolvefit.domain.usecase.home.GetWeeklyProgressUseCase
-import com.cairosquad.evolvefit.domain.usecase.home.model.NutritionProgress
-import com.cairosquad.evolvefit.domain.usecase.home.model.WeeklyProgress
+import com.cairosquad.evolvefit.domain.model.NutritionProgress
+import com.cairosquad.evolvefit.domain.model.WeeklyProgress
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
@@ -89,7 +89,8 @@ class HomeViewModel(
         updateState {
             it.copy(
                 waterCount = nutritionProgress.currentProgress,
-                waterGoal = nutritionProgress.goal
+                waterGoal = nutritionProgress.goal,
+                nutritionVisibility = true
             )
         }
 
@@ -128,9 +129,7 @@ class HomeViewModel(
         updateState {
             it.copy(
                 personalizedWorkouts = workouts.map { workout ->
-                    workout.toHomeWorkoutUiState(
-                        isSaved = false
-                    )
+                    workout.toHomeWorkoutUiState(isSaved = false)
                 }
             )
         }
@@ -174,11 +173,11 @@ class HomeViewModel(
         }
     }
 
-    override fun onWorkoutClick(id: String) {
+    override fun onWorkoutClicked(id: String) {
         sendEffect(HomeScreenEffect.NavigateToWorkout(id))
     }
 
-    override fun onSavedWorkoutClick(id: String, isSaved: Boolean) {
+    override fun onSavedWorkoutClicked(id: String, isSaved: Boolean) {
         tryToCall(
             block = { toggleWorkoutSavedStatus(id, isSaved) },
             onSuccess = { handleSaveWorkoutSuccess(id) },
@@ -208,7 +207,7 @@ class HomeViewModel(
         }
     }
 
-    override fun onRetryClick() {
+    override fun onRetryClicked() {
         loadAllData()
     }
 
@@ -222,9 +221,7 @@ class HomeViewModel(
     }
 
     private fun startLoading() {
-        updateState {
-            it.copy(
-                screenStatus = HomeScreenState.ScreenStatus.LOADING
+        updateState {it.copy(screenStatus = HomeScreenState.ScreenStatus.LOADING
             )
         }
 
@@ -234,18 +231,13 @@ class HomeViewModel(
     private fun observeRequest() {
         viewModelScope.launch(Dispatchers.Unconfined) {
             delay(REQUEST_TIME_LIMIT_IN_MILLISECONDS)
-            if (screenState.value.screenStatus == HomeScreenState.ScreenStatus.LOADING) {
+            if (screenState.value. screenStatus == HomeScreenState.ScreenStatus.LOADING) {
                 stopLoading(HomeScreenState.ScreenStatus.FAIL)
-            }
-        }
+            } }
     }
 
     private fun stopLoading(screenStatus: HomeScreenState.ScreenStatus) {
-        updateState {
-            it.copy(
-                screenStatus = screenStatus
-            )
-        }
+        updateState { it.copy( screenStatus = screenStatus) }
     }
 
     private fun handleHomeErrors(error: Throwable) {

@@ -2,13 +2,13 @@ package com.cairosquad.evolvefit.viewmodel.workoutDetails
 
 
 interface WorkoutDetailsInteractionListener {
-    fun onClickBack()
-    fun onClickShare()
-    fun onClickAddToFavorite(workoutId: String)
-    fun onClickExercise(exercise: WorkoutDetailsScreenState.ExerciseUiState)
+    fun onBackClicked()
+    fun onShareClicked()
+    fun onAddToFavoriteClicked(workoutId: String)
+    fun onExerciseClicked(exercise: WorkoutDetailsScreenState.ExerciseUiState)
     fun onExerciseBottomSheetDismiss()
     fun onShareBottomSheetDismiss()
-    fun onClickStartWorkout(workoutId: String)
-    fun onClickShareWithCommunity(workoutId: String)
-    fun onClickCopyLink(workoutId: String)
+    fun onStartWorkoutClicked(workoutId: String)
+    fun onShareWithCommunityClicked(workoutId: String)
+    fun onCopyLinkClicked(workoutId: String)
 }

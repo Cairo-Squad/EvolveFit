@@ -1,11 +1,11 @@
 package com.cairosquad.evolvefit.repository.nutrition
 
 import com.cairosquad.evolvefit.domain.repository.NutritionRepository
-import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
-import com.cairosquad.evolvefit.entity.nutrition.DailyCalorieSummary
-import com.cairosquad.evolvefit.entity.nutrition.DailyWaterSummary
-import com.cairosquad.evolvefit.entity.nutrition.Meal
-import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
+import com.cairosquad.evolvefit.domain.entity.ConsumedMeal
+import com.cairosquad.evolvefit.domain.entity.DailyCalorieSummary
+import com.cairosquad.evolvefit.domain.entity.DailyWaterSummary
+import com.cairosquad.evolvefit.domain.entity.Meal
+import com.cairosquad.evolvefit.domain.entity.SuggestedMeal
 import com.cairosquad.evolvefit.repository.execption.callDataSource
 import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSource
 import com.cairosquad.evolvefit.repository.nutrition.remote.toDomain
@@ -37,8 +37,8 @@ class NutritionRepositoryImpl(private val remoteNutritionDataSource: RemoteNutri
         }
     }
 
-    override suspend fun getMealHistory(): List<ConsumedMeal> {
-        return callDataSource { remoteNutritionDataSource.getMealHistory() }.map {
+    override suspend fun getMealHistory(startDate: String, endDate: String): List<ConsumedMeal> {
+        return callDataSource { remoteNutritionDataSource.getMealHistory(startDate,endDate) }.map {
             it.toDomain()
         }
     }

@@ -31,9 +31,8 @@ import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.component.RefreshBox
-import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
 import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
+import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutEffect
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutInteractionListener
@@ -96,6 +95,7 @@ private fun WorkoutsScreenContent(
         ) {
 
             AppBar(listener::onClickCommunity)
+//            onCommunityClicked
 
             FocusAreaFilter(
                 focusArea = WorkoutScreenState.FocusAreaUiState.entries,
@@ -115,6 +115,7 @@ private fun WorkoutsScreenContent(
                         Workouts(
                             workouts = state.allWorkouts,
                             onClickWorkout = listener::onClickWorkout
+                            //onWorkoutClicked
                         )
                     }
 
@@ -132,29 +133,12 @@ private fun WorkoutsScreenContent(
             }
         }
         if (state.screenStatus == WorkoutScreenState.ScreenStatus.SUCCESS) {
-            Box {
                 AddWorkoutBtn(
                     modifier = Modifier.align(Alignment.BottomEnd),
                     listener::onClickAddWorkout
+                    //onAddWorkoutClicked
                 )
-            }
         }
-//        if (state.screenStatus == WorkoutScreenState.ScreenStatus.SUCCESS) {
-//            FloatingActionButton(
-//                onClick = listener::onClickAddWorkout,
-//                modifier = Modifier
-//                    .align(Alignment.BottomEnd)
-//                    .padding(24.dp),
-//                containerColor = Theme.color.brand.primary,
-//                shape = CircleShape
-//            ) {
-//                Icon(
-//                    painter = painterResource(Res.drawable.ic_plus),
-//                    contentDescription = "Create Workout",
-//                    modifier = Modifier.padding(12.dp).size(24.dp)
-//                )
-//            }
-//        }
     }
 }
 

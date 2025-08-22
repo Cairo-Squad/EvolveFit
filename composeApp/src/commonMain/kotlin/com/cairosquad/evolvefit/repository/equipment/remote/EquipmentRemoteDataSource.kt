@@ -1,4 +1,7 @@
 package com.cairosquad.evolvefit.repository.equipment.remote
 
-class EquipmentRemoteDataSource {
+import com.cairosquad.evolvefit.repository.equipment.remote.dto.GymEquipmentDto
+
+interface EquipmentsRemoteDataSource {
+    suspend fun getEquipments(): List<GymEquipmentDto>
 }
