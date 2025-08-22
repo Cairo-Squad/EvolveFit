@@ -43,7 +43,6 @@ actual object PdfReportManager {
         val pageHeight = 842.0
         val pageRect = CGRectMake(0.0, 0.0, pageWidth, pageHeight)
 
-        // Convert logoBytes -> NSData -> UIImage (if bytes provided)
         val logoImage: UIImage? = if (logoBytes.isNotEmpty()) {
             logoBytes.usePinned { pinned ->
                 val nsData = NSData.create(bytes = pinned.addressOf(0), length = logoBytes.size.toULong())
@@ -53,20 +52,17 @@ actual object PdfReportManager {
             null
         }
 
-        // Begin PDF context
         UIGraphicsBeginPDFContextToFile(filePath, pageRect, null)
         UIGraphicsBeginPDFPageWithInfo(pageRect, null)
 
         var y = 40.0
 
-        // Header
         (("Name: $name") as NSString).drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
         y += 22.0
         (("Start date: $startDate") as NSString).drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
         y += 20.0
         (("End date: $endDate") as NSString).drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
 
-        // Draw logo top-right if present
         logoImage?.let {
             val logoW = 60.0
             val logoH = 60.0
@@ -75,11 +71,9 @@ actual object PdfReportManager {
 
         y += 30.0
 
-        // separator (simple)
         ("——————————————————————————————————————————" as NSString).drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
         y += 50.0
 
-        // summary
         ("Weekly report for the duration of $startDate to $endDate." as NSString)
             .drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
         y += 28.0
@@ -100,7 +94,6 @@ actual object PdfReportManager {
             .drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
         y += 30.0
 
-        // Workouts per week
         ("Workouts per week:" as NSString).drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
         y += 24.0
 
@@ -129,7 +122,6 @@ actual object PdfReportManager {
         }
         y += 20.0
 
-        // Most trained muscles
         ("Most trained muscles:" as NSString).drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
         y += 24.0
         val muscles = report.mostTrainedMuscles.muscle
@@ -146,7 +138,6 @@ actual object PdfReportManager {
             }
         }
 
-        // End PDF
         UIGraphicsEndPDFContext()
 
         return filePath
@@ -170,7 +161,6 @@ actual object PdfReportManager {
             applicationActivities = null
         )
 
-        // present from root view controller
         val rootVC: UIViewController? =
             UIApplication.sharedApplication.keyWindow?.rootViewController
 

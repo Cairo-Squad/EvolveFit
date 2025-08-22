@@ -36,7 +36,6 @@ actual object PdfReportManager {
         val pdfPath = createPDF(context, report, name, start, end, logoBytes)
         val file = File(pdfPath)
 
-        // Get content URI via FileProvider
         val uri: Uri = FileProvider.getUriForFile(
             context,
             "${context.packageName}.provider",

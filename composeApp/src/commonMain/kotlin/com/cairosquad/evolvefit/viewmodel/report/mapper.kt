@@ -54,7 +54,7 @@ suspend fun Report.toUiState(): ReportScreenState.ReportUiState {
         workoutPerWeek = workoutsPerWeekUi,
         timeSpentPerWeek = timeSpentPerWeekUi,
         mostTrainedMuscles = ReportScreenState.TrainedMuscle(
-            muscle = focusedAreas.map { (focusArea, _) -> getString(focusArea.stringRes()) }, // 👈 String
+            muscle = focusedAreas.map { (focusArea, _) -> getString(focusArea.stringRes()) },
             percentage = focusedAreas.map { (_, percentage) -> percentage.toFloat() / 100f }
         ),
     )
