@@ -6,14 +6,15 @@ import com.cairosquad.evolvefit.domain.repository.ExerciseRepository
 class ManageExerciseUseCase(
     private val exerciseRepository: ExerciseRepository
 ) {
-    suspend fun createExercise(exercise: Exercise) {
-        exerciseRepository.createExercise(exercise)
+    suspend fun createExercise(exercise: Exercise): Exercise {
+        return exerciseRepository.createExercise(exercise)
     }
     suspend fun uploadExerciseImage(
         fileBytes: ByteArray,
-        fileName: String
+        fileName: String,
+        exerciseId : String
     ): String {
-        return exerciseRepository.uploadExerciseImage(fileBytes, fileName)
+        return exerciseRepository.uploadExerciseImage(fileBytes, fileName,exerciseId)
     }
 
     suspend fun getAllExercises(): List<Exercise> {
