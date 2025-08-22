@@ -12,6 +12,7 @@ data class ReportScreenState(
     val selectedWeek: WeekItem = WeekItem(),
     val startDate: String = "",
     val endDate: String = "",
+    val profile: ProfileUiState = ProfileUiState(),
     val isRefreshing: Boolean = false
 ) {
     data class WeekItem(
@@ -52,5 +53,9 @@ data class ReportScreenState(
         val exercisesCount: Int = 0,
         val duration: String = "",
         val level: String = ""
+    )
+
+    data class ProfileUiState(
+        val name: String = "",
     )
 }

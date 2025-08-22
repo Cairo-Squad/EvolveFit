@@ -1,8 +1,10 @@
 package com.cairosquad.evolvefit.viewmodel.report
 
 import androidx.lifecycle.viewModelScope
+import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.entity.Report
 import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
+import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.domain.usecase.report.ManageReportsUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import evolvefit.composeapp.generated.resources.Res
@@ -21,6 +23,7 @@ import kotlinx.datetime.toLocalDateTime
 
 class ReportViewModel(
     private val manageReportsUseCase: ManageReportsUseCase,
+    private val manageProfileUseCase: ManageProfileUseCase
 ) : BaseViewModel<ReportScreenState, ReportEffect>(ReportScreenState()),
     ReportInteractionListener {
 
@@ -31,7 +34,20 @@ class ReportViewModel(
     private fun loadData() {
         loadWorkoutReport()
         loadWorkoutHistory()
+        loadProfile()
         loadWeeks()
+    }
+
+    private fun loadProfile() {
+        tryToCall(
+            block = { manageProfileUseCase.getProfile() },
+            onSuccess = ::onLoadProfileSuccess,
+            onError = {}
+        )
+    }
+
+    private fun onLoadProfileSuccess(profile: Profile) {
+        updateState { it.copy(profile = profile.toUiState()) }
     }
 
     fun loadWorkoutReport(weekRange: Pair<String, String> = getCurrentWeekRange()) {
@@ -153,17 +169,21 @@ class ReportViewModel(
 
         val lastWeekFriday = lastWeekSaturday.plus(6, DateTimeUnit.DAY)
 
-        val formatter: (LocalDate) -> String = { date ->
+        val startDateFormatter: (LocalDate) -> String = { date ->
             "$date$START_OF_THE_DAY"
         }
+        val endDateFormatter: (LocalDate) -> String = { date ->
+            "$date$END_OF_THE_DAY"
+        }
 
-        return Pair(formatter(lastWeekSaturday), formatter(lastWeekFriday))
+        return Pair(startDateFormatter(lastWeekSaturday), endDateFormatter(lastWeekFriday))
     }
 
     private companion object {
         const val THIS_WEEK_KEY = "this_week"
         const val LAST_WEEK_KEY = "last_week"
         const val START_OF_THE_DAY = "T00:00:00"
+        const val END_OF_THE_DAY = "T23:59:59"
         val THIS_WEEK = ReportScreenState.WeekItem(THIS_WEEK_KEY, Res.string.this_week)
         val LAST_WEEK = ReportScreenState.WeekItem(LAST_WEEK_KEY, Res.string.last_week)
     }

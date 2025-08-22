@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.report
 
+import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.entity.Report
 import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
 import com.cairosquad.evolvefit.domain.model.FocusArea
@@ -59,6 +60,10 @@ suspend fun Report.toUiState(): ReportScreenState.ReportUiState {
         ),
     )
 }
+
+fun Profile.toUiState() = ReportScreenState.ProfileUiState(
+    name = name,
+)
 
 fun WorkoutHistory.toUiState() = ReportScreenState.WorkoutHistoryUiState(
     name = name,

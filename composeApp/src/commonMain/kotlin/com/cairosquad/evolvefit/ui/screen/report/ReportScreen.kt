@@ -30,7 +30,7 @@ fun ReportScreen(
             ReportEffect.NavigateToAllHistoryWorkouts -> navigateToWorkoutHistory
             ReportEffect.OnShareClicked -> {
                 PdfReportManager.generateAndShareReport(
-                    name = "Youssef Mohamed",
+                    name = uiState.profile.name,
                     report = uiState.report,
                     startDate = uiState.startDate,
                     endDate = uiState.endDate
