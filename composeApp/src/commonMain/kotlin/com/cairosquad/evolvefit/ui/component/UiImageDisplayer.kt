@@ -2,8 +2,10 @@ package com.cairosquad.evolvefit.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
@@ -36,7 +38,7 @@ fun UiImageDisplayer(
 
         is UiImage.ImageUrl -> {
             NetworkImage(
-                modifier = Modifier.size(defaultImageSize),
+                modifier = Modifier.size(defaultImageSize).clip(CircleShape),
                 defaultImage = painterResource(Res.drawable.im_img),
                 loadingPlaceHolder = painterResource(Res.drawable.im_img),
                 model = image.url,
@@ -51,7 +53,9 @@ fun UiImageDisplayer(
                 painter = painterResource(image.resourceId),
                 contentDescription = contentDescription,
                 contentScale = contentScale,
-                modifier = Modifier.size(defaultImageSize)
+                modifier = Modifier
+                    .size(defaultImageSize)
+                    .clip(CircleShape)
             )
         }
 
@@ -71,6 +75,8 @@ private fun FileImageDisplayer(
         model = file,
         contentDescription = contentDescription,
         contentScale = contentScale,
-        modifier = modifier.size(defaultImageSize)
+        modifier = modifier
+            .size(defaultImageSize)
+            .clip(CircleShape)
     )
 }
