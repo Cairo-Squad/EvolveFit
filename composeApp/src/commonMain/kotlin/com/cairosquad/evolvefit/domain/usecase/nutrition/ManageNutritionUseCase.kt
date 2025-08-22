@@ -86,7 +86,7 @@ class ManageNutritionUseCase(private val nutritionRepository: NutritionRepositor
     }
 
     private fun validateMealName(name: String) {
-        if (name.length > 10) throw LengthTooLargeException(FieldType.MEAL_NAME)
+        if (name.length > 40) throw LengthTooLargeException(FieldType.MEAL_NAME)
     }
 
     private fun parseCalories(input: String): Int {
