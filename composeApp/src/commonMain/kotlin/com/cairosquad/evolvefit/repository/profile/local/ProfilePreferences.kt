@@ -2,7 +2,7 @@ package com.cairosquad.evolvefit.repository.profile.local
 
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 
-interface ProfilePrefrences {
+interface ProfilePreferences{
     fun saveTheme(theme: MoreScreenState.Theme)
     fun getSavedTheme(): MoreScreenState.Theme
 

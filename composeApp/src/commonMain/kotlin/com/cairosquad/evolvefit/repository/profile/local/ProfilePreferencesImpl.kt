@@ -5,9 +5,9 @@ import com.russhwolf.settings.Settings
 import com.russhwolf.settings.get
 import com.russhwolf.settings.set
 
-class ProfilePrefrencesImpl(
+class ProfilePreferencesImpl(
     private val settings: Settings = Settings()
-) : ProfilePrefrences {
+) : ProfilePreferences {
 
     companion object {
         private const val KEY_THEME = "theme"

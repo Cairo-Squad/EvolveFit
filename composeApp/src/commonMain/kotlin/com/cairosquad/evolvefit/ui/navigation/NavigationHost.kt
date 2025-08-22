@@ -13,7 +13,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
 import com.cairosquad.evolvefit.ui.navigation.navBar.navigateToNavBarRoute
 import com.cairosquad.evolvefit.ui.screen.communityWorkout.CommunityWorkoutScreen
@@ -33,10 +32,8 @@ import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
 import com.cairosquad.evolvefit.ui.screen.report.ReportScreen
 import com.cairosquad.evolvefit.ui.screen.suggestedMeals.SuggestedMealsScreen
 import com.cairosquad.evolvefit.ui.screen.workout.WorkoutScreen
-import com.cairosquad.evolvefit.ui.screen.editProfile.EditProfileScreen
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.WorkoutDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.WorkoutHistoryScreen
-import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import org.koin.compose.koinInject
 
 @Composable
@@ -44,13 +41,6 @@ fun NavigationHost(
     authenticationPreferences: AuthenticationPreferences = koinInject(), // TODO: Replace with isUserLoggedIn: Boolean
     deepLinkRoute: Any? = null
 ) {
-    authenticationPreferences: AuthenticationPreferences = koinInject(),
-    deepLinkRoute: Any? = null,
-    onLanguageChange: (String) -> Unit,
-    onThemeChange: (MoreScreenState.Theme) -> Unit,
-    currentTheme: MoreScreenState.Theme,
-    currentLanguage: Language
-    ) {
 
     val isUserLoggedIn = authenticationPreferences.getAccessToken().isNullOrBlank().not()
     val startDestination = if (isUserLoggedIn) NavBarRoute.Home else OnboardingRoute
@@ -156,9 +146,7 @@ fun NavigationHost(
             MoreScreen(
                 navigateToFavorites = { navController.navigate(FavoritesScreenRoute) },
                 navigateToNotificationSettings = { },
-                onThemeChanged = { },
                 onLogout = {
-                    authenticationPreferences.clear() // TODO: remove, logout logic is not the responsibility of the nav host
                     navController.navigate(LoginRoute) {
                         popUpTo(OnboardingRoute) { inclusive = true }
                         launchSingleTop = true
@@ -167,20 +155,6 @@ fun NavigationHost(
                 },
                 navigateToEditProfile = { navController.navigate(EditProfileRoute) },
                 onSelectNavBarRoute = navController::navigateToNavBarRoute
-            )
-                navigateToEditProfile = { navController.navigate(EditProfileRoute) },
-                navigateToLogIn = {
-                    authenticationPreferences.clear()
-                    navController.navigate(LoginRoute){
-                    popUpTo(OnboardingRoute) { inclusive = true }
-                    launchSingleTop = true
-                    restoreState = false
-                } },
-                navigateToFavoritesScreen = {navController.navigate(FavoritesScreenRoute)},
-                onLanguageChange = onLanguageChange,
-                onThemeChange = onThemeChange,
-                currentTheme = currentTheme,
-                currentLanguage = currentLanguage
             )
         }
 
