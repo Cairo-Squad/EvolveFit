@@ -221,7 +221,7 @@
     <string name="error_invalid_email">Please check your email and try again.</string>
     <string name="error_invalid_password">Password must be at least 8 characters.</string>
     <string name="error_unexpected">An unexpected error occurred.</string>
-    <string name="error_email_already_used">This email is already registered.</string>
+    <string name="error_email_already_used">This email is already exist.</string>
     <string name="liters1">Litres</string>
 
     <string name="calories_small">calories</string>
