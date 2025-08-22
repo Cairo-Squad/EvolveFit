@@ -69,12 +69,19 @@ fun NavigationHost(
     ) {
         composable<OnboardingRoute> {
             OnboardingScreen(
-                navigateToLogin = { navController.navigate(LoginRoute) },
+                navigateToLogin = {
+                    navController.navigate(LoginRoute)
+                    navController.saveInSavedState(value = true, key = "showBackButton")
+                },
                 navigateToRegister = { navController.navigate(RegisterRoute) },
             )
         }
 
         composable<LoginRoute> {
+            val showBackButton = navController
+                .getFromSavedState<Boolean>(key = "showBackButton")
+                ?: false
+
             LoginScreen(
                 navigateToRegister = { navController.navigate(RegisterRoute) },
                 navigateBack = navController::popBackStack,
@@ -85,6 +92,7 @@ fun NavigationHost(
                         }
                     }
                 },
+                showBackButton = showBackButton,
             )
         }
 

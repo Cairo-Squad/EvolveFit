@@ -29,7 +29,7 @@ fun WorkoutSuggested.toUiState(): WorkoutScreenState.WorkoutSuggestedUiState {
     return WorkoutScreenState.WorkoutSuggestedUiState(
         id = id,
         title = name,
-        duration = durationSeconds.toString(),
+        durationInMinutes = durationSeconds ?.let {it / 60} ?.toString() ?: "3", // TODO: change default value
         focusArea = focusArea.firstOrNull()?.toUiState()
             ?: WorkoutScreenState.FocusAreaUiState.ALL,
         imageUrl = imageUrl
