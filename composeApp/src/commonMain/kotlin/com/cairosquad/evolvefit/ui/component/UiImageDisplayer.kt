@@ -22,7 +22,7 @@ fun UiImageDisplayer(
     contentDescription: String,
     defaultImageSize: Dp = 32.dp,
     modifier: Modifier = Modifier,
-    contentScale: ContentScale = ContentScale.None,
+    contentScale: ContentScale = ContentScale.Crop,
 ) {
     when (image) {
         is UiImage.ImageFile -> {
@@ -51,7 +51,7 @@ fun UiImageDisplayer(
             Image(
                 painter = painterResource(image.resourceId),
                 contentDescription = contentDescription,
-                contentScale = ContentScale.Fit,
+                contentScale = contentScale,
                 modifier = Modifier.size(defaultImageSize)
             )
         }
