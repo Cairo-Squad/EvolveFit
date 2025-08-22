@@ -56,7 +56,7 @@ class CreateWorkoutViewModel(
         updateState {
             it.copy(
                 name = cleanName,
-                isNextEnabled = validate(cleanName, it.goal.name, it.description)
+                isNextEnabled = validate(cleanName, it.level?.name?:"", it.description)
             )
         }
     }
@@ -66,7 +66,7 @@ class CreateWorkoutViewModel(
             enumValues<WorkoutLevel>().firstOrNull { it.name == goalName } ?: WorkoutLevel.BEGINNER
         updateState {
             it.copy(
-                goal = selectedGoal,
+                level = selectedGoal,
                 isNextEnabled = validate(it.name, selectedGoal.name, it.description)
             )
         }
@@ -77,7 +77,7 @@ class CreateWorkoutViewModel(
         updateState {
             it.copy(
                 description = trimmed,
-                isNextEnabled = validate(it.name, it.goal.name, trimmed)
+                isNextEnabled = validate(it.name, it.level?.name?:"", trimmed)
             )
         }
     }

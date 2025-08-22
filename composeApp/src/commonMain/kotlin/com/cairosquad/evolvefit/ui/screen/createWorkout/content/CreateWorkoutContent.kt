@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.createWorkout.content
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
@@ -30,13 +28,13 @@ import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.component.UserProfileImage
 import com.cairosquad.evolvefit.ui.screen.createWorkout.component.WorkoutImage
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState
 import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState.WorkoutLevel
-import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage.ImageResource
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.advanced
+import evolvefit.composeapp.generated.resources.beginner
 import evolvefit.composeapp.generated.resources.characters_left
 import evolvefit.composeapp.generated.resources.choose_your_goal_
 import evolvefit.composeapp.generated.resources.create_workout_subtitle_
@@ -46,8 +44,7 @@ import evolvefit.composeapp.generated.resources.enter_description_
 import evolvefit.composeapp.generated.resources.enter_workout_name_
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_cross
-import evolvefit.composeapp.generated.resources.ic_image
-import evolvefit.composeapp.generated.resources.im_upload1
+import evolvefit.composeapp.generated.resources.intermediate
 import evolvefit.composeapp.generated.resources.next_button_
 import evolvefit.composeapp.generated.resources.upload_image
 import org.jetbrains.compose.resources.painterResource
@@ -91,7 +88,7 @@ fun CreateWorkoutContent(
                     .padding(horizontal = 16.dp)
             ) {
                 BasicText(
-                    modifier=Modifier.padding(bottom=8.dp),
+                    modifier = Modifier.padding(bottom = 8.dp),
                     text = stringResource(Res.string.create_workout_title_),
                     style = Theme.textStyle.headline.mediumMedium18.copy(
                         color = Theme.color.surfaces.onSurface
@@ -116,7 +113,7 @@ fun CreateWorkoutContent(
                 modifier = Modifier
                     .padding(bottom = 8.dp)
                     .clip(shape = RoundedCornerShape(8.dp))
-                    .align(Alignment.CenterHorizontally)
+                    .align(Alignment.CenterHorizontally),
             )
 
             Text(
@@ -137,8 +134,8 @@ fun CreateWorkoutContent(
             )
 
             CustomDropDownMenu(
-                selectedText = state.goal.name,
-                options = workoutGoals.map { it.name },
+                selectedText = state.level?.let { toDisplayName(it) } ?: "",
+                options = workoutGoals.map { toDisplayName(it) },
                 placeholder = stringResource(Res.string.choose_your_goal_),
                 iconPainter = painterResource(Res.drawable.ic_arrow_down),
                 onOptionSelected = { selectedGoal ->
@@ -194,4 +191,14 @@ fun CreateWorkoutContent(
                 .padding(bottom = 24.dp)
         )
     }
+
 }
+@Composable
+fun toDisplayName(level : WorkoutLevel): String {
+    return when (level) {
+        WorkoutLevel.BEGINNER -> stringResource(Res.string.beginner)
+        WorkoutLevel.INTERMEDIATE -> stringResource(Res.string.intermediate)
+        WorkoutLevel.ADVANCED ->  stringResource(Res.string.advanced)
+    }
+}
+

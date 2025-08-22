@@ -61,11 +61,10 @@ fun CustomDropDownMenu(
 
     val rotation by animateFloatAsState(targetValue = if (expanded) 180f else 0f)
 
-    // Wrap everything inside a Box to anchor the dropdown
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
-                .clickable { expanded = !expanded } // make the whole row clickable
+                .clickable { expanded = !expanded }
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
                 .background(Theme.color.surfaces.surfaceContainer)

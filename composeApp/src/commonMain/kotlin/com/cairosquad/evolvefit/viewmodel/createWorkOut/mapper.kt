@@ -5,10 +5,7 @@ import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.entity.Workout.WorkoutLevel
 import com.cairosquad.evolvefit.domain.model.FocusArea
-import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState
-import com.cairosquad.evolvefit.viewmodel.exercise.toDomain
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
-import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
 import io.github.vinceglb.filekit.path
 
 fun CreateWorkOutScreenState.toDomainWorkout(exercises: List<CreateWorkOutScreenState.ExerciseUiState> = emptyList()): Workout {
@@ -23,7 +20,7 @@ fun CreateWorkOutScreenState.toDomainWorkout(exercises: List<CreateWorkOutScreen
         name = name,
         description = description,
         imageUrl = listOfNotNull(imageUrl.takeIf { it.isNotBlank() }).toString(),
-        level = goal.toDomain(),
+        level = level!!.toDomain(),
         estimatedTimeInSeconds = exercises.sumOf {
             when (val t = it.type) {
                 is CreateWorkOutScreenState.ExerciseType.Duration -> t.seconds
