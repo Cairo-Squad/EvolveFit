@@ -48,7 +48,7 @@ class ManageWorkoutUseCase(
         workoutRepository.addWorkoutToFavorites(workoutId)
     }
 
-    suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested> {
+    suspend fun getSuggestedWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested> {
         return workoutRepository.getWorkoutsByFocusArea(focusArea)
     }
 

@@ -1,9 +1,11 @@
 package com.cairosquad.evolvefit.ui.screen.communityWorkout
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +28,9 @@ import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.component.RefreshBox
+import com.cairosquad.evolvefit.ui.screen.workout.WorkoutsErrorScreen
+import com.cairosquad.evolvefit.ui.screen.workout.WorkoutsLoadingScreen
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutEffect
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutInteractionListener
@@ -33,6 +38,7 @@ import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutView
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.back
+import evolvefit.composeapp.generated.resources.community
 import evolvefit.composeapp.generated.resources.ic_back
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -62,7 +68,10 @@ private fun WorkoutsScreenContent(
     listener: CommunityWorkoutInteractionListener,
     navigateBack: () -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    RefreshBox(
+        isRefreshing = state.isRefreshing,
+        onRefresh = listener::onRefresh
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -77,13 +86,36 @@ private fun WorkoutsScreenContent(
             FocusAreaFilter(
                 focusArea = WorkoutScreenState.FocusAreaUiState.entries,
                 selectedFocusArea = state.selectedFocusArea,
-                onSelectFocusArea = listener::onSelectFocusArea
+                onSelectFocusArea = listener::onFocusAreaSelected
             )
 
-            Workouts(
-                state.allWorkouts,
-                listener::onWorkoutClicked
-            )
+            Crossfade(
+                targetState = state.screenStatus,
+                animationSpec = tween(
+                    durationMillis = 400,
+                    easing = FastOutSlowInEasing
+                )
+            ) { status ->
+                when (status) {
+                    WorkoutScreenState.ScreenStatus.SUCCESS -> {
+                        Workouts(
+                            workouts = state.allWorkouts,
+                            onClickWorkout = listener::onWorkoutClicked
+                        )
+                    }
+
+                    WorkoutScreenState.ScreenStatus.LOADING -> {
+                        WorkoutsLoadingScreen()
+                    }
+
+                    WorkoutScreenState.ScreenStatus.FAIL -> {
+                        WorkoutsErrorScreen(
+                            message = state.errorMessage ?: "Something went wrong",
+                            onRetry = listener::onRetryClicked
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -91,7 +123,7 @@ private fun WorkoutsScreenContent(
 @Composable
 private fun AppBar(navigateBack: () -> Unit) {
     CustomAppBar(
-        title = "Community",
+        title = stringResource(Res.string.community),
         header = {
             ActionIconButton(
                 icon = painterResource(Res.drawable.ic_back),
@@ -120,7 +152,7 @@ private fun Workouts(
                     .clickable { onClickWorkout(workout.id) },
                 title = workout.title,
                 duration = workout.duration,
-                focusArea = workout.focusArea.name,
+                focusArea = stringResource(workout.focusArea.nameResId),
                 model = workout.imageUrl,
             )
         }
@@ -141,7 +173,7 @@ private fun FocusAreaFilter(
         items(focusArea.size) { index ->
             val area = focusArea[index]
             Chip(
-                title = area.name,
+                title = stringResource(area.nameResId),
                 isSelected = selectedFocusArea == area,
                 onClick = { onSelectFocusArea(area) }
             )
