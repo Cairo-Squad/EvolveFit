@@ -46,6 +46,7 @@ import evolvefit.composeapp.generated.resources.community
 import evolvefit.composeapp.generated.resources.create_workout_title_
 import evolvefit.composeapp.generated.resources.ic_group
 import evolvefit.composeapp.generated.resources.ic_plus
+import evolvefit.composeapp.generated.resources.min
 import evolvefit.composeapp.generated.resources.workouts
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -194,7 +195,7 @@ private fun Workouts(
                     .clip(RoundedCornerShape(8.dp))
                     .clickable { onClickWorkout(workout.id) },
                 title = workout.title,
-                duration = workout.duration,
+                duration = workout.durationInMinutes + " " + stringResource(Res.string.min),
                 focusArea = stringResource(workout.focusArea.nameResId),
                 model = workout.imageUrl,
             )

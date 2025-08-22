@@ -15,5 +15,4 @@ interface PlayWorkoutInteractionListener {
     fun onStayInWorkoutClinked()
     fun onEndClinked()
     fun onDismissExerciseInfo()
-
 }

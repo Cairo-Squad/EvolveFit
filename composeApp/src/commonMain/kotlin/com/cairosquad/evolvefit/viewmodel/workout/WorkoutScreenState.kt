@@ -21,7 +21,7 @@ data class WorkoutScreenState(
     data class WorkoutSuggestedUiState(
         val id: String,
         val title: String,
-        val duration: String,
+        val durationInMinutes: String,
         val focusArea: FocusAreaUiState,
         val imageUrl: String
     )

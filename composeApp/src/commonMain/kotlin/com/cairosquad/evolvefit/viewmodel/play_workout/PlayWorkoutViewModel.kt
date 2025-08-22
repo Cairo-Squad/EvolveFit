@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.viewmodel.play_workout
 
 import com.cairosquad.evolvefit.domain.entity.Workout
+import com.cairosquad.evolvefit.domain.model.PlayedWorkout
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState.Stage
@@ -60,11 +61,27 @@ class PlayWorkoutViewModel(
     }
 
     override fun onFinishExercise() {
-        if (isLastExercise) {
-            updateState { it.copy(stage = Stage.FINISH, totalTimeMinutes = totalTimeSoFarMinutes) }
+        if (isLastExercise.not()){
+            updateState {it.copy(stage = Stage.REST, currentStep = nextStep) }
             return
         }
-        updateState {it.copy(stage = Stage.REST, currentStep = nextStep) }
+
+        updateState { it.copy(stage = Stage.FINISH, totalTimeMinutes = totalTimeSoFarMinutes) }
+
+        tryToCall(
+            block = ::onFinishBlock,
+            onSuccess = { },
+            onError = { }
+        )
+    }
+
+    private suspend fun onFinishBlock(){
+        manageWorkoutUseCase.submitPlayedWorkout(
+            PlayedWorkout(
+                workoutId = screenState.value.workout.id,
+                durationSeconds = screenState.value.totalTimeMinutes
+            )
+        )
     }
 
     override fun onForwardClicked() {
