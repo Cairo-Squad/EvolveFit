@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.RefreshBox
 import com.cairosquad.evolvefit.ui.screen.communityWorkout.content.component.AppBar
-import com.cairosquad.evolvefit.ui.screen.workout.WorkoutsErrorScreen
-import com.cairosquad.evolvefit.ui.screen.workout.WorkoutsLoadingScreen
+import com.cairosquad.evolvefit.ui.screen.workout.content.WorkoutsErrorScreen
+import com.cairosquad.evolvefit.ui.screen.workout.content.WorkoutsLoadingScreen
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
 
