@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.nutrition.component
+package com.cairosquad.evolvefit.ui.screen.nutrition.content
 
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.RepeatMode

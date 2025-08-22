@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.nutrition.component
+package com.cairosquad.evolvefit.ui.screen.nutrition.content
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

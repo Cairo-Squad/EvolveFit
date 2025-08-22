@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.mealsHistory.components
+package com.cairosquad.evolvefit.ui.screen.mealsHistory.content.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

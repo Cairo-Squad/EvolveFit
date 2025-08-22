@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.mealDetails.components
+package com.cairosquad.evolvefit.ui.screen.mealDetails.content.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.WindowInsets

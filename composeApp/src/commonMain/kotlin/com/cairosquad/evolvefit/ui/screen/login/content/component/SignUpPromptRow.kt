@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.login.content
+package com.cairosquad.evolvefit.ui.screen.login.content.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

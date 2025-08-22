@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.nutrition.component
+package com.cairosquad.evolvefit.ui.screen.mealsHistory.content.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,8 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
-import com.cairosquad.evolvefit.viewmodel.nutrition.toMealIcon
+import com.cairosquad.evolvefit.viewmodel.meal_history.MealHistoryScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.kcal_unit
 import org.jetbrains.compose.resources.painterResource
@@ -24,25 +23,25 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MealHistoryItem(
-    meal: NutritionScreenState.ConsumedMealUiState,
+    meal: MealHistoryScreenState.MealHistoryUiState,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 12.dp, horizontal = 16.dp),
+            .padding(vertical = 8.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-            Icon(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(Theme.color.surfaces.outlineVariant)
-                    .padding(10.dp),
-                painter = painterResource(meal.type.toMealIcon()),
-                contentDescription = null,
-                tint = Theme.color.brand.primary,
-            )
+        Icon(
+            modifier = Modifier
+                .clip(CircleShape)
+                .background(Theme.color.surfaces.outlineVariant)
+                .padding(10.dp),
+            painter = painterResource(meal.type.icon),
+            contentDescription = null,
+            tint = Theme.color.brand.primary,
+        )
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -55,14 +54,13 @@ fun MealHistoryItem(
                 color = Theme.color.surfaces.onSurface
             )
             Text(
-                modifier = Modifier.padding(top = 8.dp),
                 text = meal.date,
                 style = Theme.textStyle.label.smallRegular12,
                 color = Theme.color.surfaces.onSurfaceVariant
             )
         }
         Column(
-            horizontalAlignment = Alignment.Start,
+            horizontalAlignment = Alignment.End
         ) {
             Text(
                 text = "${meal.calories} " + stringResource(Res.string.kcal_unit),
