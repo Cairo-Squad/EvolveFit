@@ -154,6 +154,7 @@ fun EditProfileScreenContent(
                     }
                 },
                 isEditScreen = true,
+
             )
 
             Column(
@@ -170,7 +171,8 @@ fun EditProfileScreenContent(
                     label = stringResource(Res.string.full_name),
                     value = state.profile.fullName,
                     onValueChange = listener::onFullNameChanged,
-                    isDividerVisible = true
+                    isDividerVisible = true,
+                    readOnly = true,
                 )
 
                 LabeledInputField(

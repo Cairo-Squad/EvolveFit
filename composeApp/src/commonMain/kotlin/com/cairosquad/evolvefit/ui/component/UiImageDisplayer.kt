@@ -29,9 +29,8 @@ fun UiImageDisplayer(
             FileImageDisplayer(
                 file = image.platformFile,
                 contentDescription = contentDescription,
-                defaultImageSize = defaultImageSize,
+                defaultImageSize =defaultImageSize,
                 contentScale = contentScale,
-                modifier = Modifier.size(defaultImageSize)
             )
         }
 
@@ -66,12 +65,12 @@ private fun FileImageDisplayer(
     contentDescription: String,
     defaultImageSize: Dp,
     modifier: Modifier = Modifier,
-    contentScale: ContentScale = ContentScale.None,
+    contentScale: ContentScale = ContentScale.Crop,
 ) {
     AsyncImage(
         model = file,
         contentDescription = contentDescription,
-        modifier = modifier,
-        contentScale = contentScale
+        contentScale = contentScale,
+        modifier = modifier.size(defaultImageSize)
     )
 }

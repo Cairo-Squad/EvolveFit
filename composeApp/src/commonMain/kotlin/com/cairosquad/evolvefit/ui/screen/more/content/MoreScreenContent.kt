@@ -106,11 +106,6 @@ fun MoreScreenContent(
                 icon = Res.drawable.ic_bookmark_big,
                 title = stringResource(Res.string.favorites)
             )
-//            AccountRow(
-//                modifier = Modifier.clickable { listener.onClickNotification() },
-//                icon = Res.drawable.ic_bell,
-//                title = stringResource(Res.string.notification_settings)
-//            )
             AccountRow(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
