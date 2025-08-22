@@ -63,4 +63,5 @@ data class CreateExerciseState(
     enum class MeasurementType {
         DURATION, REPS
     }
+
 }
