@@ -36,6 +36,7 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.advanced
 import evolvefit.composeapp.generated.resources.beginner
 import evolvefit.composeapp.generated.resources.characters_left
+import evolvefit.composeapp.generated.resources.choose_level
 import evolvefit.composeapp.generated.resources.choose_your_goal_
 import evolvefit.composeapp.generated.resources.create_workout_subtitle_
 import evolvefit.composeapp.generated.resources.create_workout_title_
@@ -136,7 +137,7 @@ fun CreateWorkoutContent(
             CustomDropDownMenu(
                 selectedText = state.level?.let { toDisplayName(it) } ?: "",
                 options = workoutGoals.map { toDisplayName(it) },
-                placeholder = stringResource(Res.string.choose_your_goal_),
+                placeholder = stringResource(Res.string.choose_level),
                 iconPainter = painterResource(Res.drawable.ic_arrow_down),
                 onOptionSelected = { selectedGoal ->
                     listener.onGoalSelected(selectedGoal)

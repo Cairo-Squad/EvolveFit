@@ -366,5 +366,7 @@
 
     <string name="kilogram">Kg</string>
     <string name="pound">lbs</string>
+    <string name="choose_level">Choose level</string>
+
 
 </resources>
