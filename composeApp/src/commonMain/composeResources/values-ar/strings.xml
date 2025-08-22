@@ -37,6 +37,8 @@
     <string name="seconds">ثانية</string>
     <string name="placeholder_image">صورة نائبة</string>
     <string name="meal_image">صورة وجبة</string>
+    <string name="meal_added_to_your_favourites">تمت إضافة الوجبة الى المفضلة </string>
+    <string name="failed_to_add_meal_your_favourites">تعذر إضافة الوجبة الى المفضلة</string>
     <string name="calories_icon">ايقونة كالوريز</string>
     <string name="kcal">كالوريز</string>
     <string name="calories">السعرات الحرارية</string>
