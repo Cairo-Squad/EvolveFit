@@ -371,4 +371,6 @@
     <string name="error_invalid_number">Please enter a valid number or decimal</string>
     <string name="error_number_too_large">The number is too large, try a smaller value</string>
     <string name="error_text_too_long">Text is too long, please shorten it</string>
+    <string name="min">Min</string>
+
 </resources>
