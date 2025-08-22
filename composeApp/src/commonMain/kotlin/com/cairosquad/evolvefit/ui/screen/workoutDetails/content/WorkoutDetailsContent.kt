@@ -33,8 +33,8 @@ import com.cairosquad.evolvefit.ui.screen.workoutDetails.component.DetailsCardsR
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.component.Exercises
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.component.WorkoutDetailsText
 import com.cairosquad.evolvefit.ui.util.Share
-import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsInteractionListener
-import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsInteractionListener
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.back
 import evolvefit.composeapp.generated.resources.bookmark

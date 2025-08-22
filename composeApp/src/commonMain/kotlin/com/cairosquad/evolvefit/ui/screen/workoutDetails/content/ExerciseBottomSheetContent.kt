@@ -15,7 +15,7 @@ import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.component.ImageCarousel
-import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.bullet_point
 import evolvefit.composeapp.generated.resources.close

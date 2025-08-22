@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.ExerciseCard
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.exercises
 import org.jetbrains.compose.resources.stringResource
