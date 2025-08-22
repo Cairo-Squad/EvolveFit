@@ -18,7 +18,7 @@ fun Workout.toHomeWorkoutUiState(isSaved: Boolean): HomeScreenState.HomeWorkoutU
         id = id,
         name = name,
         imageUrl = imageUrl,
-        durationInMins = convertSecondsToMinutesNoReminder(estimatedTimeInSeconds.toUInt()),
+        durationInMins = convertSecondsToMinutesNoReminder(estimatedTimeInSeconds?.toUInt() ?:0u),
         type = exercises.firstOrNull()?.focusAreas?.firstOrNull()?.name ?: "",
         isSaved = isSaved
     )
@@ -29,7 +29,7 @@ fun WorkoutSuggested.toHomeWorkoutUiState(isSaved: Boolean): HomeScreenState.Hom
         id = id,
         name = name,
         imageUrl = imageUrl,
-        durationInMins = convertSecondsToMinutesNoReminder(durationSeconds.toUInt()),
+        durationInMins = convertSecondsToMinutesNoReminder(durationSeconds?.toUInt() ?:0u ),
         type = focusArea.firstOrNull()?.name ?: "",
         isSaved = isSaved
     )

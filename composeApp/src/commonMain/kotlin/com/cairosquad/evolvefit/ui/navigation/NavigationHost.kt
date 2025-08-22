@@ -185,7 +185,6 @@ fun NavigationHost(
                     onExerciseCreationSuccess?.clearSavedStateAfterInvoke(navController)
             )
         }
-
         composable<CommunityWorkoutRoute> {
             CommunityWorkoutScreen(
                 navigateBack = navController::popBackStack,

@@ -16,7 +16,7 @@ data class WorkoutDetailsScreenState(
         val workoutTitle: String = "",
         val workoutDescription: String = "",
         val level: WorkoutLevel = WorkoutLevel.INTERMEDIATE,
-        val estimatedTimeInSeconds: Int = 0,
+        val estimatedTimeInSeconds: Int? = 0,
         val exercises: List<ExerciseUiState> = emptyList(),
         val selectedExercise: ExerciseUiState? = null,
     )
@@ -41,12 +41,11 @@ data class WorkoutDetailsScreenState(
     }
 
     enum class FocusArea {
-        QUADRICEPS,
-        ABS,
-        CALVES,
-        LOWER_BACK,
-        CORE,
+        BACK,
+        LEGS,
         SHOULDERS,
-        FULL_BODY
+        ARMS,
+        CORE,
+        CHEST
     }
 }
