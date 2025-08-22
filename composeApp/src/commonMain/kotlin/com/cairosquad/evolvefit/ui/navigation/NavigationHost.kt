@@ -151,7 +151,7 @@ fun NavigationHost(
                 navigateToNotificationSettings = { },
                 onLogout = {
                     navController.navigate(LoginRoute) {
-                        popUpTo(OnboardingRoute) { inclusive = true }
+                        popUpTo(0) { inclusive = true }
                         launchSingleTop = true
                         restoreState = false
                     }
