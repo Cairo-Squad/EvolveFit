@@ -6,6 +6,7 @@ import com.cairosquad.evolvefit.domain.entity.Profile.Gender
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.domain.model.WeekDay
+import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState
 import kotlinx.datetime.LocalDate
 
 fun RegisterScreenState.WeekDayUiState.toDomain(): WeekDay {
@@ -71,5 +72,11 @@ fun dateUiStateToDomain(date: String): LocalDate {
     }
 }
 
+fun Equipment.toUiState(): RegisterScreenState.EquipmentUiState {
+    return RegisterScreenState.EquipmentUiState(
+        toolId = this.id,
+        toolName = this.name
+    )
+}
 
 
