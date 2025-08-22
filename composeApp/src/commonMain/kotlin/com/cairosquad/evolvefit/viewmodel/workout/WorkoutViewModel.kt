@@ -16,12 +16,7 @@ class WorkoutViewModel(
     }
 
     private fun loadAllWorkouts() {
-        updateState {
-            it.copy(
-                screenStatus = WorkoutScreenState.ScreenStatus.LOADING,
-                errorMessage = null
-            )
-        }
+        onLoading()
         tryToCall(
             block = workoutUseCase::getSuggestedWorkouts,
             onSuccess = ::onGetSuggestedWorkoutsSuccess,
@@ -30,12 +25,7 @@ class WorkoutViewModel(
     }
 
     private fun loadWorkoutsByFocusArea(focusAreaUiState: FocusAreaUiState) {
-        updateState {
-            it.copy(
-                screenStatus = WorkoutScreenState.ScreenStatus.LOADING,
-                errorMessage = null
-            )
-        }
+        onLoading()
         tryToCall(
             block = { workoutUseCase.getSuggestedWorkoutsByFocusArea(focusAreaUiState.toDomain()) },
             onSuccess = ::onLoadWorkoutByFocusAreaSuccess,
@@ -94,8 +84,8 @@ class WorkoutViewModel(
         updateState { st ->
             st.copy(
                 allWorkouts = workouts.map { it.toUiState() },
-                errorMessage = null, screenStatus = WorkoutScreenState.ScreenStatus.SUCCESS
-
+                errorMessage = null,
+                screenStatus = WorkoutScreenState.ScreenStatus.SUCCESS
             )
         }
     }
@@ -103,39 +93,63 @@ class WorkoutViewModel(
     private fun onLoadWorkoutByFocusAreaError(t: Throwable) {
         updateState {
             it.copy(
-                errorMessage = t.message ?: "Failed to load workouts by focus",
+                errorMessage = t.message ?: "Failed to load workouts by focus Area",
                 screenStatus = WorkoutScreenState.ScreenStatus.FAIL
             )
         }
     }
 
     override fun onRefresh() {
-        updateState { it.copy(isRefreshing = true, errorMessage = null) }
+        if (screenState.value.isRefreshing) return
+        isRefreshing(true)
         val selected = screenState.value.selectedFocusArea
         tryToCall(
-            block = {
-                if (selected == FocusAreaUiState.CORE)
-                    workoutUseCase.getSuggestedWorkouts()
-                else
-                    workoutUseCase.getSuggestedWorkoutsByFocusArea(selected.toDomain())
-            },
-            onSuccess = { list ->
-                updateState {
-                    it.copy(
-                        allWorkouts = list.map { w -> w.toUiState() },
-                        isRefreshing = false,
-                        errorMessage = null,
-                    )
-                }
-            },
-            onError = { t ->
-                updateState {
-                    it.copy(
-                        isRefreshing = false,
-                        errorMessage = t.message ?: "Failed to refresh workouts"
-                    )
-                }
-            }
+            block = onGetWorkoutsByFocusArea(selected),
+            onSuccess = ::onRefreshSuccess,
+            onError = ::onRefreshError
         )
     }
+
+    private fun onLoading() {
+        updateState {
+            it.copy(
+                screenStatus = WorkoutScreenState.ScreenStatus.LOADING,
+                errorMessage = null
+            )
+        }
+    }
+
+    private fun isRefreshing(isRefreshing: Boolean) {
+        updateState {
+            it.copy(
+                isRefreshing = isRefreshing,
+                errorMessage = if (isRefreshing) null else it.errorMessage
+            )
+        }
+    }
+
+    private fun onRefreshSuccess(list: List<WorkoutSuggested>) {
+        isRefreshing(false)
+        updateState {
+            it.copy(
+                allWorkouts = list.map { w -> w.toUiState() },
+                errorMessage = null
+            )
+        }
+    }
+
+    private fun onRefreshError(t: Throwable) {
+        isRefreshing(false)
+        updateState {
+            it.copy(errorMessage = t.message ?: "Failed to refresh workouts")
+        }
+    }
+
+    private fun onGetWorkoutsByFocusArea(focusArea: FocusAreaUiState): suspend () -> List<WorkoutSuggested> =
+        {
+            if (focusArea == FocusAreaUiState.CORE)
+                workoutUseCase.getSuggestedWorkouts()
+            else
+                workoutUseCase.getSuggestedWorkoutsByFocusArea(focusArea.toDomain())
+        }
 }

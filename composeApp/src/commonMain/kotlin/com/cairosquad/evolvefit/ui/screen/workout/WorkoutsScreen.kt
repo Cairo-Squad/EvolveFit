@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -130,23 +131,51 @@ private fun WorkoutsScreenContent(
                 }
             }
         }
-
         if (state.screenStatus == WorkoutScreenState.ScreenStatus.SUCCESS) {
-            FloatingActionButton(
-                onClick = listener::onClickAddWorkout,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(24.dp),
-                containerColor = Theme.color.brand.primary,
-                shape = CircleShape
-            ) {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_plus),
-                    contentDescription = "Create Workout",
-                    modifier = Modifier.padding(12.dp).size(24.dp)
+            Box {
+                AddWorkoutBtn(
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    listener::onClickAddWorkout
                 )
             }
         }
+//        if (state.screenStatus == WorkoutScreenState.ScreenStatus.SUCCESS) {
+//            FloatingActionButton(
+//                onClick = listener::onClickAddWorkout,
+//                modifier = Modifier
+//                    .align(Alignment.BottomEnd)
+//                    .padding(24.dp),
+//                containerColor = Theme.color.brand.primary,
+//                shape = CircleShape
+//            ) {
+//                Icon(
+//                    painter = painterResource(Res.drawable.ic_plus),
+//                    contentDescription = "Create Workout",
+//                    modifier = Modifier.padding(12.dp).size(24.dp)
+//                )
+//            }
+//        }
+    }
+}
+
+@Composable
+fun AddWorkoutBtn(
+    modifier: Modifier = Modifier,
+    onClickAddWorkout: () -> Unit
+) {
+    FloatingActionButton(
+        onClick = onClickAddWorkout,
+        modifier = modifier
+//            .align(Alignment.BottomEnd)
+            .padding(24.dp),
+        containerColor = Theme.color.brand.primary,
+        shape = CircleShape,
+    ) {
+        Icon(
+            painter = painterResource(Res.drawable.ic_plus),
+            contentDescription = "Create Workout",
+            modifier = Modifier.padding(12.dp).size(24.dp)
+        )
     }
 }
 

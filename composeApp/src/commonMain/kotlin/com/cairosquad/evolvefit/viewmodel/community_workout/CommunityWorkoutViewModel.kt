@@ -17,12 +17,7 @@ class CommunityWorkoutViewModel(
     }
 
     private fun loadAllCommunityWorkouts() {
-        updateState {
-            it.copy(
-                screenStatus = WorkoutScreenState.ScreenStatus.LOADING,
-                errorMessage = null
-            )
-        }
+        onLoading()
         tryToCall(
             block = workoutUseCase::getCommunityWorkouts,
             onSuccess = ::onGetSuggestedWorkoutsSuccess,
@@ -31,12 +26,7 @@ class CommunityWorkoutViewModel(
     }
 
     private fun loadCommunityWorkoutsByFocusArea(focusAreaUiState: WorkoutScreenState.FocusAreaUiState) {
-        updateState {
-            it.copy(
-                screenStatus = WorkoutScreenState.ScreenStatus.LOADING,
-                errorMessage = null
-            )
-        }
+        onLoading()
         tryToCall(
             block = { workoutUseCase.getCommunityWorkoutsByFocusArea(focusAreaUiState.toDomain()) },
             onSuccess = ::onLoadWorkoutByFocusAreaSuccess,
@@ -46,8 +36,7 @@ class CommunityWorkoutViewModel(
     }
 
     override fun onSelectFocusArea(focusArea: WorkoutScreenState.FocusAreaUiState) {
-        updateState { it.copy(selectedFocusArea = focusArea) }
-
+        updateState { it.copy(selectedFocusArea = focusArea, errorMessage = null) }
         if (focusArea == WorkoutScreenState.FocusAreaUiState.CORE) {
             loadAllCommunityWorkouts()
         } else {
@@ -92,7 +81,8 @@ class CommunityWorkoutViewModel(
         updateState { st ->
             st.copy(
                 allWorkouts = workouts.map { it.toUiState() },
-                errorMessage = null, screenStatus = WorkoutScreenState.ScreenStatus.SUCCESS
+                errorMessage = null,
+                screenStatus = WorkoutScreenState.ScreenStatus.SUCCESS
 
             )
         }
@@ -109,34 +99,20 @@ class CommunityWorkoutViewModel(
     }
 
     override fun onRefresh() {
-        updateState { it.copy(isRefreshing = true, errorMessage = null) }
+        if (screenState.value.isRefreshing) return
+        isRefreshing(true)
         val selected = screenState.value.selectedFocusArea
 
         tryToCall(
-            block = {
-                if (selected == WorkoutScreenState.FocusAreaUiState.CORE) {
-                    workoutUseCase.getCommunityWorkouts()
-                } else {
-                    workoutUseCase.getCommunityWorkoutsByFocusArea(selected.toDomain())
-                }
-            },
+            block = onGetCommunityWorkoutsByFocusArea(selected),
             onSuccess = { list ->
-                updateState {
-                    it.copy(
-                        allWorkouts = list.map { w -> w.toUiState() },
-                        isRefreshing = false,
-                        errorMessage = null
-                    )
+                if (screenState.value.selectedFocusArea == selected) {
+                    onRefreshSuccess(list)
+                } else {
+                    isRefreshing(false)
                 }
             },
-            onError = { t ->
-                updateState {
-                    it.copy(
-                        isRefreshing = false,
-                        errorMessage = t.message ?: "Failed to refresh community workouts"
-                    )
-                }
-            }
+            onError = ::onRefreshError
         )
     }
 
@@ -145,4 +121,43 @@ class CommunityWorkoutViewModel(
         if (selected == WorkoutScreenState.FocusAreaUiState.CORE) loadAllCommunityWorkouts()
         else loadCommunityWorkoutsByFocusArea(selected)
     }
+
+    private fun onLoading() = updateState {
+        it.copy(
+            screenStatus = WorkoutScreenState.ScreenStatus.LOADING,
+            errorMessage = null
+        )
+    }
+
+    private fun isRefreshing(isRefreshing: Boolean) = updateState {
+        it.copy(
+            isRefreshing = isRefreshing,
+            errorMessage = if (isRefreshing) null else it.errorMessage
+        )
+    }
+
+    private fun onRefreshSuccess(list: List<WorkoutSuggested>) = updateState {
+        it.copy(
+            allWorkouts = list.map { w -> w.toUiState() },
+            isRefreshing = false,
+            errorMessage = null
+        )
+    }
+
+    private fun onRefreshError(t: Throwable) = updateState {
+        it.copy(
+            isRefreshing = false,
+            errorMessage = t.message ?: "Failed to refresh community workouts"
+        )
+    }
+
+    private fun onGetCommunityWorkoutsByFocusArea(
+        focusArea: WorkoutScreenState.FocusAreaUiState
+    ): suspend () -> List<WorkoutSuggested> = {
+        if (focusArea == WorkoutScreenState.FocusAreaUiState.CORE)
+            workoutUseCase.getCommunityWorkouts()
+        else
+            workoutUseCase.getCommunityWorkoutsByFocusArea(focusArea.toDomain())
+    }
+
 }
