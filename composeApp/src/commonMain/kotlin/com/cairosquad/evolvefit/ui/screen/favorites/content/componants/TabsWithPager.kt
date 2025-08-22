@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.favorites.componants
+package com.cairosquad.evolvefit.ui.screen.favorites.content.componants
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState

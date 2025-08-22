@@ -1,10 +1,8 @@
-package com.cairosquad.evolvefit.ui.screen.favorites.componants
+package com.cairosquad.evolvefit.ui.screen.favorites.content.componants
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize

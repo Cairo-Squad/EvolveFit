@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.favorites
+package com.cairosquad.evolvefit.ui.screen.favorites.content
 
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.RepeatMode
