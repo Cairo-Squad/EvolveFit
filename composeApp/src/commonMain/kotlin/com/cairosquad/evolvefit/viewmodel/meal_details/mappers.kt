@@ -23,6 +23,6 @@ fun MealType.toMealUiState(): MealDetailsScreenState.MealTypeUiState {
         MealType.BREAKFAST -> MealDetailsScreenState.MealTypeUiState.Breakfast
         MealType.LUNCH ->  MealDetailsScreenState.MealTypeUiState.Lunch
         MealType.DINNER -> MealDetailsScreenState.MealTypeUiState.Dinner
-        MealType.SNACKS -> MealDetailsScreenState.MealTypeUiState.Snacks
+        MealType.SNACK -> MealDetailsScreenState.MealTypeUiState.Snacks
     }
 }

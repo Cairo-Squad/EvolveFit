@@ -62,7 +62,7 @@ fun MealHistoryItem(
             )
         }
         Column(
-            horizontalAlignment = Alignment.End
+            horizontalAlignment = Alignment.Start,
         ) {
             Text(
                 text = "${meal.calories} " + stringResource(Res.string.kcal_unit),
