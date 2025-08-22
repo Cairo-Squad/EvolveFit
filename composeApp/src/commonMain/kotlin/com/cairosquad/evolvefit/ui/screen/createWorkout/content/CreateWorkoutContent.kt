@@ -91,6 +91,7 @@ fun CreateWorkoutContent(
                     .padding(horizontal = 16.dp)
             ) {
                 BasicText(
+                    modifier=Modifier.padding(bottom=8.dp),
                     text = stringResource(Res.string.create_workout_title_),
                     style = Theme.textStyle.headline.mediumMedium18.copy(
                         color = Theme.color.surfaces.onSurface
