@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.create_workout
 
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
-import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.create
 
