@@ -22,19 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.arms
-import evolvefit.composeapp.generated.resources.back_muscle
-import evolvefit.composeapp.generated.resources.core
-import evolvefit.composeapp.generated.resources.legs
-import evolvefit.composeapp.generated.resources.shoulders
-import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MusclesCard(
-    musclesName: List<StringResource>,
+    musclesName: List<String>,
     trainedMusclesPercentage: List<Float>,
     isAnimationStarted: Boolean,
     modifier: Modifier = Modifier,
@@ -50,7 +42,7 @@ fun MusclesCard(
                     if (it < musclesName.size) Modifier.padding(bottom = 16.dp)
                     else Modifier
                 ),
-                muscleName = stringResource(musclesName[it]),
+                muscleName = musclesName[it],
                 percentage = trainedMusclesPercentage[it],
                 isAnimationStarted = isAnimationStarted
             )
@@ -124,7 +116,7 @@ private fun MuscleItem(
 @Preview
 @Composable
 private fun MusclesCardPreview() {
-    val musclesName = listOf(Res.string.back_muscle, Res.string.legs, Res.string.shoulders, Res.string.arms, Res.string.core)
+    val musclesName = listOf("Back", "Legs", "Shoulders", "Arms", "Core")
     val musclesPercentage = listOf(0.32f, 0.24f, 0.68f, 0.49f, 0.11f)
     MusclesCard(
         musclesName = musclesName,

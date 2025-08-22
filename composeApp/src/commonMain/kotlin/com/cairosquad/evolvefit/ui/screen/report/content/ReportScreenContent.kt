@@ -39,7 +39,6 @@ import org.jetbrains.compose.resources.stringResource
 fun ReportScreenContent(
     screenState: ReportScreenState,
     listener: ReportInteractionListener,
-    navigateToWorkoutHistory: () -> Unit
 ) {
 
     var isAnimationStarted by remember { mutableStateOf(false) }
@@ -59,7 +58,7 @@ fun ReportScreenContent(
                 ActionIconButton(
                     icon = painterResource(Res.drawable.ic_export),
                     contentDescription = "",
-                    onClick = {},
+                    onClick = listener::onShareClicked,
                     tint = Theme.color.surfaces.onSurface,
                 )
             }
@@ -121,7 +120,7 @@ fun ReportScreenContent(
                         HistoryWorkoutCard(
                             modifier = Modifier.padding(top = 16.dp),
                             state = screenState,
-                            onViewAllHistoryClicked = navigateToWorkoutHistory,
+                            onViewAllHistoryClicked = listener::onViewAllHistoryWorkoutsClicked,
                         )
                     }
                 }

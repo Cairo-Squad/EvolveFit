@@ -19,9 +19,10 @@ import evolvefit.composeapp.generated.resources.sunday_short
 import evolvefit.composeapp.generated.resources.thursday_short
 import evolvefit.composeapp.generated.resources.tuesday_short
 import evolvefit.composeapp.generated.resources.wednesday_short
+import org.jetbrains.compose.resources.getString
 import kotlin.math.round
 
-fun Report.toUiState(): ReportScreenState.ReportUiState {
+suspend fun Report.toUiState(): ReportScreenState.ReportUiState {
     val allDays = WeekDay.entries.toTypedArray()
 
     val workoutsPerWeekUi = if (workoutsPerWeek.isEmpty()) {
@@ -29,7 +30,7 @@ fun Report.toUiState(): ReportScreenState.ReportUiState {
     } else {
         val map = workoutsPerWeek.toMap()
         ReportScreenState.WorkoutPerWeek(
-            day = allDays.map { it.stringRes() },
+            day = allDays.map { getString(it.stringRes()) },
             workoutsCount = allDays.map { map[it] ?: 0 }
         )
     }
@@ -39,7 +40,7 @@ fun Report.toUiState(): ReportScreenState.ReportUiState {
     } else {
         val map = timeSpentPerWeek.toMap()
         ReportScreenState.TimeSpentPerWeek(
-            day = allDays.map { it.stringRes() },
+            day = allDays.map { getString(it.stringRes()) },
             timeInSeconds = allDays.map { map[it] ?: 0L }
         )
     }
@@ -53,7 +54,7 @@ fun Report.toUiState(): ReportScreenState.ReportUiState {
         workoutPerWeek = workoutsPerWeekUi,
         timeSpentPerWeek = timeSpentPerWeekUi,
         mostTrainedMuscles = ReportScreenState.TrainedMuscle(
-            muscle = focusedAreas.map { (focusArea, _) -> focusArea.stringRes() },
+            muscle = focusedAreas.map { (focusArea, _) -> getString(focusArea.stringRes()) }, // 👈 String
             percentage = focusedAreas.map { (_, percentage) -> percentage.toFloat() / 100f }
         ),
     )

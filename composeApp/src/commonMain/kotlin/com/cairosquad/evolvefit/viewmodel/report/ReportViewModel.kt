@@ -28,7 +28,7 @@ class ReportViewModel(
         loadData()
     }
 
-    private fun loadData(){
+    private fun loadData() {
         loadWorkoutReport()
         loadWorkoutHistory()
         loadWeeks()
@@ -36,15 +36,20 @@ class ReportViewModel(
 
     fun loadWorkoutReport(weekRange: Pair<String, String> = getCurrentWeekRange()) {
         tryToCall(
-            block = {
-                manageReportsUseCase.getReport(
-                    weekRange.first,
-                    weekRange.second
-                )
-            },
+            onStart = { onLoadWorkoutReportStart(weekRange) },
+            block = { manageReportsUseCase.getReport(weekRange.first, weekRange.second) },
             onSuccess = ::onLoadWorkoutSuccess,
             onError = ::onLoadWorkoutError
         )
+    }
+
+    private fun onLoadWorkoutReportStart(weekRange: Pair<String, String>) {
+        updateState {
+            it.copy(
+                startDate = weekRange.first,
+                endDate = weekRange.second
+            )
+        }
     }
 
     fun loadWorkoutHistory() {
@@ -73,7 +78,10 @@ class ReportViewModel(
     }
 
     private fun onLoadWorkoutSuccess(report: Report) {
-        updateState { it.copy(report = report.toUiState()) }
+        viewModelScope.launch {
+            val uiReport = report.toUiState()
+            updateState { it.copy(report = uiReport) }
+        }
     }
 
     private fun onLoadWorkoutError(throwable: Throwable) {
@@ -81,11 +89,11 @@ class ReportViewModel(
     }
 
     override fun onViewAllHistoryWorkoutsClicked() {
-        sendEffect(ReportEffect.navigateToAllHistoryWorkouts)
+        sendEffect(ReportEffect.NavigateToAllHistoryWorkouts)
     }
 
     override fun onShareClicked() {
-        sendEffect(ReportEffect.onShareClicked)
+        sendEffect(ReportEffect.OnShareClicked)
     }
 
     override fun onDropDownMenuClicked() {
