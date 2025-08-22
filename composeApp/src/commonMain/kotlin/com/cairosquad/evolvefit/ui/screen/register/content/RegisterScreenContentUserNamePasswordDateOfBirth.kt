@@ -41,7 +41,6 @@ import evolvefit.composeapp.generated.resources.ic_visibility_off
 import evolvefit.composeapp.generated.resources.ic_visibility_on
 import evolvefit.composeapp.generated.resources.password
 import evolvefit.composeapp.generated.resources.upload_image
-import evolvefit.composeapp.generated.resources.upload_image
 import evolvefit.composeapp.generated.resources.user_profile
 import evolvefit.composeapp.generated.resources.user_profile_description
 import org.jetbrains.compose.resources.stringResource
@@ -59,6 +58,7 @@ fun RegisterScreenContentUserNamePasswordDateOfBirth(
     ) {
         UserProfileStep(
             image = state.image,
+            state = state,
             maxDate = "2023-08-06",
             dateOfBirth = state.dateOfBirthInput,
             userName = state.userNameInput,
@@ -82,6 +82,7 @@ fun RegisterScreenContentUserNamePasswordDateOfBirth(
 @Composable
 private fun UserProfileStep(
     image: UiImage,
+    state: RegisterScreenState,
     isImagePickerOpen: Boolean,
     userName: String,
     userEmail: String,
@@ -121,11 +122,12 @@ private fun UserProfileStep(
                 ).size(100.dp)
                 .clip(CircleShape)
                 .align(Alignment.CenterHorizontally),
-            text=stringResource(Res.string.upload_image)
+            text = stringResource(Res.string.upload_image)
         )
 
         UserProfileForm(
             userName = userName,
+            state = state,
             onUserNameChange = onUserNameChange,
             userEmail = userEmail,
             onUserEmailChange = onUserEmailChange,
@@ -166,6 +168,7 @@ private fun UserProfileStepHeader(
 @Composable
 private fun UserProfileForm(
     userName: String,
+    state: RegisterScreenState,
     onUserNameChange: (String) -> Unit,
     userEmail: String,
     onUserEmailChange: (String) -> Unit,
@@ -207,6 +210,9 @@ private fun UserProfileForm(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
             ),
+            isErrorMessageShown = state.emailError != null,
+            error = state.emailError?.let { stringResource(it) } ?: "",
+            isError = state.emailError != null
         )
 
         InputField(
@@ -235,6 +241,9 @@ private fun UserProfileForm(
                 imeAction = ImeAction.Done
             ),
             isPasswordField = !isPasswordVisible,
+            isErrorMessageShown = state.passwordError != null,
+            error = state.passwordError?.let { stringResource(it) } ?: "",
+            isError = state.passwordError != null
         )
     }
 
