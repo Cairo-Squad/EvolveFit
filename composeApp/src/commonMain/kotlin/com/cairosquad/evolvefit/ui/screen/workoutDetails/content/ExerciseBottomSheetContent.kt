@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,81 +40,60 @@ fun ExerciseBottomSheetContent(
 ) {
     Column(
         modifier = Modifier.padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         exercise?.let {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
+            Text(
+                modifier = Modifier.padding(bottom = 12.dp),
+                text = exercise.name,
+                style = Theme.textStyle.title.largeBold16,
+                color = Theme.color.surfaces.onSurface,
+            )
+            ImageCarousel(exercise.images, exercise.type)
+            Text(
+                modifier = Modifier.padding(top = 16.dp, bottom = 12.dp),
+                text = stringResource(Res.string.instructions),
+                style = Theme.textStyle.headline.largeBold18,
+                color = Theme.color.surfaces.onSurface,
+            )
+            exercise.instructions.forEach { instruction ->
                 Text(
-                    text = exercise.name,
-                    style = Theme.textStyle.title.largeBold16,
-                    color = Theme.color.surfaces.onSurface,
-                )
-                ImageCarousel(exercise.images,exercise.type)
-            }
-            Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Text(
-                    text = stringResource(Res.string.instructions),
-                    style = Theme.textStyle.headline.largeBold18,
-                    color = Theme.color.surfaces.onSurface,
-                )
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    exercise.instructions.forEach { instruction ->
-                        Text(
-                            text = stringResource(Res.string.bullet_point, instruction),
-                            style = Theme.textStyle.label.smallRegular14,
-                            color = Theme.color.surfaces.onSurfaceVariant,
-                            modifier = Modifier.padding(bottom = 12.dp)
-                        )
-                    }
-                }
-            }
-            Column(
-                modifier = Modifier.align(Alignment.Start),
-                verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text(
-                    text = stringResource(Res.string.equipment),
-                    style = Theme.textStyle.headline.largeBold18,
-                    color = Theme.color.surfaces.onSurface,
-                )
-                Text(
-                    text = stringResource(Res.string.bullet_point, exercise.equipment),
+                    modifier = Modifier.padding(bottom = 4.dp),
+                    text = stringResource(Res.string.bullet_point, instruction),
                     style = Theme.textStyle.label.smallRegular14,
                     color = Theme.color.surfaces.onSurfaceVariant,
-                    modifier = Modifier.padding(bottom = 12.dp)
                 )
             }
-
-            Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+            Text(
+                modifier = Modifier.padding(top = 20.dp, bottom = 12.dp),
+                text = stringResource(Res.string.equipment),
+                style = Theme.textStyle.headline.largeBold18,
+                color = Theme.color.surfaces.onSurface,
+            )
+            Text(
+                modifier = Modifier.padding(bottom = 24.dp),
+                text = stringResource(Res.string.bullet_point, exercise.equipment),
+                style = Theme.textStyle.label.smallRegular14,
+                color = Theme.color.surfaces.onSurfaceVariant,
+            )
+            Text(
+                modifier = Modifier.padding(bottom = 12.dp),
+                text = stringResource(Res.string.focus_area),
+                style = Theme.textStyle.headline.largeBold18,
+                color = Theme.color.surfaces.onSurface,
+            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Text(
-                    text = stringResource(Res.string.focus_area),
-                    style = Theme.textStyle.headline.largeBold18,
-                    color = Theme.color.surfaces.onSurface,
-                )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    exercise.focusAreas.forEach { area ->
-                        Chip(
-                            title = focusAreasToStrings(area)
-                        )
-                    }
-                }
+                exercise.focusAreas.forEach { area -> Chip(title = focusAreasToStrings(area)) }
             }
         }
         PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.End)
-                .padding(bottom = 16.dp),
+                .padding(bottom = 16.dp, top = 40.dp)
+                .navigationBarsPadding(),
             text = stringResource(Res.string.close),
             onClick = onDismissBottomSheet,
             isEnabled = true
