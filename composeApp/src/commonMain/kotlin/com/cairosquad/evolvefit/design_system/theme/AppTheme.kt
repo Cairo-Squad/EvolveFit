@@ -4,6 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.toArgb
 import com.cairosquad.evolvefit.design_system.colors.darkThemeColors
 import com.cairosquad.evolvefit.design_system.colors.lightThemeColors
 import com.cairosquad.evolvefit.design_system.text_styles.DefaultTextStyle
@@ -17,11 +18,17 @@ fun AppTheme(
     val theme = if (isDarkTheme) darkThemeColors else lightThemeColors
     CompositionLocalProvider(
         LocalThemeColor provides theme,
-        LocalTextStyle provides TextStyle()
+        LocalTextStyle provides TextStyle(),
+        LocalIsDark provides isDarkTheme
     ) {
+        UpdateStatusBarIconsForTheme()
         content()
     }
 }
+
 val LocalTextStyle = staticCompositionLocalOf { DefaultTextStyle }
 val LocalThemeColor = staticCompositionLocalOf { lightThemeColors }
+val LocalIsDark = staticCompositionLocalOf { true }
 
+@Composable
+expect fun UpdateStatusBarIconsForTheme()
