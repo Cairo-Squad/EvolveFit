@@ -3,6 +3,8 @@ package com.cairosquad.evolvefit.ui.screen.more
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
+import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.ui.screen.more.content.MoreScreenContent
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
@@ -22,6 +24,7 @@ fun MoreScreen(
     onLanguageChange: (String) -> Unit,
     onLogout: () -> Unit,
     navigateToEditProfile: () -> Unit,
+    onSelectNavBarRoute: (navBarRoute: NavBarRoute) -> Unit,
     viewModel: MoreViewModel = koinViewModel(parameters = { parametersOf(currentTheme,currentLanguage) }),
     ) {
     val state by viewModel.screenState.collectAsState()
@@ -47,12 +50,16 @@ fun MoreScreen(
             MoreEffect.NavigateToEditProfile -> {
                 navigateToEditProfile()
             }
-
         }
     }
 
-    MoreScreenContent(
-        state = state,
-        listener = viewModel
-    )
+    Scaffold(
+        currentRoute = NavBarRoute.More,
+        onSelectNavBarRoute = onSelectNavBarRoute
+    ) {
+        MoreScreenContent(
+            state = state,
+            listener = viewModel
+        )
+    }
 }

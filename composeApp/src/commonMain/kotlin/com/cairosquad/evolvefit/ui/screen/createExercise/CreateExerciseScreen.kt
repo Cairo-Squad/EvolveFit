@@ -18,14 +18,19 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun CreateExerciseScreen(
     navigateBack: () -> Unit,
+    onExerciseCreationSuccess: (() -> Unit)?,
     viewModel: CreateExerciseViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
-            CreateExerciseEffect.CloseScreen -> {}
-            CreateExerciseEffect.NavigateToAllExercises -> {}
-            is CreateExerciseEffect.ShowError -> {}
+            CreateExerciseEffect.NavigateToAllExercises -> {
+                onExerciseCreationSuccess?.invoke()
+                navigateBack()
+            }
+            CreateExerciseEffect.CancelCreateExercise -> {
+                navigateBack()
+            }
         }
     }
     CreateExerciseScreenContent(
@@ -68,7 +73,8 @@ private fun CreateExerciseScreenPreview() {
                 override fun onDismissFocusAreasDropdownMenuRequest() {}
                 override fun onSaveClicked() {}
                 override fun onExitClicked() {}
-                override fun onExitOptionSelected(saveBeforeExit: Boolean) {}
+                override fun onExitWithoutSavingClicked() {}
+                override fun onCancelClicked() {}
                 override fun onFocusAreaDismiss() {}
                 override fun onEquipmentDismiss() {}
                 override fun canSaveExercise(): Boolean {

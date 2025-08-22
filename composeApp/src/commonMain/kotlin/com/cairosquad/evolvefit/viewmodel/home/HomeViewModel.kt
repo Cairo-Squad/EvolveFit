@@ -2,102 +2,107 @@ package com.cairosquad.evolvefit.viewmodel.home
 
 import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.entity.Profile
-import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.usecase.home.GetNutritionProgressUseCase
 import com.cairosquad.evolvefit.domain.usecase.home.GetPersonalizedWorkoutsUseCase
-import com.cairosquad.evolvefit.domain.usecase.home.model.NutritionProgress
+import com.cairosquad.evolvefit.domain.usecase.home.GetWeeklyProgressUseCase
+import com.cairosquad.evolvefit.domain.model.NutritionProgress
+import com.cairosquad.evolvefit.domain.model.WeeklyProgress
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.utils.toErrorMessageRes
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val getPersonalizedWorkoutsUseCase: GetPersonalizedWorkoutsUseCase,
-    private val getNutritionProgressUseCase: GetNutritionProgressUseCase,
     private val manageProfileUseCase: ManageProfileUseCase,
-    private val manageWorkoutUseCase: ManageWorkoutUseCase
+    private val getWeeklyProgressUseCase: GetWeeklyProgressUseCase,
+    private val getNutritionProgressUseCase: GetNutritionProgressUseCase,
+    private val manageWorkoutUseCase: ManageWorkoutUseCase,
+    private val getPersonalizedWorkoutsUseCase: GetPersonalizedWorkoutsUseCase,
 ) : BaseViewModel<HomeScreenState, HomeScreenEffect>(HomeScreenState()), HomeInteractionListener {
 
     init {
-        loadHomeData()
+        loadAllData()
     }
 
-    private fun loadHomeData() {
+    private fun loadAllData() {
+        startLoading()
+        loadUserInfo()
+        loadProgress()
+        loadNutrition()
+        loadPersonalizedWorkouts()
+    }
+
+    private fun loadUserInfo() {
         tryToCall(
-            block = { loadAllData() },
-            onStart = { startLoading() },
-            onSuccess = { stopLoading(HomeScreenState.ScreenStatus.SUCCESS) },
-            onError = { throwable ->
-                stopLoading(HomeScreenState.ScreenStatus.FAIL)
-                updateState { it.copy(screenErrorMessage = throwable.toErrorMessageRes()) }
-            }
+            block = { manageProfileUseCase.getProfile() },
+            onSuccess = ::handleLoadUserInfoSuccess,
+            onError = ::handleHomeErrors
         )
-    }
-
-    private suspend fun loadAllData() {
-        coroutineScope {
-            val userDeferred = async { loadUserInfo() }
-            val progressDeferred = async { loadProgress() }
-            val nutritionDeferred = async { loadNutrition() }
-            val workoutsDeferred = async { loadPersonalizedWorkouts() }
-            awaitAll(userDeferred, progressDeferred, nutritionDeferred, workoutsDeferred)
-        }
-    }
-
-    private suspend fun loadUserInfo() {
-        val userInfo = manageProfileUseCase.getProfile()
-        handleLoadUserInfoSuccess(userInfo)
     }
 
     private fun handleLoadUserInfoSuccess(profile: Profile) {
         updateState {
             it.copy(
-                user = profile.toHomeUserUiState()
+                user = profile.toHomeUserUiState(),
+                weeklyProgress = profile.toWeeklyProgressUiState(it.weeklyProgress)
             )
         }
+
+        stopLoading(HomeScreenState.ScreenStatus.SUCCESS)
     }
 
     private fun loadProgress() {
-        // DUMMY
-        viewModelScope.launch {
-            updateState {
-                it.copy(
-                    weeklyProgress = DummyDataSource.weeklyProgress,
-                )
-            }
-            // stopLoading()
-        }
-        // TODO: use the use case, stop the loading state on success
+        tryToCall(
+            block = { getWeeklyProgressUseCase.getWeeklyProgress() },
+            onSuccess = ::handleLoadProgressSuccess,
+            onError = ::handleHomeErrors
+        )
     }
 
-    private suspend fun loadNutrition() {
+    private fun handleLoadProgressSuccess(progress: WeeklyProgress) {
+        updateState {
+            it.copy(
+                weeklyProgress = progress.toWeeklyProgressUiState(it.weeklyProgress)
+            )
+        }
+        stopLoading(HomeScreenState.ScreenStatus.SUCCESS)
+    }
+
+    private fun loadNutrition() {
         loadWaterNutrition()
         loadCaloriesNutrition()
     }
 
-    private suspend fun loadWaterNutrition() {
-        val waterConsumed = getNutritionProgressUseCase.getWaterNutrition()
-        handleLoadWaterNutritionSuccess(waterConsumed)
+    private fun loadWaterNutrition() {
+        tryToCall(
+            block = { getNutritionProgressUseCase.getWaterNutrition() },
+            onSuccess = ::handleLoadWaterNutritionSuccess,
+            onError = ::handleHomeErrors
+        )
     }
 
     private fun handleLoadWaterNutritionSuccess(nutritionProgress: NutritionProgress<Float>) {
         updateState {
             it.copy(
                 waterCount = nutritionProgress.currentProgress,
-                waterGoal = nutritionProgress.goal
+                waterGoal = nutritionProgress.goal,
+                nutritionVisibility = true
             )
         }
+
+        stopLoading(HomeScreenState.ScreenStatus.SUCCESS)
     }
 
-    private suspend fun loadCaloriesNutrition() {
-        val caloriesConsumed = getNutritionProgressUseCase.getCaloriesNutrition()
-        handleLoadCaloriesNutritionSuccess(caloriesConsumed)
+    private fun loadCaloriesNutrition() {
+        tryToCall(
+            block = { getNutritionProgressUseCase.getCaloriesNutrition() },
+            onSuccess = ::handleLoadCaloriesNutritionSuccess,
+            onError = ::handleHomeErrors
+        )
     }
 
     private fun handleLoadCaloriesNutritionSuccess(nutritionProgress: NutritionProgress<Int>) {
@@ -107,41 +112,88 @@ class HomeViewModel(
                 caloriesGoal = nutritionProgress.goal.toUInt()
             )
         }
+
+        stopLoading(HomeScreenState.ScreenStatus.SUCCESS)
     }
 
-    private suspend fun loadPersonalizedWorkouts() {
-        val workoutSuggested = getPersonalizedWorkoutsUseCase.getWorkouts()
-        handleLoadPersonalizedWorkoutsSuccess(workoutSuggested)
+    private fun loadPersonalizedWorkouts() {
+        tryToCall(
+            block = { getPersonalizedWorkoutsUseCase.getWorkouts() },
+            onSuccess = ::handleLoadPersonalizedWorkoutsSuccess,
+            onError = ::handleHomeErrors,
+            onEnd = ::loadFavoriteWorkouts
+        )
     }
 
     private fun handleLoadPersonalizedWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
         updateState {
             it.copy(
                 personalizedWorkouts = workouts.map { workout ->
-                    workout.toHomeWorkoutUiState(
-                        isSaved = false
-                    )
+                    workout.toHomeWorkoutUiState(isSaved = false)
                 }
             )
         }
     }
 
-    override fun onWorkoutClick(id: String) {
+    private fun loadFavoriteWorkouts() {
+        tryToCall(
+            block = { manageWorkoutUseCase.getFavoriteWorkouts() },
+            onSuccess = ::handleLoadFavoriteWorkoutsSuccess,
+            onError = ::handleHomeErrors
+        )
+    }
+
+    private fun handleLoadFavoriteWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
+        updateWorkouts(workouts.map { it.toHomeWorkoutUiState(isSaved = true) })
+    }
+
+    private fun updateWorkouts(workouts: List<HomeScreenState.HomeWorkoutUiState>) {
+        updateState {
+            it.copy(
+                personalizedWorkouts = it.personalizedWorkouts.map { workout ->
+                    getWorkoutWithSavedStatus(
+                        workout = workout,
+                        workouts = workouts
+                    )
+                }
+            )
+        }
+
+        stopLoading(HomeScreenState.ScreenStatus.SUCCESS)
+    }
+
+    private fun getWorkoutWithSavedStatus(
+        workout: HomeScreenState.HomeWorkoutUiState,
+        workouts: List<HomeScreenState.HomeWorkoutUiState>
+    ): HomeScreenState.HomeWorkoutUiState {
+        return if (workouts.map { it.id }.contains(workout.id)) {
+            workout.copy(isSaved = true)
+        } else {
+            workout
+        }
+    }
+
+    override fun onWorkoutClicked(id: String) {
         sendEffect(HomeScreenEffect.NavigateToWorkout(id))
     }
 
-    override fun onSavedWorkoutClick(id: String) {
+    override fun onSavedWorkoutClicked(id: String, isSaved: Boolean) {
         tryToCall(
-            block = {  manageWorkoutUseCase.addWorkoutToFavorites(id)},
-            onSuccess = {onSaveWorkoutSuccess(id)},
-            onError = {throwable->
-                updateState { it.copy(screenErrorMessage = throwable.toErrorMessageRes()) }
-            },
+            block = { toggleWorkoutSavedStatus(id, isSaved) },
+            onSuccess = { handleSaveWorkoutSuccess(id) },
+            onError = ::handleHomeErrors,
         )
-
-
     }
-    private  fun onSaveWorkoutSuccess(id: String){
+
+    private suspend fun toggleWorkoutSavedStatus(id: String, isSaved: Boolean) {
+        if (isSaved) {
+            manageWorkoutUseCase.deleteFavouriteWorkout(id)
+        } else {
+            manageWorkoutUseCase.addWorkoutToFavorites(id)
+        }
+    }
+
+    private fun handleSaveWorkoutSuccess(id: String) {
         updateState {
             it.copy(
                 personalizedWorkouts = it.personalizedWorkouts.map { workout ->
@@ -154,33 +206,45 @@ class HomeViewModel(
             )
         }
     }
-    override fun onRetryClick() {
-        loadHomeData()
+
+    override fun onRetryClicked() {
+        loadAllData()
     }
+
     override fun onRefresh() {
         updateState { it.copy(isRefreshing = true) }
-        loadHomeData()
+        loadAllData()
         viewModelScope.launch {
             delay(500L)
             updateState { it.copy(isRefreshing = false) }
         }
     }
+
     private fun startLoading() {
-        updateState {
-            it.copy(
-                isLoading = true,
-                screenStatus = HomeScreenState.ScreenStatus.LOADING
+        updateState {it.copy(screenStatus = HomeScreenState.ScreenStatus.LOADING
             )
         }
+
+        observeRequest()
+    }
+
+    private fun observeRequest() {
+        viewModelScope.launch(Dispatchers.Unconfined) {
+            delay(REQUEST_TIME_LIMIT_IN_MILLISECONDS)
+            if (screenState.value. screenStatus == HomeScreenState.ScreenStatus.LOADING) {
+                stopLoading(HomeScreenState.ScreenStatus.FAIL)
+            } }
     }
 
     private fun stopLoading(screenStatus: HomeScreenState.ScreenStatus) {
-        updateState {
-            it.copy(
-                isLoading = false,
-                screenStatus = screenStatus
-            )
-        }
+        updateState { it.copy( screenStatus = screenStatus) }
     }
 
+    private fun handleHomeErrors(error: Throwable) {
+        updateState { it.copy(screenErrorMessage = error.toErrorMessageRes()) }
+    }
+
+    companion object {
+        private const val REQUEST_TIME_LIMIT_IN_MILLISECONDS = 7000L
+    }
 }

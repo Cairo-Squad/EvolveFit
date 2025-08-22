@@ -3,8 +3,6 @@ package com.cairosquad.evolvefit.ui.navigation
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -17,18 +15,24 @@ import androidx.navigation.toRoute
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
-import com.cairosquad.evolvefit.ui.screen.app.AppScreen
+import com.cairosquad.evolvefit.ui.navigation.navBar.navigateToNavBarRoute
 import com.cairosquad.evolvefit.ui.screen.communityWorkout.CommunityWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.createExercise.CreateExerciseScreen
 import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
+import com.cairosquad.evolvefit.ui.screen.editProfile.EditProfileScreen
 import com.cairosquad.evolvefit.ui.screen.favorites.FavoritesScreen
+import com.cairosquad.evolvefit.ui.screen.home.HomeScreen
 import com.cairosquad.evolvefit.ui.screen.login.LoginScreen
 import com.cairosquad.evolvefit.ui.screen.mealDetails.MealDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.mealsHistory.MealsHistoryScreen
+import com.cairosquad.evolvefit.ui.screen.more.MoreScreen
+import com.cairosquad.evolvefit.ui.screen.nutrition.NutritionScreen
 import com.cairosquad.evolvefit.ui.screen.onboarding.OnboardingScreen
 import com.cairosquad.evolvefit.ui.screen.playWorkout.PlayWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
+import com.cairosquad.evolvefit.ui.screen.report.ReportScreen
 import com.cairosquad.evolvefit.ui.screen.suggestedMeals.SuggestedMealsScreen
+import com.cairosquad.evolvefit.ui.screen.workout.WorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.editProfile.EditProfileScreen
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.WorkoutDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.WorkoutHistoryScreen
@@ -37,6 +41,9 @@ import org.koin.compose.koinInject
 
 @Composable
 fun NavigationHost(
+    authenticationPreferences: AuthenticationPreferences = koinInject(), // TODO: Replace with isUserLoggedIn: Boolean
+    deepLinkRoute: Any? = null
+) {
     authenticationPreferences: AuthenticationPreferences = koinInject(),
     deepLinkRoute: Any? = null,
     onLanguageChange: (String) -> Unit,
@@ -46,7 +53,7 @@ fun NavigationHost(
     ) {
 
     val isUserLoggedIn = authenticationPreferences.getAccessToken().isNullOrBlank().not()
-    val startDestination = if (isUserLoggedIn) AppRoute else OnboardingRoute
+    val startDestination = if (isUserLoggedIn) NavBarRoute.Home else OnboardingRoute
 
     val navController = rememberNavController()
 
@@ -55,36 +62,17 @@ fun NavigationHost(
             navController.navigate(deepLinkRoute)
         }
     }
+
     NavHost(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Theme.color.surfaces.surface),
         navController = navController,
         startDestination = startDestination,
-        enterTransition = {
-            slideInHorizontally(
-                initialOffsetX = { fullWidth -> fullWidth },
-                animationSpec = tween(durationMillis = 300)
-            ) + fadeIn(animationSpec = tween(durationMillis = 300))
-        },
-        exitTransition = {
-            slideOutHorizontally(
-                targetOffsetX = { fullWidth -> -fullWidth / 4 },
-                animationSpec = tween(durationMillis = 300)
-            ) + fadeOut(animationSpec = tween(durationMillis = 300))
-        },
-        popEnterTransition = {
-            slideInHorizontally(
-                initialOffsetX = { fullWidth -> -fullWidth },
-                animationSpec = tween(durationMillis = 300)
-            ) + fadeIn(animationSpec = tween(durationMillis = 300))
-        },
-        popExitTransition = {
-            slideOutHorizontally(
-                targetOffsetX = { fullWidth -> fullWidth / 4 },
-                animationSpec = tween(durationMillis = 300)
-            ) + fadeOut(animationSpec = tween(durationMillis = 300))
-        },
+        enterTransition = { fadeIn(animationSpec = tween(durationMillis = 300)) },
+        exitTransition = { fadeOut(animationSpec = tween(durationMillis = 300, delayMillis = 300)) },
+        popEnterTransition = { fadeIn(animationSpec = tween(durationMillis = 300)) },
+        popExitTransition = { fadeOut(animationSpec = tween(durationMillis = 300, delayMillis = 300)) },
     ) {
         composable<OnboardingRoute> {
             OnboardingScreen(
@@ -98,7 +86,7 @@ fun NavigationHost(
                 navigateToRegister = { navController.navigate(RegisterRoute) },
                 navigateBack = navController::popBackStack,
                 navigateToApp = {
-                    navController.navigate(AppRoute) {
+                    navController.navigate(NavBarRoute.Home) {
                         popUpTo(OnboardingRoute) {
                             inclusive = true
                         }
@@ -110,7 +98,7 @@ fun NavigationHost(
         composable<RegisterRoute> {
             RegisterScreen(
                 navigateToApp = {
-                    navController.navigate(AppRoute) {
+                    navController.navigate(NavBarRoute.Home) {
                         popUpTo(OnboardingRoute) {
                             inclusive = true
                         }
@@ -120,8 +108,30 @@ fun NavigationHost(
             )
         }
 
-        composable<AppRoute> {
-            AppScreen(
+        composable<NavBarRoute.Home> {
+            HomeScreen(
+                navigateToWorkout = { workoutId ->
+                    navController.navigate(
+                        WorkoutDetailsRoute(
+                            workoutId
+                        )
+                    )
+                },
+                onSelectNavBarRoute = navController::navigateToNavBarRoute
+            )
+        }
+
+        composable<NavBarRoute.Nutrition> {
+            NutritionScreen(
+                navigateToSuggestedMeals = { navController.navigate(SuggestedMealsRoute) },
+                navigateToMealDetails = { mealId -> navController.navigate(MealDetailsRoute(mealId)) },
+                navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) },
+                onSelectNavBarRoute = navController::navigateToNavBarRoute
+            )
+        }
+
+        composable<NavBarRoute.Workout> {
+            WorkoutScreen(
                 navigateToCreateWorkout = { navController.navigate(CreateWorkoutRoute) },
                 navigateToCommunityWorkout = { navController.navigate(CommunityWorkoutRoute) },
                 navigateToWorkoutDetails = { workoutId ->
@@ -131,10 +141,33 @@ fun NavigationHost(
                         )
                     )
                 },
-                navigateToSuggestedMeals = { navController.navigate(SuggestedMealsRoute) },
-                navigateToMealDetails = { mealId -> navController.navigate(MealDetailsRoute(mealId)) },
-                navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) },
+                onSelectNavBarRoute = navController::navigateToNavBarRoute
+            )
+        }
+
+        composable<NavBarRoute.Report> {
+            ReportScreen(
                 navigateToWorkoutHistory = { navController.navigate(WorkoutHistoryRoute) },
+                onSelectNavBarRoute = navController::navigateToNavBarRoute
+            )
+        }
+
+        composable<NavBarRoute.More> {
+            MoreScreen(
+                navigateToFavorites = { navController.navigate(FavoritesScreenRoute) },
+                navigateToNotificationSettings = { },
+                onThemeChanged = { },
+                onLogout = {
+                    authenticationPreferences.clear() // TODO: remove, logout logic is not the responsibility of the nav host
+                    navController.navigate(LoginRoute) {
+                        popUpTo(OnboardingRoute) { inclusive = true }
+                        launchSingleTop = true
+                        restoreState = false
+                    }
+                },
+                navigateToEditProfile = { navController.navigate(EditProfileRoute) },
+                onSelectNavBarRoute = navController::navigateToNavBarRoute
+            )
                 navigateToEditProfile = { navController.navigate(EditProfileRoute) },
                 navigateToLogIn = {
                     authenticationPreferences.clear()
@@ -154,15 +187,23 @@ fun NavigationHost(
         composable<CreateWorkoutRoute> {
             CreateWorkoutScreen(
                 navigateBack = navController::popBackStack,
-                navigateToCreateExercise = { navController.navigate(CreateExerciseRoute) },
-                navigateToWorkOuts = {},
+                navigateToCreateExercise = { onExerciseCreationSuccess ->
+                    navController.navigate(CreateExerciseRoute)
+                    navController.saveInSavedState(onExerciseCreationSuccess)
+                },
+                navigateToWorkOuts = navController::popBackStack,
                 navigateToAllExercises = {}
             )
         }
 
         composable<CreateExerciseRoute> {
+
+            val onExerciseCreationSuccess: (() -> Unit)? = navController.getFromSavedState()
+
             CreateExerciseScreen(
-                navigateBack = navController::popBackStack
+                navigateBack = navController::popBackStack,
+                onExerciseCreationSuccess =
+                    onExerciseCreationSuccess?.clearSavedStateAfterInvoke(navController)
             )
         }
 
@@ -195,7 +236,7 @@ fun NavigationHost(
                 navigateBack = navController::popBackStack,
                 navigateBackToApp = {
                     navController.popBackStack(
-                        route = AppRoute,
+                        route = NavBarRoute.Workout,
                         inclusive = false
                     )
                 }

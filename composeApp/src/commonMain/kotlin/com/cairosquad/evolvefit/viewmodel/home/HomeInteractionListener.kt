@@ -1,8 +1,8 @@
 package com.cairosquad.evolvefit.viewmodel.home
 
 interface HomeInteractionListener {
-    fun onWorkoutClick(id: String)
-    fun onSavedWorkoutClick(id: String)
-    fun onRetryClick()
+    fun onWorkoutClicked(id: String)
+    fun onSavedWorkoutClicked(id: String, isSaved: Boolean)
+    fun onRetryClicked()
     fun onRefresh()
 }

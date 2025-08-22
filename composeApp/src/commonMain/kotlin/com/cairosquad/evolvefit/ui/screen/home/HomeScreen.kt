@@ -54,6 +54,8 @@ import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.ui.component.CaloriesNutritionCard
 import com.cairosquad.evolvefit.ui.component.RefreshBox
 import com.cairosquad.evolvefit.ui.component.WaterNutritionCard
+import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
+import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.home.HomeInteractionListener
 import com.cairosquad.evolvefit.viewmodel.home.HomeScreenEffect
@@ -91,11 +93,33 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomeScreen(
-    navigateToWorkout: (String) -> Unit,
+    navigateToWorkout: (id: String) -> Unit,
+    onSelectNavBarRoute: (navBarRoute: NavBarRoute) -> Unit,
     homeViewModel: HomeViewModel = koinViewModel(),
 ) {
     val state by homeViewModel.screenState.collectAsState()
 
+    HandleHomeEffects(
+        homeViewModel = homeViewModel,
+        navigateToWorkout = navigateToWorkout,
+    )
+
+    Scaffold(
+        currentRoute = NavBarRoute.Home,
+        onSelectNavBarRoute = onSelectNavBarRoute
+    ) {
+        HomeContent(
+            state = state,
+            listener = homeViewModel
+        )
+    }
+}
+
+@Composable
+private fun HandleHomeEffects(
+    homeViewModel: HomeViewModel,
+    navigateToWorkout: (id: String) -> Unit,
+) {
     ObserveAsEffect(homeViewModel.effect) { effect ->
         when (effect) {
             is HomeScreenEffect.NavigateToWorkout -> {
@@ -107,10 +131,17 @@ fun HomeScreen(
             }
         }
     }
+}
+
+@Composable
+private fun HomeContent(
+    state: HomeScreenState,
+    listener: HomeInteractionListener,
+) {
     Box(modifier = Modifier.fillMaxSize()) {
         RefreshBox(
             isRefreshing = state.isRefreshing,
-            onRefresh = { homeViewModel.onRefresh() }
+            onRefresh = { listener.onRefresh() }
         ) {
             Crossfade(
                 targetState = state.screenStatus,
@@ -121,9 +152,9 @@ fun HomeScreen(
             ) {
                 when (state.screenStatus) {
                     HomeScreenState.ScreenStatus.SUCCESS -> {
-                        HomeContent(
+                        HomeSuccessContent(
                             state = state,
-                            interactionListener = homeViewModel
+                            listener = listener
                         )
                     }
 
@@ -133,7 +164,7 @@ fun HomeScreen(
 
                     HomeScreenState.ScreenStatus.FAIL -> {
                         HomeErrorContent(
-                            onRetry = homeViewModel::onRetryClick
+                            onRetry = listener::onRetryClicked
                         )
                     }
                 }
@@ -143,9 +174,9 @@ fun HomeScreen(
 }
 
 @Composable
-private fun HomeContent(
+private fun HomeSuccessContent(
     state: HomeScreenState,
-    interactionListener: HomeInteractionListener
+    listener: HomeInteractionListener,
 ) {
     Column(
         modifier = Modifier
@@ -171,7 +202,7 @@ private fun HomeContent(
 
         HomeSection(
             title = stringResource(Res.string.today_nutrition),
-            visibilityKey = true,
+            visibilityKey = state.nutritionVisibility,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 32.dp)
@@ -185,7 +216,7 @@ private fun HomeContent(
         }
 
         HomeSection(
-            title =  stringResource(Res.string.just_for_you),
+            title = stringResource(Res.string.just_for_you),
             visibilityKey = state.personalizedWorkouts.isNotEmpty(),
             modifier = Modifier
                 .padding(bottom = 32.dp),
@@ -193,8 +224,8 @@ private fun HomeContent(
         ) {
             PersonalizedWorkouts(
                 workouts = state.personalizedWorkouts,
-                onWorkoutClick = interactionListener::onWorkoutClick,
-                onSavedWorkoutClick = interactionListener::onSavedWorkoutClick
+                onWorkoutClick = listener::onWorkoutClicked,
+                onSavedWorkoutClick = listener::onSavedWorkoutClicked
             )
         }
     }
@@ -275,12 +306,16 @@ private fun HomeProgressBox(
                 progressDays = progress?.progressDays ?: emptyMap()
             )
 
-            StatsRow(
-                goal = progress?.goal ?: "",
-                currentWeight = progress?.currentWeight ?: 0f,
-                weightUnit = progress?.weightUnit ?: "",
-                activityPercentage = progress?.activityPercentage ?: 0.toUInt()
-            )
+            progress?.goal?.let {
+                progress.weightUnit?.let { resource ->
+                    StatsRow(
+                        goal = stringResource(it),
+                        currentWeight = progress.currentWeight,
+                        weightUnit = stringResource(resource),
+                        activityPercentage = progress.activityPercentage
+                    )
+                }
+            }
         }
     }
 }
@@ -559,7 +594,7 @@ private fun SimpleNutritionRow(
 private fun PersonalizedWorkouts(
     workouts: List<HomeScreenState.HomeWorkoutUiState>,
     onWorkoutClick: (String) -> Unit,
-    onSavedWorkoutClick: (String) -> Unit,
+    onSavedWorkoutClick: (String, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -587,7 +622,7 @@ private fun PersonalizedWorkouts(
 
                 SaveButton(
                     isSaved = workout.isSaved,
-                    onClick = { onSavedWorkoutClick(workout.id) },
+                    onClick = { onSavedWorkoutClick(workout.id, workout.isSaved) },
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(12.dp)

@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
+import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseCase
 import com.cairosquad.evolvefit.domain.usecase.equipment.ManageEquipmentUseCase
@@ -13,14 +14,18 @@ class RegisterViewModel(
 ) : BaseViewModel<RegisterScreenState, RegisterEffect>(RegisterScreenState()),
     RegisterInteractionListener {
 
-    override fun onClickNext() {
+        init {
+            getEquipments()
+        }
+
+    override fun onNextClicked() {
         updateState {
             it.copy(currentStep = it.currentStep + 1)
         }
         updateNextButtonEnableState()
     }
 
-    override fun onClickBack() {
+    override fun onBackClicked() {
         if (screenState.value.currentStep == 1) {
             sendEffect(RegisterEffect.NavigateBack)
         } else {
@@ -28,7 +33,7 @@ class RegisterViewModel(
         }
     }
 
-    override fun onClickStartNow() {
+    override fun onStartNowClicked() {
         val state = screenState.value
         tryToCall(
             block = {
@@ -51,37 +56,28 @@ class RegisterViewModel(
                     availableEquipment = state.selectedEquipments,
                 )
             },
-            onSuccess = {
-                sendEffect(RegisterEffect.NavigateToHome)
-            },
-            onError = { error ->
-                updateState { it.copy(errorMessage = error.message ?: "Registration failed") }
-            },
-            onStart = {
-                updateState { it.copy(isLoading = true) }
-            },
-            onEnd = {
-                updateState { it.copy(isLoading = false) }
-            }
+            onSuccess = { sendEffect(RegisterEffect.NavigateToHome) },
+            onError = { error -> updateState { it.copy(errorMessage = error.message ?: "Registration failed") } },
+            onStart = { updateState { it.copy(isLoading = true) } },
+            onEnd = { updateState { it.copy(isLoading = false) } }
         )
     }
 
+    private fun handleEquipmentsSuccess(tools: List<Equipment>) {
+        val equipments = tools.map { tool ->
+            RegisterScreenState.EquipmentUiState(
+                toolId = tool.id,
+                isSelected = false
+            )
+        }
+        updateState { it.copy(availableEquipments = equipments) }
+    }
 
     private fun getEquipments() {
         tryToCall(
-            block = { manageEquipmentUseCase.getAllEquipments() },
-            onSuccess = { tools ->
-                val equipments = tools.map { tool ->
-                    RegisterScreenState.EquipmentUiState(
-                        toolId = tool.id,
-                        isSelected = false
-                    )
-                }
-                updateState { it.copy(availableEquipments = equipments) }
-            },
-            onError = {
-                updateState { it.copy(errorMessage = "") }
-            }
+            block = { manageEquipmentUseCase.getAllEquipments().toList() },
+            onSuccess = ::handleEquipmentsSuccess,
+            onError = { updateState { it.copy(errorMessage = "") } }
         )
     }
 
@@ -101,13 +97,11 @@ class RegisterViewModel(
                         isWorkoutReminderEnabled = !state.notificationSettings.isWorkoutReminderEnabled
                     )
                 }
-
                 is RegisterScreenState.NotificationType.Water -> {
                     state.notificationSettings.copy(
                         isWaterReminderEnabled = !state.notificationSettings.isWaterReminderEnabled
                     )
                 }
-
                 is RegisterScreenState.NotificationType.BodyWeight -> {
                     state.notificationSettings.copy(
                         isBodyWeightReminderEnabled = !state.notificationSettings.isBodyWeightReminderEnabled
@@ -164,7 +158,6 @@ class RegisterViewModel(
         }
         updateNextButtonEnableState()
     }
-
 
     override fun onImagePickerClick() {
         updateState { it.copy(isImagePickerOpen = true) }

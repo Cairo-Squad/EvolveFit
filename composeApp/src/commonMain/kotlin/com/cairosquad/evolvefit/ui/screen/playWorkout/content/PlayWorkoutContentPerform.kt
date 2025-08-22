@@ -92,7 +92,7 @@ fun PlayWorkoutContentPerform(
                 .padding(bottom = 16.dp),
             currentStep = screenState.currentStep,
             totalSteps = screenState.workout.exercises.size,
-            onClickLeadingIcon = listener::onClickCancelWorkout,
+            onClickLeadingIcon = listener::onCancelWorkoutClicked,
             isStepsCountVisible = false,
             leadingIcon = painterResource(Res.drawable.ic_cross),
         )
@@ -152,7 +152,7 @@ private fun ExercisePage(
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 24.dp),
             exerciseName = exercise.name,
-            onClickInfo = { listener.onClickExerciseInfo(exercise.id) }
+            onClickInfo = { listener.onExerciseInfoClicked(exercise.id) }
         )
         BottomSection(
             modifier = Modifier
@@ -160,8 +160,8 @@ private fun ExercisePage(
                 .padding(bottom = 48.dp),
             exerciseSpec = exercise.exerciseSpec,
             onFinishExercise = listener::onFinishExercise,
-            onClickForward = listener::onClickForward,
-            onClickBack = listener::onClickBack
+            onClickForward = listener::onForwardClicked,
+            onClickBack = listener::onBackClicked
         )
     }
 }
@@ -313,120 +313,5 @@ private fun BottomButtons(
             contentDescription = stringResource(Res.string.next),
             tint = Theme.color.surfaces.onSurfaceContainer,
         )
-    }
-}
-
-
-@Preview
-@Composable
-private fun PlayWorkoutContentPerformPreview() {
-
-    var step by remember { mutableStateOf(1) }
-
-    AppTheme(
-        isDarkTheme = true
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Theme.color.surfaces.surface)
-        ) {
-            PlayWorkoutContentPerform(
-                screenState = PlayWorkoutScreenState(
-                    workout = PlayWorkoutScreenState.WorkoutUiState(
-                        exercises = listOf(
-                            PlayWorkoutScreenState.ExerciseUiState(
-                                name = "Push-up",
-                                exerciseSpec = PlayWorkoutScreenState.ExerciseSpecUiState.Reps(10),
-                                imageUrls = listOf("https://phxgymwitham.co.uk/wp-content/uploads/2024/05/Upper-body-gym-workout-1024x681.jpg")
-                            ),
-                            PlayWorkoutScreenState.ExerciseUiState(
-                                name = "Running",
-                                exerciseSpec = PlayWorkoutScreenState.ExerciseSpecUiState.Time(30),
-                                imageUrls = listOf("https://phxgymwitham.co.uk/wp-content/uploads/2024/05/Upper-body-gym-workout-1024x681.jpg")
-                            ),
-                            PlayWorkoutScreenState.ExerciseUiState(
-                                name = "Push-up",
-                                exerciseSpec = PlayWorkoutScreenState.ExerciseSpecUiState.Reps(10),
-                                imageUrls = listOf("https://phxgymwitham.co.uk/wp-content/uploads/2024/05/Upper-body-gym-workout-1024x681.jpg")
-                            ),
-                            PlayWorkoutScreenState.ExerciseUiState(
-                                name = "Running",
-                                exerciseSpec = PlayWorkoutScreenState.ExerciseSpecUiState.Time(30),
-                                imageUrls = listOf("https://phxgymwitham.co.uk/wp-content/uploads/2024/05/Upper-body-gym-workout-1024x681.jpg")
-                            ),
-                            PlayWorkoutScreenState.ExerciseUiState(
-                                name = "Push-up",
-                                exerciseSpec = PlayWorkoutScreenState.ExerciseSpecUiState.Reps(10),
-                                imageUrls = listOf("https://phxgymwitham.co.uk/wp-content/uploads/2024/05/Upper-body-gym-workout-1024x681.jpg")
-                            ),
-                            PlayWorkoutScreenState.ExerciseUiState(
-                                name = "Running",
-                                exerciseSpec = PlayWorkoutScreenState.ExerciseSpecUiState.Time(30),
-                                imageUrls = listOf("https://phxgymwitham.co.uk/wp-content/uploads/2024/05/Upper-body-gym-workout-1024x681.jpg")
-                            ),
-                        )
-                    ),
-                    currentStep = step
-                ),
-                listener = object : PlayWorkoutInteractionListener {
-                    override fun onClickCancelWorkout() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onGetReadyCounterFinish() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClickStart() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClickExerciseInfo(id: String) {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClickRestFinish() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onFinishExercise() {
-                        step = if (step == 6) 1 else (step + 1)
-                    }
-
-                    override fun onClickForward() {
-                        step = if (step == 6) 1 else (step + 1)
-                    }
-
-                    override fun onClickBack() {
-                        step--
-                    }
-
-                    override fun onClickSkipRest() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClickNextToAnotherWorkout() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClickFinish() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClinkStayInWorkout() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onClinkEnd() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onDismissExerciseInfo() {
-                        TODO("Not yet implemented")
-                    }
-                },
-            )
-        }
     }
 }

@@ -29,6 +29,8 @@ import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
+import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutEffect
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutInteractionListener
@@ -48,6 +50,7 @@ fun WorkoutScreen(
     navigateToCreateWorkout: () -> Unit,
     navigateToCommunityWorkout: () -> Unit,
     navigateToWorkoutDetails: (String) -> Unit,
+    onSelectNavBarRoute: (navBarRoute: NavBarRoute) -> Unit,
     viewModel: WorkoutViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
@@ -60,7 +63,15 @@ fun WorkoutScreen(
         }
     }
 
-    WorkoutsScreenContent(state = state, listener = viewModel)
+    Scaffold(
+        currentRoute = NavBarRoute.Workout,
+        onSelectNavBarRoute = onSelectNavBarRoute
+    ) {
+        WorkoutsScreenContent(
+            state = state,
+            listener = viewModel
+        )
+    }
 }
 
 @Composable
@@ -78,7 +89,7 @@ private fun WorkoutsScreenContent(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            AppBar(listener::onClickCommunity)
+            AppBar(listener::onCommunityClicked)
 
             FocusAreaFilter(
                 focusArea = WorkoutScreenState.FocusAreaUiState.entries,
@@ -88,12 +99,12 @@ private fun WorkoutsScreenContent(
 
             Workouts(
                 workouts = state.allWorkouts,
-                onClickWorkout = listener::onClickWorkout
+                onClickWorkout = listener::onWorkoutClicked
             )
 
         }
         FloatingActionButton(
-            onClick = listener::onClickAddWorkout,
+            onClick = listener::onAddWorkoutClicked,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(24.dp),
@@ -177,7 +188,8 @@ private fun WorkoutsScreenPreview() {
         WorkoutScreen(
             navigateToCreateWorkout = {},
             navigateToCommunityWorkout = {},
-            navigateToWorkoutDetails = {}
+            navigateToWorkoutDetails = {},
+            onSelectNavBarRoute = {}
         )
     }
 }

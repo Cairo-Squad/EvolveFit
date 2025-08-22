@@ -22,7 +22,7 @@ fun PlayWorkoutScreen(
 
     PlatformBackHandler (
         enabled = !screenState.haseCancelWorkoutClicked,
-        onBack = viewModel::onClickCancelWorkout
+        onBack = viewModel::onCancelWorkoutClicked
     )
 
     ObserveAsEffect(viewModel.effect) { effect ->

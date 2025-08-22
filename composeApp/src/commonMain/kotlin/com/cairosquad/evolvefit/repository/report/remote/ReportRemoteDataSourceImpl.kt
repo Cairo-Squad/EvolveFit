@@ -1,8 +1,8 @@
 package com.cairosquad.evolvefit.repository.report.remote
 
 import com.cairosquad.evolvefit.repository.execption.callApi
-import com.cairosquad.evolvefit.repository.report.dto.NutritionReportDto
-import com.cairosquad.evolvefit.repository.report.dto.WorkoutReportDto
+import com.cairosquad.evolvefit.repository.report.remote.dto.NutritionReportDto
+import com.cairosquad.evolvefit.repository.report.remote.dto.WorkoutReportDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

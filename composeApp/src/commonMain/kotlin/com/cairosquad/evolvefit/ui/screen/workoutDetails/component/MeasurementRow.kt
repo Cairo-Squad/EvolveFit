@@ -12,11 +12,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState
 import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_count
 import evolvefit.composeapp.generated.resources.ic_time
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
 @Composable
@@ -54,4 +56,20 @@ fun MeasurementRow(
             style = textStyle,
         )
     }
+}
+
+@Preview()
+@Composable
+fun MeasurementRowPreview_Duration() {
+    MeasurementRow(
+        exerciseType = WorkoutDetailsScreenState.ExerciseType.Duration(seconds = 45)
+    )
+}
+
+@Preview()
+@Composable
+fun MeasurementRowPreview_Reps() {
+    MeasurementRow(
+        exerciseType = WorkoutDetailsScreenState.ExerciseType.Reps(count = 12)
+    )
 }

@@ -30,6 +30,8 @@ import com.cairosquad.evolvefit.design_system.component.StateMessage
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.RefreshBox
+import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
+import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.NutritionLoadingScreen
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.SeeAll
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.MealHistoryItem
@@ -69,6 +71,7 @@ fun NutritionScreen(
     navigateToSuggestedMeals: () -> Unit,
     navigateToMealDetails: (String) -> Unit,
     navigateToMealsHistory: () -> Unit,
+    onSelectNavBarRoute: (navBarRoute: NavBarRoute) -> Unit,
     nutritionViewModel: NutritionViewModel = koinViewModel()
 ) {
     val state by nutritionViewModel.screenState.collectAsState()
@@ -81,23 +84,31 @@ fun NutritionScreen(
         }
     }
 
-    NutritionContent(
-        state = state,
-        listener = nutritionViewModel
-    )
+    Scaffold(
+        currentRoute = NavBarRoute.Nutrition,
+        onSelectNavBarRoute = onSelectNavBarRoute
+    ) {
+        NutritionContent(
+            state = state,
+            listener = nutritionViewModel,
+        )
+    }
 }
 
 @Composable
 private fun NutritionContent(
     state: NutritionScreenState,
-    listener: NutritionInteractionListener
+    listener: NutritionInteractionListener,
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
         RefreshBox(
             isRefreshing = state.isRefreshing,
             onRefresh = { listener.onRefresh() }
         ) {
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Theme.color.surfaces.surface)
+            ) {
                 NutritionHeader()
                 Crossfade(
                     targetState = state.screenStatus,
@@ -139,7 +150,6 @@ private fun NutritionContent(
                     state = state
                 )
             }
-        }
     }
 }
 @Composable
@@ -184,14 +194,14 @@ private fun LazyListScope.mealHistorySection(
     state: NutritionScreenState,
     listener: NutritionInteractionListener
 ) {
+    item {
+        SeeAll(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            onViewAllClick = listener::onViewAllMealHistoryClicked,
+            sectionTitle = stringResource(Res.string.meal_history)
+        )
+    }
     if (state.todayConsumedMeals.isNotEmpty()) {
-        item {
-            SeeAll(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-                onViewAllClick = listener::onViewAllMealHistoryClicked,
-                sectionTitle = stringResource(Res.string.meal_history)
-            )
-        }
         items(state.todayConsumedMeals) { mealHistory ->
             MealHistoryItem(meal = mealHistory)
         }

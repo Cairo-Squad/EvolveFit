@@ -25,6 +25,10 @@ class ReportViewModel(
     ReportInteractionListener {
 
     init {
+        loadData()
+    }
+
+    private fun loadData(){
         loadWorkoutReport()
         loadWorkoutHistory()
         loadWeeks()
@@ -54,10 +58,7 @@ class ReportViewModel(
     private fun loadWeeks() {
         updateState {
             it.copy(
-                weeks = listOf(
-                    THIS_WEEK,
-                    LAST_WEEK
-                ),
+                weeks = listOf(THIS_WEEK, LAST_WEEK),
                 selectedWeek = ReportScreenState.WeekItem(THIS_WEEK_KEY, Res.string.this_week)
             )
         }

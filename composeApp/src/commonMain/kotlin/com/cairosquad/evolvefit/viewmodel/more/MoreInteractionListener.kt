@@ -3,12 +3,12 @@ package com.cairosquad.evolvefit.viewmodel.more
 import com.cairosquad.evolvefit.domain.model.Language
 
 interface MoreInteractionListener {
-    fun onClickPersonInformation()
-    fun onClickFavorites()
-    fun onClickNotification()
-    fun onClickTheme()
-    fun onClickLanguage()
-    fun onClickLogout()
+    fun onPersonInformationClicked()
+    fun onFavoritesClicked()
+    fun onNotificationClicked()
+    fun onThemeClicked()
+    fun onLanguageClicked()
+    fun onLogoutClicked()
     fun onDismissThemeBottomSheet()
     fun onDismissLanguageBottomSheet()
     fun onDismissLogoutBottomSheet()

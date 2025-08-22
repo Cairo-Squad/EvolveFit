@@ -1,15 +1,15 @@
 package com.cairosquad.evolvefit.domain.usecase.nutrition
 
-import com.cairosquad.evolvefit.domain.exceptions.ExceededCaloriesException
-import com.cairosquad.evolvefit.domain.exceptions.ExceededWaterLimitException
-import com.cairosquad.evolvefit.domain.exceptions.InvalidNumberFormatException
-import com.cairosquad.evolvefit.domain.exceptions.MealNotFoundException
+import com.cairosquad.evolvefit.domain.exception.ExceededCaloriesException
+import com.cairosquad.evolvefit.domain.exception.ExceededWaterLimitException
+import com.cairosquad.evolvefit.domain.exception.InvalidNumberFormatException
+import com.cairosquad.evolvefit.domain.exception.MealNotFoundException
 import com.cairosquad.evolvefit.domain.repository.NutritionRepository
-import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
-import com.cairosquad.evolvefit.entity.nutrition.DailyCalorieSummary
-import com.cairosquad.evolvefit.entity.nutrition.DailyWaterSummary
-import com.cairosquad.evolvefit.entity.nutrition.Meal
-import com.cairosquad.evolvefit.entity.nutrition.SuggestedMeal
+import com.cairosquad.evolvefit.domain.entity.ConsumedMeal
+import com.cairosquad.evolvefit.domain.entity.DailyCalorieSummary
+import com.cairosquad.evolvefit.domain.entity.DailyWaterSummary
+import com.cairosquad.evolvefit.domain.entity.Meal
+import com.cairosquad.evolvefit.domain.entity.SuggestedMeal
 
 class ManageNutritionUseCase(private val nutritionRepository: NutritionRepository) {
     suspend fun getSuggestedMeals(): List<SuggestedMeal> {
@@ -26,8 +26,8 @@ class ManageNutritionUseCase(private val nutritionRepository: NutritionRepositor
         return nutritionRepository.deleteFavouriteMeal(mealId)
     }
 
-    suspend fun getMealHistory(): List<ConsumedMeal> {
-        return nutritionRepository.getMealHistory()
+    suspend fun getMealHistory(startDate: String, endDate: String): List<ConsumedMeal> {
+        return nutritionRepository.getMealHistory(startDate,endDate)
     }
 
     suspend fun getConsumedMealsByDate(startDate: String, endDate: String): List<ConsumedMeal> {

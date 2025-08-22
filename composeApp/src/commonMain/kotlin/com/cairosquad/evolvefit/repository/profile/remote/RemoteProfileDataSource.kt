@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.repository.profile.remote
 
-import com.cairosquad.evolvefit.repository.profile.dto.ProfileResponse
-import com.cairosquad.evolvefit.repository.profile.dto.ProfileRequest
+import com.cairosquad.evolvefit.repository.profile.remote.dto.ProfileResponse
+import com.cairosquad.evolvefit.repository.profile.remote.dto.ProfileRequest
 
 interface RemoteProfileDataSource {
     suspend fun getProfile(): ProfileResponse

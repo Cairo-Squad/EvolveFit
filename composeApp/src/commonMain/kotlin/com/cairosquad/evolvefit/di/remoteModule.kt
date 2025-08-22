@@ -2,10 +2,12 @@ package com.cairosquad.evolvefit.di
 
 import com.cairosquad.evolvefit.repository.authentication.remote.AuthenticationRemoteDataSource
 import com.cairosquad.evolvefit.repository.authentication.remote.AuthenticationRemoteDataSourceImpl
-import com.cairosquad.evolvefit.repository.equipment.remot.EquipmentRemoteDataSourceImpl
-import com.cairosquad.evolvefit.repository.equipment.remot.EquipmentsRemoteDataSource
+import com.cairosquad.evolvefit.repository.equipment.remote.EquipmentRemoteDataSourceImpl
+import com.cairosquad.evolvefit.repository.equipment.remote.EquipmentsRemoteDataSource
 import com.cairosquad.evolvefit.repository.exercise.remote.ExerciseRemoteDataSource
 import com.cairosquad.evolvefit.repository.exercise.remote.ExerciseRemoteDataSourceImpl
+import com.cairosquad.evolvefit.repository.home.data_source.remote.RemoteHomeDataSource
+import com.cairosquad.evolvefit.repository.home.data_source.remote.RemoteHomeDataSourceImpl
 import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSource
 import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSourceImpl
 import com.cairosquad.evolvefit.repository.profile.remote.RemoteProfileDataSource
@@ -51,4 +53,5 @@ val remoteModule = module {
     }
 
     singleOf(::RemoteProfileDataSourceImpl) bind RemoteProfileDataSource::class
+    singleOf(::RemoteHomeDataSourceImpl) bind RemoteHomeDataSource::class
 }

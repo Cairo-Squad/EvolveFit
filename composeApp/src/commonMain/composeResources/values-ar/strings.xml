@@ -338,4 +338,11 @@
     <string name="undo">تراجع</string>
     <string name="save_icon">ايقونة الحفظ</string>
     <string name="remove_from_favorites">إزالة من المفضلة</string>
+
+    <string name="weight_loss">فقدان الوزن</string>
+    <string name="weight_gain">اكتساب الوزن</string>
+    <string name="stay_shape">الحفاظ على اللياقة</string>
+
+    <string name="kilogram">كجم</string>
+    <string name="pound">باوند</string>
 </resources>
