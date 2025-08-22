@@ -10,6 +10,8 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.repository.profile.local.ProfilePreferences
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.platform.LocalLayoutDirection
 
 val LocalLocalization = staticCompositionLocalOf { Language.ENGLISH }
 val LocalTheme = staticCompositionLocalOf { MoreScreenState.Theme.LIGHT }
@@ -24,8 +26,16 @@ fun LocalizationProvider(
         "en" -> Language.ENGLISH
         else -> Language.ARABIC
     }
+    val layoutDirection = if (currentLanguage == Language.ARABIC) {
+        LayoutDirection.Rtl
+    } else {
+        LayoutDirection.Ltr
+    }
 
-    CompositionLocalProvider(LocalLocalization provides currentLanguage) {
+    CompositionLocalProvider(
+        LocalLocalization provides currentLanguage,
+        LocalLayoutDirection provides layoutDirection
+    ) {
         content(
             currentLanguage
         ) { newLang ->

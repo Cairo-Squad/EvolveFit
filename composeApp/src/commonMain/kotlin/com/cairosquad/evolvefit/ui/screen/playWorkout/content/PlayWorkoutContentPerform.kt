@@ -3,7 +3,6 @@ package com.cairosquad.evolvefit.ui.screen.playWorkout.content
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,13 +36,12 @@ import androidx.compose.ui.unit.sp
 import com.cairosquad.evolvefit.design_system.component.appbar.IndicatorBar
 import com.cairosquad.evolvefit.design_system.component.clockTimer.ClockTimer
 import com.cairosquad.evolvefit.design_system.component.clockTimer.rememberClockTimerState
-import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
-import com.cairosquad.evolvefit.ui.screen.playWorkout.component.ExerciseNameAndInfoIcon
+import com.cairosquad.evolvefit.ui.screen.playWorkout.content.component.ExerciseNameAndInfoIcon
 import com.cairosquad.evolvefit.ui.util.ScreenSize
-import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutInteractionListener
-import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState
+import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutInteractionListener
+import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.back_button
 import evolvefit.composeapp.generated.resources.exercise
@@ -58,7 +56,6 @@ import evolvefit.composeapp.generated.resources.next
 import evolvefit.composeapp.generated.resources.primary_button
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
 @Composable

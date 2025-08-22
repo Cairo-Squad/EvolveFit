@@ -26,9 +26,9 @@ class RegisterViewModel(
 ) : BaseViewModel<RegisterScreenState, RegisterEffect>(RegisterScreenState()),
     RegisterInteractionListener {
 
-    init {
-        getEquipments()
-    }
+        init {
+            getEquipments()
+        }
 
     override fun onNextClicked() {
         updateState {
@@ -59,9 +59,12 @@ class RegisterViewModel(
                         height = state.selectedHeight,
                         weight = state.selectedWeight,
                         goal = state.selectedGoal.toDomain(),
-                        imageUrl = state.image.toString(),
-                        equipments = state.equipments.map { it.toDomain() }.toSet(),
-                        workoutDays = state.workoutDays
+                        imageUrl=state.image.toString(),
+                        equipments = state.availableEquipments
+                            .filter { state.selectedEquipments.contains(it.toolId) }
+                            .map { it.toDomain() }
+                            .toSet(),
+                        workoutDays =state.workoutDays
                     ),
                     password = state.userPasswordInput,
                     workoutDays = state.selectedWeekDayUiState.map { it.toDomain() }.toSet(),
@@ -139,10 +142,23 @@ class RegisterViewModel(
 
     private fun getEquipments() {
         tryToCall(
-            block = { manageEquipmentUseCase.getAllEquipments().toList() },
+            block = { manageEquipmentUseCase.getAllEquipments() },
             onSuccess = ::handleEquipmentsSuccess,
-            onError = { updateState { it.copy(errorMessage = "") } }
+            onError = ::handleEquipmentsError
         )
+    }
+
+    private fun handleEquipmentsSuccess(equipments: Set<Equipment>) {
+        updateState {
+            it.copy(availableEquipments = equipments.map { equipment -> equipment.toUiState() }
+                .toSet())
+        }
+    }
+
+    private fun handleEquipmentsError(throwable: Throwable) {
+        updateState {
+            it.copy(errorMessage = "Failed to load equipments")
+        }
     }
 
     override fun onHeightChanged(height: Float) {
@@ -161,13 +177,11 @@ class RegisterViewModel(
                         isWorkoutReminderEnabled = !state.notificationSettings.isWorkoutReminderEnabled
                     )
                 }
-
                 is RegisterScreenState.NotificationType.Water -> {
                     state.notificationSettings.copy(
                         isWaterReminderEnabled = !state.notificationSettings.isWaterReminderEnabled
                     )
                 }
-
                 is RegisterScreenState.NotificationType.BodyWeight -> {
                     state.notificationSettings.copy(
                         isBodyWeightReminderEnabled = !state.notificationSettings.isBodyWeightReminderEnabled

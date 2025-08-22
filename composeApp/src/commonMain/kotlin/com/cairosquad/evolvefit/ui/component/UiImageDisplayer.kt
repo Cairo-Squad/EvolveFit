@@ -18,11 +18,11 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun UiImageDisplayer(
-    image: UiImage,
+    image: UiImage?,
     contentDescription: String,
     defaultImageSize: Dp = 32.dp,
     modifier: Modifier = Modifier,
-    contentScale: ContentScale = ContentScale.None,
+    contentScale: ContentScale = ContentScale.Crop,
 ) {
     when (image) {
         is UiImage.ImageFile -> {
@@ -30,14 +30,14 @@ fun UiImageDisplayer(
                 file = image.platformFile,
                 contentDescription = contentDescription,
                 defaultImageSize = defaultImageSize,
-                modifier = modifier,
                 contentScale = contentScale,
+                modifier = Modifier.size(defaultImageSize)
             )
         }
 
         is UiImage.ImageUrl -> {
             NetworkImage(
-                modifier = modifier,
+                modifier = Modifier.size(defaultImageSize),
                 defaultImage = painterResource(Res.drawable.im_img),
                 loadingPlaceHolder = painterResource(Res.drawable.im_img),
                 model = image.url,
@@ -52,10 +52,11 @@ fun UiImageDisplayer(
                 painter = painterResource(image.resourceId),
                 contentDescription = contentDescription,
                 contentScale = contentScale,
-                modifier = modifier
-                    .size(defaultImageSize),
+                modifier = Modifier.size(defaultImageSize)
             )
         }
+
+        null -> {}
     }
 }
 

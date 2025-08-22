@@ -10,7 +10,7 @@ data class ExerciseDto(
     val name: String = "",
 
     @SerialName("gymEquipments")
-    val gymEquipments: List<Int> = emptyList(),
+    val gymEquipments:  List<Int> = emptyList(),
 
     @SerialName("instructions")
     val instructions: List<String> = emptyList(),
@@ -22,10 +22,10 @@ data class ExerciseDto(
     val exerciseType: String = "",
 
     @SerialName("reps")
-    val reps: Int = 0,
+    val reps: Int? = null,
 
     @SerialName("durationSeconds")
-    val durationSeconds: Int = 0
+    val durationSeconds: Int? = null,
 )
 
 @Serializable

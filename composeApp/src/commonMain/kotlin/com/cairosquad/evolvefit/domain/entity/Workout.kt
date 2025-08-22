@@ -8,8 +8,8 @@ data class Workout(
     val description: String,
     val imageUrl: String,
     val level: WorkoutLevel,
-    val estimatedTimeInSeconds: Int,
-    val exercises: List<Exercise>, // TODO: We need to remove this from here
+    val estimatedTimeInSeconds: Int?,
+    val exercises: List<Exercise>,
 ) {
     enum class WorkoutLevel {
         BEGINNER,
@@ -21,7 +21,7 @@ data class Workout(
 data class WorkoutSuggested(
     val id: String,
     val name: String,
-    val durationSeconds: Int,
+    val durationSeconds: Int?,
     val imageUrl: String,
     val focusArea: List<FocusArea>
 )

@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.domain.usecase.workout
 
 import com.cairosquad.evolvefit.domain.entity.Workout
-import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
@@ -17,6 +16,15 @@ class ManageWorkoutUseCase(
         return workoutRepository.getSuggestedWorkouts()
     }
 
+    suspend fun uploadWorkoutImage(
+        fileBytes: ByteArray,
+        fileName: String,
+        workoutId : String
+    ): String {
+        return workoutRepository.uploadWorkoutImage(fileBytes, fileName,workoutId)
+    }
+
+
     suspend fun getCommunityWorkouts(): List<WorkoutSuggested> {
         return workoutRepository.getCommunityWorkouts()
     }
@@ -31,8 +39,8 @@ class ManageWorkoutUseCase(
     suspend fun deleteFavouriteWorkout(mealId: String) {
         return workoutRepository.deleteFavoriteWorkout(mealId)
     }
-    suspend fun createWorkOut(workout: Workout) {
-        workoutRepository.createWorkout(workout)
+    suspend fun createWorkOut(workout: Workout): Workout {
+        return workoutRepository.createWorkout(workout)
     }
 
     suspend fun addWorkoutToFavorites(workoutId: String) {
@@ -41,9 +49,5 @@ class ManageWorkoutUseCase(
 
     suspend fun getSuggestedWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested> {
         return workoutRepository.getWorkoutsByFocusArea(focusArea)
-    }
-
-    suspend fun getWorkoutHistory(): List<WorkoutHistory> {
-        return workoutRepository.getWorkoutHistory()
     }
 }

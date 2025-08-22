@@ -71,14 +71,14 @@ fun EquipmentsSection(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(bottom = 12.dp)
     ) {
-        items(state.availableEquipments) { equipment ->
+        items(state.availableEquipments.toList()) { equipment ->
             val isSelected = state.selectedEquipments.contains(equipment.toolId)
             val isEnabled = !state.isNoEquipmentSelected
+
             CheckboxItem(
                 text = equipment.toolName,
                 isChecked = isSelected,

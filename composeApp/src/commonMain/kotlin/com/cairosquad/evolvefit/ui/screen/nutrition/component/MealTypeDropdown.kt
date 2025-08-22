@@ -82,7 +82,8 @@ fun MealTypeDropdownMenu(
             MealNameInputField(
                 modifier = Modifier.padding(top = 16.dp),
                 mealName = state.mealNameInput,
-                onValueChange = listener::onMealNameChanged
+                onValueChange = listener::onMealNameChanged,
+                state = state
             )
 
             Row(
@@ -143,12 +144,16 @@ fun MealTypeDropdownMenu(
 @Composable
 private fun MealNameInputField(
     mealName: String,
+    state: NutritionScreenState,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     InputField(
         modifier = modifier,
         value = mealName,
+        isErrorMessageShown = true,
+        error = state.mealNameInputError.let { it?.let { resource -> stringResource(resource) } }
+            ?: "",
         onValueChange = onValueChange,
         placeholder = stringResource(Res.string.meal_name_placeholder),
         leadingIcon = Res.drawable.nutrition
@@ -169,7 +174,8 @@ private fun MealCaloriesInputField(
             keyboardType = KeyboardType.Number
         ),
         isErrorMessageShown = true,
-        error =state.inputErrorMessage.let { it?.let { resource -> stringResource(resource) } } ?:"",
+        error = state.mealCaloriesInputError.let { it?.let { resource -> stringResource(resource) } }
+            ?: "",
         onValueChange = onValueChange,
         placeholder = stringResource(Res.string.calories),
         leadingIcon = Res.drawable.ic_fire
