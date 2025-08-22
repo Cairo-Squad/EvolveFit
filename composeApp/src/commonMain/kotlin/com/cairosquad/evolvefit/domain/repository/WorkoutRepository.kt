@@ -11,9 +11,10 @@ interface WorkoutRepository {
     suspend fun getCommunityWorkouts(): List<WorkoutSuggested>
     suspend fun getCommunityWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested>
     suspend fun getFavoriteWorkouts(): List<WorkoutSuggested>
-    suspend fun createWorkout(workout: Workout)
+    suspend fun createWorkout(workout: Workout): Workout
     suspend fun addWorkoutToFavorites(workoutId: String)
     suspend fun deleteFavoriteWorkout(workoutId: String)
     suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested>
     suspend fun getWorkoutHistory(): List<WorkoutHistory>
+    suspend fun uploadWorkoutImage(fileBytes: ByteArray, fileName: String,workoutId : String): String
 }
