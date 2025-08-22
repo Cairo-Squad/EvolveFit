@@ -26,6 +26,9 @@ import com.cairosquad.evolvefit.design_system.component.LabeledInputField
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
+import com.cairosquad.evolvefit.domain.entity.Profile.Gender
+import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.ui.component.DateBottomSheet
 import com.cairosquad.evolvefit.ui.component.UserProfileImage
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.GenderBottomSheet
@@ -35,29 +38,38 @@ import com.cairosquad.evolvefit.ui.screen.editProfile.content.MeasurementBottomS
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.ToolsBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.WeightBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.WorkoutDaysBottomSheet
-import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileInteractionListener
-import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileScreenState
-import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileViewModel
+import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
+import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileEffect
+import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileInteractionListener
+import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileScreenState
+import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.birth
 import evolvefit.composeapp.generated.resources.email
+import evolvefit.composeapp.generated.resources.female
 import evolvefit.composeapp.generated.resources.friday
 import evolvefit.composeapp.generated.resources.full_name
+import evolvefit.composeapp.generated.resources.gain_weight
 import evolvefit.composeapp.generated.resources.gender
 import evolvefit.composeapp.generated.resources.goal
 import evolvefit.composeapp.generated.resources.height
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.lose_weight
+import evolvefit.composeapp.generated.resources.male
 import evolvefit.composeapp.generated.resources.monday
 import evolvefit.composeapp.generated.resources.no_tools_title
 import evolvefit.composeapp.generated.resources.no_workouts
 import evolvefit.composeapp.generated.resources.personal_information
 import evolvefit.composeapp.generated.resources.saturday
 import evolvefit.composeapp.generated.resources.save_changes
+import evolvefit.composeapp.generated.resources.stay_in_shape
 import evolvefit.composeapp.generated.resources.sunday
 import evolvefit.composeapp.generated.resources.thursday
 import evolvefit.composeapp.generated.resources.tuesday
+import evolvefit.composeapp.generated.resources.unit_imperial
+import evolvefit.composeapp.generated.resources.unit_metric
 import evolvefit.composeapp.generated.resources.units
 import evolvefit.composeapp.generated.resources.wednesday
 import evolvefit.composeapp.generated.resources.weight
@@ -66,23 +78,8 @@ import evolvefit.composeapp.generated.resources.your_tools
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.round
-import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
-import com.cairosquad.evolvefit.domain.entity.Profile.Gender
-import com.cairosquad.evolvefit.domain.model.MeasurementStandard
-import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
-import com.cairosquad.evolvefit.viewmodel.editProfile.EditProfileEffect
-import com.cairosquad.evolvefit.viewmodel.register.RegisterEffect
-import evolvefit.composeapp.generated.resources.female
-
-import evolvefit.composeapp.generated.resources.gain_weight
-import evolvefit.composeapp.generated.resources.lose_weight
-import evolvefit.composeapp.generated.resources.male
-import evolvefit.composeapp.generated.resources.stay_in_shape
-import evolvefit.composeapp.generated.resources.unit_imperial
-import evolvefit.composeapp.generated.resources.unit_metric
 
 
 @Composable

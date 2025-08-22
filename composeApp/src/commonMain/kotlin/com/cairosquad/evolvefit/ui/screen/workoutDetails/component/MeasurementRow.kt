@@ -12,8 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState
-import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_count
 import evolvefit.composeapp.generated.resources.ic_time

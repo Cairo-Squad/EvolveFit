@@ -3,7 +3,7 @@ package com.cairosquad.evolvefit.viewmodel.report
 import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.entity.Report
 import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
-import com.cairosquad.evolvefit.domain.usecase.report.ReportUseCase
+import com.cairosquad.evolvefit.domain.usecase.report.ManageReportsUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.last_week
@@ -20,7 +20,7 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 
 class ReportViewModel(
-    private val reportUseCase: ReportUseCase,
+    private val manageReportsUseCase: ManageReportsUseCase,
 ) : BaseViewModel<ReportScreenState, ReportEffect>(ReportScreenState()),
     ReportInteractionListener {
 
@@ -37,7 +37,7 @@ class ReportViewModel(
     fun loadWorkoutReport(weekRange: Pair<String, String> = getCurrentWeekRange()) {
         tryToCall(
             block = {
-                reportUseCase.getReport(
+                manageReportsUseCase.getReport(
                     weekRange.first,
                     weekRange.second
                 )
@@ -49,7 +49,7 @@ class ReportViewModel(
 
     fun loadWorkoutHistory() {
         tryToCall(
-            block = reportUseCase::getWorkoutHistory,
+            block = manageReportsUseCase::getWorkoutHistory,
             onSuccess = ::onLoadWorkoutHistorySuccess,
             onError = ::onLoadWorkoutHistoryError
         )
