@@ -30,16 +30,16 @@ import com.cairosquad.evolvefit.design_system.component.CheckboxStyle
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.domain.model.Language
-import com.cairosquad.evolvefit.ui.util.LanguageManager
+import com.cairosquad.evolvefit.domain.usecase.profile.ManagePreferencesUseCase
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.ui.util.noRippleClickable
 import com.cairosquad.evolvefit.ui.util.recreateCurrentScreen
+import com.cairosquad.evolvefit.viewmodel.onboarding.languageToLanguageCode
 import com.cairosquad.evolvefit.viewmodel.onboarding.OnBoardingViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.OnboardingScreenEffect
 import com.cairosquad.evolvefit.viewmodel.onboarding.OnboardingScreenListener
 import com.cairosquad.evolvefit.viewmodel.onboarding.OnboardingScreenState
 import com.cairosquad.evolvefit.viewmodel.onboarding.toDomain
-import com.cairosquad.evolvefit.viewmodel.register.toDomain
 import evolvefit.composeapp.generated.resources.Onboarding
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.arrow_down
@@ -51,7 +51,6 @@ import evolvefit.composeapp.generated.resources.login
 import evolvefit.composeapp.generated.resources.ready_to_start
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -62,7 +61,7 @@ fun OnboardingScreen(
     navigateToRegister: () -> Unit,
     navigateToLogin: () -> Unit,
 ) {
-    val languageManager = koinInject<LanguageManager>()
+    val preferencesManager = koinInject<ManagePreferencesUseCase>()
     val state by viewmodel.screenState.collectAsStateWithLifecycle()
     ObserveAsEffect(viewmodel.effect) { effect ->
         when (effect) {
@@ -73,7 +72,7 @@ fun OnboardingScreen(
                 navigateToRegister()
             }
             is OnboardingScreenEffect.ChangeLanguage-> {
-                languageManager.applyLanguage(effect.language)
+                preferencesManager.saveLanguage(languageToLanguageCode(effect.language))
                 recreateCurrentScreen()
             }
 
