@@ -8,6 +8,8 @@ class ManagePreferencesUseCase (
 ){
      fun saveTheme(theme: MoreScreenState.Theme) = preferences.saveTheme(theme)
      fun getTheme() = preferences.getSavedTheme()
-     fun saveLanguage(language: String) = preferences.saveLanguage(language)
+     fun saveLanguage(language: String) {
+         preferences.saveLanguage(language)
+     }
      fun getLanguage() = preferences.getSavedLanguage()
 }
