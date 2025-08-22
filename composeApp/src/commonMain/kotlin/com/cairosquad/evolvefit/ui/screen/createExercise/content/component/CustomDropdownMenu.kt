@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.createExercise.content
+package com.cairosquad.evolvefit.ui.screen.createExercise.content.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

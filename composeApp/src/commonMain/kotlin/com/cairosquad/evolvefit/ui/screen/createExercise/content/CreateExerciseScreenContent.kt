@@ -28,6 +28,9 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.ImagePicker
+import com.cairosquad.evolvefit.ui.screen.createExercise.content.component.EquipmentDropdownRow
+import com.cairosquad.evolvefit.ui.screen.createExercise.content.component.ExitCreateExerciseBottomSheet
+import com.cairosquad.evolvefit.ui.screen.createExercise.content.component.FocusAreaDropdownRow
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseInteractionListener
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState
@@ -278,7 +281,7 @@ fun CreateExerciseScreenContent(
             ExitCreateExerciseBottomSheet(
                 isVisible = state.showExitBottomSheet,
                 onDismiss = listener::onExitClicked,
-                onCancelClicked = { listener.onCancelClicked()},
+                onCancelClicked = { listener.onCancelClicked() },
                 onExitWithoutSavingClicked = { listener.onExitWithoutSavingClicked() }
             )
         }
