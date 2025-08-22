@@ -3,6 +3,7 @@ package com.cairosquad.evolvefit.domain.usecase.workout
 import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.model.FocusArea
+import com.cairosquad.evolvefit.domain.model.PlayedWorkout
 import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
 
 class ManageWorkoutUseCase(
@@ -50,4 +51,9 @@ class ManageWorkoutUseCase(
     suspend fun getSuggestedWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested> {
         return workoutRepository.getWorkoutsByFocusArea(focusArea)
     }
+
+    suspend fun submitPlayedWorkout(playedWorkout: PlayedWorkout) {
+        workoutRepository.submitPlayedWorkout(playedWorkout)
+    }
+
 }
