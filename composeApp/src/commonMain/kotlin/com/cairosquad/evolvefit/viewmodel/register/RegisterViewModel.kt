@@ -13,6 +13,7 @@ import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.error_email_already_used
 import evolvefit.composeapp.generated.resources.error_invalid_email
 import evolvefit.composeapp.generated.resources.error_invalid_email_format
 import evolvefit.composeapp.generated.resources.error_invalid_password
@@ -26,9 +27,9 @@ class RegisterViewModel(
 ) : BaseViewModel<RegisterScreenState, RegisterEffect>(RegisterScreenState()),
     RegisterInteractionListener {
 
-        init {
-            getEquipments()
-        }
+    init {
+        getEquipments()
+    }
 
     override fun onNextClicked() {
         updateState {
@@ -59,12 +60,12 @@ class RegisterViewModel(
                         height = state.selectedHeight,
                         weight = state.selectedWeight,
                         goal = state.selectedGoal.toDomain(),
-                        imageUrl=state.image.toString(),
+                        imageUrl = state.image.toString(),
                         equipments = state.availableEquipments
                             .filter { state.selectedEquipments.contains(it.toolId) }
                             .map { it.toDomain() }
                             .toSet(),
-                        workoutDays =state.workoutDays
+                        workoutDays = state.workoutDays
                     ),
                     password = state.userPasswordInput,
                     workoutDays = state.selectedWeekDayUiState.map { it.toDomain() }.toSet(),
@@ -72,72 +73,10 @@ class RegisterViewModel(
                 )
             },
             onSuccess = { sendEffect(RegisterEffect.NavigateToHome) },
-            onError = { error ->
-                handleRegisterError(error)
-            },
+            onError = { error -> handleRegisterError(error) },
             onStart = { updateState { it.copy(isLoading = true) } },
             onEnd = { updateState { it.copy(isLoading = false) } }
         )
-    }
-
-    private fun handleRegisterError(error: Throwable) {
-        updateState { it.copy(isLoading = false) }
-
-        when (error) {
-            is NetworkException -> {
-                setErrorState(
-                    emailError = Res.string.error_invalid_email,
-                )
-            }
-
-            is InternetConnectionException -> {
-                setErrorState(
-                    passwordError = Res.string.error_no_internet,
-                )
-            }
-
-            is UnknownException -> setErrorState(
-                passwordError = Res.string.error_unexpected
-            )
-
-            is InvalidEmailFormatException -> setErrorState(
-                emailError = Res.string.error_invalid_email_format
-            )
-
-            is InvalidPasswordException -> setErrorState(
-                passwordError = Res.string.error_invalid_password
-            )
-
-            else -> {
-                val unexpectedError = Res.string.error_unexpected
-                setErrorState(
-                    passwordError = unexpectedError
-                )
-            }
-        }
-    }
-
-    private fun setErrorState(
-        emailError: StringResource? = null,
-        passwordError: StringResource? = null,
-    ) {
-        updateState {
-            val updated = it.copy(
-                emailError = emailError,
-                passwordError = passwordError,
-            )
-            updated.copy()
-        }
-    }
-
-    private fun handleEquipmentsSuccess(tools: List<Equipment>) {
-        val equipments = tools.map { tool ->
-            RegisterScreenState.EquipmentUiState(
-                toolId = tool.id,
-                isSelected = false
-            )
-        }
-        updateState { it.copy(availableEquipments = equipments) }
     }
 
     private fun getEquipments() {
@@ -177,11 +116,13 @@ class RegisterViewModel(
                         isWorkoutReminderEnabled = !state.notificationSettings.isWorkoutReminderEnabled
                     )
                 }
+
                 is RegisterScreenState.NotificationType.Water -> {
                     state.notificationSettings.copy(
                         isWaterReminderEnabled = !state.notificationSettings.isWaterReminderEnabled
                     )
                 }
+
                 is RegisterScreenState.NotificationType.BodyWeight -> {
                     state.notificationSettings.copy(
                         isBodyWeightReminderEnabled = !state.notificationSettings.isBodyWeightReminderEnabled
@@ -323,6 +264,66 @@ class RegisterViewModel(
                 && state.userEmailInput.isNotEmpty()
                 && state.userPasswordInput.isNotEmpty()
                 && state.dateOfBirthInput.isNotEmpty()
+    }
+
+    private fun handleRegisterError(error: Throwable) {
+        updateState { it.copy(isLoading = false) }
+        val isUserAlreadyExists =
+            error is NetworkException && error.message?.contains(
+                "User already exists",
+                ignoreCase = true
+            ) == true
+
+        when {
+            error is NetworkException && error.message?.contains("User already exists", ignoreCase = true) == true -> {
+                setErrorState(emailError = Res.string.error_email_already_used)
+            }
+
+            error is NetworkException -> {
+                setErrorState(
+                    emailError = Res.string.error_invalid_email
+                )
+            }
+
+            error is InternetConnectionException -> {
+                setErrorState(passwordError = Res.string.error_no_internet)
+            }
+
+            error is UnknownException -> {
+                setErrorState(
+                    passwordError = Res.string.error_unexpected
+                )
+            }
+
+            error is InvalidEmailFormatException -> {
+                setErrorState(emailError = Res.string.error_invalid_email_format)
+            }
+
+            error is InvalidPasswordException -> {
+                setErrorState(
+                    passwordError = Res.string.error_invalid_password
+                )
+            }
+
+            else -> {
+                setErrorState(passwordError = Res.string.error_unexpected)
+            }
+        }
+
+    }
+
+
+    private fun setErrorState(
+        emailError: StringResource? = null,
+        passwordError: StringResource? = null,
+    ) {
+        updateState {
+            val updated = it.copy(
+                emailError = emailError,
+                passwordError = passwordError,
+            )
+            updated.copy()
+        }
     }
 
     companion object {
