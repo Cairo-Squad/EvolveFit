@@ -8,7 +8,7 @@ import com.cairosquad.evolvefit.domain.usecase.home.GetPersonalizedWorkoutsUseCa
 import com.cairosquad.evolvefit.domain.usecase.home.GetUserUseCase
 import com.cairosquad.evolvefit.domain.usecase.home.GetWeeklyProgressUseCase
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
-import com.cairosquad.evolvefit.domain.usecase.profile.ManageLanguageUseCase
+import com.cairosquad.evolvefit.domain.usecase.profile.ManagePreferencesUseCase
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.domain.usecase.report.ReportUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
@@ -23,11 +23,11 @@ val useCaseModule = module {
     singleOf(::ManageProfileUseCase)
     singleOf(::ManageNutritionUseCase)
     singleOf(::ManageEquipmentUseCase)
-    singleOf(::ManageLanguageUseCase)
-
     singleOf(::GetUserUseCase)
     singleOf(::GetWeeklyProgressUseCase)
     singleOf(::GetNutritionProgressUseCase)
     singleOf(::GetPersonalizedWorkoutsUseCase)
     singleOf(::ManageProfileUseCase)
+    singleOf(::ManagePreferencesUseCase)
+
 }

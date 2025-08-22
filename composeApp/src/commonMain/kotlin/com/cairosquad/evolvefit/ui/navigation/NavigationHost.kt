@@ -41,6 +41,7 @@ fun NavigationHost(
     authenticationPreferences: AuthenticationPreferences = koinInject(), // TODO: Replace with isUserLoggedIn: Boolean
     deepLinkRoute: Any? = null
 ) {
+
     val isUserLoggedIn = authenticationPreferences.getAccessToken().isNullOrBlank().not()
     val startDestination = if (isUserLoggedIn) NavBarRoute.Home else OnboardingRoute
 
@@ -145,9 +146,7 @@ fun NavigationHost(
             MoreScreen(
                 navigateToFavorites = { navController.navigate(FavoritesScreenRoute) },
                 navigateToNotificationSettings = { },
-                onThemeChanged = { },
                 onLogout = {
-                    authenticationPreferences.clear() // TODO: remove, logout logic is not the responsibility of the nav host
                     navController.navigate(LoginRoute) {
                         popUpTo(OnboardingRoute) { inclusive = true }
                         launchSingleTop = true

@@ -1,34 +1,31 @@
 package com.cairosquad.evolvefit.ui.screen.more
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
 import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
 import com.cairosquad.evolvefit.ui.screen.more.content.MoreScreenContent
-import com.cairosquad.evolvefit.ui.util.LanguageManager
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
-import com.cairosquad.evolvefit.ui.util.recreateCurrentScreen
 import com.cairosquad.evolvefit.viewmodel.more.MoreEffect
-import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import com.cairosquad.evolvefit.viewmodel.more.MoreViewModel
-import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MoreScreen(
     navigateToFavorites: () -> Unit,
     navigateToNotificationSettings: () -> Unit,
-    onThemeChanged: (MoreScreenState.Theme) -> Unit,
     onLogout: () -> Unit,
     navigateToEditProfile: () -> Unit,
     onSelectNavBarRoute: (navBarRoute: NavBarRoute) -> Unit,
     viewModel: MoreViewModel = koinViewModel(),
     ) {
     val state by viewModel.screenState.collectAsState()
-    val languageManager = koinInject<LanguageManager>()
 
-
+    LaunchedEffect(key1 = true){
+        viewModel.onReturnToScreen()
+    }
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
             is MoreEffect.NavigateToFavorites -> {
@@ -36,13 +33,6 @@ fun MoreScreen(
             }
             is MoreEffect.NavigateToNotificationSettings -> {
                 navigateToNotificationSettings()
-            }
-            is MoreEffect.ChangeLanguage -> {
-                languageManager.applyLanguage(effect.language)
-                recreateCurrentScreen()
-            }
-            is MoreEffect.ChangeTheme -> {
-                onThemeChanged(effect.theme)
             }
             is MoreEffect.Logout -> {
                 onLogout()

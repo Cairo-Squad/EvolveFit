@@ -3,8 +3,8 @@ package com.cairosquad.evolvefit.repository.profile
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.repository.ProfileRepository
 import com.cairosquad.evolvefit.repository.execption.callDataSource
-import com.cairosquad.evolvefit.repository.profile.remote.toProfilePostDto
 import com.cairosquad.evolvefit.repository.profile.remote.RemoteProfileDataSource
+import com.cairosquad.evolvefit.repository.profile.remote.toProfileRequest
 
 class ProfileRepositoryImpl(
     private val remoteProfileDataSource: RemoteProfileDataSource
@@ -14,7 +14,7 @@ class ProfileRepositoryImpl(
     }
 
     override suspend fun editProfile(profile: Profile): Profile {
-        return callDataSource { remoteProfileDataSource.editProfile(profile.toProfilePostDto()).toEntity() }
+        return callDataSource { remoteProfileDataSource.editProfile(profile.toProfileRequest()).toEntity() }
     }
 
     override suspend fun uploadProfileImage(

@@ -28,10 +28,9 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun LanguageBottomSheetContent(
     state: MoreScreenState,
-    onConfirm: (selectedLanguage: Language) -> Unit
+    onConfirm: (selectedLanguage: Language) -> Unit,
+    onSelectLanguage: (selectedLanguage: Language) -> Unit
 ) {
-    var tempSelectedLanguage by remember { mutableStateOf(state.profile.preferredLanguage) }
-
     Column(
         modifier = Modifier.padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -55,17 +54,17 @@ fun LanguageBottomSheetContent(
         }
         CheckboxItem(
             text = stringResource(Res.string.english),
-            isChecked = tempSelectedLanguage == Language.ENGLISH,
-            onCheckedChange = { tempSelectedLanguage = Language.ENGLISH }
+            isChecked = state.isEnglishChecked,
+            onCheckedChange = { onSelectLanguage(Language.ENGLISH) }
         )
         CheckboxItem(
             text = stringResource(Res.string.arabic),
-            isChecked = tempSelectedLanguage == Language.ARABIC,
-            onCheckedChange = { tempSelectedLanguage = Language.ARABIC }
+            isChecked = state.isEnglishChecked.not(),
+            onCheckedChange = { onSelectLanguage(Language.ARABIC) }
         )
         PrimaryButton(
             text = stringResource(Res.string.confirm),
-            onClick = { onConfirm(tempSelectedLanguage) },
+            onClick = { onConfirm(if(state.isEnglishChecked) Language.ENGLISH else Language.ARABIC) },
             modifier = Modifier.padding(bottom = 16.dp, top = 38.dp),
             isEnabled = true,
             enabledTextColor = Theme.color.brand.onPrimary,

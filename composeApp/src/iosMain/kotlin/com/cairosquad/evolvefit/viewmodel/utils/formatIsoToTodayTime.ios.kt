@@ -1,20 +1,48 @@
 package com.cairosquad.evolvefit.viewmodel.utils
 
-import kotlinx.datetime.*
-import platform.Foundation.*
+import platform.Foundation.NSCalendar
+import platform.Foundation.NSCalendarUnitDay
+import platform.Foundation.NSDate
+import platform.Foundation.NSDateFormatter
+import platform.Foundation.NSLocale
+import platform.Foundation.NSTimeZone
+import platform.Foundation.currentLocale
+import platform.Foundation.languageCode
+import platform.Foundation.localTimeZone
 
 actual fun formatIsoToTodayTime(isoString: String): String {
     val locale = NSLocale.currentLocale
-    val dateFormatter = NSDateFormatter().apply {
-        dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        this.locale = NSLocale(localeIdentifier = "en_US_POSIX")
-        timeZone = NSTimeZone.timeZoneForSecondsFromGMT(0)
-    }
-
-    val date = dateFormatter.dateFromString(isoString) ?: return isoString
-    val calendar = NSCalendar.currentCalendar
+    val date = parseIsoDate(isoString, locale) ?: return isoString
     val now = NSDate()
 
+    val relativeDay = getRelativeDayLabel(date, now, locale)
+    val timeStr = formatTime(date, locale)
+
+    return "$relativeDay, $timeStr"
+}
+
+private fun makeFormatter(
+    pattern: String,
+    locale: NSLocale,
+    timeZone: NSTimeZone = NSTimeZone.localTimeZone
+): NSDateFormatter {
+    return NSDateFormatter().apply {
+        dateFormat = pattern
+        this.locale = locale
+        this.timeZone = timeZone
+    }
+}
+
+private fun parseIsoDate(isoString: String, locale: NSLocale): NSDate? {
+    val mainFormatter =
+        makeFormatter("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ", NSLocale(localeIdentifier = "en_US_POSIX"))
+    val fallbackFormatter =
+        makeFormatter("yyyy-MM-dd'T'HH:mm:ssZZZZZ", NSLocale(localeIdentifier = "en_US_POSIX"))
+    return mainFormatter.dateFromString(isoString) ?: fallbackFormatter.dateFromString(isoString)
+}
+
+private fun getRelativeDayLabel(date: NSDate, now: NSDate, locale: NSLocale): String {
+    val calendar = NSCalendar.currentCalendar
     val dayDiff = calendar.components(
         NSCalendarUnitDay,
         fromDate = date,
@@ -22,27 +50,18 @@ actual fun formatIsoToTodayTime(isoString: String): String {
         options = 0u
     ).day
 
-    val relativeDay = when (dayDiff) {
+    return when (dayDiff) {
         0L -> if (locale.languageCode == "ar") "اليوم" else "Today"
         -1L -> if (locale.languageCode == "ar") "أمس" else "Yesterday"
-        else -> {
-            val outFormatter = NSDateFormatter().apply {
-                dateFormat = "MMM dd, yyyy"
-                this.locale = locale
-            }
-            outFormatter.stringFromDate(date)
-        }
+        in -6..-2 -> makeFormatter("EEEE", locale).stringFromDate(date)
+        else -> makeFormatter("MMM dd, yyyy", locale).stringFromDate(date)
     }
+}
 
-    val timeFormatter = NSDateFormatter().apply {
-        dateFormat = "hh:mm a"
-        this.locale = locale
-    }
-    val timeStr = timeFormatter.stringFromDate(date)
-
-    return "$relativeDay، $timeStr"
+private fun formatTime(date: NSDate, locale: NSLocale): String {
+    return makeFormatter("hh:mm a", locale).stringFromDate(date)
 }
 
 actual fun getCurrentLocale(): String {
-    return NSLocale.currentLocale.languageCode ?: "en"
+    return NSLocale.currentLocale.languageCode
 }

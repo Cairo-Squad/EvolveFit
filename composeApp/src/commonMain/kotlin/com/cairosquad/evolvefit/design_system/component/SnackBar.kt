@@ -9,7 +9,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -53,6 +52,7 @@ fun SnackBar(
     paddingBottom: Dp = 12.dp,
     isUndo: Boolean = false,
     icon: Painter = painterResource(Res.drawable.ic_green_check_circle),
+    iconTint : Color = Color.Unspecified,
     backgroundColor: Color = Theme.color.surfaces.surface,
     textColor: Color = Theme.color.surfaces.onSurface,
     textStyle: TextStyle = Theme.textStyle.label.mediumMedium14,
@@ -95,7 +95,7 @@ fun SnackBar(
                 modifier = Modifier.padding(end = 8.dp),
                 painter = icon,
                 contentDescription = null,
-                tint = Color.Unspecified
+                tint = iconTint
             )
             Text(
                 modifier = Modifier

@@ -26,8 +26,8 @@ class ManageNutritionUseCase(private val nutritionRepository: NutritionRepositor
         return nutritionRepository.deleteFavouriteMeal(mealId)
     }
 
-    suspend fun getMealHistory(): List<ConsumedMeal> {
-        return nutritionRepository.getMealHistory()
+    suspend fun getMealHistory(startDate: String, endDate: String): List<ConsumedMeal> {
+        return nutritionRepository.getMealHistory(startDate,endDate)
     }
 
     suspend fun getConsumedMealsByDate(startDate: String, endDate: String): List<ConsumedMeal> {

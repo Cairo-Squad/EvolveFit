@@ -1,9 +1,11 @@
 package com.cairosquad.evolvefit.ui.screen.workout
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -29,8 +31,9 @@ import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
+import com.cairosquad.evolvefit.ui.component.RefreshBox
 import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
+import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutEffect
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutInteractionListener
@@ -38,8 +41,10 @@ import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.community
+import evolvefit.composeapp.generated.resources.create_workout_title_
 import evolvefit.composeapp.generated.resources.ic_group
 import evolvefit.composeapp.generated.resources.ic_plus
+import evolvefit.composeapp.generated.resources.workouts
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -79,7 +84,10 @@ private fun WorkoutsScreenContent(
     state: WorkoutScreenState,
     listener: WorkoutInteractionListener
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    RefreshBox(
+        isRefreshing = state.isRefreshing,
+        onRefresh = listener::onRefresh
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -94,36 +102,69 @@ private fun WorkoutsScreenContent(
             FocusAreaFilter(
                 focusArea = WorkoutScreenState.FocusAreaUiState.entries,
                 selectedFocusArea = state.selectedFocusArea,
-                onSelectFocusArea = listener::onSelectFocusArea
+                onSelectFocusArea = listener::onFocusAreaSelected
             )
 
-            Workouts(
-                workouts = state.allWorkouts,
-                onClickWorkout = listener::onWorkoutClicked
-            )
+            Crossfade(
+                targetState = state.screenStatus,
+                animationSpec = tween(
+                    durationMillis = 400,
+                    easing = FastOutSlowInEasing
+                )
+            ) { status ->
+                when (status) {
+                    WorkoutScreenState.ScreenStatus.SUCCESS -> {
+                        Workouts(
+                            workouts = state.allWorkouts,
+                            onClickWorkout = listener::onWorkoutClicked
+                        )
+                    }
 
+                    WorkoutScreenState.ScreenStatus.LOADING -> {
+                        WorkoutsLoadingScreen()
+                    }
+
+                    WorkoutScreenState.ScreenStatus.FAIL -> {
+                        WorkoutsErrorScreen(
+                            message = state.errorMessage ?: "Something went wrong",
+                            onRetry = listener::onRetryClicked
+                        )
+                    }
+                }
+            }
         }
-        FloatingActionButton(
-            onClick = listener::onAddWorkoutClicked,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(24.dp),
-            containerColor = Theme.color.brand.primary,
-            shape = CircleShape
-        ) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_plus),
-                contentDescription = "Create Workout",
-                modifier = Modifier.padding(12.dp).size(24.dp)
+        if (state.screenStatus == WorkoutScreenState.ScreenStatus.SUCCESS) {
+            AddWorkoutBtn(
+                modifier = Modifier.padding(24.dp).align(Alignment.BottomEnd),
+                listener::onAddWorkoutClicked
             )
         }
     }
 }
 
 @Composable
+fun AddWorkoutBtn(
+    modifier: Modifier = Modifier,
+    onClickAddWorkout: () -> Unit
+) {
+    FloatingActionButton(
+        onClick = onClickAddWorkout,
+        modifier = modifier,
+        containerColor = Theme.color.brand.primary,
+        shape = CircleShape,
+    ) {
+        Icon(
+            painter = painterResource(Res.drawable.ic_plus),
+            contentDescription = stringResource(Res.string.create_workout_title_),
+            modifier = Modifier.padding(12.dp).size(24.dp)
+        )
+    }
+}
+
+@Composable
 private fun AppBar(onCommunityClick: () -> Unit) {
     CustomAppBar(
-        title = "Workouts",
+        title = stringResource(Res.string.workouts),
         tail = {
             ActionIconButton(
                 icon = painterResource(Res.drawable.ic_group),
@@ -152,7 +193,7 @@ private fun Workouts(
                     .clickable { onClickWorkout(workout.id) },
                 title = workout.title,
                 duration = workout.duration,
-                focusArea = workout.focusArea.name,
+                focusArea = stringResource(workout.focusArea.nameResId),
                 model = workout.imageUrl,
             )
         }
@@ -173,7 +214,7 @@ private fun FocusAreaFilter(
         items(focusArea.size) { index ->
             val area = focusArea[index]
             Chip(
-                title = area.name,
+                title = stringResource(area.nameResId),
                 isSelected = selectedFocusArea == area,
                 onClick = { onSelectFocusArea(area) }
             )

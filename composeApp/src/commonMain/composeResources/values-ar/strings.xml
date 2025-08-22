@@ -37,6 +37,8 @@
     <string name="seconds">ثانية</string>
     <string name="placeholder_image">صورة نائبة</string>
     <string name="meal_image">صورة وجبة</string>
+    <string name="meal_added_to_your_favourites">تمت إضافة الوجبة الى المفضلة </string>
+    <string name="failed_to_add_meal_your_favourites">تعذر إضافة الوجبة الى المفضلة</string>
     <string name="calories_icon">ايقونة كالوريز</string>
     <string name="kcal">كالوريز</string>
     <string name="calories">السعرات الحرارية</string>
@@ -203,6 +205,8 @@
     <string name="failed_to_load_equipments">فشل في تحميل المعدات</string>
     <string name="failed_to_load_user_profile">فشل في تحميل حساب المستخدم</string>
     <string name="failed_to_update_user_profile_image">فشل في تحديث صورة المستخدم</string>
+    <string name="failed_to_update_user_profile">فشل في تحديث حساب المستخدم</string>
+    <string name="failed_to_logout">فشل في تسجيل الخروج</string>
     <string name="failed_to_load_user_equipments">فشل في تحميل معدات المستخدم</string>
     <string name="community">المجتمع</string>
     <string name="birth">تاريخ الميلاد</string>
@@ -294,8 +298,8 @@
     <string name="logout_message">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
     <string name="choose_theme">اختر النمط</string>
     <string name="theme_description">اختر المظهر الذي تفضله للتطبيق.</string>
-    <string name="dark_mode">الوضع الداكن</string>
-    <string name="light_mode">الوضع الفاتح</string>
+    <string name="dark_mode">داكن</string>
+    <string name="light_mode">فاتح</string>
     <string name="account">الحساب</string>
     <string name="favorites">المفضلة</string>
     <string name="notification_settings">إعدادات الإشعارات</string>
@@ -323,6 +327,7 @@
     <string name="saturday_short">السبت</string>
     <string name="sunday_short">الأحد</string>
 
+    <string name="all">الكل</string>
     <string name="back_muscle">الظهر</string>
     <string name="legs">الساقين</string>
     <string name="shoulders">الكتفين</string>

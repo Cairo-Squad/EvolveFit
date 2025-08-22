@@ -35,11 +35,11 @@ val viewModelModule = module {
     viewModelOf(::CreateWorkoutViewModel)
     viewModelOf(::ReportViewModel)
     viewModelOf(::EditProfileViewModel)
-    viewModelOf(::MoreViewModel)
     viewModelOf(::SuggestedMealsViewModel)
     viewModelOf(::FavoritesViewModel)
     viewModelOf(::MoreViewModel)
     viewModelOf(::WorkoutHistoryViewModel)
+    viewModelOf(::MoreViewModel)
     viewModelOf(::MealDetailsViewModel)
 
     viewModel { (workoutId: String) ->

@@ -126,7 +126,7 @@ fun MoreScreenContent(
                     .clip(RoundedCornerShape(8.dp))
                     .clickable { listener.onLanguageClicked() },
                 icon = Res.drawable.earth,
-                text = if (state.profile.preferredLanguage == Language.ENGLISH) stringResource(Res.string.english) else stringResource(
+                text = if (state.currentLanguage == Language.ENGLISH) stringResource(Res.string.english) else stringResource(
                     Res.string.arabic
                 ),
                 title = stringResource(Res.string.language)
@@ -147,7 +147,8 @@ fun MoreScreenContent(
                 state = state,
                 onConfirm = { selectedTheme ->
                     listener.onConfirmChangeTheme(selectedTheme)
-                }
+                },
+                listener::onSelectTheme
             )
         }
         BottomSheet(
@@ -156,7 +157,8 @@ fun MoreScreenContent(
         ) {
             LanguageBottomSheetContent(
                 state = state,
-                onConfirm = { selectedLanguage -> listener.onConfirmChangeLanguage(selectedLanguage) }
+                onConfirm = { selectedLanguage -> listener.onConfirmChangeLanguage(selectedLanguage) },
+                onSelectLanguage = listener::onSelectLanguage
             )
         }
         BottomSheet(
