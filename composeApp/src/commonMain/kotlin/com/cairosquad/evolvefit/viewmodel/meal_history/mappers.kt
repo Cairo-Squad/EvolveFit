@@ -19,7 +19,7 @@ fun MealType.toMealHistoryType(): MealHistoryScreenState.MealType {
     return when (this) {
         MealType.BREAKFAST -> MealHistoryScreenState.MealType.Breakfast
         MealType.LUNCH -> MealHistoryScreenState.MealType.Lunch
-        MealType.SNACKS -> MealHistoryScreenState.MealType.Snacks
+        MealType.SNACK -> MealHistoryScreenState.MealType.Snacks
         MealType.DINNER -> MealHistoryScreenState.MealType.Dinner
     }
 }

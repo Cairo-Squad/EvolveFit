@@ -4,5 +4,5 @@ enum class MealType {
     BREAKFAST,
     LUNCH,
     DINNER,
-    SNACKS
+    SNACK
 }
