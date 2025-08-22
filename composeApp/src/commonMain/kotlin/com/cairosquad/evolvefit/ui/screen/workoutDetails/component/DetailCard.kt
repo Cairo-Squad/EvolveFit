@@ -41,7 +41,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun DetailsCardsRow(
     level: WorkoutDetailsScreenState.WorkoutLevel,
     exercisesNumber: Int,
-    estimatedTimeInSeconds: Int,
+    estimatedTimeInSeconds: Int?,
     modifier: Modifier = Modifier
 ) {
     Row(
