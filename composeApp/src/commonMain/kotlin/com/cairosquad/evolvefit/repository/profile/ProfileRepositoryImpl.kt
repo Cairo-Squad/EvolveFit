@@ -14,7 +14,9 @@ class ProfileRepositoryImpl(
     }
 
     override suspend fun editProfile(profile: Profile): Profile {
-        return callDataSource { remoteProfileDataSource.editProfile(profile.toProfileRequest()).toEntity() }
+        return callDataSource {
+            remoteProfileDataSource.editProfile(profile.toProfileRequest())
+        }.toEntity()
     }
 
     override suspend fun uploadProfileImage(

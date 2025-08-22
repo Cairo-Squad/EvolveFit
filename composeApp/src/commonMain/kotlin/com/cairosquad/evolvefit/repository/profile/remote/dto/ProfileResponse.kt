@@ -10,6 +10,7 @@ import com.cairosquad.evolvefit.repository.profile.remote.getMeasurementStandard
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.datetime.LocalDate
+
 @Serializable
 data class ProfileResponse(
     @SerialName("name")
