@@ -59,7 +59,7 @@ fun ImageCarousel(
             .height(200.dp)
     ) {
         NetworkImage(
-            model = images.firstOrNull() ?: "",
+            model = images.getOrNull(currentIndex) ?: "",
             contentDescription = stringResource(Res.string.exercise_image),
             modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)),
         )

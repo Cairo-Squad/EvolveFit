@@ -26,6 +26,9 @@ fun Exercise.toUiState(): PlayWorkoutScreenState.ExerciseUiState {
             is Exercise.Specification.Time -> {
                 PlayWorkoutScreenState.ExerciseSpecUiState.Time(this.specification.timeInSeconds)
             }
-        }
+        },
+        focusAreas = focusAreas.map { it.name }.toSet(),
+        instructions = instructions,
+        equipment = equipment.name
     )
 }

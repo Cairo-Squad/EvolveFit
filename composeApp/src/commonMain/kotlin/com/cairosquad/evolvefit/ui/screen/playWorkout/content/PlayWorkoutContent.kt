@@ -19,10 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.SecondaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.component.ExerciseDetailsBottomSheet
 import com.cairosquad.evolvefit.ui.util.noRippleClickable
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState
@@ -82,8 +82,7 @@ fun PlayWorkoutContent(
         ExerciseInfoBottomSheet(
             isVisible = screenState.showExerciseInfo,
             exercise =
-                screenState.workout.exercises.getOrNull(screenState.currentStep - 1)
-                    ?: PlayWorkoutScreenState.ExerciseUiState(),
+                screenState.getCurrentExercise(),
             onDismiss = listener::onDismissExerciseInfo
         )
     }
@@ -96,30 +95,16 @@ private fun ExerciseInfoBottomSheet(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    BottomSheet(
-        modifier = modifier,
+    ExerciseDetailsBottomSheet(
+        name = exercise.name,
+        images = exercise.imageUrls,
+        instructions = exercise.instructions,
+        equipment = exercise.equipment,
+        focusAreas = exercise.focusAreas,
         isVisible = isVisible,
-        onDismiss = onDismiss
-    ) {
-        Text(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(bottom = 16.dp),
-            text = exercise.name,
-            style = Theme.textStyle.display.largeBold24,
-            color = Theme.color.surfaces.textColor,
-            textAlign = TextAlign.Center
-        )
-        Text(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(bottom = 16.dp),
-            text = "TODO: Exercise Info",
-            style = Theme.textStyle.display.largeBold24,
-            color = Theme.color.surfaces.textColor,
-            textAlign = TextAlign.Center
-        )
-    }
+        onDismiss = onDismiss,
+        modifier = modifier
+    )
 }
 
 
