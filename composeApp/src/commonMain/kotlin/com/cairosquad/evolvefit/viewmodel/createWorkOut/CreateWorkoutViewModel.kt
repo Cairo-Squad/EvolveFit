@@ -21,17 +21,12 @@ class CreateWorkoutViewModel(
     }
 
     private fun pushWorkoutImage(id: String) {
-        println(">>> pushWorkoutImage called with id=$id")
         val image = screenState.value.image ?: run {
-            println(">>> No image found in state")
             return
         }
-        println(">>> Found image in state, going to upload...")
-
         tryToCall(
             block = {
                 val imageFileData = image.asByteArray()
-                println(">>> Converted image to bytes, uploading...")
                 manageWorkoutUseCase.uploadWorkoutImage(
                     imageFileData.bytes,
                     imageFileData.fileName,
@@ -39,12 +34,9 @@ class CreateWorkoutViewModel(
                 )
             },
             onSuccess = { imageUrl ->
-                println(">>> Workout image uploaded successfully: $imageUrl")
                 updateState { it.copy(image = UiImage.ImageUrl(imageUrl)) }
             },
-            onError = {
-                println(">>> Workout image upload failed: $it")
-            }
+            onError = {}
         )
     }
 
@@ -159,9 +151,7 @@ class CreateWorkoutViewModel(
     }
 
     private fun handleWorkoutSuccess(createWorkout: Workout) {
-        println(">>> Workout created successfully with id=${createWorkout.id}")
         updateState { it.copy(status = CreateWorkOutScreenState.ScreenStatus.SUCCESS) }
-        println(">>> pushWorkoutImage SHOULD have been called here")
         pushWorkoutImage(createWorkout.id)
         sendEffect(CreateWorkOutEffect.NavigateToWorkouts)
     }
@@ -184,16 +174,13 @@ class CreateWorkoutViewModel(
         tryToCall(
             block = { manageWorkoutUseCase.createWorkOut(workout) },
             onSuccess = { createdWorkout ->
-                println(">>> Workout created successfully with id=${createdWorkout.id}")
                 handleWorkoutSuccess(createdWorkout)
                 pushWorkoutImage(createdWorkout.id)
             },
             onError = {
-                println(">> Workout> creation failed: $it")
                 handleWorkoutError(it)
             },
             onStart = {
-                println(">>> Creating workout started...")
                 handleWorkoutLoading()
             }
         )
