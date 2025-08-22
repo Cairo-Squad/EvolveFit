@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.design_system.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -37,6 +37,12 @@ fun WorkoutCard(
     model: String,
     modifier: Modifier = Modifier,
 ) {
+    val descriptionTextColor =
+        if (model.isNotBlank() || model.isNotEmpty())
+            Theme.color.surfaces.textColor
+        else
+            Theme.color.surfaces.onSurfaceContainer
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -64,36 +70,40 @@ fun WorkoutCard(
                     .background(Theme.color.brand.primary)
             )
             Column(
-                modifier = Modifier.weight(1f).padding(start = 12.dp, top = 4.dp, bottom = 4.dp)
-                    .fillMaxHeight()
+                modifier = Modifier.weight(1f).padding(
+                    start = 12.dp,
+                ), verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    modifier = Modifier.weight(1f),
                     text = title,
                     style = Theme.textStyle.title.largeBold16,
-                    color = Theme.color.brand.primary
+                    color = Theme.color.brand.primary,
+                    maxLines = 1,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                 )
                 Row(
-                    modifier = Modifier.padding(top = 8.dp)
-                        .wrapContentHeight().weight(1f),
+                    modifier = Modifier.padding(top = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         duration,
                         style = Theme.textStyle.label.smallRegular12,
-                        color = Theme.color.surfaces.textColor
+                        color = descriptionTextColor, maxLines = 1,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                     )
                     Box(
                         modifier = Modifier
                             .padding(horizontal = 8.dp)
                             .fillMaxHeight()
                             .width(1.dp)
-                            .background(Theme.color.surfaces.textColor)
+                            .background(descriptionTextColor)
                     )
                     Text(
                         focusArea,
                         style = Theme.textStyle.label.smallRegular12,
-                        color = Theme.color.surfaces.textColor
+                        color = descriptionTextColor,
+                        maxLines = 1,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                     )
                 }
             }
