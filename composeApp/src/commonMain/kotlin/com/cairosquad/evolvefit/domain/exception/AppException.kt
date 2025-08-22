@@ -1,5 +1,7 @@
 package com.cairosquad.evolvefit.domain.exception
 
+import com.cairosquad.evolvefit.domain.model.FieldType
+
 sealed class AppException(message: String = "") : RuntimeException(message)
 
 class NetworkException(message: String = "") : AppException(message)
@@ -17,21 +19,23 @@ class InvalidPasswordException(message: String = "") : AppException(message)
 class TimeoutException(message: String = "") : AppException(message)
 
 open class NutritionException(
-    message: String = "Nutrition error",
+    message: String = "",
 ) : AppException(message)
 
 class ExceededCaloriesException(
-    message: String = "Not enough remaining calories",
+    message: String = "",
 ) : NutritionException(message)
 
 class ExceededWaterLimitException(
-    message: String = "Not enough remaining water allowance",
+    message: String = "",
 ) : NutritionException(message)
 
 class MealNotFoundException(
-    message: String = "Meal not found",
+    message: String = "",
 ) : NutritionException(message)
-
-class InvalidNumberFormatException(
-    message: String = "Only numbers and decimal point are allowed",
-) : AppException(message)
+open class FieldException(
+    val field: FieldType
+) : Exception()
+class InvalidNumberFormatException(field: FieldType) : FieldException(field)
+class NumberTooLargeException(field: FieldType) : FieldException(field)
+class LengthTooLargeException(field: FieldType) : FieldException(field)

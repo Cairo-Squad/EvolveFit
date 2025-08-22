@@ -1,14 +1,13 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
-import androidx.compose.runtime.Composable
 import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
 import com.cairosquad.evolvefit.domain.entity.Profile.Gender
 import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.domain.model.WeekDay
+import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState
 import kotlinx.datetime.LocalDate
-import org.jetbrains.compose.resources.stringResource
 
 fun RegisterScreenState.WeekDayUiState.toDomain(): WeekDay {
     return when (this) {
@@ -73,5 +72,11 @@ fun dateUiStateToDomain(date: String): LocalDate {
     }
 }
 
+fun Equipment.toUiState(): RegisterScreenState.EquipmentUiState {
+    return RegisterScreenState.EquipmentUiState(
+        toolId = this.id,
+        toolName = this.name
+    )
+}
 
 

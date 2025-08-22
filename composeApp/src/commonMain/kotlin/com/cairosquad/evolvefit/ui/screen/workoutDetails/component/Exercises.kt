@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.ExerciseCard
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.exercises
 import org.jetbrains.compose.resources.stringResource
@@ -49,7 +49,7 @@ fun Exercises(
             ExerciseCard(
                 title = exercise.name,
                 time = "",
-                model = exercise.images.first(),
+                model = exercise.images.firstOrNull() ?: "https://res.cloudinary.com/dqd5lvkpz/image/upload/v1755339912/evolveFit/images/workouts/9535374f-1307-44d8-b7a6-3f072c924514-1755339911.png",
                 modifier = Modifier
                     .clickable { onExerciseClick(exercise) },
                 measurementContent = {

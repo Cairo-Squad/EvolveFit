@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.viewmodel.register
 
 import com.cairosquad.evolvefit.domain.model.WeekDay
+import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.friday
@@ -27,7 +28,7 @@ data class RegisterScreenState(
     val notificationSettings: NotificationSettings = NotificationSettings(),
     val selectedWeekDayUiState: Set<WeekDayUiState> = emptySet(),
     val isNoEquipmentSelected: Boolean = false,
-    val availableEquipments: List<EquipmentUiState> = emptyList(),
+    val availableEquipments: Set<EquipmentUiState> = emptySet(),
     val selectedEquipments: Set<Int> = emptySet(),
     val isLoading: Boolean = false,
     val errorMessage: String? = null,

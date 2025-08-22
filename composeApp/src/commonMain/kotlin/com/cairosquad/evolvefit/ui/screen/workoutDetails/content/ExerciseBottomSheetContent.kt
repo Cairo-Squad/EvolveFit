@@ -15,7 +15,7 @@ import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.component.ImageCarousel
-import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.bullet_point
 import evolvefit.composeapp.generated.resources.close
@@ -124,14 +124,12 @@ fun ExerciseBottomSheetContent(
 @Composable
 private fun focusAreasToStrings(focusAreas: WorkoutDetailsScreenState.FocusArea): String {
     return when (focusAreas) {
-        WorkoutDetailsScreenState.FocusArea.QUADRICEPS -> stringResource(Res.string.focus_quadriceps)
-        WorkoutDetailsScreenState.FocusArea.ABS -> stringResource(Res.string.focus_abs)
-        WorkoutDetailsScreenState.FocusArea.CALVES -> stringResource(Res.string.focus_calves)
-        WorkoutDetailsScreenState.FocusArea.LOWER_BACK -> stringResource(Res.string.focus_lower_back)
         WorkoutDetailsScreenState.FocusArea.CORE -> stringResource(Res.string.focus_core)
         WorkoutDetailsScreenState.FocusArea.SHOULDERS -> stringResource(Res.string.focus_shoulders)
-        WorkoutDetailsScreenState.FocusArea.FULL_BODY -> stringResource(Res.string.focus_full_body)
-
+        WorkoutDetailsScreenState.FocusArea.BACK -> stringResource(Res.string.focus_lower_back)
+        WorkoutDetailsScreenState.FocusArea.LEGS -> stringResource(Res.string.focus_calves)
+        WorkoutDetailsScreenState.FocusArea.ARMS -> stringResource(Res.string.focus_abs)
+        WorkoutDetailsScreenState.FocusArea.CHEST -> stringResource(Res.string.focus_quadriceps)
     }
 }
 
@@ -152,7 +150,7 @@ fun ExerciseBottomSheetContentPreview() {
         type = WorkoutDetailsScreenState.ExerciseType.Reps(count = 12),
         equipment = "Barbell",
         focusAreas = listOf(
-            WorkoutDetailsScreenState.FocusArea.QUADRICEPS,
+            WorkoutDetailsScreenState.FocusArea.SHOULDERS,
             WorkoutDetailsScreenState.FocusArea.CORE
         )
     )

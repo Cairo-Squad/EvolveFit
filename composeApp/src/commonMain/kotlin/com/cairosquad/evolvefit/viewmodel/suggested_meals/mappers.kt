@@ -21,6 +21,6 @@ fun MealType.toMealUiState(): SuggestedMealsScreenState.MealTypeUiState {
         MealType.BREAKFAST -> SuggestedMealsScreenState.MealTypeUiState.Breakfast
         MealType.LUNCH ->  SuggestedMealsScreenState.MealTypeUiState.Lunch
         MealType.DINNER ->SuggestedMealsScreenState.MealTypeUiState.Dinner
-        MealType.SNACKS -> SuggestedMealsScreenState.MealTypeUiState.Snacks
+        MealType.SNACK -> SuggestedMealsScreenState.MealTypeUiState.Snacks
     }
 }

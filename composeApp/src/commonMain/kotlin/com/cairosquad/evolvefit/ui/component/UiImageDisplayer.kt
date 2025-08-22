@@ -18,7 +18,7 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun UiImageDisplayer(
-    image: UiImage,
+    image: UiImage?,
     contentDescription: String,
     defaultImageSize: Dp = 32.dp,
     modifier: Modifier = Modifier,
@@ -55,6 +55,8 @@ fun UiImageDisplayer(
                 modifier = Modifier.size(defaultImageSize)
             )
         }
+
+        null -> {}
     }
 }
 

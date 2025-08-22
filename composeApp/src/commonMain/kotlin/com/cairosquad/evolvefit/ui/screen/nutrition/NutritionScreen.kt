@@ -30,14 +30,14 @@ import com.cairosquad.evolvefit.design_system.component.StateMessage
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.RefreshBox
-import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
 import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
-import com.cairosquad.evolvefit.ui.screen.nutrition.component.NutritionLoadingScreen
-import com.cairosquad.evolvefit.ui.screen.nutrition.component.SeeAll
+import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.MealHistoryItem
-import com.cairosquad.evolvefit.ui.screen.nutrition.component.NutritionHeader
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.MealTypeDropdownMenu
+import com.cairosquad.evolvefit.ui.screen.nutrition.component.NutritionHeader
+import com.cairosquad.evolvefit.ui.screen.nutrition.component.NutritionLoadingScreen
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.NutritionSummaryCard
+import com.cairosquad.evolvefit.ui.screen.nutrition.component.SeeAll
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.SuggestedMeals
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.TodayMealsSummary
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
@@ -100,60 +100,66 @@ private fun NutritionContent(
     state: NutritionScreenState,
     listener: NutritionInteractionListener,
 ) {
-        RefreshBox(
-            isRefreshing = state.isRefreshing,
-            onRefresh = { listener.onRefresh() }
+    RefreshBox(
+        isRefreshing = state.isRefreshing,
+        onRefresh = { listener.onRefresh() }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Theme.color.surfaces.surface)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Theme.color.surfaces.surface)
+            NutritionHeader()
+            Crossfade(
+                targetState = state.screenStatus,
+                animationSpec = tween(
+                    durationMillis = 400,
+                    easing = FastOutSlowInEasing
+                )
             ) {
-                NutritionHeader()
-                Crossfade(
-                    targetState = state.screenStatus,
-                    animationSpec = tween(
-                        durationMillis = 400,
-                        easing = FastOutSlowInEasing
-                    )
-                ) {
-                    when (state.screenStatus) {
-                        NutritionScreenState.ScreenStatus.SUCCESS -> {
-                           NutritionSuccessScreen(state,listener)
-                        }
-                        NutritionScreenState.ScreenStatus.LOADING -> {
-                            NutritionLoadingScreen()
-                        }
-                        NutritionScreenState.ScreenStatus.FAIL -> {
-                           NutritionErrorScreen { listener.onRetryClicked() }
-                        }
+                when (state.screenStatus) {
+                    NutritionScreenState.ScreenStatus.SUCCESS -> {
+                        NutritionSuccessScreen(state, listener)
+                    }
+
+                    NutritionScreenState.ScreenStatus.LOADING -> {
+                        NutritionLoadingScreen()
+                    }
+
+                    NutritionScreenState.ScreenStatus.FAIL -> {
+                        NutritionErrorScreen { listener.onRetryClicked() }
                     }
                 }
             }
-            if (state.screenStatus == NutritionScreenState.ScreenStatus.SUCCESS) {
-                MealTypeDropdownMenu(
-                    state = state,
-                    listener = listener,
-                )
-                AddWaterIntakeBottomSheet(
-                    modifier = Modifier.align(Alignment.BottomCenter),
-                    listener = listener,
-                    state = state
-                )
-                MealAddedSnackBar(
-                    modifier = Modifier.align(Alignment.BottomCenter),
-                    isVisible = state.isMealAddedSnackBarVisible,
-                )
-                MealCantAddSnackBar(
-                    modifier = Modifier.align(Alignment.BottomCenter),
-                    isVisible = state.isMealAddedSnackBarVisible,
-                    state = state
-                )
-            }
+        }
+        if (state.screenStatus == NutritionScreenState.ScreenStatus.SUCCESS) {
+            MealTypeDropdownMenu(
+                state = state,
+                listener = listener,
+            )
+            AddWaterIntakeBottomSheet(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                listener = listener,
+                state = state
+            )
+            MealAddedSnackBar(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                isVisible = state.isSnackBarVisible,
+            )
+            MealCantAddSnackBar(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                isVisible = state.isSnackBarVisible,
+                state = state
+            )
+        }
     }
 }
+
 @Composable
-private fun NutritionSuccessScreen(state: NutritionScreenState, listener: NutritionInteractionListener) {
+private fun NutritionSuccessScreen(
+    state: NutritionScreenState,
+    listener: NutritionInteractionListener
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -165,6 +171,7 @@ private fun NutritionSuccessScreen(state: NutritionScreenState, listener: Nutrit
         mealHistorySection(state, listener)
     }
 }
+
 @Composable
 private fun NutritionErrorScreen(onRetry: () -> Unit) {
     val noInternetIcon = if (isSystemInDarkTheme()) {
@@ -190,6 +197,7 @@ private fun NutritionErrorScreen(onRetry: () -> Unit) {
         )
     }
 }
+
 private fun LazyListScope.mealHistorySection(
     state: NutritionScreenState,
     listener: NutritionInteractionListener
@@ -264,7 +272,7 @@ private fun AddWaterIntakeBottomSheet(
                 placeholder = "e.g., 1.5 L",
                 leadingIcon = Res.drawable.ic_water_drop,
                 isErrorMessageShown = true,
-                error = state.inputErrorMessage.let { it?.let { resource -> stringResource(resource) } }
+                error = state.waterInputError.let { it?.let { resource -> stringResource(resource) } }
                     ?: ""
             )
             PrimaryButton(
@@ -272,7 +280,7 @@ private fun AddWaterIntakeBottomSheet(
                 text = stringResource(Res.string.add_button),
                 isEnabled = state.isAddButtonEnabled,
                 onClick = {
-                    listener.onConfirmAddWaterClicked(state.consumedWaterInput.toFloat())
+                    listener.onConfirmAddWaterClicked(state.consumedWaterInput)
                 })
         }
     }

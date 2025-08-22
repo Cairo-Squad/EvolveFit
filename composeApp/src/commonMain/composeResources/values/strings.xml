@@ -275,8 +275,6 @@
     <string name="x_platform">X</string>
     <string name="link_copied">Copied to clipboard successfully.</string>
     <string name="copy_failled">Failed to copy, please try again later.</string>
-
-    <string name="error_invalid_number">Enter a valid number or decimal only</string>
     <string name="error_exceeded_calories">You have exceeded the allowed calories</string>
     <string name="error_exceeded_water">You have exceeded the allowed water intake</string>
     <string name="error_meal_not_found">Meal not found</string>
@@ -346,7 +344,7 @@
     <string name="saturday_short">Sat</string>
     <string name="sunday_short">Sun</string>
 
-    <string name="all">ALL</string>
+    <string name="all">All</string>
     <string name="back_muscle">Back</string>
     <string name="legs">Legs</string>
     <string name="shoulders">Shoulders</string>
@@ -369,4 +367,7 @@
     <string name="choose_level">Choose level</string>
 
 
+    <string name="error_invalid_number">Please enter a valid number or decimal</string>
+    <string name="error_number_too_large">The number is too large, try a smaller value</string>
+    <string name="error_text_too_long">Text is too long, please shorten it</string>
 </resources>

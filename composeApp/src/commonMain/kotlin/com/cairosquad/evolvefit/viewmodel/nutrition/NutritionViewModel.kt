@@ -13,6 +13,10 @@ import com.cairosquad.evolvefit.domain.entity.ConsumedMeal
 import com.cairosquad.evolvefit.domain.entity.DailyCalorieSummary
 import com.cairosquad.evolvefit.domain.entity.DailyWaterSummary
 import com.cairosquad.evolvefit.domain.entity.SuggestedMeal
+import com.cairosquad.evolvefit.domain.exception.FieldException
+import com.cairosquad.evolvefit.domain.exception.LengthTooLargeException
+import com.cairosquad.evolvefit.domain.exception.NumberTooLargeException
+import com.cairosquad.evolvefit.domain.model.FieldType
 import com.cairosquad.evolvefit.domain.model.MealType
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.utils.getTodayDate
@@ -23,6 +27,8 @@ import evolvefit.composeapp.generated.resources.error_exceeded_water
 import evolvefit.composeapp.generated.resources.error_invalid_number
 import evolvefit.composeapp.generated.resources.error_meal_not_found
 import evolvefit.composeapp.generated.resources.error_no_internet
+import evolvefit.composeapp.generated.resources.error_number_too_large
+import evolvefit.composeapp.generated.resources.error_text_too_long
 import evolvefit.composeapp.generated.resources.error_unknown
 import evolvefit.composeapp.generated.resources.meal_added_snackbar
 import kotlinx.coroutines.Dispatchers
@@ -67,7 +73,7 @@ class NutritionViewModel(
         val water = manageNutritionUseCase.getDailyWaterSummary()
         onLoadDailyWaterSummarySuccess(water)
         val todayDate = getTodayDate()
-        val meals =   manageNutritionUseCase.getConsumedMealsByDate(
+        val meals = manageNutritionUseCase.getConsumedMealsByDate(
             "${todayDate}${START_DAY_TIME}",
             "${todayDate}${END_DAY_TIME}"
         )
@@ -180,8 +186,8 @@ class NutritionViewModel(
         }
     }
 
-    override fun onConfirmAddWaterClicked(waterAmount: Float) {
-        val consumedWaterInput = screenState.value.consumedWaterInput
+    override fun onConfirmAddWaterClicked(waterAmount: String) {
+        val consumedWaterInput = screenState.value.consumedWaterInput.trim()
         val remaining = screenState.value.dailyWaterGoal - screenState.value.todayConsumedWater
         callWithNutritionHandler(
             block = { manageNutritionUseCase.saveConsumedWater(consumedWaterInput, remaining) },
@@ -197,7 +203,7 @@ class NutritionViewModel(
                     isAddWaterSheetVisible = false,
                     isAddButtonEnabled = false,
                     consumedWaterInput = "",
-                    inputErrorMessage = null
+                    waterInputError = null
                 )
             }
         } else {
@@ -208,7 +214,11 @@ class NutritionViewModel(
 
     override fun onWaterAmountChange(waterAmount: String) {
         updateState {
-            it.copy(consumedWaterInput = waterAmount, isAddButtonEnabled = waterAmount.isNotBlank())
+            it.copy(
+                consumedWaterInput = waterAmount,
+                isAddButtonEnabled = waterAmount.isNotBlank(),
+                waterInputError = null
+            )
         }
     }
 
@@ -222,7 +232,7 @@ class NutritionViewModel(
     }
 
     override fun onConfirmAddMealClicked() {
-        val caloriesInput = screenState.value.consumedCaloriesInput
+        val caloriesInput = screenState.value.consumedCaloriesInput.trim()
         val remainingCalories = screenState.value.remainingDailyCalories
         val meal = ConsumedMeal(
             name = screenState.value.mealNameInput,
@@ -232,7 +242,13 @@ class NutritionViewModel(
             id = "0"
         )
         callWithNutritionHandler(
-            block = {manageNutritionUseCase.saveConsumedMeal(caloriesInput, meal, remainingCalories)},
+            block = {
+                manageNutritionUseCase.saveConsumedMeal(
+                    caloriesInput,
+                    meal,
+                    remainingCalories
+                )
+            },
             onSuccess = ::onAddMealSuccess
         )
     }
@@ -249,7 +265,8 @@ class NutritionViewModel(
                     consumedCaloriesInput = "",
                     mealNameInput = "",
                     selectedMeal = NutritionScreenState.MealTypeUiState.Breakfast,
-                    inputErrorMessage = null
+                    mealCaloriesInputError = null,
+                    mealNameInputError = null
                 )
             }
         } else {
@@ -266,7 +283,7 @@ class NutritionViewModel(
             delay(200)
             updateState {
                 it.copy(
-                    isMealAddedSnackBarVisible = true,
+                    isSnackBarVisible = true,
                     isAddMealSheetVisible = false,
                     isAddWaterSheetVisible = false,
                     errorMessage = message
@@ -281,7 +298,7 @@ class NutritionViewModel(
         updateState {
             it.copy(
                 errorMessage = null,
-                isMealAddedSnackBarVisible = false,
+                isSnackBarVisible = false,
                 isAddWaterSheetVisible = false
             )
         }
@@ -291,7 +308,11 @@ class NutritionViewModel(
         val isAddButtonEnabled =
             name.isNotBlank() && screenState.value.consumedCaloriesInput.isNotBlank()
         updateState {
-            it.copy(mealNameInput = name, isAddButtonEnabled = isAddButtonEnabled)
+            it.copy(
+                mealNameInput = name,
+                isAddButtonEnabled = isAddButtonEnabled,
+                mealNameInputError = null
+            )
         }
     }
 
@@ -301,7 +322,8 @@ class NutritionViewModel(
         updateState {
             it.copy(
                 consumedCaloriesInput = calories,
-                isAddButtonEnabled = isAddButtonEnabled
+                isAddButtonEnabled = isAddButtonEnabled,
+                mealCaloriesInputError = null
             )
         }
     }
@@ -331,7 +353,7 @@ class NutritionViewModel(
     }
 
     override fun onSnackBarHided() {
-        updateState { it.copy(isMealAddedSnackBarVisible = false) }
+        updateState { it.copy(isSnackBarVisible = false) }
     }
 
     override fun onRetryClicked() {
@@ -339,14 +361,26 @@ class NutritionViewModel(
     }
 
     override fun onDismissMealClicked() {
-        updateState { it.copy(isAddMealSheetVisible = false, inputErrorMessage = null) }
+        updateState {
+            it.copy(
+                isAddMealSheetVisible = false,
+                mealNameInputError = null,
+                mealCaloriesInputError = null
+            )
+        }
     }
 
     override fun onDismissWaterClicked() {
-        updateState { it.copy(isAddWaterSheetVisible = false, inputErrorMessage = null) }
+        updateState { it.copy(isAddWaterSheetVisible = false, waterInputError = null) }
     }
+
     override fun onRefresh() {
-       updateState { it.copy(isRefreshing = true, screenStatus = NutritionScreenState.ScreenStatus.LOADING,) }
+        updateState {
+            it.copy(
+                isRefreshing = true,
+                screenStatus = NutritionScreenState.ScreenStatus.LOADING,
+            )
+        }
         fetchNutritionData()
         viewModelScope.launch {
             delay(500L)
@@ -354,47 +388,59 @@ class NutritionViewModel(
         }
     }
 
-    fun Throwable.toUiError(): NutritionScreenState.UiError = when (this) {
-        is InternetConnectionException,
-        is TimeoutException,
-        is NetworkException ->
-            NutritionScreenState.UiError.ScreenError(Res.string.error_no_internet)
-
-        is InvalidNumberFormatException ->
-            NutritionScreenState.UiError.InputError(Res.string.error_invalid_number)
-
-        is ExceededCaloriesException ->
-            NutritionScreenState.UiError.SnackBarError(Res.string.error_exceeded_calories)
-
-        is ExceededWaterLimitException ->
-            NutritionScreenState.UiError.SnackBarError(Res.string.error_exceeded_water)
-
-        is MealNotFoundException ->
-            NutritionScreenState.UiError.SnackBarError(Res.string.error_meal_not_found)
-
-        else -> NutritionScreenState.UiError.SnackBarError(Res.string.error_unknown)
-    }
-
     private fun handleNutritionErrors(throwable: Throwable) {
         when (val error = throwable.toUiError()) {
-            is NutritionScreenState.UiError.ScreenError -> {
-                updateState {
-                    it.copy(
-                        screenStatus = NutritionScreenState.ScreenStatus.FAIL,
-                        inputErrorMessage = null,
-                        screenErrorMessage = error.message,
-                    )
-                }
-            }
+            is NutritionScreenState.UiError.ScreenError -> handleScreenError(error)
+            is NutritionScreenState.UiError.InputError -> handleInputError(error)
+            is NutritionScreenState.UiError.SnackBarError -> handleSnackBarError(error)
+        }
+    }
 
-            is NutritionScreenState.UiError.InputError -> {
-                updateState { it.copy(inputErrorMessage = error.message) }
-            }
+    private fun handleScreenError(error: NutritionScreenState.UiError.ScreenError) {
+        updateState {
+            it.copy(
+                screenStatus = NutritionScreenState.ScreenStatus.FAIL,
+                mealCaloriesInputError = null,
+                mealNameInputError = null,
+                waterInputError = null,
+                screenErrorMessage = error.message
+            )
+        }
+    }
 
-            is NutritionScreenState.UiError.SnackBarError -> {
-                showSnackBar(error.message)
+    private fun handleInputError(error: NutritionScreenState.UiError.InputError) {
+        updateState {
+            when (error.field) {
+                FieldType.MEAL_CALORIES -> it.copy(mealCaloriesInputError = error.message)
+                FieldType.MEAL_NAME -> it.copy(mealNameInputError = error.message)
+                FieldType.WATER_INPUT -> it.copy(waterInputError = error.message)
             }
         }
+    }
+
+    private fun handleSnackBarError(error: NutritionScreenState.UiError.SnackBarError) {
+        showSnackBar(error.message)
+    }
+
+    private fun Throwable.toUiError(): NutritionScreenState.UiError = when (this) {
+        is FieldException -> toInputError()
+        is InternetConnectionException,
+        is TimeoutException,
+        is NetworkException -> NutritionScreenState.UiError.ScreenError(Res.string.error_no_internet)
+        is ExceededCaloriesException -> NutritionScreenState.UiError.SnackBarError(Res.string.error_exceeded_calories)
+        is ExceededWaterLimitException -> NutritionScreenState.UiError.SnackBarError(Res.string.error_exceeded_water)
+        is MealNotFoundException -> NutritionScreenState.UiError.SnackBarError(Res.string.error_meal_not_found)
+        else -> NutritionScreenState.UiError.ScreenError(Res.string.error_unknown)
+    }
+
+    private fun FieldException.toInputError(): NutritionScreenState.UiError.InputError {
+        val messageRes = when (this) {
+            is InvalidNumberFormatException -> Res.string.error_invalid_number
+            is NumberTooLargeException -> Res.string.error_number_too_large
+            is LengthTooLargeException -> Res.string.error_text_too_long
+            else -> Res.string.error_unknown
+        }
+        return NutritionScreenState.UiError.InputError(field, messageRes)
     }
 
     private fun <T> callWithNutritionHandler(
@@ -410,7 +456,7 @@ class NutritionViewModel(
 
     private companion object {
         val defaultTypes = listOf(
-            MealType.BREAKFAST, MealType.LUNCH, MealType.DINNER, MealType.SNACKS
+            MealType.BREAKFAST, MealType.LUNCH, MealType.DINNER, MealType.SNACK
         )
         const val START_DAY_TIME = "T00:00:00"
         const val END_DAY_TIME = "T23:59:59"

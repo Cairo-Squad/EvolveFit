@@ -21,7 +21,7 @@ import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 
 @Composable
 fun WorkoutImage(
-    image: UiImage,
+    image: UiImage?,
     isImagePickerOpen: Boolean,
     onImagePickerDismiss: () -> Unit,
     onImagePickerClick: () -> Unit,
@@ -57,7 +57,6 @@ fun WorkoutImage(
                 image = image,
                 contentDescription = "Profile picture",
                 defaultImageSize = 100.dp,
-                modifier= Modifier.size(100.dp)
             )
         }
         if (!text.isNullOrEmpty()) {

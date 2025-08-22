@@ -349,4 +349,8 @@
     <string name="kilogram">كجم</string>
     <string name="pound">باوند</string>
     <string name="choose_level">اختار مستوي</string>
+
+    <string name="error_invalid_number">الرجاء إدخال أرقام صحيحة أو رقم عشري</string>
+    <string name="error_number_too_large">الرقم كبير جدًا، حاول إدخال رقم أصغر</string>
+    <string name="error_text_too_long">النص طويل جدًا، حاول تقصيره</string>
 </resources>

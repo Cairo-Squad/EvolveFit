@@ -5,8 +5,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.WorkoutDetailsContent
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
-import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsEffect
-import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsViewModel
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsEffect
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 

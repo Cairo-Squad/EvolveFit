@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
-import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.exercise_image
 import evolvefit.composeapp.generated.resources.ic_arrow_left
@@ -59,10 +59,11 @@ fun ImageCarousel(
             .height(200.dp)
     ) {
         NetworkImage(
-            model = images[currentIndex],
+            model = images.firstOrNull() ?: "",
             contentDescription = stringResource(Res.string.exercise_image),
             modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)),
         )
+
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
             Icon(
                 painter = painterResource(Res.drawable.ic_arrow_left),
