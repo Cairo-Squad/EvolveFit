@@ -34,13 +34,16 @@ import com.cairosquad.evolvefit.ui.screen.suggestedMeals.SuggestedMealsScreen
 import com.cairosquad.evolvefit.ui.screen.workout.WorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.WorkoutDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.WorkoutHistoryScreen
+import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import org.koin.compose.koinInject
 
 @Composable
 fun NavigationHost(
-    authenticationPreferences: AuthenticationPreferences = koinInject(), // TODO: Replace with isUserLoggedIn: Boolean
-    deepLinkRoute: Any? = null
-) {
+    authenticationPreferences: AuthenticationPreferences = koinInject(),
+    deepLinkRoute: Any? = null,
+    onLanguageChange: (String) -> Unit,
+    onThemeChange: (MoreScreenState.Theme) -> Unit,
+    ) {
 
     val isUserLoggedIn = authenticationPreferences.getAccessToken().isNullOrBlank().not()
     val startDestination = if (isUserLoggedIn) NavBarRoute.Home else OnboardingRoute
@@ -154,7 +157,9 @@ fun NavigationHost(
                     }
                 },
                 navigateToEditProfile = { navController.navigate(EditProfileRoute) },
-                onSelectNavBarRoute = navController::navigateToNavBarRoute
+                onSelectNavBarRoute = navController::navigateToNavBarRoute,
+                onLanguageChange = onLanguageChange,
+                onThemeChanged = onThemeChange,
             )
         }
 

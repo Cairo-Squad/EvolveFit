@@ -78,6 +78,7 @@ class MoreViewModel(
             onSuccess = { onSuccessChangeLanguage() },
             onError = {},
         )
+        sendEffect(MoreEffect.ChangeLanguage(languageToLanguageCode(language)))
 
     }
 
@@ -124,7 +125,10 @@ class MoreViewModel(
     override fun onConfirmChangeTheme(theme: MoreScreenState.Theme) {
         tryToCall(
             block = {managePreferencesUseCase.saveTheme(theme)},
-            onSuccess = {onSuccessChangeTheme()},
+            onSuccess = {
+                onSuccessChangeTheme()
+                sendEffect(MoreEffect.ChangeTheme(theme))
+            },
             onError = {}
         )
     }

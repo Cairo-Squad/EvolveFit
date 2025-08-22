@@ -11,7 +11,9 @@ import io.github.vinceglb.filekit.coil.addPlatformFileSupport
 @Composable
 fun App(
     deepLinkRoute: Any? = null,
-    currentTheme: MoreScreenState.Theme = MoreScreenState.Theme.LIGHT
+    currentTheme: MoreScreenState.Theme = MoreScreenState.Theme.LIGHT,
+    onLanguageChange: (String) -> Unit = {},
+    onThemeChange: (MoreScreenState.Theme) -> Unit = {}
     ) {
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)
@@ -21,6 +23,6 @@ fun App(
             .build()
     }
     AppTheme(isDarkTheme = currentTheme == MoreScreenState.Theme.DARK) {
-        NavigationHost(deepLinkRoute = deepLinkRoute)
+        NavigationHost(deepLinkRoute = deepLinkRoute, onLanguageChange = onLanguageChange, onThemeChange = onThemeChange)
     }
 }
