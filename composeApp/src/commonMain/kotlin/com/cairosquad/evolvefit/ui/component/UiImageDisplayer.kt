@@ -51,9 +51,8 @@ fun UiImageDisplayer(
             Image(
                 painter = painterResource(image.resourceId),
                 contentDescription = contentDescription,
-                contentScale = contentScale,
-                modifier = modifier
-                    .size(defaultImageSize),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.size(defaultImageSize)
             )
         }
     }

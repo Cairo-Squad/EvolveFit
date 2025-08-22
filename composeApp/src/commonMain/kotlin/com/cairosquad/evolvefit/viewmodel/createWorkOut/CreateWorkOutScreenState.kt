@@ -1,14 +1,13 @@
 package com.cairosquad.evolvefit.viewmodel.createWorkOut
 
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
-import com.cairosquad.evolvefit.viewmodel.workoutDetails.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.im_upload1
+import evolvefit.composeapp.generated.resources.create
 
 data class CreateWorkOutScreenState(
-    val image: UiImage = UiImage.ImageResource(Res.drawable.im_upload1),
+    val image: UiImage = UiImage.ImageResource(Res.drawable.create),
     val name: String = "",
-    val goal: WorkoutLevel = WorkoutLevel.BEGINNER,
+    val level: WorkoutLevel ?=null,
     val description: String = "",
     val isNextEnabled: Boolean = false,
     val isImagePickerOpen: Boolean = false,

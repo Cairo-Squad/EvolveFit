@@ -42,6 +42,7 @@ fun WorkoutImage(
             contentAlignment = Alignment.Center
         ) {
             if (isImagePickerOpen) {
+
                 ImagePicker(
                     onImageRetrieved = { picked ->
                         localImage = picked
@@ -53,7 +54,7 @@ fun WorkoutImage(
             }
 
             UiImageDisplayer(
-                image = localImage,
+                image = image,
                 contentDescription = "Profile picture",
                 defaultImageSize = 100.dp,
                 modifier= Modifier.size(100.dp)
