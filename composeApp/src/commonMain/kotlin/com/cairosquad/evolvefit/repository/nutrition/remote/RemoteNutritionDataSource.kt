@@ -13,7 +13,7 @@ interface RemoteNutritionDataSource {
     suspend fun getFavouriteMeals(): List<FavouriteMealDto>
     suspend fun addFavouriteMealById(mealId: String)
     suspend fun deleteFavouriteMeal(mealId: String)
-    suspend fun getMealHistory(): List<ConsumedMealDto>
+    suspend fun getMealHistory(startDate: String, endDate: String): List<ConsumedMealDto>
     suspend fun getConsumedMealsByDate(startDate: String, endDate: String): List<ConsumedMealDto>
     suspend fun getMealById(id: String): MealDto
     suspend fun saveConsumedMeal(consumedMealRequestDto: ConsumedMealRequestDto): Boolean

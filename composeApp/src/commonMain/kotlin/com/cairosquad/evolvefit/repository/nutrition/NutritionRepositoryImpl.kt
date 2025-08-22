@@ -37,8 +37,8 @@ class NutritionRepositoryImpl(private val remoteNutritionDataSource: RemoteNutri
         }
     }
 
-    override suspend fun getMealHistory(): List<ConsumedMeal> {
-        return callDataSource { remoteNutritionDataSource.getMealHistory() }.map {
+    override suspend fun getMealHistory(startDate: String, endDate: String): List<ConsumedMeal> {
+        return callDataSource { remoteNutritionDataSource.getMealHistory(startDate,endDate) }.map {
             it.toDomain()
         }
     }

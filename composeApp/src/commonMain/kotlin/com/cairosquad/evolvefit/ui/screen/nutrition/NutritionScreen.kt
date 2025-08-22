@@ -194,14 +194,14 @@ private fun LazyListScope.mealHistorySection(
     state: NutritionScreenState,
     listener: NutritionInteractionListener
 ) {
+    item {
+        SeeAll(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            onViewAllClick = listener::onViewAllMealHistoryClicked,
+            sectionTitle = stringResource(Res.string.meal_history)
+        )
+    }
     if (state.todayConsumedMeals.isNotEmpty()) {
-        item {
-            SeeAll(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-                onViewAllClick = listener::onViewAllMealHistoryClicked,
-                sectionTitle = stringResource(Res.string.meal_history)
-            )
-        }
         items(state.todayConsumedMeals) { mealHistory ->
             MealHistoryItem(meal = mealHistory)
         }
