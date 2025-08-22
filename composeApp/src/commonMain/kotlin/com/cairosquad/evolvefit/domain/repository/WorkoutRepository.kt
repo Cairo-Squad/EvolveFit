@@ -4,6 +4,7 @@ import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.model.FocusArea
+import com.cairosquad.evolvefit.domain.model.PlayedWorkout
 
 interface WorkoutRepository {
     suspend fun getWorkoutById(id: String): Workout
@@ -15,6 +16,7 @@ interface WorkoutRepository {
     suspend fun addWorkoutToFavorites(workoutId: String)
     suspend fun deleteFavoriteWorkout(workoutId: String)
     suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested>
+    suspend fun submitPlayedWorkout(playedWorkout: PlayedWorkout)
     suspend fun getWorkoutHistory(): List<WorkoutHistory>
     suspend fun uploadWorkoutImage(fileBytes: ByteArray, fileName: String,workoutId : String): String
 }

@@ -23,7 +23,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -106,11 +109,6 @@ fun MoreScreenContent(
                 icon = Res.drawable.ic_bookmark_big,
                 title = stringResource(Res.string.favorites)
             )
-//            AccountRow(
-//                modifier = Modifier.clickable { listener.onClickNotification() },
-//                icon = Res.drawable.ic_bell,
-//                title = stringResource(Res.string.notification_settings)
-//            )
             AccountRow(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
@@ -295,6 +293,9 @@ fun AccountRow(
     modifier: Modifier = Modifier,
     text: String = ""
 ) {
+
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
+
     Row(
         modifier = modifier
             .background(
@@ -328,7 +329,9 @@ fun AccountRow(
             painter = painterResource(Res.drawable.ic_arrow_right),
             contentDescription = stringResource(Res.string.arrow_icon),
             tint = Theme.color.surfaces.onSurfaceVariant,
-            modifier = Modifier.size(16.dp)
+            modifier = Modifier
+                .size(16.dp)
+                .scale(scaleX = if (isRtl) -1f else 1f, scaleY = 1f)
         )
     }
 }

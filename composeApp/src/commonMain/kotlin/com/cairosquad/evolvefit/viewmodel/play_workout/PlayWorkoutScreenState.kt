@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.play_workout
 
+import com.cairosquad.evolvefit.domain.model.FocusArea
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.advanced
 import evolvefit.composeapp.generated.resources.beginner
@@ -33,7 +34,10 @@ data class PlayWorkoutScreenState(
         val id: String = "",
         val name: String = "",
         val imageUrls: List<String> = emptyList(),
-        val exerciseSpec: ExerciseSpecUiState = ExerciseSpecUiState.Reps(0)
+        val exerciseSpec: ExerciseSpecUiState = ExerciseSpecUiState.Reps(0),
+        val focusAreas: Set<StringResource> = emptySet(),
+        val instructions: List<String> = emptyList(),
+        val equipment: String = ""
     )
 
     sealed class ExerciseSpecUiState {
@@ -47,4 +51,7 @@ data class PlayWorkoutScreenState(
         ADVANCED(Res.string.advanced)
     }
 
+    fun getCurrentExercise(): ExerciseUiState {
+        return workout.exercises.getOrNull(currentStep - 1) ?: ExerciseUiState()
+    }
 }
