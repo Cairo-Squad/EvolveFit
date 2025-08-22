@@ -311,8 +311,7 @@ class RegisterViewModel(
         }
 
     }
-
-
+    
     private fun setErrorState(
         emailError: StringResource? = null,
         passwordError: StringResource? = null,
