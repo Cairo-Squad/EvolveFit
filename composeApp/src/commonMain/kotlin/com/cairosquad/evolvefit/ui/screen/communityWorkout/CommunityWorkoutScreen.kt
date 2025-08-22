@@ -38,6 +38,7 @@ import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutView
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.back
+import evolvefit.composeapp.generated.resources.community
 import evolvefit.composeapp.generated.resources.ic_back
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -122,7 +123,7 @@ private fun WorkoutsScreenContent(
 @Composable
 private fun AppBar(navigateBack: () -> Unit) {
     CustomAppBar(
-        title = "Community",
+        title = stringResource(Res.string.community),
         header = {
             ActionIconButton(
                 icon = painterResource(Res.drawable.ic_back),
@@ -151,7 +152,7 @@ private fun Workouts(
                     .clickable { onClickWorkout(workout.id) },
                 title = workout.title,
                 duration = workout.duration,
-                focusArea = workout.focusArea.name,
+                focusArea = stringResource(workout.focusArea.nameResId),
                 model = workout.imageUrl,
             )
         }
@@ -172,7 +173,7 @@ private fun FocusAreaFilter(
         items(focusArea.size) { index ->
             val area = focusArea[index]
             Chip(
-                title = area.name,
+                title = stringResource(area.nameResId),
                 isSelected = selectedFocusArea == area,
                 onClick = { onSelectFocusArea(area) }
             )

@@ -41,8 +41,10 @@ import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.community
+import evolvefit.composeapp.generated.resources.create_workout_title_
 import evolvefit.composeapp.generated.resources.ic_group
 import evolvefit.composeapp.generated.resources.ic_plus
+import evolvefit.composeapp.generated.resources.workouts
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -133,7 +135,7 @@ private fun WorkoutsScreenContent(
         }
         if (state.screenStatus == WorkoutScreenState.ScreenStatus.SUCCESS) {
             AddWorkoutBtn(
-                modifier = Modifier.align(Alignment.BottomEnd),
+                modifier = Modifier.padding(24.dp).align(Alignment.BottomEnd),
                 listener::onAddWorkoutClicked
             )
         }
@@ -147,14 +149,13 @@ fun AddWorkoutBtn(
 ) {
     FloatingActionButton(
         onClick = onClickAddWorkout,
-        modifier = modifier
-            .padding(24.dp),
+        modifier = modifier,
         containerColor = Theme.color.brand.primary,
         shape = CircleShape,
     ) {
         Icon(
             painter = painterResource(Res.drawable.ic_plus),
-            contentDescription = "Create Workout",
+            contentDescription = stringResource(Res.string.create_workout_title_),
             modifier = Modifier.padding(12.dp).size(24.dp)
         )
     }
@@ -163,7 +164,7 @@ fun AddWorkoutBtn(
 @Composable
 private fun AppBar(onCommunityClick: () -> Unit) {
     CustomAppBar(
-        title = "Workouts",
+        title = stringResource(Res.string.workouts),
         tail = {
             ActionIconButton(
                 icon = painterResource(Res.drawable.ic_group),
@@ -192,7 +193,7 @@ private fun Workouts(
                     .clickable { onClickWorkout(workout.id) },
                 title = workout.title,
                 duration = workout.duration,
-                focusArea = workout.focusArea.name,
+                focusArea = stringResource(workout.focusArea.nameResId),
                 model = workout.imageUrl,
             )
         }
@@ -213,7 +214,7 @@ private fun FocusAreaFilter(
         items(focusArea.size) { index ->
             val area = focusArea[index]
             Chip(
-                title = area.name,
+                title = stringResource(area.nameResId),
                 isSelected = selectedFocusArea == area,
                 onClick = { onSelectFocusArea(area) }
             )
