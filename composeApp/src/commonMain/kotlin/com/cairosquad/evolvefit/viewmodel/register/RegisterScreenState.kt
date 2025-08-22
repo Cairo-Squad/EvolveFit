@@ -35,6 +35,8 @@ data class RegisterScreenState(
     val preferredLanguage: Language? = null,
     val isImagePickerOpen: Boolean = false,
     val isPasswordVisible: Boolean = false,
+    val emailError: StringResource? = null,
+    val passwordError: StringResource? = null,
     val equipments: Set<EquipmentUiState> = emptySet(),
     val workoutDays: Set<WeekDay> = emptySet()
 ) {
