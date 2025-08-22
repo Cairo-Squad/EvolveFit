@@ -7,7 +7,6 @@ import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.FocusArea
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.MeasurementType
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.utils.asByteArray
-import log
 
 class CreateExerciseViewModel(
     private val manageExerciseUseCase: ManageExerciseUseCase,
@@ -19,16 +18,8 @@ class CreateExerciseViewModel(
         getEquipments()
     }
 
-    private fun getEquipments() {
-        tryToCall(
-            block = { manageEquipmentUseCase.getAllEquipments() },
-            onSuccess = { equipments ->
-                updateState {
-                    it.copy(availableEquipments = equipments.map { it.toUiState() }.toSet())
-                }
-            },
-            onError = { updateState { it.copy(errorMessage = "Failed to load equipments") } }
-        )
+    override fun onNameChanged(name: String) {
+        updateState { it.copy(name = name) }
     }
 
     override fun onEquipmentToggled(equipmentId: Int) {
@@ -57,29 +48,40 @@ class CreateExerciseViewModel(
         updateState { it.copy(isFrontImagePickerOpen = true) }
     }
 
+    override fun onEndImageClicked() {
+        updateState { it.copy(isBackImagePickerOpen = true) }
+    }
+
     override fun onStartImageRetrieved(image: UiImage) {
-        println("SAYEDMAGDY onStartImageRetrieved : ${image}")
         updateState { it.copy(frontImage = image, isFrontImagePickerOpen = false) }
     }
 
+    override fun onEndImageRetrieved(image: UiImage) {
+        updateState { it.copy(backImage = image, isBackImagePickerOpen = false) }
+
+    }
 
 
     override fun onStartImagePickerDismiss() {
         updateState { it.copy(isFrontImagePickerOpen = false) }
     }
 
-    override fun onEndImageClicked() {
-        updateState { it.copy(isBackImagePickerOpen = true) }
-    }
-
-    override fun onEndImageRetrieved(image: UiImage) {
-        println("SAYEDMAGDY onEndImageRetrieved : ${image}")
-        updateState { it.copy(backImage = image, isBackImagePickerOpen = false) }
-
-    }
-
     override fun onEndImagePickerDismiss() {
         updateState { it.copy(isBackImagePickerOpen = false) }
+    }
+
+    override fun onMeasurementTypeSelected(type: MeasurementType) {
+        updateState {
+            it.copy(
+                measurementType = type,
+                isDurationChecked = type == MeasurementType.DURATION,
+                isRepsChecked = type == MeasurementType.REPS
+            )
+        }
+    }
+
+    override fun onMeasurementValueChanged(value: String) {
+        updateState { it.copy(measurementInputValue = value) }
     }
 
     override fun onFocusAreaToggled(focusArea: FocusArea) {
@@ -114,24 +116,6 @@ class CreateExerciseViewModel(
         updateState { it.copy(isFocusAreaExpanded = false) }
     }
 
-    override fun onNameChanged(name: String) {
-        updateState { it.copy(name = name) }
-    }
-
-    override fun onMeasurementTypeSelected(type: MeasurementType) {
-        updateState {
-            it.copy(
-                measurementType = type,
-                isDurationChecked = type == MeasurementType.DURATION,
-                isRepsChecked = type == MeasurementType.REPS
-            )
-        }
-    }
-
-    override fun onMeasurementValueChanged(value: String) {
-        updateState { it.copy(measurementInputValue = value) }
-    }
-
     override fun onSaveClicked() {
         if (screenState.value.isLoading) return
         setLoadingState(true)
@@ -139,75 +123,13 @@ class CreateExerciseViewModel(
             onStart = { updateState { it.copy(isExerciseSaved = true) } },
             block = ::saveExercise,
             onSuccess = { it ->
-                pushStartImage(it)
-                pushStartImage2(it)
+                pushFrontImage(it)
+                pushBackImage(it)
             },
-            onError = {
-                setLoadingState(false)
-            },
+            onError = { setLoadingState(false) },
             onEnd = { updateState { it.copy(isExerciseSaved = false) } }
         )
 
-    }
-    private fun pushStartImage(id: String) {
-        val image = screenState.value.frontImage
-        tryToCall(
-            block = {
-                val imageFileData = image!!.asByteArray()
-                val uploadedImage = manageExerciseUseCase.uploadExerciseImage(
-                    imageFileData.bytes,
-                    imageFileData.fileName,
-                    id
-                )
-                uploadedImage
-            },
-            onSuccess = {
-                log("$it", "onStartImageRetrieved")
-                setLoadingState(false)
-                sendEffect(CreateExerciseEffect.NavigateToAllExercises)
-            },
-            onError = {
-                setLoadingState(false)
-            }
-
-        )
-    }
-
-    private  fun pushStartImage2(id: String) {
-        val image = screenState.value.backImage
-        tryToCall(
-            block = {
-                val imageFileData = image!!.asByteArray()
-                val uploadedImage = manageExerciseUseCase.uploadExerciseImage(
-                    imageFileData.bytes,
-                    imageFileData.fileName,
-                    id
-                )
-                uploadedImage
-            },
-            onSuccess = {
-                println("onStartImageRetrieved onSuccess $it")
-//                setLoadingState(false)
-//                sendEffect(CreateExerciseEffect.NavigateToAllExercises)
-
-            },
-            onError = {
-               // setLoadingState(false)
-                println("onStartImageRetrieved onError $it")
-
-            }
-
-        )
-    }
-    private fun setLoadingState(isLoading: Boolean) {
-        updateState { it.copy(isLoading = isLoading) }
-    }
-
-    private suspend fun saveExercise(): String {
-        val response = manageExerciseUseCase.createExercise(screenState.value.toDomainExercise())
-        updateState { it.copy(exerciseId = response.id) }
-        println("SAYEDMAGDY saveExercise  id: ${response.id}")
-        return response.id
     }
 
     override fun onExitClicked() {
@@ -240,5 +162,68 @@ class CreateExerciseViewModel(
                 currentState.selectedEquipment.name.isNotBlank() &&
                 (currentState.isDurationChecked || currentState.isRepsChecked) &&
                 currentState.description.isNotBlank()
+    }
+
+    private fun pushFrontImage(id: String) {
+        val image = screenState.value.frontImage
+        tryToCall(
+            block = {
+                val imageFileData = image!!.asByteArray()
+                val uploadedImage = manageExerciseUseCase.uploadExerciseImage(
+                    imageFileData.bytes,
+                    imageFileData.fileName,
+                    id
+                )
+                uploadedImage
+            },
+            onSuccess = {
+                setLoadingState(false)
+                sendEffect(CreateExerciseEffect.NavigateToAllExercises)
+            },
+            onError = {
+                setLoadingState(false)
+            }
+
+        )
+    }
+
+    private fun pushBackImage(id: String) {
+        val image = screenState.value.backImage
+        tryToCall(
+            block = {
+                val imageFileData = image!!.asByteArray()
+                val uploadedImage = manageExerciseUseCase.uploadExerciseImage(
+                    imageFileData.bytes,
+                    imageFileData.fileName,
+                    id
+                )
+                uploadedImage
+            },
+            onSuccess = {},
+            onError = {}
+
+        )
+    }
+
+    private fun setLoadingState(isLoading: Boolean) {
+        updateState { it.copy(isLoading = isLoading) }
+    }
+
+    private suspend fun saveExercise(): String {
+        val response = manageExerciseUseCase.createExercise(screenState.value.toDomainExercise())
+        updateState { it.copy(exerciseId = response.id) }
+        return response.id
+    }
+
+    private fun getEquipments() {
+        tryToCall(
+            block = { manageEquipmentUseCase.getAllEquipments() },
+            onSuccess = { equipments ->
+                updateState {
+                    it.copy(availableEquipments = equipments.map { it.toUiState() }.toSet())
+                }
+            },
+            onError = { updateState { it.copy(errorMessage = "Failed to load equipments") } }
+        )
     }
 }
