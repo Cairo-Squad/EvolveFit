@@ -44,7 +44,7 @@ fun CaloriesMeter(
         )
     )
     val rotationState by animateFloatAsState(
-        targetValue = if (isAnimationStarted) 85f else 95f,
+        targetValue = if (isAnimationStarted) 80f else 95f,
         animationSpec = tween(
             durationMillis = 1200,
             easing = LinearOutSlowInEasing
