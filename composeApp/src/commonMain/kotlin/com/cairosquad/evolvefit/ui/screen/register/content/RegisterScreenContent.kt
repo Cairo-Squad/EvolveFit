@@ -91,7 +91,8 @@ fun RegisterScreenContent(
                     listener.onNextClicked()
                 }
             },
-            isEnabled = state.isNextButtonEnabled
+            isEnabled = state.isNextButtonEnabled,
+            isLoading = state.isLoading
         )
 
     }

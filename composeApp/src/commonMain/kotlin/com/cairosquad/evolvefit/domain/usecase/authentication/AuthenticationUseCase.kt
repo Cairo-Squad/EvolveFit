@@ -36,6 +36,12 @@ class AuthenticationUseCase(
         availableEquipment: Set<Int>,
         workoutDays: Set<WeekDay>
     ) {
+        if (!isValidEmail(profile.email)) {
+            throw InvalidEmailFormatException()
+        }
+        if (!isValidPassword(password)) {
+            throw InvalidPasswordException()
+        }
         return authenticationRepository.register(
             profile,
             password,
