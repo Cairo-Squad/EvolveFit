@@ -1,9 +1,8 @@
 package com.cairosquad.evolvefit.viewmodel.meal_history
 
+
 import com.cairosquad.evolvefit.domain.entity.ConsumedMeal
 import com.cairosquad.evolvefit.domain.model.MealType
-import com.cairosquad.evolvefit.entity.nutrition.ConsumedMeal
-import com.cairosquad.evolvefit.entity.nutrition.MealType
 import com.cairosquad.evolvefit.viewmodel.utils.formatIsoToTodayTime
 
 fun ConsumedMeal.toMealHistoryUiState(): MealHistoryScreenState.MealHistoryUiState {
