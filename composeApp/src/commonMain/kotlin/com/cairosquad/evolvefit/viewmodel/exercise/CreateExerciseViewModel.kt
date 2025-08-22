@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.viewmodel.exercise
 
-import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.usecase.equipment.ManageEquipmentUseCase
 import com.cairosquad.evolvefit.domain.usecase.exercise.ManageExerciseUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
@@ -55,32 +54,32 @@ class CreateExerciseViewModel(
     }
 
     override fun onStartImageClicked() {
-        updateState { it.copy(isImage1PickerOpen = true) }
+        updateState { it.copy(isFrontImagePickerOpen = true) }
     }
 
     override fun onStartImageRetrieved(image: UiImage) {
         println("SAYEDMAGDY onStartImageRetrieved : ${image}")
-        updateState { it.copy(image1 = image, isImage1PickerOpen = false) }
+        updateState { it.copy(frontImage = image, isFrontImagePickerOpen = false) }
     }
 
 
 
     override fun onStartImagePickerDismiss() {
-        updateState { it.copy(isImage1PickerOpen = false) }
+        updateState { it.copy(isFrontImagePickerOpen = false) }
     }
 
     override fun onEndImageClicked() {
-        updateState { it.copy(isImage2PickerOpen = true) }
+        updateState { it.copy(isBackImagePickerOpen = true) }
     }
 
     override fun onEndImageRetrieved(image: UiImage) {
         println("SAYEDMAGDY onEndImageRetrieved : ${image}")
-        updateState { it.copy(image2 = image, isImage2PickerOpen = false) }
+        updateState { it.copy(backImage = image, isBackImagePickerOpen = false) }
 
     }
 
     override fun onEndImagePickerDismiss() {
-        updateState { it.copy(isImage2PickerOpen = false) }
+        updateState { it.copy(isBackImagePickerOpen = false) }
     }
 
     override fun onFocusAreaToggled(focusArea: FocusArea) {
@@ -151,7 +150,7 @@ class CreateExerciseViewModel(
 
     }
     private fun pushStartImage(id: String) {
-        val image = screenState.value.image1
+        val image = screenState.value.frontImage
         tryToCall(
             block = {
                 val imageFileData = image!!.asByteArray()
@@ -175,7 +174,7 @@ class CreateExerciseViewModel(
     }
 
     private  fun pushStartImage2(id: String) {
-        val image = screenState.value.image2
+        val image = screenState.value.backImage
         tryToCall(
             block = {
                 val imageFileData = image!!.asByteArray()
@@ -236,7 +235,7 @@ class CreateExerciseViewModel(
     override fun canSaveExercise(): Boolean {
         val currentState = screenState.value
         return currentState.name.isNotBlank() &&
-                currentState.image1 != null &&
+                currentState.frontImage != null &&
                 currentState.selectedFocusAreas.isNotEmpty() &&
                 currentState.selectedEquipment.name.isNotBlank() &&
                 (currentState.isDurationChecked || currentState.isRepsChecked) &&
