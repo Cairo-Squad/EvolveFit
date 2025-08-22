@@ -50,5 +50,6 @@ val lightThemeColors = ThemeColors(
             Color(0xFFF8F8F8),
             Color.Transparent,
         ),
-    )
+    ),
+    isDark = false
 )
