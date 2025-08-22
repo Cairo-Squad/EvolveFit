@@ -29,10 +29,10 @@ import com.cairosquad.evolvefit.ui.component.RefreshBox
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.content.workoutHistoryScreenLoadingContent
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.content.workoutHistoryScreenSuccessContent
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
-import com.cairosquad.evolvefit.viewmodel.workoutHistory.WorkoutHistoryEffect
-import com.cairosquad.evolvefit.viewmodel.workoutHistory.WorkoutHistoryInteractionListener
-import com.cairosquad.evolvefit.viewmodel.workoutHistory.WorkoutHistoryScreenState
-import com.cairosquad.evolvefit.viewmodel.workoutHistory.WorkoutHistoryViewModel
+import com.cairosquad.evolvefit.viewmodel.workout_history.WorkoutHistoryEffect
+import com.cairosquad.evolvefit.viewmodel.workout_history.WorkoutHistoryInteractionListener
+import com.cairosquad.evolvefit.viewmodel.workout_history.WorkoutHistoryScreenState
+import com.cairosquad.evolvefit.viewmodel.workout_history.WorkoutHistoryViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_back
 import evolvefit.composeapp.generated.resources.workout_history

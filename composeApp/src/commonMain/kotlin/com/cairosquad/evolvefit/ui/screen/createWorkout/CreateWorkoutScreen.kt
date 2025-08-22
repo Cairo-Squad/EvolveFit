@@ -6,9 +6,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.cairosquad.evolvefit.ui.screen.createWorkout.content.AllExercisesContent
 import com.cairosquad.evolvefit.ui.screen.createWorkout.content.CreateWorkoutContent
-import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutEffect
-import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkOutScreenState.CreateWorkoutStep
-import com.cairosquad.evolvefit.viewmodel.createWorkOut.CreateWorkoutViewModel
+import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutEffect
+import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState.CreateWorkoutStep
+import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkoutViewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.compose.viewmodel.koinViewModel
 

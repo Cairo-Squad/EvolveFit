@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.playWorkout.content
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,12 +28,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.SecondaryButton
-import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
-import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutInteractionListener
-import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState
-import com.cairosquad.evolvefit.viewmodel.playWorkout.PlayWorkoutScreenState.WorkoutLevelUiState
+import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutInteractionListener
+import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState
+import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState.WorkoutLevelUiState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.congratulations_message
 import evolvefit.composeapp.generated.resources.exercises
@@ -47,7 +45,6 @@ import evolvefit.composeapp.generated.resources.next_workout_button
 import evolvefit.composeapp.generated.resources.workout_completed_message
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
 @Composable
