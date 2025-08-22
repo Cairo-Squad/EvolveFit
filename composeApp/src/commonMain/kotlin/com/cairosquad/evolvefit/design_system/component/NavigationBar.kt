@@ -69,10 +69,11 @@ fun NavigationBar(
     ) {
         navigationItems.forEachIndexed { index, navItem ->
             NavigationItem(
+                modifier = Modifier.weight(1f),
                 navItem = navItem,
                 isSelected = selectedItem == index,
                 onClick = { onItemClick(index) },
-                modifier = Modifier.weight(1f)
+                isClickEnabled = selectedItem != index
             )
         }
     }
@@ -83,6 +84,7 @@ private fun NavigationItem(
     navItem: NavigationBarItem,
     isSelected: Boolean,
     onClick: () -> Unit,
+    isClickEnabled: Boolean = true,
     modifier: Modifier = Modifier,
 ) {
     val icon = if (isSelected) navItem.filledIcon else navItem.outlinedIcon
@@ -91,7 +93,7 @@ private fun NavigationItem(
         label = "icon and text color animation"
     )
     Column(
-        modifier = modifier.clickable { onClick() },
+        modifier = modifier.clickable(onClick = onClick, enabled = isClickEnabled),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AnimatedContent(
