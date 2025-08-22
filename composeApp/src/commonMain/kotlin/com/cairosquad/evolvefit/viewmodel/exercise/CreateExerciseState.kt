@@ -12,6 +12,7 @@ data class CreateExerciseState(
     val measurementInputValue: String = "",
     val selectedFocusAreas: Set<FocusArea> = emptySet(),
     val description: String = "",
+    val isLoading: Boolean = false,
     val isExerciseSaved: Boolean = false,
     val showExitBottomSheet: Boolean = false,
     val errorMessage: String? = null,

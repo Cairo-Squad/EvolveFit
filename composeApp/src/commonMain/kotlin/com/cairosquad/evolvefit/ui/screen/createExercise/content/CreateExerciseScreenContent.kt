@@ -251,6 +251,7 @@ fun CreateExerciseScreenContent(
                     PrimaryButton(
                         modifier = Modifier.padding(vertical = 40.dp),
                         isEnabled = listener.canSaveExercise(),
+                        isLoading = state.isLoading,
                         text = stringResource(Res.string.save_exercise),
                         onClick = { listener.onSaveClicked() }
                     )

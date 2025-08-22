@@ -24,9 +24,11 @@ class CreateExerciseViewModel(
         tryToCall(
             block = { manageEquipmentUseCase.getAllEquipments() },
             onSuccess = { equipments ->
-                updateState { it.copy(availableEquipments = equipments.map { it.toUiState() }.toSet()) }
+                updateState {
+                    it.copy(availableEquipments = equipments.map { it.toUiState() }.toSet())
+                }
             },
-            onError = {updateState { it.copy(errorMessage = "Failed to load equipments") } }
+            onError = { updateState { it.copy(errorMessage = "Failed to load equipments") } }
         )
     }
 
@@ -60,48 +62,8 @@ class CreateExerciseViewModel(
         println("SAYEDMAGDY onStartImageRetrieved : ${image}")
         updateState { it.copy(image1 = image, isImage1PickerOpen = false) }
     }
-    private fun pushStartImage(id : String){
-        val image = screenState.value.image1
-        tryToCall(
-            block = {
-                val imageFileData = image!!.asByteArray()
-                val uploadedImage = manageExerciseUseCase.uploadExerciseImage(
-                    imageFileData.bytes,
-                    imageFileData.fileName,
-                    id
-                )
-                uploadedImage
-            },
-            onSuccess = {
-                log("$it", "onStartImageRetrieved")
-            },
-            onError = {}
 
-        )
-    }
-    private fun pushStartImage2(id: String){
-        val image = screenState.value.image2
-        tryToCall(
-            block = {
-                val imageFileData = image!!.asByteArray()
-                val uploadedImage = manageExerciseUseCase.uploadExerciseImage(
-                    imageFileData.bytes,
-                    imageFileData.fileName,
-                    id
-                )
-                uploadedImage
-            },
-            onSuccess = {
-                println("onStartImageRetrieved onSuccess $it")
 
-            },
-            onError = {
-                println("onStartImageRetrieved onError $it")
-
-            }
-
-        )
-    }
 
     override fun onStartImagePickerDismiss() {
         updateState { it.copy(isImage1PickerOpen = false) }
@@ -167,30 +129,91 @@ class CreateExerciseViewModel(
         }
     }
 
-    override fun onMeasurementValueChanged(value: String) { updateState { it.copy(measurementInputValue = value) } }
+    override fun onMeasurementValueChanged(value: String) {
+        updateState { it.copy(measurementInputValue = value) }
+    }
 
     override fun onSaveClicked() {
+        if (screenState.value.isLoading) return
+        setLoadingState(true)
         tryToCall(
             onStart = { updateState { it.copy(isExerciseSaved = true) } },
             block = ::saveExercise,
-            onSuccess = {it ->
+            onSuccess = { it ->
                 pushStartImage(it)
                 pushStartImage2(it)
-                        },
-            onError = {  },
+            },
+            onError = {
+                setLoadingState(false)
+            },
             onEnd = { updateState { it.copy(isExerciseSaved = false) } }
         )
 
     }
+    private fun pushStartImage(id: String) {
+        val image = screenState.value.image1
+        tryToCall(
+            block = {
+                val imageFileData = image!!.asByteArray()
+                val uploadedImage = manageExerciseUseCase.uploadExerciseImage(
+                    imageFileData.bytes,
+                    imageFileData.fileName,
+                    id
+                )
+                uploadedImage
+            },
+            onSuccess = {
+                log("$it", "onStartImageRetrieved")
+                setLoadingState(false)
+                sendEffect(CreateExerciseEffect.NavigateToAllExercises)
+            },
+            onError = {
+                setLoadingState(false)
+            }
 
-    private suspend fun saveExercise(): String {
-     val response =    manageExerciseUseCase.createExercise(screenState.value.toDomainExercise())
-        println("SAYEDMAGDY saveExercise  id: ${response.id}")
-        updateState { it.copy(exerciseId = response.id) }
-    return response.id
+        )
     }
 
-    override fun onExitClicked() { updateState { it.copy(showExitBottomSheet = true) } }
+    private  fun pushStartImage2(id: String) {
+        val image = screenState.value.image2
+        tryToCall(
+            block = {
+                val imageFileData = image!!.asByteArray()
+                val uploadedImage = manageExerciseUseCase.uploadExerciseImage(
+                    imageFileData.bytes,
+                    imageFileData.fileName,
+                    id
+                )
+                uploadedImage
+            },
+            onSuccess = {
+                println("onStartImageRetrieved onSuccess $it")
+//                setLoadingState(false)
+//                sendEffect(CreateExerciseEffect.NavigateToAllExercises)
+
+            },
+            onError = {
+               // setLoadingState(false)
+                println("onStartImageRetrieved onError $it")
+
+            }
+
+        )
+    }
+    private fun setLoadingState(isLoading: Boolean) {
+        updateState { it.copy(isLoading = isLoading) }
+    }
+
+    private suspend fun saveExercise(): String {
+        val response = manageExerciseUseCase.createExercise(screenState.value.toDomainExercise())
+        updateState { it.copy(exerciseId = response.id) }
+        println("SAYEDMAGDY saveExercise  id: ${response.id}")
+        return response.id
+    }
+
+    override fun onExitClicked() {
+        updateState { it.copy(showExitBottomSheet = true) }
+    }
 
     override fun onExitWithoutSavingClicked() {
         updateState { it.copy(showExitBottomSheet = false) }
@@ -202,9 +225,13 @@ class CreateExerciseViewModel(
         updateState { it.copy(showExitBottomSheet = false) }
     }
 
-    override fun onFocusAreaDismiss() { updateState { it.copy(isFocusAreaExpanded = false) } }
+    override fun onFocusAreaDismiss() {
+        updateState { it.copy(isFocusAreaExpanded = false) }
+    }
 
-    override fun onEquipmentDismiss() { updateState { it.copy(isEquipmentExpanded = false) } }
+    override fun onEquipmentDismiss() {
+        updateState { it.copy(isEquipmentExpanded = false) }
+    }
 
     override fun canSaveExercise(): Boolean {
         val currentState = screenState.value
