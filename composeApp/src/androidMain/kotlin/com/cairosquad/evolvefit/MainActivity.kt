@@ -10,6 +10,7 @@ import com.cairosquad.evolvefit.ui.navigation.WorkoutDetailsRoute
 import com.cairosquad.evolvefit.repository.profile.local.ProfilePreferences
 import com.cairosquad.evolvefit.ui.util.LocalizationProvider
 import com.cairosquad.evolvefit.ui.util.ThemeProvider
+import com.cairosquad.evolvefit.ui.util.changeLanguage
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,8 @@ class MainActivity : ComponentActivity() {
 
         installSplashScreen()
         enableEdgeToEdge()
-
+        val savedLanguage = preferences.getSavedLanguage()
+        changeLanguage(savedLanguage)
         deepLinkRoute = getDeepLinkRoute(intent)
 
         setContent {
@@ -31,7 +33,9 @@ class MainActivity : ComponentActivity() {
                 ThemeProvider(preferences) { currentTheme, onThemeChange ->
                     App(
                         deepLinkRoute = deepLinkRoute,
-                        currentTheme = currentTheme
+                        currentTheme = currentTheme,
+                        onLanguageChange = onLanguageChange,
+                        onThemeChange = onThemeChange
                     )
                 }
             }
