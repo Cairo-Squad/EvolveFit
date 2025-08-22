@@ -228,6 +228,7 @@
     <string name="error_invalid_email">تحقّق من البريد الإلكتروني وحاول مرة أخرى.</string>
     <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل.</string>
     <string name="error_unexpected">حدث خطأ غير متوقع.</string>
+    <string name="error_email_already_used">البريد الإلكتروني مستخدم بالفعل.</string>
     <string name="liters1">لترات</string>
     <string name="calories_small">سعر حراري</string>
     <string name="water_consumption">شرب الماء</string>
