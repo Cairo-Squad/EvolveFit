@@ -36,7 +36,7 @@ class WorkoutViewModel(
     override fun onSelectFocusArea(focusArea: FocusAreaUiState) {
         updateState { it.copy(selectedFocusArea = focusArea, errorMessage = null) }
 
-        if (focusArea == FocusAreaUiState.CORE) {
+        if (focusArea == FocusAreaUiState.All) {
             loadAllWorkouts()
         } else {
             loadWorkoutsByFocusArea(focusArea)
@@ -45,7 +45,7 @@ class WorkoutViewModel(
 
     override fun onRetryClicked() {
         val selected = screenState.value.selectedFocusArea
-        if (selected == FocusAreaUiState.CORE) loadAllWorkouts()
+        if (selected == FocusAreaUiState.All) loadAllWorkouts()
         else loadWorkoutsByFocusArea(selected)
     }
 
@@ -147,7 +147,7 @@ class WorkoutViewModel(
 
     private fun onGetWorkoutsByFocusArea(focusArea: FocusAreaUiState): suspend () -> List<WorkoutSuggested> =
         {
-            if (focusArea == FocusAreaUiState.CORE)
+            if (focusArea == FocusAreaUiState.All)
                 workoutUseCase.getSuggestedWorkouts()
             else
                 workoutUseCase.getSuggestedWorkoutsByFocusArea(focusArea.toDomain())

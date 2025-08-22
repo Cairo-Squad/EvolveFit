@@ -2,7 +2,7 @@ package com.cairosquad.evolvefit.viewmodel.workout
 
 
 data class WorkoutScreenState(
-    val selectedFocusArea: FocusAreaUiState = FocusAreaUiState.CORE,
+    val selectedFocusArea: FocusAreaUiState = FocusAreaUiState.All,
     val allWorkouts: List<WorkoutSuggestedUiState> = emptyList(),
     val focusAreas: List<FocusAreaUiState> = FocusAreaUiState.entries,
     val screenStatus: ScreenStatus = ScreenStatus.LOADING,
@@ -18,7 +18,7 @@ data class WorkoutScreenState(
     )
 
     enum class FocusAreaUiState {
-        CORE,
+        All,
         BACK,
         LEGS,
         SHOULDERS,

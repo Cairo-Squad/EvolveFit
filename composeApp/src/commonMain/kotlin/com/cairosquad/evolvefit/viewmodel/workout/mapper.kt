@@ -5,7 +5,7 @@ import com.cairosquad.evolvefit.domain.model.FocusArea
 
 fun FocusArea.toUiState(): WorkoutScreenState.FocusAreaUiState {
     return when (this) {
-        FocusArea.CORE -> WorkoutScreenState.FocusAreaUiState.CORE
+        FocusArea.CORE -> WorkoutScreenState.FocusAreaUiState.All
         FocusArea.ARMS -> WorkoutScreenState.FocusAreaUiState.ARMS
         FocusArea.BACK -> WorkoutScreenState.FocusAreaUiState.BACK
         FocusArea.SHOULDERS -> WorkoutScreenState.FocusAreaUiState.SHOULDERS
@@ -16,7 +16,7 @@ fun FocusArea.toUiState(): WorkoutScreenState.FocusAreaUiState {
 
 fun WorkoutScreenState.FocusAreaUiState.toDomain(): FocusArea {
     return when (this) {
-        WorkoutScreenState.FocusAreaUiState.CORE -> FocusArea.CORE
+        WorkoutScreenState.FocusAreaUiState.All -> FocusArea.CORE
         WorkoutScreenState.FocusAreaUiState.CHEST -> FocusArea.CHEST
         WorkoutScreenState.FocusAreaUiState.SHOULDERS -> FocusArea.SHOULDERS
         WorkoutScreenState.FocusAreaUiState.ARMS -> FocusArea.ARMS
@@ -31,7 +31,7 @@ fun WorkoutSuggested.toUiState(): WorkoutScreenState.WorkoutSuggestedUiState {
         title = name,
         duration = durationSeconds.toString(),
         focusArea = focusArea.firstOrNull()?.toUiState()
-            ?: WorkoutScreenState.FocusAreaUiState.CORE,
+            ?: WorkoutScreenState.FocusAreaUiState.All,
         imageUrl = imageUrl
     )
 }
