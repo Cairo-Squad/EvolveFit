@@ -28,7 +28,7 @@ import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.screen.createWorkout.component.WorkoutImage
+import com.cairosquad.evolvefit.ui.screen.createWorkout.content.component.WorkoutImage
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState.WorkoutLevel
@@ -37,7 +37,6 @@ import evolvefit.composeapp.generated.resources.advanced
 import evolvefit.composeapp.generated.resources.beginner
 import evolvefit.composeapp.generated.resources.characters_left
 import evolvefit.composeapp.generated.resources.choose_level
-import evolvefit.composeapp.generated.resources.choose_your_goal_
 import evolvefit.composeapp.generated.resources.create_workout_subtitle_
 import evolvefit.composeapp.generated.resources.create_workout_title_
 import evolvefit.composeapp.generated.resources.cross_icon_desc_

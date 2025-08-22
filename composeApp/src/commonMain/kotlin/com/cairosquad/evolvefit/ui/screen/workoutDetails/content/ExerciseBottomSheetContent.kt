@@ -14,7 +14,7 @@ import com.cairosquad.evolvefit.design_system.component.Chip
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.screen.workoutDetails.component.ImageCarousel
+import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.ImageCarousel
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.bullet_point
@@ -24,7 +24,6 @@ import evolvefit.composeapp.generated.resources.focus_abs
 import evolvefit.composeapp.generated.resources.focus_area
 import evolvefit.composeapp.generated.resources.focus_calves
 import evolvefit.composeapp.generated.resources.focus_core
-import evolvefit.composeapp.generated.resources.focus_full_body
 import evolvefit.composeapp.generated.resources.focus_lower_back
 import evolvefit.composeapp.generated.resources.focus_quadriceps
 import evolvefit.composeapp.generated.resources.focus_shoulders

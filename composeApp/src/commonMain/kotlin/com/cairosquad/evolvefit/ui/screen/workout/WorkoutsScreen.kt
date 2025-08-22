@@ -34,6 +34,8 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.RefreshBox
 import com.cairosquad.evolvefit.ui.navigation.NavBarRoute
 import com.cairosquad.evolvefit.ui.navigation.navBar.Scaffold
+import com.cairosquad.evolvefit.ui.screen.workout.content.WorkoutsErrorScreen
+import com.cairosquad.evolvefit.ui.screen.workout.content.WorkoutsLoadingScreen
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutEffect
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutInteractionListener

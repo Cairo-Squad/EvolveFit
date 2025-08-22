@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.screen.mealsHistory.components.GroupedMealHistoryItem
+import com.cairosquad.evolvefit.ui.screen.mealsHistory.content.components.GroupedMealHistoryItem
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.meal_history.MealHistoryEffect
 import com.cairosquad.evolvefit.viewmodel.meal_history.MealHistoryViewModel

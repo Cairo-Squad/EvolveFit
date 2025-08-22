@@ -38,7 +38,7 @@ import com.cairosquad.evolvefit.design_system.component.clockTimer.ClockTimer
 import com.cairosquad.evolvefit.design_system.component.clockTimer.rememberClockTimerState
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
-import com.cairosquad.evolvefit.ui.screen.playWorkout.component.ExerciseNameAndInfoIcon
+import com.cairosquad.evolvefit.ui.screen.playWorkout.content.component.ExerciseNameAndInfoIcon
 import com.cairosquad.evolvefit.ui.util.ScreenSize
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState

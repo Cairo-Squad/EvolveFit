@@ -12,8 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.screen.report.componant.cards.LoadingHistoryWorkoutCard
-
+import com.cairosquad.evolvefit.ui.screen.report.content.componant.cards.LoadingHistoryWorkoutCard
 
 fun LazyListScope.workoutHistoryScreenLoadingContent() {
     items(10) {
