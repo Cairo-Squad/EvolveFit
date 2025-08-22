@@ -35,7 +35,7 @@ data class PlayWorkoutScreenState(
         val name: String = "",
         val imageUrls: List<String> = emptyList(),
         val exerciseSpec: ExerciseSpecUiState = ExerciseSpecUiState.Reps(0),
-        val focusAreas: Set<String> = emptySet(),
+        val focusAreas: Set<StringResource> = emptySet(),
         val instructions: List<String> = emptyList(),
         val equipment: String = ""
     )

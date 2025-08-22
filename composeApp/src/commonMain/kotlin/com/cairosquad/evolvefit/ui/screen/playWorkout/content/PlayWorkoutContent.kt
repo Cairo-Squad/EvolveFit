@@ -100,7 +100,7 @@ private fun ExerciseInfoBottomSheet(
         images = exercise.imageUrls,
         instructions = exercise.instructions,
         equipment = exercise.equipment,
-        focusAreas = exercise.focusAreas,
+        focusAreas = exercise.focusAreas.map { stringResource(it) },
         isVisible = isVisible,
         onDismiss = onDismiss,
         modifier = modifier

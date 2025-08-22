@@ -56,7 +56,7 @@ fun ExerciseDetailsBottomSheet(
     instructions: List<String>,
     images: List<String>,
     equipment: String,
-    focusAreas: Set<String>,
+    focusAreas: List<String>,
     isVisible: Boolean,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
@@ -203,7 +203,7 @@ private fun ExerciseDetailsBottomSheetPreview() {
         ),
         images = listOf("", ""),
         equipment = "Barbell",
-        focusAreas = setOf("Core", "Shoulders"),
+        focusAreas = listOf("Core", "Shoulders"),
         isVisible = true,
         onDismiss = {}
     )

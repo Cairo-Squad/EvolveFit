@@ -2,6 +2,17 @@ package com.cairosquad.evolvefit.viewmodel.play_workout
 
 import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.entity.Workout
+import com.cairosquad.evolvefit.domain.model.FocusArea
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.focus_abs
+import evolvefit.composeapp.generated.resources.focus_calves
+import evolvefit.composeapp.generated.resources.focus_core
+import evolvefit.composeapp.generated.resources.focus_lower_back
+import evolvefit.composeapp.generated.resources.focus_quadriceps
+import evolvefit.composeapp.generated.resources.focus_shoulders
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 fun Workout.toUiState(): PlayWorkoutScreenState.WorkoutUiState {
     return PlayWorkoutScreenState.WorkoutUiState(
@@ -27,8 +38,19 @@ fun Exercise.toUiState(): PlayWorkoutScreenState.ExerciseUiState {
                 PlayWorkoutScreenState.ExerciseSpecUiState.Time(this.specification.timeInSeconds)
             }
         },
-        focusAreas = focusAreas.map { it.name }.toSet(),
+        focusAreas = focusAreas.map { it.toStringRes() }.toSet(),
         instructions = instructions,
         equipment = equipment.name
     )
+}
+
+private fun FocusArea.toStringRes(): StringResource {
+    return when (this) {
+        FocusArea.CORE -> Res.string.focus_core
+        FocusArea.SHOULDERS -> Res.string.focus_shoulders
+        FocusArea.BACK -> Res.string.focus_lower_back
+        FocusArea.LEGS -> Res.string.focus_calves
+        FocusArea.ARMS -> Res.string.focus_abs
+        FocusArea.CHEST -> Res.string.focus_quadriceps
+    }
 }
