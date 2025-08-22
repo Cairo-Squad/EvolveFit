@@ -25,6 +25,8 @@ lifecycleViewModel = "2.9.1"
 filekit = "0.10.0"
 ktor = "3.2.3"
 core-splashscreen = "1.0.1"
+googleFirebaseAppdistribution = "5.1.1"
+googleGmsGoogleServices = "4.4.3"
 
 [libraries]
 compose-shadow = { module = "com.adamglin:compose-shadow", version.ref = "composeShadow" }
@@ -79,6 +81,8 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+googleFirebaseAppdistribution = { id = "com.google.firebase.appdistribution", version.ref = "googleFirebaseAppdistribution" }
+googleGmsGoogleServices = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 
 [bundles]
 ktor = [
