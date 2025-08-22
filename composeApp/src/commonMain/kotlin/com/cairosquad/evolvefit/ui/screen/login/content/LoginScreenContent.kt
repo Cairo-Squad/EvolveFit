@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.login.content
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -47,7 +48,8 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun LoginScreenContent(
     state: LoginScreenUiState,
-    listener: LoginInteractionListener
+    listener: LoginInteractionListener,
+    showBackButton: Boolean
 ) {
     val visibilityIcon = if (state.isPasswordVisible) {
         Res.drawable.ic_visibility_on
@@ -57,20 +59,23 @@ fun LoginScreenContent(
 
     Column(
         modifier = Modifier
-            .windowInsetsPadding(WindowInsets.systemBars)
             .fillMaxSize()
+            .background(Theme.color.surfaces.surface)
+            .windowInsetsPadding(WindowInsets.systemBars)
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomAppBar(
             title = "",
             header = {
-                ActionIconButton(
-                    icon = painterResource(Res.drawable.ic_back),
-                    contentDescription = stringResource(Res.string.arrow_back_description),
-                    tint = Theme.color.surfaces.onSurface,
-                    onClick = listener::onBackClicked
-                )
+                if (showBackButton) {
+                    ActionIconButton(
+                        icon = painterResource(Res.drawable.ic_back),
+                        contentDescription = stringResource(Res.string.arrow_back_description),
+                        tint = Theme.color.surfaces.onSurface,
+                        onClick = listener::onBackClicked
+                    )
+                }
             }
         )
         LazyColumn(

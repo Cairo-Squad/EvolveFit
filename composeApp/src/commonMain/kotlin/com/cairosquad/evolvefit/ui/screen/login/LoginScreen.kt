@@ -18,6 +18,7 @@ fun LoginScreen(
     navigateBack: () -> Unit,
     navigateToRegister: () -> Unit,
     navigateToApp: () -> Unit,
+    showBackButton: Boolean,
     loginViewModel: LoginViewModel = koinViewModel()
 ) {
     val state by loginViewModel.screenState.collectAsState()
@@ -40,7 +41,11 @@ fun LoginScreen(
             }
         }
     }
-    LoginScreenContent(state = state, listener = loginViewModel)
+    LoginScreenContent(
+        state = state, 
+        listener = loginViewModel,
+        showBackButton = showBackButton
+    )
 }
 
 
@@ -62,7 +67,8 @@ fun LoginScreenPreview() {
                 override fun onTogglePasswordVisibility() {}
                 override fun onBackClicked() {}
                 override fun onJoinNowClicked() {}
-            }
+            },
+            showBackButton = true
         )
     }
 }

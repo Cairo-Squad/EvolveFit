@@ -13,6 +13,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.WorkoutCard
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.min
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -31,7 +33,7 @@ fun Workouts(
                     .clip(RoundedCornerShape(8.dp))
                     .clickable { onClickWorkout(workout.id) },
                 title = workout.title,
-                duration = workout.duration,
+                duration = workout.durationInMinutes + " " + stringResource(Res.string.min),
                 focusArea = stringResource(workout.focusArea.nameResId),
                 model = workout.imageUrl,
             )
