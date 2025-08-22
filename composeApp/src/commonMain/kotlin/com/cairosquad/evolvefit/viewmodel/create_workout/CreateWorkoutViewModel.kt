@@ -1,12 +1,14 @@
 package com.cairosquad.evolvefit.viewmodel.create_workout
 
 import com.cairosquad.evolvefit.domain.entity.Exercise
+import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.usecase.exercise.ManageExerciseUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutEffect.NavigateBack
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState.WorkoutLevel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
+import com.cairosquad.evolvefit.viewmodel.utils.asByteArray
 
 class CreateWorkoutViewModel(
     private val manageWorkoutUseCase: ManageWorkoutUseCase,
@@ -16,6 +18,26 @@ class CreateWorkoutViewModel(
 
     init {
         loadExercises()
+    }
+
+    private fun pushWorkoutImage(id: String) {
+        val image = screenState.value.image ?: run {
+            return
+        }
+        tryToCall(
+            block = {
+                val imageFileData = image.asByteArray()
+                manageWorkoutUseCase.uploadWorkoutImage(
+                    imageFileData.bytes,
+                    imageFileData.fileName,
+                    id
+                )
+            },
+            onSuccess = { imageUrl ->
+                updateState { it.copy(image = UiImage.ImageUrl(imageUrl)) }
+            },
+            onError = {}
+        )
     }
 
     private fun handleExercisesResultSuccess(exercises: List<Exercise>) {
@@ -128,8 +150,9 @@ class CreateWorkoutViewModel(
         updateState { it.copy(currentStep = CreateWorkOutScreenState.CreateWorkoutStep.EXERCISES) }
     }
 
-    private fun handleWorkoutSuccess() {
+    private fun handleWorkoutSuccess(createWorkout: Workout) {
         updateState { it.copy(status = CreateWorkOutScreenState.ScreenStatus.SUCCESS) }
+        pushWorkoutImage(createWorkout.id)
         sendEffect(CreateWorkOutEffect.NavigateToWorkouts)
     }
 
@@ -145,11 +168,21 @@ class CreateWorkoutViewModel(
     override fun onAddWorkoutClicked() {
         val selectedDomainExercises = screenState.value.selectedExercises.map { it }
         val workout = screenState.value.toDomainWorkout(selectedDomainExercises)
+
+        println(">>> Creating workout: $workout")
+
         tryToCall(
             block = { manageWorkoutUseCase.createWorkOut(workout) },
-            onSuccess = { handleWorkoutSuccess() },
-            onError = ::handleWorkoutError,
-            onStart = ::handleWorkoutLoading
+            onSuccess = { createdWorkout ->
+                handleWorkoutSuccess(createdWorkout)
+                pushWorkoutImage(createdWorkout.id)
+            },
+            onError = {
+                handleWorkoutError(it)
+            },
+            onStart = {
+                handleWorkoutLoading()
+            }
         )
     }
 }

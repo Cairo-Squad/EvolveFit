@@ -44,9 +44,10 @@ class WorkoutRepositoryImpl(
         }
     }
 
-    override suspend fun createWorkout(workout: Workout) {
-        callDataSource {
-            workoutRemoteDataSource.createWorkout(workout.toCreateRequest())
+    override suspend fun createWorkout(workout: Workout): Workout {
+        return callDataSource {
+            val response = workoutRemoteDataSource.createWorkout(workout.toCreateRequest())
+            response.toDomain()
         }
     }
 
@@ -70,5 +71,13 @@ class WorkoutRepositoryImpl(
 
     override suspend fun getWorkoutHistory(): List<WorkoutHistory> {
         return callDataSource { workoutRemoteDataSource.getWorkoutHistory().map { it.toDomain() } }
+    }
+
+    override suspend fun uploadWorkoutImage(
+        fileBytes: ByteArray,
+        fileName: String,
+        workoutId : String
+    ): String {
+        return workoutRemoteDataSource.uploadWorkoutImage(fileBytes,fileName,workoutId)
     }
 }

@@ -12,7 +12,7 @@ data class WorkoutDetailsDto(
     @SerialName("name")
     val name: String,
     @SerialName("durationSeconds")
-    val durationSeconds: Int,
+    val durationSeconds: Int? = null,
     @SerialName("imageUrl")
     val imageUrl: String,
     @SerialName("description")
@@ -39,7 +39,7 @@ data class WorkoutDto(
     @SerialName("name")
     val name: String,
     @SerialName("durationSeconds")
-    val durationSeconds: Int,
+    val durationSeconds: Int?,
     @SerialName("imageUrl")
     val imageUrl: String,
     @SerialName("focusArea")

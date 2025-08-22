@@ -151,7 +151,7 @@ fun NavigationHost(
                 navigateToNotificationSettings = { },
                 onLogout = {
                     navController.navigate(LoginRoute) {
-                        popUpTo(OnboardingRoute) { inclusive = true }
+                        popUpTo(NavBarRoute.Home) { inclusive = true }
                         launchSingleTop = true
                         restoreState = false
                     }
@@ -185,7 +185,6 @@ fun NavigationHost(
                     onExerciseCreationSuccess?.clearSavedStateAfterInvoke(navController)
             )
         }
-
         composable<CommunityWorkoutRoute> {
             CommunityWorkoutScreen(
                 navigateBack = navController::popBackStack,

@@ -32,6 +32,7 @@ import com.cairosquad.evolvefit.ui.screen.createWorkout.component.WorkoutImage
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState.WorkoutLevel
+import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.characters_left
 import evolvefit.composeapp.generated.resources.choose_your_goal_
@@ -42,6 +43,7 @@ import evolvefit.composeapp.generated.resources.enter_description_
 import evolvefit.composeapp.generated.resources.enter_workout_name_
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_cross
+import evolvefit.composeapp.generated.resources.im_upload1
 import evolvefit.composeapp.generated.resources.next_button_
 import evolvefit.composeapp.generated.resources.upload_image
 import org.jetbrains.compose.resources.painterResource
@@ -101,7 +103,7 @@ fun CreateWorkoutContent(
             }
 
             WorkoutImage(
-                image = state.image,
+                image = state.image ?: UiImage.ImageResource(Res.drawable.im_upload1),
                 isImagePickerOpen = state.isImagePickerOpen,
                 onImagePickerDismiss = listener::onImagePickerDismiss,
                 onImagePickerClick = listener::onImageClicked,

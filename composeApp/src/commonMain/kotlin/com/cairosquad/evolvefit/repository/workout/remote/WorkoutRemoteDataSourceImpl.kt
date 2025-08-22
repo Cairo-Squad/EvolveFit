@@ -10,18 +10,23 @@ import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutHistoryDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
+import io.ktor.client.request.forms.MultiPartFormDataContent
+import io.ktor.client.request.forms.formData
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 
 class WorkoutRemoteDataSourceImpl(
     private val client: HttpClient
 ) : WorkoutRemoteDataSource {
 
-    override suspend fun createWorkout(request: CreateWorkoutRequest) {
+    override suspend fun createWorkout(request: CreateWorkoutRequest): WorkoutDetailsDto {
         return callApi {
             client.post("$WORKOUT_PATH/create") {
                 contentType(ContentType.Application.Json)
@@ -98,6 +103,33 @@ class WorkoutRemoteDataSourceImpl(
                 contentType(ContentType.Application.Json)
                 parameter("workoutId", workoutId)
             }.body()
+        }
+    }
+
+    override suspend fun uploadWorkoutImage(
+        fileBytes: ByteArray,
+        fileName: String,
+        workoutId: String
+    ): String {
+        return callApi<String> {
+            val response = client.put("${WORKOUT_PATH}/image") {
+                parameter("workoutId", workoutId)
+                setBody(
+                    MultiPartFormDataContent(
+                        formData {
+                            append(
+                                key = "image",
+                                value = fileBytes,
+                                headers = Headers.build {
+                                    append(HttpHeaders.ContentType, "multipart/form-data")
+                                    append(HttpHeaders.ContentDisposition, "filename=\"$fileName\"")
+                                }
+                            )
+                        }
+                    )
+                )
+            }
+            response.body()
         }
     }
 

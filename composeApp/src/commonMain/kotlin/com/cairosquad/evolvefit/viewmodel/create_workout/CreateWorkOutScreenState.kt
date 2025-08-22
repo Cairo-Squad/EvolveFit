@@ -5,7 +5,7 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.im_upload1
 
 data class CreateWorkOutScreenState(
-    val image: UiImage = UiImage.ImageResource(Res.drawable.im_upload1),
+    val image: UiImage? = null,
     val name: String = "",
     val goal: WorkoutLevel = WorkoutLevel.BEGINNER,
     val description: String = "",

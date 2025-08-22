@@ -18,9 +18,9 @@ data class FavoritesState(
     )
 
 data class WorkoutsUiModel(
-    val id: String ,
+    val id: String,
     val name: String,
-    val estimatedTimeInSeconds: Int,
+    val estimatedTimeInSeconds: Int?,
     val focusArea: String,
     val imageUrl: String
 )
