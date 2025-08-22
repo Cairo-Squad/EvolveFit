@@ -15,17 +15,19 @@ class ExerciseRepositoryImpl(
         return callDataSource { remoteDataSource.getAllExercises().map { it.toDomain() } }
     }
 
-    override suspend fun createExercise(exercise: Exercise) {
-        callDataSource {
-            remoteDataSource.createExercise(exercise.toDto())
+    override suspend fun createExercise(exercise: Exercise): Exercise {
+       return callDataSource {
+           val response = remoteDataSource.createExercise(exercise.toDto())
+           response.toDomain()
         }
     }
 
     override suspend fun uploadExerciseImage(
         fileBytes: ByteArray,
-        fileName: String
+        fileName: String,
+        exerciseId : String
     ): String {
-       return remoteDataSource.uploadExerciseImage(fileBytes,fileName)
+       return remoteDataSource.uploadExerciseImage(fileBytes,fileName,exerciseId)
     }
 
     override suspend fun getExercisesByQuery(query: String): List<Exercise> {

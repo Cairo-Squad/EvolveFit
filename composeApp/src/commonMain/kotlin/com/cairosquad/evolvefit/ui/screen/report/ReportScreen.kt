@@ -79,6 +79,7 @@ private fun ReportScreenContent(
             .background(Theme.color.surfaces.surface)
     ) {
         CustomAppBar(
+            modifier = Modifier.padding(horizontal = 16.dp),
             title = stringResource(Res.string.workout_report),
             tail = {
                 ActionIconButton(

@@ -1,11 +1,13 @@
 package com.cairosquad.evolvefit.viewmodel.exercise
 
+import com.cairosquad.evolvefit.domain.entity.Equipment
 import com.cairosquad.evolvefit.domain.usecase.equipment.ManageEquipmentUseCase
 import com.cairosquad.evolvefit.domain.usecase.exercise.ManageExerciseUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.FocusArea
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.MeasurementType
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
+import com.cairosquad.evolvefit.viewmodel.utils.asByteArray
 
 class CreateExerciseViewModel(
     private val manageExerciseUseCase: ManageExerciseUseCase,
@@ -17,15 +19,7 @@ class CreateExerciseViewModel(
         getEquipments()
     }
 
-    private fun getEquipments() {
-        tryToCall(
-            block = { manageEquipmentUseCase.getAllEquipments() },
-            onSuccess = { equipments ->
-                updateState { it.copy(availableEquipments = equipments.map { it.toUiState() }.toSet()) }
-            },
-            onError = {updateState { it.copy(errorMessage = "Failed to load equipments") } }
-        )
-    }
+    override fun onNameChanged(name: String) = updateState { it.copy(name = name) }
 
     override fun onEquipmentToggled(equipmentId: Int) {
         updateState {
@@ -49,29 +43,34 @@ class CreateExerciseViewModel(
         updateState { it.copy(isEquipmentExpanded = false) }
     }
 
-    override fun onStartImageClicked() {
-        updateState { it.copy(isImage1PickerOpen = true) }
+    override fun onStartImageClicked() = updateState { it.copy(isFrontImagePickerOpen = true) }
+
+    override fun onEndImageClicked() = updateState { it.copy(isBackImagePickerOpen = true) }
+
+    override fun onStartImageRetrieved(image: UiImage) =
+        updateState { it.copy(frontImage = image, isFrontImagePickerOpen = false) }
+
+
+    override fun onEndImageRetrieved(image: UiImage) =
+        updateState { it.copy(backImage = image, isBackImagePickerOpen = false) }
+
+    override fun onStartImagePickerDismiss() =
+        updateState { it.copy(isFrontImagePickerOpen = false) }
+
+    override fun onEndImagePickerDismiss() = updateState { it.copy(isBackImagePickerOpen = false) }
+
+    override fun onMeasurementTypeSelected(type: MeasurementType) {
+        updateState {
+            it.copy(
+                measurementType = type,
+                isDurationChecked = type == MeasurementType.DURATION,
+                isRepsChecked = type == MeasurementType.REPS
+            )
+        }
     }
 
-    override fun onStartImageRetrieved(image: UiImage) {
-        updateState { it.copy(image1 = image, isImage1PickerOpen = false) }
-    }
-
-    override fun onStartImagePickerDismiss() {
-        updateState { it.copy(isImage1PickerOpen = false) }
-    }
-
-    override fun onEndImageClicked() {
-        updateState { it.copy(isImage2PickerOpen = true) }
-    }
-
-    override fun onEndImageRetrieved(image: UiImage) {
-        updateState { it.copy(image2 = image, isImage2PickerOpen = false) }
-    }
-
-    override fun onEndImagePickerDismiss() {
-        updateState { it.copy(isImage2PickerOpen = false) }
-    }
+    override fun onMeasurementValueChanged(value: String) =
+        updateState { it.copy(measurementInputValue = value) }
 
     override fun onFocusAreaToggled(focusArea: FocusArea) {
         updateState {
@@ -85,57 +84,40 @@ class CreateExerciseViewModel(
         }
     }
 
-    override fun onDescriptionChanged(description: String) {
+    override fun onDescriptionChanged(description: String) =
         updateState { it.copy(description = description) }
-    }
 
-    override fun onAvailableEquipmentsIconClicked() {
+    override fun onAvailableEquipmentsIconClicked() =
         updateState { it.copy(isEquipmentExpanded = !it.isEquipmentExpanded) }
-    }
 
-    override fun onFocusAreaIconClicked() {
+
+    override fun onFocusAreaIconClicked() =
         updateState { it.copy(isFocusAreaExpanded = !it.isFocusAreaExpanded) }
-    }
 
-    override fun onDismissEquipmentsDropdownMenuRequest() {
+    override fun onDismissEquipmentsDropdownMenuRequest() =
         updateState { it.copy(isEquipmentExpanded = false) }
-    }
 
-    override fun onDismissFocusAreasDropdownMenuRequest() {
+    override fun onDismissFocusAreasDropdownMenuRequest() =
         updateState { it.copy(isFocusAreaExpanded = false) }
-    }
-
-    override fun onNameChanged(name: String) {
-        updateState { it.copy(name = name) }
-    }
-
-    override fun onMeasurementTypeSelected(type: MeasurementType) {
-        updateState {
-            it.copy(
-                measurementType = type,
-                isDurationChecked = type == MeasurementType.DURATION,
-                isRepsChecked = type == MeasurementType.REPS
-            )
-        }
-    }
-
-    override fun onMeasurementValueChanged(value: String) { updateState { it.copy(measurementInputValue = value) } }
 
     override fun onSaveClicked() {
+        if (screenState.value.isLoading) return
+        setLoadingState(true)
         tryToCall(
             onStart = { updateState { it.copy(isExerciseSaved = true) } },
             block = ::saveExercise,
-            onSuccess = { sendEffect(CreateExerciseEffect.NavigateToAllExercises) },
-            onError = {  },
+            onSuccess = { it ->
+                pushFrontImage(it)
+                pushBackImage(it)
+            },
+            onError = { setLoadingState(false) },
             onEnd = { updateState { it.copy(isExerciseSaved = false) } }
         )
+
     }
 
-    private suspend fun saveExercise() {
-        manageExerciseUseCase.createExercise(screenState.value.toDomainExercise())
-    }
-
-    override fun onExitClicked() { updateState { it.copy(showExitBottomSheet = true) } }
+    override fun onExitClicked() =
+        updateState { it.copy(showExitBottomSheet = true) }
 
     override fun onExitWithoutSavingClicked() {
         updateState { it.copy(showExitBottomSheet = false) }
@@ -143,21 +125,87 @@ class CreateExerciseViewModel(
         sendEffect(CreateExerciseEffect.CancelCreateExercise)
     }
 
-    override fun onCancelClicked() {
+    override fun onCancelClicked() =
         updateState { it.copy(showExitBottomSheet = false) }
-    }
 
-    override fun onFocusAreaDismiss() { updateState { it.copy(isFocusAreaExpanded = false) } }
+    override fun onFocusAreaDismiss() =
+        updateState { it.copy(isFocusAreaExpanded = false) }
 
-    override fun onEquipmentDismiss() { updateState { it.copy(isEquipmentExpanded = false) } }
+    override fun onEquipmentDismiss() =
+        updateState { it.copy(isEquipmentExpanded = false) }
 
     override fun canSaveExercise(): Boolean {
         val currentState = screenState.value
         return currentState.name.isNotBlank() &&
-                currentState.image1 != null &&
+                currentState.frontImage != null &&
                 currentState.selectedFocusAreas.isNotEmpty() &&
                 currentState.selectedEquipment.name.isNotBlank() &&
                 (currentState.isDurationChecked || currentState.isRepsChecked) &&
                 currentState.description.isNotBlank()
+    }
+
+    private fun pushFrontImage(id: String) {
+        val image = screenState.value.frontImage
+        tryToCall(
+            block = { uploadExerciseImage(image, id) },
+            onSuccess = { handleFrontImageUploadSuccess() },
+            onError = { setLoadingState(false) }
+        )
+    }
+
+    private fun handleFrontImageUploadSuccess() {
+        setLoadingState(false)
+        sendEffect(CreateExerciseEffect.NavigateToAllExercises)
+    }
+
+    private fun pushBackImage(id: String) {
+        val image = screenState.value.backImage
+        tryToCall(
+            block = { uploadExerciseImage(image, id) },
+            onSuccess = {},
+            onError = {}
+
+        )
+    }
+
+    private suspend fun uploadExerciseImage(image: UiImage?, id: String): String {
+        val imageFileData = image!!.asByteArray()
+        return manageExerciseUseCase.uploadExerciseImage(
+            imageFileData.bytes,
+            imageFileData.fileName,
+            id
+        )
+    }
+
+    private fun setLoadingState(isLoading: Boolean) {
+        updateState { it.copy(isLoading = isLoading) }
+    }
+
+    private suspend fun saveExercise(): String {
+        val response = manageExerciseUseCase.createExercise(screenState.value.toDomainExercise())
+        updateState { it.copy(exerciseId = response.id) }
+        return response.id
+    }
+
+    private fun getEquipments() {
+        tryToCall(
+            block = { manageEquipmentUseCase.getAllEquipments() },
+            onSuccess = ::handleEquipmentsSuccess,
+            onError = ::handleEquipmentsError
+        )
+    }
+
+    private fun handleEquipmentsSuccess(equipments: Set<Equipment>) {
+        updateState {
+            it.copy(availableEquipments = equipments.map { equipment -> equipment.toUiState() }
+                .toSet())
+        }
+    }
+
+    private fun handleEquipmentsError(throwable: Throwable) {
+        updateState {
+            it.copy(errorMessage = "Failed to load equipments")
+        }
+
     }
 }
