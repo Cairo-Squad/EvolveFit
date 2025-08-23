@@ -135,7 +135,7 @@ fun EditProfileScreenContent(
         ){
             UserProfileImage(
                 modifier = Modifier.padding(top = 24.dp, bottom = 24.dp),
-                image = state.profile.imageUrl,
+                image = UiImage.ImageUrl(state.profile.imageUrl),
                 isImagePickerOpen = state.isImagePickerOpened,
                 onImagePickerDismiss = { listener.onImagePickerDismissed() },
                 onImagePickerClick = { listener.onImageUrlClicked() },
@@ -154,7 +154,7 @@ fun EditProfileScreenContent(
                     }
                 },
                 isEditScreen = true,
-                defaultSize = if (state.profile.imageUrl is UiImage.ImageResource) 32.dp else 100.dp
+                defaultSize = if (state.profile.imageUrl.isBlank()) 32.dp else 100.dp
 
             )
 
