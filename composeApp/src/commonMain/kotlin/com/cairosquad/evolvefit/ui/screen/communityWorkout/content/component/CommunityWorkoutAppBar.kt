@@ -12,7 +12,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun AppBar(navigateBack: () -> Unit) {
+fun CommunityWorkoutAppBar(navigateBack: () -> Unit) {
     CustomAppBar(
         title = stringResource(Res.string.community),
         header = {

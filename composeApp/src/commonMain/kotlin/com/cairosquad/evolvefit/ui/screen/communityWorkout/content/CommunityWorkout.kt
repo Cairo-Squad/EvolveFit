@@ -18,8 +18,9 @@ import evolvefit.composeapp.generated.resources.min
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun Workouts(
+fun CommunityWorkouts(
     workouts: List<WorkoutScreenState.WorkoutSuggestedUiState>,
+    selected: WorkoutScreenState.FocusAreaUiState,
     onClickWorkout: (String) -> Unit
 ) {
     LazyColumn(
@@ -27,6 +28,8 @@ fun Workouts(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(workouts) { workout ->
+            val displayArea = if (selected == WorkoutScreenState.FocusAreaUiState.ALL) workout.focusArea else selected
+
             WorkoutCard(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -34,7 +37,7 @@ fun Workouts(
                     .clickable { onClickWorkout(workout.id) },
                 title = workout.title,
                 duration = workout.durationInMinutes + " " + stringResource(Res.string.min),
-                focusArea = stringResource(workout.focusArea.nameResId),
+                focusArea = stringResource(displayArea.nameResId),
                 model = workout.imageUrl,
             )
         }

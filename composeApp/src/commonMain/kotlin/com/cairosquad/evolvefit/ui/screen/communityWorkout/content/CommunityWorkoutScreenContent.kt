@@ -14,14 +14,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.RefreshBox
-import com.cairosquad.evolvefit.ui.screen.communityWorkout.content.component.AppBar
+import com.cairosquad.evolvefit.ui.screen.communityWorkout.content.component.CommunityWorkoutAppBar
 import com.cairosquad.evolvefit.ui.screen.workout.content.WorkoutsErrorScreen
 import com.cairosquad.evolvefit.ui.screen.workout.content.WorkoutsLoadingScreen
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
 
 @Composable
- fun WorkoutsScreenContent(
+fun CommunityWorkoutsScreenContent(
     state: WorkoutScreenState,
     listener: CommunityWorkoutInteractionListener,
     navigateBack: () -> Unit
@@ -39,9 +39,9 @@ import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            AppBar(navigateBack)
+            CommunityWorkoutAppBar(navigateBack)
 
-            FocusAreaFilter(
+            CommunityFocusAreaFilter(
                 focusArea = WorkoutScreenState.FocusAreaUiState.entries,
                 selectedFocusArea = state.selectedFocusArea,
                 onSelectFocusArea = listener::onFocusAreaSelected
@@ -56,9 +56,10 @@ import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
             ) { status ->
                 when (status) {
                     WorkoutScreenState.ScreenStatus.SUCCESS -> {
-                        Workouts(
+                        CommunityWorkouts(
                             workouts = state.allWorkouts,
-                            onClickWorkout = listener::onWorkoutClicked
+                            selected = state.selectedFocusArea,
+                            onClickWorkout = listener::onWorkoutClicked,
                         )
                     }
 
