@@ -54,8 +54,8 @@ fun UserProfileImage(
         ) {
             Box(
                 modifier = Modifier
-                    .background(Theme.color.surfaces.surfaceContainer)
                     .clip(CircleShape)
+                    .background(Theme.color.surfaces.surfaceContainer)
                     .clickable(onClick = onImagePickerClick),
                 contentAlignment = Alignment.Center
             ) {
