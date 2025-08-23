@@ -117,8 +117,6 @@ private fun UserProfileStep(
             onImageRetrieved = onImageRetrieved,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(bottom = 8.dp)
-                .size(100.dp)
                 .clip(CircleShape)
                 .align(Alignment.CenterHorizontally),
             text = stringResource(Res.string.upload_image),

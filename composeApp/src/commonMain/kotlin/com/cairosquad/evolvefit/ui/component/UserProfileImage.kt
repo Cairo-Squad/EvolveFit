@@ -47,13 +47,14 @@ fun UserProfileImage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
-            modifier = Modifier,
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+                .size(100.dp),
             contentAlignment = Alignment.Center
         ) {
             Box(
                 modifier = Modifier
                     .clip(CircleShape)
-                    .fillMaxSize()
                     .background(Theme.color.surfaces.surfaceContainer)
                     .clickable(onClick = onImagePickerClick),
                 contentAlignment = Alignment.Center
@@ -98,14 +99,12 @@ fun UserProfileImage(
                 }
             }
         }
-        if (!text.isNullOrEmpty()) {
+        if (text.isNullOrEmpty().not()) {
             Text(
                 text = text,
                 style = Theme.textStyle.label.mediumMedium14,
                 color = Theme.color.surfaces.onSurfaceVariant,
-                modifier = Modifier.padding(
-                    bottom = 32.dp
-                ),
+                modifier = Modifier.padding(bottom = 32.dp),
             )
         }
     }
