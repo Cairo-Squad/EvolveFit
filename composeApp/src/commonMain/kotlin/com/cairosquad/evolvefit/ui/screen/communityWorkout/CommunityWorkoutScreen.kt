@@ -25,7 +25,11 @@ fun CommunityWorkoutScreen(
             CommunityWorkoutEffect.NavigateBack -> navigateBack()
         }
     }
-    CommunityWorkoutsScreenContent(state = state, listener = viewModel, navigateBack = navigateBack)
+    CommunityWorkoutsScreenContent(
+        state = state,
+        listener = viewModel,
+        navigateBack = navigateBack
+    )
 }
 
 @Preview

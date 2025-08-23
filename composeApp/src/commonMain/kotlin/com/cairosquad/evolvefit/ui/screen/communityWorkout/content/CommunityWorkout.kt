@@ -28,7 +28,9 @@ fun CommunityWorkouts(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(workouts) { workout ->
-            val displayArea = if (selected == WorkoutScreenState.FocusAreaUiState.ALL) workout.focusArea else selected
+            val displayArea =
+                if (selected == WorkoutScreenState.FocusAreaUiState.ALL) workout.focusArea
+                else selected
 
             WorkoutCard(
                 modifier = Modifier
