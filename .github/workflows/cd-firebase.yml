@@ -41,7 +41,7 @@ jobs:
           GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
         run: |
           mkdir -p app/ # Ensure the directory exists
-          echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > app/google-services.json
+          echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > google-services.json
         shell: bash
 
       - name: Decode Keystore and Create local.properties
