@@ -22,6 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.most_trained_muscles
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -33,7 +36,7 @@ fun MusclesCard(
 ) {
     ReportCard(
         modifier = modifier,
-        title = "Most Trained Muscles",
+        title = stringResource(Res.string.most_trained_muscles),
         value = ""
     ) {
         repeat(musclesName.size) {

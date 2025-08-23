@@ -27,6 +27,9 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.util.toFormattedString
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.from_calories
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -145,7 +148,10 @@ fun CaloriesMeter(
                 color = Theme.color.surfaces.onSurfaceContainer
             )
             Text(
-                text = "From ${expectedCalories.toUInt().toFormattedString()} kcal",
+                text = stringResource(
+                    Res.string.from_calories,
+                    expectedCalories.toUInt().toFormattedString()
+                ),
                 style = Theme.textStyle.label.smallRegular12,
                 color = Theme.color.surfaces.onSurfaceVariant
             )
