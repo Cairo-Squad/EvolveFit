@@ -3,7 +3,7 @@ package com.cairosquad.evolvefit.viewmodel.workout
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.all
 import evolvefit.composeapp.generated.resources.arms
-import evolvefit.composeapp.generated.resources.back
+import evolvefit.composeapp.generated.resources.back_muscle
 import evolvefit.composeapp.generated.resources.chest
 import evolvefit.composeapp.generated.resources.legs
 import evolvefit.composeapp.generated.resources.shoulders
@@ -28,7 +28,7 @@ data class WorkoutScreenState(
 
     enum class FocusAreaUiState(val nameResId: StringResource) {
         ALL(Res.string.all),
-        BACK(Res.string.back),
+        BACK(Res.string.back_muscle),
         LEGS(Res.string.legs),
         SHOULDERS(Res.string.shoulders),
         ARMS(Res.string.arms),
