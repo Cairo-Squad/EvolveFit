@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
@@ -21,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.LabeledInputField
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
@@ -117,11 +119,12 @@ fun EditProfileScreenContent(
             title = stringResource(Res.string.personal_information),
             header = {
                 Icon(
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .clickable { navigateBack() },
                     painter = painterResource(Res.drawable.ic_back),
                     contentDescription = "back icon",
                     tint = Theme.color.surfaces.onSurface,
-                    modifier = Modifier
-                        .clickable { navigateBack() }
                 )
             },
             modifier = Modifier.padding(start = 16.dp)
@@ -171,8 +174,7 @@ fun EditProfileScreenContent(
                     label = stringResource(Res.string.full_name),
                     value = state.profile.fullName,
                     onValueChange = listener::onFullNameChanged,
-                    isDividerVisible = true,
-                    readOnly = true,
+                    isDividerVisible = true
                 )
 
                 LabeledInputField(

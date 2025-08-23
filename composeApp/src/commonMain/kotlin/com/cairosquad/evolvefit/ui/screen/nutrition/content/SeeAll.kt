@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.util.noRippleClickable
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_end_arrow
 import evolvefit.composeapp.generated.resources.view_all
@@ -30,16 +31,14 @@ fun SeeAll(
             color = Theme.color.surfaces.onSurface
         )
         Text(
-            modifier = Modifier.clickable(
-                onClick = { onViewAllClick() }
-            ),
+            modifier = Modifier.noRippleClickable(onClick = onViewAllClick),
             text = stringResource(Res.string.view_all),
             style = Theme.textStyle.body.mediumMedium14,
             color = Theme.color.surfaces.onSurfaceVariant
         )
         Icon(
             modifier = Modifier
-                .clickable(onClick = { onViewAllClick() })
+                .noRippleClickable(onClick = onViewAllClick)
                 .padding(start = 4.dp),
             painter = painterResource(Res.drawable.ic_end_arrow),
             contentDescription = null,
