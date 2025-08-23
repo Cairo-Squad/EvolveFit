@@ -115,7 +115,12 @@ fun WorkoutDetailsContent(
                     else painterResource(Res.drawable.ic_bookmark),
                     contentDescription = stringResource(Res.string.bookmark),
                     tint = iconTint,
-                    onClick = { listener.onAddToFavoriteClicked(state.workout.workoutID) }
+                    onClick = {
+                        listener.onToggleFavoriteClicked(
+                            state.workout.workoutID,
+                            state.isFavorite
+                        )
+                    }
                 )
                 ActionIconButton(
                     icon = painterResource(Res.drawable.ic_share),
