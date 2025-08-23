@@ -4,7 +4,7 @@ package com.cairosquad.evolvefit.viewmodel.workout_details
 interface WorkoutDetailsInteractionListener {
     fun onBackClicked()
     fun onShareClicked()
-    fun onAddToFavoriteClicked(workoutId: String)
+    fun onToggleFavoriteClicked(workoutId: String, isSaved: Boolean)
     fun onExerciseClicked(exercise: WorkoutDetailsScreenState.ExerciseUiState)
     fun onExerciseBottomSheetDismiss()
     fun onShareBottomSheetDismiss()
