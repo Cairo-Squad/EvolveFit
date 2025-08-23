@@ -24,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -134,7 +133,7 @@ fun MoreScreenContent(
             AccountRow(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable { listener.onLogout() },
+                    .clickable { listener.onLogoutClicked() },
                 icon = Res.drawable.logout,
                 title = stringResource(Res.string.logout)
             )
