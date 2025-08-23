@@ -237,10 +237,18 @@ class RegisterViewModel(
 
     override fun onMeasurementUnitClicked(unit: RegisterScreenState.MeasurementStandard) {
         updateState {
+            val defaults = if (unit == RegisterScreenState.MeasurementStandard.Metric) {
+                170f to 70f
+            } else {
+                5.6f to 150f
+            }
+
             it.copy(
                 selectedMeasurementStandard =
                     if (it.selectedMeasurementStandard == unit) null
-                    else unit
+                    else unit,
+                selectedHeight = defaults.first,
+                selectedWeight = defaults.second
             )
         }
         updateNextButtonEnableState()
