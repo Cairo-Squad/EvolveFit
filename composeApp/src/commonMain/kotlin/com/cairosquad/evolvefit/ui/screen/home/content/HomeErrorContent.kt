@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.ui.screen.home.content
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -24,7 +23,7 @@ import org.jetbrains.compose.resources.stringResource
 fun HomeErrorContent(
     onRetry: () -> Unit
 ) {
-    val noInternetIcon = if (isSystemInDarkTheme()) {
+    val noInternetIcon = if (Theme.isDark) {
         Res.drawable.im_no_internet
     } else {
         Res.drawable.ic_no_internet_light

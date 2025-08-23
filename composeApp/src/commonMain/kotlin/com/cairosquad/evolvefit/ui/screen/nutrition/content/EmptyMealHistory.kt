@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.ui.screen.nutrition.content
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -8,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.StateMessage
+import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_no_meals_light
 import evolvefit.composeapp.generated.resources.im_no_meals_recorded
@@ -20,7 +20,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun EmptyMealHistory() {
     Box(contentAlignment = Alignment.Center) {
-        val noMealsRecorded = if (isSystemInDarkTheme()) {
+        val noMealsRecorded = if (Theme.isDark) {
             Res.drawable.im_no_meals_recorded
         } else {
             Res.drawable.ic_no_meals_light

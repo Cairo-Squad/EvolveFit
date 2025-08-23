@@ -19,7 +19,7 @@ class ProfilePreferencesImpl(
     }
 
     override fun getSavedTheme(): MoreScreenState.Theme {
-        val themeName = settings[KEY_THEME, "LIGHT"]
+        val themeName = settings[KEY_THEME, "DARK"]
         return when (themeName) {
             "DARK" -> MoreScreenState.Theme.DARK
             else -> MoreScreenState.Theme.LIGHT

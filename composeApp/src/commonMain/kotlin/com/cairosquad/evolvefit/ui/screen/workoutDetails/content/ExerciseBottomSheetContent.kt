@@ -3,9 +3,13 @@ package com.cairosquad.evolvefit.ui.screen.workoutDetails.content
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,6 +20,7 @@ import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.ImageCarousel
+import com.cairosquad.evolvefit.ui.util.ScreenSize
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.bullet_point
@@ -38,7 +43,9 @@ fun ExerciseBottomSheetContent(
     onDismissBottomSheet: () -> Unit
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier.padding(horizontal = 16.dp)
+            .heightIn(max = ScreenSize.heightDp.dp * 0.95f)
+            .verticalScroll(rememberScrollState())
     ) {
         exercise?.let {
             Text(

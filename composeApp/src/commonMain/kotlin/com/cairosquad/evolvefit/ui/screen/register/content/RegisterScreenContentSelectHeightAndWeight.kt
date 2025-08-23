@@ -198,7 +198,6 @@ fun MeasureSection(
             dpPerUnit = dpPerUnit,
             step = step,
             onValueChanged = { newValue ->
-
                 val alignedNewValue = kotlin.math.round(newValue / step) * step
                 onMeasureChanged(alignedNewValue)
             }
@@ -295,9 +294,8 @@ fun Ruler(
                     detectDragGestures { _, dragAmount ->
                         val newValue = (currentValue - dragAmount.x / pixelsPerUnit)
                             .coerceIn(minValue, maxValue)
-                        val alignedNewValue = kotlin.math.round(newValue / step) * step
-                        currentValue = alignedNewValue
-                        onValueChanged(alignedNewValue)
+                        currentValue = newValue
+                        onValueChanged(newValue)
                     }
                 }
         ) {

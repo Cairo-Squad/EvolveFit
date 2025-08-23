@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.ui.screen.communityWorkout.content
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
@@ -18,9 +19,10 @@ fun FocusAreaFilter(
     onSelectFocusArea: (WorkoutScreenState.FocusAreaUiState) -> Unit
 ) {
     LazyRow(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+        modifier = Modifier.padding(vertical = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
         items(focusArea.size) { index ->
             val area = focusArea[index]

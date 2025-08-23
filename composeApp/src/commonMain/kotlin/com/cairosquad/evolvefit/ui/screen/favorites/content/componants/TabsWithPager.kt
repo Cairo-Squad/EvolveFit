@@ -5,7 +5,6 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -173,7 +172,7 @@ private fun AnimatedEmptyStateSwitcher(
     emptyDescription: String,
     listContent: @Composable () -> Unit
 ) {
-    val emptyListScreen = if (isSystemInDarkTheme()) {
+    val emptyListScreen = if (Theme.isDark) {
         Res.drawable.im_empty_list_dark
     } else {
         Res.drawable.im_empty_list_light

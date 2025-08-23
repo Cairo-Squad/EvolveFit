@@ -9,9 +9,11 @@ import com.cairosquad.evolvefit.domain.exception.NetworkException
 import com.cairosquad.evolvefit.domain.exception.UnknownException
 import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseCase
 import com.cairosquad.evolvefit.domain.usecase.equipment.ManageEquipmentUseCase
+import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal
+import com.cairosquad.evolvefit.viewmodel.utils.asByteArray
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.error_email_already_used
 import evolvefit.composeapp.generated.resources.error_invalid_email
@@ -19,11 +21,13 @@ import evolvefit.composeapp.generated.resources.error_invalid_email_format
 import evolvefit.composeapp.generated.resources.error_invalid_password
 import evolvefit.composeapp.generated.resources.error_no_internet
 import evolvefit.composeapp.generated.resources.error_unexpected
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.StringResource
 
 class RegisterViewModel(
     private val authenticationUseCase: AuthenticationUseCase,
     private val manageEquipmentUseCase: ManageEquipmentUseCase,
+    private val manageProfileUseCase: ManageProfileUseCase
 ) : BaseViewModel<RegisterScreenState, RegisterEffect>(RegisterScreenState()),
     RegisterInteractionListener {
 
@@ -44,11 +48,13 @@ class RegisterViewModel(
         } else {
             updateState { it.copy(currentStep = it.currentStep - 1) }
         }
+        updateNextButtonEnableState()
     }
 
     override fun onStartNowClicked() {
         val state = screenState.value
         tryToCall(
+            onStart = { updateState { it.copy(isLoading = true) } },
             block = {
                 authenticationUseCase.register(
                     profile = Profile(
@@ -60,7 +66,7 @@ class RegisterViewModel(
                         height = state.selectedHeight,
                         weight = state.selectedWeight,
                         goal = state.selectedGoal.toDomain(),
-                        imageUrl = state.image.toString(),
+                        imageUrl = "no image",
                         equipments = state.availableEquipments
                             .filter { state.selectedEquipments.contains(it.toolId) }
                             .map { it.toDomain() }
@@ -71,10 +77,14 @@ class RegisterViewModel(
                     workoutDays = state.selectedWeekDayUiState.map { it.toDomain() }.toSet(),
                     availableEquipment = state.selectedEquipments,
                 )
+                delay(500)
+                manageProfileUseCase.uploadProfileImage(
+                    state.image.asByteArray().bytes,
+                    state.image.asByteArray().fileName
+                )
             },
             onSuccess = { sendEffect(RegisterEffect.NavigateToHome) },
             onError = { error -> handleRegisterError(error) },
-            onStart = { updateState { it.copy(isLoading = true) } },
             onEnd = { updateState { it.copy(isLoading = false) } }
         )
     }
