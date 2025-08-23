@@ -35,7 +35,7 @@ private fun makeFormatter(
 
 private fun parseIsoDate(isoString: String, locale: NSLocale): NSDate? {
     val mainFormatter =
-        makeFormatter("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ", NSLocale(localeIdentifier = "en_US_POSIX"))
+        makeFormatter("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ", locale)
     val fallbackFormatter =
         makeFormatter("yyyy-MM-dd'T'HH:mm:ssZZZZZ", NSLocale(localeIdentifier = "en_US_POSIX"))
     return mainFormatter.dateFromString(isoString) ?: fallbackFormatter.dateFromString(isoString)
@@ -64,4 +64,10 @@ private fun formatTime(date: NSDate, locale: NSLocale): String {
 
 actual fun getCurrentLocale(): String {
     return NSLocale.currentLocale.languageCode
+}
+
+fun formateDateDayMonth(dateIso: String): String {
+    val locale = NSLocale.currentLocale
+    val date = parseIsoDate(dateIso, locale) ?: return dateIso
+    return makeFormatter("dd MMM, yyyy", locale).stringFromDate(date)
 }
