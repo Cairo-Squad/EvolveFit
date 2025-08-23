@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -33,15 +34,17 @@ fun NetworkImage(
     defaultImage: Painter = painterResource(Res.drawable.ic_default_image),
     loadingPlaceHolder: Painter = painterResource(Res.drawable.ic_default_image),
     placeholderImageSize: DpSize? = null,
+    defaultSize: Dp=100.dp
 ) {
     if (model.isNotBlank()) {
         AsyncImage(
-            modifier = modifier,
+            modifier = modifier.size(defaultSize),
             contentScale = contentScale,
             model = model,
             contentDescription = contentDescription,
             placeholder = loadingPlaceHolder,
-            error = defaultImage
+            error = defaultImage,
+
         )
     } else {
         Box(

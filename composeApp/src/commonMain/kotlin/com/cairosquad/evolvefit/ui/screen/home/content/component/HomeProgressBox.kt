@@ -207,11 +207,12 @@ private fun StatsRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         StatsSection(
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .weight(0.28f),
             iconRes = Res.drawable.ic_crown,
             title = stringResource(Res.string.the_goal),
             value = goal,
-            modifier = Modifier
-                .padding(end = 8.dp)
         )
 
         VerticalDivider(
@@ -222,11 +223,12 @@ private fun StatsRow(
         )
 
         StatsSection(
+            modifier = Modifier
+                .weight(0.43f)
+                .padding(start = 16.dp),
             iconRes = Res.drawable.ic_scale,
             title = stringResource(Res.string.current_weight),
             value = "$currentWeight $weightUnit",
-            modifier = Modifier
-                .padding(end = 8.dp)
         )
 
         VerticalDivider(
@@ -237,6 +239,10 @@ private fun StatsRow(
         )
 
         StatsSection(
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .weight(0.28f)
+                .padding(start = 16.dp),
             iconRes = Res.drawable.ic_progress,
             title = stringResource(Res.string.activity),
             value = "$activityPercentage %",

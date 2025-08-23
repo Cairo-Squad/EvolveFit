@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.ui.screen.workoutDetails.content
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -67,15 +68,16 @@ fun WorkoutDetailsContent(
 
 
     val appBarBackground by animateColorAsState(
-        targetValue = if (isScrolled) Theme.color.surfaces.surface
-        else Theme.color.surfaces.onSurface.copy(alpha = 0f),
-        label = "appBarBackground"
+        targetValue =
+            if (isScrolled) Theme.color.surfaces.surface
+            else Theme.color.surfaces.surface.copy(alpha = 0f),
+        animationSpec = tween(1000)
     )
 
     val iconTint by animateColorAsState(
         targetValue = if (isScrolled) Theme.color.surfaces.onSurface
         else Theme.color.surfaces.textColor,
-        label = "iconTintAnim"
+        animationSpec = tween(1000)
     )
 
     var isSnackBarVisible by remember { mutableStateOf(false) }
@@ -94,10 +96,10 @@ fun WorkoutDetailsContent(
     Box(modifier = Modifier.fillMaxSize()) {
         CustomAppBar(
             modifier = Modifier
+                .background(appBarBackground)
                 .align(Alignment.TopCenter)
                 .statusBarsPadding()
-                .zIndex(1f)
-                .background(appBarBackground),
+                .zIndex(1f),
             title = "",
             header = {
                 ActionIconButton(

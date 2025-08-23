@@ -3,21 +3,38 @@ package com.cairosquad.evolvefit.viewmodel.create_workout
 import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.usecase.exercise.ManageExerciseUseCase
+import com.cairosquad.evolvefit.domain.usecase.profile.ManagePreferencesUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutEffect.NavigateBack
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState.WorkoutLevel
+import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState.Theme
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.utils.asByteArray
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.create
+import evolvefit.composeapp.generated.resources.create_dark
 
 class CreateWorkoutViewModel(
     private val manageWorkoutUseCase: ManageWorkoutUseCase,
-    private val manageExerciseUseCase: ManageExerciseUseCase
+    private val manageExerciseUseCase: ManageExerciseUseCase,
+    private val managePreferencesUseCase: ManagePreferencesUseCase
 ) : BaseViewModel<CreateWorkOutScreenState, CreateWorkOutEffect>(CreateWorkOutScreenState()),
     CreateWorkOutInteractionListener {
 
     init {
         loadExercises()
+        updateCreateWorkoutImage()
+    }
+    private fun updateCreateWorkoutImage()
+    {
+        val theme =managePreferencesUseCase.getTheme()
+        var image = UiImage.ImageResource(Res.drawable.create)
+        if(theme==Theme.DARK)
+        {
+            image = UiImage.ImageResource(Res.drawable.create_dark)
+        }
+        updateState { it.copy(image=image) }
     }
 
     private fun pushWorkoutImage(id: String) {
