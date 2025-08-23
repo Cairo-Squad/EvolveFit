@@ -6,6 +6,12 @@ import org.jetbrains.compose.resources.StringResource
 
 data class ReportScreenState(
     val report: ReportUiState = ReportUiState(),
+    val reportSection: SectionStatus = SectionStatus.LOADING,
+    val workoutHistorySection: SectionStatus = SectionStatus.LOADING,
+    val profileSection: SectionStatus = SectionStatus.LOADING,
+
+    val reportScreenState: SectionStatus = SectionStatus.LOADING,
+
     val workoutHistory: List<WorkoutHistoryUiState> = emptyList(),
     val isDropDownMenuOpen: Boolean = false,
     val weeks: List<WeekItem> = emptyList(),
@@ -13,7 +19,8 @@ data class ReportScreenState(
     val startDate: String = "",
     val endDate: String = "",
     val profile: ProfileUiState = ProfileUiState(),
-    val isRefreshing: Boolean = false
+    val isRefreshing: Boolean = false,
+    val screenErrorMessage: StringResource? = null,
 ) {
     data class WeekItem(
         val key: String = "",
@@ -58,4 +65,14 @@ data class ReportScreenState(
     data class ProfileUiState(
         val name: String = "",
     )
+
+    enum class SectionStatus {
+        LOADING,
+        SUCCESS,
+        ERROR
+    }
+
+    sealed class UiError {
+        data class ScreenError(val message: StringResource) : UiError()
+    }
 }

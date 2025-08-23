@@ -356,4 +356,8 @@
     <string name="error_number_too_large">الرقم كبير جدًا، حاول إدخال رقم أصغر</string>
     <string name="error_text_too_long">النص طويل جدًا، حاول تقصيره</string>
     <string name="min">د</string>
+    <string name="workouts_per_week">التدريبات بالأسبوع</string>
+    <string name="weekly">أسبوعي</string>
+    <string name="time_spent_training">الوقت المنقضى في التدريب</string>
+    <string name="most_trained_muscles">أكثر العضلات الممرنة</string>
 </resources>

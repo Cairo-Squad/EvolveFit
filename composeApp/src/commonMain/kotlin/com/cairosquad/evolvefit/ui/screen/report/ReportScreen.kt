@@ -27,7 +27,7 @@ fun ReportScreen(
 
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
-            ReportEffect.NavigateToAllHistoryWorkouts -> navigateToWorkoutHistory
+            ReportEffect.NavigateToAllHistoryWorkouts -> navigateToWorkoutHistory()
             ReportEffect.OnShareClicked -> {
                 PdfReportManager.generateAndShareReport(
                     name = uiState.profile.name,

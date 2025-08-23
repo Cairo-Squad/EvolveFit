@@ -4,10 +4,15 @@ import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.domain.entity.Report
 import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
+import com.cairosquad.evolvefit.domain.exception.InternetConnectionException
+import com.cairosquad.evolvefit.domain.exception.NetworkException
+import com.cairosquad.evolvefit.domain.exception.TimeoutException
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.domain.usecase.report.ManageReportsUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.error_no_internet
+import evolvefit.composeapp.generated.resources.error_unknown
 import evolvefit.composeapp.generated.resources.last_week
 import evolvefit.composeapp.generated.resources.this_week
 import kotlinx.coroutines.delay
@@ -42,20 +47,27 @@ class ReportViewModel(
         tryToCall(
             block = { manageProfileUseCase.getProfile() },
             onSuccess = ::onLoadProfileSuccess,
-            onError = {}
+            onError = ::onLoadProfileError
         )
     }
 
+
     private fun onLoadProfileSuccess(profile: Profile) {
-        updateState { it.copy(profile = profile.toUiState()) }
+        updateState {
+            it.copy(
+                profile = profile.toUiState(),
+                profileSection = ReportScreenState.SectionStatus.SUCCESS,
+                reportScreenState = ReportScreenState.SectionStatus.SUCCESS
+            )
+        }
     }
 
     fun loadWorkoutReport(weekRange: Pair<String, String> = getCurrentWeekRange()) {
         tryToCall(
             onStart = { onLoadWorkoutReportStart(weekRange) },
             block = { manageReportsUseCase.getReport(weekRange.first, weekRange.second) },
-            onSuccess = ::onLoadWorkoutSuccess,
-            onError = ::onLoadWorkoutError
+            onSuccess = ::onLoadWorkoutReportSuccess,
+            onError = ::onLoadWorkoutReportError
         )
     }
 
@@ -86,22 +98,26 @@ class ReportViewModel(
     }
 
     private fun onLoadWorkoutHistorySuccess(workoutHistory: List<WorkoutHistory>) {
-        updateState { it.copy(workoutHistory = workoutHistory.map { it.toUiState() }) }
-    }
-
-    private fun onLoadWorkoutHistoryError(throwable: Throwable) {
-
-    }
-
-    private fun onLoadWorkoutSuccess(report: Report) {
-        viewModelScope.launch {
-            val uiReport = report.toUiState()
-            updateState { it.copy(report = uiReport) }
+        updateState {
+            it.copy(
+                workoutHistory = workoutHistory.map { it.toUiState() },
+                workoutHistorySection = ReportScreenState.SectionStatus.SUCCESS,
+                reportScreenState = ReportScreenState.SectionStatus.SUCCESS
+            )
         }
     }
 
-    private fun onLoadWorkoutError(throwable: Throwable) {
-
+    private fun onLoadWorkoutReportSuccess(report: Report) {
+        viewModelScope.launch {
+            val uiReport = report.toUiState()
+            updateState {
+                it.copy(
+                    report = uiReport,
+                    reportSection = ReportScreenState.SectionStatus.SUCCESS,
+                    reportScreenState = ReportScreenState.SectionStatus.SUCCESS
+                )
+            }
+        }
     }
 
     override fun onViewAllHistoryWorkoutsClicked() {
@@ -134,7 +150,7 @@ class ReportViewModel(
     }
 
     override fun onRefresh() {
-        updateState { it.copy(isRefreshing = true) }
+        updateState { it.copy(isRefreshing = true, reportScreenState = ReportScreenState.SectionStatus.LOADING) }
         loadWorkoutReport()
         viewModelScope.launch {
             delay(500)
@@ -177,6 +193,75 @@ class ReportViewModel(
         }
 
         return Pair(startDateFormatter(lastWeekSaturday), endDateFormatter(lastWeekFriday))
+    }
+
+    private fun onLoadProfileError(throwable: Throwable) {
+        handleReportErrors(throwable) { error ->
+            updateState {
+                it.copy(
+                    profileSection = ReportScreenState.SectionStatus.ERROR,
+                    screenErrorMessage = error.message
+                )
+            }
+            updateScreenState()
+        }
+    }
+
+    private fun onLoadWorkoutHistoryError(throwable: Throwable) {
+        handleReportErrors(throwable) { error ->
+            updateState {
+                it.copy(
+                    workoutHistorySection = ReportScreenState.SectionStatus.ERROR,
+                    screenErrorMessage = error.message
+                )
+            }
+            updateScreenState()
+        }
+    }
+
+    private fun onLoadWorkoutReportError(throwable: Throwable) {
+        handleReportErrors(throwable) { error ->
+            updateState {
+                it.copy(
+                    reportSection = ReportScreenState.SectionStatus.ERROR,
+                    screenErrorMessage = error.message
+                )
+            }
+            updateScreenState()
+        }
+    }
+
+    private fun handleReportErrors(
+        throwable: Throwable,
+        block: (ReportScreenState.UiError.ScreenError) -> Unit
+    ) {
+        when (val error = throwable.toUiError()) {
+            is ReportScreenState.UiError.ScreenError -> block(error)
+        }
+    }
+
+    private fun Throwable.toUiError(): ReportScreenState.UiError = when (this) {
+        is InternetConnectionException,
+        is TimeoutException,
+        is NetworkException -> ReportScreenState.UiError.ScreenError(Res.string.error_no_internet)
+
+        else -> ReportScreenState.UiError.ScreenError(Res.string.error_unknown)
+    }
+
+    private fun updateScreenState() {
+        val screenState = screenState.value
+        val allSectionsErrored =
+            screenState.reportSection == ReportScreenState.SectionStatus.ERROR &&
+            screenState.workoutHistorySection == ReportScreenState.SectionStatus.ERROR &&
+            screenState.profileSection == ReportScreenState.SectionStatus.ERROR
+
+        if (allSectionsErrored) {
+            updateState {
+                it.copy(
+                    reportScreenState = ReportScreenState.SectionStatus.ERROR
+                )
+            }
+        }
     }
 
     private companion object {

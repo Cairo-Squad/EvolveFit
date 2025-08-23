@@ -367,10 +367,13 @@
     <string name="pound">lbs</string>
     <string name="choose_level">Choose level</string>
 
-
     <string name="error_invalid_number">Please enter a valid number or decimal</string>
     <string name="error_number_too_large">The number is too large, try a smaller value</string>
     <string name="error_text_too_long">Text is too long, please shorten it</string>
     <string name="min">Min</string>
 
+    <string name="workouts_per_week">Workouts Per Week</string>
+    <string name="weekly">Weekly</string>
+    <string name="time_spent_training">Time Spent Training</string>
+    <string name="most_trained_muscles">Most Trained Muscles</string>
 </resources>
