@@ -3,9 +3,12 @@ package com.cairosquad.evolvefit.ui.screen.workoutDetails.content
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,7 +41,10 @@ fun ExerciseBottomSheetContent(
     onDismissBottomSheet: () -> Unit
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier.padding(horizontal = 16.dp)
+            .fillMaxHeight(0.95f)
+            .padding(horizontal = 16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         exercise?.let {
             Text(
