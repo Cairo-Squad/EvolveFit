@@ -115,7 +115,12 @@ fun WorkoutDetailsContent(
                     else painterResource(Res.drawable.ic_bookmark),
                     contentDescription = stringResource(Res.string.bookmark),
                     tint = iconTint,
-                    onClick = { listener.onAddToFavoriteClicked(state.workout.workoutID) }
+                    onClick = {
+                        listener.onToggleFavoriteClicked(
+                            state.workout.workoutID,
+                            state.isFavorite
+                        )
+                    }
                 )
                 ActionIconButton(
                     icon = painterResource(Res.drawable.ic_share),
@@ -132,7 +137,7 @@ fun WorkoutDetailsContent(
                 .fillMaxSize()
                 .background(color = Theme.color.surfaces.surface),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item {
                 NetworkImage(
@@ -170,6 +175,7 @@ fun WorkoutDetailsContent(
                 Exercises(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
+                        .padding(bottom = 24.dp)
                         .fillMaxWidth(),
                     exercises = state.workout.exercises,
                     onExerciseClick = { listener.onExerciseClicked(it) }
