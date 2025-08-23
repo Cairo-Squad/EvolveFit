@@ -1,4 +1,7 @@
-package com.cairosquad.evolvefit.ui.component
+package com.cairosquad.evolvefit.ui.screen.register.content.component
+
+import com.cairosquad.evolvefit.ui.component.ImagePicker
+import com.cairosquad.evolvefit.ui.component.UiImageDisplayer
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,12 +26,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
-import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.ic_camera
-import org.jetbrains.compose.resources.painterResource
+
 
 @Composable
-fun UserProfileImage(
+fun UserRegisterImage(
     image: UiImage,
     isImagePickerOpen: Boolean,
     onImagePickerDismiss: () -> Unit,
@@ -46,16 +47,11 @@ fun UserProfileImage(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .padding(bottom = 8.dp)
-                .size(100.dp),
-            contentAlignment = Alignment.Center
-        ) {
             Box(
                 modifier = Modifier
-                    .background(Theme.color.surfaces.surfaceContainer)
+                    .size(100.dp)
                     .clip(CircleShape)
+                    .background(Theme.color.surfaces.surfaceContainer)
                     .clickable(onClick = onImagePickerClick),
                 contentAlignment = Alignment.Center
             ) {
@@ -75,36 +71,13 @@ fun UserProfileImage(
                     defaultImageSize = defaultSize,
                 )
             }
-            if (isEditScreen) {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .size(32.dp)
-                        .clip(CircleShape)
-                        .background(Theme.color.surfaces.surface)
-                        .border(
-                            width = 1.dp,
-                            color = Theme.color.surfaces.outlineVariant,
-                            shape = CircleShape
-                        )
-                        .clickable { onImagePickerClick() },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_camera),
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp),
-                        tint = Theme.color.brand.primary
-                    )
-                }
-            }
-        }
+
         if (text.isNullOrEmpty().not()) {
             Text(
                 text = text,
                 style = Theme.textStyle.label.mediumMedium14,
                 color = Theme.color.surfaces.onSurfaceVariant,
-                modifier = Modifier.padding(bottom = 32.dp),
+                modifier = Modifier.padding(top=8.dp,bottom = 32.dp),
             )
         }
     }
