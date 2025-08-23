@@ -55,7 +55,7 @@ fun UiImageDisplayer(
                 contentScale = contentScale,
                 modifier = Modifier
                     .size(defaultImageSize)
-                    .clip(CircleShape)
+
             )
         }
 
@@ -77,6 +77,6 @@ private fun FileImageDisplayer(
         contentScale = contentScale,
         modifier = modifier
             .size(defaultImageSize)
-            .clip(CircleShape)
+
     )
 }
