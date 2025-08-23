@@ -1,10 +1,10 @@
 package com.cairosquad.evolvefit.viewmodel.workout_details
 
+import com.cairosquad.evolvefit.domain.entity.Workout
+import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.ui.util.Share
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
-import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.workout_saved_successfully
 
 class WorkoutDetailsViewModel(
     workoutId: String,
@@ -18,10 +18,33 @@ class WorkoutDetailsViewModel(
     private fun loadData(workoutId: String) {
         tryToCall(
             block = { manageWorkoutUseCase.getWorkoutById(workoutId) },
-            onSuccess = { workout -> updateState { state -> state.copy(workout = workout.toUiState()) } },
+            onSuccess = ::handleGetWorkoutSuccess,
             onError = { updateState { it.copy(isLoading = false) } },
-            onStart = { updateState { it.copy(isLoading = true ) } }
+            onStart = { updateState { it.copy(isLoading = true) } }
         )
+    }
+
+    private fun handleGetWorkoutSuccess(workout: Workout) {
+        updateState { state -> state.copy(workout = workout.toUiState()) }
+        loadWorkoutSaveStatus(workout.id)
+    }
+
+    private fun loadWorkoutSaveStatus(workoutId: String) {
+        tryToCall(
+            block = { manageWorkoutUseCase.getFavoriteWorkouts() },
+            onSuccess = { updateWorkoutSaveStatus(workoutId, it) },
+            onError = { updateState { it.copy(isLoading = false) } },
+            onStart = { updateState { it.copy(isLoading = true) } }
+        )
+    }
+
+    private fun updateWorkoutSaveStatus(workoutId: String, workouts: List<WorkoutSuggested>) {
+        updateState { state ->
+            state.copy(
+                isFavorite = workouts.map { it.id }.contains(workoutId),
+                isLoading = false
+            )
+        }
     }
 
     override fun onBackClicked() {
@@ -29,18 +52,32 @@ class WorkoutDetailsViewModel(
     }
 
     override fun onShareClicked() {
-        updateState {it.copy(isShareClicked = true) }
+        updateState { it.copy(isShareClicked = true) }
     }
 
-    override fun onAddToFavoriteClicked(workoutId: String) {
-        updateState { it.copy(isFavorite = it.isFavorite.not()) }
+    override fun onToggleFavoriteClicked(workoutId: String, isSaved: Boolean) {
         tryToCall(
-            block = { manageWorkoutUseCase.addWorkoutToFavorites(workoutId) },
-            onSuccess = {
-                updateState { it.copy(isFavorite = true,snackBarMessageId = Res.string.workout_saved_successfully) }
-            },
-            onError = {  }
+            block = { toggleWorkoutSavedStatus(workoutId, isSaved) },
+            onSuccess = { handleSaveWorkoutSuccess() },
+            onError = { updateState { it.copy(isLoading = false) } },
+            onStart = { updateState { it.copy(isLoading = true) } }
         )
+    }
+
+    private suspend fun toggleWorkoutSavedStatus(workoutId: String, isSaved: Boolean) {
+        if (isSaved) {
+            manageWorkoutUseCase.deleteFavouriteWorkout(workoutId)
+        } else {
+            manageWorkoutUseCase.addWorkoutToFavorites(workoutId)
+        }
+    }
+
+    private fun handleSaveWorkoutSuccess() {
+        updateState {
+            it.copy(
+                isFavorite = !it.isFavorite
+            )
+        }
     }
 
     override fun onExerciseClicked(exercise: WorkoutDetailsScreenState.ExerciseUiState) {
@@ -53,7 +90,7 @@ class WorkoutDetailsViewModel(
     }
 
     override fun onShareBottomSheetDismiss() {
-        updateState {it.copy(isShareClicked = false) }
+        updateState { it.copy(isShareClicked = false) }
     }
 
     override fun onStartWorkoutClicked(workoutId: String) {
