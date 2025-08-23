@@ -13,6 +13,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.exercises
+import evolvefit.composeapp.generated.resources.level_label
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -62,7 +66,7 @@ fun HistoryWorkoutItem(
         ) {
             WorkoutDetailsItem(
                 modifier = Modifier.weight(1f),
-                title = "Exercises",
+                title = stringResource(Res.string.exercises),
                 value = exerciseCount.toString()
             )
             WorkoutDetailsItem(
@@ -72,7 +76,7 @@ fun HistoryWorkoutItem(
             )
             WorkoutDetailsItem(
                 modifier = Modifier.weight(1f),
-                title = "Level",
+                title = stringResource(Res.string.level_label),
                 value = level
             )
         }
