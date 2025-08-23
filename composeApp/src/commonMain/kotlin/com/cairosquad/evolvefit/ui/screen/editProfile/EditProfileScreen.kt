@@ -172,7 +172,6 @@ fun EditProfileScreenContent(
                     value = state.profile.fullName,
                     onValueChange = listener::onFullNameChanged,
                     isDividerVisible = true,
-                    readOnly = true,
                 )
 
                 LabeledInputField(
