@@ -39,7 +39,7 @@ fun ReportScreenContent(
             modifier = Modifier.padding(horizontal = 16.dp),
             title = stringResource(Res.string.workout_report),
             tail = {
-                if (screenState.reportScreenState != ReportScreenState.SectionStatus.SUCCESS) {
+                if (screenState.reportScreenState == ReportScreenState.SectionStatus.SUCCESS) {
                     ActionIconButton(
                         icon = painterResource(Res.drawable.ic_export),
                         contentDescription = "",
@@ -59,7 +59,7 @@ fun ReportScreenContent(
             when (screenStatus) {
 
                 ReportScreenState.SectionStatus.LOADING -> {
-
+                    ReportScreenLoading()
                 }
 
                 ReportScreenState.SectionStatus.SUCCESS -> {

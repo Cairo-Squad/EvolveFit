@@ -7,11 +7,17 @@ import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.viewmodel.utils.formatIsoToTodayTime
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.advanced
 import evolvefit.composeapp.generated.resources.arms
 import evolvefit.composeapp.generated.resources.back_muscle
+import evolvefit.composeapp.generated.resources.beginner
 import evolvefit.composeapp.generated.resources.chest
 import evolvefit.composeapp.generated.resources.core
+import evolvefit.composeapp.generated.resources.duration_hours
+import evolvefit.composeapp.generated.resources.duration_minutes
+import evolvefit.composeapp.generated.resources.duration_seconds
 import evolvefit.composeapp.generated.resources.friday_short
+import evolvefit.composeapp.generated.resources.intermediate
 import evolvefit.composeapp.generated.resources.legs
 import evolvefit.composeapp.generated.resources.monday_short
 import evolvefit.composeapp.generated.resources.saturday_short
@@ -65,24 +71,30 @@ fun Profile.toUiState() = ReportScreenState.ProfileUiState(
     name = name,
 )
 
-fun WorkoutHistory.toUiState() = ReportScreenState.WorkoutHistoryUiState(
+suspend fun WorkoutHistory.toUiState() = ReportScreenState.WorkoutHistoryUiState(
     name = name,
     imageUrl = imageUrl,
     date = formatIsoToTodayTime(createdAt),
     exercisesCount = exercisesCount,
     duration = formatDuration(durationInSeconds),
-    level = level.name,
+    level = level.string(),
 )
 
-private fun formatDuration(seconds: Long): String {
+private suspend fun  WorkoutHistory.WorkoutLevel.string() = when(this) {
+    WorkoutHistory.WorkoutLevel.BEGINNER -> getString(Res.string.beginner)
+    WorkoutHistory.WorkoutLevel.INTERMEDIATE -> getString(Res.string.intermediate)
+    WorkoutHistory.WorkoutLevel.ADVANCED -> getString(Res.string.advanced)
+}
+
+private suspend fun formatDuration(seconds: Long): String {
     val totalSeconds = seconds
     val totalMinutes = totalSeconds / 60
     val totalHours = totalMinutes / 60
 
     return when {
-        totalHours > 0 -> "${totalHours}h"
-        totalMinutes > 0 -> "${totalMinutes}min"
-        else -> "${totalSeconds}s"
+        totalHours > 0 -> getString(Res.string.duration_hours, totalHours)
+        totalMinutes > 0 -> getString(Res.string.duration_minutes, totalMinutes)
+        else -> getString(Res.string.duration_seconds, seconds)
     }
 }
 

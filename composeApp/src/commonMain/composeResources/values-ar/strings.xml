@@ -360,4 +360,9 @@
     <string name="weekly">أسبوعي</string>
     <string name="time_spent_training">الوقت المنقضى في التدريب</string>
     <string name="most_trained_muscles">أكثر العضلات الممرنة</string>
+    <string name="from_calories">من %1$s كالوري</string>
+    <string name="duration_hours">%1$s ساعة</string>
+    <string name="duration_minutes">%1$s دقيقة</string>
+    <string name="duration_seconds">%1$s ثانية</string>
+    <string name="duration">المدة</string>
 </resources>

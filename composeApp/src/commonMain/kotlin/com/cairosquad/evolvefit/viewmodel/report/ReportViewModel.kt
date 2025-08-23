@@ -98,12 +98,15 @@ class ReportViewModel(
     }
 
     private fun onLoadWorkoutHistorySuccess(workoutHistory: List<WorkoutHistory>) {
-        updateState {
-            it.copy(
-                workoutHistory = workoutHistory.map { it.toUiState() },
-                workoutHistorySection = ReportScreenState.SectionStatus.SUCCESS,
-                reportScreenState = ReportScreenState.SectionStatus.SUCCESS
-            )
+        viewModelScope.launch {
+            val workoutHistoryUi = workoutHistory.map { it.toUiState() }
+            updateState {
+                it.copy(
+                    workoutHistory = workoutHistoryUi,
+                    workoutHistorySection = ReportScreenState.SectionStatus.SUCCESS,
+                    reportScreenState = ReportScreenState.SectionStatus.SUCCESS
+                )
+            }
         }
     }
 
@@ -150,7 +153,12 @@ class ReportViewModel(
     }
 
     override fun onRefresh() {
-        updateState { it.copy(isRefreshing = true, reportScreenState = ReportScreenState.SectionStatus.LOADING) }
+        updateState {
+            it.copy(
+                isRefreshing = true,
+                reportScreenState = ReportScreenState.SectionStatus.LOADING
+            )
+        }
         loadWorkoutReport()
         viewModelScope.launch {
             delay(500)
@@ -252,8 +260,8 @@ class ReportViewModel(
         val screenState = screenState.value
         val allSectionsErrored =
             screenState.reportSection == ReportScreenState.SectionStatus.ERROR &&
-            screenState.workoutHistorySection == ReportScreenState.SectionStatus.ERROR &&
-            screenState.profileSection == ReportScreenState.SectionStatus.ERROR
+                    screenState.workoutHistorySection == ReportScreenState.SectionStatus.ERROR &&
+                    screenState.profileSection == ReportScreenState.SectionStatus.ERROR
 
         if (allSectionsErrored) {
             updateState {

@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.ui.screen.report.content
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -9,7 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.ui.component.RefreshBox
 import com.cairosquad.evolvefit.ui.screen.report.content.componant.ActivityRow
@@ -33,9 +32,10 @@ fun ReportScreenSuccess(
     RefreshBox(
         isRefreshing = screenState.isRefreshing,
         onRefresh = listener::onRefresh
-    ){
+    ) {
         LazyColumn(
-            contentPadding = PaddingValues(16.dp)
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
                 ActivityRow(
@@ -51,20 +51,18 @@ fun ReportScreenSuccess(
                     isAnimationStarted = isAnimationStarted
                 )
             }
-            item {
-                if (screenState.report.workoutPerWeek.day.isNotEmpty()) {
+            if (screenState.report.workoutPerWeek.day.isNotEmpty()) {
+                item {
                     BarChartCard(
-                        modifier = Modifier.padding(top = 16.dp),
                         data = screenState.report.workoutPerWeek.workoutsCount.map { it.toFloat() },
                         labels = screenState.report.workoutPerWeek.day,
                         isAnimationStarted = isAnimationStarted
                     )
                 }
             }
-            item {
-                if (screenState.report.timeSpentPerWeek.day.isNotEmpty()) {
+            if (screenState.report.timeSpentPerWeek.day.isNotEmpty()) {
+                item {
                     LineChartCard(
-                        modifier = Modifier.padding(top = 16.dp),
                         data = screenState.report.timeSpentPerWeek.timeInSeconds.map { it.toFloat() },
                         labels = screenState.report.timeSpentPerWeek.day,
                         totalTime = screenState.report.timeSpent,
@@ -72,20 +70,18 @@ fun ReportScreenSuccess(
                     )
                 }
             }
-            item {
-                if (screenState.report.mostTrainedMuscles.muscle.isNotEmpty()) {
+            if (screenState.report.mostTrainedMuscles.muscle.isNotEmpty()) {
+                item {
                     MusclesCard(
-                        modifier = Modifier.padding(top = 16.dp),
                         musclesName = screenState.report.mostTrainedMuscles.muscle,
                         trainedMusclesPercentage = screenState.report.mostTrainedMuscles.percentage,
                         isAnimationStarted = isAnimationStarted
                     )
                 }
             }
-            item {
-                if (screenState.workoutHistory.isNotEmpty()) {
+            if (screenState.workoutHistory.isNotEmpty()) {
+                item {
                     HistoryWorkoutCard(
-                        modifier = Modifier.padding(top = 16.dp),
                         state = screenState,
                         onViewAllHistoryClicked = listener::onViewAllHistoryWorkoutsClicked,
                     )
