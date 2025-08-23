@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
@@ -137,7 +138,9 @@ fun EditProfileScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             UserProfileImage(
-                modifier = Modifier.padding(top = 24.dp, bottom = 24.dp),
+                modifier = Modifier
+                    .padding(top = 24.dp, bottom = 24.dp)
+                    .size(100.dp),
                 image = UiImage.ImageUrl(state.profile.imageUrl),
                 isImagePickerOpen = state.isImagePickerOpened,
                 onImagePickerDismiss = { listener.onImagePickerDismissed() },
@@ -157,7 +160,7 @@ fun EditProfileScreenContent(
                     }
                 },
                 isEditScreen = true,
-
+                defaultSize = if (state.profile.imageUrl.isBlank()) 32.dp else 100.dp
             )
 
             Column(

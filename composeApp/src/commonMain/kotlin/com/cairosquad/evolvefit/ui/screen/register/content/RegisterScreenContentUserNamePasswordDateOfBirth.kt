@@ -117,12 +117,12 @@ private fun UserProfileStep(
             onImageRetrieved = onImageRetrieved,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(
-                    bottom = 8.dp
-                ).size(100.dp)
+                .padding(bottom = 8.dp)
+                .size(100.dp)
                 .clip(CircleShape)
                 .align(Alignment.CenterHorizontally),
-            text = stringResource(Res.string.upload_image)
+            text = stringResource(Res.string.upload_image),
+            defaultSize = if (image is UiImage.ImageUrl) 32.dp else 100.dp
         )
 
         UserProfileForm(

@@ -44,6 +44,7 @@ class RegisterViewModel(
         } else {
             updateState { it.copy(currentStep = it.currentStep - 1) }
         }
+        updateNextButtonEnableState()
     }
 
     override fun onStartNowClicked() {
