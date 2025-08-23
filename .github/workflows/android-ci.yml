@@ -1,41 +1,91 @@
-name: Android CI
+name: EvolveFit CD Pipeline
 
 on:
   push:
     branches:
-      - main
       - develop
-  pull_request:
-  workflow_dispatch:
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
-
-env:
-  JAVA_VERSION: 21
+      - master
 
 jobs:
-  android-build:
-    name: Android Build
+  deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Setup Java
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: ${{ env.JAVA_VERSION }}
+          java-version: '21'
 
-      - name: Build Android App
-        run: ./gradlew :composeApp:assembleDebug
-
-      - name: Upload Android APK
-        if: github.event_name == 'push'
-        uses: actions/upload-artifact@v4
+      - name: Cache Gradle
+        uses: actions/cache@v4
         with:
-          name: android-apk-debug
-          path: composeApp/build/outputs/apk/debug/*.apk
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Create google-services.json
+        env:
+          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+        run: |
+          mkdir -p composeApp/ # Ensure the directory exists
+          echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > composeApp/google-services.json
+        shell: bash
+
+      - name: Decode Keystore and Create local.properties
+        env:
+          KEYSTORE: ${{ secrets.KEYSTORE }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+        run: |
+          rm -f app/JKS.jks local.properties release_notes.txt
+          echo "$KEYSTORE" | base64 -d > app/JKS.jks
+          echo "KEYSTORE_PASSWORD = $KEYSTORE_PASSWORD" >> local.properties
+          echo "KEY_ALIAS = $KEY_ALIAS" >> local.properties
+          echo "KEY_PASSWORD = $KEY_PASSWORD" >> local.properties
+
+      - name: Generate Signed APK
+        env:
+          KEYSTORE: ${{ secrets.KEYSTORE }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+        run: |
+          ./gradlew assembleRelease --build-cache -x test -x lint
+          ls -l app/build/outputs/apk/release/app-release.apk || { echo "apk not generated"; exit 1; }      
+
+      - name: Extract Release Notes
+        id: release_notes
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%B | sed 's/"/\\"/g' | tr -d '\n')
+          TRUNCATED_MSG="${COMMIT_MSG:0:500}"
+          echo "$TRUNCATED_MSG" > release_notes.txt
+          echo "notes=$TRUNCATED_MSG" >> $GITHUB_OUTPUT
+          echo "Release notes: $TRUNCATED_MSG"
+
+      - name: Upload APKs to Firebase App Distribution
+        env:
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          FIREBASE_AUTH_TOKEN: ${{ secrets.FIREBASE_AUTH_TOKEN }}
+        run: |
+          npm install -g firebase-tools
+          firebase appdistribution:distribute \
+            app/build/outputs/apk/release/app-release.apk \
+            --app "$FIREBASE_APP_ID" \
+            --token "$FIREBASE_AUTH_TOKEN" \
+            --groups "cairo_squad" \
+            --release-notes-file release_notes.txt
