@@ -14,7 +14,7 @@ import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.confirm_logout
-import evolvefit.composeapp.generated.resources.ic_app_logo
+import evolvefit.composeapp.generated.resources.icon_login
 import evolvefit.composeapp.generated.resources.logo
 import evolvefit.composeapp.generated.resources.logout
 import evolvefit.composeapp.generated.resources.logout_message
@@ -31,7 +31,7 @@ fun LogoutBottomSheetContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
-            painter = painterResource(Res.drawable.ic_app_logo),
+            painter = painterResource(Res.drawable.icon_login),
             contentDescription = stringResource(Res.string.logo),
             modifier = Modifier.size(80.dp).padding(bottom = 16.dp)
         )
