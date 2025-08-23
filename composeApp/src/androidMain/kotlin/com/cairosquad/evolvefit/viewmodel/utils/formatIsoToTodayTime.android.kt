@@ -60,7 +60,7 @@ private fun normalizeIso(iso: String): String {
 
 private fun parseIsoInstant(iso: String): Instant? {
     return try {
-        kotlinx.datetime.Instant.parse(iso)
+        Instant.parse(iso)
     } catch (_: Exception) {
         null
     }
@@ -99,4 +99,15 @@ private fun formatDate(dateTime: LocalDateTime, locale: Locale): String {
 
 actual fun getCurrentLocale(): String {
     return Locale.getDefault().language
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun formatDateDayMonth(isoString: String): String {
+    val locale = Locale.getDefault()
+    val fixedIso = normalizeIso(isoString)
+
+    val instant = parseIsoInstant(fixedIso) ?: return isoString
+    val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
+    val dateFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy", locale)
+    return dateFormatter.format(dateTime.toJavaLocalDateTime())
 }
