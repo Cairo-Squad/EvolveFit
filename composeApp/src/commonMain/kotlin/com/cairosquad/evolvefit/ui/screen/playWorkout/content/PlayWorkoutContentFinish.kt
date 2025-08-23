@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
@@ -130,7 +132,7 @@ private fun WorkoutStatistics(
     val totalTimeString = "$hoursText:$minutesText"
 
     Row(
-        modifier = modifier,
+        modifier = modifier.height(65.dp),
     ) {
         SingleStat(
             value = totalExercises.toString(),
@@ -165,6 +167,7 @@ private fun StatVerticalLine(
     Box(
         modifier = modifier
             .width(1.dp)
+            .fillMaxHeight()
             .border(
                 width = 1.dp,
                 color = Theme.color.surfaces.outlineVariant
@@ -187,7 +190,7 @@ private fun SingleStat(
             modifier = Modifier,
             text = value,
             style = Theme.textStyle.display.largeBold20,
-            color = Theme.color.surfaces.onSurfaceContainer,
+            color = Theme.color.surfaces.textColor
         )
         Text(
             modifier = Modifier,
