@@ -62,10 +62,10 @@ fun NavigationBar(
 ) {
     Row(
         modifier = modifier.height(72.dp).background(Theme.color.surfaces.surface).fillMaxSize()
-            .padding(
-                start = 20.dp, end = 20.dp, top = 16.dp, bottom = 16.dp
-            ).windowInsetsPadding(WindowInsets.navigationBars),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+            .padding(horizontal = 20.dp)
+            .windowInsetsPadding(WindowInsets.navigationBars),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         navigationItems.forEachIndexed { index, navItem ->
             NavigationItem(
