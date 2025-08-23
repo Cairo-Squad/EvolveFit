@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -63,7 +62,7 @@ fun CreateExerciseScreenContent(
     val selectedImage2 = state.backImage
     val uploadExercisesImg1 = if (selectedImage1 != null) {
         null
-    } else if (isSystemInDarkTheme()) {
+    } else if (Theme.isDark) {
         painterResource(Res.drawable.im_upload1)
     } else {
         painterResource(Res.drawable.im_upload_light1)
@@ -71,7 +70,7 @@ fun CreateExerciseScreenContent(
 
     val uploadExercisesImg2 = if (selectedImage2 != null) {
         null
-    } else if (isSystemInDarkTheme()) {
+    } else if (Theme.isDark) {
         painterResource(Res.drawable.im_upload2)
     } else {
         painterResource(Res.drawable.im_upload_light2)

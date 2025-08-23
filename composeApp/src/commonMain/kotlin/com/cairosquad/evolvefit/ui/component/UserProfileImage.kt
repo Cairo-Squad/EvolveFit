@@ -37,9 +37,9 @@ fun UserProfileImage(
     modifier: Modifier = Modifier,
     text: String? = null,
     isEditScreen: Boolean = false,
-    defaultSize: Dp=100.dp
+    defaultSize: Dp = 100.dp
 
-    ) {
+) {
     var localImage by remember { mutableStateOf(image) }
 
     Column(
@@ -47,68 +47,64 @@ fun UserProfileImage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .padding(bottom = 8.dp)
                 .size(100.dp),
             contentAlignment = Alignment.Center
         ) {
-        Box(
-            modifier = Modifier
-                .clip(CircleShape)
-                .fillMaxSize()
-                .background(Theme.color.surfaces.surfaceContainer)
-                .clickable(onClick = onImagePickerClick),
-            contentAlignment = Alignment.Center
-        ) {
-            if (isImagePickerOpen) {
-                ImagePicker(
-                    onImageRetrieved = { picked ->
-                        localImage = picked
-                        onImageRetrieved(picked)
-                        onImagePickerDismiss()
-                    },
-                    onImagePickerDismiss = onImagePickerDismiss
-                )
-            }
-            UiImageDisplayer(
-                image = image,
-                contentDescription = "Profile picture",
-                defaultImageSize = defaultSize,
-
-                )
-        }
-        if (isEditScreen) {
             Box(
                 modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .size(32.dp)
                     .clip(CircleShape)
-                    .background(Theme.color.surfaces.surface)
-                    .border(
-                        width = 1.dp,
-                        color = Theme.color.surfaces.outlineVariant,
-                        shape = CircleShape
-                    )
-                    .clickable { onImagePickerClick() },
+                    .background(Theme.color.surfaces.surfaceContainer)
+                    .clickable(onClick = onImagePickerClick),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_camera),
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp),
-                    tint = Theme.color.brand.primary
+                if (isImagePickerOpen) {
+                    ImagePicker(
+                        onImageRetrieved = { picked ->
+                            localImage = picked
+                            onImageRetrieved(picked)
+                            onImagePickerDismiss()
+                        },
+                        onImagePickerDismiss = onImagePickerDismiss
+                    )
+                }
+                UiImageDisplayer(
+                    image = image,
+                    contentDescription = "Profile picture",
+                    defaultImageSize = defaultSize,
                 )
             }
+            if (isEditScreen) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .size(32.dp)
+                        .clip(CircleShape)
+                        .background(Theme.color.surfaces.surface)
+                        .border(
+                            width = 1.dp,
+                            color = Theme.color.surfaces.outlineVariant,
+                            shape = CircleShape
+                        )
+                        .clickable { onImagePickerClick() },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(Res.drawable.ic_camera),
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp),
+                        tint = Theme.color.brand.primary
+                    )
+                }
+            }
         }
-    }
-        if (!text.isNullOrEmpty()) {
+        if (text.isNullOrEmpty().not()) {
             Text(
                 text = text,
                 style = Theme.textStyle.label.mediumMedium14,
                 color = Theme.color.surfaces.onSurfaceVariant,
-                modifier = Modifier.padding(
-                    bottom = 32.dp
-                ),
+                modifier = Modifier.padding(bottom = 32.dp),
             )
         }
     }

@@ -2,9 +2,9 @@ package com.cairosquad.evolvefit.design_system.component
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -42,7 +42,8 @@ fun BottomSheet(
             onDismissRequest = onDismiss,
             sheetState = sheetState,
             containerColor = containerColor,
-            scrimColor = scrimColor
+            scrimColor = scrimColor,
+            shape = RoundedCornerShape(24.dp)
         ) {
             content()
         }

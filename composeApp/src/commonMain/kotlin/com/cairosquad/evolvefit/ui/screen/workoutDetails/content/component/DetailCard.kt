@@ -30,6 +30,7 @@ import evolvefit.composeapp.generated.resources.ic_person
 import evolvefit.composeapp.generated.resources.ic_time
 import evolvefit.composeapp.generated.resources.intermediate
 import evolvefit.composeapp.generated.resources.level_label
+import evolvefit.composeapp.generated.resources.minute_label
 import evolvefit.composeapp.generated.resources.second
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
@@ -57,8 +58,8 @@ fun DetailsCardsRow(
         )
         DetailCard(
             icon = painterResource(Res.drawable.ic_time),
-            value = estimatedTimeInSeconds.toString(),
-            label = stringResource(Res.string.second),
+            value = estimatedTimeInSeconds?.let { (it/60).toString() } ?: "",
+            label = stringResource(Res.string.minute_label),
             modifier = Modifier.weight(1f)
         )
         DetailCard(
