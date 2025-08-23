@@ -1,6 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.report
 
 sealed class ReportEffect {
-    data object navigateToAllHistoryWorkouts : ReportEffect()
-    data object onShareClicked: ReportEffect()
+    data object NavigateToAllHistoryWorkouts : ReportEffect()
+    data object OnShareClicked: ReportEffect()
 }
