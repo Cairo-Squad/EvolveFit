@@ -120,6 +120,7 @@ private fun WorkoutsScreenContent(
                     WorkoutScreenState.ScreenStatus.SUCCESS -> {
                         Workouts(
                             workouts = state.allWorkouts,
+                            selected = state.selectedFocusArea,
                             onClickWorkout = listener::onWorkoutClicked
                         )
                     }
@@ -183,6 +184,7 @@ private fun AppBar(onCommunityClick: () -> Unit) {
 @Composable
 private fun Workouts(
     workouts: List<WorkoutScreenState.WorkoutSuggestedUiState>,
+    selected: WorkoutScreenState.FocusAreaUiState,
     onClickWorkout: (String) -> Unit
 ) {
     LazyColumn(
@@ -190,6 +192,8 @@ private fun Workouts(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(workouts) { workout ->
+            val displayArea = if (selected == WorkoutScreenState.FocusAreaUiState.ALL) workout.focusArea else selected
+
             WorkoutCard(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -197,7 +201,7 @@ private fun Workouts(
                     .clickable { onClickWorkout(workout.id) },
                 title = workout.title,
                 duration = workout.durationInMinutes + " " + stringResource(Res.string.min),
-                focusArea = stringResource(workout.focusArea.nameResId),
+                focusArea = stringResource(displayArea.nameResId),
                 model = workout.imageUrl,
             )
         }

@@ -13,7 +13,7 @@ import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun FocusAreaFilter(
+fun CommunityFocusAreaFilter(
     focusArea: List<WorkoutScreenState.FocusAreaUiState>,
     selectedFocusArea: WorkoutScreenState.FocusAreaUiState,
     onSelectFocusArea: (WorkoutScreenState.FocusAreaUiState) -> Unit
