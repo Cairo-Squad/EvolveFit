@@ -5,7 +5,6 @@ on:
     branches:
       - develop
       - master
-      - feature/cd-firebase
 
 jobs:
   deploy:
@@ -40,8 +39,6 @@ jobs:
         env:
           GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
         run: |
-          mkdir -p composeApp/src/release/ # Ensure the directory exists
-          echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > composeApp/src/release/google-services.json
           mkdir -p app/ # Ensure the directory exists
           echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > app/google-services.json
         shell: bash
@@ -69,16 +66,7 @@ jobs:
 
         run: |
           ./gradlew assembleRelease --build-cache -x test -x lint
-          ls -l app/build/outputs/apk/release/app-release.apk || { echo "apk not generated"; exit 1; }      
-
-      - name: Extract Release Notes
-        id: release_notes
-        run: |
-          COMMIT_MSG=$(git log -1 --pretty=%B | sed 's/"/\\"/g' | tr -d '\n')
-          TRUNCATED_MSG="${COMMIT_MSG:0:500}"
-          echo "$TRUNCATED_MSG" > release_notes.txt
-          echo "notes=$TRUNCATED_MSG" >> $GITHUB_OUTPUT
-          echo "Release notes: $TRUNCATED_MSG"
+          ls -l composeApp/build/outputs/apk/release/composeApp-release.apk || { echo "apk not generated"; exit 1; }
 
       - name: Upload APKs to Firebase App Distribution
         env:
@@ -87,7 +75,7 @@ jobs:
         run: |
           npm install -g firebase-tools
           firebase appdistribution:distribute \
-            app/build/outputs/apk/release/app-release.apk \
+            composeApp/build/outputs/apk/release/composeApp-release.apk \
             --app "$FIREBASE_APP_ID" \
             --token "$FIREBASE_AUTH_TOKEN" \
             --groups "cairo_squad" \
