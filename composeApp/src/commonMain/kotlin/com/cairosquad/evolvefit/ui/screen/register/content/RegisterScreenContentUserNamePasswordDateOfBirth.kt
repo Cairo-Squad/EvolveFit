@@ -25,6 +25,7 @@ import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.DateBottomSheet
 import com.cairosquad.evolvefit.ui.component.UserProfileImage
+import com.cairosquad.evolvefit.ui.screen.register.content.component.UserRegisterImage
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
@@ -108,21 +109,16 @@ private fun UserProfileStep(
             modifier = Modifier
                 .padding(bottom = 24.dp)
         )
-
-        UserProfileImage(
+        UserRegisterImage(
             image = image,
             isImagePickerOpen = isImagePickerOpen,
             onImagePickerDismiss = onImagePickerDismiss,
             onImagePickerClick = onImagePickerClick,
             onImageRetrieved = onImageRetrieved,
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(
-                    bottom = 8.dp
-                ).size(100.dp)
-                .clip(CircleShape)
                 .align(Alignment.CenterHorizontally),
-            text = stringResource(Res.string.upload_image)
+            text = stringResource(Res.string.upload_image),
+            defaultSize = if (image is UiImage.ImageResource) 32.dp else 100.dp
         )
 
         UserProfileForm(

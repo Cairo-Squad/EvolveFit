@@ -11,7 +11,7 @@ import io.github.vinceglb.filekit.coil.addPlatformFileSupport
 @Composable
 fun App(
     deepLinkRoute: Any? = null,
-    currentTheme: MoreScreenState.Theme = MoreScreenState.Theme.LIGHT,
+    currentTheme: MoreScreenState.Theme = MoreScreenState.Theme.DARK,
     onLanguageChange: (String) -> Unit = {},
     onThemeChange: (MoreScreenState.Theme) -> Unit = {}
     ) {

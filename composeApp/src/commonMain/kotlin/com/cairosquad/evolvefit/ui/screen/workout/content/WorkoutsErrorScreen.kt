@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.ui.screen.workout.content
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -25,7 +24,7 @@ fun WorkoutsErrorScreen(
     message: String? = null,
     onRetry: () -> Unit
 ) {
-    val noInternetIcon = if (isSystemInDarkTheme()) {
+    val noInternetIcon = if (Theme.isDark) {
         Res.drawable.im_no_internet
     } else {
         Res.drawable.ic_no_internet_light

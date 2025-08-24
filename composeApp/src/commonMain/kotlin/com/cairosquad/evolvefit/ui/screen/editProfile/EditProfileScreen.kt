@@ -154,6 +154,8 @@ fun EditProfileScreenContent(
                     }
                 },
                 isEditScreen = true,
+                defaultSize = if (state.profile.imageUrl.isBlank()) 32.dp else 100.dp
+
             )
 
             Column(
@@ -170,7 +172,8 @@ fun EditProfileScreenContent(
                     label = stringResource(Res.string.full_name),
                     value = state.profile.fullName,
                     onValueChange = listener::onFullNameChanged,
-                    isDividerVisible = true
+                    isDividerVisible = true,
+                    readOnly = true,
                 )
 
                 LabeledInputField(

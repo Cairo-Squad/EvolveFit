@@ -5,6 +5,7 @@ import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.friday
+import evolvefit.composeapp.generated.resources.ic_image
 import evolvefit.composeapp.generated.resources.monday
 import evolvefit.composeapp.generated.resources.saturday
 import evolvefit.composeapp.generated.resources.sunday
@@ -23,7 +24,7 @@ data class RegisterScreenState(
     val dateOfBirthInput: String = "",
     val isNextButtonEnabled: Boolean = false,
     val selectedGender: Gender? = null,
-    val selectedMeasurementStandard: MeasurementStandard? = MeasurementStandard.Metric,
+    val selectedMeasurementStandard: MeasurementStandard? = null,
     val selectedGoal: Goal? = null,
     val notificationSettings: NotificationSettings = NotificationSettings(),
     val selectedWeekDayUiState: Set<WeekDayUiState> = emptySet(),
@@ -32,7 +33,7 @@ data class RegisterScreenState(
     val selectedEquipments: Set<Int> = emptySet(),
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
-    val image: UiImage = UiImage.ImageUrl(""),
+    val image: UiImage = UiImage.ImageResource(Res.drawable.ic_image),
     val preferredLanguage: Language? = null,
     val isImagePickerOpen: Boolean = false,
     val isPasswordVisible: Boolean = false,

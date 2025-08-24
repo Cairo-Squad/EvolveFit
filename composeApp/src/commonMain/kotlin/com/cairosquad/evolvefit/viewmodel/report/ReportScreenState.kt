@@ -10,7 +10,9 @@ data class ReportScreenState(
     val isDropDownMenuOpen: Boolean = false,
     val weeks: List<WeekItem> = emptyList(),
     val selectedWeek: WeekItem = WeekItem(),
-
+    val startDate: String = "",
+    val endDate: String = "",
+    val profile: ProfileUiState = ProfileUiState(),
     val isRefreshing: Boolean = false
 ) {
     data class WeekItem(
@@ -31,16 +33,16 @@ data class ReportScreenState(
 
     data class WorkoutPerWeek(
         val workoutsCount: List<Int> = emptyList(),
-        val day: List<StringResource> = emptyList()
+        val day: List<String> = emptyList()
     )
 
     data class TimeSpentPerWeek(
         val timeInSeconds: List<Long> = emptyList(),
-        val day: List<StringResource> = emptyList()
+        val day: List<String> = emptyList()
     )
 
     data class TrainedMuscle(
-        val muscle: List<StringResource> = emptyList(),
+        val muscle: List<String> = emptyList(),
         val percentage: List<Float> = emptyList()
     )
 
@@ -51,5 +53,9 @@ data class ReportScreenState(
         val exercisesCount: Int = 0,
         val duration: String = "",
         val level: String = ""
+    )
+
+    data class ProfileUiState(
+        val name: String = "",
     )
 }

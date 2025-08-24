@@ -24,22 +24,12 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.report.content.componant.animatedMeter.AnimatedLineChart
 import com.cairosquad.evolvefit.ui.screen.report.content.componant.animatedMeter.chartComponent.ChartGrid
 import com.cairosquad.evolvefit.ui.util.TimeUtil
-import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.friday_short
-import evolvefit.composeapp.generated.resources.monday_short
-import evolvefit.composeapp.generated.resources.saturday_short
-import evolvefit.composeapp.generated.resources.sunday_short
-import evolvefit.composeapp.generated.resources.thursday_short
-import evolvefit.composeapp.generated.resources.tuesday_short
-import evolvefit.composeapp.generated.resources.wednesday_short
-import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun LineChartCard(
     data: List<Float>,
-    labels: List<StringResource>,
+    labels: List<String>,
     totalTime: String,
     isAnimationStarted: Boolean,
     modifier: Modifier = Modifier,
@@ -109,7 +99,7 @@ fun LineChartCard(
                     barCenters.forEachIndexed { index, offset ->
                         val isMax = index == maxIndex
                         Text(
-                            text = stringResource(labels[index]),
+                            text = labels[index],
                             color = if (isMax) focusedLabelColor else unFocusedLabelColor,
                             style = Theme.textStyle.label.smallRegular12,
                             modifier = Modifier
@@ -128,13 +118,13 @@ private fun LineChartCardPreview() {
     val labels by remember {
         mutableStateOf(
             listOf(
-                Res.string.saturday_short,
-                Res.string.sunday_short,
-                Res.string.monday_short,
-                Res.string.tuesday_short,
-                Res.string.wednesday_short,
-                Res.string.thursday_short,
-                Res.string.friday_short
+               "Sat",
+                "Sun",
+                "Mon",
+                "Tue",
+                "Wed",
+                "Thu",
+                "Fri"
             )
         )
     }

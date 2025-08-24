@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.createExercise.content.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -34,7 +33,7 @@ fun ExitCreateExerciseBottomSheet(
     onExitWithoutSavingClicked: () -> Unit = {}
 ) {
     val saveImage =
-        if (isSystemInDarkTheme()) painterResource(Res.drawable.im_save_dark)
+        if (Theme.isDark) painterResource(Res.drawable.im_save_dark)
         else painterResource(Res.drawable.im_save_light)
     BottomSheet(
         isVisible = isVisible,

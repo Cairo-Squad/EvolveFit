@@ -51,7 +51,7 @@ fun CheckboxItem(
     description: String? = null,
     titleColor: Color = Theme.color.surfaces.onSurface,
     style: CheckboxStyle = CheckboxStyle.Tick,
-    icon: DrawableResource? = null
+    icon: DrawableResource? = null,
 ) {
     Row(
         modifier = modifier
@@ -63,12 +63,13 @@ fun CheckboxItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        if (icon != null){
-        Icon(
-            painter = painterResource(icon),
-            contentDescription = "",
-            modifier = Modifier.size(24.dp)
-        )
+        if (icon != null) {
+            Icon(
+                modifier = Modifier.size(24.dp),
+                painter = painterResource(icon),
+                contentDescription = "",
+                tint = Theme.color.surfaces.onSurfaceContainer
+            )
         }
         Column(
             modifier = Modifier
@@ -156,7 +157,7 @@ enum class CheckboxStyle {
 fun CustomTick(
     isChecked: Boolean,
     modifier: Modifier = Modifier,
-    onCheckedChange: (Boolean) -> Unit ={}
+    onCheckedChange: (Boolean) -> Unit = {}
 ) {
     val backgroundColor by animateColorAsState(
         targetValue =

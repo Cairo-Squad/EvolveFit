@@ -22,8 +22,8 @@ actual fun UpdateStatusBarIconsForTheme() {
         isAppearanceLightNavigationBars = !Theme.isDark
     }
 
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        window.navigationBarColor = Theme.color.surfaces.surface.toArgb()
-    }
+//    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
+//        window.navigationBarColor = Theme.color.surfaces.surface.toArgb()
+//    }
 }
