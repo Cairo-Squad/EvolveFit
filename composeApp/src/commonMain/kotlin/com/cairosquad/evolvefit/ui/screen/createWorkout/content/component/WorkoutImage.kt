@@ -37,7 +37,7 @@ fun WorkoutImage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .size(100.dp)
                 .background(Theme.color.surfaces.surfaceContainer)
                 .clickable(onClick = onImagePickerClick),
