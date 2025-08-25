@@ -66,7 +66,7 @@ fun MealTypeDropdownMenu(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(24.dp))
-                .padding(horizontal = 8.dp),
+                .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
@@ -75,6 +75,7 @@ fun MealTypeDropdownMenu(
                 color = Theme.color.surfaces.onSurfaceContainer
             )
             Text(
+                modifier = Modifier.padding(top = 4.dp),
                 text = stringResource(Res.string.log_meal_details),
                 style = Theme.textStyle.body.mediumMedium12,
                 color = Theme.color.surfaces.outline
