@@ -24,7 +24,7 @@ import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.component.ShadowedDropdownMenu
+import com.cairosquad.evolvefit.ui.component.DropdownMenu
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -113,7 +113,7 @@ fun MealTypeDropdownMenu(
                         readOnly = true,
                         onClick =listener::onToggleMealTypeMenu
                     )
-                    ShadowedDropdownMenu(
+                    DropdownMenu(
                         items = mealTypeUiStateOptions.values.toList(),
                         selectedItem = mealTypeUiStateOptions[state.selectedMeal] ?: "",
                         isExpanded = state.isMealTypeMenuExpanded,

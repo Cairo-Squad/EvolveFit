@@ -26,7 +26,7 @@ import com.cairosquad.evolvefit.viewmodel.report.ReportScreenState
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun ShadowedDropdownMenu(
+fun DropdownMenu(
     items: List<String>,
     selectedItem: String?,
     isExpanded: Boolean,
