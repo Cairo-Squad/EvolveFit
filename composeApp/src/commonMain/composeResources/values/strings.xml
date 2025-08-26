@@ -381,4 +381,8 @@
     <string name="duration_minutes">%1$s min</string>
     <string name="duration_seconds">%1$s sec</string>
     <string name="duration">Duration</string>
+
+    <string name="workout_duration">%1$s Min</string>
+
+    <string name="play_button">Play Button</string>
 </resources>
