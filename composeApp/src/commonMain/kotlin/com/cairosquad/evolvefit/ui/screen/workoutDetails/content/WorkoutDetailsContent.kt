@@ -156,7 +156,7 @@ fun WorkoutDetailsContent(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth()
-                        .padding(top = 12.dp, bottom = 16.dp)
+                        .padding(top = 16.dp, bottom = 24.dp)
                 )
             }
 
@@ -164,7 +164,7 @@ fun WorkoutDetailsContent(
                 DetailsCardsRow(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
-                        .padding(top = 24.dp, bottom = 32.dp),
+                        .padding(bottom = 32.dp),
                     level = state.workout.level,
                     exercisesNumber = state.workout.exercises.size,
                     estimatedTimeInSeconds = state.workout.estimatedTimeInSeconds,
@@ -183,50 +183,50 @@ fun WorkoutDetailsContent(
             }
         }
 
-    BottomSheet(
-        isVisible = state.workout.selectedExercise != null,
-        onDismiss = listener::onExerciseBottomSheetDismiss
-    ) {
-        ExerciseBottomSheetContent(
-            exercise = state.workout.selectedExercise,
-            onDismissBottomSheet = listener::onExerciseBottomSheetDismiss
+        BottomSheet(
+            isVisible = state.workout.selectedExercise != null,
+            onDismiss = listener::onExerciseBottomSheetDismiss
+        ) {
+            ExerciseBottomSheetContent(
+                exercise = state.workout.selectedExercise,
+                onDismissBottomSheet = listener::onExerciseBottomSheetDismiss
+            )
+        }
+
+        BottomSheet(
+            isVisible = state.isShareClicked,
+            onDismiss = listener::onShareBottomSheetDismiss
+        ) {
+            ShareBottomSheetContent(
+                onShareOptionClick = { platform ->
+                    val workoutUrl = "https://evolvefit.com/workouts/${state.workout.workoutID}"
+                    shareToPlatform(platform, workoutUrl, onDismiss = listener::onShareClicked)
+                },
+                onCopyLinkClick = {},
+                onShareWithCommunityClick = {
+                    listener.onShareWithCommunityClicked(state.workout.workoutID)
+                }
+            )
+        }
+        SnackBar(
+            text = snackBarMessage ?: "",
+            isVisible = isSnackBarVisible,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 24.dp)
+        )
+
+        PrimaryButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 24.dp),
+            text = stringResource(Res.string.start_workout),
+            onClick = { listener.onStartWorkoutClicked(state.workout.workoutID) },
+            isEnabled = true
         )
     }
-
-    BottomSheet(
-        isVisible = state.isShareClicked,
-        onDismiss = listener::onShareBottomSheetDismiss
-    ) {
-        ShareBottomSheetContent(
-            onShareOptionClick = { platform ->
-                val workoutUrl = "https://evolvefit.com/workouts/${state.workout.workoutID}"
-                shareToPlatform(platform, workoutUrl, onDismiss = listener::onShareClicked)
-            },
-            onCopyLinkClick = {},
-            onShareWithCommunityClick = {
-                listener.onShareWithCommunityClicked(state.workout.workoutID)
-            }
-        )
-    }
-    SnackBar(
-        text = snackBarMessage ?: "",
-        isVisible = isSnackBarVisible,
-        modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .padding(bottom = 24.dp)
-    )
-
-    PrimaryButton(
-        modifier = Modifier
-            .fillMaxWidth()
-            .align(Alignment.BottomCenter)
-            .padding(horizontal = 16.dp)
-            .padding(bottom = 24.dp),
-        text = stringResource(Res.string.start_workout),
-        onClick = { listener.onStartWorkoutClicked(state.workout.workoutID) },
-        isEnabled = true
-    )
-}
 }
 
 private fun shareToPlatform(platform: String, workoutUrl: String, onDismiss: () -> Unit) {
