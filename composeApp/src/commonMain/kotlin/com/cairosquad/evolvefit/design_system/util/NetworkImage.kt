@@ -44,7 +44,6 @@ fun NetworkImage(
             contentDescription = contentDescription,
             placeholder = loadingPlaceHolder,
             error = defaultImage,
-
         )
     } else {
         Box(

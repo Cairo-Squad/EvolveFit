@@ -1,5 +1,8 @@
 package com.cairosquad.evolvefit.ui.screen.playWorkout.content
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -8,16 +11,22 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.ui.screen.playWorkout.content.component.ColumnWithBackgroundImage
@@ -27,6 +36,9 @@ import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutInteractionLis
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutViewModel
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.exercise_info
+import evolvefit.composeapp.generated.resources.ic_default_image
+import evolvefit.composeapp.generated.resources.ic_play
 import evolvefit.composeapp.generated.resources.im_default_workout
 import evolvefit.composeapp.generated.resources.next_movement
 import evolvefit.composeapp.generated.resources.take_a_rest
@@ -72,7 +84,12 @@ fun PlayWorkoutContentRest(
             timeInSeconds = PlayWorkoutViewModel.REST_TIMER_IN_SECONDS,
             onClickSkipRest = listener::onSkipRestClicked,
             onFinish = listener::onRestFinishClicked,
-            timeIncrement = PlayWorkoutViewModel.REST_TIMER_INCREMENT_IN_SECONDS
+            timeIncrement = PlayWorkoutViewModel.REST_TIMER_INCREMENT_IN_SECONDS,
+            textColor = Theme.color.surfaces.textColor,
+            textStyle = Theme.textStyle.title.largeBold16.copy(
+                fontSize = 48.sp,
+                fontWeight = FontWeight.Black
+            )
         )
         Spacer(Modifier.weight(lowerSpaceWeight))
         Text(
@@ -92,17 +109,48 @@ fun PlayWorkoutContentRest(
             textStyle = Theme.textStyle.headline.mediumMedium18,
             textColor = Theme.color.surfaces.textColor
         )
-        NetworkImage(
+        NetworkImageWithPlayButton(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 24.dp)
                 .aspectRatio(328f/360f)
                 .fillMaxHeight()
-                .clip(RoundedCornerShape(8.dp)),
+                .clip(RoundedCornerShape(8.dp))
+                .clickable(onClick = { listener.onExerciseInfoClicked(currentExercise.id) }),
             model = currentExercise.imageUrls.firstOrNull() ?: "",
             contentDescription = currentExercise.name,
             defaultImage = painterResource(Res.drawable.im_default_workout)
+        )
+    }
+}
+
+@Composable
+private fun NetworkImageWithPlayButton(
+    model: String,
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    defaultImage: Painter = painterResource(Res.drawable.im_default_workout)
+) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ){
+        NetworkImage(
+            modifier = Modifier.matchParentSize(),
+            model = model,
+            contentDescription = contentDescription,
+            defaultImage = defaultImage
+        )
+        Icon(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .size(40.dp)
+                .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
+                .padding(13.dp),
+            painter = painterResource(Res.drawable.ic_play),
+            contentDescription = stringResource(Res.string.exercise_info),
+            tint = Theme.color.brand.primary
         )
     }
 }
