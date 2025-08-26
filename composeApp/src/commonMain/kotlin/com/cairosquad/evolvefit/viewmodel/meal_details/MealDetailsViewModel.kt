@@ -3,6 +3,8 @@ package com.cairosquad.evolvefit.viewmodel.meal_details
 import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
 import com.cairosquad.evolvefit.domain.entity.Meal
+import com.cairosquad.evolvefit.domain.entity.SuggestedMeal
+import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -60,6 +62,23 @@ class MealDetailsViewModel(
                 mealDetails = meal.toMealDetailsUiState(),
                 screenStatus = MealDetailsScreenState.ScreenStatus.SUCCESS,
                 errorMessage = null
+            )
+        }
+        loadMealSaveStatus(meal.id)
+    }
+    private fun loadMealSaveStatus(mealId: String) {
+        tryToCall(
+            block = { manageNutritionUseCase.getFavouriteMeals() },
+            onSuccess = { updateMealSaveStatus(mealId, it) },
+            onError = { updateState { it.copy(isLoading = false) } },
+            onStart = { updateState { it.copy(isLoading = true) } }
+        )
+    }
+    private fun updateMealSaveStatus(mealId: String, meals: List<SuggestedMeal>) {
+        updateState { state ->
+            state.copy(
+                mealDetails =state.mealDetails.copy(isFavouriteMeal =  meals.map { it.id }.contains(mealId)),
+                isLoading = false
             )
         }
     }
