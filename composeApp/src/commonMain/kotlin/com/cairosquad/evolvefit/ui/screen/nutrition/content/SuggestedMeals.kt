@@ -1,16 +1,17 @@
 package com.cairosquad.evolvefit.ui.screen.nutrition.content
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.MealCard
+import com.cairosquad.evolvefit.ui.util.noRippleClickable
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -39,9 +40,9 @@ fun SuggestedMeals(
     ) {
         items(state.suggestedMeals) {
             MealCard(
-                modifier = Modifier.clickable{
-                    listener.onSuggestedMealClicked(it.id)
-                },
+                modifier = Modifier
+                    .width(158.dp)
+                    .noRippleClickable { listener.onSuggestedMealClicked(it.id) },
                 title = it.name,
                 mealType = stringResource(it.type.displayName),
                 calories = it.calories,
