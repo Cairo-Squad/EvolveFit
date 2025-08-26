@@ -168,7 +168,6 @@ class MoreViewModel(
 
     private fun onSuccessChangeTheme() {
         val theme = managePreferencesUseCase.getTheme()
-        println("theme $theme")
         updateState {
             it.copy(
                 currentTheme = theme,
