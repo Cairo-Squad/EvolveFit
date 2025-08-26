@@ -14,8 +14,7 @@ class MoreViewModel(
     private val manageProfileUseCase: ManageProfileUseCase,
     private val authenticationUseCase: AuthenticationUseCase,
     private val managePreferencesUseCase: ManagePreferencesUseCase
-) : BaseViewModel<MoreScreenState, MoreEffect>(MoreScreenState())
-    , MoreInteractionListener {
+) : BaseViewModel<MoreScreenState, MoreEffect>(MoreScreenState()), MoreInteractionListener {
     init {
         loadThemePreferences()
         loadLanguagePreferences()
@@ -43,7 +42,15 @@ class MoreViewModel(
     private fun loadLanguagePreferences() {
         tryToCall(
             block = { managePreferencesUseCase.getLanguage() },
-            onSuccess = {languageCode -> updateState { it.copy(currentLanguage = languageCodeToLanguage(languageCode)) } },
+            onSuccess = { languageCode ->
+                updateState {
+                    it.copy(
+                        currentLanguage = languageCodeToLanguage(
+                            languageCode
+                        )
+                    )
+                }
+            },
             onError = { },
         )
     }
@@ -122,7 +129,7 @@ class MoreViewModel(
 
     override fun onConfirmChangeTheme(theme: MoreScreenState.Theme) {
         tryToCall(
-            block = {managePreferencesUseCase.saveTheme(theme)},
+            block = { managePreferencesUseCase.saveTheme(theme) },
             onSuccess = {
                 onSuccessChangeTheme()
                 sendEffect(MoreEffect.ChangeTheme(theme))
@@ -158,10 +165,19 @@ class MoreViewModel(
             )
         }
     }
-    private fun onSuccessChangeTheme(){
+
+    private fun onSuccessChangeTheme() {
         val theme = managePreferencesUseCase.getTheme()
-        updateState { it.copy(currentTheme = theme, isThemeBottomSheetEnabled = false) }
+        println("theme $theme")
+        updateState {
+            it.copy(
+                currentTheme = theme,
+                isThemeBottomSheetEnabled = false,
+                isDarkChecked = theme == MoreScreenState.Theme.DARK
+            )
+        }
     }
+
     private fun onSuccessfulLogout() {
         updateState { it.copy(isLogoutBottomSheetEnabled = false) }
         sendEffect(MoreEffect.Logout)
