@@ -30,6 +30,7 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.suggested_meals.content.component.LoadingMealCard
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
+import com.cairosquad.evolvefit.ui.util.noRippleClickable
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsEffect
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsInteractionListener
 import com.cairosquad.evolvefit.viewmodel.suggested_meals.SuggestedMealsScreenState
@@ -51,7 +52,6 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SuggestedMealsScreen(
     navigateBack: () -> Unit,
     navigateToMealDetails: (String) -> Unit,
-    modifier: Modifier = Modifier,
     viewModel: SuggestedMealsViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
@@ -64,15 +64,14 @@ fun SuggestedMealsScreen(
     }
     SuggestedMealsContent(
         state = state,
-        onBackClick = { viewModel.onBackClicked() },
         listener = viewModel
     )
 }
+
 @Composable
 private fun SuggestedMealsContent(
     state: SuggestedMealsScreenState,
     listener: SuggestedMealsInteractionListener,
-    onBackClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -80,7 +79,7 @@ private fun SuggestedMealsContent(
             .background(Theme.color.surfaces.surface)
             .padding(horizontal = 16.dp)
     ) {
-        SuggestedMealsAppBar(onBackClick = onBackClick)
+        SuggestedMealsAppBar(onBackClick = listener::onBackClicked)
         Crossfade(
             targetState = state.screenStatus,
             animationSpec = tween(durationMillis = 300)
@@ -88,7 +87,10 @@ private fun SuggestedMealsContent(
             when (screenStatus) {
                 SuggestedMealsScreenState.ScreenStatus.LOADING -> SuggestedMealsLoadingState()
                 SuggestedMealsScreenState.ScreenStatus.ERROR -> SuggestedMealsErrorState(state.errorMessage)
-                SuggestedMealsScreenState.ScreenStatus.SUCCESS -> SuggestedMealsSuccessState(state.suggestedMeals , listener = listener  )
+                SuggestedMealsScreenState.ScreenStatus.SUCCESS -> SuggestedMealsSuccessState(
+                    state.suggestedMeals,
+                    listener = listener
+                )
             }
         }
     }
@@ -109,6 +111,7 @@ private fun SuggestedMealsAppBar(onBackClick: () -> Unit) {
         }
     )
 }
+
 @Composable
 private fun SuggestedMealsLoadingState() {
     LazyVerticalGrid(
@@ -122,9 +125,13 @@ private fun SuggestedMealsLoadingState() {
         items(20) { LoadingMealCard() }
     }
 }
+
 @Composable
 private fun SuggestedMealsErrorState(errorMessage: String?) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
         StateMessage(
             image = painterResource(Res.drawable.im_no_meals_recorded),
             title = "Error",
@@ -132,10 +139,17 @@ private fun SuggestedMealsErrorState(errorMessage: String?) {
         )
     }
 }
+
 @Composable
-private fun SuggestedMealsSuccessState(suggestedMeals: List<SuggestedMealsScreenState.SuggestedMealUiState> , listener : SuggestedMealsInteractionListener) {
+private fun SuggestedMealsSuccessState(
+    suggestedMeals: List<SuggestedMealsScreenState.SuggestedMealUiState>,
+    listener: SuggestedMealsInteractionListener
+) {
     if (suggestedMeals.isEmpty()) {
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
             StateMessage(
                 image = painterResource(Res.drawable.im_no_meals_recorded),
                 title = stringResource(Res.string.no_meals_title),
@@ -145,7 +159,7 @@ private fun SuggestedMealsSuccessState(suggestedMeals: List<SuggestedMealsScreen
         }
     } else {
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(124.dp),
+            columns = GridCells.Adaptive(minSize = 150.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(vertical = 16.dp),
@@ -159,9 +173,8 @@ private fun SuggestedMealsSuccessState(suggestedMeals: List<SuggestedMealsScreen
                     mealType = stringResource(meal.type.displayName),
                     calories = meal.calories,
                     model = meal.imageUrl,
-                    modifier = Modifier.clickable{
-                        listener.onMealClicked(meal.id)
-                    }
+                    modifier = Modifier
+                        .noRippleClickable { listener.onMealClicked(meal.id) }
                 )
             }
         }

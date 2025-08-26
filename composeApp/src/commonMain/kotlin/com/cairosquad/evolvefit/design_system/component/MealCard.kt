@@ -4,10 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -40,14 +42,16 @@ fun MealCard(
     model: String
 ) {
     Column(
-        modifier = modifier.width(158.dp),
+        modifier = modifier,
     ) {
         Box(
-            modifier = Modifier.height(124.dp).width(158.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(158f/124f)
         ) {
             NetworkImage(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .matchParentSize()
                     .clip(RoundedCornerShape(8.dp)),
                 model = model,
                 contentDescription = stringResource(Res.string.meal_image),
@@ -57,20 +61,22 @@ fun MealCard(
                     .align(Alignment.TopEnd)
                     .padding(end = 4.dp, top = 4.dp)
                     .clip(RoundedCornerShape(24.dp))
-                    .background(Theme.color.brand.onPrimary),
+                    .background(Theme.color.brand.onPrimary)
+                    .padding(vertical = 4.dp, horizontal = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.ic_fire),
                     contentDescription = stringResource(Res.string.calories_icon),
                     tint = Theme.color.brand.primary,
-                    modifier = Modifier.padding(start = 8.dp, end = 4.dp, top = 4.dp, bottom = 4.dp)
+                    modifier = Modifier
+                        .size(16.dp)
+                        .padding(end = 4.dp)
                 )
                 Text(
                     text = "$calories $calorieUnit",
                     style = Theme.textStyle.body.smallRegular10,
                     color = Theme.color.brand.primary,
-                    modifier = Modifier.padding(end = 8.dp)
                 )
             }
         }
