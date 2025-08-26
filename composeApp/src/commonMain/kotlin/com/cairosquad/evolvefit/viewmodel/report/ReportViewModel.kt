@@ -132,7 +132,7 @@ class ReportViewModel(
     }
 
     override fun onDropDownMenuClicked() {
-        updateState { it.copy(isDropDownMenuOpen = true) }
+        updateState { it.copy(isDropDownMenuOpen = !screenState.value.isDropDownMenuOpen) }
     }
 
     override fun onDropDownMenuDismiss() {
