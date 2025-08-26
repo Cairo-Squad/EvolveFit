@@ -51,8 +51,8 @@ class MealDetailsViewModel(
 
     private fun getMealDetails() {
         tryToCall(
-            block = { manageNutritionUseCase.getMealById(mealId) },
             onStart = { setScreenStatus(MealDetailsScreenState.ScreenStatus.LOADING) },
+            block = { manageNutritionUseCase.getMealById(mealId) },
             onSuccess = ::onGetMealDetailsSuccess,
             onError = ::onGetMealDetailsError
         )
