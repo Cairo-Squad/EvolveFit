@@ -43,7 +43,7 @@ import evolvefit.composeapp.generated.resources.x_platform
 fun ShareBottomSheetContent(
     onShareOptionClick: (String) -> Unit,
     onCopyLinkClick: () -> Unit,
-    onShareWithCommunityClick: () -> Unit
+   // onShareWithCommunityClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -69,11 +69,11 @@ fun ShareBottomSheetContent(
             onClick = onCopyLinkClick
         )
 
-        ShareActionRow(
-            icon = painterResource(Res.drawable.ic_share_community),
-            label = stringResource(Res.string.share_with_community),
-            onClick = onShareWithCommunityClick
-        )
+//        ShareActionRow(
+//            icon = painterResource(Res.drawable.ic_share_community),
+//            label = stringResource(Res.string.share_with_community),
+//            onClick = onShareWithCommunityClick
+//        )
     }
 }
 
