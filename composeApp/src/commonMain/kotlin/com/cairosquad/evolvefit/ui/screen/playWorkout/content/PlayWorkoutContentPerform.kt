@@ -69,6 +69,9 @@ fun PlayWorkoutContentPerform(
         initialPage = screenState.currentStep - 1
     )
 
+    val isForwardButtonEnabled = screenState.currentStep < screenState.workout.exercises.size
+    val isBackButtonEnabled = screenState.currentStep > 1
+
     LaunchedEffect(screenState.currentStep) {
         try {
             pagerState.animateScrollToPage(screenState.currentStep - 1)
@@ -105,7 +108,9 @@ fun PlayWorkoutContentPerform(
                 exercise = screenState.workout.exercises[pageIndex],
                 listener = listener,
                 currentStep = pageIndex + 1,
-                totalSteps = screenState.workout.exercises.size
+                totalSteps = screenState.workout.exercises.size,
+                isForwardButtonEnabled = isForwardButtonEnabled,
+                isBackButtonEnabled = isBackButtonEnabled,
             )
         }
     }
@@ -117,7 +122,9 @@ private fun ExercisePage(
     listener: PlayWorkoutInteractionListener,
     currentStep: Int,
     totalSteps: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isForwardButtonEnabled: Boolean = true,
+    isBackButtonEnabled: Boolean = true,
 ) {
     val imageHeightDp = maxOf(ScreenSize.heightDp - 440, 360f)
     val imageWidthDp = minOf(ScreenSize.widthDp - 16, imageHeightDp)
@@ -149,7 +156,8 @@ private fun ExercisePage(
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 24.dp),
             exerciseName = exercise.name,
-            onClickInfo = { listener.onExerciseInfoClicked(exercise.id) }
+            onClickInfo = { listener.onExerciseInfoClicked(exercise.id) },
+            textStyle = Theme.textStyle.display.largeBold20
         )
         BottomSection(
             modifier = Modifier
@@ -158,7 +166,9 @@ private fun ExercisePage(
             exerciseSpec = exercise.exerciseSpec,
             onFinishExercise = listener::onFinishExercise,
             onClickForward = listener::onForwardClicked,
-            onClickBack = listener::onBackClicked
+            onClickBack = listener::onBackClicked,
+            isForwardButtonEnabled = isForwardButtonEnabled,
+            isBackButtonEnabled = isBackButtonEnabled,
         )
     }
 }
@@ -170,6 +180,8 @@ private fun BottomSection(
     onClickForward: () -> Unit,
     onClickBack: () -> Unit,
     modifier: Modifier = Modifier,
+    isForwardButtonEnabled: Boolean = true,
+    isBackButtonEnabled: Boolean = true,
 ) {
     when (exerciseSpec) {
         is PlayWorkoutScreenState.ExerciseSpecUiState.Reps -> {
@@ -178,7 +190,9 @@ private fun BottomSection(
                 reps = exerciseSpec.reps,
                 onClickDone = onFinishExercise,
                 onClickForward = onClickForward,
-                onClickBack = onClickBack
+                onClickBack = onClickBack,
+                isForwardButtonEnabled = isForwardButtonEnabled,
+                isBackButtonEnabled = isBackButtonEnabled,
             )
         }
 
@@ -188,7 +202,9 @@ private fun BottomSection(
                 timeInSeconds = exerciseSpec.timeInSeconds,
                 onTimeFinish = onFinishExercise,
                 onClickForward = onClickForward,
-                onClickBack = onClickBack
+                onClickBack = onClickBack,
+                isForwardButtonEnabled = isForwardButtonEnabled,
+                isBackButtonEnabled = isBackButtonEnabled,
             )
         }
     }
@@ -201,6 +217,8 @@ private fun BottomSectionReps(
     onClickForward: () -> Unit,
     onClickBack: () -> Unit,
     modifier: Modifier = Modifier,
+    isForwardButtonEnabled: Boolean = true,
+    isBackButtonEnabled: Boolean = true,
 ) {
     Column(
         modifier = modifier,
@@ -217,6 +235,8 @@ private fun BottomSectionReps(
             onClickForward = onClickForward,
             onClickBack = onClickBack,
             primaryButtonIcon = painterResource(Res.drawable.ic_check_mark),
+            isForwardButtonEnabled = isForwardButtonEnabled,
+            isBackButtonEnabled = isBackButtonEnabled,
         )
     }
 }
@@ -228,6 +248,8 @@ private fun BottomSectionTime(
     onClickForward: () -> Unit,
     onClickBack: () -> Unit,
     modifier: Modifier = Modifier,
+    isForwardButtonEnabled: Boolean = true,
+    isBackButtonEnabled: Boolean = true,
 ) {
 
     var isPaused by remember { mutableStateOf(false) }
@@ -255,6 +277,8 @@ private fun BottomSectionTime(
             primaryButtonIcon =
                 if (isPaused) painterResource(Res.drawable.ic_play)
                 else painterResource(Res.drawable.ic_pause),
+            isForwardButtonEnabled = isForwardButtonEnabled,
+            isBackButtonEnabled = isBackButtonEnabled,
         )
     }
 }
@@ -267,6 +291,8 @@ private fun BottomButtons(
     onClickBack: () -> Unit,
     primaryButtonIcon: Painter,
     modifier: Modifier = Modifier,
+    isForwardButtonEnabled: Boolean = true,
+    isBackButtonEnabled: Boolean = true,
 ) {
     val isRTL = LocalLayoutDirection.current == LayoutDirection.Rtl
 
@@ -279,13 +305,15 @@ private fun BottomButtons(
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
-                .clickable(onClick = onClickBack)
+                .clickable(onClick = onClickBack, enabled = isBackButtonEnabled)
                 .background(Theme.color.surfaces.surfaceContainer)
                 .padding(12.dp)
                 .scale(scaleX = if (isRTL) -1f else 1f, scaleY = 1f),
             painter = painterResource(Res.drawable.ic_previous_arrow),
             contentDescription = stringResource(Res.string.back_button),
-            tint = Theme.color.surfaces.onSurfaceContainer,
+            tint =
+                if (isBackButtonEnabled) Theme.color.surfaces.onSurfaceContainer
+                else Theme.color.surfaces.outlineVariant,
         )
         Icon(
             modifier = Modifier
@@ -302,13 +330,15 @@ private fun BottomButtons(
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
-                .clickable(onClick = onClickForward)
+                .clickable(onClick = onClickForward, enabled = isForwardButtonEnabled)
                 .background(Theme.color.surfaces.surfaceContainer)
                 .padding(12.dp)
                 .scale(scaleX = if (isRTL) -1f else 1f, scaleY = 1f),
             painter = painterResource(Res.drawable.ic_next_arrow),
             contentDescription = stringResource(Res.string.next),
-            tint = Theme.color.surfaces.onSurfaceContainer,
+            tint =
+                if (isForwardButtonEnabled) Theme.color.surfaces.onSurfaceContainer
+                else Theme.color.surfaces.outlineVariant,
         )
     }
 }
