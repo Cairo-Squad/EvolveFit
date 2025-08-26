@@ -4,13 +4,19 @@ import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
 import com.cairosquad.evolvefit.domain.entity.Meal
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
+import com.cairosquad.evolvefit.viewmodel.utils.toErrorMessageRes
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MealDetailsViewModel(
-    private val manageNutritionUseCase: ManageNutritionUseCase
+    private val manageNutritionUseCase: ManageNutritionUseCase,
+    private val mealId: String
 ) : BaseViewModel<MealDetailsScreenState, MealDetailsEffect>(MealDetailsScreenState()),
     MealDetailsInteractionListener {
+    init {
+        getMealDetails()
+    }
 
     override fun onBackClicked() {
         sendEffect(MealDetailsEffect.NavigateBack)
@@ -22,6 +28,10 @@ class MealDetailsViewModel(
             onSuccess = { handleSaveMealSuccess() },
             onError = {}
         )
+    }
+
+    override fun onRetryClicked() {
+        getMealDetails()
     }
 
     private fun handleSaveMealSuccess() {
@@ -39,10 +49,10 @@ class MealDetailsViewModel(
         }
     }
 
-    fun getMealDetails(mealId: String) {
+    private fun getMealDetails() {
         tryToCall(
-            block = { manageNutritionUseCase.getMealById(mealId) },
             onStart = { setScreenStatus(MealDetailsScreenState.ScreenStatus.LOADING) },
+            block = { manageNutritionUseCase.getMealById(mealId) },
             onSuccess = ::onGetMealDetailsSuccess,
             onError = ::onGetMealDetailsError
         )
@@ -67,7 +77,7 @@ class MealDetailsViewModel(
     private fun onGetMealDetailsError(e: Throwable) {
         updateState { current ->
             current.copy(
-                errorMessage = e.message,
+                errorMessage = e.toErrorMessageRes(),
                 screenStatus = MealDetailsScreenState.ScreenStatus.ERROR
             )
         }
