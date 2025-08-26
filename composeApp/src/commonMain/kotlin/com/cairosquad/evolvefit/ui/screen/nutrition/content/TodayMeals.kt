@@ -95,6 +95,7 @@ fun TodayMealsSummary(
                         color = Theme.color.surfaces.onSurfaceContainer
                     )
                     Text(
+                        modifier = Modifier.padding(top = 4.dp),
                         text = "${state.remainingDailyCalories} " + stringResource(Res.string.kcal_unit),
                         style = Theme.textStyle.body.mediumMedium12,
                         color = Theme.color.surfaces.outline
