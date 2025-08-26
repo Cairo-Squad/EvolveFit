@@ -65,6 +65,7 @@ fun ImageCarousel(
             contentDescription = stringResource(Res.string.exercise_image),
             modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)),
         )
+        if (images.size > 1) {
         val (leftIcon, leftAction, leftEnabled) = if (layoutDirection == LayoutDirection.Ltr) {
             Triple(
                 Res.drawable.ic_arrow_left,
@@ -120,6 +121,7 @@ fun ImageCarousel(
                 .clip(CircleShape)
                 .then(if (rightEnabled) Modifier.clickable { rightAction() } else Modifier)
         )
+            }
         MeasurementRow(
             exerciseType = exerciseType,
             modifier = Modifier
@@ -131,5 +133,6 @@ fun ImageCarousel(
             textStyle = Theme.textStyle.label.mediumMedium12
         )
     }
+
 
 }
