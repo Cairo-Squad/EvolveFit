@@ -118,12 +118,8 @@ class FavoritesViewModel(
     }
 
     private fun onloadMealsSuccess(meals: List<SuggestedMeal>) {
-        updateState {
-            it.copy(
-                mealsList = meals.map { it.toUiState() },
-                isMealsLoading = false
-            )
-        }
+        loadingMealsState(false)
+        updateState { it.copy(mealsList = meals.map { it.toUiState() }) }
     }
 
     private fun loadWorkouts() {
@@ -136,12 +132,8 @@ class FavoritesViewModel(
     }
 
     private fun onloadWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
-        updateState {
-            it.copy(
-                workoutsList = workouts.map { it.toUiState() },
-                isWorkoutsLoading = false
-            )
-        }
+        loadingWorkoutsState(false)
+        updateState { it.copy(workoutsList = workouts.map { it.toUiState() }) }
     }
 
     private fun loadingMealsState(isLoading: Boolean) =
