@@ -95,7 +95,7 @@ class NutritionViewModel(
             it.copy(
                 dailyCaloriesGoal = dailyCalorieSummary.totalCalories.toFloat(),
                 todayConsumedCalories = dailyCalorieSummary.consumedCalories.toFloat(),
-                remainingDailyCalories = (dailyCalorieSummary.totalCalories - dailyCalorieSummary.consumedCalories).toFloat()
+                remainingDailyCalories = (dailyCalorieSummary.totalCalories - dailyCalorieSummary.consumedCalories)
             )
         }
     }

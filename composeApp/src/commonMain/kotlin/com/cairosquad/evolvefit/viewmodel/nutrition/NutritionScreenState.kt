@@ -16,7 +16,7 @@ data class NutritionScreenState(
     val todayConsumedWater: Float = 0.0f,
     val dailyWaterGoal: Float = 0.0f,
 
-    val remainingDailyCalories: Float = 0.0f,
+    val remainingDailyCalories: Int = 0,
 
     val dailyMealSummaryUiStates: List<DailyMealSummaryUiState> = emptyList(),
     val suggestedMeals: List<SuggestedMealUiState> = emptyList(),
