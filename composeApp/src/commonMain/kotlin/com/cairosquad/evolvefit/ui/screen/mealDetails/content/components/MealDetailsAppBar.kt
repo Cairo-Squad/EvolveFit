@@ -42,18 +42,21 @@ fun MealDetailsAppBar(
             )
         },
         tail = {
-            if (state.mealDetails.isFavouriteMeal)
-            Icon(
-                painter =  painterResource(Res.drawable.ic_bookmark_big_filled),
-                contentDescription = stringResource(Res.string.bookmark),
-                tint = Theme.color.surfaces.textColor
-            ) else
+            if (state.mealDetails.isFavouriteMeal) {
+                Icon(
+                    painter = painterResource(Res.drawable.ic_bookmark_big_filled),
+                    contentDescription = stringResource(Res.string.bookmark),
+                    tint = Theme.color.surfaces.textColor,
+                    modifier = Modifier.clickable(onClick = onBookmarkClick)
+                )
+            } else {
                 Icon(
                     painter = painterResource(Res.drawable.ic_bookmark_big),
                     contentDescription = stringResource(Res.string.bookmark),
                     tint = Theme.color.surfaces.textColor,
                     modifier = Modifier.clickable(onClick = onBookmarkClick)
                 )
+            }
 
         }
     )

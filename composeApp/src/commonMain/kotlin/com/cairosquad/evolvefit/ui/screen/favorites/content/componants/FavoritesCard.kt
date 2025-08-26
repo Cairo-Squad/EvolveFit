@@ -57,21 +57,19 @@ fun FavoritesCard(
         Box(
             modifier = Modifier.fillMaxSize()
                 .background(Theme.color.surfaces.onSurfaceAt3)
-                .clip(RoundedCornerShape(8.dp))
-            ,
+                .clip(RoundedCornerShape(8.dp)),
         )
         Box(
             modifier = Modifier
                 .padding(12.dp)
                 .clip(CircleShape)
                 .align(Alignment.TopEnd)
-                .background(Theme.color.surfaces.onSurfaceAt3),
+                .background(Theme.color.surfaces.onSurfaceAt3)
+                .clickable(onClick = onSaveIconClick),
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                modifier = Modifier.padding(10.dp)
-                    .clickable(onClick = onSaveIconClick)
-                ,
+                modifier = Modifier.padding(10.dp),
                 tint = Theme.color.surfaces.textColor,
                 painter = painterResource(Res.drawable.ic_save_full),
                 contentDescription = stringResource(Res.string.save_icon)
