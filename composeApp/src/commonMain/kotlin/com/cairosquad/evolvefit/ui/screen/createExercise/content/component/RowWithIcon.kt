@@ -50,7 +50,7 @@ fun RowWithIcon(
     ) {
         Text(
             text = text,
-            style = Theme.textStyle.label.smallRegular12,
+            style = Theme.textStyle.label.smallRegular14,
             color = textColor
         )
         Spacer(modifier = Modifier.weight(1f))
