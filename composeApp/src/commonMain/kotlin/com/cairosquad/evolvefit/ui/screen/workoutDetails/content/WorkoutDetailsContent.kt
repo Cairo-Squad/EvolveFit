@@ -42,6 +42,7 @@ import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.Worko
 import com.cairosquad.evolvefit.ui.util.Share
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsInteractionListener
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.back
 import evolvefit.composeapp.generated.resources.bookmark
@@ -212,7 +213,8 @@ fun WorkoutDetailsContent(
         ) {
             ShareBottomSheetContent(
                 onShareOptionClick = { platform ->
-                    val workoutUrl = "https://evolvefit.com/workouts/${state.workout.workoutID}"
+                    val workoutUrl =
+                        WorkoutDetailsViewModel.DEEP_LINK_BASE_URL + state.workout.workoutID
                     shareToPlatform(platform, workoutUrl, onDismiss = listener::onShareClicked)
                 },
                 onCopyLinkClick = {},
