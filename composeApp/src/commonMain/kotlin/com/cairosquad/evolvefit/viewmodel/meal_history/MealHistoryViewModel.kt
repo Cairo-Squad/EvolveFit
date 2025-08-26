@@ -3,9 +3,9 @@ package com.cairosquad.evolvefit.viewmodel.meal_history
 import com.cairosquad.evolvefit.domain.entity.ConsumedMeal
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
-import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionViewModel
 import com.cairosquad.evolvefit.viewmodel.utils.getDayHeader
 import com.cairosquad.evolvefit.viewmodel.utils.getTodayDate
+import com.cairosquad.evolvefit.viewmodel.utils.toErrorMessageRes
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 
@@ -21,6 +21,10 @@ class MealHistoryViewModel(
 
     override fun onNavigateBackClicked() {
         sendEffect(MealHistoryEffect.NavigateBack)
+    }
+
+    override fun onRetryClicked() {
+        loadMealsHistory()
     }
 
 
@@ -72,12 +76,13 @@ class MealHistoryViewModel(
     private fun onLoadMealsHistoryError(e: Throwable) {
         updateState { current ->
             current.copy(
-                errorMessage = e.message,
+                errorMessage = e.toErrorMessageRes(),
                 screenStatus = MealHistoryScreenState.ScreenStatus.ERROR
             )
         }
     }
-    private companion object{
+
+    private companion object {
         const val START_DAY_TIME = "2025-08-01T00:00:00"
         const val END_DAY_TIME = "T23:59:59"
     }

@@ -9,9 +9,10 @@ import org.jetbrains.compose.resources.StringResource
 
 data class MealDetailsScreenState(
     val mealDetails: MealDetailsUiState = MealDetailsUiState(),
-    val errorMessage: String? = null,
+    val errorMessage: StringResource? = null,
     val screenStatus: ScreenStatus = ScreenStatus.LOADING,
-    val showSaveMealSuccessSnackBar : Boolean = false
+    val showSaveMealSuccessSnackBar : Boolean = false,
+    val isRefreshing : Boolean = false
 ){
     data class MealDetailsUiState(
         val name : String = "",

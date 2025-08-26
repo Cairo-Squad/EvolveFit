@@ -4,13 +4,14 @@ import com.cairosquad.evolvefit.repository.authentication.remote.dto.AuthRespons
 import com.cairosquad.evolvefit.repository.authentication.remote.dto.LoginRequest
 import com.cairosquad.evolvefit.repository.authentication.remote.dto.RegisterRequest
 import com.cairosquad.evolvefit.repository.execption.callApi
-import io.ktor.client.HttpClient
-import io.ktor.client.request.post
+import com.cairosquad.evolvefit.repository.utils.HttpClientHolder
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
-class AuthenticationRemoteDataSourceImpl(private val client: HttpClient) :
+class AuthenticationRemoteDataSourceImpl(
+    private val client: HttpClientHolder
+) :
     AuthenticationRemoteDataSource {
     override suspend fun login(email: String, password: String): AuthResponse {
         return callApi<AuthResponse> {
@@ -28,5 +29,9 @@ class AuthenticationRemoteDataSourceImpl(private val client: HttpClient) :
                 setBody(request)
             }
         }
+    }
+
+    override suspend fun logout() {
+        client.clearTokens()
     }
 }

@@ -34,11 +34,13 @@ fun ThemeBottomSheetContent(
 ) {
 
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier
+            .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp).padding(bottom = 4.dp),
+            modifier = Modifier
+                .padding(bottom = 4.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
@@ -68,9 +70,10 @@ fun ThemeBottomSheetContent(
         )
 
         PrimaryButton(
+            modifier = Modifier
+                .padding(bottom = 16.dp, top = 38.dp),
             text = stringResource(Res.string.confirm),
             onClick = { onConfirm(state.currentTheme) },
-            modifier = Modifier.padding(bottom = 16.dp, top = 38.dp),
             isEnabled = true,
             enabledTextColor = Theme.color.brand.onPrimary,
             textStyle = Theme.textStyle.body.mediumMedium14,

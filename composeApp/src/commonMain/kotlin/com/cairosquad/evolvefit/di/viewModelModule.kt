@@ -40,7 +40,6 @@ val viewModelModule = module {
     viewModelOf(::MoreViewModel)
     viewModelOf(::WorkoutHistoryViewModel)
     viewModelOf(::MoreViewModel)
-    viewModelOf(::MealDetailsViewModel)
 
     viewModel { (workoutId: String) ->
         PlayWorkoutViewModel(workoutId, manageWorkoutUseCase = get())
@@ -48,7 +47,12 @@ val viewModelModule = module {
     viewModel { (workoutId: String) ->
         WorkoutDetailsViewModel(workoutId, get())
     }
-
+    viewModel { (mealId: String) ->
+        MealDetailsViewModel(
+            manageNutritionUseCase = get(),
+            mealId = mealId
+        )
+    }
     viewModelOf(::SuggestedMealsViewModel)
     viewModelOf(::MealHistoryViewModel)
 }
