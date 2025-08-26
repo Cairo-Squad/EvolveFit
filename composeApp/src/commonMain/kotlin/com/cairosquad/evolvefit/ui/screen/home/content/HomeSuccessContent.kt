@@ -47,6 +47,7 @@ import evolvefit.composeapp.generated.resources.profile_picture
 import evolvefit.composeapp.generated.resources.ready_text_female
 import evolvefit.composeapp.generated.resources.ready_text_male
 import evolvefit.composeapp.generated.resources.today_nutrition
+import evolvefit.composeapp.generated.resources.workout_duration
 import org.jetbrains.compose.resources.stringResource
 
 
@@ -160,7 +161,10 @@ private fun PersonalizedWorkouts(
             ) {
                 WorkoutCard(
                     title = workout.name,
-                    duration = "${workout.durationInMins} Min", // TODO: convert to string resources
+                    duration = stringResource(
+                        Res.string.workout_duration,
+                        workout.durationInMins.toString()
+                    ),
                     focusArea = workout.type,
                     model = workout.imageUrl,
                     hasPlayButton = false,
