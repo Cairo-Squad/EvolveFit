@@ -6,4 +6,5 @@ import com.cairosquad.evolvefit.repository.authentication.remote.dto.RegisterReq
 interface AuthenticationRemoteDataSource {
     suspend fun login(email: String, password: String): AuthResponse
     suspend fun register(request: RegisterRequest): AuthResponse
+    suspend fun logout()
 }
