@@ -38,7 +38,7 @@ import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.StateMessage
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
-import com.cairosquad.evolvefit.design_system.composables.InputField
+import com.cairosquad.evolvefit.design_system.component.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutInteractionListener
@@ -54,7 +54,6 @@ import evolvefit.composeapp.generated.resources.add_icon_desc_
 import evolvefit.composeapp.generated.resources.all_exercises_title_
 import evolvefit.composeapp.generated.resources.back_icon_desc_
 import evolvefit.composeapp.generated.resources.exercise_image
-import evolvefit.composeapp.generated.resources.ic_addcircle
 import evolvefit.composeapp.generated.resources.ic_back
 import evolvefit.composeapp.generated.resources.ic_green_check_circle
 import evolvefit.composeapp.generated.resources.ic_search
