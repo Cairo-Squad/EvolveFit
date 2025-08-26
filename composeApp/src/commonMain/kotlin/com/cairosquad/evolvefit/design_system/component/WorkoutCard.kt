@@ -27,7 +27,9 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_play
+import evolvefit.composeapp.generated.resources.play_button
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -122,7 +124,7 @@ fun WorkoutCard(
                         modifier = Modifier.padding(10.dp),
                         tint = Theme.color.brand.primary,
                         painter = painterResource(Res.drawable.ic_play),
-                        contentDescription = "Play Button"
+                        contentDescription = stringResource(Res.string.play_button)
                     )
                 }
             }

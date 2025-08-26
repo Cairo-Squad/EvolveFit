@@ -367,4 +367,6 @@
     <string name="duration">المدة</string>
 
     <string name="workout_duration">%1$s دقيقة</string>
+
+    <string name="play_button">زر التشغيل</string>
 </resources>
