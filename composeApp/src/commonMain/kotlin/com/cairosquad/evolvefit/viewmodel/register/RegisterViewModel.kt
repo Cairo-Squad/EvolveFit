@@ -78,10 +78,6 @@ class RegisterViewModel(
                     availableEquipment = state.selectedEquipments,
                 )
                 delay(500)
-                manageProfileUseCase.uploadProfileImage(
-                    state.image.asByteArray().bytes,
-                    state.image.asByteArray().fileName
-                )
             },
             onSuccess = { sendEffect(RegisterEffect.NavigateToHome) },
             onError = { error -> handleRegisterError(error) },
