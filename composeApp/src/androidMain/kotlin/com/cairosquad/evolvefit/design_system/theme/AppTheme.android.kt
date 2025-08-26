@@ -32,6 +32,6 @@ actual fun UpdateNavBarColorForTheme(isDark: Boolean, color: Int) {
 
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        window.navigationBarColor = color //Theme.color.surfaces.surface.toArgb()
+        window.navigationBarColor = color
     }
 }
