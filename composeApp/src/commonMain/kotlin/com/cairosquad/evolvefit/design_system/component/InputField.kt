@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.design_system.composables
+package com.cairosquad.evolvefit.design_system.component
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
@@ -53,7 +53,6 @@ import evolvefit.composeapp.generated.resources.ic_check_mark
 import evolvefit.composeapp.generated.resources.ic_date
 import evolvefit.composeapp.generated.resources.ic_error
 import evolvefit.composeapp.generated.resources.ic_profile
-import evolvefit.composeapp.generated.resources.ic_visibility_on
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -80,10 +79,11 @@ fun InputField(
     onTrailingIconClick: (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onClick: (() -> Unit)? = null,
-    verticalPadding : Dp =20.dp,
-    horizentalPadding : Dp =12.dp,
+    verticalPadding: Dp = 20.dp,
+    horizontalPadding: Dp = 12.dp,
     isError: Boolean = false,
-    ) {
+    textColor: Color = Theme.color.surfaces.onSurfaceContainer,
+) {
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
     }
@@ -117,7 +117,7 @@ fun InputField(
                 )
                 .clip(RoundedCornerShape(8.dp))
                 .background(Theme.color.surfaces.surfaceContainer)
-                .padding(horizontal = horizentalPadding, vertical = verticalPadding),
+                .padding(horizontal = horizontalPadding, vertical = verticalPadding),
             value = textFieldValue,
             onValueChange = { newValue ->
                 val filteredValue =
@@ -136,77 +136,77 @@ fun InputField(
             },
             readOnly = readOnly,
             textStyle = Theme.textStyle.label.smallRegular14.copy(
-                color = Theme.color.surfaces.onSurfaceContainer
+                color = textColor
             ),
             keyboardOptions = keyboardOptions,
             singleLine = isSingleLine,
             decorationBox = { innerTextField ->
                 Column(modifier = Modifier.fillMaxWidth()) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    TextFieldIcon(
-                        leadingIcon,
-                        error = error.isNotBlank(),
-                        modifier = Modifier
-                            .then(
-                                if (onClick != null) {
-                                    Modifier.noRippleClickable(onClick)
-                                } else {
-                                    Modifier
-                                }
-                            )
-                            .padding(end = 8.dp)
-                    )
-                    if (onClick != null) {
-                        Box(
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        TextFieldIcon(
+                            leadingIcon,
+                            error = error.isNotBlank(),
                             modifier = Modifier
-                                .weight(1f)
-                                .noRippleClickable(onClick)
-                        ) {
-                            innerTextField()
-
-                            if (textFieldValue.text.isEmpty()) {
-                                Text(
-                                    text = placeholder,
-                                    style = Theme.textStyle.label.smallRegular14.copy(
-                                        color = Theme.color.surfaces.onSurfaceVariant
-                                    )
+                                .then(
+                                    if (onClick != null) {
+                                        Modifier.noRippleClickable(onClick)
+                                    } else {
+                                        Modifier
+                                    }
                                 )
-                            }
-                        }
-                    } else {
-                        Box(
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            innerTextField()
+                                .padding(end = 8.dp)
+                        )
+                        if (onClick != null) {
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .noRippleClickable(onClick)
+                            ) {
+                                innerTextField()
 
-                            if (textFieldValue.text.isEmpty()) {
-                                Text(
-                                    text = placeholder,
-                                    style = Theme.textStyle.label.smallRegular14.copy(
-                                        color = Theme.color.surfaces.onSurfaceVariant
+                                if (textFieldValue.text.isEmpty()) {
+                                    Text(
+                                        text = placeholder,
+                                        style = Theme.textStyle.label.smallRegular14.copy(
+                                            color = Theme.color.surfaces.onSurfaceVariant
+                                        )
                                     )
-                                )
-                            }
-                        }
-                    }
-                    TextFieldIcon(
-                        trailingIcon,
-                        modifier = trailingIconModifier
-                            .then(
-                                if (onClick != null) {
-                                    Modifier.noRippleClickable(onClick)
-                                } else {
-                                    Modifier
                                 }
-                            )
-                            .padding(start = 8.dp),
-                        error = error.isNotBlank(),
-                        onTrailingIconClick,
-                    )
-                }
+                            }
+                        } else {
+                            Box(
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                innerTextField()
+
+                                if (textFieldValue.text.isEmpty()) {
+                                    Text(
+                                        text = placeholder,
+                                        style = Theme.textStyle.label.smallRegular14.copy(
+                                            color = Theme.color.surfaces.onSurfaceVariant
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                        TextFieldIcon(
+                            trailingIcon,
+                            modifier = trailingIconModifier
+                                .then(
+                                    if (onClick != null) {
+                                        Modifier.noRippleClickable(onClick)
+                                    } else {
+                                        Modifier
+                                    }
+                                )
+                                .padding(start = 8.dp),
+                            error = error.isNotBlank(),
+                            onTrailingIconClick,
+                        )
+                    }
                     if (isCharacterCountVisible && maxCharacters != null) {
                         Spacer(modifier = Modifier.weight(1f))
                         val remaining = maxCharacters - textFieldValue.text.length
@@ -220,7 +220,7 @@ fun InputField(
                             textAlign = TextAlign.End
                         )
                     }
-            }
+                }
             },
             cursorBrush = SolidColor(
                 Theme.color.surfaces.onSurface

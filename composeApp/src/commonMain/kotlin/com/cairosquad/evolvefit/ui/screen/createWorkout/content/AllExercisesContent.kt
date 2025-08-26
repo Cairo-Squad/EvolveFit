@@ -38,13 +38,14 @@ import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.StateMessage
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
-import com.cairosquad.evolvefit.design_system.composables.InputField
+import com.cairosquad.evolvefit.design_system.component.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState.ScreenStatus
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.add_circle
 import evolvefit.composeapp.generated.resources.add_exercise_button_
 import evolvefit.composeapp.generated.resources.add_exercise_button_with_count_
 import evolvefit.composeapp.generated.resources.add_exercise_title_
@@ -53,7 +54,6 @@ import evolvefit.composeapp.generated.resources.add_icon_desc_
 import evolvefit.composeapp.generated.resources.all_exercises_title_
 import evolvefit.composeapp.generated.resources.back_icon_desc_
 import evolvefit.composeapp.generated.resources.exercise_image
-import evolvefit.composeapp.generated.resources.ic_addcircle
 import evolvefit.composeapp.generated.resources.ic_back
 import evolvefit.composeapp.generated.resources.ic_green_check_circle
 import evolvefit.composeapp.generated.resources.ic_search
@@ -68,64 +68,51 @@ fun AllExercisesContent(
     state: CreateWorkOutScreenState,
     listener: CreateWorkOutInteractionListener,
 ) {
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Theme.color.surfaces.surface)
-            .statusBarsPadding(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+            .background(Theme.color.surfaces.surface)
+            .statusBarsPadding()
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxSize()
         ) {
-            CustomAppBar(
-                title = stringResource(Res.string.add_exercise_title_),
-                header = {
-                    ActionIconButton(
-                        icon = painterResource(Res.drawable.ic_back),
-                        contentDescription = stringResource(Res.string.back_icon_desc_),
-                        tint = Theme.color.surfaces.onSurface,
-                        onClick = listener::onBackClicked
-                    )
-                },
-                tail = {
-                    ActionIconButton(
-                        icon = painterResource(Res.drawable.ic_addcircle),
-                        contentDescription = stringResource(Res.string.add_icon_desc_),
-                        tint = Theme.color.surfaces.onSurface,
-                        onClick = listener::onAddClicked
-                    )
-                },
-            )
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                CustomAppBar(
+                    title = stringResource(Res.string.add_exercise_title_),
+                    header = {
+                        ActionIconButton(
+                            icon = painterResource(Res.drawable.ic_back),
+                            contentDescription = stringResource(Res.string.back_icon_desc_),
+                            tint = Theme.color.surfaces.onSurface,
+                            onClick = listener::onBackClicked
+                        )
+                    },
+                    tail = {
+                        ActionIconButton(
+                            icon = painterResource(Res.drawable.add_circle),
+                            contentDescription = stringResource(Res.string.add_icon_desc_),
+                            tint = Theme.color.surfaces.onSurfaceVariant,
+                            onClick = listener::onAddClicked
+                        )
+                    },
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
 
-            InputField(
-                value = state.searchQuery,
-                onValueChange = listener::onSearchQueryChanged,
-                placeholder = stringResource(Res.string.search_exercise_placeholder_),
-                leadingIcon = Res.drawable.ic_search,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+                InputField(
+                    value = state.searchQuery,
+                    onValueChange = listener::onSearchQueryChanged,
+                    placeholder = stringResource(Res.string.search_exercise_placeholder_),
+                    leadingIcon = Res.drawable.ic_search,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
 
-            BasicText(
-                text = stringResource(Res.string.all_exercises_title_),
-                style = Theme.textStyle.label.smallRegular14.copy(
-                    color = Theme.color.surfaces.onSurfaceVariant
-                ),
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        }
-
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-        ) {
             when (state.status) {
-                ScreenStatus.LOADING -> {
-                    // Loading indicator
-                }
-
+                ScreenStatus.LOADING -> { /* Loading */ }
                 ScreenStatus.EMPTY -> {
                     StateMessage(
                         image = painterResource(Res.drawable.im_no_internet),
@@ -134,33 +121,33 @@ fun AllExercisesContent(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
-
                 ScreenStatus.SUCCESS -> {
                     LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        contentPadding = PaddingValues(horizontal = 16.dp)
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
                     ) {
+                        item {
+                            BasicText(
+                                text = stringResource(Res.string.all_exercises_title_),
+                                style = Theme.textStyle.label.smallRegular14.copy(
+                                    color = Theme.color.surfaces.onSurfaceVariant
+                                ),
+                                modifier = Modifier.padding(bottom = 6.dp)
+                            )
+                        }
                         items(state.filteredExercises) { exercise ->
                             ExerciseCardWithTick(
                                 title = exercise.name,
                                 time = "",
                                 model = exercise.images.firstOrNull() ?: "",
                                 isChecked = state.selectedExercises.any { it.id == exercise.id },
-                                onCheckedChange = { isChecked ->
-                                    listener.onExerciseCheckedChanged(exercise)
-                                },
-                                measurementContent = {
-                                    MeasurementRow(exercise.type)
-                                }
+                                onCheckedChange = { listener.onExerciseCheckedChanged(exercise) },
+                                measurementContent = { MeasurementRow(exercise.type) }
                             )
                         }
                     }
                 }
-
-                ScreenStatus.ERROR -> {
-                    // Error UI
-                }
+                ScreenStatus.ERROR -> { /* Error UI */ }
             }
         }
 
@@ -179,12 +166,14 @@ fun AllExercisesContent(
             onClick = { listener.onAddWorkoutClicked() },
             isEnabled = state.exerciseCount > 0,
             modifier = Modifier
+                .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 16.dp)
                 .padding(bottom = 24.dp)
         )
     }
 }
+
 
 @Composable
 fun ExerciseCardWithTick(
@@ -198,9 +187,8 @@ fun ExerciseCardWithTick(
 ) {
     Row(
         modifier = modifier
-            .padding(16.dp)
+            .padding(vertical = 6.dp)
             .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         NetworkImage(

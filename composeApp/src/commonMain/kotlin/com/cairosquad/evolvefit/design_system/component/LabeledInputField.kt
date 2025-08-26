@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
-import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -65,7 +64,7 @@ fun LabeledInputField(
             readOnly = readOnly,
             trailingIcon = null,
             onTrailingIconClick = onClick,
-            onClick = onClick,
+            onClick = if (readOnly) onClick else null,
             modifier = Modifier.fillMaxWidth().offset(x = (-10).dp),
             verticalPadding = 8.dp
         )

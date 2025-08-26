@@ -80,7 +80,7 @@ fun SnackBar(
             modifier = Modifier
                 .dropShadow(
                     shape = RoundedCornerShape(8.dp),
-                    color = Theme.color.surfaces.dropShadowLight,
+                    color = Theme.color.surfaces.dropShadow,
                     offsetX = 0.dp,
                     offsetY = 40.dp,
                     blur = 80.dp,
