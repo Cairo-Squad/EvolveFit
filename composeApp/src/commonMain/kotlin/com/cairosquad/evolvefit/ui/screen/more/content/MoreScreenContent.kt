@@ -192,7 +192,8 @@ fun PersonInfo(
             modifier = Modifier.weight(1f),
             icon = Res.drawable.ic_ruler,
             name = stringResource(Res.string.height),
-            value = Formatter.toString(height, 1)
+            value = formatHeightWeight(height),
+            measurementUnit = "cm"
         )
         Box(
             modifier = Modifier
@@ -204,7 +205,8 @@ fun PersonInfo(
             modifier = Modifier.weight(1f),
             icon = Res.drawable.weight,
             name = stringResource(Res.string.weight),
-            value = Formatter.toString(weight, 1)
+            value = formatHeightWeight(weight),
+            measurementUnit = "kg"
         )
         Box(
             modifier = Modifier
@@ -219,6 +221,18 @@ fun PersonInfo(
             value = age.toString()
         )
     }
+}
+
+private fun formatHeightWeight(value: Float): String {
+    val intPart = value.toInt()
+    val fraction = value - intPart
+    return when {
+        fraction == 0.0f -> intPart.toString()
+        fraction == 0.5f -> "$intPart.5"
+        fraction > 0.5f -> (intPart + 1).toString()
+        else -> intPart.toString()
+    }
+
 }
 
 @Composable
@@ -274,7 +288,7 @@ fun ProfileInfo(
                 .clip(shape = CircleShape)
         )
         Text(
-            modifier= Modifier.padding(bottom=4.dp,top=12.dp),
+            modifier = Modifier.padding(bottom = 4.dp, top = 12.dp),
             text = userName,
             color = Theme.color.surfaces.onSurfaceContainer,
             style = Theme.textStyle.label.mediumMedium14
