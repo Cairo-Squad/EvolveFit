@@ -109,4 +109,8 @@ class WorkoutDetailsViewModel(
             }
         }
     }
+
+    companion object {
+        const val DEEP_LINK_BASE_URL = "https://evolvefit.com/workouts/"
+    }
 }

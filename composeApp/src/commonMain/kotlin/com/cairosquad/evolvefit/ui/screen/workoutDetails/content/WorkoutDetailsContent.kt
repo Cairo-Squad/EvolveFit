@@ -5,9 +5,14 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,6 +34,7 @@ import com.cairosquad.evolvefit.design_system.component.SnackBar
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.design_system.theme.UpdateStatusBarIconsForTheme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.DetailsCardsRow
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.Exercises
@@ -36,6 +42,7 @@ import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.Worko
 import com.cairosquad.evolvefit.ui.util.Share
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsInteractionListener
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.back
 import evolvefit.composeapp.generated.resources.bookmark
@@ -66,6 +73,11 @@ fun WorkoutDetailsContent(
         }
     }
 
+    if (Theme.isDark.not() && isScrolled) {
+        UpdateStatusBarIconsForTheme(false)
+    } else {
+        UpdateStatusBarIconsForTheme(true)
+    }
 
     val appBarBackground by animateColorAsState(
         targetValue =
@@ -133,11 +145,14 @@ fun WorkoutDetailsContent(
         LazyColumn(
             state = listState,
             modifier = Modifier
-                .padding(bottom = 60.dp)
                 .fillMaxSize()
                 .background(color = Theme.color.surfaces.surface),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(
+                bottom =
+                    84.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+            )
         ) {
             item {
                 NetworkImage(
@@ -156,7 +171,7 @@ fun WorkoutDetailsContent(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth()
-                        .padding(top = 12.dp, bottom = 16.dp)
+                        .padding(top = 16.dp, bottom = 24.dp)
                 )
             }
 
@@ -164,7 +179,7 @@ fun WorkoutDetailsContent(
                 DetailsCardsRow(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
-                        .padding(top = 24.dp, bottom = 32.dp),
+                        .padding(bottom = 32.dp),
                     level = state.workout.level,
                     exercisesNumber = state.workout.exercises.size,
                     estimatedTimeInSeconds = state.workout.estimatedTimeInSeconds,
@@ -175,7 +190,6 @@ fun WorkoutDetailsContent(
                 Exercises(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
-                        .padding(bottom = 24.dp)
                         .fillMaxWidth(),
                     exercises = state.workout.exercises,
                     onExerciseClick = { listener.onExerciseClicked(it) }
@@ -183,47 +197,49 @@ fun WorkoutDetailsContent(
             }
         }
 
-    BottomSheet(
-        isVisible = state.workout.selectedExercise != null,
-        onDismiss = listener::onExerciseBottomSheetDismiss
-    ) {
-        ExerciseBottomSheetContent(
-            exercise = state.workout.selectedExercise,
-            onDismissBottomSheet = listener::onExerciseBottomSheetDismiss
+        BottomSheet(
+            isVisible = state.workout.selectedExercise != null,
+            onDismiss = listener::onExerciseBottomSheetDismiss
+        ) {
+            ExerciseBottomSheetContent(
+                exercise = state.workout.selectedExercise,
+                onDismissBottomSheet = listener::onExerciseBottomSheetDismiss
+            )
+        }
+
+        BottomSheet(
+            isVisible = state.isShareClicked,
+            onDismiss = listener::onShareBottomSheetDismiss
+        ) {
+            ShareBottomSheetContent(
+                onShareOptionClick = { platform ->
+                    val workoutUrl =
+                        WorkoutDetailsViewModel.DEEP_LINK_BASE_URL + state.workout.workoutID
+                    shareToPlatform(platform, workoutUrl, onDismiss = listener::onShareClicked)
+                },
+                onCopyLinkClick = {}
+            )
+        }
+        SnackBar(
+            text = snackBarMessage ?: "",
+            isVisible = isSnackBarVisible,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 24.dp)
+        )
+
+        PrimaryButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 24.dp)
+                .navigationBarsPadding(),
+            text = stringResource(Res.string.start_workout),
+            onClick = { listener.onStartWorkoutClicked(state.workout.workoutID) },
+            isEnabled = true
         )
     }
-
-    BottomSheet(
-        isVisible = state.isShareClicked,
-        onDismiss = listener::onShareBottomSheetDismiss
-    ) {
-        ShareBottomSheetContent(
-            onShareOptionClick = { platform ->
-                val workoutUrl = "https://evolvefit.com/workouts/${state.workout.workoutID}"
-                shareToPlatform(platform, workoutUrl, onDismiss = listener::onShareClicked)
-            },
-            onCopyLinkClick = {}
-        )
-    }
-    SnackBar(
-        text = snackBarMessage ?: "",
-        isVisible = isSnackBarVisible,
-        modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .padding(bottom = 24.dp)
-    )
-
-    PrimaryButton(
-        modifier = Modifier
-            .fillMaxWidth()
-            .align(Alignment.BottomCenter)
-            .padding(horizontal = 16.dp)
-            .padding(bottom = 24.dp),
-        text = stringResource(Res.string.start_workout),
-        onClick = { listener.onStartWorkoutClicked(state.workout.workoutID) },
-        isEnabled = true
-    )
-}
 }
 
 private fun shareToPlatform(platform: String, workoutUrl: String, onDismiss: () -> Unit) {

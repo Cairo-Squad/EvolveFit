@@ -24,7 +24,7 @@ class MealDetailsViewModel(
     }
 
     override fun onSaveMealClicked(mealId: String) {
-        if (screenState.value.mealDetails.isFavouriteMeal == false) {
+        if (screenState.value.mealDetails.isFavouriteMeal.not()) {
             tryToCall(
                 block = { manageNutritionUseCase.addFavouriteMealById(mealId) },
                 onSuccess = { handleSaveMealSuccess() },
@@ -100,7 +100,6 @@ class MealDetailsViewModel(
     private fun loadMealSaveStatus(mealId: String) {
         tryToCall(
             block = { manageNutritionUseCase.getFavouriteMeals() },
-            onStart = { setScreenStatus(MealDetailsScreenState.ScreenStatus.LOADING) },
             onSuccess = { updateMealSaveStatus(mealId, it) },
             onError = ::onGetMealDetailsError,
         )
