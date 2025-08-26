@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.design_system.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,6 +37,7 @@ fun WorkoutCard(
     focusArea: String,
     model: String,
     modifier: Modifier = Modifier,
+    hasPlayButton: Boolean = true
 ) {
     val descriptionTextColor =
         if (model.isNotBlank() || model.isNotEmpty())
@@ -108,19 +110,21 @@ fun WorkoutCard(
                 }
             }
 
-            Box(
-                modifier = Modifier
-                    .padding(end = 4.dp)
-                    .clip(CircleShape)
-                    .background(Theme.color.surfaces.onSurfaceAt2),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    modifier = Modifier.padding(10.dp),
-                    tint = Theme.color.brand.primary,
-                    painter = painterResource(Res.drawable.ic_play),
-                    contentDescription = "Play Button"
-                )
+            AnimatedVisibility(hasPlayButton) {
+                Box(
+                    modifier = Modifier
+                        .padding(end = 4.dp)
+                        .clip(CircleShape)
+                        .background(Theme.color.surfaces.onSurfaceAt2),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        modifier = Modifier.padding(10.dp),
+                        tint = Theme.color.brand.primary,
+                        painter = painterResource(Res.drawable.ic_play),
+                        contentDescription = "Play Button"
+                    )
+                }
             }
         }
     }

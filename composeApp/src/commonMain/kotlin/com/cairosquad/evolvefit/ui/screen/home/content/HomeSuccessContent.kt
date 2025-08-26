@@ -163,6 +163,7 @@ private fun PersonalizedWorkouts(
                     duration = "${workout.durationInMins} Min", // TODO: convert to string resources
                     focusArea = workout.type,
                     model = workout.imageUrl,
+                    hasPlayButton = false,
                     modifier = Modifier
                         .fillMaxSize()
                 )
