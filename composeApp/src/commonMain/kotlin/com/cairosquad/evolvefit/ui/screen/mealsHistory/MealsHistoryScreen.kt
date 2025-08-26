@@ -28,9 +28,6 @@ fun MealsHistoryScreen(
     viewModel: MealHistoryViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
-    LaunchedEffect(Unit) {
-        viewModel.loadMealsHistory()
-    }
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
             is MealHistoryEffect.NavigateBack -> navigateBack()
