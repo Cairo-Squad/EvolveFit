@@ -23,7 +23,7 @@ data class Surfaces(
     val onSurfaceAt2: Color,
     val onSurfaceAt3: Color,
     val onSurfaceAt4: Color,
-    val dropShadowLight: Color
+    val dropShadow: Color
 )
 data class Brand(
     val primary: Color,
