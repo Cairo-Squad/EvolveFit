@@ -8,7 +8,7 @@ import com.cairosquad.evolvefit.repository.nutrition.remote.dto.FavouriteMealDto
 import com.cairosquad.evolvefit.repository.nutrition.remote.dto.MealDto
 import com.cairosquad.evolvefit.repository.nutrition.remote.dto.SuggestedMealDto
 
-interface RemoteNutritionDataSource {
+interface NutritionRemoteDataSource {
     suspend fun getSuggestedMeals(): List<SuggestedMealDto>
     suspend fun getFavouriteMeals(): List<FavouriteMealDto>
     suspend fun addFavouriteMealById(mealId: String)
