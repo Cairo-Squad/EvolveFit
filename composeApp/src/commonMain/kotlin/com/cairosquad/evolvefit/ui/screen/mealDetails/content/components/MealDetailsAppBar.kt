@@ -57,7 +57,6 @@ fun MealDetailsAppBar(
                     modifier = Modifier.clickable(onClick = onBookmarkClick)
                 )
             }
-
         }
     )
 }

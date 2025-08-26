@@ -5,9 +5,14 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,6 +34,7 @@ import com.cairosquad.evolvefit.design_system.component.SnackBar
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.design_system.theme.UpdateStatusBarIconsForTheme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.DetailsCardsRow
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.Exercises
@@ -66,6 +72,11 @@ fun WorkoutDetailsContent(
         }
     }
 
+    if (Theme.isDark.not() && isScrolled) {
+        UpdateStatusBarIconsForTheme(false)
+    } else {
+        UpdateStatusBarIconsForTheme(true)
+    }
 
     val appBarBackground by animateColorAsState(
         targetValue =
@@ -133,11 +144,14 @@ fun WorkoutDetailsContent(
         LazyColumn(
             state = listState,
             modifier = Modifier
-                .padding(bottom = 60.dp)
                 .fillMaxSize()
                 .background(color = Theme.color.surfaces.surface),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(
+                bottom =
+                    84.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+            )
         ) {
             item {
                 NetworkImage(
@@ -175,7 +189,6 @@ fun WorkoutDetailsContent(
                 Exercises(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
-                        .padding(bottom = 24.dp)
                         .fillMaxWidth(),
                     exercises = state.workout.exercises,
                     onExerciseClick = { listener.onExerciseClicked(it) }
@@ -221,7 +234,8 @@ fun WorkoutDetailsContent(
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 24.dp),
+                .padding(bottom = 24.dp)
+                .navigationBarsPadding(),
             text = stringResource(Res.string.start_workout),
             onClick = { listener.onStartWorkoutClicked(state.workout.workoutID) },
             isEnabled = true
