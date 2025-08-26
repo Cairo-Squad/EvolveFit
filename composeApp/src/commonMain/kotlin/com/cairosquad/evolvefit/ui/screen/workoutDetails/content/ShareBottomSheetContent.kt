@@ -9,20 +9,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.util.noRippleClickable
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_copy
 import evolvefit.composeapp.generated.resources.ic_instagram
 import evolvefit.composeapp.generated.resources.ic_massenger
-import evolvefit.composeapp.generated.resources.ic_share_community
 import evolvefit.composeapp.generated.resources.ic_telegram
 import evolvefit.composeapp.generated.resources.ic_wattsapp
 import evolvefit.composeapp.generated.resources.ic_x
@@ -30,7 +32,6 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import evolvefit.composeapp.generated.resources.share_to
 import evolvefit.composeapp.generated.resources.copy_link
-import evolvefit.composeapp.generated.resources.share_with_community
 import evolvefit.composeapp.generated.resources.messenger
 import evolvefit.composeapp.generated.resources.whatsapp
 import evolvefit.composeapp.generated.resources.telegram
@@ -41,7 +42,6 @@ import evolvefit.composeapp.generated.resources.x_platform
 fun ShareBottomSheetContent(
     onShareOptionClick: (String) -> Unit,
     onCopyLinkClick: () -> Unit,
-    onShareWithCommunityClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -65,12 +65,6 @@ fun ShareBottomSheetContent(
             icon = painterResource(Res.drawable.ic_copy),
             label = stringResource(Res.string.copy_link),
             onClick = onCopyLinkClick
-        )
-
-        ShareActionRow(
-            icon = painterResource(Res.drawable.ic_share_community),
-            label = stringResource(Res.string.share_with_community),
-            onClick = onShareWithCommunityClick
         )
     }
 }
@@ -110,10 +104,15 @@ fun ShareOptionsRow(onShareOptionClick: (String) -> Unit) {
 }
 
 @Composable
-fun ShareOptionItem(icon: Painter, label: String, onClick: () -> Unit) {
+fun ShareOptionItem(
+    icon: Painter,
+    label: String,
+    onClick: () -> Unit,
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable { onClick() },
+        modifier = Modifier
+            .noRippleClickable(onClick = onClick),
         verticalArrangement = Arrangement.spacedBy(8.dp)
 
     ) {
@@ -123,6 +122,8 @@ fun ShareOptionItem(icon: Painter, label: String, onClick: () -> Unit) {
             tint = Theme.color.surfaces.onSurfaceContainer,
             modifier = Modifier
                 .size(48.dp)
+                .clip(shape = CircleShape)
+                .clickable(onClick = onClick)
                 .background(Theme.color.surfaces.surfaceContainer, shape = CircleShape)
                 .padding(12.dp)
         )
@@ -139,7 +140,7 @@ fun ShareActionRow(icon: Painter, label: String, onClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth().clip(RoundedCornerShape(8.dp))
             .clickable { onClick() }
             .padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
