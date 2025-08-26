@@ -1,10 +1,9 @@
 package com.cairosquad.evolvefit.viewmodel.meal_details
 
 import androidx.lifecycle.viewModelScope
-import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
 import com.cairosquad.evolvefit.domain.entity.Meal
 import com.cairosquad.evolvefit.domain.entity.SuggestedMeal
-import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
+import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -19,11 +18,34 @@ class MealDetailsViewModel(
     }
 
     override fun onSaveMealClicked(mealId: String) {
-        tryToCall(
-            block = { manageNutritionUseCase.addFavouriteMealById(mealId) },
-            onSuccess = { handleSaveMealSuccess() },
-            onError = {}
-        )
+        if (screenState.value.mealDetails.isFavouriteMeal == false) {
+            tryToCall(
+                block = { manageNutritionUseCase.addFavouriteMealById(mealId) },
+                onSuccess = { handleSaveMealSuccess() },
+                onError = {}
+            )
+        } else {
+            tryToCall(
+                block = { manageNutritionUseCase.deleteFavouriteMeal(mealId) },
+                onSuccess = { handleDeleteMealSuccess() },
+                onError = {}
+            )
+        }
+    }
+
+    private fun handleDeleteMealSuccess() {
+        viewModelScope.launch {
+            updateState { current ->
+                current.copy(
+                    mealDetails = current.mealDetails.copy(
+                        isFavouriteMeal = false,
+                    ),
+                    showSaveMealSuccessSnackBar = false
+                )
+            }
+            delay(3000)
+            updateState { it.copy(showSaveMealSuccessSnackBar = false) }
+        }
     }
 
     private fun handleSaveMealSuccess() {
@@ -66,19 +88,21 @@ class MealDetailsViewModel(
         }
         loadMealSaveStatus(meal.id)
     }
+
     private fun loadMealSaveStatus(mealId: String) {
         tryToCall(
             block = { manageNutritionUseCase.getFavouriteMeals() },
+            onStart = { setScreenStatus(MealDetailsScreenState.ScreenStatus.LOADING) },
             onSuccess = { updateMealSaveStatus(mealId, it) },
-            onError = { updateState { it.copy(isLoading = false) } },
-            onStart = { updateState { it.copy(isLoading = true) } }
+            onError = ::onGetMealDetailsError,
         )
     }
+
     private fun updateMealSaveStatus(mealId: String, meals: List<SuggestedMeal>) {
         updateState { state ->
             state.copy(
-                mealDetails =state.mealDetails.copy(isFavouriteMeal =  meals.map { it.id }.contains(mealId)),
-                isLoading = false
+                mealDetails = state.mealDetails.copy(isFavouriteMeal = meals.map { it.id }
+                    .contains(mealId)),
             )
         }
     }
