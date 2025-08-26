@@ -6,6 +6,8 @@ import com.cairosquad.evolvefit.domain.model.MealType
 
 data class FavoritesState(
     val isLoading: Boolean = false,
+    val isMealsLoading: Boolean = false,
+    val isWorkoutsLoading: Boolean = false,
     val workoutsList: List<WorkoutsUiModel> = emptyList(),
     val mealsList: List<MealsUiModel> = emptyList(),
     val isWorkoutTabSelected: Boolean = true,

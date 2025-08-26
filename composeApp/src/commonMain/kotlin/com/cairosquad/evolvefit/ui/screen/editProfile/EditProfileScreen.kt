@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.editProfile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.LabeledInputField
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
+import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
@@ -45,6 +44,7 @@ import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileScreenState
 import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.arrow_back_description
 import evolvefit.composeapp.generated.resources.birth
 import evolvefit.composeapp.generated.resources.cm
 import evolvefit.composeapp.generated.resources.email
@@ -115,17 +115,17 @@ fun EditProfileScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomAppBar(
+            modifier = Modifier
+                .padding(start = 16.dp),
             title = stringResource(Res.string.personal_information),
             header = {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_back),
-                    contentDescription = "back icon",
+                ActionIconButton(
+                    icon = painterResource(Res.drawable.ic_back),
+                    contentDescription = stringResource(Res.string.arrow_back_description),
                     tint = Theme.color.surfaces.onSurface,
-                    modifier = Modifier
-                        .clickable { navigateBack() }
+                    onClick = { navigateBack() }
                 )
-            },
-            modifier = Modifier.padding(start = 16.dp)
+            }
         )
         Column(
             modifier = Modifier
