@@ -64,9 +64,9 @@ fun CustomDropDownMenu(
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
-                .clickable { expanded = !expanded }
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
+                .clickable { expanded = !expanded }
                 .background(Theme.color.surfaces.surfaceContainer)
                 .padding(horizontal = 12.dp, vertical = 20.dp),
             verticalAlignment = Alignment.CenterVertically
