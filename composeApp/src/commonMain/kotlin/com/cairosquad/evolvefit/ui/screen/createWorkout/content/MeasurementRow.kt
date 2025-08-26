@@ -28,7 +28,7 @@ fun MeasurementRow(
 ){
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(1.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
 

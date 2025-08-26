@@ -53,7 +53,6 @@ import evolvefit.composeapp.generated.resources.ic_check_mark
 import evolvefit.composeapp.generated.resources.ic_date
 import evolvefit.composeapp.generated.resources.ic_error
 import evolvefit.composeapp.generated.resources.ic_profile
-import evolvefit.composeapp.generated.resources.ic_visibility_on
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -83,6 +82,7 @@ fun InputField(
     verticalPadding : Dp =20.dp,
     horizentalPadding : Dp =12.dp,
     isError: Boolean = false,
+    textColor: Color = Theme.color.surfaces.onSurfaceContainer,
     ) {
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
@@ -136,7 +136,7 @@ fun InputField(
             },
             readOnly = readOnly,
             textStyle = Theme.textStyle.label.smallRegular14.copy(
-                color = Theme.color.surfaces.onSurfaceContainer
+                color = textColor
             ),
             keyboardOptions = keyboardOptions,
             singleLine = isSingleLine,
