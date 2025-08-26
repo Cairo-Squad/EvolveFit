@@ -19,7 +19,7 @@ class FavoritesViewModel(
         loadData()
     }
 
-    private fun loadData(){
+    private fun loadData() {
         loadMeals()
         loadWorkouts()
     }
@@ -107,20 +107,32 @@ class FavoritesViewModel(
 
     private fun loadMeals() {
         tryToCall(
+            onStart = { updateState { it.copy(isLoading = true) } },
             block = ::loadFavoriteMeals,
-            onError = {},
+            onError = { updateState { it.copy(isLoading = false) } },
             onSuccess = { meals ->
-                updateState { it.copy(mealsList = meals.map { it.toUiState() }) }
+                updateState {
+                    it.copy(
+                        mealsList = meals.map { it.toUiState() },
+                        isLoading = false
+                    )
+                }
             }
         )
     }
 
     private fun loadWorkouts() {
         tryToCall(
+            onStart = { updateState { it.copy(isLoading = true) } },
             block = ::loadFavoriteWorkouts,
-            onError = {},
+            onError = { updateState { it.copy(isLoading = false) } },
             onSuccess = { workouts ->
-                updateState { it.copy(workoutsList = workouts.map { it.toUiState() }) }
+                updateState {
+                    it.copy(
+                        workoutsList = workouts.map { it.toUiState() },
+                        isLoading = false
+                    )
+                }
             }
         )
     }
