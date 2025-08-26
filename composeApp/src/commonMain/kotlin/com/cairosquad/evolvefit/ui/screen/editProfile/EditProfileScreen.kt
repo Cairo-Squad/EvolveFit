@@ -46,6 +46,7 @@ import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.birth
+import evolvefit.composeapp.generated.resources.cm
 import evolvefit.composeapp.generated.resources.email
 import evolvefit.composeapp.generated.resources.female
 import evolvefit.composeapp.generated.resources.friday
@@ -56,6 +57,7 @@ import evolvefit.composeapp.generated.resources.goal
 import evolvefit.composeapp.generated.resources.height
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.kg
 import evolvefit.composeapp.generated.resources.lose_weight
 import evolvefit.composeapp.generated.resources.male
 import evolvefit.composeapp.generated.resources.monday
@@ -79,7 +81,6 @@ import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.math.round
 
 
 @Composable
@@ -231,9 +232,11 @@ fun EditProfileScreenContent(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
+                    val unitCm = stringResource(Res.string.cm)
+                    val unitKg = stringResource(Res.string.kg)
                     LabeledInputField(
                         label = stringResource(Res.string.height),
-                        value = "${formatHeightWeight(state.profile.height)} cm",
+                        value = "${formatHeightWeight(state.profile.height)} $unitCm",
                         onValueChange = {},
                         readOnly = false,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -244,7 +247,7 @@ fun EditProfileScreenContent(
 
                     LabeledInputField(
                         label = stringResource(Res.string.weight),
-                        value = "${formatHeightWeight(state.profile.weight)} kg",
+                        value = "${formatHeightWeight(state.profile.weight)} $unitKg",
                         onValueChange = { },
                         readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
