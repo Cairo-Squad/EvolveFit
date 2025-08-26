@@ -98,7 +98,6 @@ class HttpClientHolder(
     }
 
     private fun buildClient(): HttpClient {
-        println("asdasd buildClient")
         return HttpClient(platformHttpClientEngineFactory) {
             defaultRequest { url(BASE_URL) }
 
