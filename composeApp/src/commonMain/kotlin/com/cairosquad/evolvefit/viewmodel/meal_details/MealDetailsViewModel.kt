@@ -43,8 +43,6 @@ class MealDetailsViewModel(
                     showSaveMealSuccessSnackBar = false
                 )
             }
-            delay(3000)
-            updateState { it.copy(showSaveMealSuccessSnackBar = false) }
         }
     }
 
