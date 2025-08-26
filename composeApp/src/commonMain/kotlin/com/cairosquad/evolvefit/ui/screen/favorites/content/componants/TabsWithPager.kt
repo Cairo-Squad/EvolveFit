@@ -103,9 +103,7 @@ fun TabsWithPager(
                         ) {
                             WorkoutList(
                                 workouts = workouts,
-                                onSaveIconClick = {
-                                    listener.deleteWorkout(it)
-                                }
+                                onSaveIconClick = listener::deleteWorkout
 
                             )
                         }
@@ -122,9 +120,7 @@ fun TabsWithPager(
                         ) {
                             MealsList(
                                 meals = meals,
-                                onSaveIconClick = {
-                                    listener.deleteMeal(it)
-                                }
+                                onSaveIconClick = listener::deleteMeal
                             )
                         }
                     }
