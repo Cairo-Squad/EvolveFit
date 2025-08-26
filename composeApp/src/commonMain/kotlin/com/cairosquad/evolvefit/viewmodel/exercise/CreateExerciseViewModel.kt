@@ -148,12 +148,12 @@ class CreateExerciseViewModel(
         val image = screenState.value.frontImage
         tryToCall(
             block = { uploadExerciseImage(image, id) },
-            onSuccess = { handleFrontImageUploadSuccess() },
-            onError = { setLoadingState(false) }
+            onSuccess = { handleFrontImageUploadSuccessOrError() },
+            onError = { handleFrontImageUploadSuccessOrError() }
         )
     }
 
-    private fun handleFrontImageUploadSuccess() {
+    private fun handleFrontImageUploadSuccessOrError() {
         setLoadingState(false)
         sendEffect(CreateExerciseEffect.NavigateToAllExercises)
     }
@@ -171,9 +171,9 @@ class CreateExerciseViewModel(
     private suspend fun uploadExerciseImage(image: UiImage?, id: String): String {
         val imageFileData = image!!.asByteArray()
         return manageExerciseUseCase.uploadExerciseImage(
-            imageFileData.bytes,
-            imageFileData.fileName,
-            id
+            fileBytes = imageFileData.bytes,
+            fileName = imageFileData.fileName,
+            exerciseId = id
         )
     }
 
