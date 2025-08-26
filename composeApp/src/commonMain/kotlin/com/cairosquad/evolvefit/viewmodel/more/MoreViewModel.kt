@@ -95,7 +95,6 @@ class MoreViewModel(
     override fun onSelectTheme(theme: MoreScreenState.Theme) {
         updateState {
             it.copy(
-                currentTheme = theme,
                 isDarkChecked = theme == MoreScreenState.Theme.DARK
             )
         }
