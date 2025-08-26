@@ -96,7 +96,7 @@ fun AllExercisesContent(
                         ActionIconButton(
                             icon = painterResource(Res.drawable.add_circle),
                             contentDescription = stringResource(Res.string.add_icon_desc_),
-                            tint = Theme.color.surfaces.onSurface,
+                            tint = Theme.color.surfaces.onSurfaceVariant,
                             onClick = listener::onAddClicked
                         )
                     },
