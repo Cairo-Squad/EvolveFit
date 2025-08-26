@@ -88,9 +88,9 @@ fun EditProfileScreen(
     viewModel: EditProfileViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
-    ObserveAsEffect(viewModel.effect) {effect->
-        when(effect){
-            EditProfileEffect.NavigateBack->navigateBack()
+    ObserveAsEffect(viewModel.effect) { effect ->
+        when (effect) {
+            EditProfileEffect.NavigateBack -> navigateBack()
         }
 
     }
@@ -132,7 +132,7 @@ fun EditProfileScreenContent(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             UserProfileImage(
                 modifier = Modifier.padding(top = 24.dp, bottom = 24.dp),
                 image = UiImage.ImageUrl(state.profile.imageUrl),
@@ -226,7 +226,7 @@ fun EditProfileScreenContent(
                 ) {
                     LabeledInputField(
                         label = stringResource(Res.string.height),
-                        value = (round(state.profile.height * 10) / 10).toString(),
+                        value = "${formatHeightWeight(state.profile.height)} cm",
                         onValueChange = {},
                         readOnly = false,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -237,7 +237,7 @@ fun EditProfileScreenContent(
 
                     LabeledInputField(
                         label = stringResource(Res.string.weight),
-                        value = (round(state.profile.weight * 10) / 10).toString(),
+                        value = "${formatHeightWeight(state.profile.weight)} kg",
                         onValueChange = { },
                         readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -438,7 +438,19 @@ private fun mapMainGoalToString(goal: FitnessGoal): String {
     return when (goal) {
         FitnessGoal.LOSE_WEIGHT -> stringResource(Res.string.lose_weight)
         FitnessGoal.GAIN_WEIGHT -> stringResource(Res.string.gain_weight)
-        FitnessGoal.STAY_IN_SHAPE-> stringResource(Res.string.stay_in_shape)
+        FitnessGoal.STAY_IN_SHAPE -> stringResource(Res.string.stay_in_shape)
 
     }
+}
+
+private fun formatHeightWeight(value: Float): String {
+    val intPart = value.toInt()
+    val fraction = value - intPart
+    return when {
+        fraction == 0.0f -> intPart.toString()
+        fraction == 0.5f -> "$intPart.5"
+        fraction > 0.5f -> "$intPart+1"
+        else -> intPart.toString()
+    }
+
 }
