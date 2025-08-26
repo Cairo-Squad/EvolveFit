@@ -57,7 +57,7 @@ class ManageNutritionUseCase(private val nutritionRepository: NutritionRepositor
     suspend fun saveConsumedMeal(
         consumedMealCaloriesInput: String,
         consumedMeal: ConsumedMeal,
-        remainingCalories: Float
+        remainingCalories: Int
     ): Boolean {
         validateCaloriesInput(consumedMealCaloriesInput)
         validateMealName(consumedMeal.name)
@@ -93,7 +93,7 @@ class ManageNutritionUseCase(private val nutritionRepository: NutritionRepositor
         return input.toIntOrNull() ?: throw InvalidNumberFormatException(FieldType.MEAL_CALORIES)
     }
 
-    private fun validateRemainingCalories(calories: Int, remainingCalories: Float) {
+    private fun validateRemainingCalories(calories: Int, remainingCalories: Int) {
         if (calories > remainingCalories) throw ExceededCaloriesException()
     }
 
