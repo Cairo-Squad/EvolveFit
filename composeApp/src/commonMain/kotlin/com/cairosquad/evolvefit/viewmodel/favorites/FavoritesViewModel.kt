@@ -1,6 +1,9 @@
 package com.cairosquad.evolvefit.viewmodel.favorites
 
 import androidx.lifecycle.viewModelScope
+import com.cairosquad.evolvefit.domain.entity.Meal
+import com.cairosquad.evolvefit.domain.entity.SuggestedMeal
+import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
@@ -107,35 +110,41 @@ class FavoritesViewModel(
 
     private fun loadMeals() {
         tryToCall(
-            onStart = { updateState { it.copy(isLoading = true) } },
+            onStart = { loadingState(true) },
             block = ::loadFavoriteMeals,
-            onError = { updateState { it.copy(isLoading = false) } },
-            onSuccess = { meals ->
-                updateState {
-                    it.copy(
-                        mealsList = meals.map { it.toUiState() },
-                        isLoading = false
-                    )
-                }
-            }
+            onError = { loadingState(false) },
+            onSuccess = ::onloadMealsSuccess
         )
+    }
+
+    private fun onloadMealsSuccess(meals: List<SuggestedMeal>) {
+        updateState {
+            it.copy(
+                mealsList = meals.map { it.toUiState() },
+                isLoading = false
+            )
+        }
     }
 
     private fun loadWorkouts() {
         tryToCall(
-            onStart = { updateState { it.copy(isLoading = true) } },
+            onStart = { loadingState(true) },
             block = ::loadFavoriteWorkouts,
-            onError = { updateState { it.copy(isLoading = false) } },
-            onSuccess = { workouts ->
-                updateState {
-                    it.copy(
-                        workoutsList = workouts.map { it.toUiState() },
-                        isLoading = false
-                    )
-                }
-            }
+            onError = { loadingState(false) },
+            onSuccess = ::onloadWorkoutsSuccess
         )
     }
+
+    private fun onloadWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
+        updateState {
+            it.copy(
+                workoutsList = workouts.map { it.toUiState() },
+                isLoading = false
+            )
+        }
+    }
+
+    private fun loadingState(isLoading: Boolean) = updateState { it.copy(isLoading = isLoading) }
 
     private var snackBarJob: Job? = null
     private fun showSnackBar() {
