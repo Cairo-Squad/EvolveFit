@@ -9,17 +9,15 @@ import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.meal_details.MealDetailsEffect
 import com.cairosquad.evolvefit.viewmodel.meal_details.MealDetailsViewModel
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MealDetailsScreen(
     mealId: String,
     navigateBack: () -> Unit,
-    viewModel: MealDetailsViewModel = koinViewModel()
+    viewModel: MealDetailsViewModel = koinViewModel(parameters = { parametersOf(mealId) })
 ) {
     val state by viewModel.screenState.collectAsState()
-    LaunchedEffect(Unit) {
-        viewModel.getMealDetails(mealId)
-    }
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
             is MealDetailsEffect.NavigateBack -> navigateBack()
