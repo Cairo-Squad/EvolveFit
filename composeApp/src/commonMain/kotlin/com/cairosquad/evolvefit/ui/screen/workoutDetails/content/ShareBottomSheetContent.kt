@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.util.noRippleClickable
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_copy
 import evolvefit.composeapp.generated.resources.ic_instagram
@@ -41,7 +42,6 @@ import evolvefit.composeapp.generated.resources.x_platform
 fun ShareBottomSheetContent(
     onShareOptionClick: (String) -> Unit,
     onCopyLinkClick: () -> Unit,
-   // onShareWithCommunityClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -66,12 +66,6 @@ fun ShareBottomSheetContent(
             label = stringResource(Res.string.copy_link),
             onClick = onCopyLinkClick
         )
-
-//        ShareActionRow(
-//            icon = painterResource(Res.drawable.ic_share_community),
-//            label = stringResource(Res.string.share_with_community),
-//            onClick = onShareWithCommunityClick
-//        )
     }
 }
 
@@ -117,7 +111,8 @@ fun ShareOptionItem(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clip(shape = RoundedCornerShape(16.dp)).clickable { onClick() },
+        modifier = Modifier
+            .noRippleClickable(onClick = onClick),
         verticalArrangement = Arrangement.spacedBy(8.dp)
 
     ) {
@@ -127,6 +122,8 @@ fun ShareOptionItem(
             tint = Theme.color.surfaces.onSurfaceContainer,
             modifier = Modifier
                 .size(48.dp)
+                .clip(shape = CircleShape)
+                .clickable(onClick = onClick)
                 .background(Theme.color.surfaces.surfaceContainer, shape = CircleShape)
                 .padding(12.dp)
         )
@@ -143,7 +140,7 @@ fun ShareActionRow(icon: Painter, label: String, onClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .fillMaxWidth().clip(RoundedCornerShape(16.dp))
+            .fillMaxWidth().clip(RoundedCornerShape(8.dp))
             .clickable { onClick() }
             .padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
