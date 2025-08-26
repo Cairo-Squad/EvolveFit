@@ -65,7 +65,7 @@ fun LabeledInputField(
             readOnly = readOnly,
             trailingIcon = null,
             onTrailingIconClick = onClick,
-            onClick = onClick,
+            onClick = if (readOnly) onClick else null,
             modifier = Modifier.fillMaxWidth().offset(x = (-10).dp),
             verticalPadding = 8.dp
         )
