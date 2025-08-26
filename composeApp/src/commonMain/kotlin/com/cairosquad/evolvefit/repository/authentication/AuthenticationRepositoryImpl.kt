@@ -39,6 +39,7 @@ class AuthenticationRepositoryImpl(
 
     override suspend fun logout() {
         authenticationPreferences.clear()
+        remote.logout()
     }
 
     override suspend fun isUserLoggedIn(): Boolean {
