@@ -104,7 +104,6 @@ class MoreViewModel(
     override fun onSelectLanguage(language: Language) {
         updateState {
             it.copy(
-                currentLanguage = language,
                 isEnglishChecked = language == Language.ENGLISH
             )
         }
