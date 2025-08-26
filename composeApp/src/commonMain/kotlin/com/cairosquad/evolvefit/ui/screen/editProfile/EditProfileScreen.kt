@@ -188,9 +188,16 @@ fun EditProfileScreenContent(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
+                    val formattedDate = state.profile.dateOfBirth?.let { date ->
+                        val day = date.dayOfMonth.toString().padStart(2, '0')
+                        val month = date.monthNumber.toString().padStart(2, '0')
+                        val year = date.year
+                        "$day/$month/$year"
+                    } ?: "29/04/2000"
+
                     LabeledInputField(
                         label = stringResource(Res.string.birth),
-                        value = state.profile.dateOfBirth?.toString() ?: "29/04/2000",
+                        value = formattedDate,
                         onValueChange = {},
                         readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
