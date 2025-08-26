@@ -325,8 +325,8 @@
     <string name="logout">Logout</string>
     <string name="choose_theme">Choose Theme</string>
     <string name="theme_description">Select your preferred look and feel for the app.</string>
-    <string name="dark_mode">Dark</string>
-    <string name="light_mode">Light</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="light_mode">Light Mode</string>
     <string name="account">Account</string>
     <string name="favorites">Favorites</string>
     <string name="notification_settings">Notification Settings</string>
