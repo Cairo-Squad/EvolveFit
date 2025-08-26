@@ -24,7 +24,6 @@ import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_copy
 import evolvefit.composeapp.generated.resources.ic_instagram
 import evolvefit.composeapp.generated.resources.ic_massenger
-import evolvefit.composeapp.generated.resources.ic_share_community
 import evolvefit.composeapp.generated.resources.ic_telegram
 import evolvefit.composeapp.generated.resources.ic_wattsapp
 import evolvefit.composeapp.generated.resources.ic_x
@@ -32,7 +31,6 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import evolvefit.composeapp.generated.resources.share_to
 import evolvefit.composeapp.generated.resources.copy_link
-import evolvefit.composeapp.generated.resources.share_with_community
 import evolvefit.composeapp.generated.resources.messenger
 import evolvefit.composeapp.generated.resources.whatsapp
 import evolvefit.composeapp.generated.resources.telegram
@@ -84,7 +82,6 @@ fun ShareOptionsRow(onShareOptionClick: (String) -> Unit) {
         horizontalArrangement = Arrangement.SpaceAround
     ) {
         ShareOptionItem(
-            modifier = Modifier.clip(shape = RoundedCornerShape(16.dp)),
             icon = painterResource(Res.drawable.ic_massenger),
             label = stringResource(Res.string.messenger),
             onClick = { onShareOptionClick("Messenger") }
@@ -117,11 +114,10 @@ fun ShareOptionItem(
     icon: Painter,
     label: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.clickable { onClick() },
+        modifier = Modifier.clip(shape = RoundedCornerShape(16.dp)).clickable { onClick() },
         verticalArrangement = Arrangement.spacedBy(8.dp)
 
     ) {
