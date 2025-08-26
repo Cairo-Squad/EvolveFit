@@ -17,10 +17,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.LabeledInputField
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
@@ -59,6 +62,7 @@ import evolvefit.composeapp.generated.resources.goal
 import evolvefit.composeapp.generated.resources.height
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.ic_pen
 import evolvefit.composeapp.generated.resources.kg
 import evolvefit.composeapp.generated.resources.lose_weight
 import evolvefit.composeapp.generated.resources.male
@@ -175,8 +179,10 @@ fun EditProfileScreenContent(
                     label = stringResource(Res.string.full_name),
                     value = state.profile.fullName,
                     onValueChange = listener::onFullNameChanged,
+                    trailingIcon = Res.drawable.ic_pen,
                     isDividerVisible = true,
-                    readOnly = true,
+                    readOnly = false,
+                    onClick = { listener.onEditNameClicked() },
                 )
 
                 LabeledInputField(

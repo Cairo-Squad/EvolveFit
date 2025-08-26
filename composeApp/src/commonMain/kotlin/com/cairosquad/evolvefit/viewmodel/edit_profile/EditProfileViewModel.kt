@@ -25,7 +25,7 @@ class EditProfileViewModel(
         loadData()
     }
 
-    private fun loadData(){
+    private fun loadData() {
         getProfile()
         getAllEquipment()
     }
@@ -186,6 +186,10 @@ class EditProfileViewModel(
 
     override fun onImagePickerDismissed() {
         updateState { it.copy(isImagePickerOpened = false) }
+    }
+
+    override fun onEditNameClicked() {
+        updateState { it.copy(isEditingName = true) }
     }
 
     override fun onBottomSheetDismissed() {

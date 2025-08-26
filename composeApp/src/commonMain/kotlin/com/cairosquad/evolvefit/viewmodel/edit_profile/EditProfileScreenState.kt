@@ -12,8 +12,8 @@ data class EditProfileScreenState(
     val bottomSheetType: EditProfileBottomSheetType? = null,
     val errorMessage: StringResource? = null,
     val allEquipments: Set<EquipmentUiState> = emptySet(),
-    val isImagePickerOpened : Boolean = false
-
+    val isImagePickerOpened : Boolean = false,
+    val isEditingName: Boolean = false
 ) {
     data class ProfileUiState(
         val fullName: String = "",
