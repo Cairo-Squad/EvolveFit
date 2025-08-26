@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.favorites
 
 import androidx.lifecycle.viewModelScope
-import com.cairosquad.evolvefit.domain.entity.Meal
 import com.cairosquad.evolvefit.domain.entity.SuggestedMeal
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
@@ -110,36 +109,36 @@ class FavoritesViewModel(
 
     private fun loadMeals() {
         tryToCall(
-            onStart = { loadingMealsState(true) },
+            onStart = { updateLoadingMealState(true) },
             block = ::loadFavoriteMeals,
-            onError = { loadingMealsState(false) },
+            onError = { updateLoadingMealState(false) },
             onSuccess = ::onloadMealsSuccess
         )
     }
 
     private fun onloadMealsSuccess(meals: List<SuggestedMeal>) {
-        loadingMealsState(false)
+        updateLoadingMealState(false)
         updateState { it.copy(mealsList = meals.map { it.toUiState() }) }
     }
 
     private fun loadWorkouts() {
         tryToCall(
-            onStart = { loadingWorkoutsState(true) },
+            onStart = { updateLoadingWorkoutsState(true) },
             block = ::loadFavoriteWorkouts,
-            onError = { loadingWorkoutsState(false) },
+            onError = { updateLoadingWorkoutsState(false) },
             onSuccess = ::onloadWorkoutsSuccess
         )
     }
 
     private fun onloadWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
-        loadingWorkoutsState(false)
+        updateLoadingWorkoutsState(false)
         updateState { it.copy(workoutsList = workouts.map { it.toUiState() }) }
     }
 
-    private fun loadingMealsState(isLoading: Boolean) =
+    private fun updateLoadingMealState(isLoading: Boolean) =
         updateState { it.copy(isMealsLoading = isLoading) }
 
-    private fun loadingWorkoutsState(isLoading: Boolean) =
+    private fun updateLoadingWorkoutsState(isLoading: Boolean) =
         updateState { it.copy(isWorkoutsLoading = isLoading) }
 
     private var snackBarJob: Job? = null
