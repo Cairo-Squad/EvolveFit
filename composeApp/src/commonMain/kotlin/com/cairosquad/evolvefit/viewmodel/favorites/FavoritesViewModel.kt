@@ -22,11 +22,6 @@ class FavoritesViewModel(
         loadData()
     }
 
-    private fun loadData() {
-        loadMeals()
-        loadWorkouts()
-    }
-
     override fun onMealTabSelected() {
         updateState { it.copy(isMealTabSelected = true, isWorkoutTabSelected = false) }
     }
@@ -75,6 +70,11 @@ class FavoritesViewModel(
                 loadWorkouts()
             }
         )
+    }
+
+    private fun loadData() {
+        loadMeals()
+        loadWorkouts()
     }
 
     private fun handleMealDeletionSuccess(mealId: String, deletedMeal: MealsUiModel?, index: Int) {
