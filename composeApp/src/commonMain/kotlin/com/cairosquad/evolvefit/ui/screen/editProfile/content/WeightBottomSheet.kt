@@ -2,8 +2,11 @@ package com.cairosquad.evolvefit.ui.screen.editProfile.content
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
@@ -12,15 +15,11 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.ui.screen.register.content.HeightWeightConstants
 import com.cairosquad.evolvefit.ui.screen.register.content.MeasureSection
-import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.confirm
 import evolvefit.composeapp.generated.resources.ic_scale
 import evolvefit.composeapp.generated.resources.kg
 import evolvefit.composeapp.generated.resources.lb
-import evolvefit.composeapp.generated.resources.save
-import evolvefit.composeapp.generated.resources.unit_metric
-import evolvefit.composeapp.generated.resources.weight
 import evolvefit.composeapp.generated.resources.your_weight
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -39,7 +38,7 @@ fun WeightBottomSheet(
         modifier = modifier.fillMaxWidth()
     ) {
         WeightBottomSheetContent(
-            selectedWeight = selectedWeight,
+            initialWeight = selectedWeight,
             measurementStandard = measurementStandard,
             onWeightChange = onWeightChange,
             onWeightBottomSheetDismiss = onWeightBottomSheetDismiss,
@@ -52,12 +51,14 @@ fun WeightBottomSheet(
 
 @Composable
 fun WeightBottomSheetContent(
-    selectedWeight: Float,
+    initialWeight: Float,
     measurementStandard: MeasurementStandard,
     onWeightChange: (Float) -> Unit,
     onWeightBottomSheetDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var selectedWeight by remember { mutableStateOf(initialWeight) }
+
     val (weightMeasureUnit, minWeight, maxWeight, dpPerWeightUnit, weightStep) =
         if (measurementStandard == MeasurementStandard.METRIC) {
             WeightMeasurementData(
@@ -80,14 +81,13 @@ fun WeightBottomSheetContent(
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-
         MeasureSection(
             selectedMeasure = selectedWeight,
             measureType = stringResource(Res.string.your_weight),
             measureIcon = painterResource(Res.drawable.ic_scale),
             minMeasureValue = minWeight,
             maxMeasureValue = maxWeight,
-            onMeasureChanged = onWeightChange,
+            onMeasureChanged = { selectedWeight = it },
             measureUnit = weightMeasureUnit,
             dpPerUnit = dpPerWeightUnit,
             step = weightStep,
@@ -100,7 +100,10 @@ fun WeightBottomSheetContent(
 
         PrimaryButton(
             text = stringResource(Res.string.confirm),
-            onClick = onWeightBottomSheetDismiss
+            onClick = {
+                onWeightChange(selectedWeight)
+                onWeightBottomSheetDismiss()
+            }
         )
     }
 }

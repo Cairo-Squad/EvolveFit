@@ -31,6 +31,9 @@ import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.domain.model.Language
+import com.cairosquad.evolvefit.domain.model.MeasurementStandard
+import com.cairosquad.evolvefit.ui.util.toFormattedString
+import com.cairosquad.evolvefit.ui.util.toString
 import com.cairosquad.evolvefit.viewmodel.more.MoreInteractionListener
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -45,6 +48,7 @@ import evolvefit.composeapp.generated.resources.dark_mode
 import evolvefit.composeapp.generated.resources.earth
 import evolvefit.composeapp.generated.resources.english
 import evolvefit.composeapp.generated.resources.favorites
+import evolvefit.composeapp.generated.resources.ft
 import evolvefit.composeapp.generated.resources.height
 import evolvefit.composeapp.generated.resources.ic_arrow_right
 import evolvefit.composeapp.generated.resources.ic_bookmark_big
@@ -53,6 +57,7 @@ import evolvefit.composeapp.generated.resources.ic_ruler
 import evolvefit.composeapp.generated.resources.icon_description
 import evolvefit.composeapp.generated.resources.kg
 import evolvefit.composeapp.generated.resources.language
+import evolvefit.composeapp.generated.resources.lb
 import evolvefit.composeapp.generated.resources.light_mode
 import evolvefit.composeapp.generated.resources.logout
 import evolvefit.composeapp.generated.resources.personal_information
@@ -85,7 +90,8 @@ fun MoreScreenContent(
         PersonInfo(
             weight = state.profile.weight,
             height = state.profile.height,
-            age = state.profile.age
+            age = state.profile.age,
+            measurementStandard = state.profile.preferredMeasurementStandard
         )
         Column(
             modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
@@ -177,8 +183,22 @@ fun PersonInfo(
     weight: Float,
     height: Float,
     age: Int,
+    measurementStandard: MeasurementStandard,
     modifier: Modifier = Modifier
 ) {
+
+    val heightUnit =
+        if (measurementStandard == MeasurementStandard.METRIC)
+            stringResource(Res.string.cm)
+        else
+            stringResource(Res.string.ft)
+
+    val weightUnit =
+        if (measurementStandard == MeasurementStandard.METRIC)
+            stringResource(Res.string.kg)
+        else
+            stringResource(Res.string.lb)
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -193,8 +213,8 @@ fun PersonInfo(
             modifier = Modifier.weight(1f),
             icon = Res.drawable.ic_ruler,
             name = stringResource(Res.string.height),
-            value = formatHeightWeight(height),
-            measurementUnit = stringResource(Res.string.cm)
+            value = height.toString(1),
+            measurementUnit = heightUnit
         )
         Box(
             modifier = Modifier
@@ -206,8 +226,8 @@ fun PersonInfo(
             modifier = Modifier.weight(1f),
             icon = Res.drawable.weight,
             name = stringResource(Res.string.weight),
-            value = formatHeightWeight(weight),
-            measurementUnit = stringResource(Res.string.kg)
+            value = weight.toString(1),
+            measurementUnit = weightUnit
         )
         Box(
             modifier = Modifier
@@ -222,18 +242,6 @@ fun PersonInfo(
             value = age.toString()
         )
     }
-}
-
-private fun formatHeightWeight(value: Float): String {
-    val intPart = value.toInt()
-    val fraction = value - intPart
-    return when {
-        fraction == 0.0f -> intPart.toString()
-        fraction == 0.5f -> "$intPart.5"
-        fraction > 0.5f -> (intPart + 1).toString()
-        else -> intPart.toString()
-    }
-
 }
 
 @Composable

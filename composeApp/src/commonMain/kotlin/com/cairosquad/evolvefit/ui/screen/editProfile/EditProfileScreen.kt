@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -43,6 +42,7 @@ import com.cairosquad.evolvefit.ui.screen.editProfile.content.ToolsBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.WeightBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.WorkoutDaysBottomSheet
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
+import com.cairosquad.evolvefit.ui.util.toString
 import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileEffect
 import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileInteractionListener
 import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileScreenState
@@ -55,6 +55,7 @@ import evolvefit.composeapp.generated.resources.cm
 import evolvefit.composeapp.generated.resources.email
 import evolvefit.composeapp.generated.resources.female
 import evolvefit.composeapp.generated.resources.friday
+import evolvefit.composeapp.generated.resources.ft
 import evolvefit.composeapp.generated.resources.full_name
 import evolvefit.composeapp.generated.resources.gain_weight
 import evolvefit.composeapp.generated.resources.gender
@@ -64,6 +65,7 @@ import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_back
 import evolvefit.composeapp.generated.resources.ic_pen
 import evolvefit.composeapp.generated.resources.kg
+import evolvefit.composeapp.generated.resources.lb
 import evolvefit.composeapp.generated.resources.lose_weight
 import evolvefit.composeapp.generated.resources.male
 import evolvefit.composeapp.generated.resources.monday
@@ -88,7 +90,6 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-
 @Composable
 fun EditProfileScreen(
     navigateBack: () -> Unit,
@@ -102,7 +103,6 @@ fun EditProfileScreen(
 
     }
     EditProfileScreenContent(state, viewModel, navigateBack)
-
 }
 
 @Composable
@@ -231,7 +231,7 @@ fun EditProfileScreenContent(
                     label = stringResource(Res.string.units),
                     value = mapMeasurementStandardToString(state.profile.preferredMeasurementStandard),
                     onValueChange = { },
-                    readOnly = false,
+                    readOnly = true,
                     onClick = { listener.onPreferredMeasurementStandardClicked() },
                     trailingIcon = Res.drawable.ic_arrow_down,
                     isDividerVisible = true
@@ -240,13 +240,23 @@ fun EditProfileScreenContent(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    val unitCm = stringResource(Res.string.cm)
-                    val unitKg = stringResource(Res.string.kg)
+                    val heightUnit =
+                        if (state.profile.preferredMeasurementStandard == MeasurementStandard.METRIC)
+                            stringResource(Res.string.cm)
+                        else
+                            stringResource(Res.string.ft)
+
+                    val weightUnit =
+                        if (state.profile.preferredMeasurementStandard == MeasurementStandard.METRIC)
+                            stringResource(Res.string.kg)
+                        else
+                            stringResource(Res.string.lb)
+
                     LabeledInputField(
                         label = stringResource(Res.string.height),
-                        value = "${formatHeightWeight(state.profile.height)} $unitCm",
+                        value = "${state.profile.height.toString(1)} $heightUnit",
                         onValueChange = {},
-                        readOnly = false,
+                        readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
                         onClick = { listener.onHeightClicked() },
                         isDividerVisible = true,
@@ -255,7 +265,7 @@ fun EditProfileScreenContent(
 
                     LabeledInputField(
                         label = stringResource(Res.string.weight),
-                        value = "${formatHeightWeight(state.profile.weight)} $unitKg",
+                        value = "${state.profile.weight.toString(1)} $weightUnit",
                         onValueChange = { },
                         readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -334,8 +344,6 @@ fun EditProfileScreenContent(
 
                 }
             )
-
-
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.WORKOUTS_DAYS -> {
@@ -347,7 +355,6 @@ fun EditProfileScreenContent(
                     listener.onWorkoutDaysChanged(workoutDays)
                 }
             )
-
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.GENDER -> {
@@ -359,7 +366,6 @@ fun EditProfileScreenContent(
                     listener.onBottomSheetDismissed()
                 }
             )
-
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.MAIN_GOAL -> {
@@ -369,9 +375,7 @@ fun EditProfileScreenContent(
                 onGoalChange = { goal ->
                     listener.onMainGoalChanged(goal)
                 }
-
             )
-
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.MEASUREMENT_STANDARD -> {
@@ -382,7 +386,6 @@ fun EditProfileScreenContent(
                     listener.onPreferredMeasurementStandardChanged(unit)
                 }
             )
-
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.HEIGHT -> {
@@ -393,9 +396,7 @@ fun EditProfileScreenContent(
                 onHeightChange = { height ->
                     listener.onHeightChanged(height)
                 }
-
             )
-
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.WEIGHT -> {
@@ -406,9 +407,7 @@ fun EditProfileScreenContent(
                 onWeightChange = { weight ->
                     listener.onWeightChanged(weight)
                 }
-
             )
-
         }
 
         null -> Unit
@@ -459,18 +458,5 @@ private fun mapMainGoalToString(goal: FitnessGoal): String {
         FitnessGoal.LOSE_WEIGHT -> stringResource(Res.string.lose_weight)
         FitnessGoal.GAIN_WEIGHT -> stringResource(Res.string.gain_weight)
         FitnessGoal.STAY_IN_SHAPE -> stringResource(Res.string.stay_in_shape)
-
     }
-}
-
-private fun formatHeightWeight(value: Float): String {
-    val intPart = value.toInt()
-    val fraction = value - intPart
-    return when {
-        fraction == 0.0f -> intPart.toString()
-        fraction == 0.5f -> "$intPart.5"
-        fraction > 0.5f -> (intPart + 1).toString()
-        else -> intPart.toString()
-    }
-
 }
