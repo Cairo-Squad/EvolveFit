@@ -456,7 +456,7 @@ private fun formatHeightWeight(value: Float): String {
     return when {
         fraction == 0.0f -> intPart.toString()
         fraction == 0.5f -> "$intPart.5"
-        fraction > 0.5f -> "$intPart+1"
+        fraction > 0.5f -> (intPart + 1).toString()
         else -> intPart.toString()
     }
 
