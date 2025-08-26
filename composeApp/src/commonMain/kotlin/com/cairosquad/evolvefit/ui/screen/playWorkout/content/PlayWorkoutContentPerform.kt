@@ -69,8 +69,8 @@ fun PlayWorkoutContentPerform(
         initialPage = screenState.currentStep - 1
     )
 
-    val isForwardButtonEnabled = screenState.currentStep < screenState.workout.exercises.size
-    val isBackButtonEnabled = screenState.currentStep > 1
+//    val isForwardButtonEnabled = screenState.currentStep < screenState.workout.exercises.size
+//    val isBackButtonEnabled = screenState.currentStep > 1
 
     LaunchedEffect(screenState.currentStep) {
         try {
@@ -109,8 +109,8 @@ fun PlayWorkoutContentPerform(
                 listener = listener,
                 currentStep = pageIndex + 1,
                 totalSteps = screenState.workout.exercises.size,
-                isForwardButtonEnabled = isForwardButtonEnabled,
-                isBackButtonEnabled = isBackButtonEnabled,
+                isForwardButtonEnabled = pageIndex + 1 < screenState.workout.exercises.size,
+                isBackButtonEnabled = pageIndex > 0,
             )
         }
     }
