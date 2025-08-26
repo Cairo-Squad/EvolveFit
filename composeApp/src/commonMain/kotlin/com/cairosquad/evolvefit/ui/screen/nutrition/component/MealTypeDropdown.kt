@@ -125,10 +125,10 @@ fun MealTypeDropdownMenu(
                     onItemClicked = { selected ->
                         val selectedType =
                             mealTypeUiStateOptions.entries.first { it.value == selected }.key
-                        listener.onMealTypeSelected(selectedType)
-                        listener.onToggleMealTypeMenu()
+                        listener::onMealTypeSelected
+                        listener::onToggleMealTypeMenu
                     },
-                    onDismissRequest = { listener.onToggleMealTypeMenu() },
+                    onDismissRequest = listener::onToggleMealTypeMenu,
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxWidth()
