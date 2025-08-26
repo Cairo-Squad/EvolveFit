@@ -203,9 +203,9 @@ fun WorkoutDetailsContent(
                 shareToPlatform(platform, workoutUrl, onDismiss = listener::onShareClicked)
             },
             onCopyLinkClick = {},
-            onShareWithCommunityClick = {
-                listener.onShareWithCommunityClicked(state.workout.workoutID)
-            }
+//            onShareWithCommunityClick = {
+//                listener.onShareWithCommunityClicked(state.workout.workoutID)
+//            }
         )
     }
     SnackBar(
