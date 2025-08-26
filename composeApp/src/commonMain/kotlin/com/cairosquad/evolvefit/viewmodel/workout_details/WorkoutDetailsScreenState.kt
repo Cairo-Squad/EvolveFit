@@ -4,6 +4,7 @@ import org.jetbrains.compose.resources.StringResource
 
 data class WorkoutDetailsScreenState(
     val isLoading: Boolean = false,
+    val screenState: ScreenState = ScreenState.Loading,
     val workout: Workout = Workout(),
     val isShareClicked: Boolean = false,
     val isFavorite: Boolean = false,
@@ -47,5 +48,11 @@ data class WorkoutDetailsScreenState(
         ARMS,
         CORE,
         CHEST
+    }
+
+    enum class ScreenState {
+        Loading,
+        Success,
+        Error
     }
 }

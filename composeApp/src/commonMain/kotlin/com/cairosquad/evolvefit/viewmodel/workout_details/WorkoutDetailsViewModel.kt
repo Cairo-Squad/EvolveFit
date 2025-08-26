@@ -17,24 +17,38 @@ class WorkoutDetailsViewModel(
 
     private fun loadData(workoutId: String) {
         tryToCall(
+            onStart = ::onLoadDataStart,
             block = { manageWorkoutUseCase.getWorkoutById(workoutId) },
             onSuccess = ::handleGetWorkoutSuccess,
-            onError = { updateState { it.copy(isLoading = false) } },
-            onStart = { updateState { it.copy(isLoading = true) } }
+            onError = { updateState { it.copy(isLoading = false) } }
         )
     }
 
+    private fun onLoadDataStart() {
+        updateState {
+            it.copy(
+                isLoading = true,
+                screenState = WorkoutDetailsScreenState.ScreenState.Loading
+            )
+        }
+    }
+
     private fun handleGetWorkoutSuccess(workout: Workout) {
-        updateState { state -> state.copy(workout = workout.toUiState()) }
+        updateState { state ->
+            state.copy(
+                workout = workout.toUiState(),
+                screenState = WorkoutDetailsScreenState.ScreenState.Success
+            )
+        }
         loadWorkoutSaveStatus(workout.id)
     }
 
     private fun loadWorkoutSaveStatus(workoutId: String) {
         tryToCall(
+            onStart = { updateState { it.copy(isLoading = true) } },
             block = { manageWorkoutUseCase.getFavoriteWorkouts() },
             onSuccess = { updateWorkoutSaveStatus(workoutId, it) },
-            onError = { updateState { it.copy(isLoading = false) } },
-            onStart = { updateState { it.copy(isLoading = true) } }
+            onError = { updateState { it.copy(isLoading = false) } }
         )
     }
 
@@ -57,10 +71,10 @@ class WorkoutDetailsViewModel(
 
     override fun onToggleFavoriteClicked(workoutId: String, isSaved: Boolean) {
         tryToCall(
+            onStart = { updateState { it.copy(isLoading = true) } },
             block = { toggleWorkoutSavedStatus(workoutId, isSaved) },
             onSuccess = { handleSaveWorkoutSuccess() },
-            onError = { updateState { it.copy(isLoading = false) } },
-            onStart = { updateState { it.copy(isLoading = true) } }
+            onError = { updateState { it.copy(isLoading = false) } }
         )
     }
 
