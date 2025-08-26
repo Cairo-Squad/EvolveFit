@@ -95,7 +95,7 @@ fun TabsWithPager(
             when (page) {
                 0 -> {
                     when {
-                        state.isLoading -> FavoritesLoadingScreen()
+                        state.isWorkoutsLoading -> FavoritesLoadingScreen()
                         else -> AnimatedEmptyStateSwitcher(
                             isEmpty = workouts.isEmpty(),
                             emptyTitle = stringResource(Res.string.empty_workouts_title),
@@ -114,7 +114,7 @@ fun TabsWithPager(
 
                 1 -> {
                     when {
-                        state.isLoading -> FavoritesLoadingScreen()
+                        state.isMealsLoading -> FavoritesLoadingScreen()
                         else -> AnimatedEmptyStateSwitcher(
                             isEmpty = meals.isEmpty(),
                             emptyTitle = stringResource(Res.string.empty_meals_title),

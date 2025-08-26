@@ -110,9 +110,9 @@ class FavoritesViewModel(
 
     private fun loadMeals() {
         tryToCall(
-            onStart = { loadingState(true) },
+            onStart = { loadingMealsState(true) },
             block = ::loadFavoriteMeals,
-            onError = { loadingState(false) },
+            onError = { loadingMealsState(false) },
             onSuccess = ::onloadMealsSuccess
         )
     }
@@ -121,16 +121,16 @@ class FavoritesViewModel(
         updateState {
             it.copy(
                 mealsList = meals.map { it.toUiState() },
-                isLoading = false
+                isMealsLoading = false
             )
         }
     }
 
     private fun loadWorkouts() {
         tryToCall(
-            onStart = { loadingState(true) },
+            onStart = { loadingWorkoutsState(true) },
             block = ::loadFavoriteWorkouts,
-            onError = { loadingState(false) },
+            onError = { loadingWorkoutsState(false) },
             onSuccess = ::onloadWorkoutsSuccess
         )
     }
@@ -139,12 +139,16 @@ class FavoritesViewModel(
         updateState {
             it.copy(
                 workoutsList = workouts.map { it.toUiState() },
-                isLoading = false
+                isWorkoutsLoading = false
             )
         }
     }
 
-    private fun loadingState(isLoading: Boolean) = updateState { it.copy(isLoading = isLoading) }
+    private fun loadingMealsState(isLoading: Boolean) =
+        updateState { it.copy(isMealsLoading = isLoading) }
+
+    private fun loadingWorkoutsState(isLoading: Boolean) =
+        updateState { it.copy(isWorkoutsLoading = isLoading) }
 
     private var snackBarJob: Job? = null
     private fun showSnackBar() {
