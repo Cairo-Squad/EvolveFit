@@ -6,7 +6,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,7 +53,7 @@ fun SnackBar(
     paddingBottom: Dp = 12.dp,
     isUndo: Boolean = false,
     icon: Painter = painterResource(Res.drawable.ic_green_check_circle),
-    iconTint : Color = Color.Unspecified,
+    iconTint: Color = Color.Unspecified,
     backgroundColor: Color = Theme.color.surfaces.surface,
     textColor: Color = Theme.color.surfaces.onSurface,
     textStyle: TextStyle = Theme.textStyle.label.mediumMedium14,
@@ -106,13 +107,21 @@ fun SnackBar(
                 style = textStyle,
             )
             if (isUndo) {
-                Text(
-                    modifier = Modifier
-                        .clickable(onClick = onUndoClicked),
-                    text = stringResource(Res.string.undo),
-                    color = Theme.color.brand.primary,
-                    style = Theme.textStyle.label.mediumMedium16,
-                )
+                Surface(
+                    color = Color.Transparent,
+                    tonalElevation = 0.dp,
+                    shape = MaterialTheme.shapes.small,
+                    onClick = onUndoClicked,
+                    modifier = Modifier.padding(4.dp)
+                ) {
+                    Text(
+                        text = stringResource(Res.string.undo),
+                        color = Theme.color.brand.primary,
+                        style = Theme.textStyle.label.mediumMedium16,
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp, vertical = 8.dp)
+                    )
+                }
             }
         }
     }
