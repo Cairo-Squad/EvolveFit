@@ -3,13 +3,12 @@ package com.cairosquad.evolvefit.repository.report.remote
 import com.cairosquad.evolvefit.repository.execption.callApi
 import com.cairosquad.evolvefit.repository.report.remote.dto.NutritionReportDto
 import com.cairosquad.evolvefit.repository.report.remote.dto.WorkoutReportDto
-import io.ktor.client.HttpClient
+import com.cairosquad.evolvefit.repository.utils.HttpClientHolder
 import io.ktor.client.call.body
-import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 
 class ReportRemoteDataSourceImpl(
-    private val httpClient: HttpClient
+    private val httpClient: HttpClientHolder
 
 ): ReportRemoteDataSource {
     override suspend fun getWorkoutReport(
