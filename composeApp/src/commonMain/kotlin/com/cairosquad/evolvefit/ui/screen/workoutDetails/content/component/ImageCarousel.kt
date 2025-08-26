@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,62 +65,62 @@ fun ImageCarousel(
             modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)),
         )
         if (images.size > 1) {
-        val (leftIcon, leftAction, leftEnabled) = if (layoutDirection == LayoutDirection.Ltr) {
-            Triple(
-                Res.drawable.ic_arrow_left,
-                { if (currentIndex > 0) currentIndex -= 1 },
-                currentIndex > 0
-            )
-        } else {
-            Triple(
-                Res.drawable.ic_arrow_right,
-                { if (currentIndex < images.size - 1) currentIndex += 1 },
-                currentIndex < images.size - 1
-            )
-        }
-
-        Icon(
-            painter = painterResource(leftIcon),
-            contentDescription = stringResource(Res.string.previous),
-            tint = if (!leftEnabled) Theme.color.surfaces.onSurfaceVariant else Theme.color.surfaces.textColor,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(horizontal = 8.dp)
-                .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
-                .size(32.dp)
-                .padding(8.dp)
-                .clip(CircleShape)
-                .then(if (leftEnabled) Modifier.clickable { leftAction() } else Modifier)
-        )
-
-        val (rightIcon, rightAction, rightEnabled) = if (layoutDirection == LayoutDirection.Ltr) {
-            Triple(
-                Res.drawable.ic_arrow_right,
-                { if (currentIndex < images.size - 1) currentIndex += 1 },
-                currentIndex < images.size - 1
-            )
-        } else {
-            Triple(
-                Res.drawable.ic_arrow_left,
-                { if (currentIndex > 0) currentIndex -= 1 },
-                currentIndex > 0
-            )
-        }
-
-        Icon(
-            painter = painterResource(rightIcon),
-            contentDescription = stringResource(Res.string.next),
-            tint = if (!rightEnabled) Theme.color.surfaces.onSurfaceVariant else Theme.color.surfaces.textColor,
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(horizontal = 8.dp)
-                .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
-                .size(32.dp)
-                .padding(8.dp)
-                .clip(CircleShape)
-                .then(if (rightEnabled) Modifier.clickable { rightAction() } else Modifier)
-        )
+            val (leftIcon, leftAction, leftEnabled) = if (layoutDirection == LayoutDirection.Ltr) {
+                Triple(
+                    Res.drawable.ic_arrow_left,
+                    { if (currentIndex > 0) currentIndex -= 1 },
+                    currentIndex > 0
+                )
+            } else {
+                Triple(
+                    Res.drawable.ic_arrow_right,
+                    { if (currentIndex < images.size - 1) currentIndex += 1 },
+                    currentIndex < images.size - 1
+                )
             }
+
+            Icon(
+                painter = painterResource(leftIcon),
+                contentDescription = stringResource(Res.string.previous),
+                tint = if (!leftEnabled) Theme.color.surfaces.onSurfaceVariant else Theme.color.surfaces.textColor,
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .padding(horizontal = 8.dp)
+                    .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
+                    .size(32.dp)
+                    .padding(8.dp)
+                    .clip(CircleShape)
+                    .then(if (leftEnabled) Modifier.clickable { leftAction() } else Modifier)
+            )
+
+            val (rightIcon, rightAction, rightEnabled) = if (layoutDirection == LayoutDirection.Ltr) {
+                Triple(
+                    Res.drawable.ic_arrow_right,
+                    { if (currentIndex < images.size - 1) currentIndex += 1 },
+                    currentIndex < images.size - 1
+                )
+            } else {
+                Triple(
+                    Res.drawable.ic_arrow_left,
+                    { if (currentIndex > 0) currentIndex -= 1 },
+                    currentIndex > 0
+                )
+            }
+
+            Icon(
+                painter = painterResource(rightIcon),
+                contentDescription = stringResource(Res.string.next),
+                tint = if (!rightEnabled) Theme.color.surfaces.onSurfaceVariant else Theme.color.surfaces.textColor,
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(horizontal = 8.dp)
+                    .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
+                    .size(32.dp)
+                    .padding(8.dp)
+                    .clip(CircleShape)
+                    .then(if (rightEnabled) Modifier.clickable { rightAction() } else Modifier)
+            )
+        }
         MeasurementRow(
             exerciseType = exerciseType,
             modifier = Modifier
