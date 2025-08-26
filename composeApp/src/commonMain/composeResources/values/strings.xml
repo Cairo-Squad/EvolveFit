@@ -34,7 +34,7 @@
     <string name="kcal">Kcal</string>
     <string name="calories">Calories</string>
     <string name="water">Water</string>
-    <string name="kcal_unit">Kcal</string>
+    <string name="kcal_unit">kcal</string>
     <string name="liter_unit">L</string>
     <string name="add_new_meal">Add New Meal</string>
     <string name="log_meal_details">Log your meal details to track your daily calorie intake.</string>
@@ -59,7 +59,7 @@
     <string name="meal_added_snackbar">Meal added to your history.</string>
     <string name="meal_cant_added_snackbar">You have exceeded your daily calorie goal.</string>
     <string name="water_cant_added_snackbar">You have exceeded your daily water goal.</string>
-    <string name="no_meals_title">No meals recorded yet</string>
+    <string name="no_meals_title">No meals recorded today</string>
     <string name="no_meals_description">Start logging your meals to keep track of your daily calories and improve your nutrition habits.</string>
     <string name="ready_to_start">Ready to Start</string>
     <string name="do_you_have_an_account">Do you have an account?</string>
@@ -257,7 +257,7 @@
     <string name="enter_description_">Enter description</string>
     <string name="next_button_">Next</string>
 
-    <string name="add_exercise_title_">Add Exercise</string>
+    <string name="add_exercise_title_">Add Exercises</string>
     <string name="back_icon_desc_">Back</string>
     <string name="add_icon_desc_">Add</string>
     <string name="search_exercise_placeholder_">Search exercise name</string>
@@ -325,8 +325,8 @@
     <string name="logout">Logout</string>
     <string name="choose_theme">Choose Theme</string>
     <string name="theme_description">Select your preferred look and feel for the app.</string>
-    <string name="dark_mode">Dark</string>
-    <string name="light_mode">Light</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="light_mode">Light Mode</string>
     <string name="account">Account</string>
     <string name="favorites">Favorites</string>
     <string name="notification_settings">Notification Settings</string>

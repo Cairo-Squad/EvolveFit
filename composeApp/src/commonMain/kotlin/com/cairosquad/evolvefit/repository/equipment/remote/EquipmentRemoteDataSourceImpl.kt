@@ -2,10 +2,9 @@ package com.cairosquad.evolvefit.repository.equipment.remote
 
 import com.cairosquad.evolvefit.repository.equipment.remote.dto.GymEquipmentDto
 import com.cairosquad.evolvefit.repository.execption.callApi
-import io.ktor.client.HttpClient
-import io.ktor.client.request.get
+import com.cairosquad.evolvefit.repository.utils.HttpClientHolder
 
-class EquipmentRemoteDataSourceImpl(private val client: HttpClient) : EquipmentsRemoteDataSource {
+class EquipmentRemoteDataSourceImpl(private val client: HttpClientHolder) : EquipmentsRemoteDataSource {
     override suspend fun getEquipments(): List<GymEquipmentDto> {
         return callApi { client.get("public/equipments") }
     }

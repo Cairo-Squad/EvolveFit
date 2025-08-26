@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,8 +30,6 @@ fun Exercises(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Row(
-            modifier = Modifier
-                .padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -50,14 +47,11 @@ fun Exercises(
         exercises.forEach { exercise ->
             ExerciseCard(
                 title = exercise.name,
-                time = "",
                 model = exercise.images.firstOrNull() ?: "",
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
                     .clickable { onExerciseClick(exercise) },
-                measurementContent = {
-                    MeasurementRow(exercise.type)
-                }
+                measurementContent = { MeasurementRow(exercise.type) }
             )
         }
     }

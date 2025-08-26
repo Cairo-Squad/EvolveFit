@@ -3,11 +3,14 @@ package com.cairosquad.evolvefit.ui.screen.mealDetails.content.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
@@ -42,18 +45,19 @@ fun MealDetailsAppBar(
             )
         },
         tail = {
-            if (state.mealDetails.isFavouriteMeal)
             Icon(
-                painter =  painterResource(Res.drawable.ic_bookmark_big_filled),
+                painter =
+                    if (state.mealDetails.isFavouriteMeal)
+                        painterResource(Res.drawable.ic_bookmark_big_filled)
+                    else painterResource(Res.drawable.ic_bookmark_big),
                 contentDescription = stringResource(Res.string.bookmark),
-                tint = Theme.color.surfaces.textColor
-            ) else
-                Icon(
-                    painter = painterResource(Res.drawable.ic_bookmark_big),
-                    contentDescription = stringResource(Res.string.bookmark),
-                    tint = Theme.color.surfaces.textColor,
-                    modifier = Modifier.clickable(onClick = onBookmarkClick)
-                )
+                tint = Theme.color.surfaces.textColor,
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .clickable(onClick = onBookmarkClick)
+                    .padding(8.dp)
+            )
 
         }
     )

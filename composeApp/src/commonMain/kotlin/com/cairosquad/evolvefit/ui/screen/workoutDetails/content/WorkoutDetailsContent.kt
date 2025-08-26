@@ -23,7 +23,7 @@ fun WorkoutDetailsContent(
         }
 
         WorkoutDetailsScreenState.ScreenState.Error -> {
-            Text("Loading")
+            Text("Error")
         }
     }
 }

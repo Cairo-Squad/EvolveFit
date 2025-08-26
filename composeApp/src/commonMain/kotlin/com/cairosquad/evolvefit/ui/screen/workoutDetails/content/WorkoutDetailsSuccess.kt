@@ -4,6 +4,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,6 +29,7 @@ import com.cairosquad.evolvefit.design_system.component.SnackBar
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.design_system.theme.UpdateStatusBarIconsForTheme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.DetailsCardsRow
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.Exercises
@@ -35,6 +37,7 @@ import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.Worko
 import com.cairosquad.evolvefit.ui.util.Share
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsInteractionListener
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.back
 import evolvefit.composeapp.generated.resources.bookmark
@@ -62,6 +65,12 @@ fun WorkoutDetailsSuccess(
             val firstItemOffset = listState.firstVisibleItemScrollOffset
             (firstItemIndex * 200 + firstItemOffset) > scrollOffsetThreshold
         }
+    }
+
+    if (Theme.isDark.not() && isScrolled) {
+        UpdateStatusBarIconsForTheme(false)
+    } else {
+        UpdateStatusBarIconsForTheme(true)
     }
 
     val appBarBackground by animateColorAsState(
@@ -96,9 +105,9 @@ fun WorkoutDetailsSuccess(
             modifier = Modifier
                 .fillMaxSize()
                 .navigationBarsPadding()
-                .padding(bottom = 68.dp)
                 .background(color = Theme.color.surfaces.surface),
             horizontalAlignment = Alignment.CenterHorizontally,
+            contentPadding = PaddingValues(bottom = 68.dp)
         ) {
             item {
                 NetworkImage(
@@ -152,19 +161,18 @@ fun WorkoutDetailsSuccess(
                 onDismissBottomSheet = listener::onExerciseBottomSheetDismiss
             )
         }
+
         BottomSheet(
             isVisible = state.isShareClicked,
             onDismiss = listener::onShareBottomSheetDismiss
         ) {
             ShareBottomSheetContent(
                 onShareOptionClick = { platform ->
-                    val workoutUrl = "https://evolvefit.com/workouts/${state.workout.workoutID}"
+                    val workoutUrl =
+                        WorkoutDetailsViewModel.DEEP_LINK_BASE_URL + state.workout.workoutID
                     shareToPlatform(platform, workoutUrl, onDismiss = listener::onShareClicked)
                 },
-                onCopyLinkClick = {},
-                onShareWithCommunityClick = {
-                    listener.onShareWithCommunityClicked(state.workout.workoutID)
-                }
+                onCopyLinkClick = {}
             )
         }
         SnackBar(

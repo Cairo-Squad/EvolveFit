@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -31,7 +32,6 @@ import evolvefit.composeapp.generated.resources.ic_time
 import evolvefit.composeapp.generated.resources.intermediate
 import evolvefit.composeapp.generated.resources.level_label
 import evolvefit.composeapp.generated.resources.minute_label
-import evolvefit.composeapp.generated.resources.second
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -58,7 +58,7 @@ fun DetailsCardsRow(
         )
         DetailCard(
             icon = painterResource(Res.drawable.ic_time),
-            value = estimatedTimeInSeconds?.let { (it/60).toString() } ?: "",
+            value = estimatedTimeInSeconds?.let { (it / 60).toString() } ?: "",
             label = stringResource(Res.string.minute_label),
             modifier = Modifier.weight(1f)
         )
@@ -93,22 +93,25 @@ private fun DetailCard(
 
     ) {
         Icon(
+            modifier = Modifier.size(20.dp),
             painter = icon,
             contentDescription = stringResource(Res.string.detail_icon),
-            tint = Theme.color.brand.primary,
-            modifier = Modifier
-                .size(20.dp)
+            tint = Theme.color.brand.primary
         )
         Text(
+            modifier = Modifier.padding(top = 8.dp, bottom = 2.dp),
             text = value,
             color = Theme.color.surfaces.onSurface,
             style = Theme.textStyle.title.mediumMedium14,
-            modifier = Modifier.padding(top=8.dp,bottom = 2.dp)
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
         )
         Text(
             text = label,
             color = Theme.color.surfaces.onSurfaceVariant,
             style = Theme.textStyle.label.smallRegular12,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
         )
     }
 }
@@ -124,7 +127,7 @@ private fun workoutLevelToString(level: WorkoutDetailsScreenState.WorkoutLevel):
 @Preview
 @Composable
 fun DetailsCardsRowPreview() {
-    AppTheme  {
+    AppTheme {
         DetailsCardsRow(
             level = WorkoutDetailsScreenState.WorkoutLevel.INTERMEDIATE,
             exercisesNumber = 12,

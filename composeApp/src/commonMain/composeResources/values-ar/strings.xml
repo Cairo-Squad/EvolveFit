@@ -64,7 +64,7 @@
     <string name="track_water_intake">ساعدنا على تتبع استهلاكك اليومي للماء للحفاظ على ترطيبك.</string>
     <string name="meal_cant_added_snackbar">لقد تجاوزت هدفك اليومي من السعرات الحرارية.</string>
     <string name="water_cant_added_snackbar">لقد تجاوزت هدفك اليومي من المياه.</string>
-    <string name="no_meals_title">لا توجد وجبات مسجلة بعد</string>
+    <string name="no_meals_title">لم يتم تسجيل أي وجبات اليوم</string>
     <string name="no_meals_description">ابدأ في تسجيل وجباتك لتتبع السعرات الحرارية اليومية وتحسين عاداتك الغذائية.</string>
     <string name="failed_to_load_meals">فشل تحميل الوجبات</string>
     <string name="cm">سم</string>
@@ -300,8 +300,8 @@
     <string name="logout_message">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
     <string name="choose_theme">اختر النمط</string>
     <string name="theme_description">اختر المظهر الذي تفضله للتطبيق.</string>
-    <string name="dark_mode">داكن</string>
-    <string name="light_mode">فاتح</string>
+    <string name="dark_mode">وضع الظلام</string>
+    <string name="light_mode">وضع الضوء</string>
     <string name="account">الحساب</string>
     <string name="favorites">المفضلة</string>
     <string name="notification_settings">إعدادات الإشعارات</string>

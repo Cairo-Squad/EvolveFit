@@ -1,21 +1,21 @@
 package com.cairosquad.evolvefit.ui.screen.editProfile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.LabeledInputField
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
+import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
@@ -45,7 +46,9 @@ import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileScreenState
 import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.arrow_back_description
 import evolvefit.composeapp.generated.resources.birth
+import evolvefit.composeapp.generated.resources.cm
 import evolvefit.composeapp.generated.resources.email
 import evolvefit.composeapp.generated.resources.female
 import evolvefit.composeapp.generated.resources.friday
@@ -56,6 +59,7 @@ import evolvefit.composeapp.generated.resources.goal
 import evolvefit.composeapp.generated.resources.height
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.kg
 import evolvefit.composeapp.generated.resources.lose_weight
 import evolvefit.composeapp.generated.resources.male
 import evolvefit.composeapp.generated.resources.monday
@@ -79,7 +83,6 @@ import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.math.round
 
 
 @Composable
@@ -88,9 +91,9 @@ fun EditProfileScreen(
     viewModel: EditProfileViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
-    ObserveAsEffect(viewModel.effect) {effect->
-        when(effect){
-            EditProfileEffect.NavigateBack->navigateBack()
+    ObserveAsEffect(viewModel.effect) { effect ->
+        when (effect) {
+            EditProfileEffect.NavigateBack -> navigateBack()
         }
 
     }
@@ -114,17 +117,17 @@ fun EditProfileScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomAppBar(
+            modifier = Modifier
+                .padding(start = 16.dp),
             title = stringResource(Res.string.personal_information),
             header = {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_back),
-                    contentDescription = "back icon",
+                ActionIconButton(
+                    icon = painterResource(Res.drawable.ic_back),
+                    contentDescription = stringResource(Res.string.arrow_back_description),
                     tint = Theme.color.surfaces.onSurface,
-                    modifier = Modifier
-                        .clickable { navigateBack() }
+                    onClick = { navigateBack() }
                 )
-            },
-            modifier = Modifier.padding(start = 16.dp)
+            }
         )
         Column(
             modifier = Modifier
@@ -132,7 +135,7 @@ fun EditProfileScreenContent(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             UserProfileImage(
                 modifier = Modifier.padding(top = 24.dp, bottom = 24.dp),
                 image = UiImage.ImageUrl(state.profile.imageUrl),
@@ -188,9 +191,16 @@ fun EditProfileScreenContent(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
+                    val formattedDate = state.profile.dateOfBirth?.let { date ->
+                        val day = date.dayOfMonth.toString().padStart(2, '0')
+                        val month = date.monthNumber.toString().padStart(2, '0')
+                        val year = date.year
+                        "$day/$month/$year"
+                    } ?: "29/04/2000"
+
                     LabeledInputField(
                         label = stringResource(Res.string.birth),
-                        value = state.profile.dateOfBirth?.toString() ?: "29/04/2000",
+                        value = formattedDate,
                         onValueChange = {},
                         readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -224,9 +234,11 @@ fun EditProfileScreenContent(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
+                    val unitCm = stringResource(Res.string.cm)
+                    val unitKg = stringResource(Res.string.kg)
                     LabeledInputField(
                         label = stringResource(Res.string.height),
-                        value = (round(state.profile.height * 10) / 10).toString(),
+                        value = "${formatHeightWeight(state.profile.height)} $unitCm",
                         onValueChange = {},
                         readOnly = false,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -237,7 +249,7 @@ fun EditProfileScreenContent(
 
                     LabeledInputField(
                         label = stringResource(Res.string.weight),
-                        value = (round(state.profile.weight * 10) / 10).toString(),
+                        value = "${formatHeightWeight(state.profile.weight)} $unitKg",
                         onValueChange = { },
                         readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -283,7 +295,9 @@ fun EditProfileScreenContent(
             }
 
             PrimaryButton(
-                modifier = Modifier.padding(top = 29.dp, bottom = 32.dp),
+                modifier = Modifier
+                    .padding(top = 29.dp, bottom = 32.dp)
+                    .navigationBarsPadding(),
                 text = stringResource(Res.string.save_changes),
                 onClick = { listener.onSaveChangesClicked(state.profile) }
             )
@@ -438,7 +452,19 @@ private fun mapMainGoalToString(goal: FitnessGoal): String {
     return when (goal) {
         FitnessGoal.LOSE_WEIGHT -> stringResource(Res.string.lose_weight)
         FitnessGoal.GAIN_WEIGHT -> stringResource(Res.string.gain_weight)
-        FitnessGoal.STAY_IN_SHAPE-> stringResource(Res.string.stay_in_shape)
+        FitnessGoal.STAY_IN_SHAPE -> stringResource(Res.string.stay_in_shape)
 
     }
+}
+
+private fun formatHeightWeight(value: Float): String {
+    val intPart = value.toInt()
+    val fraction = value - intPart
+    return when {
+        fraction == 0.0f -> intPart.toString()
+        fraction == 0.5f -> "$intPart.5"
+        fraction > 0.5f -> (intPart + 1).toString()
+        else -> intPart.toString()
+    }
+
 }

@@ -31,7 +31,6 @@ import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.domain.model.Language
-import com.cairosquad.evolvefit.ui.util.Formatter
 import com.cairosquad.evolvefit.viewmodel.more.MoreInteractionListener
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -41,6 +40,7 @@ import evolvefit.composeapp.generated.resources.arabic
 import evolvefit.composeapp.generated.resources.arrow_icon
 import evolvefit.composeapp.generated.resources.art
 import evolvefit.composeapp.generated.resources.calender
+import evolvefit.composeapp.generated.resources.cm
 import evolvefit.composeapp.generated.resources.dark_mode
 import evolvefit.composeapp.generated.resources.earth
 import evolvefit.composeapp.generated.resources.english
@@ -51,6 +51,7 @@ import evolvefit.composeapp.generated.resources.ic_bookmark_big
 import evolvefit.composeapp.generated.resources.ic_profile
 import evolvefit.composeapp.generated.resources.ic_ruler
 import evolvefit.composeapp.generated.resources.icon_description
+import evolvefit.composeapp.generated.resources.kg
 import evolvefit.composeapp.generated.resources.language
 import evolvefit.composeapp.generated.resources.light_mode
 import evolvefit.composeapp.generated.resources.logout
@@ -192,7 +193,8 @@ fun PersonInfo(
             modifier = Modifier.weight(1f),
             icon = Res.drawable.ic_ruler,
             name = stringResource(Res.string.height),
-            value = Formatter.toString(height, 1)
+            value = formatHeightWeight(height),
+            measurementUnit = stringResource(Res.string.cm)
         )
         Box(
             modifier = Modifier
@@ -204,7 +206,8 @@ fun PersonInfo(
             modifier = Modifier.weight(1f),
             icon = Res.drawable.weight,
             name = stringResource(Res.string.weight),
-            value = Formatter.toString(weight, 1)
+            value = formatHeightWeight(weight),
+            measurementUnit = stringResource(Res.string.kg)
         )
         Box(
             modifier = Modifier
@@ -219,6 +222,18 @@ fun PersonInfo(
             value = age.toString()
         )
     }
+}
+
+private fun formatHeightWeight(value: Float): String {
+    val intPart = value.toInt()
+    val fraction = value - intPart
+    return when {
+        fraction == 0.0f -> intPart.toString()
+        fraction == 0.5f -> "$intPart.5"
+        fraction > 0.5f -> (intPart + 1).toString()
+        else -> intPart.toString()
+    }
+
 }
 
 @Composable
@@ -274,7 +289,7 @@ fun ProfileInfo(
                 .clip(shape = CircleShape)
         )
         Text(
-            modifier= Modifier.padding(bottom=4.dp,top=12.dp),
+            modifier = Modifier.padding(bottom = 4.dp, top = 12.dp),
             text = userName,
             color = Theme.color.surfaces.onSurfaceContainer,
             style = Theme.textStyle.label.mediumMedium14
