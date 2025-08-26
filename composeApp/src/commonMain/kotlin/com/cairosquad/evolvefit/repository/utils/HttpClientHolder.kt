@@ -1,6 +1,8 @@
 package com.cairosquad.evolvefit.repository.utils
 
 import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
+import com.cairosquad.evolvefit.repository.authentication.remote.dto.AuthResponse
+import com.cairosquad.evolvefit.repository.authentication.remote.dto.RefreshRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngineConfig
@@ -66,20 +68,37 @@ class HttpClientHolder(
 
     private suspend fun getNewTokens(
         refreshToken: String,
-        client: HttpClient
     ): BearerTokens? {
+        val tempClient = buildClientWithoutAuth()
+
         return try {
-            client.post(REFRESH_TOKENS_ENDPOINT) {
+            tempClient.post(REFRESH_TOKENS_ENDPOINT) {
                 contentType(ContentType.Application.Json)
-                setBody(object { val refreshToken = refreshToken })
-            }.body()
+                setBody(RefreshRequest(refreshToken))
+            }.body<AuthResponse>()
+                .toBearerTokens()
+                .also {
+                    authenticationPreferences.saveTokens(
+                        it.accessToken,
+                        it.refreshToken
+                    )
+                    tempClient.close()
+                }
         } catch (e: Exception) {
             e.printStackTrace()
             null
         }
     }
 
+    private fun AuthResponse.toBearerTokens(): BearerTokens {
+        return BearerTokens(
+            accessToken = accessToken,
+            refreshToken = refreshToken
+        )
+    }
+
     private fun buildClient(): HttpClient {
+        println("asdasd buildClient")
         return HttpClient(platformHttpClientEngineFactory) {
             defaultRequest { url(BASE_URL) }
 
@@ -107,10 +126,29 @@ class HttpClientHolder(
                     }
                     refreshTokens {
                         val oldRefreshToken = oldTokens?.refreshToken ?: ""
-                        getNewTokens(oldRefreshToken, client)
+                        getNewTokens(oldRefreshToken)
                     }
                 }
             }
+        }
+    }
+
+    private fun buildClientWithoutAuth(): HttpClient {
+        return HttpClient(platformHttpClientEngineFactory) {
+            defaultRequest { url(BASE_URL) }
+
+            install(ContentNegotiation) {
+                json(
+                    Json {
+                        prettyPrint = true
+                        isLenient = true
+                        ignoreUnknownKeys = true
+                        encodeDefaults = true
+                    }
+                )
+            }
+
+            install(Logging) { level = LogLevel.ALL }
         }
     }
 
