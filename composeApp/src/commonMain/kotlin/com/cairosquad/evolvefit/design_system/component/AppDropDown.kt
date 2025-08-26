@@ -8,12 +8,15 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.DropdownMenu
@@ -91,36 +94,33 @@ fun CustomDropDownMenu(
                 )
             }
         }
-
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Theme.color.surfaces.surfaceContainer)
-                .clip(RoundedCornerShape(8.dp))
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = {
-                        Text(
-                            text = option,
-                            style = Theme.textStyle.label.smallRegular14.copy(
-                                color = Theme.color.surfaces.onSurfaceContainer
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier
+                    .background(Theme.color.surfaces.surfaceContainer)
+                    .clip(RoundedCornerShape(8.dp))
+            ) {
+                options.forEach { option ->
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                text = option,
+                                style = Theme.textStyle.label.smallRegular14.copy(
+                                    color = Theme.color.surfaces.onSurfaceContainer
+                                )
                             )
-                        )
-                    },
-                    onClick = {
-                        expanded = false
-                        onOptionSelected(option)
-                    },
-                )
+                        },
+                        onClick = {
+                            expanded = false
+                            onOptionSelected(option)
+                        },
+                        modifier= Modifier.fillMaxWidth()
+                    )
+                }
             }
-        }
     }
 }
-
-
 
 @Preview()
 @Composable
@@ -232,11 +232,11 @@ private fun DropdownMenuPreview() {
 private fun DropdownMenuTextPreview() {
     var selectedItem by remember { mutableStateOf("Lunch") }
     var isMenuExpanded by remember { mutableStateOf(false) }
-    val items = listOf("Breakfast", "Lunch", "Dinner", "Snack")
+    val items = listOf("Breakfastfhfgujgyhujygutyujtgyutgut", "Lunch", "Dinner", "Snack")
     AppTheme(isDarkTheme = true) {
         CustomAnimatedDropdownMenu(
             modifier = Modifier
-                .fillMaxWidth()
+                //.fillMaxWidth()
                 .background(Theme.color.surfaces.surfaceContainer)
                 .clip(RoundedCornerShape(8.dp))
                 .padding(top=50.dp),
