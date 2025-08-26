@@ -102,6 +102,10 @@ fun MealTypeDropdownMenu(
                     state = state
                 )
                 InputField(
+                    textColor = if (state.isInitialLoad)
+                        Theme.color.surfaces.onSurfaceVariant
+                    else
+                        Theme.color.surfaces.onSurfaceContainer,
                     modifier = Modifier.weight(1f),
                     value = stringResource(state.selectedMeal.displayName),
                     onValueChange = {},
@@ -125,7 +129,7 @@ fun MealTypeDropdownMenu(
                     onItemClicked = { selected ->
                         val selectedType =
                             mealTypeUiStateOptions.entries.first { it.value == selected }.key
-                        listener::onMealTypeSelected
+                        listener.onMealTypeSelected(selectedType)
                         listener::onToggleMealTypeMenu
                     },
                     onDismissRequest = listener::onToggleMealTypeMenu,

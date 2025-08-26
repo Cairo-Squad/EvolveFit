@@ -27,6 +27,7 @@ data class NutritionScreenState(
     val isDroppedMenuVisible: Boolean = false,
     val isMealTypeMenuExpanded: Boolean = false,
     val isAddButtonEnabled: Boolean = false,
+    val isInitialLoad : Boolean = true ,
 
     val screenStatus: ScreenStatus = ScreenStatus.LOADING,
 
