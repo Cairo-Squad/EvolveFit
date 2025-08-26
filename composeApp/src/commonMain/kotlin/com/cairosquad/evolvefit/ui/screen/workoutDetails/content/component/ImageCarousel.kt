@@ -63,45 +63,47 @@ fun ImageCarousel(
             contentDescription = stringResource(Res.string.exercise_image),
             modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)),
         )
+        if (images.size > 1) {
 
-        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_arrow_left),
-                contentDescription = stringResource(Res.string.previous),
-                tint = if (currentIndex == 0) Theme.color.surfaces.onSurfaceVariant else animatedColor,
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(horizontal = 8.dp)
-                    .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
-                    .size(32.dp)
-                    .padding(8.dp)
-                    .clip(CircleShape)
-                    .then(
-                        if (currentIndex > 0) Modifier.clickable {
-                            currentIndex -= 1
-                        } else Modifier
-                    )
-            )
-        }
+            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                Icon(
+                    painter = painterResource(Res.drawable.ic_arrow_left),
+                    contentDescription = stringResource(Res.string.previous),
+                    tint = if (currentIndex == 0) Theme.color.surfaces.onSurfaceVariant else animatedColor,
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(horizontal = 8.dp)
+                        .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
+                        .size(32.dp)
+                        .padding(8.dp)
+                        .clip(CircleShape)
+                        .then(
+                            if (currentIndex > 0) Modifier.clickable {
+                                currentIndex -= 1
+                            } else Modifier
+                        )
+                )
+            }
 
-        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_arrow_right),
-                contentDescription = stringResource(Res.string.next),
-                tint = if (currentIndex == images.size - 1) Theme.color.surfaces.onSurfaceVariant else Theme.color.surfaces.textColor,
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(horizontal = 8.dp)
-                    .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
-                    .size(32.dp)
-                    .padding(8.dp)
-                    .clip(CircleShape)
-                    .then(
-                        if (currentIndex < images.size - 1) Modifier.clickable {
-                            currentIndex += 1
-                        } else Modifier
-                    )
-            )
+            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                Icon(
+                    painter = painterResource(Res.drawable.ic_arrow_right),
+                    contentDescription = stringResource(Res.string.next),
+                    tint = if (currentIndex == images.size - 1) Theme.color.surfaces.onSurfaceVariant else Theme.color.surfaces.textColor,
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(horizontal = 8.dp)
+                        .background(Theme.color.surfaces.onSurfaceAt2, CircleShape)
+                        .size(32.dp)
+                        .padding(8.dp)
+                        .clip(CircleShape)
+                        .then(
+                            if (currentIndex < images.size - 1) Modifier.clickable {
+                                currentIndex += 1
+                            } else Modifier
+                        )
+                )
+            }
         }
 
         MeasurementRow(
