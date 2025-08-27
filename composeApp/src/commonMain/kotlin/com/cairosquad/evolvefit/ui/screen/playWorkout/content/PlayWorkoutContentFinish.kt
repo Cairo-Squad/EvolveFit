@@ -132,7 +132,7 @@ private fun WorkoutStatistics(
     val totalTimeString = "$hoursText:$minutesText"
 
     Row(
-        modifier = modifier.height(65.dp),
+        modifier = modifier,
     ) {
         SingleStat(
             value = totalExercises.toString(),
@@ -167,7 +167,7 @@ private fun StatVerticalLine(
     Box(
         modifier = modifier
             .width(1.dp)
-            .fillMaxHeight()
+            .height(65.dp)
             .border(
                 width = 1.dp,
                 color = Theme.color.surfaces.outlineVariant

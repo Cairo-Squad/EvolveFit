@@ -1,37 +1,40 @@
-package com.cairosquad.evolvefit.design_system.component
+package com.cairosquad.evolvefit.ui.screen.createWorkout.content.component
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.exercise_image
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ExerciseCard(
+fun ExerciseCardWithTick(
     title: String,
+    time: String,
     model: String,
-    measurementContent: @Composable () -> Unit,
+    isChecked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    measurementContent: @Composable () -> Unit
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = modifier
+            .padding(vertical = 6.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         NetworkImage(
             modifier = Modifier
@@ -47,25 +50,22 @@ fun ExerciseCard(
             Text(
                 text = title,
                 style = Theme.textStyle.body.mediumMedium14,
-                color = Theme.color.surfaces.onSurfaceContainer
+                color = Theme.color.surfaces.onSurface
             )
-            Box(modifier = Modifier.padding(top = 12.dp)) {
-                measurementContent()
+            if (time.isNotEmpty()) {
+                Text(
+                    text = time,
+                    style = Theme.textStyle.label.smallRegular12,
+                    color = Theme.color.surfaces.onSurfaceVariant
+                )
             }
+            Spacer(modifier = Modifier.height(8.dp))
+            measurementContent()
         }
-    }
-}
 
-@Preview
-@Composable
-private fun ExerciseCardPreview() {
-    AppTheme(isDarkTheme = true) {
-        Box(
-            Modifier
-                .background(Theme.color.surfaces.surface)
-                .padding(16.dp)
-        ) {
-            ExerciseCard(title = "Bodyweight Squats", model = "", {})
-        }
+        CreateCustomTick(
+            isChecked = isChecked,
+            onCheckedChange = onCheckedChange
+        )
     }
 }

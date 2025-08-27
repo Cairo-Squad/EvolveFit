@@ -1,29 +1,33 @@
 package com.cairosquad.evolvefit.ui.screen.editProfile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.LabeledInputField
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
+import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
@@ -45,6 +49,7 @@ import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileScreenState
 import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.arrow_back_description
 import evolvefit.composeapp.generated.resources.birth
 import evolvefit.composeapp.generated.resources.cm
 import evolvefit.composeapp.generated.resources.email
@@ -57,6 +62,7 @@ import evolvefit.composeapp.generated.resources.goal
 import evolvefit.composeapp.generated.resources.height
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.ic_pen
 import evolvefit.composeapp.generated.resources.kg
 import evolvefit.composeapp.generated.resources.lose_weight
 import evolvefit.composeapp.generated.resources.male
@@ -115,17 +121,17 @@ fun EditProfileScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomAppBar(
+            modifier = Modifier
+                .padding(start = 16.dp),
             title = stringResource(Res.string.personal_information),
             header = {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_back),
-                    contentDescription = "back icon",
+                ActionIconButton(
+                    icon = painterResource(Res.drawable.ic_back),
+                    contentDescription = stringResource(Res.string.arrow_back_description),
                     tint = Theme.color.surfaces.onSurface,
-                    modifier = Modifier
-                        .clickable { navigateBack() }
+                    onClick = { navigateBack() }
                 )
-            },
-            modifier = Modifier.padding(start = 16.dp)
+            }
         )
         Column(
             modifier = Modifier
@@ -173,8 +179,10 @@ fun EditProfileScreenContent(
                     label = stringResource(Res.string.full_name),
                     value = state.profile.fullName,
                     onValueChange = listener::onFullNameChanged,
+                    trailingIcon = Res.drawable.ic_pen,
                     isDividerVisible = true,
-                    readOnly = true,
+                    readOnly = false,
+                    onClick = { listener.onEditNameClicked() },
                 )
 
                 LabeledInputField(
@@ -293,7 +301,9 @@ fun EditProfileScreenContent(
             }
 
             PrimaryButton(
-                modifier = Modifier.padding(top = 29.dp, bottom = 32.dp),
+                modifier = Modifier
+                    .padding(top = 29.dp, bottom = 32.dp)
+                    .navigationBarsPadding(),
                 text = stringResource(Res.string.save_changes),
                 onClick = { listener.onSaveChangesClicked(state.profile) }
             )

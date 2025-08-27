@@ -64,7 +64,7 @@
     <string name="track_water_intake">ساعدنا على تتبع استهلاكك اليومي للماء للحفاظ على ترطيبك.</string>
     <string name="meal_cant_added_snackbar">لقد تجاوزت هدفك اليومي من السعرات الحرارية.</string>
     <string name="water_cant_added_snackbar">لقد تجاوزت هدفك اليومي من المياه.</string>
-    <string name="no_meals_title">لا توجد وجبات مسجلة بعد</string>
+    <string name="no_meals_title">لم يتم تسجيل أي وجبات اليوم</string>
     <string name="no_meals_description">ابدأ في تسجيل وجباتك لتتبع السعرات الحرارية اليومية وتحسين عاداتك الغذائية.</string>
     <string name="failed_to_load_meals">فشل تحميل الوجبات</string>
     <string name="cm">سم</string>
@@ -258,6 +258,10 @@
     <string name="add_icon_desc_">إضافة</string>
     <string name="search_exercise_placeholder_">ابحث عن اسم التمرين</string>
     <string name="all_exercises_title_">جميع التمارين</string>
+    <string name="no_exercises_title">لم يتم العثور على تمارين</string>
+    <string name="no_exercises_description">
+        حاول تعديل كلمات البحث أو تأكد من كتابة اسم التمرين بشكل صحيح.
+    </string>
     <string name="add_exercise_button_">إضافة تمرين</string>
     <string name="add_exercise_button_with_count_">إضافة %1$d تمرين</string>
     <string name="add_exercises_button_with_count_">إضافة %1$d تمارين</string>

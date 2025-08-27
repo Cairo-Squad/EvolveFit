@@ -30,5 +30,5 @@ interface EditProfileInteractionListener {
     fun onImageRetrieved(image: UiImage)
     fun onBottomSheetDismissed()
     fun onImagePickerDismissed()
-
+    fun onEditNameClicked()
 }

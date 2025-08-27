@@ -16,4 +16,6 @@ interface CreateWorkOutInteractionListener {
     fun onAddWorkoutClicked()
     fun onImageSelected(image: UiImage)
     fun onImagePickerDismiss()
+    fun onRetryClicked()
+    fun onRefresh()
 }

@@ -1,4 +1,4 @@
-package com.cairosquad.evolvefit.ui.screen.home
+package com.cairosquad.evolvefit.ui.screen.home.content
 
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.RepeatMode
