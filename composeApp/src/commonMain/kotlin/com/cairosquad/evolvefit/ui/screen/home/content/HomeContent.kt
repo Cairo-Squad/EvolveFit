@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.RefreshBox
-import com.cairosquad.evolvefit.ui.screen.home.HomeLoadingScreen
 import com.cairosquad.evolvefit.viewmodel.home.HomeInteractionListener
 import com.cairosquad.evolvefit.viewmodel.home.HomeScreenState
 
