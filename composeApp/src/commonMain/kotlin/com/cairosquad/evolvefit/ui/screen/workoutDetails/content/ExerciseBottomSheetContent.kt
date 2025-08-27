@@ -3,7 +3,6 @@ package com.cairosquad.evolvefit.ui.screen.workoutDetails.content
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -62,12 +61,21 @@ fun ExerciseBottomSheetContent(
                 color = Theme.color.surfaces.onSurface,
             )
             exercise.instructions.forEach { instruction ->
-                Text(
+                Row(
                     modifier = Modifier.padding(bottom = 4.dp),
-                    text = stringResource(Res.string.bullet_point, instruction),
-                    style = Theme.textStyle.label.smallRegular14,
-                    color = Theme.color.surfaces.onSurfaceVariant,
-                )
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text(
+                        text = "•",
+                        style = Theme.textStyle.label.smallRegular14,
+                        color = Theme.color.surfaces.onSurfaceVariant,
+                    )
+                    Text(
+                        text = instruction,
+                        style = Theme.textStyle.label.smallRegular14,
+                        color = Theme.color.surfaces.onSurfaceVariant,
+                    )
+                }
             }
             Text(
                 modifier = Modifier.padding(top = 20.dp, bottom = 12.dp),
