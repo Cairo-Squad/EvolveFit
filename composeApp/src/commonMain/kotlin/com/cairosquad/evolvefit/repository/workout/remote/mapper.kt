@@ -5,6 +5,7 @@ import com.cairosquad.evolvefit.domain.entity.WorkoutHistory
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.model.PlayedWorkout
 import com.cairosquad.evolvefit.repository.exercise.remote.toDomain
+import com.cairosquad.evolvefit.repository.workout.local.entity.PlayedWorkoutEntity
 import com.cairosquad.evolvefit.repository.workout.remote.dto.CreateWorkoutRequest
 import com.cairosquad.evolvefit.repository.workout.remote.dto.FavoritesWorkoutDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.PlayedWorkoutDto
@@ -77,6 +78,12 @@ fun WorkoutHistoryDto.toDomain() = WorkoutHistory(
 )
 
 fun PlayedWorkout.toDto(): PlayedWorkoutDto {
+    return PlayedWorkoutDto(
+        workoutId = workoutId,
+        durationSeconds = durationSeconds
+    )
+}
+fun  PlayedWorkoutEntity.toDo(): PlayedWorkoutDto{
     return PlayedWorkoutDto(
         workoutId = workoutId,
         durationSeconds = durationSeconds
