@@ -185,7 +185,8 @@ fun CreateExerciseScreenContent(
                     modifier = Modifier.padding(bottom = 12.dp),
                     value = state.name,
                     onValueChange = listener::onNameChanged,
-                    placeholder = stringResource(Res.string.enter_exercise_name)
+                    placeholder = stringResource(Res.string.enter_exercise_name),
+                    verticalPadding = 15.5.dp
                 )
             }
             item {
@@ -220,7 +221,9 @@ fun CreateExerciseScreenContent(
                             CreateExerciseState.MeasurementType.REPS ->
                                 stringResource(Res.string.add_reps)
                         },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        horizontalPadding = 12.dp,
+                        verticalPadding = 12.dp
                     )
                 }
             }
@@ -240,7 +243,9 @@ fun CreateExerciseScreenContent(
                     onValueChange = listener::onDescriptionChanged,
                     isSingleLine = false,
                     maxCharacters = 3000,
-                    isCharacterCountVisible = true
+                    isCharacterCountVisible = true,
+                    verticalPadding = 12.dp,
+                    horizontalPadding = 12.dp
                 )
             }
         }
