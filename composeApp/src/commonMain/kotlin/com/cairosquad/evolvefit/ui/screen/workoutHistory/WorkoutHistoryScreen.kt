@@ -34,6 +34,7 @@ import com.cairosquad.evolvefit.viewmodel.workout_history.WorkoutHistoryInteract
 import com.cairosquad.evolvefit.viewmodel.workout_history.WorkoutHistoryScreenState
 import com.cairosquad.evolvefit.viewmodel.workout_history.WorkoutHistoryViewModel
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.back_button
 import evolvefit.composeapp.generated.resources.ic_back
 import evolvefit.composeapp.generated.resources.workout_history
 import org.jetbrains.compose.resources.painterResource
@@ -86,7 +87,7 @@ private fun WorkoutHistoryContent(
                 ) {
                     Image(
                         painter = painterResource(Res.drawable.ic_back),
-                        contentDescription = "Back Button",
+                        contentDescription = stringResource(Res.string.back_button),
                         colorFilter = ColorFilter.tint(Theme.color.surfaces.onSurface)
                     )
                 }
