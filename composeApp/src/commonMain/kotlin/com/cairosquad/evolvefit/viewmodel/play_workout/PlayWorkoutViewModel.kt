@@ -19,6 +19,13 @@ class PlayWorkoutViewModel(
 
     init {
         loadData(workoutId)
+        tryToCall(
+            block = { manageWorkoutUseCase.syncPendingWorkouts() },
+            onSuccess = {
+                println("Pending workouts synced successfully")
+            },
+            onError = {}
+        )
     }
 
     private fun loadData(workoutID: String) {
@@ -49,7 +56,7 @@ class PlayWorkoutViewModel(
     }
 
     override fun onStartClicked() {
-        updateState { it.copy(stage = Stage.PERFORM, currentStep = 1)}
+        updateState { it.copy(stage = Stage.PERFORM, currentStep = 1) }
     }
 
     override fun onExerciseInfoClicked(id: String) {
@@ -57,12 +64,12 @@ class PlayWorkoutViewModel(
     }
 
     override fun onRestFinishClicked() {
-        updateState { it.copy(stage = Stage.PERFORM,) }
+        updateState { it.copy(stage = Stage.PERFORM) }
     }
 
     override fun onFinishExercise() {
-        if (isLastExercise.not()){
-            updateState {it.copy(stage = Stage.REST, currentStep = nextStep) }
+        if (isLastExercise.not()) {
+            updateState { it.copy(stage = Stage.REST, currentStep = nextStep) }
             return
         }
 
@@ -75,13 +82,38 @@ class PlayWorkoutViewModel(
         )
     }
 
-    private suspend fun onFinishBlock(){
-        manageWorkoutUseCase.submitPlayedWorkout(
-            PlayedWorkout(
-                workoutId = screenState.value.workout.id,
-                durationSeconds = screenState.value.totalTimeMinutes
-            )
+    //    private suspend fun onFinishBlock(){
+//        val totalTimeMilli = Clock.System.now().toEpochMilliseconds() - startTimeMilli
+//        val totalSeconds = (totalTimeMilli / 1000).toInt()
+//        manageWorkoutUseCase.syncPendingWorkouts()
+//        manageWorkoutUseCase.submitPlayedWorkout(
+//            PlayedWorkout(
+//                workoutId = screenState.value.workout.id,
+//                durationSeconds = screenState.value.totalTimeMinutes * 60
+//            )
+//        )
+//    }
+    private suspend fun onFinishBlock() {
+        val totalTimeMilli = Clock.System.now().toEpochMilliseconds() - startTimeMilli
+        val totalSeconds = (totalTimeMilli / 1000).toInt()
+
+        val playedWorkout = PlayedWorkout(
+            workoutId = screenState.value.workout.id,
+            durationSeconds = totalSeconds
         )
+        tryToCall(
+            block = {
+                manageWorkoutUseCase.submitPlayedWorkout(playedWorkout)
+                manageWorkoutUseCase.syncPendingWorkouts()
+            },
+            onSuccess = {
+                println("Workout submitted successfully")
+            },
+            onError = { }
+        )
+//        manageWorkoutUseCase.submitPlayedWorkout(playedWorkout)
+
+//        manageWorkoutUseCase.syncPendingWorkouts()
     }
 
     override fun onForwardClicked() {
