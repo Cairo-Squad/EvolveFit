@@ -30,7 +30,8 @@ fun ActivityRow(
         )
         WeekFilter(
             currentWeek = stringResource(screenState.selectedWeek.label),
-            onMenuClick = onMenuClicked
+            onMenuClick = onMenuClicked,
+            isDropDownMenuDown = screenState.isDropDownMenuOpen
         )
     }
 }
