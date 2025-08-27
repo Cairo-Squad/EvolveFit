@@ -125,7 +125,7 @@ fun LoginScreenContent(
                     leadingIcon = Res.drawable.ic_email,
                     isErrorMessageShown = state.emailError != null,
                     error = state.emailError?.let { stringResource(it) } ?: "",
-                    isError = state.emailError != null || state.isFormError
+                    isError = state.emailError != null || state.isFormError != null
                 )
             }
 
@@ -142,7 +142,7 @@ fun LoginScreenContent(
                     onTrailingIconClick = listener::onTogglePasswordVisibility,
                     isErrorMessageShown = state.passwordError != null,
                     error = state.passwordError?.let { stringResource(it) } ?: "",
-                    isError = state.passwordError != null || state.isFormError
+                    isError = state.passwordError != null || state.isFormError != null
                 )
             }
 
