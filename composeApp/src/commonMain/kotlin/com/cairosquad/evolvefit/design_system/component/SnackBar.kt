@@ -1,22 +1,24 @@
 package com.cairosquad.evolvefit.design_system.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.composeshadow.dropShadow
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.util.noRippleClickable
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_green_check_circle
 import evolvefit.composeapp.generated.resources.ic_warning
@@ -57,43 +60,52 @@ fun SnackBar(
     backgroundColor: Color = Theme.color.surfaces.surface,
     textColor: Color = Theme.color.surfaces.onSurface,
     textStyle: TextStyle = Theme.textStyle.label.mediumMedium14,
-    onUndoClicked: () -> Unit = {}
+    onUndoClicked: () -> Unit = {},
+    addNavBarPadding: Boolean = true
 ) {
     val density = LocalDensity.current
+    val shadowAnimatedColor by animateColorAsState(
+        targetValue =
+            if (isVisible) Theme.color.surfaces.dropShadow
+            else Theme.color.surfaces.dropShadow.copy(alpha = 0f),
+        animationSpec = tween(500)
+    )
     AnimatedVisibility(
         modifier = modifier
-            .navigationBarsPadding()
-            .padding(horizontal = 16.dp),
+            .then(
+                if (addNavBarPadding) Modifier.navigationBarsPadding()
+                else Modifier
+            )
+            .padding(horizontal = 16.dp)
+            .dropShadow(
+                shape = RoundedCornerShape(8.dp),
+                color = shadowAnimatedColor,
+                offsetX = 0.dp,
+                offsetY = 40.dp,
+                blur = 80.dp,
+                spread = 0.dp
+            ),
         visible = isVisible,
-        enter = slideInVertically {
-            with(density) {
-                it + paddingBottom.roundToPx()
-            }
-        } + fadeIn(),
-        exit = slideOutVertically {
-            with(density) {
-                it + paddingBottom.roundToPx()
-            }
-        } + fadeOut()
+        enter = slideInVertically(initialOffsetY = {
+            it + with(density) { paddingBottom.roundToPx() } }
+        ) + fadeIn(),
+        exit =
+            slideOutVertically(
+                targetOffsetY = { it + with(density) {paddingBottom.roundToPx() } }
+            ) + fadeOut()
     ) {
         Row(
             modifier = Modifier
-                .dropShadow(
-                    shape = RoundedCornerShape(8.dp),
-                    color = Theme.color.surfaces.dropShadow,
-                    offsetX = 0.dp,
-                    offsetY = 40.dp,
-                    blur = 80.dp,
-                    spread = 0.dp
-                )
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
                 .background(backgroundColor)
                 .padding(horizontal = 16.dp, vertical = 14.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Icon(
-                modifier = Modifier.padding(end = 8.dp),
+                modifier = Modifier
+                    .size(24.dp),
                 painter = icon,
                 contentDescription = null,
                 tint = iconTint
@@ -107,21 +119,14 @@ fun SnackBar(
                 style = textStyle,
             )
             if (isUndo) {
-                Surface(
-                    color = Color.Transparent,
-                    tonalElevation = 0.dp,
-                    shape = MaterialTheme.shapes.small,
-                    onClick = onUndoClicked,
-                    modifier = Modifier.padding(4.dp)
-                ) {
-                    Text(
-                        text = stringResource(Res.string.undo),
-                        color = Theme.color.brand.primary,
-                        style = Theme.textStyle.label.mediumMedium16,
-                        modifier = Modifier
-                            .padding(horizontal = 12.dp, vertical = 8.dp)
-                    )
-                }
+                Text(
+                    text = stringResource(Res.string.undo),
+                    color = Theme.color.brand.primary,
+                    style = Theme.textStyle.label.mediumMedium16,
+                    modifier = Modifier
+                        .padding(horizontal = 12.dp)
+                        .noRippleClickable(onClick = onUndoClicked)
+                )
             }
         }
     }
