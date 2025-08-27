@@ -24,8 +24,17 @@ data class CreateWorkOutScreenState(
     val status: ScreenStatus = ScreenStatus.LOADING,
     val isRefreshing: Boolean = false,
 
-    val showExitBottomSheet: Boolean = false
+    val showExitBottomSheet: Boolean = false,
+    val isGoalExpanded: Boolean = false,
+    val workoutGoals: List<WorkoutLevel> = emptyList()
+
 ) {
+    fun isGoalSelected(goal: WorkoutLevel): Boolean {
+        return level == goal
+    }
+    val levelsNames: List<WorkoutLevel>
+        get() = WorkoutLevel.entries
+
     enum class CreateWorkoutStep {
         DETAILS,
         EXERCISES
