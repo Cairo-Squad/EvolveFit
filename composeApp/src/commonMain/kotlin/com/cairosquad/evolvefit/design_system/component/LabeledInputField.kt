@@ -4,15 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -35,24 +34,24 @@ fun LabeledInputField(
             .padding(horizontal = 12.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp)
         ) {
             Text(
                 text = label,
-                style = Theme.textStyle.label.smallRegular12.copy(
-                    color = Theme.color.surfaces.onSurfaceVariant
-                ),
-                modifier = Modifier.weight(1f)
+                style = Theme.textStyle.label.smallRegular12,
+                color = Theme.color.surfaces.onSurfaceVariant,
+                modifier = Modifier
+                    .weight(1f)
             )
             if (trailingIcon != null) {
-                ActionIconButton(
-                    modifier = Modifier
-                        .padding(start = 8.dp),
-                    icon = painterResource(trailingIcon),
+                Icon(
+                    painter = painterResource(trailingIcon),
                     contentDescription = null,
                     tint = Theme.color.surfaces.onSurfaceVariant,
-                    onClick = { onClick?.invoke() }
+                    modifier = Modifier
+                        .size(16.dp)
                 )
             }
         }
@@ -65,12 +64,14 @@ fun LabeledInputField(
             trailingIcon = null,
             onTrailingIconClick = onClick,
             onClick = if (readOnly) onClick else null,
-            modifier = Modifier.fillMaxWidth().offset(x = (-10).dp),
-            verticalPadding = 8.dp
+            modifier = Modifier.fillMaxWidth(),
+            verticalPadding = 0.dp,
+            horizontalPadding = 0.dp
         )
 
         if (isDividerVisible) {
             HorizontalDivider(
+                modifier = Modifier.padding(top = 12.dp),
                 thickness = 1.dp,
                 color = Theme.color.surfaces.outlineVariant
             )

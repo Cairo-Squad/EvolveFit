@@ -46,7 +46,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun CheckboxItem(
     text: String,
     isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
+    onCheckedChange: (isUnChecked: Boolean) -> Unit,
     modifier: Modifier = Modifier,
     description: String? = null,
     titleColor: Color = Theme.color.surfaces.onSurface,

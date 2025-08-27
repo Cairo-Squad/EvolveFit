@@ -5,6 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
@@ -13,14 +17,11 @@ import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.ui.screen.register.content.RegisterHeader
-import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.confirm
-import evolvefit.composeapp.generated.resources.select_unit_description
 import evolvefit.composeapp.generated.resources.select_unit_title
 import evolvefit.composeapp.generated.resources.unit_imperial
 import evolvefit.composeapp.generated.resources.unit_metric
-import evolvefit.composeapp.generated.resources.save
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -54,6 +55,7 @@ fun MeasurementBottomSheetContent(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var selectedUnit by remember { mutableStateOf(selectedMeasurementStandard) }
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
@@ -62,7 +64,6 @@ fun MeasurementBottomSheetContent(
             title = stringResource(Res.string.select_unit_title),
             titleStyle = Theme.textStyle.label.mediumMedium16
         )
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -74,18 +75,19 @@ fun MeasurementBottomSheetContent(
                   MeasurementStandard.METRIC -> stringResource(Res.string.unit_metric)
                     MeasurementStandard.IMPERIAL -> stringResource(Res.string.unit_imperial)
                 }
-
                 CheckboxItem(
                     text = unitText,
-                    isChecked = selectedMeasurementStandard == unit,
-                    onCheckedChange = { onMeasurementChange(unit) }
+                    isChecked = selectedUnit == unit,
+                    onCheckedChange = { selectedUnit = unit }
                 )
             }
         }
-
         PrimaryButton(
             text = stringResource(Res.string.confirm),
-            onClick = onDismiss
+            onClick = {
+                onMeasurementChange(selectedUnit)
+                onDismiss()
+            }
         )
     }
 }

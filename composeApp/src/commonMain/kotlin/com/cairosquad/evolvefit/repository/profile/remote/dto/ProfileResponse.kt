@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.repository.profile.remote.dto
 
 import com.cairosquad.evolvefit.domain.entity.Profile
+import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.repository.equipment.remote.dto.GymEquipmentDto
 import com.cairosquad.evolvefit.repository.equipment.remote.toDomain
@@ -41,8 +42,16 @@ data class ProfileResponse(
             name = name,
             email = email,
             imageUrl = imageUrl,
-            height = height.toFloat(),
-            weight = weight.toFloat(),
+            height = height
+                .toFloat()
+                .let {
+                    if (measurementType == MeasurementStandard.IMPERIAL.name) it / CM_PER_FT else it
+                },
+            weight = weight
+                .toFloat()
+                .let {
+                    if (measurementType == MeasurementStandard.IMPERIAL.name) it / KG_PER_LB else it
+                },
             goal = getFitnessGoal(goal),
             dateOfBirth = LocalDate.parse(birthDate),
             gender = getGender(gender),
@@ -51,6 +60,8 @@ data class ProfileResponse(
             workoutDays = workoutDays.map { WeekDay.valueOf(it) }.toSet()
         )
         return entity
-
     }
 }
+
+private const val CM_PER_FT = 30.48f
+private const val KG_PER_LB = 0.453592f
