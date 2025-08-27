@@ -454,7 +454,10 @@ class NutritionViewModel(
         tryToCall(
             block = block,
             onSuccess = onSuccess,
-            onError = ::handleNutritionErrors
+            onError = {
+                updateState { it.copy(consumedWaterInput = "") }
+                handleNutritionErrors(it)
+            }
         )
     }
 
