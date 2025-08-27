@@ -22,7 +22,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,7 +55,6 @@ import evolvefit.composeapp.generated.resources.search_exercise_placeholder_
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
-
 @Composable
 fun AllExercisesContent(
     state: CreateWorkOutScreenState,
@@ -66,7 +67,9 @@ fun AllExercisesContent(
             .statusBarsPadding()
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -129,35 +132,31 @@ fun AllExercisesContent(
                         }
 
                         ScreenStatus.SUCCESS -> {
-                            LazyColumn(
+                            Column(
                                 modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(horizontal = 16.dp),
-                                contentPadding = PaddingValues(
-                                    bottom = 12.dp + 24.dp + 48.dp +
-                                            WindowInsets.navigationBars
-                                                .asPaddingValues().calculateBottomPadding()
-                                )
-                            ) {
-                                item {
-                                    BasicText(
-                                        text = stringResource(Res.string.all_exercises_title_),
-                                        style = Theme.textStyle.label.smallRegular14.copy(
-                                            color = Theme.color.surfaces.onSurfaceVariant
-                                        ),
-                                        modifier = Modifier.padding(bottom = 6.dp)
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp)
+                                    .padding(
+                                        bottom = 12.dp + 24.dp + 48.dp +
+                                                WindowInsets.navigationBars
+                                                    .asPaddingValues().calculateBottomPadding()
                                     )
-                                }
-                                items(state.filteredExercises) { exercise ->
+                            ) {
+                                BasicText(
+                                    text = stringResource(Res.string.all_exercises_title_),
+                                    style = Theme.textStyle.label.smallRegular14.copy(
+                                        color = Theme.color.surfaces.onSurfaceVariant
+                                    ),
+                                    modifier = Modifier.padding(bottom = 6.dp)
+                                )
+                                state.filteredExercises.forEach { exercise ->
                                     ExerciseCardWithTick(
                                         title = exercise.name,
                                         time = "",
                                         model = exercise.images.firstOrNull() ?: "",
                                         isChecked = state.selectedExercises.any { it.id == exercise.id },
                                         onCheckedChange = {
-                                            listener.onExerciseCheckedChanged(
-                                                exercise
-                                            )
+                                            listener.onExerciseCheckedChanged(exercise)
                                         },
                                         measurementContent = { MeasurementRow(exercise.type) }
                                     )
@@ -170,10 +169,9 @@ fun AllExercisesContent(
                         }
                     }
                 }
-
             }
-
         }
+
         AnimatedVisibility(
             visible = state.status == ScreenStatus.SUCCESS,
             enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
