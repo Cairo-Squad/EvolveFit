@@ -58,19 +58,19 @@ fun LanguageBottomSheetContent(
         }
         CheckboxItem(
             text = stringResource(Res.string.english),
-            isChecked = state.isEnglishChecked,
+            isChecked = state.tempLanguage== Language.ENGLISH,
             onCheckedChange = { onSelectLanguage(Language.ENGLISH) }
         )
         CheckboxItem(
             text = stringResource(Res.string.arabic),
-            isChecked = state.isEnglishChecked.not(),
+            isChecked = state.tempLanguage== Language.ARABIC,
             onCheckedChange = { onSelectLanguage(Language.ARABIC) }
         )
         PrimaryButton(
             modifier = Modifier
                 .padding(bottom = 16.dp, top = 38.dp),
             text = stringResource(Res.string.confirm),
-            onClick = { onConfirm(if (state.isEnglishChecked) Language.ENGLISH else Language.ARABIC) },
+            onClick = { onConfirm(if (state.tempLanguage==Language.ENGLISH) Language.ENGLISH else Language.ARABIC) },
             isEnabled = true,
             enabledTextColor = Theme.color.brand.onPrimary,
             textStyle = Theme.textStyle.body.mediumMedium14,

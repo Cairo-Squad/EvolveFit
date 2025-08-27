@@ -68,7 +68,7 @@ class MoreViewModel(
     }
 
     override fun onThemeClicked() {
-        updateState { it.copy(isThemeBottomSheetEnabled = true) }
+        updateState { it.copy(isThemeBottomSheetEnabled = true,tempTheme = it.currentTheme) }
     }
 
     override fun onDismissThemeBottomSheet() {
@@ -76,7 +76,7 @@ class MoreViewModel(
     }
 
     override fun onLanguageClicked() {
-        updateState { it.copy(isLanguageBottomSheetEnabled = true) }
+        updateState { it.copy(isLanguageBottomSheetEnabled = true, tempLanguage = it.currentLanguage) }
     }
 
     override fun onConfirmChangeLanguage(language: Language) {
@@ -100,19 +100,11 @@ class MoreViewModel(
     }
 
     override fun onSelectTheme(theme: MoreScreenState.Theme) {
-        updateState {
-            it.copy(
-                isDarkChecked = theme == MoreScreenState.Theme.DARK
-            )
-        }
+        updateState { it.copy(tempTheme = theme) }
     }
 
     override fun onSelectLanguage(language: Language) {
-        updateState {
-            it.copy(
-                isEnglishChecked = language == Language.ENGLISH
-            )
-        }
+        updateState { it.copy(tempLanguage = language) }
     }
 
     override fun onDismissLanguageBottomSheet() {
@@ -160,7 +152,6 @@ class MoreViewModel(
         updateState {
             it.copy(
                 currentLanguage = language,
-                isEnglishChecked = language == Language.ENGLISH,
                 isLanguageBottomSheetEnabled = false
             )
         }
@@ -172,7 +163,6 @@ class MoreViewModel(
             it.copy(
                 currentTheme = theme,
                 isThemeBottomSheetEnabled = false,
-                isDarkChecked = theme == MoreScreenState.Theme.DARK
             )
         }
     }

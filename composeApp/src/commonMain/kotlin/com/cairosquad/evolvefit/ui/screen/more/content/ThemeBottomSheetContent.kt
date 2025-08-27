@@ -58,14 +58,14 @@ fun ThemeBottomSheetContent(
 
         CheckboxItem(
             text = stringResource(Res.string.dark_mode),
-            isChecked = state.isDarkChecked,
+            isChecked = state.tempTheme == MoreScreenState.Theme.DARK,
             icon = Res.drawable.dark,
             onCheckedChange = { onSelectTheme(MoreScreenState.Theme.DARK) }
         )
 
         CheckboxItem(
             text = stringResource(Res.string.light_mode),
-            isChecked =  state.isDarkChecked.not(),
+            isChecked =  state.tempTheme == MoreScreenState.Theme.LIGHT,
             icon = Res.drawable.light,
             onCheckedChange = { onSelectTheme(MoreScreenState.Theme.LIGHT) }
         )
@@ -73,7 +73,7 @@ fun ThemeBottomSheetContent(
             modifier = Modifier
                 .padding(bottom = 16.dp, top = 38.dp),
             text = stringResource(Res.string.confirm),
-            onClick = { onConfirm(if (state.isDarkChecked)  MoreScreenState.Theme.DARK else MoreScreenState.Theme.LIGHT ) },
+            onClick = { onConfirm(if (state.tempTheme == MoreScreenState.Theme.DARK)  MoreScreenState.Theme.DARK else MoreScreenState.Theme.LIGHT ) },
             isEnabled = true,
             enabledTextColor = Theme.color.brand.onPrimary,
             textStyle = Theme.textStyle.body.mediumMedium14,
