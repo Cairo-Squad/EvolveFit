@@ -8,11 +8,11 @@ data class MoreScreenState(
     val isThemeBottomSheetEnabled: Boolean = false,
     val isLanguageBottomSheetEnabled: Boolean = false,
     val isLogoutBottomSheetEnabled: Boolean = false,
-    val isDarkChecked: Boolean = false,
-    val isEnglishChecked: Boolean = true,
     val currentTheme: Theme = Theme.LIGHT,
     val currentLanguage: Language = Language.ENGLISH,
     val profile: Profile = Profile(),
+    val tempTheme: Theme = Theme.LIGHT,
+    val tempLanguage: Language = Language.ENGLISH,
     val errorMessage: StringResource? = null
     ) {
     enum class Theme {
