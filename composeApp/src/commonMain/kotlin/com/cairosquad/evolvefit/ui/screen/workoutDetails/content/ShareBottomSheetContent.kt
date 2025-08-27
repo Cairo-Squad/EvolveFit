@@ -3,6 +3,7 @@ package com.cairosquad.evolvefit.ui.screen.workoutDetails.content
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,21 +23,21 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.util.noRippleClickable
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.copy_link
 import evolvefit.composeapp.generated.resources.ic_copy
 import evolvefit.composeapp.generated.resources.ic_instagram
 import evolvefit.composeapp.generated.resources.ic_massenger
 import evolvefit.composeapp.generated.resources.ic_telegram
 import evolvefit.composeapp.generated.resources.ic_wattsapp
 import evolvefit.composeapp.generated.resources.ic_x
+import evolvefit.composeapp.generated.resources.instagram
+import evolvefit.composeapp.generated.resources.messenger
+import evolvefit.composeapp.generated.resources.share_to
+import evolvefit.composeapp.generated.resources.telegram
+import evolvefit.composeapp.generated.resources.whatsapp
+import evolvefit.composeapp.generated.resources.x_platform
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import evolvefit.composeapp.generated.resources.share_to
-import evolvefit.composeapp.generated.resources.copy_link
-import evolvefit.composeapp.generated.resources.messenger
-import evolvefit.composeapp.generated.resources.whatsapp
-import evolvefit.composeapp.generated.resources.telegram
-import evolvefit.composeapp.generated.resources.instagram
-import evolvefit.composeapp.generated.resources.x_platform
 
 @Composable
 fun ShareBottomSheetContent(
@@ -54,7 +55,6 @@ fun ShareBottomSheetContent(
             text = stringResource(Res.string.share_to),
             color = Theme.color.surfaces.onSurface,
             style = Theme.textStyle.label.mediumMedium16,
-            modifier = Modifier.padding(bottom = 16.dp)
         )
 
         ShareOptionsRow(onShareOptionClick)
@@ -73,7 +73,7 @@ fun ShareBottomSheetContent(
 fun ShareOptionsRow(onShareOptionClick: (String) -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceAround
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         ShareOptionItem(
             icon = painterResource(Res.drawable.ic_massenger),
@@ -116,17 +116,21 @@ fun ShareOptionItem(
         verticalArrangement = Arrangement.spacedBy(8.dp)
 
     ) {
-        Icon(
-            painter = icon,
-            contentDescription = label,
-            tint = Theme.color.surfaces.onSurfaceContainer,
+        Box(
             modifier = Modifier
                 .size(48.dp)
                 .clip(shape = CircleShape)
                 .clickable(onClick = onClick)
-                .background(Theme.color.surfaces.surfaceContainer, shape = CircleShape)
-                .padding(12.dp)
-        )
+                .background(Theme.color.surfaces.surfaceContainer, CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter = icon,
+                contentDescription = label,
+                tint = Theme.color.surfaces.onSurfaceContainer,
+                modifier = Modifier.size(24.dp)
+            )
+        }
         Text(
             text = label,
             color = Theme.color.surfaces.onSurfaceContainer,
@@ -138,19 +142,27 @@ fun ShareOptionItem(
 @Composable
 fun ShareActionRow(icon: Painter, label: String, onClick: () -> Unit) {
     Row(
-        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .fillMaxWidth().clip(RoundedCornerShape(8.dp))
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
             .clickable { onClick() }
-            .padding(vertical = 8.dp),
+            .padding(vertical = 8.dp, horizontal = 8.dp),//
+        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Icon(
-            painter = icon,
-            contentDescription = label,
-            tint = Theme.color.surfaces.onSurfaceContainer,
-            modifier = Modifier.size(24.dp)
-        )
+        Box(
+            modifier = Modifier
+                .size(48.dp)
+                .background(Theme.color.surfaces.surfaceContainer, CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter = icon,
+                contentDescription = label,
+                tint = Theme.color.surfaces.onSurfaceContainer,
+                modifier = Modifier.size(24.dp)
+            )
+        }
         Text(
             text = label,
             color = Theme.color.surfaces.onSurfaceContainer,
