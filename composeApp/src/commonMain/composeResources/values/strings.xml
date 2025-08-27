@@ -222,6 +222,7 @@
 
     <string name="error_no_internet">There is no internet connection.</string>
     <string name="error_unknown_credentials">Email or password you entered are incorrect.</string>
+    <string name="user_not_found">User not found.</string>
     <string name="error_invalid_email_format">Invalid email format. valid format is: example@domain.com.</string>
     <string name="error_invalid_email">Please check your email and try again.</string>
     <string name="error_invalid_password">Password must be at least 8 characters.</string>
