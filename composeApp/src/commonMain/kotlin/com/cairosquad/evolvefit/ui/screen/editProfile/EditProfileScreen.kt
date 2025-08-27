@@ -141,7 +141,7 @@ fun EditProfileScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             UserProfileImage(
-                modifier = Modifier.padding(top = 24.dp, bottom = 24.dp),
+                modifier = Modifier.padding(top = 24.dp, bottom = 32.dp),
                 image = UiImage.ImageUrl(state.profile.imageUrl),
                 isImagePickerOpen = state.isImagePickerOpened,
                 onImagePickerDismiss = { listener.onImagePickerDismissed() },

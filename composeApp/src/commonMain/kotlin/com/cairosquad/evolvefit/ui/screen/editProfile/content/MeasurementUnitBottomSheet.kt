@@ -55,9 +55,7 @@ fun MeasurementBottomSheetContent(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     var selectedUnit by remember { mutableStateOf(selectedMeasurementStandard) }
-
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
@@ -66,7 +64,6 @@ fun MeasurementBottomSheetContent(
             title = stringResource(Res.string.select_unit_title),
             titleStyle = Theme.textStyle.label.mediumMedium16
         )
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -78,7 +75,6 @@ fun MeasurementBottomSheetContent(
                   MeasurementStandard.METRIC -> stringResource(Res.string.unit_metric)
                     MeasurementStandard.IMPERIAL -> stringResource(Res.string.unit_imperial)
                 }
-
                 CheckboxItem(
                     text = unitText,
                     isChecked = selectedUnit == unit,
@@ -86,7 +82,6 @@ fun MeasurementBottomSheetContent(
                 )
             }
         }
-
         PrimaryButton(
             text = stringResource(Res.string.confirm),
             onClick = {
