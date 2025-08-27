@@ -67,34 +67,33 @@ fun AllExercisesContent(
             .statusBarsPadding()
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+            modifier = Modifier.fillMaxSize()
         ) {
+            CustomAppBar(
+                title = stringResource(Res.string.add_exercise_title_),
+                header = {
+                    ActionIconButton(
+                        icon = painterResource(Res.drawable.ic_back),
+                        contentDescription = stringResource(Res.string.back_icon_desc_),
+                        tint = Theme.color.surfaces.onSurface,
+                        onClick = listener::onBackClicked
+                    )
+                },
+                tail = {
+                    ActionIconButton(
+                        icon = painterResource(Res.drawable.add_circle),
+                        contentDescription = stringResource(Res.string.add_icon_desc_),
+                        tint = Theme.color.surfaces.onSurfaceVariant,
+                        onClick = listener::onAddClicked
+                    )
+                },
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
             Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
             ) {
-                CustomAppBar(
-                    title = stringResource(Res.string.add_exercise_title_),
-                    header = {
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.ic_back),
-                            contentDescription = stringResource(Res.string.back_icon_desc_),
-                            tint = Theme.color.surfaces.onSurface,
-                            onClick = listener::onBackClicked
-                        )
-                    },
-                    tail = {
-                        ActionIconButton(
-                            icon = painterResource(Res.drawable.add_circle),
-                            contentDescription = stringResource(Res.string.add_icon_desc_),
-                            tint = Theme.color.surfaces.onSurfaceVariant,
-                            onClick = listener::onAddClicked
-                        )
-                    },
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
                 InputField(
                     value = state.searchQuery,
                     verticalPadding = 14.dp,
@@ -105,67 +104,68 @@ fun AllExercisesContent(
                         .padding(horizontal = 16.dp)
                         .padding(bottom = 16.dp)
                 )
-            }
-            RefreshBox(
-                isRefreshing = state.isRefreshing,
-                onRefresh = { listener.onRefresh() }
-            ) {
-                Crossfade(
-                    targetState = state.status,
-                    animationSpec = tween(
-                        durationMillis = 400,
-                        easing = FastOutSlowInEasing
-                    )
-                ) { status ->
-                    when (status) {
-                        ScreenStatus.LOADING -> {
-                            CreateWorkoutLoadingScreen()
-                        }
 
-                        ScreenStatus.EMPTY -> {
-                            StateMessage(
-                                image = painterResource(Res.drawable.im_no_internet),
-                                title = stringResource(Res.string.no_exercises_title),
-                                description = stringResource(Res.string.no_exercises_description),
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
+                RefreshBox(
+                    isRefreshing = state.isRefreshing,
+                    onRefresh = { listener.onRefresh() }
+                ) {
+                    Crossfade(
+                        targetState = state.status,
+                        animationSpec = tween(
+                            durationMillis = 400,
+                            easing = FastOutSlowInEasing
+                        )
+                    ) { status ->
+                        when (status) {
+                            ScreenStatus.LOADING -> {
+                                CreateWorkoutLoadingScreen()
+                            }
 
-                        ScreenStatus.SUCCESS -> {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp)
-                                    .padding(
-                                        bottom = 12.dp + 24.dp + 48.dp +
-                                                WindowInsets.navigationBars
-                                                    .asPaddingValues().calculateBottomPadding()
-                                    )
-                            ) {
-                                BasicText(
-                                    text = stringResource(Res.string.all_exercises_title_),
-                                    style = Theme.textStyle.label.smallRegular14.copy(
-                                        color = Theme.color.surfaces.onSurfaceVariant
-                                    ),
-                                    modifier = Modifier.padding(bottom = 6.dp)
+                            ScreenStatus.EMPTY -> {
+                                StateMessage(
+                                    image = painterResource(Res.drawable.im_no_internet),
+                                    title = stringResource(Res.string.no_exercises_title),
+                                    description = stringResource(Res.string.no_exercises_description),
+                                    modifier = Modifier.fillMaxWidth()
                                 )
-                                state.filteredExercises.forEach { exercise ->
-                                    ExerciseCardWithTick(
-                                        title = exercise.name,
-                                        time = "",
-                                        model = exercise.images.firstOrNull() ?: "",
-                                        isChecked = state.selectedExercises.any { it.id == exercise.id },
-                                        onCheckedChange = {
-                                            listener.onExerciseCheckedChanged(exercise)
-                                        },
-                                        measurementContent = { MeasurementRow(exercise.type) }
+                            }
+
+                            ScreenStatus.SUCCESS -> {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 16.dp)
+                                        .padding(
+                                            bottom = 12.dp + 24.dp + 48.dp +
+                                                    WindowInsets.navigationBars
+                                                        .asPaddingValues().calculateBottomPadding()
+                                        )
+                                ) {
+                                    BasicText(
+                                        text = stringResource(Res.string.all_exercises_title_),
+                                        style = Theme.textStyle.label.smallRegular14.copy(
+                                            color = Theme.color.surfaces.onSurfaceVariant
+                                        ),
+                                        modifier = Modifier.padding(bottom = 6.dp)
                                     )
+                                    state.filteredExercises.forEach { exercise ->
+                                        ExerciseCardWithTick(
+                                            title = exercise.name,
+                                            time = "",
+                                            model = exercise.images.firstOrNull() ?: "",
+                                            isChecked = state.selectedExercises.any { it.id == exercise.id },
+                                            onCheckedChange = {
+                                                listener.onExerciseCheckedChanged(exercise)
+                                            },
+                                            measurementContent = { MeasurementRow(exercise.type) }
+                                        )
+                                    }
                                 }
                             }
-                        }
 
-                        ScreenStatus.ERROR -> {
-                            CreateWorkoutErrorScreen { listener.onRetryClicked() }
+                            ScreenStatus.ERROR -> {
+                                CreateWorkoutErrorScreen { listener.onRetryClicked() }
+                            }
                         }
                     }
                 }
@@ -185,3 +185,4 @@ fun AllExercisesContent(
         }
     }
 }
+
