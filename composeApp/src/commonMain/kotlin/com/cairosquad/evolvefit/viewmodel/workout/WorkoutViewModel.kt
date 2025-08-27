@@ -65,11 +65,16 @@ class WorkoutViewModel(
     }
 
     private fun onGetSuggestedWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
+       val status =  if (workouts.isEmpty()){
+           WorkoutScreenState.ScreenStatus.EMPTY
+       }else{
+           WorkoutScreenState.ScreenStatus.SUCCESS
+       }
         updateState { it ->
             it.copy(
                 allWorkouts = workouts.map { it.toUiState() },
                 errorMessage = null,
-                screenStatus = WorkoutScreenState.ScreenStatus.SUCCESS
+                screenStatus = status
             )
         }
     }

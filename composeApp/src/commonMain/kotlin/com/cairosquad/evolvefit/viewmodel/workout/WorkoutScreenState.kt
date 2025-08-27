@@ -35,6 +35,6 @@ data class WorkoutScreenState(
         CHEST(Res.string.chest)
     }
 
-    enum class ScreenStatus { LOADING, SUCCESS, FAIL }
+    enum class ScreenStatus { LOADING, SUCCESS, FAIL, EMPTY }
 
 }
