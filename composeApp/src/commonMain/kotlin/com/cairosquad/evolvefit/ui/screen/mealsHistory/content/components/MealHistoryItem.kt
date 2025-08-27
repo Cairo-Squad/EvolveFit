@@ -32,7 +32,7 @@ fun MealHistoryItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 16.dp),
+            .padding(vertical = 12.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -66,13 +66,14 @@ fun MealHistoryItem(
                 color = Theme.color.surfaces.onSurface
             )
             Text(
+                modifier = Modifier.padding(top = 8.dp),
                 text = meal.date,
                 style = Theme.textStyle.label.smallRegular12,
                 color = Theme.color.surfaces.onSurfaceVariant
             )
         }
         Column(
-            horizontalAlignment = Alignment.End
+            horizontalAlignment = Alignment.Start,
         ) {
             Text(
                 text = "${meal.calories} " + stringResource(Res.string.kcal_unit),
@@ -80,6 +81,7 @@ fun MealHistoryItem(
                 color = Theme.color.brand.primary
             )
             Text(
+                modifier = Modifier.padding(top = 4.dp),
                 text = stringResource(meal.type.displayName),
                 style = Theme.textStyle.body.smallRegular10,
                 color = Theme.color.surfaces.onSurfaceVariant
