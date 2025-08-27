@@ -65,7 +65,7 @@ fun EquipmentBottomSheetContent(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 24.dp)
+            .padding(horizontal = 16.dp)
     ) {
         RegisterHeader(
             modifier = Modifier.padding(bottom = 24.dp),

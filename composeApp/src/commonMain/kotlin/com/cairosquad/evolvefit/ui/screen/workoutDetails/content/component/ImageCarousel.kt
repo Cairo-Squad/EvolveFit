@@ -1,7 +1,5 @@
 package com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -21,12 +19,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
-import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.exercise_image
 import evolvefit.composeapp.generated.resources.ic_arrow_left
@@ -40,20 +38,13 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ImageCarousel(
     images: List<String>,
-    exerciseType: WorkoutDetailsScreenState.ExerciseType,
+    specificationString: String,
+    specificationIcon: Painter,
     modifier: Modifier = Modifier
 ) {
 
     val layoutDirection = LocalLayoutDirection.current
     var currentIndex by remember { mutableStateOf(0) }
-    val animatedColor by animateColorAsState(
-        targetValue = when (currentIndex) {
-            0 -> Theme.color.surfaces.onSurfaceVariant
-            else -> Theme.color.surfaces.textColor
-        },
-        animationSpec = tween(200),
-        label = ""
-    )
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -122,7 +113,8 @@ fun ImageCarousel(
             )
         }
         MeasurementRow(
-            exerciseType = exerciseType,
+            specificationString = specificationString,
+            specificationIcon = specificationIcon,
             modifier = Modifier
                 .align(Alignment.BottomEnd).padding(bottom = 8.dp, end = 8.dp)
                 .background(Theme.color.surfaces.onSurfaceAt2, RoundedCornerShape(24.dp))
@@ -132,6 +124,4 @@ fun ImageCarousel(
             textStyle = Theme.textStyle.label.mediumMedium12
         )
     }
-
-
 }

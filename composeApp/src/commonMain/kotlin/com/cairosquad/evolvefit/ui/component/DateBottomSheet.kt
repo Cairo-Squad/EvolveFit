@@ -20,6 +20,11 @@ import com.cairosquad.evolvefit.ui.util.getMonthAsInt
 import com.cairosquad.evolvefit.ui.util.getMonthFromDate
 import com.cairosquad.evolvefit.ui.util.getNumberOfDaysInMonth
 import com.cairosquad.evolvefit.ui.util.getYearFromDate
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.birthday
+import evolvefit.composeapp.generated.resources.please_select_your_birthday
+import evolvefit.composeapp.generated.resources.save
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -76,8 +81,7 @@ fun DateBottomSheet(
                 )
             },
             onDatePickerDismiss = onDatePickerDismiss,
-            modifier = Modifier
-                .padding(16.dp)
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
     }
 }
@@ -96,19 +100,17 @@ fun DateBottomSheetContent(
             .fillMaxWidth()
     ) {
         Text(
-            text = "Birthday", // TODO
+            text = stringResource(Res.string.birthday),
             style = Theme.textStyle.label.mediumMedium16,
             color = Theme.color.surfaces.onSurface,
-            modifier = Modifier
-                .padding(bottom = 4.dp)
+            modifier = Modifier.padding(bottom = 4.dp)
         )
 
         Text(
-            text = "Please select your birthday", // TODO
+            text = stringResource(Res.string.please_select_your_birthday),
             style = Theme.textStyle.label.mediumMedium12,
             color = Theme.color.surfaces.onSurfaceVariant,
-            modifier = Modifier
-                .padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 16.dp)
         )
 
         DatePicker(
@@ -121,7 +123,7 @@ fun DateBottomSheetContent(
         )
 
         PrimaryButton(
-            text = "Save", // TODO
+            text = stringResource(Res.string.save),
             onClick = {
                 onDateChange()
                 onDatePickerDismiss()

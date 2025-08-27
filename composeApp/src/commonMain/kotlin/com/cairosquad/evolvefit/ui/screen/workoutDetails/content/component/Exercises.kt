@@ -14,8 +14,13 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.ExerciseCard
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState.ExerciseType
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.exercises
+import evolvefit.composeapp.generated.resources.ic_count
+import evolvefit.composeapp.generated.resources.ic_time
+import evolvefit.composeapp.generated.resources.seconds
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 
@@ -51,7 +56,20 @@ fun Exercises(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
                     .clickable { onExerciseClick(exercise) },
-                measurementContent = { MeasurementRow(exercise.type) }
+                measurementContent = {
+                    MeasurementRow(
+                        specificationString = when (exercise.type) {
+                            is ExerciseType.Duration -> "${exercise.type.seconds} " +
+                                    stringResource(Res.string.seconds)
+
+                            is ExerciseType.Reps -> "X${exercise.type.count}"
+                        },
+                        specificationIcon = when (exercise.type) {
+                            is ExerciseType.Duration -> painterResource(Res.drawable.ic_time)
+                            is ExerciseType.Reps -> painterResource(Res.drawable.ic_count)
+                        },
+                    )
+                }
             )
         }
     }
