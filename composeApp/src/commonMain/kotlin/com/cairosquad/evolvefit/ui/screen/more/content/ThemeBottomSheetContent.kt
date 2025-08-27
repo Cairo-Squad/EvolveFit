@@ -73,7 +73,7 @@ fun ThemeBottomSheetContent(
             modifier = Modifier
                 .padding(bottom = 16.dp, top = 38.dp),
             text = stringResource(Res.string.confirm),
-            onClick = { onConfirm(if (state.tempTheme == MoreScreenState.Theme.DARK)  MoreScreenState.Theme.DARK else MoreScreenState.Theme.LIGHT ) },
+            onClick = { onConfirm(state.tempTheme) },
             isEnabled = true,
             enabledTextColor = Theme.color.brand.onPrimary,
             textStyle = Theme.textStyle.body.mediumMedium14,

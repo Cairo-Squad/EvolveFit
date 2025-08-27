@@ -70,7 +70,7 @@ fun LanguageBottomSheetContent(
             modifier = Modifier
                 .padding(bottom = 16.dp, top = 38.dp),
             text = stringResource(Res.string.confirm),
-            onClick = { onConfirm(if (state.tempLanguage==Language.ENGLISH) Language.ENGLISH else Language.ARABIC) },
+            onClick = { onConfirm (state.tempLanguage)},
             isEnabled = true,
             enabledTextColor = Theme.color.brand.onPrimary,
             textStyle = Theme.textStyle.body.mediumMedium14,

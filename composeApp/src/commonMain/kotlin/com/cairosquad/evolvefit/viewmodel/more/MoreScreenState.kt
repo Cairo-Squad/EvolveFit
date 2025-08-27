@@ -11,8 +11,8 @@ data class MoreScreenState(
     val currentTheme: Theme = Theme.LIGHT,
     val currentLanguage: Language = Language.ENGLISH,
     val profile: Profile = Profile(),
-    val tempTheme: Theme? = null,
-    val tempLanguage: Language? = null,
+    val tempTheme: Theme = Theme.LIGHT,
+    val tempLanguage: Language = Language.ENGLISH,
     val errorMessage: StringResource? = null
     ) {
     enum class Theme {
