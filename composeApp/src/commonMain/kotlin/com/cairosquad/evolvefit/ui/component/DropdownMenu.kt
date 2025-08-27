@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -14,8 +15,10 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.adamglin.composeshadow.dropShadow
@@ -72,6 +75,10 @@ fun DropdownMenu(
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val dropShadowColor by animateColorAsState(
+        targetValue = if (isExpanded) Theme.color.surfaces.dropShadow else Color.Transparent
+    )
+
     Box(
         modifier = Modifier.fillMaxSize()
             .pointerInput(Unit) {
@@ -79,20 +86,19 @@ fun DropdownMenu(
             }
     ) {
         AnimatedVisibility(
-            modifier = modifier,
+            modifier = modifier.dropShadow(
+                shape = RoundedCornerShape(8.dp),
+                color = Theme.color.surfaces.dropShadow,
+                offsetY = 40.dp,
+                offsetX = 0.dp,
+                blur = 80.dp,
+                spread = 0.dp,
+            ),
             visible = isExpanded,
         ) {
             Column(
                 modifier = modifier
                     .offset(y = (-8).dp)
-                    .dropShadow(
-                        shape = RoundedCornerShape(8.dp),
-                        color = Theme.color.surfaces.dropShadow,
-                        offsetY = 40.dp,
-                        offsetX = 0.dp,
-                        blur = 80.dp,
-                        spread = 0.dp,
-                    )
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
                     .background(Theme.color.surfaces.surfaceContainer)
