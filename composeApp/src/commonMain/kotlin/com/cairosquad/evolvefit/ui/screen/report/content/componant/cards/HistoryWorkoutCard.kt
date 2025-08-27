@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.report.ReportScreenState
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.view_all
 import evolvefit.composeapp.generated.resources.workout_history
 import org.jetbrains.compose.resources.stringResource
 
@@ -55,7 +56,7 @@ fun HistoryWorkoutCard(
                 .padding(horizontal = 8.dp, vertical = 4.dp)
         ) {
             Text(
-                text = "View all",
+                text = stringResource(Res.string.view_all),
                 style = Theme.textStyle.label.mediumMedium16,
                 color = Theme.color.brand.primary,
             )

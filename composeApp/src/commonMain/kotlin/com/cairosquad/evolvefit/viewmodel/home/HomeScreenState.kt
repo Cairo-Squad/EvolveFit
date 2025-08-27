@@ -2,6 +2,10 @@ package com.cairosquad.evolvefit.viewmodel.home
 
 import com.cairosquad.evolvefit.domain.entity.Profile
 import com.cairosquad.evolvefit.viewmodel.base.ErrorState
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.ic_save_tick
+import evolvefit.composeapp.generated.resources.workout_added_to_your_favorites
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 
 data class HomeScreenState(
@@ -16,8 +20,15 @@ data class HomeScreenState(
     val waterCount: Float = 0f,
     val waterGoal: Float = 0f,
     val nutritionVisibility: Boolean = false,
-    val personalizedWorkouts: List<HomeWorkoutUiState> = emptyList()
+    val personalizedWorkouts: List<HomeWorkoutUiState> = emptyList(),
+    val snackBarState: SnackBarState = SnackBarState(),
 ) {
+    data class SnackBarState(
+        val isVisible: Boolean = false,
+        val messageRes: StringResource = Res.string.workout_added_to_your_favorites,
+        val iconRes: DrawableResource = Res.drawable.ic_save_tick,
+    )
+
     data class HomeUserUiState(
         val name: String = "",
         val gender: Profile.Gender = Profile.Gender.MALE,
