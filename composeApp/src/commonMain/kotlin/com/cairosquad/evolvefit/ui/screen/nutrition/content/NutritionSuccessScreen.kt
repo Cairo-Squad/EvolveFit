@@ -53,7 +53,9 @@ private fun LazyListScope.mealHistorySection(
 ) {
     item {
         SeeAll(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(top = 32.dp, bottom = 12.dp),
             onViewAllClick = listener::onViewAllMealHistoryClicked,
             sectionTitle = stringResource(Res.string.meal_history)
         )
@@ -70,7 +72,7 @@ private fun LazyListScope.mealHistorySection(
 }
 
 @Composable
-private fun MealHistoryItem(
+fun MealHistoryItem(
     meal: NutritionScreenState.ConsumedMealUiState,
     modifier: Modifier = Modifier
 ) {
@@ -117,6 +119,7 @@ private fun MealHistoryItem(
                 color = Theme.color.brand.primary
             )
             Text(
+                modifier = Modifier.padding(top = 4.dp),
                 text = stringResource(meal.type.displayName),
                 style = Theme.textStyle.body.smallRegular10,
                 color = Theme.color.surfaces.onSurfaceVariant

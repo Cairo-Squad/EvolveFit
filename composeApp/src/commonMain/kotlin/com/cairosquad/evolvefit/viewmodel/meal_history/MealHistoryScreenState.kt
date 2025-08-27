@@ -21,7 +21,8 @@ data class MealHistoryScreenState(
     enum class ScreenStatus {
         LOADING,
         ERROR,
-        SUCCESS
+        SUCCESS,
+        EMPTY
     }
 
     data class DayGroupedMealsUiState(
