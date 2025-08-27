@@ -199,7 +199,7 @@
     <string name="save_exercise">Save Exercise</string>
     <string name="characters_left">%1$d character left</string>
     <string name="select_focus_area">Select focus area</string>
-    <string name="choose_available_tools">Choose available tools</string>
+    <string name="choose_available_tools">Choose tool</string>
     <string name="calories_format">Calories: %1$d Kcal</string>
     <string name="carbs_format">Carbs: %1$d g</string>
     <string name="protein_format">Protein: %1$d g</string>
@@ -207,7 +207,8 @@
     <string name="just_for_you">Just For You</string>
 
     <string name="exit_confirmation_title">Do you want to exit?</string>
-    <string name="exit_confirmation_message">You haven’t saved your workout yet. All progress might be lost.</string>
+    <string name="exit_create_workout_confirmation_message">You haven’t saved your workout yet. All progress might be lost.</string>
+    <string name="exit_create_exercise_confirmation_message">You haven’t saved your exercise yet. All progress might be lost.</string>
     <string name="cancel">Cancel</string>
     <string name="save_image">save image</string>
     <string name="exit_without_saving">Exit Without Saving</string>

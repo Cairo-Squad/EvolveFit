@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.util.toString
 import com.cairosquad.evolvefit.viewmodel.home.HomeScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.activity
@@ -228,7 +229,7 @@ private fun StatsRow(
                 .padding(start = 16.dp),
             iconRes = Res.drawable.ic_scale,
             title = stringResource(Res.string.current_weight),
-            value = "$currentWeight $weightUnit",
+            value = "${currentWeight.toString(1)} $weightUnit",
         )
 
         VerticalDivider(

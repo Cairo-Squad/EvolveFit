@@ -13,7 +13,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomeScreen(
-    navigateToWorkout: (id: String) -> Unit,
+    navigateToWorkout: (id: String, onNavigateBack: (() -> Unit)?) -> Unit,
     onSelectNavBarRoute: (navBarRoute: NavBarRoute) -> Unit,
     homeViewModel: HomeViewModel = koinViewModel(),
 ) {
@@ -38,12 +38,12 @@ fun HomeScreen(
 @Composable
 private fun HandleHomeEffects(
     homeViewModel: HomeViewModel,
-    navigateToWorkout: (id: String) -> Unit,
+    navigateToWorkout: (id: String, onNavigateBack: (() -> Unit)?) -> Unit,
 ) {
     ObserveAsEffect(homeViewModel.effect) { effect ->
         when (effect) {
             is HomeScreenEffect.NavigateToWorkout -> {
-                navigateToWorkout(effect.workoutId)
+                navigateToWorkout(effect.workoutId, homeViewModel::loadFavoriteWorkouts)
             }
 
             is HomeScreenEffect.ShowErrorSnackBar -> {

@@ -36,15 +36,14 @@ data class CreateExerciseState(
         return selectedEquipment.name == toolName
     }
 
-    val focusAreaNames: List<String>
-        get() = FocusArea.entries.map { it.name }
+    val focusAreaNames: List<FocusArea>
+        get() = FocusArea.entries
 
     val selectedFocusAreasText: String
-        get() = selectedFocusAreas.joinToString { it.name }
+        get() = selectedFocusAreas.joinToString { it.key }
 
-
-    fun isFocusAreaSelected(name: String): Boolean {
-        return selectedFocusAreas.any { it.name == name }
+    fun isFocusAreaSelected(focusArea: FocusArea): Boolean {
+        return selectedFocusAreas.contains(focusArea)
     }
 
     data class EquipmentUiState(
@@ -53,14 +52,15 @@ data class CreateExerciseState(
         val isSelected: Boolean = false
     )
 
-    enum class FocusArea {
-        BACK,
-        LEGS,
-        SHOULDERS,
-        ARMS,
-        CORE,
-        CHEST
+    enum class FocusArea(val key: String) {
+        BACK("back"),
+        LEGS("legs"),
+        SHOULDERS("shoulders"),
+        ARMS("arms"),
+        CORE("core"),
+        CHEST("chest")
     }
+
 
     enum class MeasurementType {
         DURATION, REPS
