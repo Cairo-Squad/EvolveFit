@@ -230,12 +230,11 @@ fun InputField(
         )
         if (error.isNotBlank() && isErrorMessageShown) {
             Row(
-                modifier = Modifier.padding(top = 4.dp),
+                modifier = Modifier.padding(top = 7.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 Icon(
-                    modifier = Modifier.size(16.dp),
+                    modifier = Modifier.size(16.dp).padding(end=4.dp),
                     painter = painterResource(Res.drawable.ic_error),
                     contentDescription = "error",
                     tint = Theme.color.system.error
