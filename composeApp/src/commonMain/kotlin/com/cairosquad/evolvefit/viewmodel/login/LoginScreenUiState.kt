@@ -9,6 +9,6 @@ data class LoginScreenUiState(
     val emailError: StringResource? = null,
     val passwordError: StringResource? = null,
     val isPasswordVisible: Boolean = false,
-    val isFormError: Boolean = false,
+    val isFormError: Boolean? = null,
     val canSubmit: Boolean = false
 )
