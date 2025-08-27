@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.createWorkout.content
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,14 +22,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.component.CustomDropDownMenu
+import com.cairosquad.evolvefit.design_system.component.InputField
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
-import com.cairosquad.evolvefit.design_system.component.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.screen.createExercise.content.component.CustomDropdownMenu
+import com.cairosquad.evolvefit.ui.screen.createExercise.content.component.RowWithIcon
 import com.cairosquad.evolvefit.ui.screen.createWorkout.content.component.WorkoutImage
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState
@@ -43,7 +46,6 @@ import evolvefit.composeapp.generated.resources.create_workout_title_
 import evolvefit.composeapp.generated.resources.cross_icon_desc_
 import evolvefit.composeapp.generated.resources.enter_description_
 import evolvefit.composeapp.generated.resources.enter_workout_name_
-import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_cross
 import evolvefit.composeapp.generated.resources.intermediate
 import evolvefit.composeapp.generated.resources.next_button_
@@ -138,15 +140,13 @@ fun CreateWorkoutDetailsContent(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
 
-            CustomDropDownMenu(
-                selectedText = state.level?.let { toDisplayName(it) } ?: "",
-                options = workoutGoals,
-                placeholder = stringResource(Res.string.choose_level),
-                iconPainter = painterResource(Res.drawable.ic_arrow_down),
-                onOptionSelected = { selectedGoal ->
-                    listener.onGoalSelected(selectedGoal)
-                },
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            GoalDropDownMenu(
+                state = state,
+                selectedGoalName = state.level?.let { toDisplayName(it) }
+                    ?: stringResource(Res.string.choose_level),
+                selectedGoalTextColor = if (state.level == null) Theme.color.surfaces.onSurfaceVariant
+                else Theme.color.surfaces.onSurfaceContainer,
+                listener = listener
             )
 
             Box(
@@ -211,3 +211,33 @@ fun toDisplayName(level: WorkoutLevel): String {
     }
 }
 
+@Composable
+fun GoalDropDownMenu(
+    state: CreateWorkOutScreenState,
+    selectedGoalName: String,
+    selectedGoalTextColor: Color,
+    listener: CreateWorkOutInteractionListener
+) {
+    RowWithIcon(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 4.dp),
+        text = selectedGoalName,
+        textColor = selectedGoalTextColor,
+        isIconClicked = state.isGoalExpanded,
+        onIconClicked = listener::onGoalIconClicked
+    )
+
+    AnimatedVisibility(visible = state.isGoalExpanded) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp)
+        ) {
+            CustomDropdownMenu(
+                items = state.levelsNames,
+                onItemSelected = listener::onGoalSelected,
+                isChecked = state::isGoalSelected,
+                labelProvider = { toDisplayName(it) }
+            )
+        }
+    }
+}
