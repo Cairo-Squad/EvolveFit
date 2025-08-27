@@ -7,6 +7,8 @@ import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.domain.model.PlayedWorkout
 import com.cairosquad.evolvefit.domain.repository.WorkoutRepository
 import com.cairosquad.evolvefit.repository.execption.callDataSource
+import com.cairosquad.evolvefit.repository.workout.local.PlayedWorkoutDao
+import com.cairosquad.evolvefit.repository.workout.local.entity.PlayedWorkoutEntity
 import com.cairosquad.evolvefit.repository.workout.remote.WorkoutRemoteDataSource
 import com.cairosquad.evolvefit.repository.workout.remote.dto.PlayedWorkoutDto
 import com.cairosquad.evolvefit.repository.workout.remote.toCreateRequest
@@ -15,6 +17,7 @@ import com.cairosquad.evolvefit.repository.workout.remote.toDto
 
 class WorkoutRepositoryImpl(
     private val workoutRemoteDataSource: WorkoutRemoteDataSource,
+    private val playedWorkoutDao: PlayedWorkoutDao
 ) : WorkoutRepository {
 
     override suspend fun getWorkoutById(id: String): Workout {
@@ -73,8 +76,34 @@ class WorkoutRepositoryImpl(
     }
 
     override suspend fun submitPlayedWorkout(playedWorkout: PlayedWorkout) {
-        callDataSource {
+        try {
             workoutRemoteDataSource.submitPlayedWorkout(playedWorkout.toDto())
+        } catch (e: Exception) {
+            playedWorkoutDao.insertPlayedWorkout(
+                PlayedWorkoutEntity(
+                    workoutId = playedWorkout.workoutId,
+                    durationSeconds = playedWorkout.durationSeconds
+                )
+            )
+        }
+    }
+    override suspend fun syncPendingWorkouts() {
+        val pending = playedWorkoutDao.getPendingWorkouts()
+        val synced = mutableListOf<PlayedWorkoutEntity>()
+
+        pending.forEach { entity ->
+            try {
+                workoutRemoteDataSource.submitPlayedWorkout(
+                    PlayedWorkoutDto(entity.workoutId, entity.durationSeconds)
+                )
+                synced.add(entity.copy(isSynced = true))
+            } catch (e: Exception) {
+
+            }
+        }
+
+        if (synced.isNotEmpty()) {
+            playedWorkoutDao.updatePlayedWorkouts(synced)
         }
     }
 
@@ -85,8 +114,8 @@ class WorkoutRepositoryImpl(
     override suspend fun uploadWorkoutImage(
         fileBytes: ByteArray,
         fileName: String,
-        workoutId : String
+        workoutId: String
     ): String {
-        return workoutRemoteDataSource.uploadWorkoutImage(fileBytes,fileName,workoutId)
+        return workoutRemoteDataSource.uploadWorkoutImage(fileBytes, fileName, workoutId)
     }
 }
