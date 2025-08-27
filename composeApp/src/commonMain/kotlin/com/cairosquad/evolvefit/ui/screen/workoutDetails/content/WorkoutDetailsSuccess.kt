@@ -231,6 +231,15 @@ fun WorkoutDetailsSuccess(
             onClick = { listener.onStartWorkoutClicked(state.workout.workoutID) },
             isEnabled = true
         )
+        SnackBar(
+            text = stringResource(state.snackBarState.messageRes),
+            isVisible = state.snackBarState.isVisible,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 24.dp),
+            icon = painterResource(state.snackBarState.iconRes),
+            iconTint = Theme.color.brand.primary
+        )
     }
 }
 

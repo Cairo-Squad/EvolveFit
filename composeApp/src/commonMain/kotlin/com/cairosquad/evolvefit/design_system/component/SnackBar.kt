@@ -1,6 +1,8 @@
 package com.cairosquad.evolvefit.design_system.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -60,10 +62,24 @@ fun SnackBar(
     onUndoClicked: () -> Unit = {}
 ) {
     val density = LocalDensity.current
+    val shadowAnimatedColor by animateColorAsState(
+        targetValue =
+            if (isVisible) Theme.color.surfaces.dropShadow
+            else Theme.color.surfaces.dropShadow.copy(alpha = 0f),
+        animationSpec = tween(500)
+    )
     AnimatedVisibility(
         modifier = modifier
             .navigationBarsPadding()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
+            .dropShadow(
+                shape = RoundedCornerShape(8.dp),
+                color = shadowAnimatedColor,
+                offsetX = 0.dp,
+                offsetY = 40.dp,
+                blur = 80.dp,
+                spread = 0.dp
+            ),
         visible = isVisible,
         enter = slideInVertically {
             with(density) {
@@ -78,14 +94,6 @@ fun SnackBar(
     ) {
         Row(
             modifier = Modifier
-                .dropShadow(
-                    shape = RoundedCornerShape(8.dp),
-                    color = Theme.color.surfaces.dropShadow,
-                    offsetX = 0.dp,
-                    offsetY = 40.dp,
-                    blur = 80.dp,
-                    spread = 0.dp
-                )
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
                 .background(backgroundColor)
