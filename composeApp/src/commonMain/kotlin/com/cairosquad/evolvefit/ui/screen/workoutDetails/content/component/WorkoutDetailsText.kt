@@ -16,9 +16,9 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
     description: String,
     modifier: Modifier = Modifier,
     titleColor: Color = Theme.color.surfaces.onSurface,
-    descriptionColor: Color = Theme.color.surfaces.onSurfaceVariant,
-    titleStyle: TextStyle = Theme.textStyle.headline.mediumMedium18,
-    descriptionStyle: TextStyle = Theme.textStyle.label.smallRegular14
+    descriptionColor: Color = Theme.color.surfaces.outline,
+    titleStyle: TextStyle = Theme.textStyle.headline.largeBold18,
+    descriptionStyle: TextStyle = Theme.textStyle.label.smallRegular12
 ) {
     Column(
         modifier = modifier
