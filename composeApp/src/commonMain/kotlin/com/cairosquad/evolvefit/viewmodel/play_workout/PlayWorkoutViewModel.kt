@@ -77,22 +77,11 @@ class PlayWorkoutViewModel(
 
         tryToCall(
             block = ::onFinishBlock,
-            onSuccess = { },
+            onSuccess = { println("Workout submitted successfully") },
             onError = { }
         )
     }
 
-    //    private suspend fun onFinishBlock(){
-//        val totalTimeMilli = Clock.System.now().toEpochMilliseconds() - startTimeMilli
-//        val totalSeconds = (totalTimeMilli / 1000).toInt()
-//        manageWorkoutUseCase.syncPendingWorkouts()
-//        manageWorkoutUseCase.submitPlayedWorkout(
-//            PlayedWorkout(
-//                workoutId = screenState.value.workout.id,
-//                durationSeconds = screenState.value.totalTimeMinutes * 60
-//            )
-//        )
-//    }
     private suspend fun onFinishBlock() {
         val totalTimeMilli = Clock.System.now().toEpochMilliseconds() - startTimeMilli
         val totalSeconds = (totalTimeMilli / 1000).toInt()
@@ -101,19 +90,7 @@ class PlayWorkoutViewModel(
             workoutId = screenState.value.workout.id,
             durationSeconds = totalSeconds
         )
-        tryToCall(
-            block = {
-                manageWorkoutUseCase.submitPlayedWorkout(playedWorkout)
-                manageWorkoutUseCase.syncPendingWorkouts()
-            },
-            onSuccess = {
-                println("Workout submitted successfully")
-            },
-            onError = { }
-        )
-//        manageWorkoutUseCase.submitPlayedWorkout(playedWorkout)
-
-//        manageWorkoutUseCase.syncPendingWorkouts()
+        manageWorkoutUseCase.submitPlayedWorkout(playedWorkout)
     }
 
     override fun onForwardClicked() {
