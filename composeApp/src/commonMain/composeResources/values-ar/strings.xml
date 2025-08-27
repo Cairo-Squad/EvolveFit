@@ -258,6 +258,10 @@
     <string name="add_icon_desc_">إضافة</string>
     <string name="search_exercise_placeholder_">ابحث عن اسم التمرين</string>
     <string name="all_exercises_title_">جميع التمارين</string>
+    <string name="no_exercises_title">لم يتم العثور على تمارين</string>
+    <string name="no_exercises_description">
+        حاول تعديل كلمات البحث أو تأكد من كتابة اسم التمرين بشكل صحيح.
+    </string>
     <string name="add_exercise_button_">إضافة تمرين</string>
     <string name="add_exercise_button_with_count_">إضافة %1$d تمرين</string>
     <string name="add_exercises_button_with_count_">إضافة %1$d تمارين</string>
