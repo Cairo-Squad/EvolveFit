@@ -87,6 +87,7 @@ fun LineChartCard(
                             .height(112.dp)
                             .offset(y = (-6).dp),
                         data = data,
+                        toolTipValue = data.map { TimeUtil.formatDurationLabel(it) },
                         lineColor = lineColor,
                         areaColor = areaColor,
                         markerColor = markerColor,

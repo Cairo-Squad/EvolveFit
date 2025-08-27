@@ -21,8 +21,6 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 @Composable
 fun Tooltip(
     canvasPoint: Offset,
-    parentWidthPx: Float,
-    parentHeightPx: Float,
     density: Density,
     content: @Composable () -> Unit
 ) {
@@ -35,15 +33,9 @@ fun Tooltip(
     val rawOffsetX = xDp - (tooltipMinW / 2f)
     val rawOffsetY = yDp - tooltipH - 8.dp
 
-    val parentWidthDp = with(density) { parentWidthPx.toDp() }
-    val parentHeightDp = with(density) { parentHeightPx.toDp() }
-
-    val clampedX = rawOffsetX.coerceIn(0.dp, parentWidthDp - tooltipMinW)
-    val clampedY = rawOffsetY.coerceIn(0.dp, parentHeightDp + tooltipH + 10.dp)
-
     Box(
         Modifier.height(30.dp)
-            .offset(x = clampedX, y = clampedY)
+            .offset(x = rawOffsetX, y = rawOffsetY)
     ) {
         Box(
             modifier = Modifier
@@ -56,14 +48,14 @@ fun Tooltip(
                 .background(Theme.color.surfaces.surfaceVariant)
         )
         Box(
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .widthIn(min = tooltipMinW)
-                    .background(Theme.color.surfaces.surfaceVariant, RoundedCornerShape(8.dp))
-                    .padding(horizontal = 8.dp, vertical = 6.dp),
-        contentAlignment = Alignment.Center
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .widthIn(min = tooltipMinW)
+                .background(Theme.color.surfaces.surfaceVariant, RoundedCornerShape(8.dp))
+                .padding(horizontal = 8.dp, vertical = 6.dp),
+            contentAlignment = Alignment.Center
         ) {
-        content()
-    }
+            content()
+        }
     }
 }
