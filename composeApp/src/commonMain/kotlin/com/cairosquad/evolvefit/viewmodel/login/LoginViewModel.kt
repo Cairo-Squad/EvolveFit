@@ -99,7 +99,6 @@ class LoginViewModel(
 
         when (error) {
             is NetworkException -> {
-                println("NetworkException $error")
                 setErrorState(
                     passwordError = Res.string.error_unknown_credentials,
                     isFormError = true
@@ -107,7 +106,6 @@ class LoginViewModel(
             }
 
             is UnauthorizedUserException -> {
-                println("NetworkException $error")
                 setErrorState(
                     passwordError = Res.string.error_unknown_credentials,
                     isFormError = true
@@ -115,7 +113,6 @@ class LoginViewModel(
             }
 
             is InternetConnectionException -> {
-                println("InternetConnectionException $error")
                 setErrorState(
                     passwordError = Res.string.error_no_internet,
                     isFormError = true
@@ -123,7 +120,6 @@ class LoginViewModel(
             }
 
             is UnknownException -> {
-                println("UnknownException $error")
                 setErrorState(
                     isFormError = true,
                     passwordError = Res.string.error_unknown_credentials
@@ -131,21 +127,18 @@ class LoginViewModel(
             }
 
             is InvalidEmailFormatException -> {
-                println("InvalidEmailFormatException $error")
                 setErrorState(
                     emailError = Res.string.error_invalid_email_format
                 )
             }
 
             is InvalidPasswordException -> {
-                println("InvalidPasswordException $error")
                 setErrorState(
                     passwordError = Res.string.error_invalid_password
                 )
             }
 
             else -> {
-                println("unexpectedError $error")
                 val unexpectedError = Res.string.error_unexpected
                 showError(unexpectedError)
                 setErrorState(
