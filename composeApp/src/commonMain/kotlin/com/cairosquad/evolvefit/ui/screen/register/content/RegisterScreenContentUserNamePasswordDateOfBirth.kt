@@ -190,6 +190,7 @@ private fun UserProfileForm(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
+            verticalPadding = 15.5.dp
         )
 
         InputField(
@@ -204,7 +205,8 @@ private fun UserProfileForm(
             ),
             isErrorMessageShown = state.emailError != null,
             error = state.emailError?.let { stringResource(it) } ?: "",
-            isError = state.emailError != null
+            isError = state.emailError != null,
+            verticalPadding = 15.5.dp
         )
 
         InputField(
@@ -218,6 +220,7 @@ private fun UserProfileForm(
             onClick = {
                 isDatePickerBottomSheetOpen = true
             },
+            verticalPadding = 15.5.dp
         )
 
         InputField(
@@ -235,7 +238,8 @@ private fun UserProfileForm(
             isPasswordField = !isPasswordVisible,
             isErrorMessageShown = state.passwordError != null,
             error = state.passwordError?.let { stringResource(it) } ?: "",
-            isError = state.passwordError != null
+            isError = state.passwordError != null,
+            verticalPadding = 15.5.dp
         )
     }
 
