@@ -6,6 +6,7 @@ import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseC
 import com.cairosquad.evolvefit.domain.usecase.profile.ManagePreferencesUseCase
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.failed_to_logout
 import evolvefit.composeapp.generated.resources.failed_to_update_user_profile
@@ -42,17 +43,13 @@ class MoreViewModel(
     private fun loadLanguagePreferences() {
         tryToCall(
             block = { managePreferencesUseCase.getLanguage() },
-            onSuccess = { languageCode ->
-                updateState {
-                    it.copy(
-                        currentLanguage = languageCodeToLanguage(
-                            languageCode
-                        )
-                    )
-                }
-            },
+            onSuccess = {::loadLanguagePreferencesSuccess},
             onError = { },
         )
+    }
+    private fun loadLanguagePreferencesSuccess(languageCode : String )
+    {
+        updateState {it.copy(currentLanguage = languageCodeToLanguage(languageCode)) }
     }
 
     override fun onPersonInformationClicked() {
@@ -122,12 +119,14 @@ class MoreViewModel(
     override fun onConfirmChangeTheme(theme: MoreScreenState.Theme) {
         tryToCall(
             block = { managePreferencesUseCase.saveTheme(theme) },
-            onSuccess = {
-                onSuccessChangeTheme()
-                sendEffect(MoreEffect.ChangeTheme(theme))
-            },
+            onSuccess = {::onConfirmChangeThemeSuccess},
             onError = {}
         )
+    }
+    private fun onConfirmChangeThemeSuccess(theme : Theme)
+    {
+        onSuccessChangeTheme()
+        sendEffect(MoreEffect.ChangeTheme(theme))
     }
 
 
