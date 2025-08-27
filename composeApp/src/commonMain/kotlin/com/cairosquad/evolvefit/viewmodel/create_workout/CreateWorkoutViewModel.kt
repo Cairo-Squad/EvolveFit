@@ -139,9 +139,14 @@ class CreateWorkoutViewModel(
         updateState {
             it.copy(
                 level = goal,
+                isGoalExpanded = false,
                 isNextEnabled = validate(it.name, goal.name, it.description)
             )
         }
+    }
+
+    override fun onGoalIconClicked() {
+        updateState { it.copy(isGoalExpanded = !it.isGoalExpanded) }
     }
 
     override fun onDescriptionChanged(desc: String) {
