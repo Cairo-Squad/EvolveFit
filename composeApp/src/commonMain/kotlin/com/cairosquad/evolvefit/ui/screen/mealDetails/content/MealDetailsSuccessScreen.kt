@@ -85,17 +85,10 @@ fun MealDetailsSuccessScreen(
                 )
             }
         }
-    }
-    if (state.showSaveMealSuccessSnackBar) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            contentAlignment = Alignment.BottomCenter
-        ) {
-            SaveMealSuccessSnackBar(
-                isVisible = state.showSaveMealSuccessSnackBar
-            )
-        }
+        SaveMealSuccessSnackBar(
+            modifier = Modifier.padding(bottom = 24.dp)
+                .align(Alignment.BottomCenter),
+            isVisible = state.showSaveMealSuccessSnackBar
+        )
     }
 }

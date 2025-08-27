@@ -14,8 +14,10 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.duration
 import evolvefit.composeapp.generated.resources.exercises
 import evolvefit.composeapp.generated.resources.level_label
+import evolvefit.composeapp.generated.resources.workouts
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -43,7 +45,7 @@ fun HistoryWorkoutItem(
                     .size(width = 68.dp, height = 52.dp)
                     .clip(RoundedCornerShape(4.dp)),
                 model = workoutImage,
-                contentDescription = "Workout Image",
+                contentDescription = stringResource(Res.string.workouts),
             )
 
             Column(
@@ -71,7 +73,7 @@ fun HistoryWorkoutItem(
             )
             WorkoutDetailsItem(
                 modifier = Modifier.weight(1f),
-                title = "Duration",
+                title = stringResource(Res.string.duration),
                 value = duration
             )
             WorkoutDetailsItem(

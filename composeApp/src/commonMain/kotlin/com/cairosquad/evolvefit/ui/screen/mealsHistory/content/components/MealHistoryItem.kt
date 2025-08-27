@@ -1,11 +1,14 @@
 package com.cairosquad.evolvefit.ui.screen.mealsHistory.content.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -33,15 +36,24 @@ fun MealHistoryItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Icon(
+        Box(
             modifier = Modifier
+                .size(48.dp)
                 .clip(CircleShape)
-                .background(Theme.color.surfaces.outlineVariant)
-                .padding(10.dp),
-            painter = painterResource(meal.type.icon),
-            contentDescription = null,
-            tint = Theme.color.brand.primary,
-        )
+                .background(Theme.color.surfaces.surfaceContainer)
+                .border(
+                    width = 1.dp,
+                    color = Theme.color.surfaces.outlineVariant,
+                    shape = CircleShape
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter = painterResource(meal.type.icon),
+                contentDescription = null,
+                tint = Theme.color.brand.primary,
+            )
+        }
         Column(
             modifier = Modifier
                 .weight(1f)

@@ -131,6 +131,9 @@ fun CreateWorkoutDetailsContent(
             InputField(
                 value = state.name,
                 onValueChange = listener::onNameChanged,
+                horizontalPadding = 20.dp,
+                verticalPadding = 20.dp,
+                minHeight = 40.dp,
                 placeholder = stringResource(Res.string.enter_workout_name_),
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
@@ -143,7 +146,9 @@ fun CreateWorkoutDetailsContent(
                 onOptionSelected = { selectedGoal ->
                     listener.onGoalSelected(selectedGoal)
                 },
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .height(58.dp)
             )
 
             Box(
@@ -160,6 +165,7 @@ fun CreateWorkoutDetailsContent(
                     onValueChange = {
                         if (it.length <= 3000) listener.onDescriptionChanged(it)
                     },
+                    horizontalPadding = 20.dp,
                     maxCharacters = 3000,
                     isSingleLine = false,
                     placeholder = stringResource(Res.string.enter_description_),
@@ -196,12 +202,13 @@ fun CreateWorkoutDetailsContent(
     }
 
 }
+
 @Composable
-fun toDisplayName(level : WorkoutLevel): String {
+fun toDisplayName(level: WorkoutLevel): String {
     return when (level) {
         WorkoutLevel.BEGINNER -> stringResource(Res.string.beginner)
         WorkoutLevel.INTERMEDIATE -> stringResource(Res.string.intermediate)
-        WorkoutLevel.ADVANCED ->  stringResource(Res.string.advanced)
+        WorkoutLevel.ADVANCED -> stringResource(Res.string.advanced)
     }
 }
 
