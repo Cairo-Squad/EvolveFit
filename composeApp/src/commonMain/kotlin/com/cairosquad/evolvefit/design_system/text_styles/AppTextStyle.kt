@@ -1,6 +1,5 @@
 package com.cairosquad.evolvefit.design_system.text_styles
 
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 
 data class DisplayTextStyle(
@@ -41,5 +40,3 @@ data class AppTextStyle(
     val label: LabelTextStyle,
     val body: BodyTextStyle,
 )
-
-
