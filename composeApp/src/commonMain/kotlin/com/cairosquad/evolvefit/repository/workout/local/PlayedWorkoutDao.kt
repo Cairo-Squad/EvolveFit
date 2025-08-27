@@ -20,5 +20,5 @@ interface PlayedWorkoutDao {
     suspend fun updatePlayedWorkouts(workouts: List<PlayedWorkoutEntity>)
 
     @Delete
-    suspend fun deletePlayedWorkouts(workouts: List<PlayedWorkoutEntity>)
+    suspend fun deletePlayedWorkouts(workout: PlayedWorkoutEntity): Int
 }
