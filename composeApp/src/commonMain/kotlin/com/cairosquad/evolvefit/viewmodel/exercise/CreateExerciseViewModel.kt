@@ -30,9 +30,20 @@ class CreateExerciseViewModel(
         }
     }
 
-    override fun onFocusAreaNameSelected(name: String) {
-        val focusArea = FocusArea.valueOf(name)
+    override fun onFocusAreaNameSelected(focusArea: FocusArea) {
         onFocusAreaToggled(focusArea)
+    }
+
+    override fun onFocusAreaToggled(focusArea: FocusArea) {
+        updateState {
+            val updatedSelection = it.selectedFocusAreas.toMutableSet()
+            if (focusArea in updatedSelection) {
+                updatedSelection.remove(focusArea)
+            } else {
+                updatedSelection.add(focusArea)
+            }
+            it.copy(selectedFocusAreas = updatedSelection)
+        }
     }
 
     override fun onEquipmentNameSelected(toolName: String) {
@@ -72,17 +83,7 @@ class CreateExerciseViewModel(
     override fun onMeasurementValueChanged(value: String) =
         updateState { it.copy(measurementInputValue = value) }
 
-    override fun onFocusAreaToggled(focusArea: FocusArea) {
-        updateState {
-            val updatedSelection = it.selectedFocusAreas.toMutableSet()
-            if (focusArea in updatedSelection) {
-                updatedSelection.remove(focusArea)
-            } else {
-                updatedSelection.add(focusArea)
-            }
-            it.copy(selectedFocusAreas = updatedSelection)
-        }
-    }
+
 
     override fun onDescriptionChanged(description: String) =
         updateState { it.copy(description = description) }
