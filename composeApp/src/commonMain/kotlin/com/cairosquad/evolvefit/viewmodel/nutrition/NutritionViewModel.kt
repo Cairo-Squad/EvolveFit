@@ -367,13 +367,15 @@ class NutritionViewModel(
                 isAddMealSheetVisible = false,
                 mealNameInputError = null,
                 mealCaloriesInputError = null,
-                isInitialLoad = true
+                isInitialLoad = true,
+                mealNameInput = "",
+                consumedCaloriesInput = ""
             )
         }
     }
 
     override fun onDismissWaterClicked() {
-        updateState { it.copy(isAddWaterSheetVisible = false, waterInputError = null) }
+        updateState { it.copy(isAddWaterSheetVisible = false, waterInputError = null, consumedWaterInput = "") }
     }
 
     override fun onRefresh() {

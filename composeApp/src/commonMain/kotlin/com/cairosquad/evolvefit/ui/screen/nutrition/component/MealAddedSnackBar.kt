@@ -15,6 +15,7 @@ fun MealAddedSnackBar(
     SnackBar(
         modifier = modifier,
         text = stringResource(Res.string.meal_added_snackbar),
-        isVisible = isVisible
+        isVisible = isVisible,
+        addNavBarPadding = false
     )
 }

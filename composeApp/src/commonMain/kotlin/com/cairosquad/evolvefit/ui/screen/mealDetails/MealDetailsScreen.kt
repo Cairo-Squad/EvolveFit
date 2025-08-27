@@ -43,7 +43,7 @@ fun MealDetailsScreen(
     }
     MealDetailsScreenContent(
         listener = viewModel,
-        state = state ,
+        state = state,
         mealId = mealId
     )
 }

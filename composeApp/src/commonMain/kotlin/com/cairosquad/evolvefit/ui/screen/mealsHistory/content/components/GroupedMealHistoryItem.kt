@@ -18,13 +18,13 @@ fun GroupedMealHistoryItem(
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = groupedMeal.dayHeader,
-            style = Theme.textStyle.title.largeBold14,
+            style = Theme.textStyle.label.mediumMedium16,
             color = Theme.color.surfaces.onSurface,
             modifier = Modifier
-                .padding(bottom = 8.dp).padding( horizontal = 16.dp)
+                .padding(bottom = 8.dp).padding(horizontal = 16.dp)
         )
 
-        Column{
+        Column {
             groupedMeal.meals.forEach { meal ->
                 MealHistoryItem(
                     meal = meal

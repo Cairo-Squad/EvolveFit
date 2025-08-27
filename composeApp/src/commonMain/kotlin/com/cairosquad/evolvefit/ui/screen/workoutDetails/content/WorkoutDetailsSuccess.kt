@@ -39,14 +39,25 @@ import com.cairosquad.evolvefit.ui.util.ScreenSize
 import com.cairosquad.evolvefit.ui.util.Share
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsInteractionListener
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState.ExerciseType
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState.FocusArea
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.back
 import evolvefit.composeapp.generated.resources.bookmark
+import evolvefit.composeapp.generated.resources.focus_abs
+import evolvefit.composeapp.generated.resources.focus_calves
+import evolvefit.composeapp.generated.resources.focus_core
+import evolvefit.composeapp.generated.resources.focus_lower_back
+import evolvefit.composeapp.generated.resources.focus_quadriceps
+import evolvefit.composeapp.generated.resources.focus_shoulders
 import evolvefit.composeapp.generated.resources.ic_back
 import evolvefit.composeapp.generated.resources.ic_bookmark
 import evolvefit.composeapp.generated.resources.ic_bookmark_big_filled
+import evolvefit.composeapp.generated.resources.ic_count
 import evolvefit.composeapp.generated.resources.ic_share
+import evolvefit.composeapp.generated.resources.ic_time
+import evolvefit.composeapp.generated.resources.seconds
 import evolvefit.composeapp.generated.resources.share
 import evolvefit.composeapp.generated.resources.start_workout
 import evolvefit.composeapp.generated.resources.workouts
@@ -157,12 +168,28 @@ fun WorkoutDetailsSuccess(
         BottomSheet(
             isVisible = state.workout.selectedExercise != null,
             onDismiss = listener::onExerciseBottomSheetDismiss,
-            modifier = Modifier.heightIn(max = ScreenSize.heightDp.dp * 0.95f).align(Alignment.BottomCenter)
+            modifier = Modifier.heightIn(max = ScreenSize.heightDp.dp * 0.95f)
+                .align(Alignment.BottomCenter)
         ) {
-            ExerciseBottomSheetContent(
-                exercise = state.workout.selectedExercise,
-                onDismissBottomSheet = listener::onExerciseBottomSheetDismiss
-            )
+            state.workout.selectedExercise?.let {
+                ExerciseBottomSheetContent(
+                    name = it.name,
+                    instructions = it.instructions,
+                    images = it.images,
+                    specificationString = when (it.type) {
+                        is ExerciseType.Duration -> "${it.type.seconds} " +
+                                stringResource(Res.string.seconds)
+                        is ExerciseType.Reps -> "X${it.type.count}"
+                    },
+                    specificationIcon = when (it.type) {
+                        is ExerciseType.Duration -> painterResource(Res.drawable.ic_time)
+                        is ExerciseType.Reps -> painterResource(Res.drawable.ic_count)
+                    },
+                    equipment = it.equipment,
+                    focusAreas = it.focusAreas.map { area -> focusAreasToStrings(area) },
+                    onDismissBottomSheet = listener::onExerciseBottomSheetDismiss
+                )
+            }
         }
 
         BottomSheet(
@@ -252,5 +279,17 @@ private fun shareToPlatform(platform: String, workoutUrl: String, onDismiss: () 
         "Instagram" -> Share.shareOnInstagram(workoutUrl) { onDismiss }
         "Facebook" -> Share.shareOnFacebook(workoutUrl) { onDismiss }
         "X" -> Share.shareOnX(workoutUrl) { onDismiss }
+    }
+}
+
+@Composable
+private fun focusAreasToStrings(focusAreas: WorkoutDetailsScreenState.FocusArea): String {
+    return when (focusAreas) {
+        FocusArea.CORE -> stringResource(Res.string.focus_core)
+        FocusArea.SHOULDERS -> stringResource(Res.string.focus_shoulders)
+        FocusArea.BACK -> stringResource(Res.string.focus_lower_back)
+        FocusArea.LEGS -> stringResource(Res.string.focus_calves)
+        FocusArea.ARMS -> stringResource(Res.string.focus_abs)
+        FocusArea.CHEST -> stringResource(Res.string.focus_quadriceps)
     }
 }

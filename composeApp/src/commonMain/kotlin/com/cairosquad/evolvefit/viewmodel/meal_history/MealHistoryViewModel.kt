@@ -49,10 +49,15 @@ class MealHistoryViewModel(
 
     private fun onLoadMealsHistorySuccess(mealsHistories: List<ConsumedMeal>) {
         val groupedMeals = groupMealsByDay(mealsHistories.map { it.toMealHistoryUiState() })
+        val status = if (groupedMeals.isEmpty()) {
+            MealHistoryScreenState.ScreenStatus.EMPTY
+        } else {
+            MealHistoryScreenState.ScreenStatus.SUCCESS
+        }
         updateState { current ->
             current.copy(
                 mealsHistories = groupedMeals,
-                screenStatus = MealHistoryScreenState.ScreenStatus.SUCCESS,
+                screenStatus = status,
                 errorMessage = null
             )
         }
