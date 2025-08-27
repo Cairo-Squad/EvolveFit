@@ -190,6 +190,9 @@ private fun HomeUserHeader(
     user: HomeScreenState.HomeUserUiState?,
     modifier: Modifier = Modifier
 ) {
+
+    val username = user?.run { name.split(" ").first() } ?: ""
+
     AnimatedVisibility(user != null) {
         Row(
             modifier = modifier
@@ -212,7 +215,7 @@ private fun HomeUserHeader(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = stringResource(Res.string.hello_user, user?.name ?: ""),
+                    text = stringResource(Res.string.hello_user, username),
                     style = Theme.textStyle.body.mediumMedium12,
                     color = Theme.color.surfaces.onSurfaceVariant,
                     maxLines = 2,
