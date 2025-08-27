@@ -62,22 +62,38 @@ class CreateWorkoutViewModel(
     }
 
     private fun handleExercisesResultSuccess(exercises: List<Exercise>) {
-        val uiExercises = exercises.map { it.toUiState() }
+        val oldExercises = screenState.value.allExercises
+        val newlyAddExercises = screenState.value.newlyAddExercises
+        val fetchedExercises = exercises.map { it.toUiState() }
+
+        if (fetchedExercises.size == oldExercises.size + newlyAddExercises.size + 1) {
+            val newExercise = fetchedExercises.last()
+            updateState {
+                it.copy(
+                    status = CreateWorkOutScreenState.ScreenStatus.SUCCESS,
+                    newlyAddExercises = it.newlyAddExercises + newExercise,
+                    selectedExercises = it.selectedExercises + newExercise
+                )
+            }
+        }
         updateState {
             it.copy(
                 status = CreateWorkOutScreenState.ScreenStatus.SUCCESS,
-                allExercises = uiExercises,
-                filteredExercises = uiExercises
+                allExercises = fetchedExercises
+                    .filterNot { fetchedExercise -> it.newlyAddExercises.contains(fetchedExercise) },
+                filteredExercises = fetchedExercises
+                    .filterNot { fetchedExercise -> it.newlyAddExercises.contains(fetchedExercise) },
+                isAddExercisesEnabled = it.selectedExercises.isNotEmpty()
             )
         }
     }
 
     fun loadExercises() {
         tryToCall(
+            onStart = ::handleWorkoutLoading,
             block = { manageExerciseUseCase.getAllExercises() },
             onSuccess = ::handleExercisesResultSuccess,
             onError = ::handleWorkoutError,
-            onStart = ::handleWorkoutLoading,
             onEnd = {}
         )
     }
@@ -119,13 +135,11 @@ class CreateWorkoutViewModel(
         }
     }
 
-    override fun onGoalSelected(goalName: String) {
-        val selectedGoal =
-            enumValues<WorkoutLevel>().firstOrNull { it.name == goalName } ?: WorkoutLevel.BEGINNER
+    override fun onGoalSelected(goal: WorkoutLevel) {
         updateState {
             it.copy(
-                level = selectedGoal,
-                isNextEnabled = validate(it.name, selectedGoal.name, it.description)
+                level = goal,
+                isNextEnabled = validate(it.name, goal.name, it.description)
             )
         }
     }

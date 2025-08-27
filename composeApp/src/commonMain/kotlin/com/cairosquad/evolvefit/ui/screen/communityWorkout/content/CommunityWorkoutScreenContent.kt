@@ -19,6 +19,7 @@ import com.cairosquad.evolvefit.ui.screen.workout.content.WorkoutsErrorScreen
 import com.cairosquad.evolvefit.ui.screen.workout.content.WorkoutsLoadingScreen
 import com.cairosquad.evolvefit.viewmodel.community_workout.CommunityWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun CommunityWorkoutsScreenContent(
@@ -69,7 +70,7 @@ fun CommunityWorkoutsScreenContent(
 
                     WorkoutScreenState.ScreenStatus.FAIL -> {
                         WorkoutsErrorScreen(
-                            message = state.errorMessage ?: "Something went wrong",
+                            message = state.errorMessage?.let { stringResource(it) },
                             onRetry = listener::onRetryClicked
                         )
                     }

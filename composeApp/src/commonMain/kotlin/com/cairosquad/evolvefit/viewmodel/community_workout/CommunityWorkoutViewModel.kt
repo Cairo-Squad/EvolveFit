@@ -6,6 +6,9 @@ import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
 import com.cairosquad.evolvefit.viewmodel.workout.toDomain
 import com.cairosquad.evolvefit.viewmodel.workout.toUiState
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.failed_to_load_workouts
+import evolvefit.composeapp.generated.resources.failed_to_refresh
 
 class CommunityWorkoutViewModel(
     private val workoutUseCase: ManageWorkoutUseCase,
@@ -69,8 +72,7 @@ class CommunityWorkoutViewModel(
     private fun onGetSuggestedWorkoutError(t: Throwable) {
         updateState {
             it.copy(
-                errorMessage =
-                    t.message ?: "Failed to load community workouts",
+                errorMessage = Res.string.failed_to_load_workouts,
                 screenStatus = WorkoutScreenState.ScreenStatus.FAIL
 
             )
@@ -91,7 +93,7 @@ class CommunityWorkoutViewModel(
     private fun onLoadWorkoutByFocusAreaError(t: Throwable) {
         updateState {
             it.copy(
-                errorMessage = t.message ?: "Failed to load workouts by focus",
+                errorMessage = Res.string.failed_to_load_workouts,
                 screenStatus = WorkoutScreenState.ScreenStatus.FAIL
             )
         }
@@ -151,7 +153,7 @@ class CommunityWorkoutViewModel(
     private fun onRefreshError(t: Throwable) = updateState {
         it.copy(
             isRefreshing = false,
-            errorMessage = t.message ?: "Failed to refresh community workouts"
+            errorMessage = Res.string.failed_to_refresh
         )
     }
 
