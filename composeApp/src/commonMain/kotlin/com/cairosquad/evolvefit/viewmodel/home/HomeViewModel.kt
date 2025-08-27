@@ -12,9 +12,16 @@ import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.utils.toErrorMessageRes
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.ic_green_check_circle
+import evolvefit.composeapp.generated.resources.ic_save_tick
+import evolvefit.composeapp.generated.resources.workout_added_to_your_favorites
+import evolvefit.composeapp.generated.resources.workout_removed_from_your_favorites
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
 
 class HomeViewModel(
     private val manageProfileUseCase: ManageProfileUseCase,
@@ -185,6 +192,26 @@ class HomeViewModel(
         )
     }
 
+    private fun showSnackBar(
+        messageRes: StringResource,
+        iconRes: DrawableResource,
+        durationMilli: Long = 2000,
+    ) {
+        updateState {
+            it.copy(
+                snackBarState = it.snackBarState.copy(
+                    isVisible = true,
+                    messageRes = messageRes,
+                    iconRes = iconRes
+                )
+            )
+        }
+        viewModelScope.launch {
+            delay(durationMilli)
+            updateState { it.copy(snackBarState = it.snackBarState.copy(isVisible = false)) }
+        }
+    }
+
     private suspend fun toggleWorkoutSavedStatus(id: String, isSaved: Boolean) {
         if (isSaved) {
             manageWorkoutUseCase.deleteFavouriteWorkout(id)
@@ -194,17 +221,29 @@ class HomeViewModel(
     }
 
     private fun handleSaveWorkoutSuccess(id: String) {
+        var newFavoriteState = false
         updateState {
             it.copy(
                 personalizedWorkouts = it.personalizedWorkouts.map { workout ->
                     if (workout.id == id) {
+                        newFavoriteState = !workout.isSaved
                         workout.copy(isSaved = !workout.isSaved)
+
                     } else {
                         workout
                     }
                 }
             )
         }
+
+        showSnackBar(
+            messageRes =
+                if (newFavoriteState) Res.string.workout_added_to_your_favorites
+                else Res.string.workout_removed_from_your_favorites,
+            iconRes =
+                if (newFavoriteState) Res.drawable.ic_save_tick
+                else Res.drawable.ic_green_check_circle,
+        )
     }
 
     override fun onRetryClicked() {

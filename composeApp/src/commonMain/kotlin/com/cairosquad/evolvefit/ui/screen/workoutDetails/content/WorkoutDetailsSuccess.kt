@@ -238,7 +238,8 @@ fun WorkoutDetailsSuccess(
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 24.dp),
             icon = painterResource(state.snackBarState.iconRes),
-            iconTint = Theme.color.brand.primary
+            iconTint = Theme.color.brand.primary,
+            paddingBottom = 0.dp,
         )
     }
 }
