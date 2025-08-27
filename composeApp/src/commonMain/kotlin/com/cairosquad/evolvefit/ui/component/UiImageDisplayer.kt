@@ -38,7 +38,7 @@ fun UiImageDisplayer(
 
         is UiImage.ImageUrl -> {
             NetworkImage(
-                modifier = Modifier.size(defaultImageSize).clip(CircleShape),
+                modifier = Modifier.size(defaultImageSize),
                 defaultImage = painterResource(Res.drawable.im_img),
                 loadingPlaceHolder = painterResource(Res.drawable.im_img),
                 model = image.url,
