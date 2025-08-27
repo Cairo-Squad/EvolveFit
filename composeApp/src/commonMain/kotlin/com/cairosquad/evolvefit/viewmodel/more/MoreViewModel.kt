@@ -6,7 +6,6 @@ import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseC
 import com.cairosquad.evolvefit.domain.usecase.profile.ManagePreferencesUseCase
 import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
-import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.failed_to_logout
 import evolvefit.composeapp.generated.resources.failed_to_update_user_profile
@@ -119,15 +118,15 @@ class MoreViewModel(
     override fun onConfirmChangeTheme(theme: MoreScreenState.Theme) {
         tryToCall(
             block = { managePreferencesUseCase.saveTheme(theme) },
-            onSuccess = {::onConfirmChangeThemeSuccess},
+            onSuccess = {handleThemeChangedSuccses(theme)},
             onError = {}
         )
     }
-    private fun onConfirmChangeThemeSuccess(theme : Theme)
-    {
+    private fun handleThemeChangedSuccses(theme: MoreScreenState.Theme) {
         onSuccessChangeTheme()
         sendEffect(MoreEffect.ChangeTheme(theme))
     }
+
 
 
     fun onReturnToScreen() {
