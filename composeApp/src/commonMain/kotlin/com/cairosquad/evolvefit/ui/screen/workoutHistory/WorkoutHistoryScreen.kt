@@ -26,6 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.RefreshBox
+import com.cairosquad.evolvefit.ui.screen.workoutHistory.content.WorkoutHistoryScreenErrorContent
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.content.workoutHistoryScreenLoadingContent
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.content.workoutHistoryScreenSuccessContent
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
@@ -97,24 +98,32 @@ private fun WorkoutHistoryContent(
             isRefreshing = state.isRefreshing,
             onRefresh = listener::onRefresh
         ) {
-            LazyColumn(
-                modifier = Modifier.navigationBarsPadding(),
-                horizontalAlignment = Alignment.Start,
-                contentPadding = PaddingValues(16.dp)
-            ) {
-
-                when (state.screenStatus) {
-                    WorkoutHistoryScreenState.ScreenStatus.LOADING -> {
+            when (state.screenStatus) {
+                WorkoutHistoryScreenState.ScreenStatus.LOADING -> {
+                    LazyColumn(
+                        modifier = Modifier.navigationBarsPadding(),
+                        horizontalAlignment = Alignment.Start,
+                        contentPadding = PaddingValues(16.dp)
+                    ) {
                         workoutHistoryScreenLoadingContent()
                     }
+                }
 
-                    WorkoutHistoryScreenState.ScreenStatus.SUCCESS -> {
+                WorkoutHistoryScreenState.ScreenStatus.SUCCESS -> {
+                    LazyColumn(
+                        modifier = Modifier.navigationBarsPadding(),
+                        horizontalAlignment = Alignment.Start,
+                        contentPadding = PaddingValues(16.dp)
+                    ) {
                         workoutHistoryScreenSuccessContent(state)
                     }
+                }
 
-                    WorkoutHistoryScreenState.ScreenStatus.ERROR -> {
-
-                    }
+                WorkoutHistoryScreenState.ScreenStatus.ERROR -> {
+                    WorkoutHistoryScreenErrorContent(
+                        onRetry = listener::onRefresh,
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
             }
         }
