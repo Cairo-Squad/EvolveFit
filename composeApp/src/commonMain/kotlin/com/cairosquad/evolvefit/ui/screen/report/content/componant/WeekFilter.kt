@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -28,15 +29,16 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun WeekFilter(
     currentWeek: String,
     onMenuClick: () -> Unit,
+    isDropDownMenuDown: Boolean,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(4.dp))
+            .clip(RoundedCornerShape(8.dp))
             .background(Theme.color.surfaces.surfaceContainer)
             .border(
                 color = Theme.color.surfaces.outlineVariant,
-                shape = RoundedCornerShape(4.dp),
+                shape = RoundedCornerShape(8.dp),
                 width = 0.5.dp
             )
             .clickable(onClick = onMenuClick)
@@ -50,7 +52,9 @@ fun WeekFilter(
             color = Theme.color.surfaces.onSurfaceVariant
         )
         Image(
-            modifier = Modifier.size(12.dp),
+            modifier = Modifier
+                .size(12.dp)
+                .scale(scaleY = if (isDropDownMenuDown) -1f else 1f, scaleX = 1f),
             painter = painterResource(Res.drawable.arrow_down),
             contentDescription = stringResource(Res.string.ic_arrow_down),
             colorFilter = ColorFilter.tint(Theme.color.surfaces.onSurfaceVariant)
@@ -61,5 +65,5 @@ fun WeekFilter(
 @Preview
 @Composable
 private fun WeekFilterPreview() {
-    WeekFilter("This week",{})
+    WeekFilter("This week", {}, false)
 }
