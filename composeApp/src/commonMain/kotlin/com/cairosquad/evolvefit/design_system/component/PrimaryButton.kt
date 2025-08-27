@@ -2,11 +2,9 @@ package com.cairosquad.evolvefit.design_system.component
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -64,12 +62,12 @@ fun PrimaryButton(
             style = textStyle,
         )
         Crossfade(targetState = isLoading) { loading ->
-        if (loading) {
-            Spacer(modifier = Modifier.padding(start = 8.dp))
-            AnimatedLoadingIndicator(
-                size = 20.dp
-            )
-        }
+            if (loading) {
+                Spacer(modifier = Modifier.padding(start = 8.dp))
+                AnimatedLoadingIndicator(
+                    size = 20.dp
+                )
+            }
         }
 
     }
