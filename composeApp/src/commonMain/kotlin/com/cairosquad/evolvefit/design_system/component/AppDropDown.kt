@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -70,15 +71,12 @@ fun CustomDropDownMenu(
                 .clip(RoundedCornerShape(8.dp))
                 .clickable { expanded = !expanded }
                 .background(Theme.color.surfaces.surfaceContainer)
-                .padding(horizontal = 12.dp, vertical = 20.dp),
+                .padding(horizontal = 12.dp, vertical = 14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             BasicText(
-                modifier = Modifier.padding(start = 8.dp),
                 text = displayText,
-                style = Theme.textStyle.label.smallRegular14.copy(
-                    color = textColor
-                )
+                style = Theme.textStyle.label.smallRegular14.copy(color = textColor)
             )
             Spacer(modifier = Modifier.weight(1f))
 
@@ -89,6 +87,7 @@ fun CustomDropDownMenu(
                     tint = Color.Unspecified,
                     modifier = Modifier
                         .padding(start = 8.dp)
+                        .size(20.dp)
                         .graphicsLayer { rotationZ = rotation }
                 )
             }

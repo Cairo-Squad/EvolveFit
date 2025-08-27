@@ -19,6 +19,7 @@ data class CreateWorkOutScreenState(
     val isLoading: Boolean = false,
     val searchQuery: String = "",
     val exerciseCount: Int = 0,
+    val newlyAddExercises: List<ExerciseUiState> = emptyList(),
 
     val currentStep: CreateWorkoutStep = CreateWorkoutStep.DETAILS,
     val status: ScreenStatus = ScreenStatus.LOADING,
