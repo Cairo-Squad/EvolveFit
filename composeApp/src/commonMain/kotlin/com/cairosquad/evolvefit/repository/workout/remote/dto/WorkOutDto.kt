@@ -2,6 +2,7 @@ package com.cairosquad.evolvefit.repository.workout.remote.dto
 
 import com.cairosquad.evolvefit.domain.model.FocusArea
 import com.cairosquad.evolvefit.repository.exercise.remote.dto.ExerciseDto
+import com.cairosquad.evolvefit.repository.exercise.remote.dto.ExerciseResponseDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -20,7 +21,7 @@ data class WorkoutDetailsDto(
     @SerialName("level")
     val level: String = "",
     @SerialName("exercises")
-    val exercises: List<ExerciseDto> = emptyList()
+    val exercises: List<ExerciseResponseDto> = emptyList()
 )
 
 @Serializable

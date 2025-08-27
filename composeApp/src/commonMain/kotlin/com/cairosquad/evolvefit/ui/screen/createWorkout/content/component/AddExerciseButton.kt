@@ -1,7 +1,7 @@
 package com.cairosquad.evolvefit.ui.screen.createWorkout.content.component
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,8 +24,9 @@ fun AddExerciseButton(
     PrimaryButton(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 16.dp)
-            .padding(bottom = 24.dp),
+            .padding(horizontal = 16.dp)
+            .padding(bottom = 24.dp)
+            .navigationBarsPadding(),
         text = when {
             state.exerciseCount > 1 -> stringResource(
                 Res.string.add_exercises_button_with_count_,
@@ -39,7 +40,7 @@ fun AddExerciseButton(
 
             else -> stringResource(Res.string.add_exercise_button_)
         },
-        onClick = { listener.onAddWorkoutClicked() },
+        onClick = { if (state.isLoading.not()) listener.onAddWorkoutClicked() },
         isEnabled = state.exerciseCount > 0
     )
 }

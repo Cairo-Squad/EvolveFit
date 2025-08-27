@@ -52,7 +52,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun CreateWorkoutContent(
+fun CreateWorkoutDetailsContent(
     state: CreateWorkOutScreenState,
     listener: CreateWorkOutInteractionListener,
 ) {
