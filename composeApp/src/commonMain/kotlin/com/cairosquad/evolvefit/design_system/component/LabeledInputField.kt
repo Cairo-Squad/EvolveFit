@@ -39,19 +39,17 @@ fun LabeledInputField(
                 .padding(bottom = 8.dp)
         ) {
             Text(
+                modifier = Modifier.weight(1f),
                 text = label,
                 style = Theme.textStyle.label.smallRegular12,
-                color = Theme.color.surfaces.onSurfaceVariant,
-                modifier = Modifier
-                    .weight(1f)
+                color = Theme.color.surfaces.onSurfaceVariant
             )
             if (trailingIcon != null) {
                 Icon(
+                    modifier = Modifier.size(16.dp),
                     painter = painterResource(trailingIcon),
                     contentDescription = null,
-                    tint = Theme.color.surfaces.onSurfaceVariant,
-                    modifier = Modifier
-                        .size(16.dp)
+                    tint = Theme.color.surfaces.onSurfaceVariant
                 )
             }
         }
