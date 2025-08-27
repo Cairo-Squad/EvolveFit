@@ -146,7 +146,7 @@ fun ShareActionRow(icon: Painter, label: String, onClick: () -> Unit) {
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
             .clickable { onClick() }
-            .padding(vertical = 8.dp, horizontal = 8.dp),//
+            .padding(vertical = 8.dp, horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
