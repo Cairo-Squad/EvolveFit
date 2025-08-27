@@ -10,6 +10,10 @@
     <string name="select_measurement">يرجى اختيار قياس ل</string>
     <string name="height">الطول</string>
     <string name="weight">الوزن</string>
+    <string name="workout_added_to_your_favorites">تم اضافة التدريب الى المفضلات</string>
+    <string name="fail_to_add_workout_to_your_favorites">لم يتم اضافة التدريب الى المفضلات</string>
+    <string name="workout_removed_from_your_favorites">تم ازالة التدريب من المفضلات</string>
+    <string name="fail_to_remove_workout_from_your_favorites">لم يتم ازالة التدريب من المفضلات</string>
     <string name="calories_format">السعرات الحرارية: %1$d سعرة</string>
     <string name="carbs_format">الكربوهيدرات: %1$d جم</string>
     <string name="protein_format">البروتين: %1$d جم</string>

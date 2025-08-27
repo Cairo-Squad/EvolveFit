@@ -8,6 +8,10 @@
     <string name="select_measurement">Please select a measurement for your </string>
     <string name="height">Height</string>
     <string name="weight">Weight</string>
+    <string name="workout_added_to_your_favorites">Workout added to your favorites.</string>
+    <string name="fail_to_add_workout_to_your_favorites">Fail to add Workout to your favorites.</string>
+    <string name="workout_removed_from_your_favorites">Workout removed from your favorites.</string>
+    <string name="fail_to_remove_workout_from_your_favorites">Fail to remove workout from your favorites.</string>
     <string name="start_now">Start Now</string>
     <string name="next">Next</string>
     <string name="internet_is_not_available">Internet is not available</string>
