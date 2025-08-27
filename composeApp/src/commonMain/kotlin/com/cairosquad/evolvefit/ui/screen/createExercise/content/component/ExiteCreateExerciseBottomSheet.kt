@@ -69,6 +69,7 @@ fun ExitCreateExerciseBottomSheet(
                 onClick = onCancelClicked
             )
             PrimaryButton(
+                modifier = Modifier.padding(top = 12.dp),
                 text = stringResource(Res.string.exit_without_saving),
                 enabledContainerColor = Color.Transparent,
                 enabledTextColor = Theme.color.surfaces.onSurfaceContainer,
