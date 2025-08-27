@@ -118,11 +118,11 @@ class MoreViewModel(
     override fun onConfirmChangeTheme(theme: MoreScreenState.Theme) {
         tryToCall(
             block = { managePreferencesUseCase.saveTheme(theme) },
-            onSuccess = {handleThemeChangedSuccses(theme)},
+            onSuccess = {handleThemeChangedSuccess(theme)},
             onError = {}
         )
     }
-    private fun handleThemeChangedSuccses(theme: MoreScreenState.Theme) {
+    private fun handleThemeChangedSuccess(theme: MoreScreenState.Theme) {
         onSuccessChangeTheme()
         sendEffect(MoreEffect.ChangeTheme(theme))
     }
