@@ -8,8 +8,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
@@ -57,9 +59,8 @@ fun EquipmentBottomSheetContent(
     onEquipmentBottomSheetDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val selectedEquipments = remember { mutableStateOf(userEquipments.toMutableSet()) }
-    val isNoEquipmentSelected = selectedEquipments.value.isEmpty()
-
+    var selectedEquipments by remember { mutableStateOf(userEquipments) }
+    val isNoEquipmentSelected = selectedEquipments.isEmpty()
 
     Column(
         modifier = modifier
@@ -73,23 +74,15 @@ fun EquipmentBottomSheetContent(
         CheckboxItem(
             text = stringResource(Res.string.no_tools_title),
             isChecked = isNoEquipmentSelected,
-            onCheckedChange = {
-                if (it) {
-                    selectedEquipments.value = mutableSetOf()
-                    onEquipmentChange(emptySet())
-                }
-            },
+            onCheckedChange = { if (it) { selectedEquipments = setOf() } },
             style = CheckboxStyle.Tick
         )
-
-
         Text(
             modifier = Modifier.padding(vertical = 16.dp),
             text = stringResource(Res.string.or_select_one_or_more),
             color = Theme.color.surfaces.onSurfaceVariant,
             style = Theme.textStyle.label.smallRegular14,
         )
-
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -98,29 +91,26 @@ fun EquipmentBottomSheetContent(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(allEquipments.toList()) { equipment ->
-
                 CheckboxItem(
                     text = equipment.name,
-                    isChecked = selectedEquipments.value.contains(equipment),
-                    onCheckedChange = { checked ->
-                        val updated = selectedEquipments.value.toMutableSet()
-                        if (checked) {
-                            updated.add(equipment)
+                    isChecked = selectedEquipments.contains(equipment),
+                    onCheckedChange = { isUnChecked ->
+                        selectedEquipments = if (isUnChecked) {
+                            selectedEquipments + equipment
                         } else {
-                            updated.remove(equipment)
+                            selectedEquipments - equipment
                         }
-                        selectedEquipments.value = updated
-                        onEquipmentChange(updated)
                     },
                     style = CheckboxStyle.Tick
                 )
-
             }
         }
-
         PrimaryButton(
             text = stringResource(Res.string.confirm),
-            onClick = onEquipmentBottomSheetDismiss,
+            onClick = {
+                onEquipmentChange(selectedEquipments)
+                onEquipmentBottomSheetDismiss()
+            },
             modifier = Modifier.fillMaxWidth()
         )
     }

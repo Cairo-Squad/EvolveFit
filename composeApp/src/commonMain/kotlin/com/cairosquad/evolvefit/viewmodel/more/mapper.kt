@@ -12,6 +12,7 @@ fun Profile.toUiState(): MoreScreenState.Profile {
         height = this.height,
         weight = this.weight,
         age = calculateAge(this.dateOfBirth),
+        preferredMeasurementStandard = preferredMeasurementStandard
     )
 }
 fun languageToLanguageCode(language: Language): String{
