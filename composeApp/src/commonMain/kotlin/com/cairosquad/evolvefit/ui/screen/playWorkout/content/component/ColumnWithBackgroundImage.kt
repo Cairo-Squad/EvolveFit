@@ -13,8 +13,8 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
+import evolvefit.composeapp.generated.resources.Onboarding
 import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.im_default_workout
 import org.jetbrains.compose.resources.painterResource
 
 
@@ -36,7 +36,8 @@ fun ColumnWithBackgroundImage(
                 .blur(backgroundBlurRadius),
             model = model,
             contentDescription = contentDescription,
-            defaultImage = painterResource(Res.drawable.im_default_workout)
+            defaultImage = painterResource(Res.drawable.Onboarding),
+            loadingPlaceHolder = painterResource(Res.drawable.Onboarding)
         )
         Column(
             modifier = Modifier
