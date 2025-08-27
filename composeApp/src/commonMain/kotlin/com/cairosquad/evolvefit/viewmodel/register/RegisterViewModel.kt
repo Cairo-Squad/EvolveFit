@@ -13,7 +13,6 @@ import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal
-import com.cairosquad.evolvefit.viewmodel.utils.asByteArray
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.error_email_already_used
 import evolvefit.composeapp.generated.resources.error_invalid_email
@@ -78,10 +77,6 @@ class RegisterViewModel(
                     availableEquipment = state.selectedEquipments,
                 )
                 delay(500)
-                manageProfileUseCase.uploadProfileImage(
-                    state.image.asByteArray().bytes,
-                    state.image.asByteArray().fileName
-                )
             },
             onSuccess = { sendEffect(RegisterEffect.NavigateToHome) },
             onError = { error -> handleRegisterError(error) },
@@ -293,7 +288,10 @@ class RegisterViewModel(
             ) == true
 
         when {
-            error is NetworkException && error.message?.contains("User already exists", ignoreCase = true) == true -> {
+            error is NetworkException && error.message?.contains(
+                "User already exists",
+                ignoreCase = true
+            ) == true -> {
                 setErrorState(emailError = Res.string.error_email_already_used)
             }
 
@@ -329,7 +327,7 @@ class RegisterViewModel(
         }
 
     }
-    
+
     private fun setErrorState(
         emailError: StringResource? = null,
         passwordError: StringResource? = null,

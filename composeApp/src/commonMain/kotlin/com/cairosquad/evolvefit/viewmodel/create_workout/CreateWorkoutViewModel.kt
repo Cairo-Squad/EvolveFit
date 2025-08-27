@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.create_workout
 
+import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.usecase.exercise.ManageExerciseUseCase
@@ -9,11 +10,14 @@ import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutEffect.NavigateBack
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState.WorkoutLevel
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState.Theme
+import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.utils.asByteArray
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.create
 import evolvefit.composeapp.generated.resources.create_dark
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class CreateWorkoutViewModel(
     private val manageWorkoutUseCase: ManageWorkoutUseCase,
@@ -23,6 +27,9 @@ class CreateWorkoutViewModel(
     CreateWorkOutInteractionListener {
 
     init {
+      loadData()
+    }
+    private  fun loadData(){
         loadExercises()
         updateCreateWorkoutImage()
     }
@@ -88,6 +95,21 @@ class CreateWorkoutViewModel(
 
     override fun onImagePickerDismiss() {
         updateState { it.copy(isImagePickerOpen = false) }
+    }
+
+    override fun onRetryClicked() {
+      loadData()
+    }
+
+    override fun onRefresh() {
+        updateState {
+            it.copy(isRefreshing = true)
+        }
+       loadData()
+        viewModelScope.launch {
+            delay(500L)
+            updateState { it.copy(isRefreshing = false) }
+        }
     }
 
     override fun onNameChanged(newName: String) {

@@ -262,6 +262,10 @@
     <string name="add_icon_desc_">Add</string>
     <string name="search_exercise_placeholder_">Search exercise name</string>
     <string name="all_exercises_title_">All Exercises</string>
+    <string name="no_exercises_title">No exercises found</string>
+    <string name="no_exercises_description">
+        Try adjusting your search terms or make sure the exercise name is spelled correctly.
+    </string>
     <string name="add_exercise_button_">Add Exercise</string>
     <string name="add_exercise_button_with_count_">Add %1$d Exercise</string>
     <string name="add_exercises_button_with_count_">Add %1$d Exercises</string>
