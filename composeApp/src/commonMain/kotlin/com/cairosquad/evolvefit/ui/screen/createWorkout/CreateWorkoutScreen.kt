@@ -73,8 +73,8 @@ private fun CreateWorkoutContent(
     ExitCreationBottomSheet(
         isVisible = state.showExitBottomSheet,
         onDismiss = listener::onCancelExitClicked,
-        onCancelClicked = { listener.onCancelExitClicked() },
-        onExitWithoutSavingClicked = { listener.onExitConfirmClicked() },
+        onCancelClicked = listener::onCancelExitClicked,
+        onExitWithoutSavingClicked = listener::onExitConfirmClicked,
         message = stringResource(Res.string.exit_create_workout_confirmation_message)
     )
 }

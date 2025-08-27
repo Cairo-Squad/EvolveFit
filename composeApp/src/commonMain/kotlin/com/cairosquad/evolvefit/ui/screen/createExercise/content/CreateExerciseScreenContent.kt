@@ -272,8 +272,8 @@ fun CreateExerciseScreenContent(
     ExitCreationBottomSheet(
         isVisible = state.showExitBottomSheet,
         onDismiss = listener::onCancelClicked,
-        onCancelClicked = { listener.onCancelClicked() },
-        onExitWithoutSavingClicked = { listener.onExitWithoutSavingClicked() },
+        onCancelClicked = listener::onCancelClicked,
+        onExitWithoutSavingClicked = listener::onExitWithoutSavingClicked,
         message = stringResource(Res.string.exit_create_exercise_confirmation_message)
     )
 
