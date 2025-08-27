@@ -15,7 +15,11 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -76,7 +80,7 @@ fun DropdownMenu(
     modifier: Modifier = Modifier,
 ) {
     val dropShadowColor by animateColorAsState(
-        targetValue = if (isExpanded) Theme.color.surfaces.dropShadow else Color.Transparent
+        targetValue = if (isExpanded) Theme.color.surfaces.dropShadow else Theme.color.surfaces.dropShadow.copy(0f)
     )
 
     Box(
@@ -88,7 +92,7 @@ fun DropdownMenu(
         AnimatedVisibility(
             modifier = modifier.dropShadow(
                 shape = RoundedCornerShape(8.dp),
-                color = Theme.color.surfaces.dropShadow,
+                color = dropShadowColor,
                 offsetY = 40.dp,
                 offsetX = 0.dp,
                 blur = 80.dp,
