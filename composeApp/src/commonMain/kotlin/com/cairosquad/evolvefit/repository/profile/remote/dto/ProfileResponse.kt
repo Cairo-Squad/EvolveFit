@@ -42,16 +42,8 @@ data class ProfileResponse(
             name = name,
             email = email,
             imageUrl = imageUrl,
-            height = height
-                .toFloat()
-                .let {
-                    if (measurementType == MeasurementStandard.IMPERIAL.name) it / CM_PER_FT else it
-                },
-            weight = weight
-                .toFloat()
-                .let {
-                    if (measurementType == MeasurementStandard.IMPERIAL.name) it / KG_PER_LB else it
-                },
+            height = height.toFloat(),
+            weight = weight.toFloat(),
             goal = getFitnessGoal(goal),
             dateOfBirth = LocalDate.parse(birthDate),
             gender = getGender(gender),
@@ -62,6 +54,3 @@ data class ProfileResponse(
         return entity
     }
 }
-
-private const val CM_PER_FT = 30.48f
-private const val KG_PER_LB = 0.453592f
