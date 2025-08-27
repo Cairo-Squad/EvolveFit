@@ -12,6 +12,7 @@ import com.cairosquad.evolvefit.repository.workout.local.entity.PlayedWorkoutEnt
 import com.cairosquad.evolvefit.repository.workout.remote.WorkoutRemoteDataSource
 import com.cairosquad.evolvefit.repository.workout.remote.dto.PlayedWorkoutDto
 import com.cairosquad.evolvefit.repository.workout.remote.toCreateRequest
+import com.cairosquad.evolvefit.repository.workout.remote.toDo
 import com.cairosquad.evolvefit.repository.workout.remote.toDomain
 import com.cairosquad.evolvefit.repository.workout.remote.toDto
 
@@ -76,34 +77,37 @@ class WorkoutRepositoryImpl(
     }
 
     override suspend fun submitPlayedWorkout(playedWorkout: PlayedWorkout) {
+
+        val entity = PlayedWorkoutEntity(
+            workoutId = playedWorkout.workoutId,
+            durationSeconds = playedWorkout.durationSeconds,
+            isSynced = false
+        )
+        playedWorkoutDao.insertPlayedWorkout(entity)
+
         try {
+
             workoutRemoteDataSource.submitPlayedWorkout(playedWorkout.toDto())
-        } catch (e: Exception) {
-            playedWorkoutDao.insertPlayedWorkout(
-                PlayedWorkoutEntity(
-                    workoutId = playedWorkout.workoutId,
-                    durationSeconds = playedWorkout.durationSeconds
-                )
+
+            playedWorkoutDao.updatePlayedWorkouts(
+                listOf(entity.copy(isSynced = true))
             )
+        } catch (e: Exception) {
+            println("Failed to submit workout to server: ${e.message}")
         }
     }
+
     override suspend fun syncPendingWorkouts() {
         val pending = playedWorkoutDao.getPendingWorkouts()
-        val synced = mutableListOf<PlayedWorkoutEntity>()
-
         pending.forEach { entity ->
             try {
-                workoutRemoteDataSource.submitPlayedWorkout(
-                    PlayedWorkoutDto(entity.workoutId, entity.durationSeconds)
+                workoutRemoteDataSource.submitPlayedWorkout(entity.toDo())
+                playedWorkoutDao.updatePlayedWorkouts(
+                    listOf(entity.copy(isSynced = true))
                 )
-                synced.add(entity.copy(isSynced = true))
             } catch (e: Exception) {
-
+                println("Failed to sync workout ${entity.id}: ${e.message}")
             }
-        }
-
-        if (synced.isNotEmpty()) {
-            playedWorkoutDao.updatePlayedWorkouts(synced)
         }
     }
 
