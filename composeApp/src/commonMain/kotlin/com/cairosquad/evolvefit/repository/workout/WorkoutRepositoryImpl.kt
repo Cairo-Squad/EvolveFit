@@ -77,36 +77,34 @@ class WorkoutRepositoryImpl(
     }
 
     override suspend fun submitPlayedWorkout(playedWorkout: PlayedWorkout) {
-
-        val entity = PlayedWorkoutEntity(
-            workoutId = playedWorkout.workoutId,
-            durationSeconds = playedWorkout.durationSeconds,
-            isSynced = false
-        )
-        playedWorkoutDao.insertPlayedWorkout(entity)
-
         try {
 
             workoutRemoteDataSource.submitPlayedWorkout(playedWorkout.toDto())
+            println("Workout submitted successfully: ${playedWorkout.workoutId}")
 
-            playedWorkoutDao.updatePlayedWorkouts(
-                listOf(entity.copy(isSynced = true))
-            )
         } catch (e: Exception) {
-            println("Failed to submit workout to server: ${e.message}")
+
+            val entity = PlayedWorkoutEntity(
+                workoutId = playedWorkout.workoutId,
+                durationSeconds = playedWorkout.durationSeconds,
+                isSynced = false
+            )
+            playedWorkoutDao.insertPlayedWorkout(entity)
+            println("Failed to submit workout, saved locally: ${e.message}")
         }
     }
 
+    @Suppress("SuspiciousIndentation")
     override suspend fun syncPendingWorkouts() {
-        val pending = playedWorkoutDao.getPendingWorkouts()
+        val pending = playedWorkoutDao.getPendingWorkouts() // isSynced = false
         pending.forEach { entity ->
             try {
                 workoutRemoteDataSource.submitPlayedWorkout(entity.toDo())
-                playedWorkoutDao.updatePlayedWorkouts(
-                    listOf(entity.copy(isSynced = true))
-                )
+              val isDeleted=  playedWorkoutDao.deletePlayedWorkouts(entity)
+                println("Pending workout synced successfully: ${entity.workoutId}")
+                println("Deleted workout successfully: $isDeleted")
             } catch (e: Exception) {
-                println("Failed to sync workout ${entity.id}: ${e.message}")
+                println("Failed to sync workout ${entity.workoutId}: ${e.message}")
             }
         }
     }
