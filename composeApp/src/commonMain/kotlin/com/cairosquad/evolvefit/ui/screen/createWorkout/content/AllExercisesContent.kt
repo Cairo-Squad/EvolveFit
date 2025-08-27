@@ -94,6 +94,7 @@ fun AllExercisesContent(
                 )
                 InputField(
                     value = state.searchQuery,
+                    verticalPadding = 14.dp,
                     onValueChange = listener::onSearchQueryChanged,
                     placeholder = stringResource(Res.string.search_exercise_placeholder_),
                     leadingIcon = Res.drawable.ic_search,
