@@ -1,10 +1,11 @@
 package com.cairosquad.evolvefit.viewmodel.create_workout
 
+import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState.WorkoutLevel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 
 interface CreateWorkOutInteractionListener {
     fun onNameChanged(newName: String)
-    fun onGoalSelected(goal: String)
+    fun onGoalSelected(goal: WorkoutLevel)
     fun onDescriptionChanged(desc: String)
     fun onImageClicked()
     fun onNextClicked()

@@ -119,13 +119,11 @@ class CreateWorkoutViewModel(
         }
     }
 
-    override fun onGoalSelected(goalName: String) {
-        val selectedGoal =
-            enumValues<WorkoutLevel>().firstOrNull { it.name == goalName } ?: WorkoutLevel.BEGINNER
+    override fun onGoalSelected(goal: WorkoutLevel) {
         updateState {
             it.copy(
-                level = selectedGoal,
-                isNextEnabled = validate(it.name, selectedGoal.name, it.description)
+                level = goal,
+                isNextEnabled = validate(it.name, goal.name, it.description)
             )
         }
     }
