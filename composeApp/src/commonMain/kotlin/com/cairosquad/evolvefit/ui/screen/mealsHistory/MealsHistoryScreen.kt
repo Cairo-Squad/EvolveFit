@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.screen.mealsHistory.content.components.MealsHistoryEmptyScreen
 import com.cairosquad.evolvefit.ui.screen.mealsHistory.content.components.MealsHistoryErrorScreen
 import com.cairosquad.evolvefit.ui.screen.mealsHistory.content.components.MealsHistoryLoadingScreen
 import com.cairosquad.evolvefit.ui.screen.mealsHistory.content.components.MealsHistorySuccessScreen
@@ -66,6 +67,10 @@ private fun MealsHistoryContent(
 
                 MealHistoryScreenState.ScreenStatus.SUCCESS -> {
                     MealsHistorySuccessScreen(viewModel, state)
+                }
+
+                MealHistoryScreenState.ScreenStatus.EMPTY ->{
+                    MealsHistoryEmptyScreen(viewModel)
                 }
             }
         }

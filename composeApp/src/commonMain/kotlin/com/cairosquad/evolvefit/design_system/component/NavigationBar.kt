@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -61,9 +61,11 @@ fun NavigationBar(
     selectedItem: Int = 0,
 ) {
     Row(
-        modifier = modifier.height(72.dp).background(Theme.color.surfaces.surface).fillMaxSize()
-            .padding(horizontal = 20.dp)
-            .windowInsetsPadding(WindowInsets.navigationBars),
+        modifier = modifier
+            .fillMaxWidth()
+            .background(Theme.color.surfaces.surface)
+            .windowInsetsPadding(WindowInsets.navigationBars)
+            .padding(horizontal = 20.dp, vertical = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -89,8 +91,9 @@ private fun NavigationItem(
 ) {
     val icon = if (isSelected) navItem.filledIcon else navItem.outlinedIcon
     val textColor by animateColorAsState(
-        targetValue = if (isSelected) Theme.color.brand.primary else Theme.color.surfaces.onSurfaceVariant,
-        label = "icon and text color animation"
+        targetValue =
+            if (isSelected) Theme.color.brand.primary
+            else Theme.color.surfaces.onSurfaceVariant,
     )
     Column(
         modifier = modifier.clickable(onClick = onClick, enabled = isClickEnabled),
@@ -100,8 +103,7 @@ private fun NavigationItem(
             targetState = icon,
             transitionSpec = {
                 (fadeIn(tween(450))).togetherWith(fadeOut(tween(450)))
-            },
-            label = "Icon Animation"
+            }
         ) {
             Image(
                 painter = icon,

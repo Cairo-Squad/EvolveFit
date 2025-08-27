@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -229,7 +230,7 @@ fun InputField(
         )
         if (error.isNotBlank() && isErrorMessageShown) {
             Row(
-                modifier = Modifier.padding(start = 8.dp, top = 4.dp),
+                modifier = Modifier.padding(top = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
@@ -272,7 +273,9 @@ private fun TextFieldIcon(
                     .size(20.dp)
                     .then(
                         if (onClick != null) {
-                            Modifier.clickable(onClick = onClick)
+                            Modifier
+                                .clip(CircleShape)
+                                .clickable(onClick = onClick)
                         } else {
                             Modifier
                         }
