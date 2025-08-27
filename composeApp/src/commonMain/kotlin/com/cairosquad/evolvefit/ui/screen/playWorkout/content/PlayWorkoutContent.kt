@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,22 +20,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.SecondaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
-import com.cairosquad.evolvefit.ui.component.ExerciseDetailsBottomSheet
+import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.ExerciseBottomSheetContent
 import com.cairosquad.evolvefit.ui.util.noRippleClickable
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState
+import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState.ExerciseSpecUiState
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState.Stage.FINISH
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState.Stage.GET_READY
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState.Stage.PERFORM
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState.Stage.REST
+import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState.ExerciseType
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.discard_progress_warning
 import evolvefit.composeapp.generated.resources.end_workout_confirm_button
 import evolvefit.composeapp.generated.resources.end_workout_prompt
+import evolvefit.composeapp.generated.resources.ic_count
+import evolvefit.composeapp.generated.resources.ic_time
+import evolvefit.composeapp.generated.resources.seconds
 import evolvefit.composeapp.generated.resources.stay_in_workout_button
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 
@@ -95,16 +103,30 @@ private fun ExerciseInfoBottomSheet(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ExerciseDetailsBottomSheet(
-        name = exercise.name,
-        images = exercise.imageUrls,
-        instructions = exercise.instructions,
-        equipment = exercise.equipment,
-        focusAreas = exercise.focusAreas.map { stringResource(it) },
+    BottomSheet(
         isVisible = isVisible,
         onDismiss = onDismiss,
         modifier = modifier
-    )
+    ) {
+        ExerciseBottomSheetContent(
+            name = exercise.name,
+            instructions = exercise.instructions,
+            images = exercise.imageUrls,
+            specificationString = when (exercise.exerciseSpec) {
+                is ExerciseSpecUiState.Time -> "${exercise.exerciseSpec.timeInSeconds} " +
+                        stringResource(Res.string.seconds)
+
+                is ExerciseSpecUiState.Reps -> "X${exercise.exerciseSpec.reps}"
+            },
+            specificationIcon = when (exercise.exerciseSpec) {
+                is ExerciseSpecUiState.Time -> painterResource(Res.drawable.ic_time)
+                is ExerciseSpecUiState.Reps -> painterResource(Res.drawable.ic_count)
+            },
+            equipment = exercise.equipment,
+            focusAreas = exercise.focusAreas.map { areaRes -> stringResource(areaRes) },
+            onDismissBottomSheet = onDismiss
+        )
+    }
 }
 
 
@@ -156,6 +178,7 @@ private fun EndWorkoutConfirmation(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 24.dp)
+                .navigationBarsPadding()
                 .padding(horizontal = 16.dp),
             text = stringResource(Res.string.end_workout_confirm_button),
             onClick = onClinkEnd
