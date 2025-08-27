@@ -13,8 +13,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -94,7 +97,9 @@ fun AllExercisesContent(
                     onValueChange = listener::onSearchQueryChanged,
                     placeholder = stringResource(Res.string.search_exercise_placeholder_),
                     leadingIcon = Res.drawable.ic_search,
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 16.dp)
                 )
             }
             RefreshBox(
@@ -124,10 +129,13 @@ fun AllExercisesContent(
 
                         ScreenStatus.SUCCESS -> {
                             LazyColumn(
-                                modifier = Modifier.fillMaxSize(),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(horizontal = 16.dp),
                                 contentPadding = PaddingValues(
-                                    horizontal = 16.dp,
-                                    vertical = 12.dp
+                                    bottom = 12.dp + 24.dp + 48.dp +
+                                            WindowInsets.navigationBars
+                                                .asPaddingValues().calculateBottomPadding()
                                 )
                             ) {
                                 item {

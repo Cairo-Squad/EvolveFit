@@ -22,7 +22,9 @@ data class CreateWorkOutScreenState(
 
     val currentStep: CreateWorkoutStep = CreateWorkoutStep.DETAILS,
     val status: ScreenStatus = ScreenStatus.LOADING,
-    val isRefreshing: Boolean = false
+    val isRefreshing: Boolean = false,
+
+    val showExitBottomSheet: Boolean = false
 ) {
     enum class CreateWorkoutStep {
         DETAILS,

@@ -10,6 +10,8 @@ interface CreateWorkOutInteractionListener {
     fun onNextClicked()
     fun onBackClicked()
     fun onExitClicked()
+    fun onExitConfirmClicked()
+    fun onCancelExitClicked()
     fun onAddClicked()
     fun onSearchQueryChanged(query: String)
     fun onExerciseCheckedChanged(exercise: CreateWorkOutScreenState.ExerciseUiState)

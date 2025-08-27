@@ -195,7 +195,8 @@
     <string name="choose_available_tools">اختر الأداة</string>
 
     <string name="exit_confirmation_title">هل تريد الخروج؟</string>
-    <string name="exit_confirmation_message">لم تقم بحفظ التمرين بعد. قد تفقد كل التقدم.</string>
+    <string name="exit_create_workout_confirmation_message">لم تقم بحفظ التدريب بعد. قد تفقد كل التقدم.</string>
+    <string name="exit_create_exercise_confirmation_message">لم تقم بحفظ التمرين بعد. قد تفقد كل التقدم.</string>
     <string name="cancel">إلغاء</string>
     <string name="exit_without_saving">الخروج بدون حفظ</string>
     <string name="save_image">صورة الحفظ</string>
