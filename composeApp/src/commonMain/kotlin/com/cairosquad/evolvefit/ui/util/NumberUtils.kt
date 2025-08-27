@@ -26,3 +26,9 @@ fun Float.toFormattedString(): String {
     return "$sign$intPart.$decimalPart"
 }
 
+fun Float.toString(decimals: Int): String {
+    if (decimals == 0) return this.toInt().toString()
+    require(decimals >= 1) { "Decimals must not be negative" }
+    val (intPart, fractionPart) = this.toString().split(".")
+    return intPart + "." + fractionPart.take(decimals)
+}

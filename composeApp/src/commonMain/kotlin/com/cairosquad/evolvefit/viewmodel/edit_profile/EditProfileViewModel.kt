@@ -64,7 +64,6 @@ class EditProfileViewModel(
     override fun onSaveChangesClicked(profile: EditProfileScreenState.ProfileUiState) {
         editProfile(profile)
         sendEffect(EditProfileEffect.NavigateBack)
-
     }
 
 
@@ -157,8 +156,32 @@ class EditProfileViewModel(
     }
 
     override fun onPreferredMeasurementStandardChanged(measurementStandard: MeasurementStandard) {
+
+        if (measurementStandard == screenState.value.profile.preferredMeasurementStandard) return
+
+        val oldHeight = screenState.value.profile.height
+        val oldWeight = screenState.value.profile.weight
+
+        val newHeight: Float
+        val newWeight: Float
+
+        when (measurementStandard) {
+            MeasurementStandard.METRIC -> {
+                newHeight = oldHeight * CM_PER_FT
+                newWeight = oldWeight * KG_PER_LB
+            }
+            MeasurementStandard.IMPERIAL -> {
+                newHeight = oldHeight / CM_PER_FT
+                newWeight = oldWeight / KG_PER_LB
+            }
+        }
+
         updateState { state ->
-            state.copy(profile = state.profile.copy(preferredMeasurementStandard = measurementStandard))
+            state.copy(profile = state.profile.copy(
+                preferredMeasurementStandard = measurementStandard,
+                height = newHeight,
+                weight = newWeight
+            ))
         }
     }
 
@@ -194,5 +217,10 @@ class EditProfileViewModel(
 
     override fun onBottomSheetDismissed() {
         updateState { it.copy(bottomSheetType = null) }
+    }
+
+    companion object {
+        private const val CM_PER_FT = 30.48f
+        private const val KG_PER_LB = 0.453592f
     }
 }
