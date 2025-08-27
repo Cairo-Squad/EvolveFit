@@ -135,7 +135,7 @@ class HomeViewModel(
         }
     }
 
-    private fun loadFavoriteWorkouts() {
+    fun loadFavoriteWorkouts() {
         tryToCall(
             block = { manageWorkoutUseCase.getFavoriteWorkouts() },
             onSuccess = ::handleLoadFavoriteWorkoutsSuccess,
@@ -169,7 +169,7 @@ class HomeViewModel(
         return if (workouts.map { it.id }.contains(workout.id)) {
             workout.copy(isSaved = true)
         } else {
-            workout
+            workout.copy(isSaved = false)
         }
     }
 

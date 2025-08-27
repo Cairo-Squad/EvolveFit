@@ -111,12 +111,9 @@ fun NavigationHost(
 
         composable<NavBarRoute.Home> {
             HomeScreen(
-                navigateToWorkout = { workoutId ->
-                    navController.navigate(
-                        WorkoutDetailsRoute(
-                            workoutId
-                        )
-                    )
+                navigateToWorkout = { workoutId, onNavigateBack ->
+                    navController.navigate(WorkoutDetailsRoute(workoutId))
+                    navController.saveInSavedState(onNavigateBack)
                 },
                 onSelectNavBarRoute = navController::navigateToNavBarRoute
             )
@@ -207,10 +204,14 @@ fun NavigationHost(
         }
 
         composable<WorkoutDetailsRoute> { backStackEntry ->
+            val onNavigateBack: (() -> Unit)? = navController.getFromSavedState()
             val workoutId = backStackEntry.toRoute<WorkoutDetailsRoute>().workoutId
             WorkoutDetailsScreen(
                 workoutId = workoutId,
-                navigateBack = navController::popBackStack,
+                navigateBack = {
+                    navController.popBackStack()
+                    onNavigateBack?.invoke()
+                },
                 navigateToPlayWorkout = { navController.navigate(PlayWorkoutRoute(workoutId)) },
                 navigateToShareWithCommunity = { },
             )
