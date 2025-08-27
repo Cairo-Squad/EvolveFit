@@ -34,11 +34,11 @@ fun WeekFilter(
 ) {
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(4.dp))
+            .clip(RoundedCornerShape(8.dp))
             .background(Theme.color.surfaces.surfaceContainer)
             .border(
                 color = Theme.color.surfaces.outlineVariant,
-                shape = RoundedCornerShape(4.dp),
+                shape = RoundedCornerShape(8.dp),
                 width = 0.5.dp
             )
             .clickable(onClick = onMenuClick)
