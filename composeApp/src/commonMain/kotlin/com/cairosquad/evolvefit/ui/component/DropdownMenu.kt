@@ -10,12 +10,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.adamglin.composeshadow.dropShadow
@@ -71,7 +71,6 @@ fun DropdownMenu(
     onItemClicked: (ReportScreenState.WeekItem) -> Unit,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    isShadowEnabled: Boolean = false
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -82,22 +81,17 @@ fun DropdownMenu(
         AnimatedVisibility(
             modifier = modifier,
             visible = isExpanded,
-            enter = fadeIn(animationSpec = tween(500)),
-            exit = fadeOut(animationSpec = tween(500))
         ) {
             Column(
                 modifier = modifier
-                    .then(
-                        if (isShadowEnabled) {
-                            Modifier.dropShadow(
-                                shape = RoundedCornerShape(8.dp),
-                                color = Color.White.copy(0.16f),
-                                offsetY = 40.dp,
-                                offsetX = 0.dp,
-                                blur = 80.dp,
-                                spread = 0.dp,
-                            )
-                        } else Modifier
+                    .offset(y = (-8).dp)
+                    .dropShadow(
+                        shape = RoundedCornerShape(8.dp),
+                        color = Theme.color.surfaces.dropShadow,
+                        offsetY = 40.dp,
+                        offsetX = 0.dp,
+                        blur = 80.dp,
+                        spread = 0.dp,
                     )
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
