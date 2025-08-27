@@ -140,7 +140,7 @@ fun CreateWorkoutDetailsContent(
 
             CustomDropDownMenu(
                 selectedText = state.level?.let { toDisplayName(it) } ?: "",
-                options = workoutGoals.map { toDisplayName(it) },
+                options = workoutGoals,
                 placeholder = stringResource(Res.string.choose_level),
                 iconPainter = painterResource(Res.drawable.ic_arrow_down),
                 onOptionSelected = { selectedGoal ->
