@@ -9,6 +9,7 @@ import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseEffect
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseInteractionListener
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState
+import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState.FocusArea
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -55,7 +56,7 @@ private fun CreateExerciseScreenPreview() {
             listener = object : CreateExerciseInteractionListener {
                 override fun onNameChanged(name: String) {}
                 override fun onEquipmentToggled(equipmentId: Int) {}
-                override fun onFocusAreaNameSelected(name: String) {}
+                override fun onFocusAreaNameSelected(focusArea: FocusArea) {}
                 override fun onEquipmentNameSelected(toolName: String) {}
                 override fun onStartImageClicked() {}
                 override fun onEndImageClicked() {}

@@ -81,7 +81,8 @@ fun ImageBox(
                     .fillMaxSize(),
                 image = image,
                 contentDescription = stringResource(Res.string.exercise_image),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                defaultImageSize = 100.dp
             )
         } else {
             Image(

@@ -199,7 +199,7 @@
     <string name="save_exercise">Save Exercise</string>
     <string name="characters_left">%1$d character left</string>
     <string name="select_focus_area">Select focus area</string>
-    <string name="choose_available_tools">Choose available tools</string>
+    <string name="choose_available_tools">Choose tool</string>
     <string name="calories_format">Calories: %1$d Kcal</string>
     <string name="carbs_format">Carbs: %1$d g</string>
     <string name="protein_format">Protein: %1$d g</string>
