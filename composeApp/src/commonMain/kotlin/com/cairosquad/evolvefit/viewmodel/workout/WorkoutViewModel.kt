@@ -4,6 +4,9 @@ import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState.FocusAreaUiState
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.failed_to_load_workouts
+import evolvefit.composeapp.generated.resources.failed_to_refresh
 
 class WorkoutViewModel(
     private val workoutUseCase: ManageWorkoutUseCase,
@@ -74,7 +77,7 @@ class WorkoutViewModel(
     private fun onGetSuggestedWorkoutError(t: Throwable) {
         updateState {
             it.copy(
-                errorMessage = t.message ?: "Failed to load suggested workouts",
+                errorMessage = Res.string.failed_to_load_workouts,
                 screenStatus = WorkoutScreenState.ScreenStatus.FAIL
             )
         }
@@ -91,9 +94,9 @@ class WorkoutViewModel(
     }
 
     private fun onLoadWorkoutByFocusAreaError(t: Throwable) {
-        updateState {
+        updateState() {
             it.copy(
-                errorMessage = t.message ?: "Failed to load workouts by focus Area",
+                errorMessage = Res.string.failed_to_load_workouts,
                 screenStatus = WorkoutScreenState.ScreenStatus.FAIL
             )
         }
@@ -141,7 +144,7 @@ class WorkoutViewModel(
     private fun onRefreshError(t: Throwable) {
         isRefreshing(false)
         updateState {
-            it.copy(errorMessage = t.message ?: "Failed to refresh workouts")
+            it.copy(errorMessage = Res.string.failed_to_refresh)
         }
     }
 

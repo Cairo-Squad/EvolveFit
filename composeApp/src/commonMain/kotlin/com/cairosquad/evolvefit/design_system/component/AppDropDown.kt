@@ -8,12 +8,10 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -39,17 +37,18 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.screen.createWorkout.content.toDisplayName
+import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState.WorkoutLevel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_arrow_down
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CustomDropDownMenu(
     selectedText: String,
-    options: List<String>,
+    options: Array<WorkoutLevel>,
     iconPainter: Painter? = null,
-    onOptionSelected: (String) -> Unit,
+    onOptionSelected: (WorkoutLevel) -> Unit,
     modifier: Modifier = Modifier,
     placeholder: String = ""
 ) {
@@ -103,7 +102,7 @@ fun CustomDropDownMenu(
                     DropdownMenuItem(
                         text = {
                             Text(
-                                text = option,
+                                text = toDisplayName(option),
                                 style = Theme.textStyle.label.smallRegular14.copy(
                                     color = Theme.color.surfaces.onSurfaceContainer
                                 )
@@ -119,25 +118,6 @@ fun CustomDropDownMenu(
             }
     }
 }
-
-@Preview()
-@Composable
-fun AppDropDownMenuPreview() {
-    var selectedOption by remember { mutableStateOf("") }
-    val options = listOf("Lose Weight", "Build Muscle", "Stay Fit")
-
-    AppTheme(isDarkTheme = true) {
-        CustomDropDownMenu(
-            selectedText = selectedOption,
-            options = options,
-            placeholder = "Choose your goal",
-            iconPainter = painterResource(Res.drawable.ic_arrow_down),
-            onOptionSelected = { selectedOption = it },
-            modifier = Modifier.padding(horizontal = 16.dp).padding(top=30.dp)
-        )
-    }
-}
-
 
 @Composable
 fun CustomAnimatedDropdownMenu(
