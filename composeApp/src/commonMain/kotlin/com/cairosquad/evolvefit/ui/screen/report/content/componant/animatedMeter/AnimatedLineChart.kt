@@ -25,6 +25,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun AnimatedLineChart(
     data: List<Float>,
+    toolTipValue: List<String>,
     lineColor: Color,
     areaColor: List<Color>,
     markerColor: Color,
@@ -47,8 +48,6 @@ fun AnimatedLineChart(
     }
 
     BoxWithConstraints(modifier = modifier) {
-        val parentWidthPx = constraints.maxWidth.toFloat()
-        val parentHeightPx = constraints.maxHeight.toFloat()
 
         ChartCanvas(
             data = data,
@@ -75,12 +74,10 @@ fun AnimatedLineChart(
         if (selectedIndex in pointsPx.indices) {
             Tooltip(
                 canvasPoint = pointsPx[selectedIndex],
-                parentWidthPx = parentWidthPx,
-                parentHeightPx = parentHeightPx,
                 density = density
             ) {
                 Text(
-                    text = data[selectedIndex].toString(),
+                    text = toolTipValue[selectedIndex],
                     color = Color.White,
                     fontSize = 12.sp
                 )
@@ -94,6 +91,7 @@ fun AnimatedLineChart(
 private fun AnimatedLineChartPreview() {
     AnimatedLineChart(
         data = listOf(10f, 20f, 30f, 15f, 10f),
+        toolTipValue = listOf("10", "20", "30", "15", "10"),
         lineColor = Theme.color.brand.primary,
         areaColor = Theme.color.gradiant.barGradiant,
         markerColor = Theme.color.brand.primary,
