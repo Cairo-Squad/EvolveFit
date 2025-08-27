@@ -148,7 +148,8 @@ fun MoreScreenContent(
                 onConfirm = { selectedTheme ->
                     listener.onConfirmChangeTheme(selectedTheme)
                 },
-                listener::onSelectTheme
+                listener::onSelectTheme,
+
             )
         }
         BottomSheet(

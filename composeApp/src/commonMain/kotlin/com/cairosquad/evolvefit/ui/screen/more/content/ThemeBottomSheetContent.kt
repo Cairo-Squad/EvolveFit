@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.domain.model.Language
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.choose_theme
@@ -57,23 +58,22 @@ fun ThemeBottomSheetContent(
 
         CheckboxItem(
             text = stringResource(Res.string.dark_mode),
-            isChecked = state.currentTheme == MoreScreenState.Theme.DARK,
+            isChecked = state.tempTheme == MoreScreenState.Theme.DARK,
             icon = Res.drawable.dark,
             onCheckedChange = { onSelectTheme(MoreScreenState.Theme.DARK) }
         )
 
         CheckboxItem(
             text = stringResource(Res.string.light_mode),
-            isChecked = state.currentTheme == MoreScreenState.Theme.LIGHT,
+            isChecked =  state.tempTheme == MoreScreenState.Theme.LIGHT,
             icon = Res.drawable.light,
             onCheckedChange = { onSelectTheme(MoreScreenState.Theme.LIGHT) }
         )
-
         PrimaryButton(
             modifier = Modifier
                 .padding(bottom = 16.dp, top = 38.dp),
             text = stringResource(Res.string.confirm),
-            onClick = { onConfirm(state.currentTheme) },
+            onClick = { onConfirm(state.tempTheme) },
             isEnabled = true,
             enabledTextColor = Theme.color.brand.onPrimary,
             textStyle = Theme.textStyle.body.mediumMedium14,
