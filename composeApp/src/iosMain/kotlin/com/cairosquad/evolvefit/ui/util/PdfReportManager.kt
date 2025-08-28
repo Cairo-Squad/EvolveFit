@@ -45,7 +45,8 @@ actual object PdfReportManager {
 
         val logoImage: UIImage? = if (logoBytes.isNotEmpty()) {
             logoBytes.usePinned { pinned ->
-                val nsData = NSData.create(bytes = pinned.addressOf(0), length = logoBytes.size.toULong())
+                val nsData =
+                    NSData.create(bytes = pinned.addressOf(0), length = logoBytes.size.toULong())
                 nsData?.let { NSData -> UIImage.imageWithData(NSData) }
             }
         } else {
@@ -59,9 +60,15 @@ actual object PdfReportManager {
 
         (("Name: $name") as NSString).drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
         y += 22.0
-        (("Start date: $startDate") as NSString).drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
+        (("Start date: $startDate") as NSString).drawAtPoint(
+            CGPointMake(40.0, y),
+            withAttributes = null
+        )
         y += 20.0
-        (("End date: $endDate") as NSString).drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
+        (("End date: $endDate") as NSString).drawAtPoint(
+            CGPointMake(40.0, y),
+            withAttributes = null
+        )
 
         logoImage?.let {
             val logoW = 60.0
@@ -71,7 +78,10 @@ actual object PdfReportManager {
 
         y += 30.0
 
-        ("——————————————————————————————————————————" as NSString).drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
+        ("——————————————————————————————————————————" as NSString).drawAtPoint(
+            CGPointMake(40.0, y),
+            withAttributes = null
+        )
         y += 50.0
 
         ("Weekly report for the duration of $startDate to $endDate." as NSString)
@@ -94,50 +104,62 @@ actual object PdfReportManager {
             .drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
         y += 30.0
 
-        ("Workouts per week:" as NSString).drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
-        y += 24.0
+        if (report.workoutPerWeek.day.isNotEmpty()) {
+            ("Workouts per week:" as NSString).drawAtPoint(
+                CGPointMake(40.0, y),
+                withAttributes = null
+            )
+            y += 24.0
 
-        val workoutsCounts = report.workoutPerWeek.workoutsCount
-        val workoutDays = report.workoutPerWeek.day
-        val timeSecondsList = report.timeSpentPerWeek.timeInSeconds
-        val timeDays = report.timeSpentPerWeek.day
+            val workoutsCounts = report.workoutPerWeek.workoutsCount
+            val workoutDays = report.workoutPerWeek.day
+            val timeSecondsList = report.timeSpentPerWeek.timeInSeconds
+            val timeDays = report.timeSpentPerWeek.day
 
-        val itemCount = max(
-            workoutsCounts.size,
-            max(workoutDays.size, max(timeSecondsList.size, timeDays.size))
-        )
-        for (i in 0 until itemCount) {
-            val dayName = workoutDays.getOrNull(i)?.toString() ?: timeDays.getOrNull(i)?.toString() ?: "Day ${i + 1}"
-            val count = workoutsCounts.getOrNull(i) ?: 0
-            val seconds = timeSecondsList.getOrNull(i) ?: 0L
-            val minutes = seconds / 60
-            ("- ${dayName}: Workouts = $count, Time spent = $minutes minutes" as NSString)
-                .drawAtPoint(CGPointMake(60.0, y), withAttributes = null)
-            y += 18.0
+            val itemCount = max(
+                workoutsCounts.size,
+                max(workoutDays.size, max(timeSecondsList.size, timeDays.size))
+            )
+            for (i in 0 until itemCount) {
+                val dayName =
+                    workoutDays.getOrNull(i)?.toString() ?: timeDays.getOrNull(i)?.toString()
+                    ?: "Day ${i + 1}"
+                val count = workoutsCounts.getOrNull(i) ?: 0
+                val seconds = timeSecondsList.getOrNull(i) ?: 0L
+                val minutes = seconds / 60
+                ("- ${dayName}: Workouts = $count, Time spent = $minutes minutes" as NSString)
+                    .drawAtPoint(CGPointMake(60.0, y), withAttributes = null)
+                y += 18.0
 
-            if (y > pageHeight - 80.0) {
-                UIGraphicsBeginPDFPageWithInfo(pageRect, null)
-                y = 40.0
+                if (y > pageHeight - 80.0) {
+                    UIGraphicsBeginPDFPageWithInfo(pageRect, null)
+                    y = 40.0
+                }
+            }
+            y += 20.0
+
+            ("Most trained muscles:" as NSString).drawAtPoint(
+                CGPointMake(40.0, y),
+                withAttributes = null
+            )
+            y += 24.0
+            val muscles = report.mostTrainedMuscles.muscle
+            val percents = report.mostTrainedMuscles.percentage
+            val muscleCount = max(muscles.size, percents.size)
+            for (i in 0 until muscleCount) {
+                val muscleName = muscles.getOrNull(i)?.toString() ?: "Muscle ${i + 1}"
+                val pctInt = ((percents.getOrNull(i) ?: 0f) * 100).toInt()
+                ("- ${muscleName}: ${pctInt}%" as NSString).drawAtPoint(
+                    CGPointMake(60.0, y),
+                    withAttributes = null
+                )
+                y += 18.0
+                if (y > pageHeight - 80.0) {
+                    UIGraphicsBeginPDFPageWithInfo(pageRect, null)
+                    y = 40.0
+                }
             }
         }
-        y += 20.0
-
-        ("Most trained muscles:" as NSString).drawAtPoint(CGPointMake(40.0, y), withAttributes = null)
-        y += 24.0
-        val muscles = report.mostTrainedMuscles.muscle
-        val percents = report.mostTrainedMuscles.percentage
-        val muscleCount = max(muscles.size, percents.size)
-        for (i in 0 until muscleCount) {
-            val muscleName = muscles.getOrNull(i)?.toString() ?: "Muscle ${i + 1}"
-            val pctInt = ((percents.getOrNull(i) ?: 0f) * 100).toInt()
-            ("- ${muscleName}: ${pctInt}%" as NSString).drawAtPoint(CGPointMake(60.0, y), withAttributes = null)
-            y += 18.0
-            if (y > pageHeight - 80.0) {
-                UIGraphicsBeginPDFPageWithInfo(pageRect, null)
-                y = 40.0
-            }
-        }
-
         UIGraphicsEndPDFContext()
 
         return filePath
