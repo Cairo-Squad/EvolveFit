@@ -127,7 +127,7 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("JKS")
+            storeFile = file("composeApp/JKS.jks")
             storePassword = locals.getProperty("KEYSTORE_PASSWORD")
             keyAlias = locals.getProperty("KEY_ALIAS")
             keyPassword = locals.getProperty("KEY_PASSWORD")
@@ -138,9 +138,15 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+//    buildTypes {
+//        getByName("release") {
+//            isMinifyEnabled = false
+//        }
+//    }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
