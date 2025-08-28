@@ -143,6 +143,16 @@ android {
 //            isMinifyEnabled = false
 //        }
 //    }
+//    buildTypes {
+//        getByName("release") {
+//            isMinifyEnabled = true
+//            isShrinkResources = true // يقلل الصور + XML
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//                "proguard-rules.pro"
+//            )
+//        }
+//    }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
