@@ -69,9 +69,6 @@ fun PlayWorkoutContentPerform(
         initialPage = screenState.currentStep - 1
     )
 
-//    val isForwardButtonEnabled = screenState.currentStep < screenState.workout.exercises.size
-//    val isBackButtonEnabled = screenState.currentStep > 1
-
     LaunchedEffect(screenState.currentStep) {
         try {
             pagerState.animateScrollToPage(screenState.currentStep - 1)
