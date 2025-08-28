@@ -74,7 +74,7 @@ class WorkoutRemoteDataSourceImpl(
     }
 
     override suspend fun deleteFavoriteWorkout(workoutId: String) {
-        return callApi {
+        callApi<EmptyResponse> {
             client.delete(FAVORITE_WORKOUT) {
                 parameter("workoutId", workoutId)
                 contentType(ContentType.Application.Json)

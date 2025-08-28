@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.repository.home.data_source.remote.dto
 
 import com.cairosquad.evolvefit.repository.utils.localDateTimeToLocalDate
+import com.cairosquad.evolvefit.repository.utils.parseIsoDateStringToLocalDateTime
 import com.cairosquad.evolvefit.repository.utils.parseIsoStringToLocalDateTime
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
@@ -12,7 +13,7 @@ fun createWorkoutDatesMap(
     workoutDates: List<String>
 ): Map<Int, Boolean> {
     val workoutSet =
-        workoutDates.toSet().map { localDateTimeToLocalDate(parseIsoStringToLocalDateTime(it)) }
+        workoutDates.toSet().map { localDateTimeToLocalDate(parseIsoDateStringToLocalDateTime(it)) }
     val result = mutableMapOf<Int, Boolean>()
 
     var current = startDate

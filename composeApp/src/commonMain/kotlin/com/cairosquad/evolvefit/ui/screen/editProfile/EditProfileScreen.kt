@@ -162,7 +162,6 @@ fun EditProfileScreenContent(
                 },
                 isEditScreen = true,
                 defaultSize = if (state.profile.imageUrl.isBlank()) 32.dp else 100.dp
-
             )
 
             Column(

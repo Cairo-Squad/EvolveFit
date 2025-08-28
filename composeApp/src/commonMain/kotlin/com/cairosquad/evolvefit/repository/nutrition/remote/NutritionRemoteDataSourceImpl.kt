@@ -8,6 +8,7 @@ import com.cairosquad.evolvefit.repository.nutrition.remote.dto.DailyWaterSummar
 import com.cairosquad.evolvefit.repository.nutrition.remote.dto.FavouriteMealDto
 import com.cairosquad.evolvefit.repository.nutrition.remote.dto.MealDto
 import com.cairosquad.evolvefit.repository.nutrition.remote.dto.SuggestedMealDto
+import com.cairosquad.evolvefit.repository.utils.EmptyResponse
 import com.cairosquad.evolvefit.repository.utils.HttpClientHolder
 import io.ktor.client.call.body
 import io.ktor.client.request.parameter
@@ -44,7 +45,7 @@ class NutritionRemoteDataSourceImpl(
     }
 
     override suspend fun deleteFavouriteMeal(mealId: String) {
-        return callApi {
+        callApi<EmptyResponse> {
             httpClient.delete(FAVORITE_MEAL) {
                 parameter("mealId", mealId)
                 contentType(ContentType.Application.Json)

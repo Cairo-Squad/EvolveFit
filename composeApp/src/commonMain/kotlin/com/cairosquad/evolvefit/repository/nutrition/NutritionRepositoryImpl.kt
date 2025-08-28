@@ -32,7 +32,7 @@ class NutritionRepositoryImpl(private val nutritionRemoteDataSource: NutritionRe
     }
 
     override suspend fun deleteFavouriteMeal(mealId: String) {
-        return callDataSource {
+        callDataSource {
             nutritionRemoteDataSource.deleteFavouriteMeal(mealId)
         }
     }
