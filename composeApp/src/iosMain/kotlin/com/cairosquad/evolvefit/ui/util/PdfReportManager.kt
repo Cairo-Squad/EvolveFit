@@ -173,7 +173,7 @@ actual object PdfReportManager {
     ) {
         val start = formateDateDayMonth(startDate)
         val end = formateDateDayMonth(endDate)
-        val logoBytes = loadLogoBytes(null, "evolve_logo")
+        val logoBytes = loadLogoBytes(null, "logo")
         val pdfPath = createPDF(null, report, name, start, end, logoBytes)
 
         val url = NSURL.fileURLWithPath(pdfPath)
@@ -192,18 +192,21 @@ actual object PdfReportManager {
     @OptIn(ExperimentalForeignApi::class)
     actual fun loadLogoBytes(platformContext: Any?, resourceName: String): ByteArray {
         val uiImage = UIImage.imageNamed(resourceName)
-            ?: throw IllegalArgumentException("UIImage '$resourceName' not found")
 
-        val nsData: NSData = UIImagePNGRepresentation(uiImage)
-            ?: throw IllegalStateException("Failed to create PNG data for image '$resourceName'")
+        return if (uiImage != null) {
+            val nsData: NSData = UIImagePNGRepresentation(uiImage)
+                ?: return ByteArray(0)
 
-        val length = nsData.length.toInt()
-        val result = ByteArray(length)
+            val length = nsData.length.toInt()
+            val result = ByteArray(length)
 
-        result.usePinned { pinned ->
-            nsData.getBytes(pinned.addressOf(0), nsData.length)
+            result.usePinned { pinned ->
+                nsData.getBytes(pinned.addressOf(0), nsData.length)
+            }
+
+            result
+        } else {
+            ByteArray(0)
         }
-
-        return result
     }
 }
