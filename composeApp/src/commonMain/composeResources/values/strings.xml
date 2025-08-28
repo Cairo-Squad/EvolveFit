@@ -197,7 +197,7 @@
     <string name="enter_exercise_name">Enter exercise name</string>
     <string name="add_duration">Add Duration</string>
     <string name="add_reps">Add Reps</string>
-    <string name="add_duration_placeholder">Add duration</string>
+    <string name="add_duration_placeholder">Add duration (in seconds) </string>
     <string name="add_reps_placeholder">Add reps</string>
     <string name="enter_instructions">Enter instructions</string>
     <string name="save_exercise">Save Exercise</string>
