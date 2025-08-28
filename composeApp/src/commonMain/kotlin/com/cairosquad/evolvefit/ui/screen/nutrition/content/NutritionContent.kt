@@ -20,8 +20,7 @@ import com.cairosquad.evolvefit.ui.screen.nutrition.component.MealTypeDropdownMe
 import com.cairosquad.evolvefit.ui.screen.nutrition.component.NutritionHeader
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
-
-
+import com.cairosquad.evolvefit.ui.screen.nutrition.component.WaterAddedSnackBar
 @Composable
 fun NutritionContent(
     state: NutritionScreenState,
@@ -68,6 +67,12 @@ fun NutritionContent(
                 modifier = Modifier.align(Alignment.BottomCenter),
                 listener = listener,
                 state = state
+            )
+            WaterAddedSnackBar(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 12.dp),
+                isVisible = state.isSnackBarVisible,
             )
             MealAddedSnackBar(
                 modifier = Modifier
