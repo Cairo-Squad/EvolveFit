@@ -74,6 +74,8 @@ fun CommunityWorkoutsScreenContent(
                             onRetry = listener::onRetryClicked
                         )
                     }
+
+                    WorkoutScreenState.ScreenStatus.EMPTY -> TODO()
                 }
             }
         }
