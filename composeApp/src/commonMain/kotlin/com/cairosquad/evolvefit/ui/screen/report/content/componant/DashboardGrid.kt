@@ -51,7 +51,7 @@ fun DashboardGrid(
                 CaloriesCard(
                     modifier = Modifier
                         .weight(1f)
-                        .height(262.dp),
+                        .height(270.dp),
                     expectedCalories = expectedCalories,
                     takenCalories = takenCalories,
                     isAnimationStarted = isAnimationStarted
@@ -59,7 +59,7 @@ fun DashboardGrid(
                 WaterCard(
                     modifier = Modifier
                         .weight(1f)
-                        .height(262.dp),
+                        .height(270.dp),
                     waterConsumed = waterConsumed,
                     isAnimationStarted = isAnimationStarted,
                 )
