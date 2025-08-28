@@ -25,6 +25,9 @@ lifecycleViewModel = "2.9.1"
 filekit = "0.10.0"
 ktor = "3.2.3"
 core-splashscreen = "1.0.1"
+room = "2.7.2"
+sqlite = "2.5.2"
+ksp = "2.2.0-2.0.2"
 googleFirebaseAppdistribution = "5.1.1"
 googleGmsGoogleServices = "4.4.3"
 
@@ -74,6 +77,10 @@ filekit-dialogs = { group = "io.github.vinceglb", name = "filekit-dialogs", vers
 filekit-dialogs-compose = { group = "io.github.vinceglb", name = "filekit-dialogs-compose", version.ref = "filekit" }
 filekit-coil = { group = "io.github.vinceglb", name = "filekit-coil", version.ref = "filekit" }
 
+# Room
+androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -81,6 +88,8 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+androidx-room = { id = "androidx.room", version.ref = "room" }
 googleFirebaseAppdistribution = { id = "com.google.firebase.appdistribution", version.ref = "googleFirebaseAppdistribution" }
 googleGmsGoogleServices = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 
