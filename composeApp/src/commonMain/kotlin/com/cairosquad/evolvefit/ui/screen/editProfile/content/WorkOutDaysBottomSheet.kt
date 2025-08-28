@@ -61,7 +61,7 @@ fun WorkoutDaysBottomSheetContent(
     modifier: Modifier = Modifier
 ) {
 
-    var selectedWorkoutDays by remember(userWorkoutDays) {
+    var selectedWorkoutDays by remember {
         mutableStateOf(userWorkoutDays.toSet())
     }
 
@@ -80,7 +80,8 @@ fun WorkoutDaysBottomSheetContent(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 24.dp)
+            .padding(horizontal = 16.dp)
+            .padding(bottom = 16.dp)
     ) {
         RegisterHeader(
             modifier = Modifier.padding(bottom = 24.dp),
@@ -117,7 +118,6 @@ fun WorkoutDaysBottomSheetContent(
                         } else {
                             selectedWorkoutDays + day
                         }
-                        onWorkoutDaysChange(selectedWorkoutDays)
                     }
                 )
             }
@@ -125,7 +125,10 @@ fun WorkoutDaysBottomSheetContent(
 
         PrimaryButton(
             text = stringResource(Res.string.confirm),
-            onClick = onWorkoutDaysBottomSheetDismiss,
+            onClick = {
+                onWorkoutDaysChange(selectedWorkoutDays)
+                onWorkoutDaysBottomSheetDismiss()
+            },
             modifier = Modifier.fillMaxWidth()
         )
     }

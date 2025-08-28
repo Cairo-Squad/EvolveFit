@@ -15,7 +15,7 @@ import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.cancel
-import evolvefit.composeapp.generated.resources.exit_confirmation_message
+import evolvefit.composeapp.generated.resources.exit_create_workout_confirmation_message
 import evolvefit.composeapp.generated.resources.exit_confirmation_title
 import evolvefit.composeapp.generated.resources.exit_without_saving
 import evolvefit.composeapp.generated.resources.im_save_dark
@@ -26,11 +26,12 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ExitCreateExerciseBottomSheet(
+fun ExitCreationBottomSheet(
     isVisible: Boolean = false,
-    onDismiss: () -> Unit = {},
-    onCancelClicked: () -> Unit = {},
-    onExitWithoutSavingClicked: () -> Unit = {}
+    onDismiss: () -> Unit,
+    onCancelClicked: () -> Unit,
+    onExitWithoutSavingClicked: () -> Unit,
+    message: String
 ) {
     val saveImage =
         if (Theme.isDark) painterResource(Res.drawable.im_save_dark)
@@ -59,7 +60,7 @@ fun ExitCreateExerciseBottomSheet(
             Text(
                 modifier = Modifier
                     .padding(bottom = 24.dp),
-                text = stringResource(Res.string.exit_confirmation_message),
+                text = message,
                 style = Theme.textStyle.label.smallRegular12,
                 color = Theme.color.surfaces.onSurfaceVariant
             )
@@ -69,6 +70,7 @@ fun ExitCreateExerciseBottomSheet(
                 onClick = onCancelClicked
             )
             PrimaryButton(
+                modifier = Modifier.padding(top = 12.dp),
                 text = stringResource(Res.string.exit_without_saving),
                 enabledContainerColor = Color.Transparent,
                 enabledTextColor = Theme.color.surfaces.onSurfaceContainer,
@@ -84,11 +86,12 @@ fun ExitCreateExerciseBottomSheet(
 @Composable
 fun ExiteCreateExerciseBottomSheetPreview() {
     AppTheme(isDarkTheme = false) {
-        ExitCreateExerciseBottomSheet(
+        ExitCreationBottomSheet(
             isVisible = true,
             onDismiss = {},
             onCancelClicked = {},
-            onExitWithoutSavingClicked = {}
+            onExitWithoutSavingClicked = {},
+            message = stringResource(Res.string.exit_create_workout_confirmation_message)
         )
     }
 }

@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.createWorkout.content
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,8 +9,8 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
@@ -21,14 +22,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.component.CustomDropDownMenu
+import com.cairosquad.evolvefit.design_system.component.InputField
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
-import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.screen.createExercise.content.component.CustomDropdownMenu
+import com.cairosquad.evolvefit.ui.screen.createExercise.content.component.RowWithIcon
 import com.cairosquad.evolvefit.ui.screen.createWorkout.content.component.WorkoutImage
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState
@@ -43,7 +46,6 @@ import evolvefit.composeapp.generated.resources.create_workout_title_
 import evolvefit.composeapp.generated.resources.cross_icon_desc_
 import evolvefit.composeapp.generated.resources.enter_description_
 import evolvefit.composeapp.generated.resources.enter_workout_name_
-import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_cross
 import evolvefit.composeapp.generated.resources.intermediate
 import evolvefit.composeapp.generated.resources.next_button_
@@ -52,7 +54,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun CreateWorkoutContent(
+fun CreateWorkoutDetailsContent(
     state: CreateWorkOutScreenState,
     listener: CreateWorkOutInteractionListener,
 ) {
@@ -131,19 +133,20 @@ fun CreateWorkoutContent(
             InputField(
                 value = state.name,
                 onValueChange = listener::onNameChanged,
+                horizontalPadding = 12.dp,
+                verticalPadding = 15.5.dp,
+                minHeight = 40.dp,
                 placeholder = stringResource(Res.string.enter_workout_name_),
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
 
-            CustomDropDownMenu(
-                selectedText = state.level?.let { toDisplayName(it) } ?: "",
-                options = workoutGoals.map { toDisplayName(it) },
-                placeholder = stringResource(Res.string.choose_level),
-                iconPainter = painterResource(Res.drawable.ic_arrow_down),
-                onOptionSelected = { selectedGoal ->
-                    listener.onGoalSelected(selectedGoal)
-                },
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            GoalDropDownMenu(
+                state = state,
+                selectedGoalName = state.level?.let { toDisplayName(it) }
+                    ?: stringResource(Res.string.choose_level),
+                selectedGoalTextColor = if (state.level == null) Theme.color.surfaces.onSurfaceVariant
+                else Theme.color.surfaces.onSurfaceContainer,
+                listener = listener
             )
 
             Box(
@@ -160,6 +163,8 @@ fun CreateWorkoutContent(
                     onValueChange = {
                         if (it.length <= 3000) listener.onDescriptionChanged(it)
                     },
+                    horizontalPadding = 12.dp,
+                    verticalPadding = 12.dp,
                     maxCharacters = 3000,
                     isSingleLine = false,
                     placeholder = stringResource(Res.string.enter_description_),
@@ -189,18 +194,50 @@ fun CreateWorkoutContent(
             isEnabled = state.isNextEnabled,
             modifier = Modifier
                 .fillMaxWidth()
+                .windowInsetsPadding(WindowInsets.navigationBars)
                 .padding(horizontal = 16.dp, vertical = 16.dp)
                 .padding(bottom = 24.dp)
         )
     }
 
 }
+
 @Composable
-fun toDisplayName(level : WorkoutLevel): String {
+fun toDisplayName(level: WorkoutLevel): String {
     return when (level) {
         WorkoutLevel.BEGINNER -> stringResource(Res.string.beginner)
         WorkoutLevel.INTERMEDIATE -> stringResource(Res.string.intermediate)
-        WorkoutLevel.ADVANCED ->  stringResource(Res.string.advanced)
+        WorkoutLevel.ADVANCED -> stringResource(Res.string.advanced)
     }
 }
 
+@Composable
+fun GoalDropDownMenu(
+    state: CreateWorkOutScreenState,
+    selectedGoalName: String,
+    selectedGoalTextColor: Color,
+    listener: CreateWorkOutInteractionListener
+) {
+    RowWithIcon(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 4.dp),
+        text = selectedGoalName,
+        textColor = selectedGoalTextColor,
+        isIconClicked = state.isGoalExpanded,
+        onIconClicked = listener::onGoalIconClicked
+    )
+
+    AnimatedVisibility(visible = state.isGoalExpanded) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp)
+        ) {
+            CustomDropdownMenu(
+                items = state.levelsNames,
+                onItemSelected = listener::onGoalSelected,
+                isChecked = state::isGoalSelected,
+                labelProvider = { toDisplayName(it) }
+            )
+        }
+    }
+}

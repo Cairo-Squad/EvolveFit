@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.StateMessage
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.screen.favorites.content.FavoritesLoadingScreen
 import com.cairosquad.evolvefit.viewmodel.favorites.FavoritesInteractionListener
 import com.cairosquad.evolvefit.viewmodel.favorites.FavoritesState
 import com.cairosquad.evolvefit.viewmodel.favorites.MealsUiModel
@@ -93,33 +94,35 @@ fun TabsWithPager(
         ) { page ->
             when (page) {
                 0 -> {
-                    AnimatedEmptyStateSwitcher(
-                        isEmpty = workouts.isEmpty(),
-                        emptyTitle = stringResource(Res.string.empty_workouts_title),
-                        emptyDescription = stringResource(Res.string.empty_workouts_description)
-                    ) {
-                        WorkoutList(
-                            workouts = workouts,
-                            onSaveIconClick = {
-                                listener.deleteWorkout(it)
-                            }
+                    when {
+                        state.isWorkoutsLoading -> FavoritesLoadingScreen()
+                        else -> AnimatedEmptyStateSwitcher(
+                            isEmpty = workouts.isEmpty(),
+                            emptyTitle = stringResource(Res.string.empty_workouts_title),
+                            emptyDescription = stringResource(Res.string.empty_workouts_description)
+                        ) {
+                            WorkoutList(
+                                workouts = workouts,
+                                onSaveIconClick = listener::deleteWorkout
 
-                        )
+                            )
+                        }
                     }
                 }
 
                 1 -> {
-                    AnimatedEmptyStateSwitcher(
-                        isEmpty = meals.isEmpty(),
-                        emptyTitle = stringResource(Res.string.empty_meals_title),
-                        emptyDescription = stringResource(Res.string.empty_meals_description)
-                    ) {
-                        MealsList(
-                            meals = meals,
-                            onSaveIconClick = {
-                                listener.deleteMeal(it)
-                            }
-                        )
+                    when {
+                        state.isMealsLoading -> FavoritesLoadingScreen()
+                        else -> AnimatedEmptyStateSwitcher(
+                            isEmpty = meals.isEmpty(),
+                            emptyTitle = stringResource(Res.string.empty_meals_title),
+                            emptyDescription = stringResource(Res.string.empty_meals_description)
+                        ) {
+                            MealsList(
+                                meals = meals,
+                                onSaveIconClick = listener::deleteMeal
+                            )
+                        }
                     }
                 }
             }

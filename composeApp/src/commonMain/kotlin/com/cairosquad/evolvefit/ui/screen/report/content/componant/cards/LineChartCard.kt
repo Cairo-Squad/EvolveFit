@@ -24,6 +24,9 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.report.content.componant.animatedMeter.AnimatedLineChart
 import com.cairosquad.evolvefit.ui.screen.report.content.componant.animatedMeter.chartComponent.ChartGrid
 import com.cairosquad.evolvefit.ui.util.TimeUtil
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.time_spent_training
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -48,7 +51,7 @@ fun LineChartCard(
 
     ReportCard(
         modifier = modifier,
-        title = "Time Spent Training",
+        title = stringResource(Res.string.time_spent_training),
         value = totalTime
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
@@ -84,6 +87,7 @@ fun LineChartCard(
                             .height(112.dp)
                             .offset(y = (-6).dp),
                         data = data,
+                        toolTipValue = data.map { TimeUtil.formatDurationLabel(it) },
                         lineColor = lineColor,
                         areaColor = areaColor,
                         markerColor = markerColor,

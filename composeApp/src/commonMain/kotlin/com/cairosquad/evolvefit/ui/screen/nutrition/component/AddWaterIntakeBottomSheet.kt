@@ -12,7 +12,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
-import com.cairosquad.evolvefit.design_system.composables.InputField
+import com.cairosquad.evolvefit.design_system.component.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
@@ -35,7 +35,7 @@ fun AddWaterIntakeBottomSheet(
         onDismiss = { listener.onDismissWaterClicked() }) {
         Column(
             modifier = modifier
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.Center
         ) {
@@ -45,6 +45,7 @@ fun AddWaterIntakeBottomSheet(
                 color = Theme.color.surfaces.onSurfaceContainer
             )
             Text(
+                modifier = Modifier.padding(top = 4.dp),
                 text = stringResource(Res.string.track_water_intake),
                 style = Theme.textStyle.body.mediumMedium12,
                 color = Theme.color.surfaces.outline

@@ -10,10 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,18 +19,15 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.exercise_image
-import evolvefit.composeapp.generated.resources.seconds
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ExerciseCard(
     title: String,
-    time: String,
-    modifier: Modifier = Modifier,
-    unit: String = stringResource(Res.string.seconds),
     model: String,
-    measurementContent: @Composable (() -> Unit)? = null
+    measurementContent: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -56,19 +49,8 @@ fun ExerciseCard(
                 style = Theme.textStyle.body.mediumMedium14,
                 color = Theme.color.surfaces.onSurfaceContainer
             )
-            if (measurementContent == null) {
-                Text(
-                    text = "$time $unit",
-                    style = Theme.textStyle.label.smallRegular12,
-                    color = Theme.color.surfaces.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 12.dp)
-                )
-            } else {
-                measurementContent.let {
-                    Box(modifier = Modifier.padding(top = 12.dp)) {
-                        it()
-                    }
-                }
+            Box(modifier = Modifier.padding(top = 12.dp)) {
+                measurementContent()
             }
         }
     }
@@ -83,7 +65,7 @@ private fun ExerciseCardPreview() {
                 .background(Theme.color.surfaces.surface)
                 .padding(16.dp)
         ) {
-            ExerciseCard(title = "Bodyweight Squats", time = "30", model = "")
+            ExerciseCard(title = "Bodyweight Squats", model = "", {})
         }
     }
 }

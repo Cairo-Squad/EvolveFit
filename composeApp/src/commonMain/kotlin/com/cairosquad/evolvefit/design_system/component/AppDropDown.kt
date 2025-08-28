@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.DropdownMenu
@@ -33,20 +35,20 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import com.cairosquad.evolvefit.design_system.composables.InputField
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
+import com.cairosquad.evolvefit.ui.screen.createWorkout.content.toDisplayName
+import com.cairosquad.evolvefit.viewmodel.create_workout.CreateWorkOutScreenState.WorkoutLevel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.ic_arrow_down
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CustomDropDownMenu(
     selectedText: String,
-    options: List<String>,
+    options: Array<WorkoutLevel>,
     iconPainter: Painter? = null,
-    onOptionSelected: (String) -> Unit,
+    onOptionSelected: (WorkoutLevel) -> Unit,
     modifier: Modifier = Modifier,
     placeholder: String = ""
 ) {
@@ -64,19 +66,16 @@ fun CustomDropDownMenu(
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
-                .clickable { expanded = !expanded }
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
+                .clickable { expanded = !expanded }
                 .background(Theme.color.surfaces.surfaceContainer)
-                .padding(horizontal = 12.dp, vertical = 20.dp),
+                .padding(horizontal = 12.dp, vertical = 14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             BasicText(
-                modifier = Modifier.padding(start = 8.dp),
                 text = displayText,
-                style = Theme.textStyle.label.smallRegular14.copy(
-                    color = textColor
-                )
+                style = Theme.textStyle.label.smallRegular14.copy(color = textColor)
             )
             Spacer(modifier = Modifier.weight(1f))
 
@@ -87,59 +86,38 @@ fun CustomDropDownMenu(
                     tint = Color.Unspecified,
                     modifier = Modifier
                         .padding(start = 8.dp)
+                        .size(20.dp)
                         .graphicsLayer { rotationZ = rotation }
                 )
             }
         }
-
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Theme.color.surfaces.surfaceContainer)
-                .clip(RoundedCornerShape(8.dp))
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = {
-                        Text(
-                            text = option,
-                            style = Theme.textStyle.label.smallRegular14.copy(
-                                color = Theme.color.surfaces.onSurfaceContainer
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier
+                    .background(Theme.color.surfaces.surfaceContainer)
+                    .clip(RoundedCornerShape(8.dp))
+            ) {
+                options.forEach { option ->
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                text = toDisplayName(option),
+                                style = Theme.textStyle.label.smallRegular14.copy(
+                                    color = Theme.color.surfaces.onSurfaceContainer
+                                )
                             )
-                        )
-                    },
-                    onClick = {
-                        expanded = false
-                        onOptionSelected(option)
-                    },
-                )
+                        },
+                        onClick = {
+                            expanded = false
+                            onOptionSelected(option)
+                        },
+                        modifier= Modifier.fillMaxWidth()
+                    )
+                }
             }
-        }
     }
 }
-
-
-
-@Preview()
-@Composable
-fun AppDropDownMenuPreview() {
-    var selectedOption by remember { mutableStateOf("") }
-    val options = listOf("Lose Weight", "Build Muscle", "Stay Fit")
-
-    AppTheme(isDarkTheme = true) {
-        CustomDropDownMenu(
-            selectedText = selectedOption,
-            options = options,
-            placeholder = "Choose your goal",
-            iconPainter = painterResource(Res.drawable.ic_arrow_down),
-            onOptionSelected = { selectedOption = it },
-            modifier = Modifier.padding(horizontal = 16.dp).padding(top=30.dp)
-        )
-    }
-}
-
 
 @Composable
 fun CustomAnimatedDropdownMenu(
@@ -222,46 +200,6 @@ private fun DropdownMenuPreview() {
                     },
                     style = CheckboxStyle.Tick
                 )
-            }
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun DropdownMenuTextPreview() {
-    var selectedItem by remember { mutableStateOf("Lunch") }
-    var isMenuExpanded by remember { mutableStateOf(false) }
-    val items = listOf("Breakfast", "Lunch", "Dinner", "Snack")
-    AppTheme(isDarkTheme = true) {
-        CustomAnimatedDropdownMenu(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Theme.color.surfaces.surfaceContainer)
-                .clip(RoundedCornerShape(8.dp))
-                .padding(top=50.dp),
-            items = items,
-            selectedItem = selectedItem,
-            isExpanded = isMenuExpanded,
-            onItemClicked = {
-                selectedItem = it
-            },
-            onDismissRequest = {
-                isMenuExpanded = !isMenuExpanded
-            },
-            itemContent = { item, isSelected, clicked ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(40.dp)
-                        .clickable(
-                            onClick = { clicked() }
-                        ),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(text = item, color = Theme.color.brand.primary)
-                }
-
             }
         )
     }

@@ -12,8 +12,8 @@ data class EditProfileScreenState(
     val bottomSheetType: EditProfileBottomSheetType? = null,
     val errorMessage: StringResource? = null,
     val allEquipments: Set<EquipmentUiState> = emptySet(),
-    val isImagePickerOpened : Boolean = false
-
+    val isImagePickerOpened : Boolean = false,
+    val isEditingName: Boolean = false
 ) {
     data class ProfileUiState(
         val fullName: String = "",
@@ -24,13 +24,11 @@ data class EditProfileScreenState(
         val weight: Float = 0f,
         val mainGoal: Profile.FitnessGoal = Profile.FitnessGoal.GAIN_WEIGHT,
         val imageUrl: String="",
-        val preferredMeasurementStandard: MeasurementStandard=MeasurementStandard.METRIC,
+        val preferredMeasurementStandard: MeasurementStandard = MeasurementStandard.METRIC,
         val preferredLanguage : Language= Language.ENGLISH,
         val equipments: Set<EquipmentUiState> = emptySet(),
         val workoutDays: Set<WeekDayUiState> = emptySet(),
     )
-
-
 
     enum class EditProfileBottomSheetType {
         WORKOUTS_DAYS,

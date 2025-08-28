@@ -21,6 +21,10 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.report.content.componant.animatedMeter.AnimatedBarChart
 import com.cairosquad.evolvefit.ui.screen.report.content.componant.animatedMeter.chartComponent.ChartGrid
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.weekly
+import evolvefit.composeapp.generated.resources.workouts_per_week
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -43,8 +47,8 @@ fun BarChartCard(
 
     ReportCard(
         modifier = modifier,
-        title = "Workouts Per Week",
-        value = "Weekly"
+        title = stringResource(Res.string.workouts_per_week),
+        value = stringResource(Res.string.weekly)
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Column(

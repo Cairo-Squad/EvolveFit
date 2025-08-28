@@ -1,7 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.editProfile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,21 +8,25 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.LabeledInputField
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
+import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.domain.entity.Profile.FitnessGoal
@@ -39,16 +42,20 @@ import com.cairosquad.evolvefit.ui.screen.editProfile.content.ToolsBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.WeightBottomSheet
 import com.cairosquad.evolvefit.ui.screen.editProfile.content.WorkoutDaysBottomSheet
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
+import com.cairosquad.evolvefit.ui.util.toString
 import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileEffect
 import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileInteractionListener
 import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileScreenState
 import com.cairosquad.evolvefit.viewmodel.edit_profile.EditProfileViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.arrow_back_description
 import evolvefit.composeapp.generated.resources.birth
+import evolvefit.composeapp.generated.resources.cm
 import evolvefit.composeapp.generated.resources.email
 import evolvefit.composeapp.generated.resources.female
 import evolvefit.composeapp.generated.resources.friday
+import evolvefit.composeapp.generated.resources.ft
 import evolvefit.composeapp.generated.resources.full_name
 import evolvefit.composeapp.generated.resources.gain_weight
 import evolvefit.composeapp.generated.resources.gender
@@ -56,6 +63,9 @@ import evolvefit.composeapp.generated.resources.goal
 import evolvefit.composeapp.generated.resources.height
 import evolvefit.composeapp.generated.resources.ic_arrow_down
 import evolvefit.composeapp.generated.resources.ic_back
+import evolvefit.composeapp.generated.resources.ic_pen
+import evolvefit.composeapp.generated.resources.kg
+import evolvefit.composeapp.generated.resources.lb
 import evolvefit.composeapp.generated.resources.lose_weight
 import evolvefit.composeapp.generated.resources.male
 import evolvefit.composeapp.generated.resources.monday
@@ -79,8 +89,6 @@ import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.math.round
-
 
 @Composable
 fun EditProfileScreen(
@@ -88,14 +96,13 @@ fun EditProfileScreen(
     viewModel: EditProfileViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()
-    ObserveAsEffect(viewModel.effect) {effect->
-        when(effect){
-            EditProfileEffect.NavigateBack->navigateBack()
+    ObserveAsEffect(viewModel.effect) { effect ->
+        when (effect) {
+            EditProfileEffect.NavigateBack -> navigateBack()
         }
 
     }
     EditProfileScreenContent(state, viewModel, navigateBack)
-
 }
 
 @Composable
@@ -114,17 +121,17 @@ fun EditProfileScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomAppBar(
+            modifier = Modifier
+                .padding(start = 16.dp),
             title = stringResource(Res.string.personal_information),
             header = {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_back),
-                    contentDescription = "back icon",
+                ActionIconButton(
+                    icon = painterResource(Res.drawable.ic_back),
+                    contentDescription = stringResource(Res.string.arrow_back_description),
                     tint = Theme.color.surfaces.onSurface,
-                    modifier = Modifier
-                        .clickable { navigateBack() }
+                    onClick = { navigateBack() }
                 )
-            },
-            modifier = Modifier.padding(start = 16.dp)
+            }
         )
         Column(
             modifier = Modifier
@@ -132,9 +139,9 @@ fun EditProfileScreenContent(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             UserProfileImage(
-                modifier = Modifier.padding(top = 24.dp, bottom = 24.dp),
+                modifier = Modifier.padding(top = 24.dp, bottom = 32.dp),
                 image = UiImage.ImageUrl(state.profile.imageUrl),
                 isImagePickerOpen = state.isImagePickerOpened,
                 onImagePickerDismiss = { listener.onImagePickerDismissed() },
@@ -172,8 +179,10 @@ fun EditProfileScreenContent(
                     label = stringResource(Res.string.full_name),
                     value = state.profile.fullName,
                     onValueChange = listener::onFullNameChanged,
+                    trailingIcon = Res.drawable.ic_pen,
                     isDividerVisible = true,
-                    readOnly = true,
+                    readOnly = false,
+                    onClick = { listener.onEditNameClicked() },
                 )
 
                 LabeledInputField(
@@ -188,9 +197,16 @@ fun EditProfileScreenContent(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
+                    val formattedDate = state.profile.dateOfBirth?.let { date ->
+                        val day = date.dayOfMonth.toString().padStart(2, '0')
+                        val month = date.monthNumber.toString().padStart(2, '0')
+                        val year = date.year
+                        "$day/$month/$year"
+                    } ?: "29/04/2000"
+
                     LabeledInputField(
                         label = stringResource(Res.string.birth),
-                        value = state.profile.dateOfBirth?.toString() ?: "29/04/2000",
+                        value = formattedDate,
                         onValueChange = {},
                         readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -215,7 +231,7 @@ fun EditProfileScreenContent(
                     label = stringResource(Res.string.units),
                     value = mapMeasurementStandardToString(state.profile.preferredMeasurementStandard),
                     onValueChange = { },
-                    readOnly = false,
+                    readOnly = true,
                     onClick = { listener.onPreferredMeasurementStandardClicked() },
                     trailingIcon = Res.drawable.ic_arrow_down,
                     isDividerVisible = true
@@ -224,11 +240,23 @@ fun EditProfileScreenContent(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
+                    val heightUnit =
+                        if (state.profile.preferredMeasurementStandard == MeasurementStandard.METRIC)
+                            stringResource(Res.string.cm)
+                        else
+                            stringResource(Res.string.ft)
+
+                    val weightUnit =
+                        if (state.profile.preferredMeasurementStandard == MeasurementStandard.METRIC)
+                            stringResource(Res.string.kg)
+                        else
+                            stringResource(Res.string.lb)
+
                     LabeledInputField(
                         label = stringResource(Res.string.height),
-                        value = (round(state.profile.height * 10) / 10).toString(),
+                        value = "${state.profile.height.toString(1)} $heightUnit",
                         onValueChange = {},
-                        readOnly = false,
+                        readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
                         onClick = { listener.onHeightClicked() },
                         isDividerVisible = true,
@@ -237,7 +265,7 @@ fun EditProfileScreenContent(
 
                     LabeledInputField(
                         label = stringResource(Res.string.weight),
-                        value = (round(state.profile.weight * 10) / 10).toString(),
+                        value = "${state.profile.weight.toString(1)} $weightUnit",
                         onValueChange = { },
                         readOnly = true,
                         trailingIcon = Res.drawable.ic_arrow_down,
@@ -283,7 +311,9 @@ fun EditProfileScreenContent(
             }
 
             PrimaryButton(
-                modifier = Modifier.padding(top = 29.dp, bottom = 32.dp),
+                modifier = Modifier
+                    .padding(top = 29.dp, bottom = 32.dp)
+                    .navigationBarsPadding(),
                 text = stringResource(Res.string.save_changes),
                 onClick = { listener.onSaveChangesClicked(state.profile) }
             )
@@ -314,8 +344,6 @@ fun EditProfileScreenContent(
 
                 }
             )
-
-
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.WORKOUTS_DAYS -> {
@@ -327,7 +355,6 @@ fun EditProfileScreenContent(
                     listener.onWorkoutDaysChanged(workoutDays)
                 }
             )
-
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.GENDER -> {
@@ -339,7 +366,6 @@ fun EditProfileScreenContent(
                     listener.onBottomSheetDismissed()
                 }
             )
-
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.MAIN_GOAL -> {
@@ -349,9 +375,7 @@ fun EditProfileScreenContent(
                 onGoalChange = { goal ->
                     listener.onMainGoalChanged(goal)
                 }
-
             )
-
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.MEASUREMENT_STANDARD -> {
@@ -362,7 +386,6 @@ fun EditProfileScreenContent(
                     listener.onPreferredMeasurementStandardChanged(unit)
                 }
             )
-
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.HEIGHT -> {
@@ -373,9 +396,7 @@ fun EditProfileScreenContent(
                 onHeightChange = { height ->
                     listener.onHeightChanged(height)
                 }
-
             )
-
         }
 
         EditProfileScreenState.EditProfileBottomSheetType.WEIGHT -> {
@@ -386,9 +407,7 @@ fun EditProfileScreenContent(
                 onWeightChange = { weight ->
                     listener.onWeightChanged(weight)
                 }
-
             )
-
         }
 
         null -> Unit
@@ -438,7 +457,6 @@ private fun mapMainGoalToString(goal: FitnessGoal): String {
     return when (goal) {
         FitnessGoal.LOSE_WEIGHT -> stringResource(Res.string.lose_weight)
         FitnessGoal.GAIN_WEIGHT -> stringResource(Res.string.gain_weight)
-        FitnessGoal.STAY_IN_SHAPE-> stringResource(Res.string.stay_in_shape)
-
+        FitnessGoal.STAY_IN_SHAPE -> stringResource(Res.string.stay_in_shape)
     }
 }

@@ -3,19 +3,19 @@ package com.cairosquad.evolvefit.repository.home
 import com.cairosquad.evolvefit.domain.model.WeeklyProgress
 import com.cairosquad.evolvefit.domain.repository.HomeRepository
 import com.cairosquad.evolvefit.repository.execption.callDataSource
-import com.cairosquad.evolvefit.repository.home.data_source.remote.RemoteHomeDataSource
+import com.cairosquad.evolvefit.repository.home.data_source.remote.HomeRemoteDataSource
 import com.cairosquad.evolvefit.repository.utils.localDateToLocalDateTimeAtMidnight
 import kotlinx.datetime.LocalDate
 
 class HomeRepositoryImpl(
-    private val remoteHomeDataSource: RemoteHomeDataSource
+    private val homeRemoteDataSource: HomeRemoteDataSource
 ) : HomeRepository {
     override suspend fun getWeeklyProgress(
         startDate: LocalDate,
         endDate: LocalDate
     ): WeeklyProgress {
         return callDataSource {
-            remoteHomeDataSource.getWeeklyProgress(
+            homeRemoteDataSource.getWeeklyProgress(
                 startDate = localDateToLocalDateTimeAtMidnight(startDate).toString(),
                 endDate = localDateToLocalDateTimeAtMidnight(endDate).toString()
             ).toEntity(

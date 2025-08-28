@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.viewmodel.create_workout
 
+import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.entity.Exercise
 import com.cairosquad.evolvefit.domain.entity.Workout
 import com.cairosquad.evolvefit.domain.usecase.exercise.ManageExerciseUseCase
@@ -14,6 +15,8 @@ import com.cairosquad.evolvefit.viewmodel.utils.asByteArray
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.create
 import evolvefit.composeapp.generated.resources.create_dark
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class CreateWorkoutViewModel(
     private val manageWorkoutUseCase: ManageWorkoutUseCase,
@@ -23,24 +26,25 @@ class CreateWorkoutViewModel(
     CreateWorkOutInteractionListener {
 
     init {
+        loadData()
+    }
+
+    private fun loadData() {
         loadExercises()
         updateCreateWorkoutImage()
     }
-    private fun updateCreateWorkoutImage()
-    {
-        val theme =managePreferencesUseCase.getTheme()
+
+    private fun updateCreateWorkoutImage() {
+        val theme = managePreferencesUseCase.getTheme()
         var image = UiImage.ImageResource(Res.drawable.create)
-        if(theme==Theme.DARK)
-        {
+        if (theme == Theme.DARK) {
             image = UiImage.ImageResource(Res.drawable.create_dark)
         }
-        updateState { it.copy(image=image) }
+        updateState { it.copy(image = image) }
     }
 
     private fun pushWorkoutImage(id: String) {
-        val image = screenState.value.image ?: run {
-            return
-        }
+        val image = screenState.value.image
         tryToCall(
             block = {
                 val imageFileData = image.asByteArray()
@@ -58,22 +62,38 @@ class CreateWorkoutViewModel(
     }
 
     private fun handleExercisesResultSuccess(exercises: List<Exercise>) {
-        val uiExercises = exercises.map { it.toUiState() }
+        val oldExercises = screenState.value.allExercises
+        val newlyAddExercises = screenState.value.newlyAddExercises
+        val fetchedExercises = exercises.map { it.toUiState() }
+
+        if (fetchedExercises.size == oldExercises.size + newlyAddExercises.size + 1) {
+            val newExercise = fetchedExercises.last()
+            updateState {
+                it.copy(
+                    status = CreateWorkOutScreenState.ScreenStatus.SUCCESS,
+                    newlyAddExercises = it.newlyAddExercises + newExercise,
+                    selectedExercises = it.selectedExercises + newExercise
+                )
+            }
+        }
         updateState {
             it.copy(
                 status = CreateWorkOutScreenState.ScreenStatus.SUCCESS,
-                allExercises = uiExercises,
-                filteredExercises = uiExercises
+                allExercises = fetchedExercises
+                    .filterNot { fetchedExercise -> it.newlyAddExercises.contains(fetchedExercise) },
+                filteredExercises = fetchedExercises
+                    .filterNot { fetchedExercise -> it.newlyAddExercises.contains(fetchedExercise) },
+                isAddExercisesEnabled = it.selectedExercises.isNotEmpty()
             )
         }
     }
 
     fun loadExercises() {
         tryToCall(
+            onStart = ::handleWorkoutLoading,
             block = { manageExerciseUseCase.getAllExercises() },
             onSuccess = ::handleExercisesResultSuccess,
             onError = ::handleWorkoutError,
-            onStart = ::handleWorkoutLoading,
             onEnd = {}
         )
     }
@@ -90,25 +110,43 @@ class CreateWorkoutViewModel(
         updateState { it.copy(isImagePickerOpen = false) }
     }
 
+    override fun onRetryClicked() {
+        loadData()
+    }
+
+    override fun onRefresh() {
+        updateState {
+            it.copy(isRefreshing = true)
+        }
+        loadData()
+        viewModelScope.launch {
+            delay(500L)
+            updateState { it.copy(isRefreshing = false) }
+        }
+    }
+
     override fun onNameChanged(newName: String) {
         val cleanName = if (newName.isBlank()) "" else newName
         updateState {
             it.copy(
                 name = cleanName,
-                isNextEnabled = validate(cleanName, it.level?.name?:"", it.description)
+                isNextEnabled = validate(cleanName, it.level?.name ?: "", it.description)
             )
         }
     }
 
-    override fun onGoalSelected(goalName: String) {
-        val selectedGoal =
-            enumValues<WorkoutLevel>().firstOrNull { it.name == goalName } ?: WorkoutLevel.BEGINNER
+    override fun onGoalSelected(goal: WorkoutLevel) {
         updateState {
             it.copy(
-                level = selectedGoal,
-                isNextEnabled = validate(it.name, selectedGoal.name, it.description)
+                level = goal,
+                isGoalExpanded = false,
+                isNextEnabled = validate(it.name, goal.name, it.description)
             )
         }
+    }
+
+    override fun onGoalIconClicked() {
+        updateState { it.copy(isGoalExpanded = !it.isGoalExpanded) }
     }
 
     override fun onDescriptionChanged(desc: String) {
@@ -116,7 +154,7 @@ class CreateWorkoutViewModel(
         updateState {
             it.copy(
                 description = trimmed,
-                isNextEnabled = validate(it.name, it.level?.name?:"", trimmed)
+                isNextEnabled = validate(it.name, it.level?.name ?: "", trimmed)
             )
         }
     }
@@ -144,7 +182,16 @@ class CreateWorkoutViewModel(
     }
 
     override fun onExitClicked() {
+        updateState { it.copy(showExitBottomSheet = true) }
+    }
+
+    override fun onExitConfirmClicked() {
+        updateState { it.copy(showExitBottomSheet = false) }
         sendEffect(NavigateBack)
+    }
+
+    override fun onCancelExitClicked() {
+        updateState { it.copy(showExitBottomSheet = false) }
     }
 
     override fun onAddClicked() {
@@ -169,6 +216,7 @@ class CreateWorkoutViewModel(
 
     private fun handleWorkoutSuccess(createWorkout: Workout) {
         updateState { it.copy(status = CreateWorkOutScreenState.ScreenStatus.SUCCESS) }
+        updateState { it.copy(isLoading = false) }
         pushWorkoutImage(createWorkout.id)
         sendEffect(CreateWorkOutEffect.NavigateToWorkouts)
     }
@@ -176,6 +224,7 @@ class CreateWorkoutViewModel(
     private fun handleWorkoutError(throwable: Throwable) {
         throwable.printStackTrace()
         updateState { it.copy(status = CreateWorkOutScreenState.ScreenStatus.ERROR) }
+        updateState { it.copy(isLoading = false) }
     }
 
     private fun handleWorkoutLoading() {
@@ -183,23 +232,14 @@ class CreateWorkoutViewModel(
     }
 
     override fun onAddWorkoutClicked() {
-        val selectedDomainExercises = screenState.value.selectedExercises.map { it }
-        val workout = screenState.value.toDomainWorkout(selectedDomainExercises)
-
-        println(">>> Creating workout: $workout")
+        val selectedExercises = screenState.value.selectedExercises
+        val workout = screenState.value.toDomainWorkout(selectedExercises)
 
         tryToCall(
+            onStart = { updateState { it.copy(isLoading = true) } },
             block = { manageWorkoutUseCase.createWorkOut(workout) },
-            onSuccess = { createdWorkout ->
-                handleWorkoutSuccess(createdWorkout)
-                pushWorkoutImage(createdWorkout.id)
-            },
-            onError = {
-                handleWorkoutError(it)
-            },
-            onStart = {
-                handleWorkoutLoading()
-            }
+            onSuccess = ::handleWorkoutSuccess,
+            onError = ::handleWorkoutError,
         )
     }
 }

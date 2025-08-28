@@ -6,52 +6,30 @@ import com.cairosquad.evolvefit.repository.equipment.remote.EquipmentRemoteDataS
 import com.cairosquad.evolvefit.repository.equipment.remote.EquipmentsRemoteDataSource
 import com.cairosquad.evolvefit.repository.exercise.remote.ExerciseRemoteDataSource
 import com.cairosquad.evolvefit.repository.exercise.remote.ExerciseRemoteDataSourceImpl
-import com.cairosquad.evolvefit.repository.home.data_source.remote.RemoteHomeDataSource
-import com.cairosquad.evolvefit.repository.home.data_source.remote.RemoteHomeDataSourceImpl
-import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSource
-import com.cairosquad.evolvefit.repository.nutrition.remote.RemoteNutritionDataSourceImpl
-import com.cairosquad.evolvefit.repository.profile.remote.RemoteProfileDataSource
-import com.cairosquad.evolvefit.repository.profile.remote.RemoteProfileDataSourceImpl
+import com.cairosquad.evolvefit.repository.home.data_source.remote.HomeRemoteDataSource
+import com.cairosquad.evolvefit.repository.home.data_source.remote.HomeRemoteDataSourceImpl
+import com.cairosquad.evolvefit.repository.nutrition.remote.NutritionRemoteDataSource
+import com.cairosquad.evolvefit.repository.nutrition.remote.NutritionRemoteDataSourceImpl
+import com.cairosquad.evolvefit.repository.profile.remote.ProfileRemoteDataSource
+import com.cairosquad.evolvefit.repository.profile.remote.ProfileRemoteDataSourceImpl
 import com.cairosquad.evolvefit.repository.report.remote.ReportRemoteDataSource
 import com.cairosquad.evolvefit.repository.report.remote.ReportRemoteDataSourceImpl
-import com.cairosquad.evolvefit.repository.utils.RefreshTokenProvider
-import com.cairosquad.evolvefit.repository.utils.provideHttpClient
+import com.cairosquad.evolvefit.repository.utils.HttpClientHolder
 import com.cairosquad.evolvefit.repository.workout.remote.WorkoutRemoteDataSource
 import com.cairosquad.evolvefit.repository.workout.remote.WorkoutRemoteDataSourceImpl
 import io.ktor.client.HttpClient
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logging
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val remoteModule = module {
-    single<AuthenticationRemoteDataSource> { AuthenticationRemoteDataSourceImpl(get()) }
-    single<ExerciseRemoteDataSource> { ExerciseRemoteDataSourceImpl(get()) }
-    single<EquipmentsRemoteDataSource> { EquipmentRemoteDataSourceImpl(get()) }
-    single<RemoteNutritionDataSource> { RemoteNutritionDataSourceImpl(get()) }
-    single<WorkoutRemoteDataSource> { WorkoutRemoteDataSourceImpl(get()) }
+    singleOf (::HttpClientHolder)
+    singleOf(::AuthenticationRemoteDataSourceImpl).bind(AuthenticationRemoteDataSource::class)
+    singleOf(::ExerciseRemoteDataSourceImpl).bind(ExerciseRemoteDataSource::class)
+    singleOf(::EquipmentRemoteDataSourceImpl).bind(EquipmentsRemoteDataSource::class)
+    singleOf(::NutritionRemoteDataSourceImpl).bind(NutritionRemoteDataSource::class)
+    singleOf(::WorkoutRemoteDataSourceImpl).bind(WorkoutRemoteDataSource::class)
     singleOf(::ReportRemoteDataSourceImpl) bind ReportRemoteDataSource::class
-    single {
-        RefreshTokenProvider(HttpClient {
-            install(ContentNegotiation) {
-                json(Json { ignoreUnknownKeys = true })
-            }
-            install(Logging) {
-                level = LogLevel.BODY
-            }
-        })
-    }
-    single {
-        provideHttpClient(
-            authenticationPreferences = get(),
-            refreshTokenProvider = get()
-        )
-    }
-
-    singleOf(::RemoteProfileDataSourceImpl) bind RemoteProfileDataSource::class
-    singleOf(::RemoteHomeDataSourceImpl) bind RemoteHomeDataSource::class
+    singleOf(::ProfileRemoteDataSourceImpl) bind ProfileRemoteDataSource::class
+    singleOf(::HomeRemoteDataSourceImpl) bind HomeRemoteDataSource::class
 }

@@ -1,18 +1,29 @@
 package com.cairosquad.evolvefit.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.adamglin.composeshadow.dropShadow
 import com.cairosquad.evolvefit.design_system.component.CheckboxItem
@@ -67,44 +78,48 @@ fun DropdownMenu(
     onItemClicked: (ReportScreenState.WeekItem) -> Unit,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    isShadowEnabled: Boolean = false
 ) {
-    AnimatedVisibility(
-        modifier = modifier,
-        visible = isExpanded,
-        enter = fadeIn(animationSpec = tween(500)),
-        exit = fadeOut(animationSpec = tween(500))
-    ) {
-        Column(
-            modifier = modifier
-                .then(
-                    if (isShadowEnabled) {
-                        Modifier.dropShadow(
-                            shape = RoundedCornerShape(8.dp),
-                            color = Color.White.copy(0.16f),
-                            offsetY = 40.dp,
-                            offsetX = 0.dp,
-                            blur = 80.dp,
-                            spread = 0.dp,
-                        )
-                    } else Modifier
-                )
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
-                .background(Theme.color.surfaces.surfaceContainer)
-                .padding(8.dp)
-        ) {
-            items.forEach { item ->
-                val isSelected = item.key == selectedItem.key
+    val dropShadowColor by animateColorAsState(
+        targetValue = if (isExpanded) Theme.color.surfaces.dropShadow else Theme.color.surfaces.dropShadow.copy(0f)
+    )
 
-                CheckboxItem(
-                    text = stringResource( item.label),
-                    isChecked = isSelected,
-                    onCheckedChange = {
-                        onItemClicked(item)
-                        onDismissRequest()
-                    }, style = CheckboxStyle.Tick
-                )
+    Box(
+        modifier = Modifier.fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { onDismissRequest() })
+            }
+    ) {
+        AnimatedVisibility(
+            modifier = modifier.dropShadow(
+                shape = RoundedCornerShape(8.dp),
+                color = dropShadowColor,
+                offsetY = 40.dp,
+                offsetX = 0.dp,
+                blur = 80.dp,
+                spread = 0.dp,
+            ),
+            visible = isExpanded,
+        ) {
+            Column(
+                modifier = modifier
+                    .offset(y = (-8).dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Theme.color.surfaces.surfaceContainer)
+                    .padding(8.dp)
+            ) {
+                items.forEach { item ->
+                    val isSelected = item.key == selectedItem.key
+
+                    CheckboxItem(
+                        text = stringResource(item.label),
+                        isChecked = isSelected,
+                        onCheckedChange = {
+                            onItemClicked(item)
+                            onDismissRequest()
+                        }, style = CheckboxStyle.Tick
+                    )
+                }
             }
         }
     }

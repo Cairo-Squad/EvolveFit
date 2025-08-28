@@ -1,0 +1,36 @@
+package com.cairosquad.evolvefit.ui.screen.workout.content
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.component.Chip
+import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState
+import org.jetbrains.compose.resources.stringResource
+
+@Composable
+fun WorkoutFocusAreaFilter(
+    focusArea: List<WorkoutScreenState.FocusAreaUiState>,
+    selectedFocusArea: WorkoutScreenState.FocusAreaUiState,
+    onSelectFocusArea: (WorkoutScreenState.FocusAreaUiState) -> Unit
+) {
+    LazyRow(
+        modifier = Modifier.padding(vertical = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        contentPadding = PaddingValues(horizontal = 16.dp)
+    ) {
+        items(focusArea.size) { index ->
+            val area = focusArea[index]
+            Chip(
+                title = stringResource(area.nameResId),
+                isSelected = selectedFocusArea == area,
+                onClick = { onSelectFocusArea(area) }
+            )
+        }
+    }
+}

@@ -15,13 +15,14 @@ import org.jetbrains.compose.resources.StringResource
 
 data class MealHistoryScreenState(
     val mealsHistories: List<DayGroupedMealsUiState> = emptyList(),
-    val errorMessage: String? = null,
+    val errorMessage: StringResource? = null,
     val screenStatus: ScreenStatus = ScreenStatus.LOADING
 ) {
     enum class ScreenStatus {
         LOADING,
         ERROR,
-        SUCCESS
+        SUCCESS,
+        EMPTY
     }
 
     data class DayGroupedMealsUiState(

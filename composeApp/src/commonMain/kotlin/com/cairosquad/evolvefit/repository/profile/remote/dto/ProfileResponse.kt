@@ -1,6 +1,7 @@
 package com.cairosquad.evolvefit.repository.profile.remote.dto
 
 import com.cairosquad.evolvefit.domain.entity.Profile
+import com.cairosquad.evolvefit.domain.model.MeasurementStandard
 import com.cairosquad.evolvefit.domain.model.WeekDay
 import com.cairosquad.evolvefit.repository.equipment.remote.dto.GymEquipmentDto
 import com.cairosquad.evolvefit.repository.equipment.remote.toDomain
@@ -51,6 +52,5 @@ data class ProfileResponse(
             workoutDays = workoutDays.map { WeekDay.valueOf(it) }.toSet()
         )
         return entity
-
     }
 }

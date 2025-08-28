@@ -95,7 +95,7 @@ class NutritionViewModel(
             it.copy(
                 dailyCaloriesGoal = dailyCalorieSummary.totalCalories.toFloat(),
                 todayConsumedCalories = dailyCalorieSummary.consumedCalories.toFloat(),
-                remainingDailyCalories = (dailyCalorieSummary.totalCalories - dailyCalorieSummary.consumedCalories).toFloat()
+                remainingDailyCalories = (dailyCalorieSummary.totalCalories - dailyCalorieSummary.consumedCalories)
             )
         }
     }
@@ -261,6 +261,7 @@ class NutritionViewModel(
             updateState {
                 it.copy(
                     isAddMealSheetVisible = false,
+                    isInitialLoad = true,
                     isAddButtonEnabled = false,
                     consumedCaloriesInput = "",
                     mealNameInput = "",
@@ -333,7 +334,7 @@ class NutritionViewModel(
     }
 
     override fun onToggleMealTypeMenu() {
-        updateState { it.copy(isMealTypeMenuExpanded = !it.isMealTypeMenuExpanded) }
+        updateState { it.copy(isMealTypeMenuExpanded = !it.isMealTypeMenuExpanded,isInitialLoad = false) }
     }
 
     override fun onViewAllSuggestedMealsClicked() {
@@ -365,13 +366,16 @@ class NutritionViewModel(
             it.copy(
                 isAddMealSheetVisible = false,
                 mealNameInputError = null,
-                mealCaloriesInputError = null
+                mealCaloriesInputError = null,
+                isInitialLoad = true,
+                mealNameInput = "",
+                consumedCaloriesInput = ""
             )
         }
     }
 
     override fun onDismissWaterClicked() {
-        updateState { it.copy(isAddWaterSheetVisible = false, waterInputError = null) }
+        updateState { it.copy(isAddWaterSheetVisible = false, waterInputError = null, consumedWaterInput = "") }
     }
 
     override fun onRefresh() {
@@ -450,7 +454,10 @@ class NutritionViewModel(
         tryToCall(
             block = block,
             onSuccess = onSuccess,
-            onError = ::handleNutritionErrors
+            onError = {
+                updateState { it.copy(consumedWaterInput = "") }
+                handleNutritionErrors(it)
+            }
         )
     }
 

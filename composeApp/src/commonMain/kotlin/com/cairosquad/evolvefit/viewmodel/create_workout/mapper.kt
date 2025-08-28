@@ -13,7 +13,6 @@ fun CreateWorkOutScreenState.toDomainWorkout(exercises: List<CreateWorkOutScreen
         is UiImage.ImageUrl -> img.url
         is UiImage.ImageResource -> ""
         is UiImage.ImageFile -> img.platformFile.path
-        null -> ""
     }
     return Workout(
         id = "",

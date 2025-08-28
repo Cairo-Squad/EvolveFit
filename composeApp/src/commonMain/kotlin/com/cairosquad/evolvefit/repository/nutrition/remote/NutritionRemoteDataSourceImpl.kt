@@ -8,20 +8,17 @@ import com.cairosquad.evolvefit.repository.nutrition.remote.dto.DailyWaterSummar
 import com.cairosquad.evolvefit.repository.nutrition.remote.dto.FavouriteMealDto
 import com.cairosquad.evolvefit.repository.nutrition.remote.dto.MealDto
 import com.cairosquad.evolvefit.repository.nutrition.remote.dto.SuggestedMealDto
-import io.ktor.client.HttpClient
+import com.cairosquad.evolvefit.repository.utils.HttpClientHolder
 import io.ktor.client.call.body
-import io.ktor.client.request.delete
-import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 
-class RemoteNutritionDataSourceImpl(
-    private val httpClient: HttpClient
-) : RemoteNutritionDataSource {
+class NutritionRemoteDataSourceImpl(
+    private val httpClient: HttpClientHolder
+) : NutritionRemoteDataSource {
 
     override suspend fun getSuggestedMeals(): List<SuggestedMealDto> {
         return callApi<List<SuggestedMealDto>> {

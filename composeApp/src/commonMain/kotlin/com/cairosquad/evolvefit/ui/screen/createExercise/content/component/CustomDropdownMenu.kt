@@ -22,11 +22,12 @@ import com.cairosquad.evolvefit.design_system.theme.Theme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun CustomDropdownMenu(
+fun <T> CustomDropdownMenu(
     modifier: Modifier = Modifier,
-    items: List<String>,
-    onItemSelected: (String) -> Unit,
-    isChecked: (String) -> Boolean
+    items: List<T>,
+    onItemSelected: (T) -> Unit,
+    isChecked: (T) -> Boolean,
+    labelProvider: @Composable (T) -> String
 ) {
     Column(
         modifier = Modifier
@@ -34,8 +35,7 @@ fun CustomDropdownMenu(
                 color = Theme.color.surfaces.surfaceContainer,
                 shape = RoundedCornerShape(8.dp)
             )
-            .padding(16.dp)
-        ,
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -49,7 +49,7 @@ fun CustomDropdownMenu(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = item,
+                    text = labelProvider(item),
                     style = Theme.textStyle.body.mediumMedium14,
                     color = Theme.color.surfaces.onSurfaceContainer
                 )
@@ -80,7 +80,8 @@ private fun CustomDropdownMenuPreview() {
                 "Item 9"
             ),
             onItemSelected = {},
-            isChecked = { false }
+            isChecked = { false },
+            labelProvider = {""}
         )
     }
 }

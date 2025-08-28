@@ -10,6 +10,10 @@
     <string name="select_measurement">يرجى اختيار قياس ل</string>
     <string name="height">الطول</string>
     <string name="weight">الوزن</string>
+    <string name="workout_added_to_your_favorites">تم اضافة التدريب الى المفضلات</string>
+    <string name="fail_to_add_workout_to_your_favorites">لم يتم اضافة التدريب الى المفضلات</string>
+    <string name="workout_removed_from_your_favorites">تم ازالة التدريب من المفضلات</string>
+    <string name="fail_to_remove_workout_from_your_favorites">لم يتم ازالة التدريب من المفضلات</string>
     <string name="calories_format">السعرات الحرارية: %1$d سعرة</string>
     <string name="carbs_format">الكربوهيدرات: %1$d جم</string>
     <string name="protein_format">البروتين: %1$d جم</string>
@@ -64,7 +68,7 @@
     <string name="track_water_intake">ساعدنا على تتبع استهلاكك اليومي للماء للحفاظ على ترطيبك.</string>
     <string name="meal_cant_added_snackbar">لقد تجاوزت هدفك اليومي من السعرات الحرارية.</string>
     <string name="water_cant_added_snackbar">لقد تجاوزت هدفك اليومي من المياه.</string>
-    <string name="no_meals_title">لا توجد وجبات مسجلة بعد</string>
+    <string name="no_meals_title">لم يتم تسجيل أي وجبات اليوم</string>
     <string name="no_meals_description">ابدأ في تسجيل وجباتك لتتبع السعرات الحرارية اليومية وتحسين عاداتك الغذائية.</string>
     <string name="failed_to_load_meals">فشل تحميل الوجبات</string>
     <string name="cm">سم</string>
@@ -192,10 +196,11 @@
     <string name="save_exercise">احفظ التمرين</string>
     <string name="characters_left">متبقي %1$d حرف</string>
     <string name="select_focus_area">اختر منطقة التركيز</string>
-    <string name="choose_available_tools">اختر الأدوات المتاحة</string>
+    <string name="choose_available_tools">اختر الأداة</string>
 
     <string name="exit_confirmation_title">هل تريد الخروج؟</string>
-    <string name="exit_confirmation_message">لم تقم بحفظ التمرين بعد. قد تفقد كل التقدم.</string>
+    <string name="exit_create_workout_confirmation_message">لم تقم بحفظ التدريب بعد. قد تفقد كل التقدم.</string>
+    <string name="exit_create_exercise_confirmation_message">لم تقم بحفظ التمرين بعد. قد تفقد كل التقدم.</string>
     <string name="cancel">إلغاء</string>
     <string name="exit_without_saving">الخروج بدون حفظ</string>
     <string name="save_image">صورة الحفظ</string>
@@ -224,6 +229,7 @@
 
     <string name="error_no_internet">لا يوجد اتصال بالإنترنت.</string>
     <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>
+    <string name="user_not_found">هذا المستخدم غير موجود</string>
     <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.التنسيق الصحيح: example@domain.com.</string>
     <string name="error_invalid_email">تحقّق من البريد الإلكتروني وحاول مرة أخرى.</string>
     <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل.</string>
@@ -258,6 +264,10 @@
     <string name="add_icon_desc_">إضافة</string>
     <string name="search_exercise_placeholder_">ابحث عن اسم التمرين</string>
     <string name="all_exercises_title_">جميع التمارين</string>
+    <string name="no_exercises_title">لم يتم العثور على تمارين</string>
+    <string name="no_exercises_description">
+        حاول تعديل كلمات البحث أو تأكد من كتابة اسم التمرين بشكل صحيح.
+    </string>
     <string name="add_exercise_button_">إضافة تمرين</string>
     <string name="add_exercise_button_with_count_">إضافة %1$d تمرين</string>
     <string name="add_exercises_button_with_count_">إضافة %1$d تمارين</string>
@@ -300,8 +310,8 @@
     <string name="logout_message">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
     <string name="choose_theme">اختر النمط</string>
     <string name="theme_description">اختر المظهر الذي تفضله للتطبيق.</string>
-    <string name="dark_mode">داكن</string>
-    <string name="light_mode">فاتح</string>
+    <string name="dark_mode">وضع الظلام</string>
+    <string name="light_mode">وضع الضوء</string>
     <string name="account">الحساب</string>
     <string name="favorites">المفضلة</string>
     <string name="notification_settings">إعدادات الإشعارات</string>
@@ -356,4 +366,20 @@
     <string name="error_number_too_large">الرقم كبير جدًا، حاول إدخال رقم أصغر</string>
     <string name="error_text_too_long">النص طويل جدًا، حاول تقصيره</string>
     <string name="min">د</string>
+    <string name="workouts_per_week">التدريبات بالأسبوع</string>
+    <string name="weekly">أسبوعي</string>
+    <string name="time_spent_training">الوقت المنقضى في التدريب</string>
+    <string name="most_trained_muscles">أكثر العضلات الممرنة</string>
+    <string name="from_calories">من %1$s كالوري</string>
+    <string name="duration_hours">%1$s ساعة</string>
+    <string name="duration_minutes">%1$s دقيقة</string>
+    <string name="duration_seconds">%1$s ثانية</string>
+    <string name="duration">المدة</string>
+
+    <string name="workout_duration">%1$s دقيقة</string>
+
+    <string name="play_button">زر التشغيل</string>
+
+    <string name="failed_to_load_workouts">حدث خطأ أثناء تجميل التمارين</string>
+    <string name="failed_to_refresh">حدث خطأ أثناء أعادة التحميل</string>
 </resources>

@@ -110,14 +110,12 @@ fun OnboardingScreenContent(
                 .align(Alignment.BottomCenter)
                 .navigationBarsPadding()
         )
-
         LanguageBottomSheet(
             isVisible = state.isBottomSheetOpen,
             selectedLanguage = state.selectedLanguage,
             onDismiss = { listener.toggleBottomSheet(false) },
             onLanguageSelected = listener::onChangeLanguage,
-            onConfirmClick = { selectedLanguage -> listener.onConfirmClicked(selectedLanguage) },
-            modifier = Modifier
+            onConfirmClick = { selectedLanguage -> listener.onConfirmClicked(selectedLanguage) }
         )
     }
 }
@@ -202,7 +200,6 @@ private fun LanguageBottomSheet(
     onDismiss: () -> Unit,
     onLanguageSelected: (language: OnboardingScreenState.Language) -> Unit,
     onConfirmClick: (Language) -> Unit,
-    modifier: Modifier = Modifier
 ) {
     BottomSheet(
         isVisible = isVisible,
@@ -229,15 +226,15 @@ private fun LanguageBottomSheet(
                         isChecked = language == selectedLanguage,
                         onCheckedChange = { onLanguageSelected(language) },
                         style = CheckboxStyle.Tick,
-                        modifier = modifier.padding(bottom = 12.dp)
+                        modifier = Modifier.padding(bottom = 12.dp)
                     )
                 }
                 PrimaryButton(
                     text = stringResource(Res.string.confirm),
                     onClick = { onConfirmClick(selectedLanguage.toDomain()) },
-                    modifier = Modifier.padding(
-                        start = 16.dp, end = 16.dp, bottom = 16.dp, top = 28.dp
-                    )
+                    modifier = Modifier
+                        .padding(top = 28.dp)
+                        .navigationBarsPadding()
                 )
             }
         },

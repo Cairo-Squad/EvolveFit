@@ -79,7 +79,7 @@ fun WaterCard(
                         .align(Alignment.Center)
                         .scale(scaleX = -1f, scaleY = 1f),
                     fillPercent = 0.5f,
-                    isAnimationStarted = isAnimationStarted && waterConsumed != 0f
+                    isAnimationStarted = isAnimationStarted
                 )
             }
             Row(

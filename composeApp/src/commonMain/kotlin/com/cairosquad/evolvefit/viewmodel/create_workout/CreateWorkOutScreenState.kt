@@ -7,7 +7,7 @@ import evolvefit.composeapp.generated.resources.create
 data class CreateWorkOutScreenState(
     val image: UiImage = UiImage.ImageResource(Res.drawable.create),
     val name: String = "",
-    val level: WorkoutLevel ?=null,
+    val level: WorkoutLevel? = null,
     val description: String = "",
     val isNextEnabled: Boolean = false,
     val isImagePickerOpen: Boolean = false,
@@ -18,11 +18,24 @@ data class CreateWorkOutScreenState(
     val isAddExercisesEnabled: Boolean = false,
     val isLoading: Boolean = false,
     val searchQuery: String = "",
-    val exerciseCount: Int =0,
+    val exerciseCount: Int = 0,
+    val newlyAddExercises: List<ExerciseUiState> = emptyList(),
 
     val currentStep: CreateWorkoutStep = CreateWorkoutStep.DETAILS,
     val status: ScreenStatus = ScreenStatus.LOADING,
+    val isRefreshing: Boolean = false,
+
+    val showExitBottomSheet: Boolean = false,
+    val isGoalExpanded: Boolean = false,
+    val workoutGoals: List<WorkoutLevel> = emptyList()
+
 ) {
+    fun isGoalSelected(goal: WorkoutLevel): Boolean {
+        return level == goal
+    }
+    val levelsNames: List<WorkoutLevel>
+        get() = WorkoutLevel.entries
+
     enum class CreateWorkoutStep {
         DETAILS,
         EXERCISES

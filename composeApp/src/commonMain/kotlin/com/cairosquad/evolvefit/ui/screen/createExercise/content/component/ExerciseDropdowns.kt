@@ -12,6 +12,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseInteractionListener
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState
+import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.arms
+import evolvefit.composeapp.generated.resources.back_muscle
+import evolvefit.composeapp.generated.resources.chest
+import evolvefit.composeapp.generated.resources.focus_core
+import evolvefit.composeapp.generated.resources.focus_shoulders
+import evolvefit.composeapp.generated.resources.legs
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FocusAreaDropdownRow(
@@ -32,7 +40,8 @@ fun FocusAreaDropdownRow(
             CustomDropdownMenu(
                 items = state.focusAreaNames,
                 onItemSelected = listener::onFocusAreaNameSelected,
-                isChecked = state::isFocusAreaSelected
+                isChecked = state::isFocusAreaSelected,
+                labelProvider = { it.toDisplayName() }
             )
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -60,9 +69,22 @@ fun EquipmentDropdownRow(
             CustomDropdownMenu(
                 items = state.equipmentNames,
                 onItemSelected = listener::onEquipmentNameSelected,
-                isChecked = state::isEquipmentSelected
+                isChecked = state::isEquipmentSelected,
+                labelProvider = { it }
             )
             Spacer(modifier = Modifier.height(8.dp))
         }
+    }
+}
+
+@Composable
+fun CreateExerciseState.FocusArea.toDisplayName(): String {
+    return when (this) {
+        CreateExerciseState.FocusArea.BACK -> stringResource(Res.string.back_muscle)
+        CreateExerciseState.FocusArea.LEGS -> stringResource(Res.string.legs)
+        CreateExerciseState.FocusArea.SHOULDERS -> stringResource(Res.string.focus_shoulders)
+        CreateExerciseState.FocusArea.ARMS -> stringResource(Res.string.arms)
+        CreateExerciseState.FocusArea.CORE -> stringResource(Res.string.focus_core)
+        CreateExerciseState.FocusArea.CHEST -> stringResource(Res.string.chest)
     }
 }

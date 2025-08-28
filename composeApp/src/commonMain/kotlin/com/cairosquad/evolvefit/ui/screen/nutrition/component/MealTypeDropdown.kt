@@ -3,9 +3,9 @@ package com.cairosquad.evolvefit.ui.screen.nutrition.component
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,7 +13,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.TransformOrigin
@@ -22,7 +21,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.BottomSheet
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
-import com.cairosquad.evolvefit.design_system.composables.InputField
+import com.cairosquad.evolvefit.design_system.component.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.DropdownMenu
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
@@ -66,7 +65,7 @@ fun MealTypeDropdownMenu(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(24.dp))
-                .padding(horizontal = 8.dp),
+                .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
@@ -75,6 +74,7 @@ fun MealTypeDropdownMenu(
                 color = Theme.color.surfaces.onSurfaceContainer
             )
             Text(
+                modifier = Modifier.padding(top = 4.dp),
                 text = stringResource(Res.string.log_meal_details),
                 style = Theme.textStyle.body.mediumMedium12,
                 color = Theme.color.surfaces.outline
@@ -101,33 +101,43 @@ fun MealTypeDropdownMenu(
                     onValueChange = listener::onMealCaloriesChanged,
                     state = state
                 )
-
-                Box(modifier = Modifier.weight(1f)) {
-                    InputField(
-                        value = stringResource(state.selectedMeal.displayName),
-                        onValueChange = {},
-                        trailingIcon = Res.drawable.ic_arrow_down,
-                        onTrailingIconClick = listener::onToggleMealTypeMenu,
-                        trailingIconModifier = arrowRotationModifier,
-                        readOnly = true,
-                        onClick =listener::onToggleMealTypeMenu
-                    )
-                    DropdownMenu(
-                        items = mealTypeUiStateOptions.values.toList(),
-                        selectedItem = mealTypeUiStateOptions[state.selectedMeal] ?: "",
-                        isExpanded = state.isMealTypeMenuExpanded,
-                        onItemClicked = { selected ->
-                            val selectedType =
-                                mealTypeUiStateOptions.entries.first { it.value == selected }.key
-                            listener.onMealTypeSelected(selectedType)
-                        },
-                        onDismissRequest = {},
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .fillMaxWidth()
-                            .padding(top = 48.dp)
-                    )
-                }
+                InputField(
+                    textColor = if (state.isInitialLoad)
+                        Theme.color.surfaces.onSurfaceVariant
+                    else
+                        Theme.color.surfaces.onSurfaceContainer,
+                    modifier = Modifier.weight(1f),
+                    value = stringResource(state.selectedMeal.displayName),
+                    onValueChange = {},
+                    trailingIcon = Res.drawable.ic_arrow_down,
+                    onTrailingIconClick = listener::onToggleMealTypeMenu,
+                    trailingIconModifier = arrowRotationModifier,
+                    readOnly = true,
+                    onClick = listener::onToggleMealTypeMenu
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .fillMaxWidth()
+            ) {
+                Spacer(modifier = Modifier.weight(1f))
+                DropdownMenu(
+                    items = mealTypeUiStateOptions.values.toList(),
+                    selectedItem = mealTypeUiStateOptions[state.selectedMeal] ?: "",
+                    isExpanded = state.isMealTypeMenuExpanded,
+                    onItemClicked = { selected ->
+                        val selectedType =
+                            mealTypeUiStateOptions.entries.first { it.value == selected }.key
+                        listener.onMealTypeSelected(selectedType)
+                        listener::onToggleMealTypeMenu
+                    },
+                    onDismissRequest = listener::onToggleMealTypeMenu,
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
+                )
             }
             PrimaryButton(
                 modifier = Modifier

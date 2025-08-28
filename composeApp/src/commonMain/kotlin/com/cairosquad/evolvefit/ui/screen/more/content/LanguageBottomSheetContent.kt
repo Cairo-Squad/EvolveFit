@@ -32,40 +32,45 @@ fun LanguageBottomSheetContent(
     onSelectLanguage: (selectedLanguage: Language) -> Unit
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier
+            .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp).padding(bottom = 4.dp),
+            modifier = Modifier
+                .padding(bottom = 4.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
+                modifier = Modifier
+                    .padding(bottom = 4.dp),
                 text = stringResource(Res.string.choose_language),
                 style = Theme.textStyle.label.mediumMedium16,
                 color = Theme.color.surfaces.onSurface,
-                modifier = Modifier.padding(bottom = 4.dp)
             )
             Text(
+                modifier = Modifier
+                    .padding(bottom = 4.dp),
                 text = stringResource(Res.string.language_description),
                 style = Theme.textStyle.label.mediumMedium12,
                 color = Theme.color.surfaces.onSurfaceVariant,
-                modifier = Modifier.padding(bottom = 4.dp)
             )
         }
         CheckboxItem(
             text = stringResource(Res.string.english),
-            isChecked = state.isEnglishChecked,
+            isChecked = state.tempLanguage== Language.ENGLISH,
             onCheckedChange = { onSelectLanguage(Language.ENGLISH) }
         )
         CheckboxItem(
             text = stringResource(Res.string.arabic),
-            isChecked = state.isEnglishChecked.not(),
+            isChecked = state.tempLanguage== Language.ARABIC,
             onCheckedChange = { onSelectLanguage(Language.ARABIC) }
         )
         PrimaryButton(
+            modifier = Modifier
+                .padding(bottom = 16.dp, top = 38.dp),
             text = stringResource(Res.string.confirm),
-            onClick = { onConfirm(if(state.isEnglishChecked) Language.ENGLISH else Language.ARABIC) },
-            modifier = Modifier.padding(bottom = 16.dp, top = 38.dp),
+            onClick = { onConfirm (state.tempLanguage)},
             isEnabled = true,
             enabledTextColor = Theme.color.brand.onPrimary,
             textStyle = Theme.textStyle.body.mediumMedium14,

@@ -106,22 +106,9 @@ fun RegisterScreenContentSelectHeightAndWeight(
             heightStep = HeightWeightConstants.HEIGHT_STEP_FT
             weightStep = HeightWeightConstants.WEIGHT_STEP_LB
         }
-        var height = state.selectedHeight
-        var weight =state.selectedWeight
-            if (state.selectedHeight == 0f && state.selectedWeight == 0f) {
-            if (state.selectedMeasurementStandard == RegisterScreenState.MeasurementStandard.Metric) {
-                height = 170f
-                weight =70f
 
-            } else {
-                height = 5.6f
-                weight =150f
-            }
-                listener.onHeightChanged(height)
-                listener.onWeightChanged(weight)
-        }
         MeasureSection(
-            selectedMeasure = height,
+            selectedMeasure =state.selectedHeight,
             measureType = stringResource(Res.string.height),
             measureIcon = painterResource(Res.drawable.ic_ruler),
             minMeasureValue = minHeight,
@@ -135,7 +122,7 @@ fun RegisterScreenContentSelectHeightAndWeight(
         )
 
         MeasureSection(
-            selectedMeasure = weight,
+            selectedMeasure =state.selectedWeight,
             measureType = stringResource(Res.string.weight),
             measureIcon = painterResource(Res.drawable.ic_scale),
             minMeasureValue = minWeight,

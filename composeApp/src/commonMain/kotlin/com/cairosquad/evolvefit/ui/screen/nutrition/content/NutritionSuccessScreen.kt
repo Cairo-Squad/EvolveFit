@@ -1,12 +1,15 @@
 package com.cairosquad.evolvefit.ui.screen.nutrition.content
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -53,7 +56,9 @@ private fun LazyListScope.mealHistorySection(
 ) {
     item {
         SeeAll(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(top = 32.dp, bottom = 12.dp),
             onViewAllClick = listener::onViewAllMealHistoryClicked,
             sectionTitle = stringResource(Res.string.meal_history)
         )
@@ -70,7 +75,7 @@ private fun LazyListScope.mealHistorySection(
 }
 
 @Composable
-private fun MealHistoryItem(
+fun MealHistoryItem(
     meal: NutritionScreenState.ConsumedMealUiState,
     modifier: Modifier = Modifier
 ) {
@@ -81,15 +86,24 @@ private fun MealHistoryItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Icon(
+        Box(
             modifier = Modifier
+                .size(48.dp)
                 .clip(CircleShape)
-                .background(Theme.color.surfaces.outlineVariant)
-                .padding(10.dp),
-            painter = painterResource(meal.type.toMealIcon()),
-            contentDescription = null,
-            tint = Theme.color.brand.primary,
-        )
+                .background(Theme.color.surfaces.surfaceContainer)
+                .border(
+                    width = 1.dp,
+                    color = Theme.color.surfaces.outlineVariant,
+                    shape = CircleShape
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter =painterResource( meal.type.toMealIcon()),
+                contentDescription = null,
+                tint = Theme.color.brand.primary,
+            )
+        }
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -117,6 +131,7 @@ private fun MealHistoryItem(
                 color = Theme.color.brand.primary
             )
             Text(
+                modifier = Modifier.padding(top = 4.dp),
                 text = stringResource(meal.type.displayName),
                 style = Theme.textStyle.body.smallRegular10,
                 color = Theme.color.surfaces.onSurfaceVariant

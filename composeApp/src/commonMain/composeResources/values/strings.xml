@@ -8,6 +8,10 @@
     <string name="select_measurement">Please select a measurement for your </string>
     <string name="height">Height</string>
     <string name="weight">Weight</string>
+    <string name="workout_added_to_your_favorites">Workout added to your favorites.</string>
+    <string name="fail_to_add_workout_to_your_favorites">Fail to add Workout to your favorites.</string>
+    <string name="workout_removed_from_your_favorites">Workout removed from your favorites.</string>
+    <string name="fail_to_remove_workout_from_your_favorites">Fail to remove workout from your favorites.</string>
     <string name="start_now">Start Now</string>
     <string name="next">Next</string>
     <string name="internet_is_not_available">Internet is not available</string>
@@ -34,7 +38,7 @@
     <string name="kcal">Kcal</string>
     <string name="calories">Calories</string>
     <string name="water">Water</string>
-    <string name="kcal_unit">Kcal</string>
+    <string name="kcal_unit">kcal</string>
     <string name="liter_unit">L</string>
     <string name="add_new_meal">Add New Meal</string>
     <string name="log_meal_details">Log your meal details to track your daily calorie intake.</string>
@@ -59,7 +63,7 @@
     <string name="meal_added_snackbar">Meal added to your history.</string>
     <string name="meal_cant_added_snackbar">You have exceeded your daily calorie goal.</string>
     <string name="water_cant_added_snackbar">You have exceeded your daily water goal.</string>
-    <string name="no_meals_title">No meals recorded yet</string>
+    <string name="no_meals_title">No meals recorded today</string>
     <string name="no_meals_description">Start logging your meals to keep track of your daily calories and improve your nutrition habits.</string>
     <string name="ready_to_start">Ready to Start</string>
     <string name="do_you_have_an_account">Do you have an account?</string>
@@ -199,7 +203,7 @@
     <string name="save_exercise">Save Exercise</string>
     <string name="characters_left">%1$d character left</string>
     <string name="select_focus_area">Select focus area</string>
-    <string name="choose_available_tools">Choose available tools</string>
+    <string name="choose_available_tools">Choose tool</string>
     <string name="calories_format">Calories: %1$d Kcal</string>
     <string name="carbs_format">Carbs: %1$d g</string>
     <string name="protein_format">Protein: %1$d g</string>
@@ -207,7 +211,8 @@
     <string name="just_for_you">Just For You</string>
 
     <string name="exit_confirmation_title">Do you want to exit?</string>
-    <string name="exit_confirmation_message">You haven’t saved your workout yet. All progress might be lost.</string>
+    <string name="exit_create_workout_confirmation_message">You haven’t saved your workout yet. All progress might be lost.</string>
+    <string name="exit_create_exercise_confirmation_message">You haven’t saved your exercise yet. All progress might be lost.</string>
     <string name="cancel">Cancel</string>
     <string name="save_image">save image</string>
     <string name="exit_without_saving">Exit Without Saving</string>
@@ -217,6 +222,7 @@
 
     <string name="error_no_internet">There is no internet connection.</string>
     <string name="error_unknown_credentials">Email or password you entered are incorrect.</string>
+    <string name="user_not_found">User not found.</string>
     <string name="error_invalid_email_format">Invalid email format. valid format is: example@domain.com.</string>
     <string name="error_invalid_email">Please check your email and try again.</string>
     <string name="error_invalid_password">Password must be at least 8 characters.</string>
@@ -257,11 +263,15 @@
     <string name="enter_description_">Enter description</string>
     <string name="next_button_">Next</string>
 
-    <string name="add_exercise_title_">Add Exercise</string>
+    <string name="add_exercise_title_">Add Exercises</string>
     <string name="back_icon_desc_">Back</string>
     <string name="add_icon_desc_">Add</string>
     <string name="search_exercise_placeholder_">Search exercise name</string>
     <string name="all_exercises_title_">All Exercises</string>
+    <string name="no_exercises_title">No exercises found</string>
+    <string name="no_exercises_description">
+        Try adjusting your search terms or make sure the exercise name is spelled correctly.
+    </string>
     <string name="add_exercise_button_">Add Exercise</string>
     <string name="add_exercise_button_with_count_">Add %1$d Exercise</string>
     <string name="add_exercises_button_with_count_">Add %1$d Exercises</string>
@@ -325,8 +335,8 @@
     <string name="logout">Logout</string>
     <string name="choose_theme">Choose Theme</string>
     <string name="theme_description">Select your preferred look and feel for the app.</string>
-    <string name="dark_mode">Dark</string>
-    <string name="light_mode">Light</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="light_mode">Light Mode</string>
     <string name="account">Account</string>
     <string name="favorites">Favorites</string>
     <string name="notification_settings">Notification Settings</string>
@@ -367,10 +377,26 @@
     <string name="pound">lbs</string>
     <string name="choose_level">Choose level</string>
 
-
     <string name="error_invalid_number">Please enter a valid number or decimal</string>
     <string name="error_number_too_large">The number is too large, try a smaller value</string>
     <string name="error_text_too_long">Text is too long, please shorten it</string>
     <string name="min">Min</string>
+
+    <string name="workouts_per_week">Workouts Per Week</string>
+    <string name="weekly">Weekly</string>
+    <string name="time_spent_training">Time Spent Training</string>
+    <string name="most_trained_muscles">Most Trained Muscles</string>
+    <string name="from_calories">From %1$s kcal</string>
+    <string name="duration_hours">%1$s hr</string>
+    <string name="duration_minutes">%1$s min</string>
+    <string name="duration_seconds">%1$s sec</string>
+    <string name="duration">Duration</string>
+
+    <string name="workout_duration">%1$s Min</string>
+
+    <string name="play_button">Play Button</string>
+
+    <string name="failed_to_load_workouts">Failed to load workouts</string>
+    <string name="failed_to_refresh">Failed to refresh workouts</string>
 
 </resources>

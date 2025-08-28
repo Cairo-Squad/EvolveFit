@@ -47,6 +47,7 @@ import evolvefit.composeapp.generated.resources.profile_picture
 import evolvefit.composeapp.generated.resources.ready_text_female
 import evolvefit.composeapp.generated.resources.ready_text_male
 import evolvefit.composeapp.generated.resources.today_nutrition
+import evolvefit.composeapp.generated.resources.workout_duration
 import org.jetbrains.compose.resources.stringResource
 
 
@@ -160,9 +161,13 @@ private fun PersonalizedWorkouts(
             ) {
                 WorkoutCard(
                     title = workout.name,
-                    duration = "${workout.durationInMins} Min", // TODO: convert to string resources
+                    duration = stringResource(
+                        Res.string.workout_duration,
+                        workout.durationInMins.toString()
+                    ),
                     focusArea = workout.type,
                     model = workout.imageUrl,
+                    hasPlayButton = false,
                     modifier = Modifier
                         .fillMaxSize()
                 )
@@ -185,6 +190,9 @@ private fun HomeUserHeader(
     user: HomeScreenState.HomeUserUiState?,
     modifier: Modifier = Modifier
 ) {
+
+    val username = user?.run { name.split(" ").first() } ?: ""
+
     AnimatedVisibility(user != null) {
         Row(
             modifier = modifier
@@ -207,7 +215,7 @@ private fun HomeUserHeader(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = stringResource(Res.string.hello_user, user?.name ?: ""),
+                    text = stringResource(Res.string.hello_user, username),
                     style = Theme.textStyle.body.mediumMedium12,
                     color = Theme.color.surfaces.onSurfaceVariant,
                     maxLines = 2,
