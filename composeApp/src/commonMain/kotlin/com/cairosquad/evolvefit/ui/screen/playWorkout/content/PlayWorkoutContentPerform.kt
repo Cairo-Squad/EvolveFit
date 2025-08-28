@@ -5,8 +5,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -39,7 +41,6 @@ import com.cairosquad.evolvefit.design_system.component.clockTimer.rememberClock
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.ui.screen.playWorkout.content.component.ExerciseNameAndInfoIcon
-import com.cairosquad.evolvefit.ui.util.ScreenSize
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -123,43 +124,33 @@ private fun ExercisePage(
     isForwardButtonEnabled: Boolean = true,
     isBackButtonEnabled: Boolean = true,
 ) {
-    val imageHeightDp = maxOf(ScreenSize.heightDp - 440, 360f)
-    val imageWidthDp = minOf(ScreenSize.widthDp - 16, imageHeightDp)
-
     Column(
-        modifier = modifier,
+        modifier = modifier.padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         NetworkImage(
             modifier = Modifier
                 .padding(bottom = 40.dp)
-                .padding(horizontal = 16.dp)
-                .size(imageWidthDp.dp, imageHeightDp.dp)
+                .aspectRatio(328f / 360f, matchHeightConstraintsFirst = true)
                 .clip(RoundedCornerShape(8.dp)),
             model = exercise.imageUrls.firstOrNull() ?: "",
             contentDescription = exercise.name,
             defaultImage = painterResource(Res.drawable.im_default_workout)
         )
         Text(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 8.dp),
+            modifier = Modifier.padding(bottom = 8.dp),
             text = stringResource(Res.string.exercise) + " ${currentStep}/${totalSteps}",
             style = Theme.textStyle.label.smallRegular14,
             color = Theme.color.surfaces.outline,
         )
         ExerciseNameAndInfoIcon(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 24.dp),
+            modifier = Modifier.padding(bottom = 24.dp),
             exerciseName = exercise.name,
             onClickInfo = { listener.onExerciseInfoClicked(exercise.id) },
             textStyle = Theme.textStyle.display.largeBold20
         )
         BottomSection(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 48.dp),
+            modifier = Modifier.navigationBarsPadding(),
             exerciseSpec = exercise.exerciseSpec,
             onFinishExercise = listener::onFinishExercise,
             onClickForward = listener::onForwardClicked,
