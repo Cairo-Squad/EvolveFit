@@ -382,4 +382,5 @@
 
     <string name="failed_to_load_workouts">حدث خطأ أثناء تحميل التمارين</string>
     <string name="failed_to_refresh">حدث خطأ أثناء أعادة التحميل</string>
+    <string name="water_added_successfully">تم اضافة الماء بنجاح</string>
 </resources>

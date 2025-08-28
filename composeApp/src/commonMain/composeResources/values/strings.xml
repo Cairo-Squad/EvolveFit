@@ -398,5 +398,6 @@
 
     <string name="failed_to_load_workouts">Failed to load workouts</string>
     <string name="failed_to_refresh">Failed to refresh workouts</string>
+    <string name="water_added_successfully">Water Added Successfully</string>
 
 </resources>
