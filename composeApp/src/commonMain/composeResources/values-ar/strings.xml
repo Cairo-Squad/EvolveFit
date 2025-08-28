@@ -380,6 +380,6 @@
 
     <string name="play_button">زر التشغيل</string>
 
-    <string name="failed_to_load_workouts">حدث خطأ أثناء تجميل التمارين</string>
+    <string name="failed_to_load_workouts">حدث خطأ أثناء تحميل التمارين</string>
     <string name="failed_to_refresh">حدث خطأ أثناء أعادة التحميل</string>
 </resources>
