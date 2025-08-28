@@ -1,12 +1,14 @@
 package com.cairosquad.evolvefit.viewmodel.workout
 
+import androidx.lifecycle.viewModelScope
 import com.cairosquad.evolvefit.domain.entity.WorkoutSuggested
 import com.cairosquad.evolvefit.domain.usecase.workout.ManageWorkoutUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.workout.WorkoutScreenState.FocusAreaUiState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.failed_to_load_workouts
-import evolvefit.composeapp.generated.resources.failed_to_refresh
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class WorkoutViewModel(
     private val workoutUseCase: ManageWorkoutUseCase,
@@ -19,8 +21,8 @@ class WorkoutViewModel(
     }
 
     private fun loadAllWorkouts() {
-        onLoading()
         tryToCall(
+            onStart = ::onLoading,
             block = workoutUseCase::getSuggestedWorkouts,
             onSuccess = ::onGetSuggestedWorkoutsSuccess,
             onError = ::onGetSuggestedWorkoutError,
@@ -28,8 +30,15 @@ class WorkoutViewModel(
     }
 
     private fun loadWorkoutsByFocusArea(focusAreaUiState: FocusAreaUiState) {
-        onLoading()
         tryToCall(
+            onStart = {
+                updateState {
+                    it.copy(
+                        screenStatus = WorkoutScreenState.ScreenStatus.LOADING,
+                        errorMessage = null
+                    )
+                }
+            },
             block = { workoutUseCase.getSuggestedWorkoutsByFocusArea(focusAreaUiState.toDomain()) },
             onSuccess = ::onLoadWorkoutByFocusAreaSuccess,
             onError = ::onLoadWorkoutByFocusAreaError
@@ -65,11 +74,11 @@ class WorkoutViewModel(
     }
 
     private fun onGetSuggestedWorkoutsSuccess(workouts: List<WorkoutSuggested>) {
-       val status =  if (workouts.isEmpty()){
-           WorkoutScreenState.ScreenStatus.EMPTY
-       }else{
-           WorkoutScreenState.ScreenStatus.SUCCESS
-       }
+        val status = if (workouts.isEmpty()) {
+            WorkoutScreenState.ScreenStatus.EMPTY
+        } else {
+            WorkoutScreenState.ScreenStatus.SUCCESS
+        }
         updateState { it ->
             it.copy(
                 allWorkouts = workouts.map { it.toUiState() },
@@ -83,17 +92,24 @@ class WorkoutViewModel(
         updateState {
             it.copy(
                 errorMessage = Res.string.failed_to_load_workouts,
-                screenStatus = WorkoutScreenState.ScreenStatus.FAIL
+                screenStatus = WorkoutScreenState.ScreenStatus.FAIL,
+                isItemsLoading = false
             )
         }
     }
 
     private fun onLoadWorkoutByFocusAreaSuccess(workouts: List<WorkoutSuggested>) {
+        val status = if (workouts.isEmpty()) {
+            WorkoutScreenState.ScreenStatus.EMPTY
+        } else {
+            WorkoutScreenState.ScreenStatus.SUCCESS
+        }
         updateState { it ->
             it.copy(
                 allWorkouts = workouts.map { it.toUiState() },
                 errorMessage = null,
-                screenStatus = WorkoutScreenState.ScreenStatus.SUCCESS
+                screenStatus = status,
+                isItemsLoading = false
             )
         }
     }
@@ -102,54 +118,32 @@ class WorkoutViewModel(
         updateState() {
             it.copy(
                 errorMessage = Res.string.failed_to_load_workouts,
-                screenStatus = WorkoutScreenState.ScreenStatus.FAIL
+                screenStatus = WorkoutScreenState.ScreenStatus.FAIL,
+                isItemsLoading = false
             )
         }
     }
 
     override fun onRefresh() {
-        if (screenState.value.isRefreshing) return
-        isRefreshing(true)
+        updateState {
+            it.copy(isRefreshing = true)
+        }
         val selected = screenState.value.selectedFocusArea
-        tryToCall(
-            block = onGetWorkoutsByFocusArea(selected),
-            onSuccess = ::onRefreshSuccess,
-            onError = ::onRefreshError
-        )
+        if (selected == FocusAreaUiState.ALL) loadAllWorkouts()
+        else loadWorkoutsByFocusArea(selected)
+        viewModelScope.launch {
+            delay(500L)
+            updateState { it.copy(isRefreshing = false) }
+        }
     }
 
     private fun onLoading() {
         updateState {
             it.copy(
                 screenStatus = WorkoutScreenState.ScreenStatus.LOADING,
+                isItemsLoading = false,
                 errorMessage = null
             )
-        }
-    }
-
-    private fun isRefreshing(isRefreshing: Boolean) {
-        updateState {
-            it.copy(
-                isRefreshing = isRefreshing,
-                errorMessage = if (isRefreshing) null else it.errorMessage
-            )
-        }
-    }
-
-    private fun onRefreshSuccess(list: List<WorkoutSuggested>) {
-        isRefreshing(false)
-        updateState {
-            it.copy(
-                allWorkouts = list.map { w -> w.toUiState() },
-                errorMessage = null
-            )
-        }
-    }
-
-    private fun onRefreshError(t: Throwable) {
-        isRefreshing(false)
-        updateState {
-            it.copy(errorMessage = Res.string.failed_to_refresh)
         }
     }
 

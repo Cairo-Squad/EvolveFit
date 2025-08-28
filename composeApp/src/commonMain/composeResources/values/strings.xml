@@ -398,5 +398,6 @@
 
     <string name="failed_to_load_workouts">Failed to load workouts</string>
     <string name="failed_to_refresh">Failed to refresh workouts</string>
-
+    <string name="no_workouts_title">No workouts available right now</string>
+    <string name="no_workouts_subtitle">Workouts will be added soon, stay tuned for updates.</string>
 </resources>

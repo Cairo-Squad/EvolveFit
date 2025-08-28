@@ -16,6 +16,7 @@ data class WorkoutScreenState(
     val focusAreas: List<FocusAreaUiState> = FocusAreaUiState.entries,
     val screenStatus: ScreenStatus = ScreenStatus.LOADING,
     val isRefreshing: Boolean = false,
+    val isItemsLoading: Boolean = false,
     val errorMessage: StringResource? = null
 ) {
     data class WorkoutSuggestedUiState(

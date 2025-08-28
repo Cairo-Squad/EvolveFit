@@ -382,4 +382,6 @@
 
     <string name="failed_to_load_workouts">حدث خطأ أثناء تجميل التمارين</string>
     <string name="failed_to_refresh">حدث خطأ أثناء أعادة التحميل</string>
+    <string name="no_workouts_title">لا توجد تمارين متاحة الآن</string>
+    <string name="no_workouts_subtitle">سيتم إضافة التمارين قريبًا، تابع التحديثات.</string>
 </resources>
