@@ -11,7 +11,10 @@ import platform.Foundation.NSCharacterSet
 import platform.Foundation.NSString
 import platform.Foundation.create
 import platform.Foundation.stringByAddingPercentEncodingWithAllowedCharacters
-import platform.UIKit.*
+import platform.UIKit.UIActivityViewController
+import platform.UIKit.UIApplication
+import platform.UIKit.UIPasteboard
+import platform.UIKit.UIWindow
 
 actual object Share {
 
@@ -47,7 +50,6 @@ actual object Share {
             onDismiss(Res.string.copy_failled, false)
         }
     }
-
 
     private fun shareText(text: String, onDismiss: () -> Unit) {
         val items = listOf(text)

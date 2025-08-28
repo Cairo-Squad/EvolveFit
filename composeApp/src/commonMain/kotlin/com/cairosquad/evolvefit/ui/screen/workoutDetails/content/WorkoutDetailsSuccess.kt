@@ -157,7 +157,8 @@ fun WorkoutDetailsSuccess(
         BottomSheet(
             isVisible = state.workout.selectedExercise != null,
             onDismiss = listener::onExerciseBottomSheetDismiss,
-            modifier = Modifier.heightIn(max = ScreenSize.heightDp.dp * 0.95f).align(Alignment.BottomCenter)
+            modifier = Modifier.heightIn(max = ScreenSize.heightDp.dp * 0.95f)
+                .align(Alignment.BottomCenter)
         ) {
             ExerciseBottomSheetContent(
                 exercise = state.workout.selectedExercise,
@@ -175,7 +176,7 @@ fun WorkoutDetailsSuccess(
                         WorkoutDetailsViewModel.DEEP_LINK_BASE_URL + state.workout.workoutID
                     shareToPlatform(platform, workoutUrl, onDismiss = listener::onShareClicked)
                 },
-                onCopyLinkClick = {}
+                onCopyLinkClick = { listener.onCopyLinkClicked(state.workout.workoutID) }
             )
         }
         SnackBar(

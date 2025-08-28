@@ -7,4 +7,6 @@
     <string name="login">Log In</string>
     <string name="arrow_back">Back</string>
     <string name="logo">App Logo</string>
+    <string name="copied_to_clipboard_successfully">Copied to clipboard successfully</string>
+    <string name="workout_link">Workout link</string>
 </resources>

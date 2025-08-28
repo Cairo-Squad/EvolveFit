@@ -8,8 +8,11 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.cairosquad.evolvefit.MainActivity
+import android.os.Build
+import android.widget.Toast
 import androidx.core.net.toUri
+import com.cairosquad.evolvefit.MainActivity
+import com.cairosquad.evolvefit.R
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.copy_failled
 import evolvefit.composeapp.generated.resources.link_copied
@@ -110,10 +113,17 @@ actual object Share {
     actual fun copyLink(workoutUrl: String, onDismiss: (StringResource, Boolean) -> Unit) {
         try {
             val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("Series link", workoutUrl)
+            val clip = ClipData.newPlainText(context.getString(R.string.workout_link), workoutUrl)
             clipboard.setPrimaryClip(clip)
             onDismiss(Res.string.link_copied, true)
-        } catch (e: Exception) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.copied_to_clipboard_successfully),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        } catch (_: Exception) {
             onDismiss(Res.string.copy_failled, false)
         }
     }
@@ -151,9 +161,10 @@ actual object Share {
     private fun openWhatsAppWeb(text: String) {
         try {
             val encodedText = Uri.encode(text)
-            val intent = Intent(Intent.ACTION_VIEW, "https://wa.me/?text=$encodedText".toUri()).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
+            val intent =
+                Intent(Intent.ACTION_VIEW, "https://wa.me/?text=$encodedText".toUri()).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
             context.startActivity(intent)
         } catch (e: Exception) {
             fallbackShare(text, "WhatsApp")
@@ -163,8 +174,10 @@ actual object Share {
     private fun openTelegramWeb(text: String) {
         try {
             val encodedText = Uri.encode(text)
-            val intent = Intent(Intent.ACTION_VIEW,
-                "https://t.me/share/url?url=$encodedText".toUri()).apply {
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                "https://t.me/share/url?url=$encodedText".toUri()
+            ).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
@@ -176,8 +189,10 @@ actual object Share {
     private fun openFacebookWeb(text: String) {
         try {
             val encodedText = Uri.encode(text)
-            val intent = Intent(Intent.ACTION_VIEW,
-                "https://www.facebook.com/sharer/sharer.php?u=$encodedText".toUri()).apply {
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                "https://www.facebook.com/sharer/sharer.php?u=$encodedText".toUri()
+            ).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
@@ -189,8 +204,10 @@ actual object Share {
     private fun openXWeb(text: String) {
         try {
             val encodedText = Uri.encode(text)
-            val intent = Intent(Intent.ACTION_VIEW,
-                "https://twitter.com/intent/tweet?text=$encodedText".toUri()).apply {
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                "https://twitter.com/intent/tweet?text=$encodedText".toUri()
+            ).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
