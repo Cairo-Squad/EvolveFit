@@ -6,6 +6,7 @@ import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 interface CreateWorkOutInteractionListener {
     fun onNameChanged(newName: String)
     fun onGoalSelected(goal: WorkoutLevel)
+    fun onGoalIconClicked()
     fun onDescriptionChanged(desc: String)
     fun onImageClicked()
     fun onNextClicked()
