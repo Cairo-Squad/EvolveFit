@@ -30,8 +30,6 @@ googleGmsGoogleServices = "4.4.3"
 room = "2.7.2"
 sqlite = "2.5.2"
 ksp = "2.2.0-2.0.2"
-googleFirebaseAppdistribution = "5.1.1"
-googleGmsGoogleServices = "4.4.3"
 
 [libraries]
 compose-shadow = { module = "com.adamglin:compose-shadow", version.ref = "composeShadow" }
