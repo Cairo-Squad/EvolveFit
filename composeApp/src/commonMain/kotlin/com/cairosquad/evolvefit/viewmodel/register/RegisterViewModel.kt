@@ -351,6 +351,6 @@ class RegisterViewModel(
     }
 
     companion object {
-        const val MAX_STEPS = 8
+        const val MAX_STEPS = 7
     }
 }
