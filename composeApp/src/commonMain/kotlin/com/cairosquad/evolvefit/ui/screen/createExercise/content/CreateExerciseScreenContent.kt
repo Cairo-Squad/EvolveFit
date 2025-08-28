@@ -182,7 +182,7 @@ fun CreateExerciseScreenContent(
             }
             item {
                 InputField(
-                    modifier = Modifier.padding(bottom = 12.dp),
+                    modifier = Modifier.padding(start = 12.dp),
                     value = state.name,
                     onValueChange = listener::onNameChanged,
                     placeholder = stringResource(Res.string.enter_exercise_name),
@@ -211,7 +211,6 @@ fun CreateExerciseScreenContent(
                     visible = state.isDurationChecked || state.isRepsChecked,
                 ) {
                     InputField(
-                        modifier = Modifier.padding(bottom = 12.dp),
                         value = state.measurementInputValue,
                         onValueChange = listener::onMeasurementValueChanged,
                         placeholder = when (state.measurementType) {
