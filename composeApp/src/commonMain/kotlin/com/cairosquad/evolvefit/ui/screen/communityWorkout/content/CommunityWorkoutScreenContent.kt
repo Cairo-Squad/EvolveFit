@@ -98,7 +98,7 @@ fun CommunityWorkoutsScreenContent(
                         }
 
                         WorkoutScreenState.ScreenStatus.LOADING -> {
-                            WorkoutsLoadingScreen()
+                            WorkoutsLoadingScreen(false)
                         }
 
                         WorkoutScreenState.ScreenStatus.FAIL -> {
@@ -106,6 +106,10 @@ fun CommunityWorkoutsScreenContent(
                                 message = state.errorMessage?.let { stringResource(it) },
                                 onRetry = listener::onRetryClicked
                             )
+                        }
+
+                        WorkoutScreenState.ScreenStatus.EMPTY -> {
+
                         }
                     }
                 }
