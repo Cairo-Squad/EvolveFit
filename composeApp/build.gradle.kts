@@ -127,7 +127,7 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("composeApp/JKS.jks")
+            storeFile = file("JKS.jks")
             storePassword = locals.getProperty("KEYSTORE_PASSWORD")
             keyAlias = locals.getProperty("KEY_ALIAS")
             keyPassword = locals.getProperty("KEY_PASSWORD")
