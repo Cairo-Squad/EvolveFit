@@ -1,5 +1,9 @@
 name: EvolveFit CD Pipeline
 
+permissions:
+  contents: write
+  workflows: write
+
 on:
   push:
     branches:
@@ -66,6 +70,10 @@ jobs:
         run: |
           ./gradlew assembleRelease --build-cache -x test -x lint
           ls -l release/composeApp-release.apk || { echo "apk not generated"; exit 1; }
+
+      - name: Create Release Notes
+        run: |
+          echo "Automated build from GitHub Actions on $(date)" > release_notes.txt
 
       - name: Upload APKs to Firebase App Distribution
         env:
