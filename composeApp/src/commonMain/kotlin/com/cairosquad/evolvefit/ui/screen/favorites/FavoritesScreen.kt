@@ -51,14 +51,15 @@ fun FavoritesScreen(
             }
         }
     }
-    Box {
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
         FavoritesScreenContent(
             state = state,
             listener = favoritesViewModel
         )
         DeleteFavoritesSnackBar(
             modifier = Modifier
-                .padding(bottom = 40.dp)
                 .padding(vertical = 16.dp)
                 .align(Alignment.BottomCenter),
             isVisible = state.isSnackBarVisible,
@@ -107,6 +108,7 @@ private fun DeleteFavoritesSnackBar(
     modifier: Modifier = Modifier,
     onUndoClicked: () -> Unit
 ) {
+    println("asdasd $isVisible")
     SnackBar(
         modifier = modifier,
         text = stringResource(Res.string.remove_from_favorites),

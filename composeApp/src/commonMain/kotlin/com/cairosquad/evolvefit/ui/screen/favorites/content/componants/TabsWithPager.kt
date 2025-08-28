@@ -104,7 +104,6 @@ fun TabsWithPager(
                             WorkoutList(
                                 workouts = workouts,
                                 onSaveIconClick = listener::deleteWorkout
-
                             )
                         }
                     }
