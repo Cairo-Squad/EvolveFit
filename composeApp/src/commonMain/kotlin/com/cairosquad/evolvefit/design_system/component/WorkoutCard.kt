@@ -98,7 +98,7 @@ fun WorkoutCard(
                     Box(
                         modifier = Modifier
                             .padding(horizontal = 8.dp)
-                            .fillMaxHeight()
+                            .height(16.dp)
                             .width(1.dp)
                             .background(descriptionTextColor)
                     )
