@@ -50,7 +50,6 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-
         run: |
           rm -f composeApp/JKS.jks local.properties release_notes.txt
           echo "$KEYSTORE" | base64 -d > composeApp/JKS.jks
@@ -64,10 +63,9 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-
         run: |
           ./gradlew assembleRelease --build-cache -x test -x lint
-          ls -l composeApp/build/outputs/apk/release/composeApp-release.apk || { echo "apk not generated"; exit 1; }
+          ls -l release/composeApp-release.apk || { echo "apk not generated"; exit 1; }
 
       - name: Upload APKs to Firebase App Distribution
         env:
@@ -76,7 +74,7 @@ jobs:
         run: |
           npm install -g firebase-tools
           firebase appdistribution:distribute \
-            composeApp/build/outputs/apk/release/composeApp-release.apk \
+            release/composeApp-release.apk \
             --app "$FIREBASE_APP_ID" \
             --token "$FIREBASE_AUTH_TOKEN" \
             --groups "cairo_squad" \
