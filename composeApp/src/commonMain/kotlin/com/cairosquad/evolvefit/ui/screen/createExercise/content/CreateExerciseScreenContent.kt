@@ -37,6 +37,7 @@ import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseInteractionList
 import com.cairosquad.evolvefit.viewmodel.exercise.CreateExerciseState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.add_duration
+import evolvefit.composeapp.generated.resources.add_duration_placeholder
 import evolvefit.composeapp.generated.resources.add_reps
 import evolvefit.composeapp.generated.resources.cancel
 import evolvefit.composeapp.generated.resources.choose_available_tools
@@ -185,7 +186,8 @@ fun CreateExerciseScreenContent(
                     modifier = Modifier.padding(bottom = 12.dp),
                     value = state.name,
                     onValueChange = listener::onNameChanged,
-                    placeholder = stringResource(Res.string.enter_exercise_name)
+                    placeholder = stringResource(Res.string.enter_exercise_name),
+                    verticalPadding = 15.5.dp
                 )
             }
             item {
@@ -215,12 +217,14 @@ fun CreateExerciseScreenContent(
                         onValueChange = listener::onMeasurementValueChanged,
                         placeholder = when (state.measurementType) {
                             CreateExerciseState.MeasurementType.DURATION ->
-                                stringResource(Res.string.add_duration)
+                                stringResource(Res.string.add_duration_placeholder)
 
                             CreateExerciseState.MeasurementType.REPS ->
                                 stringResource(Res.string.add_reps)
                         },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        horizontalPadding = 12.dp,
+                        verticalPadding = 15.5.dp
                     )
                 }
             }
@@ -240,7 +244,9 @@ fun CreateExerciseScreenContent(
                     onValueChange = listener::onDescriptionChanged,
                     isSingleLine = false,
                     maxCharacters = 3000,
-                    isCharacterCountVisible = true
+                    isCharacterCountVisible = true,
+                    verticalPadding = 12.dp,
+                    horizontalPadding = 12.dp
                 )
             }
         }

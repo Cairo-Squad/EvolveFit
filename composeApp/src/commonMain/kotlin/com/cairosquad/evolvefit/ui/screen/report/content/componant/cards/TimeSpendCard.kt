@@ -28,7 +28,7 @@ fun TimeSpendCard(
 ) {
     Column (
         modifier = modifier
-            .height(127.dp)
+            .height(132.dp)
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
             .background(Theme.color.surfaces.surfaceContainer)

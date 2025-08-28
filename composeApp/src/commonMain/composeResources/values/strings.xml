@@ -197,7 +197,7 @@
     <string name="enter_exercise_name">Enter exercise name</string>
     <string name="add_duration">Add Duration</string>
     <string name="add_reps">Add Reps</string>
-    <string name="add_duration_placeholder">Add duration</string>
+    <string name="add_duration_placeholder">Add duration (in seconds) </string>
     <string name="add_reps_placeholder">Add reps</string>
     <string name="enter_instructions">Enter instructions</string>
     <string name="save_exercise">Save Exercise</string>
@@ -220,13 +220,14 @@
 
     <string name="community">Community</string>
 
-    <string name="error_no_internet">There is no internet connection.</string>
-    <string name="error_unknown_credentials">Email or password you entered are incorrect.</string>
-    <string name="error_invalid_email_format">Invalid email format. valid format is: example@domain.com.</string>
-    <string name="error_invalid_email">Please check your email and try again.</string>
-    <string name="error_invalid_password">Password must be at least 8 characters.</string>
-    <string name="error_unexpected">An unexpected error occurred.</string>
-    <string name="error_email_already_used">This email is already exist.</string>
+    <string name="error_no_internet">There is no internet connection</string>
+    <string name="error_unknown_credentials">Email or password you entered are incorrect</string>
+    <string name="user_not_found">User not found</string>
+    <string name="error_invalid_email_format">Invalid email format. valid format is: example@domain.com</string>
+    <string name="error_invalid_email">Please check your email and try again</string>
+    <string name="error_invalid_password">Password must be at least 8 characters</string>
+    <string name="error_unexpected">An unexpected error occurred</string>
+    <string name="error_email_already_used">This email is already exist</string>
     <string name="liters1">Litres</string>
 
     <string name="calories_small">calories</string>
@@ -394,4 +395,11 @@
     <string name="workout_duration">%1$s Min</string>
 
     <string name="play_button">Play Button</string>
+
+    <string name="failed_to_load_workouts">Failed to load workouts</string>
+    <string name="failed_to_refresh">Failed to refresh workouts</string>
+    <string name="no_workouts_title">No workouts available right now</string>
+    <string name="no_workouts_subtitle">Workouts will be added soon, stay tuned for updates.</string>
+    <string name="water_added_successfully">Water Added Successfully</string>
+
 </resources>

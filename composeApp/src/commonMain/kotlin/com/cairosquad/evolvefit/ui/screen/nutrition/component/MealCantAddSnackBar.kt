@@ -19,6 +19,7 @@ import org.jetbrains.compose.resources.stringResource
         modifier = modifier,
         icon = painterResource(Res.drawable.ic_info),
         text = state.errorMessage?.let { stringResource(it) } ?: "",
-        isVisible = isVisible
+        isVisible = isVisible,
+        addNavBarPadding = false,
     )
 }

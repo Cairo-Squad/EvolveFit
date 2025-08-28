@@ -7,4 +7,6 @@ interface FavoritesInteractionListener {
   fun onUndoClicked()
   fun deleteMeal(mealId: String)
   fun deleteWorkout(workoutId: String)
+  fun onWorkoutClicked(workoutId: String)
+  fun onMealClicked(mealId: String)
 }

@@ -119,24 +119,13 @@ fun MealDetailsSuccessScreen(
                 }
             }
         }
-        MealDetailsAppBar(
-            state = state,
-            appBarBackground = appBarBackground,
-            iconTint = iconTint,
-            onBackClick = { listener.onBackClicked() },
-            onBookmarkClick = { listener.onSaveMealClicked(mealId) }
-        )
-    }
-    if (state.showSaveMealSuccessSnackBar) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            contentAlignment = Alignment.BottomCenter
-        ) {
-            SaveMealSuccessSnackBar(
-                isVisible = state.showSaveMealSuccessSnackBar
-            )
-        }
+
+      MealDetailsAppBar(
+          state = state,
+          appBarBackground = appBarBackground,
+          iconTint = iconTint,
+          onBackClick = { listener.onBackClicked() },
+          onBookmarkClick = { listener.onSaveMealClicked(mealId) }
+      )
     }
 }

@@ -4,6 +4,7 @@ import com.cairosquad.evolvefit.domain.exception.InternetConnectionException
 import com.cairosquad.evolvefit.domain.exception.InvalidEmailFormatException
 import com.cairosquad.evolvefit.domain.exception.InvalidPasswordException
 import com.cairosquad.evolvefit.domain.exception.NetworkException
+import com.cairosquad.evolvefit.domain.exception.UnauthorizedUserException
 import com.cairosquad.evolvefit.domain.exception.UnknownException
 import com.cairosquad.evolvefit.domain.usecase.authentication.AuthenticationUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
@@ -13,6 +14,7 @@ import evolvefit.composeapp.generated.resources.error_invalid_password
 import evolvefit.composeapp.generated.resources.error_no_internet
 import evolvefit.composeapp.generated.resources.error_unexpected
 import evolvefit.composeapp.generated.resources.error_unknown_credentials
+import evolvefit.composeapp.generated.resources.user_not_found
 import org.jetbrains.compose.resources.StringResource
 
 class LoginViewModel(
@@ -39,14 +41,24 @@ class LoginViewModel(
 
     override fun onEmailChanged(newEmail: String) {
         updateState {
-            val updated = it.copy(email = newEmail, emailError = null)
+            val updated = it.copy(
+                email = newEmail,
+                emailError = null,
+                passwordError = null,
+                isFormError = null
+            )
             updated.copy(canSubmit = isSubmitAllowed(updated))
         }
     }
 
     override fun onPasswordChanged(newPassword: String) {
         updateState {
-            val updated = it.copy(password = newPassword, passwordError = null)
+            val updated = it.copy(
+                password = newPassword,
+                passwordError = null,
+                emailError = null,
+                isFormError = null
+            )
             updated.copy(canSubmit = isSubmitAllowed(updated))
         }
     }
@@ -89,27 +101,42 @@ class LoginViewModel(
             is NetworkException -> {
                 setErrorState(
                     passwordError = Res.string.error_unknown_credentials,
-                    isFormError = true                )
+                    isFormError = true
+                )
+            }
+
+            is UnauthorizedUserException -> {
+                setErrorState(
+                    passwordError = Res.string.error_unknown_credentials,
+                    isFormError = true
+                )
             }
 
             is InternetConnectionException -> {
                 setErrorState(
                     passwordError = Res.string.error_no_internet,
-                    isFormError = true                )
+                    isFormError = true
+                )
             }
 
-            is UnknownException -> setErrorState(
-                isFormError = true,
-                passwordError = Res.string.error_unknown_credentials
-            )
+            is UnknownException -> {
+                setErrorState(
+                    isFormError = true,
+                    passwordError = Res.string.error_unknown_credentials
+                )
+            }
 
-            is InvalidEmailFormatException -> setErrorState(
-                emailError = Res.string.error_invalid_email_format
-            )
+            is InvalidEmailFormatException -> {
+                setErrorState(
+                    emailError = Res.string.error_invalid_email_format
+                )
+            }
 
-            is InvalidPasswordException -> setErrorState(
-                passwordError = Res.string.error_invalid_password
-            )
+            is InvalidPasswordException -> {
+                setErrorState(
+                    passwordError = Res.string.error_invalid_password
+                )
+            }
 
             else -> {
                 val unexpectedError = Res.string.error_unexpected
@@ -130,7 +157,7 @@ class LoginViewModel(
     private fun setErrorState(
         emailError: StringResource? = null,
         passwordError: StringResource? = null,
-        isFormError: Boolean = false
+        isFormError: Boolean? = null
     ) {
         updateState {
             val updated = it.copy(

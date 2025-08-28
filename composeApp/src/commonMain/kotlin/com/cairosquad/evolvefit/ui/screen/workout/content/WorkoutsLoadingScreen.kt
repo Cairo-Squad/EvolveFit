@@ -10,12 +10,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -39,12 +39,16 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun WorkoutsLoadingScreen() {
+fun WorkoutsLoadingScreen(
+    isItemsLoading: Boolean,
+) {
     val infiniteTransition =
         rememberInfiniteTransition(label = stringResource(Res.string.shimmer_loading))
 
     val shimmerEffectAnimation by infiniteTransition.animateFloat(
-        initialValue = -200f, targetValue = 500f, animationSpec = infiniteRepeatable(
+        initialValue = -200f,
+        targetValue = 500f,
+        animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 1500, easing = EaseInOut),
             repeatMode = RepeatMode.Restart
         )
@@ -54,28 +58,39 @@ fun WorkoutsLoadingScreen() {
         start = Offset(shimmerEffectAnimation, shimmerEffectAnimation),
         end = Offset(shimmerEffectAnimation + 190f, shimmerEffectAnimation + 190f)
     )
-    Column(
+
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(Theme.color.surfaces.surface),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CategoriesShimmerRow(shimmerBrush = brush)
-        WorkoutsShimmerList(shimmerBrush = brush)
+        if (isItemsLoading) {
+            item {
+                CategoriesShimmerRow(shimmerBrush = brush)
+            }
+            item {
+                WorkoutsShimmerList(shimmerBrush = brush)
+            }
+        } else {
+            item {
+                WorkoutsShimmerList(shimmerBrush = brush)
+            }
+        }
     }
 }
+
 @Composable
 private fun CategoriesShimmerRow(shimmerBrush: Brush) {
     LazyRow(
-        contentPadding = PaddingValues(horizontal = 16.dp),
         modifier = Modifier
-            .padding(top = 12.dp, bottom = 24.dp),
+            .padding(top = 12.dp, bottom = 24.dp, start = 16.dp, end = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(30) {
             ShimmerOverlayShape(
                 modifier = Modifier
-                    .size(height = 40.dp, width = 59.dp),
+                    .size(height = 40.dp, width = 68.dp),
                 background = Theme.color.surfaces.surfaceContainer,
                 shimmerBrush = shimmerBrush
             )
@@ -86,14 +101,16 @@ private fun CategoriesShimmerRow(shimmerBrush: Brush) {
 @Composable
 private fun WorkoutsShimmerList(shimmerBrush: Brush) {
     LazyColumn(
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
+        modifier = Modifier.heightIn(max = 10_000.dp).padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+
+        ) {
         items(20) {
             WorkoutCardShimmered(shimmerBrush = shimmerBrush)
         }
     }
 }
+
 @Composable
 private fun WorkoutCardShimmered(
     shimmerBrush: Brush,
@@ -192,6 +209,6 @@ private fun IconPlaceholderShimmer(shimmerBrush: Brush) {
 private fun WorkoutsLoadingScreenPreview(
 ) {
     AppTheme(isDarkTheme = true) {
-        WorkoutsLoadingScreen()
+        WorkoutsLoadingScreen(false)
     }
 }

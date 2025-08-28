@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.DateBottomSheet
+import com.cairosquad.evolvefit.ui.component.UserProfileImage
 import com.cairosquad.evolvefit.ui.screen.register.content.component.UserRegisterImage
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
@@ -105,16 +106,27 @@ private fun UserProfileStep(
             modifier = Modifier
                 .padding(bottom = 24.dp)
         )
-        UserRegisterImage(
-            image = image,
+        UserProfileImage(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            image = state.image,
             isImagePickerOpen = isImagePickerOpen,
             onImagePickerDismiss = onImagePickerDismiss,
             onImagePickerClick = onImagePickerClick,
-            onImageRetrieved = onImageRetrieved,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally),
-            text = stringResource(Res.string.upload_image),
-            defaultSize = if (image is UiImage.ImageResource) 32.dp else 100.dp
+            onImageRetrieved = { uiImage ->
+                when (uiImage) {
+                    is UiImage.ImageFile -> {
+                        onImageRetrieved(uiImage)
+                    }
+
+                    is UiImage.ImageUrl -> {
+                    }
+
+                    else -> Unit
+                }
+            },
+            isEditScreen = false,
+            defaultSize = if (image is UiImage.ImageResource) 32.dp else 100.dp,
+            text = stringResource(Res.string.upload_image)
         )
 
         UserProfileForm(
@@ -190,6 +202,7 @@ private fun UserProfileForm(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
+            verticalPadding = 15.5.dp
         )
 
         InputField(
@@ -204,7 +217,8 @@ private fun UserProfileForm(
             ),
             isErrorMessageShown = state.emailError != null,
             error = state.emailError?.let { stringResource(it) } ?: "",
-            isError = state.emailError != null
+            isError = state.emailError != null,
+            verticalPadding = 15.5.dp
         )
 
         InputField(
@@ -218,6 +232,7 @@ private fun UserProfileForm(
             onClick = {
                 isDatePickerBottomSheetOpen = true
             },
+            verticalPadding = 15.5.dp
         )
 
         InputField(
@@ -235,7 +250,8 @@ private fun UserProfileForm(
             isPasswordField = !isPasswordVisible,
             isErrorMessageShown = state.passwordError != null,
             error = state.passwordError?.let { stringResource(it) } ?: "",
-            isError = state.passwordError != null
+            isError = state.passwordError != null,
+            verticalPadding = 15.5.dp
         )
     }
 

@@ -29,6 +29,14 @@ class FavoritesViewModel(
         updateState { it.copy(isMealTabSelected = false, isWorkoutTabSelected = true) }
     }
 
+    override fun onWorkoutClicked(workoutId: String) {
+        sendEffect(FavoritesEffect.NavigateToWorkoutDetails(workoutId))
+    }
+
+    override fun onMealClicked(mealId: String) {
+        sendEffect(FavoritesEffect.NavigateToMealDetails(mealId))
+    }
+
     override fun onBackClicked() {
         sendEffect(FavoritesEffect.NavigateBack)
     }
@@ -51,7 +59,6 @@ class FavoritesViewModel(
             onError = {},
             onSuccess = {
                 handleMealDeletionSuccess(mealId, deletedMeal, index)
-                loadMeals()
             }
         )
     }
@@ -63,10 +70,9 @@ class FavoritesViewModel(
 
         tryToCall(
             block = { deleteFavoriteWorkout(workoutId) },
-            onError = {},
+            onError = { },
             onSuccess = {
                 handleWorkoutDeletionSuccess(workoutId, deletedWorkout, index)
-                loadWorkouts()
             }
         )
     }
@@ -92,8 +98,6 @@ class FavoritesViewModel(
         deletedWorkout: WorkoutsUiModel?,
         index: Int
     ) {
-        showSnackBar()
-
         updateState {
             it.copy(
                 lastDeletedWorkout = deletedWorkout,
@@ -104,8 +108,10 @@ class FavoritesViewModel(
         updateState { current ->
             current.copy(workoutsList = current.workoutsList.filterNot { it.id == workoutId })
         }
-    }
 
+        showSnackBar()
+
+    }
 
     private fun loadMeals() {
         tryToCall(
@@ -144,8 +150,9 @@ class FavoritesViewModel(
     private var snackBarJob: Job? = null
     private fun showSnackBar() {
         snackBarJob?.cancel()
-        snackBarJob = viewModelScope.launch(Dispatchers.Main) {
-            updateState { it.copy(isSnackBarVisible = true) }
+        snackBarJob = null
+        updateState { it.copy(isSnackBarVisible = true) }
+        snackBarJob = viewModelScope.launch {
             delay(3000)
             updateState {
                 it.copy(

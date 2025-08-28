@@ -103,11 +103,10 @@ actual fun getCurrentLocale(): String {
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun formatDateDayMonth(isoString: String): String {
-    val locale = Locale.getDefault()
     val fixedIso = normalizeIso(isoString)
 
     val instant = parseIsoInstant(fixedIso) ?: return isoString
     val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
-    val dateFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy", locale)
+    val dateFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy", Locale.ENGLISH)
     return dateFormatter.format(dateTime.toJavaLocalDateTime())
 }

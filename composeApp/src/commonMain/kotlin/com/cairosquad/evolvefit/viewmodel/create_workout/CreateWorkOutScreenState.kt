@@ -19,13 +19,23 @@ data class CreateWorkOutScreenState(
     val isLoading: Boolean = false,
     val searchQuery: String = "",
     val exerciseCount: Int = 0,
+    val newlyAddExercises: List<ExerciseUiState> = emptyList(),
 
     val currentStep: CreateWorkoutStep = CreateWorkoutStep.DETAILS,
     val status: ScreenStatus = ScreenStatus.LOADING,
     val isRefreshing: Boolean = false,
 
-    val showExitBottomSheet: Boolean = false
+    val showExitBottomSheet: Boolean = false,
+    val isGoalExpanded: Boolean = false,
+    val workoutGoals: List<WorkoutLevel> = emptyList()
+
 ) {
+    fun isGoalSelected(goal: WorkoutLevel): Boolean {
+        return level == goal
+    }
+    val levelsNames: List<WorkoutLevel>
+        get() = WorkoutLevel.entries
+
     enum class CreateWorkoutStep {
         DETAILS,
         EXERCISES

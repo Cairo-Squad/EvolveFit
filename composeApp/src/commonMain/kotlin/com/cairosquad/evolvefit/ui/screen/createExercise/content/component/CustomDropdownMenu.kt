@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.CustomTick
+import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -65,21 +66,22 @@ fun <T> CustomDropdownMenu(
 @Preview
 @Composable
 private fun CustomDropdownMenuPreview() {
-//    AppTheme(isDarkTheme = true) {
-//        CustomDropdownMenu(
-//            items = listOf(
-//                "Item 1",
-//                "Item 2",
-//                "Item 3",
-//                "Item 4",
-//                "Item 5",
-//                "Item 6",
-//                "Item 7",
-//                "Item 8",
-//                "Item 9"
-//            ),
-//            onItemSelected = {},
-//            isChecked = { false }
-//        )
-//    }
+    AppTheme(isDarkTheme = true) {
+        CustomDropdownMenu(
+            items = listOf(
+                "Item 1",
+                "Item 2",
+                "Item 3",
+                "Item 4",
+                "Item 5",
+                "Item 6",
+                "Item 7",
+                "Item 8",
+                "Item 9"
+            ),
+            onItemSelected = {},
+            isChecked = { false },
+            labelProvider = {""}
+        )
+    }
 }

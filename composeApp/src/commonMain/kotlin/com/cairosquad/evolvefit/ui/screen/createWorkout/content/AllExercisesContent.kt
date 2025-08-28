@@ -92,15 +92,6 @@ fun AllExercisesContent(
                     },
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
-                InputField(
-                    value = state.searchQuery,
-                    onValueChange = listener::onSearchQueryChanged,
-                    placeholder = stringResource(Res.string.search_exercise_placeholder_),
-                    leadingIcon = Res.drawable.ic_search,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .padding(bottom = 16.dp)
-                )
             }
             RefreshBox(
                 isRefreshing = state.isRefreshing,
@@ -139,12 +130,38 @@ fun AllExercisesContent(
                                 )
                             ) {
                                 item {
+                                    InputField(
+                                        value = state.searchQuery,
+                                        verticalPadding = 14.dp,
+                                        onValueChange = listener::onSearchQueryChanged,
+                                        placeholder = stringResource(Res.string.search_exercise_placeholder_),
+                                        leadingIcon = Res.drawable.ic_search,
+                                        modifier = Modifier
+                                            .padding(bottom = 16.dp)
+                                    )
+                                }
+                                items(state.newlyAddExercises) { exercise ->
+                                    ExerciseCardWithTick(
+                                        title = exercise.name,
+                                        time = "",
+                                        model = exercise.images.firstOrNull() ?: "",
+                                        isChecked = state.selectedExercises.any { it.id == exercise.id },
+                                        onCheckedChange = { listener.onExerciseCheckedChanged(exercise) },
+                                        measurementContent = { MeasurementRow(exercise.type) }
+                                    )
+                                }
+                                item {
                                     BasicText(
                                         text = stringResource(Res.string.all_exercises_title_),
                                         style = Theme.textStyle.label.smallRegular14.copy(
                                             color = Theme.color.surfaces.onSurfaceVariant
                                         ),
-                                        modifier = Modifier.padding(bottom = 6.dp)
+                                        modifier = Modifier.padding(
+                                            top =
+                                                if (state.newlyAddExercises.isNotEmpty()) 18.dp
+                                                else 0.dp,
+                                            bottom = 6.dp
+                                        )
                                     )
                                 }
                                 items(state.filteredExercises) { exercise ->
@@ -153,11 +170,7 @@ fun AllExercisesContent(
                                         time = "",
                                         model = exercise.images.firstOrNull() ?: "",
                                         isChecked = state.selectedExercises.any { it.id == exercise.id },
-                                        onCheckedChange = {
-                                            listener.onExerciseCheckedChanged(
-                                                exercise
-                                            )
-                                        },
+                                        onCheckedChange = { listener.onExerciseCheckedChanged(exercise) },
                                         measurementContent = { MeasurementRow(exercise.type) }
                                     )
                                 }

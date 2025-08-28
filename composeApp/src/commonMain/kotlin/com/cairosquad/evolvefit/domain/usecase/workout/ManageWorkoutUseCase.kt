@@ -55,5 +55,8 @@ class ManageWorkoutUseCase(
     suspend fun submitPlayedWorkout(playedWorkout: PlayedWorkout) {
         workoutRepository.submitPlayedWorkout(playedWorkout)
     }
+    suspend fun syncPendingWorkouts() {
+        workoutRepository.syncPendingWorkouts()
+    }
 
 }

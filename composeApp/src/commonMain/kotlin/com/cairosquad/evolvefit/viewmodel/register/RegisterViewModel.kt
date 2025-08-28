@@ -13,6 +13,7 @@ import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal
+import com.cairosquad.evolvefit.viewmodel.utils.asByteArray
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.error_email_already_used
 import evolvefit.composeapp.generated.resources.error_invalid_email
@@ -78,9 +79,17 @@ class RegisterViewModel(
                 )
                 delay(500)
             },
-            onSuccess = { sendEffect(RegisterEffect.NavigateToHome) },
+            onSuccess = {
+                val imageFileData = state.image.asByteArray()
+                manageProfileUseCase.uploadProfileImage(
+                    imageFileData.bytes,
+                    imageFileData.fileName
+                )
+                sendEffect(RegisterEffect.NavigateToHome)
+            },
             onError = { error -> handleRegisterError(error) },
-            onEnd = { updateState { it.copy(isLoading = false) } }
+            onEnd = { updateState { it.copy(isLoading = false)
+            } }
         )
     }
 
@@ -342,6 +351,6 @@ class RegisterViewModel(
     }
 
     companion object {
-        const val MAX_STEPS = 8
+        const val MAX_STEPS = 7
     }
 }

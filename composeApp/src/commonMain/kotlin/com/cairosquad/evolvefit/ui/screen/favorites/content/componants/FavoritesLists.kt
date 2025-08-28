@@ -22,7 +22,8 @@ import com.cairosquad.evolvefit.viewmodel.favorites.WorkoutsUiModel
 @Composable
 fun WorkoutList(
     workouts: List<WorkoutsUiModel>,
-    onSaveIconClick: (String) -> Unit
+    onSaveIconClick: (String) -> Unit,
+    onCardClick: (String) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 330.dp),
@@ -47,7 +48,8 @@ fun WorkoutList(
                     onSaveIconClick = {
                         visible = false
                         onSaveIconClick(workout.id)
-                    }
+                    },
+                    onCardClick = { onCardClick(workout.id) }
                 )
             }
         }
@@ -57,7 +59,8 @@ fun WorkoutList(
 @Composable
 fun MealsList(
     meals: List<MealsUiModel>,
-    onSaveIconClick: (String) -> Unit
+    onSaveIconClick: (String) -> Unit,
+    onCardClick: (String) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 330.dp),
@@ -82,7 +85,8 @@ fun MealsList(
                     onSaveIconClick = {
                         visible = false
                         onSaveIconClick(meal.id)
-                    }
+                    },
+                    onCardClick = { onCardClick(meal.id) }
                 )
             }
         }

@@ -16,7 +16,8 @@ data class WorkoutScreenState(
     val focusAreas: List<FocusAreaUiState> = FocusAreaUiState.entries,
     val screenStatus: ScreenStatus = ScreenStatus.LOADING,
     val isRefreshing: Boolean = false,
-    val errorMessage: String? = null
+    val isItemsLoading: Boolean = false,
+    val errorMessage: StringResource? = null
 ) {
     data class WorkoutSuggestedUiState(
         val id: String,
@@ -35,6 +36,6 @@ data class WorkoutScreenState(
         CHEST(Res.string.chest)
     }
 
-    enum class ScreenStatus { LOADING, SUCCESS, FAIL }
+    enum class ScreenStatus { LOADING, SUCCESS, FAIL, EMPTY }
 
 }
