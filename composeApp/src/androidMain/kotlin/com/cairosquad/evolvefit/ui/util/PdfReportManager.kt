@@ -66,7 +66,11 @@ actual object PdfReportManager {
         val context = platformContext as? Context
             ?: throw IllegalArgumentException("Android createPDF requires an Android Context as platformContext")
 
-        val logoBitmap = if (logoBytes.isNotEmpty()) BitmapFactory.decodeByteArray(logoBytes, 0, logoBytes.size) else null
+        val logoBitmap = if (logoBytes.isNotEmpty()) BitmapFactory.decodeByteArray(
+            logoBytes,
+            0,
+            logoBytes.size
+        ) else null
 
         val document = PdfDocument()
         val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create() // A4 points
@@ -99,57 +103,62 @@ actual object PdfReportManager {
         canvas.drawText("Expected calories: ${report.expectedCalories} kcal", 40f, y, paint); y += 20f
         canvas.drawText("Total water drank: ${report.waterConsumed} liters", 40f, y, paint); y += 30f
 
-        canvas.drawText("Workouts per week:", 40f, y, boldPaint); y += 24f
-        val workoutsCounts = report.workoutPerWeek.workoutsCount
-        val workoutDays =  report.workoutPerWeek.day
+        if (report.workoutPerWeek.day.isNotEmpty()) {
 
-        val timeSecondsList = report.timeSpentPerWeek.timeInSeconds
-        val timeDays = report.timeSpentPerWeek.day
 
-        val itemCount = maxOf(
-            workoutsCounts.size,
-            workoutDays.size,
-            timeSecondsList.size,
-            timeDays.size
-        )
+            canvas.drawText("Workouts per week:", 40f, y, boldPaint); y += 24f
+            val workoutsCounts = report.workoutPerWeek.workoutsCount
+            val workoutDays = report.workoutPerWeek.day
 
-        for (i in 0 until itemCount) {
-            val dayName = workoutDays.getOrNull(i)?.toString() ?: timeDays.getOrNull(i)?.toString() ?: "Day ${i + 1}"
-            val count = workoutsCounts.getOrNull(i) ?: 0
-            val seconds = timeSecondsList.getOrNull(i) ?: 0L
-            val minutes = seconds / 60
-            val line = "- ${dayName.capitalize(Locale.ROOT)}: Workouts = $count, Time spent = $minutes minutes"
-            canvas.drawText(line, 60f, y, paint)
-            y += 18f
+            val timeSecondsList = report.timeSpentPerWeek.timeInSeconds
+            val timeDays = report.timeSpentPerWeek.day
 
-            // page break
-            if (y > pageInfo.pageHeight - 80) {
-                document.finishPage(page)
-                page = document.startPage(pageInfo)
-                canvas = page.canvas
-                y = 40f
+            val itemCount = maxOf(
+                workoutsCounts.size,
+                workoutDays.size,
+                timeSecondsList.size,
+                timeDays.size
+            )
+
+            for (i in 0 until itemCount) {
+                val dayName =
+                    workoutDays.getOrNull(i)?.toString() ?: timeDays.getOrNull(i)?.toString()
+                    ?: "Day ${i + 1}"
+                val count = workoutsCounts.getOrNull(i) ?: 0
+                val seconds = timeSecondsList.getOrNull(i) ?: 0L
+                val minutes = seconds / 60
+                val line = "- ${dayName.capitalize(Locale.ROOT)}: Workouts = $count, Time spent = $minutes minutes"
+                canvas.drawText(line, 60f, y, paint)
+                y += 18f
+
+                // page break
+                if (y > pageInfo.pageHeight - 80) {
+                    document.finishPage(page)
+                    page = document.startPage(pageInfo)
+                    canvas = page.canvas
+                    y = 40f
+                }
+            }
+            y += 20f
+
+            canvas.drawText("Most trained muscles:", 40f, y, boldPaint); y += 26f
+            val muscles = report.mostTrainedMuscles.muscle
+            val percents = report.mostTrainedMuscles.percentage
+            val muscleCount = maxOf(muscles.size, percents.size)
+            for (i in 0 until muscleCount) {
+                val muscleName = muscles.getOrNull(i)?.toString() ?: "Muscle ${i + 1}"
+                val pct = (percents.getOrNull(i) ?: 0f) * 100f
+                val pctInt = pct.toInt()
+                canvas.drawText("- ${muscleName.capitalize(Locale.ROOT)}: $pctInt%", 60f, y, paint)
+                y += 18f
+                if (y > pageInfo.pageHeight - 80) {
+                    document.finishPage(page)
+                    page = document.startPage(pageInfo)
+                    canvas = page.canvas
+                    y = 40f
+                }
             }
         }
-        y += 20f
-
-        canvas.drawText("Most trained muscles:", 40f, y, boldPaint); y += 26f
-        val muscles = report.mostTrainedMuscles.muscle
-        val percents = report.mostTrainedMuscles.percentage
-        val muscleCount = maxOf(muscles.size, percents.size)
-        for (i in 0 until muscleCount) {
-            val muscleName = muscles.getOrNull(i)?.toString() ?: "Muscle ${i + 1}"
-            val pct = (percents.getOrNull(i) ?: 0f) * 100f
-            val pctInt = pct.toInt()
-            canvas.drawText("- ${muscleName.capitalize(Locale.ROOT)}: $pctInt%", 60f, y, paint)
-            y += 18f
-            if (y > pageInfo.pageHeight - 80) {
-                document.finishPage(page)
-                page = document.startPage(pageInfo)
-                canvas = page.canvas
-                y = 40f
-            }
-        }
-
         document.finishPage(page)
 
         val file = File(context.cacheDir, "WeeklyReport.pdf")
