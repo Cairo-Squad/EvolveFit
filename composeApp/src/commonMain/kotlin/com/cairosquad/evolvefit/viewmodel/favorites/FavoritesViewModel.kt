@@ -29,6 +29,14 @@ class FavoritesViewModel(
         updateState { it.copy(isMealTabSelected = false, isWorkoutTabSelected = true) }
     }
 
+    override fun onWorkoutClicked(workoutId: String) {
+        sendEffect(FavoritesEffect.NavigateToWorkoutDetails(workoutId))
+    }
+
+    override fun onMealClicked(mealId: String) {
+        sendEffect(FavoritesEffect.NavigateToMealDetails(mealId))
+    }
+
     override fun onBackClicked() {
         sendEffect(FavoritesEffect.NavigateBack)
     }

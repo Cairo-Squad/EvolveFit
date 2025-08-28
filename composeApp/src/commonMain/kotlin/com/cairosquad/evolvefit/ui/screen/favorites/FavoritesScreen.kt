@@ -41,6 +41,8 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun FavoritesScreen(
     navigateBack: () -> Unit,
+    navigateToMealDetails: (String) -> Unit,
+    navigateToWorkoutDetails: (String) -> Unit,
     favoritesViewModel: FavoritesViewModel = koinViewModel()
 ) {
     val state by favoritesViewModel.screenState.collectAsState()
@@ -49,6 +51,9 @@ fun FavoritesScreen(
             FavoritesEffect.NavigateBack -> {
                 navigateBack()
             }
+
+            is FavoritesEffect.NavigateToMealDetails -> navigateToMealDetails(effect.mealId)
+            is FavoritesEffect.NavigateToWorkoutDetails -> navigateToWorkoutDetails(effect.workoutId)
         }
     }
     Box(
@@ -119,28 +124,4 @@ private fun DeleteFavoritesSnackBar(
     )
 }
 
-@Preview
-@Composable
-private fun FavoritesScreenContentPreview() {
-
-    AppTheme(isDarkTheme = true) {
-        FavoritesScreenContent(
-            state = FavoritesState(
-                isLoading = false,
-                workoutsList = dummyWorkouts,
-                mealsList = emptyList(),
-                isWorkoutTabSelected = true,
-                isMealTabSelected = false
-            ),
-            listener = object : FavoritesInteractionListener {
-                override fun onMealTabSelected() {}
-                override fun onWorkoutTabSelected() {}
-                override fun onBackClicked() {}
-                override fun onUndoClicked() {}
-                override fun deleteMeal(mealId: String) {}
-                override fun deleteWorkout(workoutId: String) {}
-            }
-        )
-    }
-}
 
