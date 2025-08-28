@@ -168,8 +168,6 @@ fun WorkoutDetailsSuccess(
         BottomSheet(
             isVisible = state.workout.selectedExercise != null,
             onDismiss = listener::onExerciseBottomSheetDismiss,
-            modifier = Modifier.heightIn(max = ScreenSize.heightDp.dp * 0.95f)
-                .align(Alignment.BottomCenter)
         ) {
             state.workout.selectedExercise?.let {
                 ExerciseBottomSheetContent(
