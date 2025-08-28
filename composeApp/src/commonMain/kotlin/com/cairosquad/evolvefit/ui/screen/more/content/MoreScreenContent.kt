@@ -76,7 +76,6 @@ fun MoreScreenContent(
     Column(
         modifier = Modifier.fillMaxSize()
             .background(color = Theme.color.surfaces.surface)
-            .systemBarsPadding()
             .verticalScroll(rememberScrollState())
             .padding(top = 40.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
