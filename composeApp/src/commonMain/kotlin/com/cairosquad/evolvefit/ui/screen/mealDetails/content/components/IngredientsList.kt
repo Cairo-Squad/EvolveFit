@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,13 +24,13 @@ import org.jetbrains.compose.resources.stringResource
         )
         Spacer(modifier = Modifier.height(12.dp))
 
-        LazyColumn(
+        Column (
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(ingredients) { ingredient ->
+            repeat(ingredients.size) { index ->
                 Text(
-                    "• $ingredient",
+                    "• ${ingredients[index]}",
                     style = Theme.textStyle.label.smallRegular14,
                     color = Theme.color.surfaces.onSurfaceVariant,
                     modifier = Modifier.fillMaxWidth()

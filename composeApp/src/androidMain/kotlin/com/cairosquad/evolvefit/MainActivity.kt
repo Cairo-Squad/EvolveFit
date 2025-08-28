@@ -6,39 +6,27 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.cairosquad.evolvefit.ui.navigation.WorkoutDetailsRoute
 import com.cairosquad.evolvefit.repository.profile.local.ProfilePreferences
-import com.cairosquad.evolvefit.ui.util.LocalizationProvider
-import com.cairosquad.evolvefit.ui.util.ThemeProvider
-import com.cairosquad.evolvefit.ui.util.changeLanguage
+import com.cairosquad.evolvefit.ui.navigation.WorkoutDetailsRoute
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
-
     private val preferences: ProfilePreferences by inject()
     private var deepLinkRoute: Any? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         instance = this
-
         installSplashScreen()
         enableEdgeToEdge()
-        val savedLanguage = preferences.getSavedLanguage()
-        changeLanguage(savedLanguage)
+
         deepLinkRoute = getDeepLinkRoute(intent)
 
         setContent {
-            LocalizationProvider(preferences) { currentLanguage, onLanguageChange ->
-                ThemeProvider(preferences) { currentTheme, onThemeChange ->
-                    App(
-                        deepLinkRoute = deepLinkRoute,
-                        currentTheme = currentTheme,
-                        onLanguageChange = onLanguageChange,
-                        onThemeChange = onThemeChange
-                    )
-                }
-            }
+            App(
+                deepLinkRoute = deepLinkRoute,
+                preferences = preferences
+            )
         }
     }
 
