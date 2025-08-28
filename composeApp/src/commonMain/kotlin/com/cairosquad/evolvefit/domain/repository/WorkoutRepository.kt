@@ -18,5 +18,11 @@ interface WorkoutRepository {
     suspend fun getWorkoutsByFocusArea(focusArea: FocusArea): List<WorkoutSuggested>
     suspend fun submitPlayedWorkout(playedWorkout: PlayedWorkout)
     suspend fun getWorkoutHistory(): List<WorkoutHistory>
-    suspend fun uploadWorkoutImage(fileBytes: ByteArray, fileName: String,workoutId : String): String
+    suspend fun uploadWorkoutImage(
+        fileBytes: ByteArray,
+        fileName: String,
+        workoutId: String
+    ): String
+
+    suspend fun syncPendingWorkouts()
 }

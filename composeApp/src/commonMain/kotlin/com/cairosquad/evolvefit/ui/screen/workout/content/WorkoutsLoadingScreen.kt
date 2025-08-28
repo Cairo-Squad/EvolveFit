@@ -44,7 +44,9 @@ fun WorkoutsLoadingScreen() {
         rememberInfiniteTransition(label = stringResource(Res.string.shimmer_loading))
 
     val shimmerEffectAnimation by infiniteTransition.animateFloat(
-        initialValue = -200f, targetValue = 500f, animationSpec = infiniteRepeatable(
+        initialValue = -200f,
+        targetValue = 500f,
+        animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 1500, easing = EaseInOut),
             repeatMode = RepeatMode.Restart
         )
@@ -54,25 +56,26 @@ fun WorkoutsLoadingScreen() {
         start = Offset(shimmerEffectAnimation, shimmerEffectAnimation),
         end = Offset(shimmerEffectAnimation + 190f, shimmerEffectAnimation + 190f)
     )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Theme.color.surfaces.surface),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        CategoriesShimmerRow(shimmerBrush = brush)
+        //CategoriesShimmerRow(shimmerBrush = brush)
         WorkoutsShimmerList(shimmerBrush = brush)
     }
 }
 @Composable
 private fun CategoriesShimmerRow(shimmerBrush: Brush) {
-    LazyRow(
-        contentPadding = PaddingValues(horizontal = 16.dp),
+    Row(
         modifier = Modifier
-            .padding(top = 12.dp, bottom = 24.dp),
+            .padding(top = 12.dp, bottom = 24.dp, start = 16.dp, end = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(30) {
+        repeat(30) {
             ShimmerOverlayShape(
                 modifier = Modifier
                     .size(height = 40.dp, width = 59.dp),
@@ -85,15 +88,16 @@ private fun CategoriesShimmerRow(shimmerBrush: Brush) {
 
 @Composable
 private fun WorkoutsShimmerList(shimmerBrush: Brush) {
-    LazyColumn(
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier.padding(horizontal = 16.dp)
     ) {
-        items(20) {
+        repeat(30) {
             WorkoutCardShimmered(shimmerBrush = shimmerBrush)
         }
     }
 }
+
 @Composable
 private fun WorkoutCardShimmered(
     shimmerBrush: Brush,

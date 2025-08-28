@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.repository.execption
 
+import com.cairosquad.evolvefit.repository.utils.EmptyResponse
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
@@ -25,6 +26,10 @@ suspend inline fun <reified T> callApi(
 suspend inline fun <reified T> responseToException(
     response: HttpResponse
 ): T {
+    if (response.status.value == 204) {
+        return EmptyResponse() as T
+    }
+
     when (response.status.value) {
         in 200..299 -> {
             try {
