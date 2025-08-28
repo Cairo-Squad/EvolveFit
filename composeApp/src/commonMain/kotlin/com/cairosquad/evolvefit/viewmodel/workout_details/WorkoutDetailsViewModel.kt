@@ -174,7 +174,7 @@ class WorkoutDetailsViewModel(
     override fun onCopyLinkClicked(workoutId: String) {
         Share.copyLink("https://evolvefit.com/workouts/$workoutId") { message, _ ->
             updateState {
-                it.copy(snackBarMessageId = message)
+                it.copy(snackBarMessageId = message, isShareClicked = false)
             }
         }
     }

@@ -202,7 +202,7 @@ fun WorkoutDetailsSuccess(
                         WorkoutDetailsViewModel.DEEP_LINK_BASE_URL + state.workout.workoutID
                     shareToPlatform(platform, workoutUrl, onDismiss = listener::onShareClicked)
                 },
-                onCopyLinkClick = {}
+                onCopyLinkClick = { listener.onCopyLinkClicked(state.workout.workoutID) }
             )
         }
         SnackBar(
