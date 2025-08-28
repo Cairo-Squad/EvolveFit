@@ -27,7 +27,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="https"
-                    android:host="evolvefit.com"
+                    android:host="cairo-evolve.vercel.app"
                     android:pathPrefix="/workouts" />
             </intent-filter>
         </activity>
