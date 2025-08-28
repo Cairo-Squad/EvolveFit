@@ -77,7 +77,7 @@ class ManageNutritionUseCase(private val nutritionRepository: NutritionRepositor
     }
 
     private fun validateRemainingWater(amount: Float, remainingWater: Float) {
-        if (amount > remainingWater) throw ExceededWaterLimitException()
+        if (amount >= remainingWater) throw ExceededWaterLimitException()
     }
 
     private fun validateCaloriesInput(input: String) {
@@ -94,7 +94,7 @@ class ManageNutritionUseCase(private val nutritionRepository: NutritionRepositor
     }
 
     private fun validateRemainingCalories(calories: Int, remainingCalories: Int) {
-        if (calories > remainingCalories) throw ExceededCaloriesException()
+        if (calories >= remainingCalories) throw ExceededCaloriesException()
     }
 
 

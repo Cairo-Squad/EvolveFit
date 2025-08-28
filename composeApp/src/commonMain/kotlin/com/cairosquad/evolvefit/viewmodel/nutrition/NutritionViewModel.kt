@@ -30,10 +30,14 @@ import evolvefit.composeapp.generated.resources.error_no_internet
 import evolvefit.composeapp.generated.resources.error_number_too_large
 import evolvefit.composeapp.generated.resources.error_text_too_long
 import evolvefit.composeapp.generated.resources.error_unknown
+import evolvefit.composeapp.generated.resources.ic_green_check_circle
+import evolvefit.composeapp.generated.resources.ic_info
 import evolvefit.composeapp.generated.resources.meal_added_snackbar
+import evolvefit.composeapp.generated.resources.water_added_successfully
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 
 class NutritionViewModel(
@@ -180,7 +184,7 @@ class NutritionViewModel(
     override fun onAddWaterClicked() {
         val state = screenState.value
         if (state.dailyWaterGoal > 0 && state.todayConsumedWater >= state.dailyWaterGoal) {
-            showSnackBar(Res.string.error_exceeded_water)
+            showSnackBar(Res.string.error_exceeded_water, Res.drawable.ic_info)
         } else {
             updateState { it.copy(isAddWaterSheetVisible = true) }
         }
@@ -206,8 +210,9 @@ class NutritionViewModel(
                     waterInputError = null
                 )
             }
+            showSnackBar(Res.string.water_added_successfully, Res.drawable.ic_green_check_circle)
         } else {
-            showSnackBar(Res.string.error_unknown)
+            showSnackBar(Res.string.error_unknown, Res.drawable.ic_info)
         }
 
     }
@@ -225,7 +230,10 @@ class NutritionViewModel(
     override fun onAddMealSheetClicked() {
         val state = screenState.value
         if (state.dailyCaloriesGoal > 0 && state.todayConsumedCalories >= state.dailyCaloriesGoal) {
-            showSnackBar(Res.string.error_exceeded_calories)
+            showSnackBar(
+                Res.string.error_exceeded_calories,
+                Res.drawable.ic_info
+            )
         } else {
             updateState { it.copy(isAddMealSheetVisible = true) }
         }
@@ -257,7 +265,10 @@ class NutritionViewModel(
         if (isAdded) {
             loadConsumedMealsForToday()
             loadDailyCaloriesSummary()
-            showSnackBar(Res.string.meal_added_snackbar)
+            showSnackBar(
+                Res.string.meal_added_snackbar,
+                Res.drawable.ic_green_check_circle
+            )
             updateState {
                 it.copy(
                     isAddMealSheetVisible = false,
@@ -271,37 +282,34 @@ class NutritionViewModel(
                 )
             }
         } else {
-            showSnackBar(Res.string.error_unknown)
+            showSnackBar(
+                Res.string.error_unknown,
+                Res.drawable.ic_info
+            )
         }
 
     }
 
-    private fun showSnackBar(message: StringResource) {
+    private fun showSnackBar(
+        message: StringResource,
+        icon: DrawableResource,
+        duration: Long = 3000L
+    ) {
         snackBarJob?.cancel()
-        snackBarJob = viewModelScope.launch(Dispatchers.Main) {
-            this@NutritionViewModel.onSnackBarHided()
-            updateSnackBarMessage()
-            delay(200)
-            updateState {
-                it.copy(
-                    isSnackBarVisible = true,
-                    isAddMealSheetVisible = false,
-                    isAddWaterSheetVisible = false,
-                    errorMessage = message
-                )
-            }
-            delay(2000)
-            updateSnackBarMessage()
-        }
-    }
-
-    private fun updateSnackBarMessage() {
         updateState {
             it.copy(
-                errorMessage = null,
-                isSnackBarVisible = false,
-                isAddWaterSheetVisible = false
+                isSnackBarVisible = true,
+                snackBarMessage = message,
+                snackBarIcon = icon
             )
+        }
+        snackBarJob = viewModelScope.launch(Dispatchers.Main) {
+            delay(duration)
+            updateState {
+                it.copy(
+                    isSnackBarVisible = false,
+                )
+            }
         }
     }
 
@@ -351,10 +359,6 @@ class NutritionViewModel(
 
     override fun onDroppedMenuClick() {
         updateState { it.copy(isDroppedMenuVisible = true) }
-    }
-
-    override fun onSnackBarHided() {
-        updateState { it.copy(isSnackBarVisible = false) }
     }
 
     override fun onRetryClicked() {
@@ -423,7 +427,7 @@ class NutritionViewModel(
     }
 
     private fun handleSnackBarError(error: NutritionScreenState.UiError.SnackBarError) {
-        showSnackBar(error.message)
+        showSnackBar(error.message, Res.drawable.ic_info)
     }
 
     private fun Throwable.toUiError(): NutritionScreenState.UiError = when (this) {

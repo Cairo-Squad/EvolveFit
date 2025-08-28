@@ -50,18 +50,16 @@ fun CommunityWorkoutsScreenContent(
             modifier = Modifier.fillMaxSize()
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
+
                 CommunityFocusAreaFilter(
                     focusArea = WorkoutScreenState.FocusAreaUiState.entries,
                     selectedFocusArea = state.selectedFocusArea,
                     onSelectFocusArea = listener::onFocusAreaSelected
                 )
-
                 Crossfade(
                     targetState = state.screenStatus,
                     animationSpec = tween(
@@ -73,7 +71,7 @@ fun CommunityWorkoutsScreenContent(
                         WorkoutScreenState.ScreenStatus.SUCCESS -> {
                             Column(
                                 verticalArrangement = Arrangement.spacedBy(12.dp),
-                                modifier = Modifier.padding(vertical = 12.dp)
+                                modifier = Modifier.verticalScroll(rememberScrollState())
                             ) {
                                 state.allWorkouts.forEach { workout ->
                                     val displayArea =

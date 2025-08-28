@@ -39,7 +39,9 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun WorkoutsLoadingScreen(isItemsLoading: Boolean) {
+fun WorkoutsLoadingScreen(
+    isItemsLoading: Boolean,
+) {
     val infiniteTransition =
         rememberInfiniteTransition(label = stringResource(Res.string.shimmer_loading))
 
@@ -65,12 +67,12 @@ fun WorkoutsLoadingScreen(isItemsLoading: Boolean) {
     ) {
         if (isItemsLoading) {
             item {
+                CategoriesShimmerRow(shimmerBrush = brush)
+            }
+            item {
                 WorkoutsShimmerList(shimmerBrush = brush)
             }
         } else {
-            item {
-                CategoriesShimmerRow(shimmerBrush = brush)
-            }
             item {
                 WorkoutsShimmerList(shimmerBrush = brush)
             }
