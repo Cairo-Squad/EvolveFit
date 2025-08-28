@@ -69,9 +69,8 @@ fun RegisterScreenContent(
                 2 -> RegisterScreenContentSelectHeightAndWeight(state, listener)
                 3 -> RegisterScreenContentChooseYourGoal(state, listener)
                 4 -> RegisterScreenContentSelectYourTools(state, listener)
-                5 -> RegisterScreenContentSelectNotificationSettings(state, listener)
-                6 -> RegisterScreenContentSelectWorkoutDays(state, listener)
-                7 -> RegisterScreenContentUserNamePasswordDateOfBirth(state, listener)
+                5 -> RegisterScreenContentSelectWorkoutDays(state, listener)
+                6 -> RegisterScreenContentUserNamePasswordDateOfBirth(state, listener)
             }
         }
         PrimaryButton(
@@ -80,12 +79,12 @@ fun RegisterScreenContent(
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 24.dp),
             text =
-                if (state.currentStep == 8)
+                if (state.currentStep == 7)
                     stringResource(Res.string.start_now)
                 else
                     stringResource(Res.string.next),
             onClick = {
-                if (state.currentStep == 8) {
+                if (state.currentStep == 7) {
                     listener.onStartNowClicked()
                 } else {
                     listener.onNextClicked()
