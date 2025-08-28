@@ -262,7 +262,13 @@ fun NavigationHost(
         }
         composable<FavoritesScreenRoute> {
             FavoritesScreen(
-                navigateBack = navController::popBackStack
+                navigateBack = navController::popBackStack,
+                navigateToMealDetails = { mealId ->
+                    navController.navigate(MealDetailsRoute(mealId.toString()))
+                },
+                navigateToWorkoutDetails = { workoutId ->
+                    navController.navigate(WorkoutDetailsRoute(workoutId.toString()))
+                }
             )
         }
     }

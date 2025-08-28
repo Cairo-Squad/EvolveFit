@@ -40,13 +40,15 @@ fun FavoritesCard(
     info: String,
     model: String,
     modifier: Modifier = Modifier,
-    onSaveIconClick: () -> Unit = {}
+    onSaveIconClick: () -> Unit = {},
+    onCardClick: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(172.dp)
             .clip(RoundedCornerShape(8.dp))
+            .clickable(onClick = onCardClick)
     ) {
         NetworkImage(
             modifier = Modifier.fillMaxSize(),
