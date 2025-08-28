@@ -1,9 +1,4 @@
 name: EvolveFit CD Pipeline
-
-permissions:
-  contents: write
-  workflows: write
-
 on:
   push:
     branches:
