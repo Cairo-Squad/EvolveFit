@@ -172,7 +172,7 @@ class WorkoutDetailsViewModel(
     }
 
     override fun onCopyLinkClicked(workoutId: String) {
-        Share.copyLink("https://evolvefit.com/workouts/$workoutId") { message, _ ->
+        Share.copyLink("$DEEP_LINK_BASE_URL$workoutId") { message, _ ->
             updateState {
                 it.copy(snackBarMessageId = message, isShareClicked = false)
             }
@@ -180,6 +180,6 @@ class WorkoutDetailsViewModel(
     }
 
     companion object {
-        const val DEEP_LINK_BASE_URL = "https://evolvefit.com/workouts/"
+        const val DEEP_LINK_BASE_URL = "https://cairo-evolve.vercel.app/workouts/"
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
@@ -38,12 +39,14 @@ fun NavigationHost(
     deepLinkRoute: Any? = null,
     onLanguageChange: (String) -> Unit,
     onThemeChange: (MoreScreenState.Theme) -> Unit,
-    ) {
+) {
 
     val isUserLoggedIn = authenticationPreferences.getAccessToken().isNullOrBlank().not()
     val startDestination = if (isUserLoggedIn) NavBarRoute.Home else OnboardingRoute
+    val WORKOUT_DETAILS_DEEPLINK = "https://cairo-evolve.vercel.app/workouts"
 
     val navController = rememberNavController()
+    DeepLinkListener(navController)
 
     LaunchedEffect(deepLinkRoute, isUserLoggedIn) {
         if (deepLinkRoute != null && isUserLoggedIn) {
@@ -58,9 +61,23 @@ fun NavigationHost(
         navController = navController,
         startDestination = startDestination,
         enterTransition = { fadeIn(animationSpec = tween(durationMillis = 300)) },
-        exitTransition = { fadeOut(animationSpec = tween(durationMillis = 300, delayMillis = 300)) },
+        exitTransition = {
+            fadeOut(
+                animationSpec = tween(
+                    durationMillis = 300,
+                    delayMillis = 300
+                )
+            )
+        },
         popEnterTransition = { fadeIn(animationSpec = tween(durationMillis = 300)) },
-        popExitTransition = { fadeOut(animationSpec = tween(durationMillis = 300, delayMillis = 300)) },
+        popExitTransition = {
+            fadeOut(
+                animationSpec = tween(
+                    durationMillis = 300,
+                    delayMillis = 300
+                )
+            )
+        },
     ) {
         composable<OnboardingRoute> {
             OnboardingScreen(
@@ -146,7 +163,11 @@ fun NavigationHost(
             )
         }
 
-        composable<WorkoutDetailsRoute> { backStackEntry ->
+        composable<WorkoutDetailsRoute>(
+            deepLinks = listOf(
+                navDeepLink<WorkoutDetailsRoute>(basePath = WORKOUT_DETAILS_DEEPLINK)
+            )
+        ) { backStackEntry ->
             val onNavigateBack: (() -> Unit)? = navController.getFromSavedState()
             val workoutId = backStackEntry.toRoute<WorkoutDetailsRoute>().workoutId
             WorkoutDetailsScreen(
