@@ -80,11 +80,13 @@ class RegisterViewModel(
                 delay(500)
             },
             onSuccess = {
-                val imageFileData = state.image.asByteArray()
-                manageProfileUseCase.uploadProfileImage(
-                    imageFileData.bytes,
-                    imageFileData.fileName
-                )
+                if (state.image is UiImage.ImageFile) {
+                    val imageFileData = state.image.asByteArray()
+                    manageProfileUseCase.uploadProfileImage(
+                        imageFileData.bytes,
+                        imageFileData.fileName
+                    )
+                }
                 sendEffect(RegisterEffect.NavigateToHome)
             },
             onError = { error -> handleRegisterError(error) },
