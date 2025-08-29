@@ -61,9 +61,7 @@ fun PlayWorkoutContentGetReady(
                 .padding(start = 16.dp)
                 .size(48.dp)
                 .clip(CircleShape)
-                .clickable(
-                    onClick = listener::onCancelWorkoutClicked
-                )
+                .clickable(onClick = listener::onCancelWorkoutClicked)
                 .padding(12.dp),
             painter = painterResource(Res.drawable.ic_cross),
             contentDescription = stringResource(Res.string.cancel_workout),

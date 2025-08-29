@@ -35,6 +35,7 @@ import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState.WorkoutLevelUiState
+import evolvefit.composeapp.generated.resources.Onboarding
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.congratulations_message
 import evolvefit.composeapp.generated.resources.exercises
@@ -220,7 +221,8 @@ private fun ColumnWithBackgroundAndFireworks(
                 .blur(backgroundBlurRadius),
             model = model,
             contentDescription = contentDescription,
-            defaultImage = painterResource(Res.drawable.im_default_workout)
+            defaultImage = painterResource(Res.drawable.Onboarding),
+            loadingPlaceHolder = painterResource(Res.drawable.Onboarding)
         )
         Image(
             modifier = Modifier

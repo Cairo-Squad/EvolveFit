@@ -1,5 +1,11 @@
 package com.cairosquad.evolvefit.ui.screen.playWorkout.content
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,15 +52,18 @@ import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.back_button
 import evolvefit.composeapp.generated.resources.exercise
+import evolvefit.composeapp.generated.resources.ic_app_logo
 import evolvefit.composeapp.generated.resources.ic_check_mark
 import evolvefit.composeapp.generated.resources.ic_cross
 import evolvefit.composeapp.generated.resources.ic_next_arrow
 import evolvefit.composeapp.generated.resources.ic_pause
 import evolvefit.composeapp.generated.resources.ic_play
 import evolvefit.composeapp.generated.resources.ic_previous_arrow
+import evolvefit.composeapp.generated.resources.im_default_image
 import evolvefit.composeapp.generated.resources.im_default_workout
 import evolvefit.composeapp.generated.resources.next
 import evolvefit.composeapp.generated.resources.primary_button
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -71,6 +81,7 @@ fun PlayWorkoutContentPerform(
 
     LaunchedEffect(screenState.currentStep) {
         try {
+            delay(200)
             pagerState.animateScrollToPage(screenState.currentStep - 1)
         } catch (_: Exception) {
         }
@@ -94,78 +105,53 @@ fun PlayWorkoutContentPerform(
             leadingIcon = painterResource(Res.drawable.ic_cross),
         )
         HorizontalPager(
-            modifier = Modifier.fillMaxSize(),
             state = pagerState,
             userScrollEnabled = false
         ) { pageIndex ->
-            ExercisePage(
+            val imageHeightDp = maxOf(ScreenSize.heightDp - 440, 360f)
+            val imageWidthDp = minOf(ScreenSize.widthDp - 16, imageHeightDp)
+            NetworkImage(
                 modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .fillMaxSize(),
-                exercise = screenState.workout.exercises[pageIndex],
-                listener = listener,
-                currentStep = pageIndex + 1,
-                totalSteps = screenState.workout.exercises.size,
-                isForwardButtonEnabled = pageIndex + 1 < screenState.workout.exercises.size,
-                isBackButtonEnabled = pageIndex > 0,
+                    .padding(bottom = 40.dp)
+                    .padding(horizontal = 16.dp)
+                    .size(imageWidthDp.dp, imageHeightDp.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                model = screenState.workout.exercises[pageIndex].imageUrls.firstOrNull() ?: "",
+                contentDescription = screenState.workout.exercises[pageIndex].name,
+                defaultImage = painterResource(Res.drawable.ic_app_logo),
+                placeholderImageSize = DpSize(imageWidthDp.dp / 2, imageHeightDp.dp / 2),
+                loadingPlaceHolder = painterResource(Res.drawable.ic_app_logo)
             )
         }
-    }
-}
-
-@Composable
-private fun ExercisePage(
-    exercise: PlayWorkoutScreenState.ExerciseUiState,
-    listener: PlayWorkoutInteractionListener,
-    currentStep: Int,
-    totalSteps: Int,
-    modifier: Modifier = Modifier,
-    isForwardButtonEnabled: Boolean = true,
-    isBackButtonEnabled: Boolean = true,
-) {
-    val imageHeightDp = maxOf(ScreenSize.heightDp - 440, 360f)
-    val imageWidthDp = minOf(ScreenSize.widthDp - 16, imageHeightDp)
-
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        NetworkImage(
-            modifier = Modifier
-                .padding(bottom = 40.dp)
-                .padding(horizontal = 16.dp)
-                .size(imageWidthDp.dp, imageHeightDp.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            model = exercise.imageUrls.firstOrNull() ?: "",
-            contentDescription = exercise.name,
-            defaultImage = painterResource(Res.drawable.im_default_workout)
-        )
         Text(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 8.dp),
-            text = stringResource(Res.string.exercise) + " ${currentStep}/${totalSteps}",
+                .padding(bottom = 8.dp)
+                .align(Alignment.CenterHorizontally),
+            text = stringResource(Res.string.exercise) + " ${pagerState.currentPage + 1}/${screenState.workout.exercises.size}",
             style = Theme.textStyle.label.smallRegular14,
             color = Theme.color.surfaces.outline,
         )
         ExerciseNameAndInfoIcon(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 24.dp),
-            exerciseName = exercise.name,
-            onClickInfo = { listener.onExerciseInfoClicked(exercise.id) },
+                .padding(bottom = 24.dp)
+                .align(Alignment.CenterHorizontally),
+            exerciseName = screenState.workout.exercises[pagerState.currentPage].name,
+            onClickInfo = { listener.onExerciseInfoClicked(screenState.workout.exercises[pagerState.currentPage].id) },
             textStyle = Theme.textStyle.display.largeBold20
         )
         BottomSection(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 48.dp),
-            exerciseSpec = exercise.exerciseSpec,
+                .padding(bottom = 48.dp)
+                .align(Alignment.CenterHorizontally),
+            exerciseSpec = screenState.workout.exercises[pagerState.currentPage].exerciseSpec,
             onFinishExercise = listener::onFinishExercise,
             onClickForward = listener::onForwardClicked,
             onClickBack = listener::onBackClicked,
-            isForwardButtonEnabled = isForwardButtonEnabled,
-            isBackButtonEnabled = isBackButtonEnabled,
+            isForwardButtonEnabled = pagerState.currentPage + 1 < screenState.workout.exercises.size,
+            isBackButtonEnabled = pagerState.currentPage > 0,
         )
     }
 }
@@ -309,8 +295,10 @@ private fun BottomButtons(
             painter = painterResource(Res.drawable.ic_previous_arrow),
             contentDescription = stringResource(Res.string.back_button),
             tint =
-                if (isBackButtonEnabled) Theme.color.surfaces.onSurfaceContainer
-                else Theme.color.surfaces.outlineVariant,
+                animateColorAsState(
+                    if (isBackButtonEnabled) Theme.color.surfaces.onSurfaceContainer
+                    else Theme.color.surfaces.outlineVariant
+                ).value,
         )
         Icon(
             modifier = Modifier
@@ -334,8 +322,10 @@ private fun BottomButtons(
             painter = painterResource(Res.drawable.ic_next_arrow),
             contentDescription = stringResource(Res.string.next),
             tint =
-                if (isForwardButtonEnabled) Theme.color.surfaces.onSurfaceContainer
-                else Theme.color.surfaces.outlineVariant,
+                animateColorAsState(
+                    if (isForwardButtonEnabled) Theme.color.surfaces.onSurfaceContainer
+                    else Theme.color.surfaces.outlineVariant
+                ).value,
         )
     }
 }
