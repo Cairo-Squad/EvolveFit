@@ -1,11 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.playWorkout.content
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -61,14 +56,11 @@ import evolvefit.composeapp.generated.resources.ic_next_arrow
 import evolvefit.composeapp.generated.resources.ic_pause
 import evolvefit.composeapp.generated.resources.ic_play
 import evolvefit.composeapp.generated.resources.ic_previous_arrow
-import evolvefit.composeapp.generated.resources.im_default_image
-import evolvefit.composeapp.generated.resources.im_default_workout
 import evolvefit.composeapp.generated.resources.next
 import evolvefit.composeapp.generated.resources.primary_button
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-
 
 @Composable
 fun PlayWorkoutContentPerform(
@@ -93,7 +85,10 @@ fun PlayWorkoutContentPerform(
         modifier = Modifier
             .fillMaxSize()
             .background(Theme.color.surfaces.surface)
-            .systemBarsPadding(),
+            .padding(horizontal = 16.dp)
+            .systemBarsPadding()
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         IndicatorBar(
             modifier = Modifier
@@ -107,66 +102,44 @@ fun PlayWorkoutContentPerform(
             leadingIcon = painterResource(Res.drawable.ic_cross),
         )
         HorizontalPager(
-            modifier = Modifier.fillMaxSize(),
             state = pagerState,
             userScrollEnabled = false
         ) { pageIndex ->
-            ExercisePage(
+            val imageHeightDp = maxOf(ScreenSize.heightDp - 440, 360f)
+            val imageWidthDp = minOf(ScreenSize.widthDp - 16, imageHeightDp)
+
+            NetworkImage(
                 modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .fillMaxSize(),
-                exercise = screenState.workout.exercises[pageIndex],
-                listener = listener,
-                currentStep = pageIndex + 1,
-                totalSteps = screenState.workout.exercises.size,
-                isForwardButtonEnabled = pageIndex + 1 < screenState.workout.exercises.size,
-                isBackButtonEnabled = pageIndex > 0,
+                    .padding(bottom = 40.dp)
+                    .aspectRatio(imageWidthDp / imageHeightDp, matchHeightConstraintsFirst = true)
+                    .clip(RoundedCornerShape(8.dp)),
+                model = screenState.workout.exercises[pageIndex].imageUrls.firstOrNull() ?: "",
+                contentDescription = screenState.workout.exercises[pageIndex].name,
+                defaultImage = painterResource(Res.drawable.ic_app_logo),
+                placeholderImageSize = DpSize(imageWidthDp.dp / 2, imageHeightDp.dp / 2),
+                loadingPlaceHolder = painterResource(Res.drawable.ic_app_logo)
             )
         }
-    }
-}
-
-@Composable
-private fun ExercisePage(
-    exercise: PlayWorkoutScreenState.ExerciseUiState,
-    listener: PlayWorkoutInteractionListener,
-    currentStep: Int,
-    totalSteps: Int,
-    modifier: Modifier = Modifier,
-    isForwardButtonEnabled: Boolean = true,
-    isBackButtonEnabled: Boolean = true,
-) {
-    Column(
-        modifier = modifier.padding(horizontal = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        NetworkImage(
-            modifier = Modifier
-                .padding(bottom = 40.dp)
-                .aspectRatio(328f / 360f, matchHeightConstraintsFirst = true)
-                .clip(RoundedCornerShape(8.dp)),
-            model = screenState.workout.exercises[pageIndex].imageUrls.firstOrNull() ?: "",
-
-            contentDescription = exercise.name,
-            defaultImage = painterResource(Res.drawable.ic_app_logo),
-                    placeholderImageSize = DpSize(imageWidthDp.dp / 2, imageHeightDp.dp / 2),
-        loadingPlaceHolder = painterResource(Res.drawable.ic_app_logo)
-        )
         Text(
-            modifier = Modifier.padding(bottom = 8.dp)
-                .align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(bottom = 8.dp),
             text = stringResource(Res.string.exercise) + " ${pagerState.currentPage + 1}/${screenState.workout.exercises.size}",
             style = Theme.textStyle.label.smallRegular14,
             color = Theme.color.surfaces.outline,
         )
         ExerciseNameAndInfoIcon(
-            modifier = Modifier.padding(bottom = 24.dp),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(bottom = 24.dp),
             exerciseName = screenState.workout.exercises[pagerState.currentPage].name,
             onClickInfo = { listener.onExerciseInfoClicked(screenState.workout.exercises[pagerState.currentPage].id) },
             textStyle = Theme.textStyle.display.largeBold20
         )
         BottomSection(
-            modifier = Modifier.navigationBarsPadding(),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .navigationBarsPadding(),
             exerciseSpec = screenState.workout.exercises[pagerState.currentPage].exerciseSpec,
             onFinishExercise = listener::onFinishExercise,
             onClickForward = listener::onForwardClicked,
@@ -174,6 +147,7 @@ private fun ExercisePage(
             isForwardButtonEnabled = pagerState.currentPage + 1 < screenState.workout.exercises.size,
             isBackButtonEnabled = pagerState.currentPage > 0,
         )
+
     }
 }
 
