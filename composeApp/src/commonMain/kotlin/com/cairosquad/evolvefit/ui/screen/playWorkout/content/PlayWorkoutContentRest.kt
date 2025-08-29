@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cairosquad.evolvefit.design_system.theme.Theme
@@ -37,6 +38,7 @@ import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutViewModel
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.exercise_info
+import evolvefit.composeapp.generated.resources.ic_app_logo
 import evolvefit.composeapp.generated.resources.ic_default_image
 import evolvefit.composeapp.generated.resources.ic_play
 import evolvefit.composeapp.generated.resources.im_default_workout
@@ -120,7 +122,7 @@ fun PlayWorkoutContentRest(
                 .clickable(onClick = { listener.onExerciseInfoClicked(currentExercise.id) }),
             model = currentExercise.imageUrls.firstOrNull() ?: "",
             contentDescription = currentExercise.name,
-            defaultImage = painterResource(Res.drawable.im_default_workout)
+            defaultImage = painterResource(Res.drawable.ic_app_logo),
         )
     }
 }
@@ -140,7 +142,8 @@ private fun NetworkImageWithPlayButton(
             modifier = Modifier.matchParentSize(),
             model = model,
             contentDescription = contentDescription,
-            defaultImage = defaultImage
+            defaultImage = defaultImage,
+            loadingPlaceHolder = painterResource(Res.drawable.ic_app_logo)
         )
         Icon(
             modifier = Modifier

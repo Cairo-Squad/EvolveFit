@@ -1,5 +1,11 @@
 package com.cairosquad.evolvefit.ui.screen.playWorkout.content
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,6 +38,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,20 +48,24 @@ import com.cairosquad.evolvefit.design_system.component.clockTimer.rememberClock
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.ui.screen.playWorkout.content.component.ExerciseNameAndInfoIcon
+import com.cairosquad.evolvefit.ui.util.ScreenSize
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.back_button
 import evolvefit.composeapp.generated.resources.exercise
+import evolvefit.composeapp.generated.resources.ic_app_logo
 import evolvefit.composeapp.generated.resources.ic_check_mark
 import evolvefit.composeapp.generated.resources.ic_cross
 import evolvefit.composeapp.generated.resources.ic_next_arrow
 import evolvefit.composeapp.generated.resources.ic_pause
 import evolvefit.composeapp.generated.resources.ic_play
 import evolvefit.composeapp.generated.resources.ic_previous_arrow
+import evolvefit.composeapp.generated.resources.im_default_image
 import evolvefit.composeapp.generated.resources.im_default_workout
 import evolvefit.composeapp.generated.resources.next
 import evolvefit.composeapp.generated.resources.primary_button
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -72,6 +83,7 @@ fun PlayWorkoutContentPerform(
 
     LaunchedEffect(screenState.currentStep) {
         try {
+            delay(200)
             pagerState.animateScrollToPage(screenState.currentStep - 1)
         } catch (_: Exception) {
         }
@@ -133,30 +145,34 @@ private fun ExercisePage(
                 .padding(bottom = 40.dp)
                 .aspectRatio(328f / 360f, matchHeightConstraintsFirst = true)
                 .clip(RoundedCornerShape(8.dp)),
-            model = exercise.imageUrls.firstOrNull() ?: "",
+            model = screenState.workout.exercises[pageIndex].imageUrls.firstOrNull() ?: "",
+
             contentDescription = exercise.name,
-            defaultImage = painterResource(Res.drawable.im_default_workout)
+            defaultImage = painterResource(Res.drawable.ic_app_logo),
+                    placeholderImageSize = DpSize(imageWidthDp.dp / 2, imageHeightDp.dp / 2),
+        loadingPlaceHolder = painterResource(Res.drawable.ic_app_logo)
         )
         Text(
-            modifier = Modifier.padding(bottom = 8.dp),
-            text = stringResource(Res.string.exercise) + " ${currentStep}/${totalSteps}",
+            modifier = Modifier.padding(bottom = 8.dp)
+                .align(Alignment.CenterHorizontally),
+            text = stringResource(Res.string.exercise) + " ${pagerState.currentPage + 1}/${screenState.workout.exercises.size}",
             style = Theme.textStyle.label.smallRegular14,
             color = Theme.color.surfaces.outline,
         )
         ExerciseNameAndInfoIcon(
             modifier = Modifier.padding(bottom = 24.dp),
-            exerciseName = exercise.name,
-            onClickInfo = { listener.onExerciseInfoClicked(exercise.id) },
+            exerciseName = screenState.workout.exercises[pagerState.currentPage].name,
+            onClickInfo = { listener.onExerciseInfoClicked(screenState.workout.exercises[pagerState.currentPage].id) },
             textStyle = Theme.textStyle.display.largeBold20
         )
         BottomSection(
             modifier = Modifier.navigationBarsPadding(),
-            exerciseSpec = exercise.exerciseSpec,
+            exerciseSpec = screenState.workout.exercises[pagerState.currentPage].exerciseSpec,
             onFinishExercise = listener::onFinishExercise,
             onClickForward = listener::onForwardClicked,
             onClickBack = listener::onBackClicked,
-            isForwardButtonEnabled = isForwardButtonEnabled,
-            isBackButtonEnabled = isBackButtonEnabled,
+            isForwardButtonEnabled = pagerState.currentPage + 1 < screenState.workout.exercises.size,
+            isBackButtonEnabled = pagerState.currentPage > 0,
         )
     }
 }
@@ -300,8 +316,10 @@ private fun BottomButtons(
             painter = painterResource(Res.drawable.ic_previous_arrow),
             contentDescription = stringResource(Res.string.back_button),
             tint =
-                if (isBackButtonEnabled) Theme.color.surfaces.onSurfaceContainer
-                else Theme.color.surfaces.outlineVariant,
+                animateColorAsState(
+                    if (isBackButtonEnabled) Theme.color.surfaces.onSurfaceContainer
+                    else Theme.color.surfaces.outlineVariant
+                ).value,
         )
         Icon(
             modifier = Modifier
@@ -325,8 +343,10 @@ private fun BottomButtons(
             painter = painterResource(Res.drawable.ic_next_arrow),
             contentDescription = stringResource(Res.string.next),
             tint =
-                if (isForwardButtonEnabled) Theme.color.surfaces.onSurfaceContainer
-                else Theme.color.surfaces.outlineVariant,
+                animateColorAsState(
+                    if (isForwardButtonEnabled) Theme.color.surfaces.onSurfaceContainer
+                    else Theme.color.surfaces.outlineVariant
+                ).value,
         )
     }
 }
