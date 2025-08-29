@@ -93,7 +93,7 @@ fun WorkoutsScreenContent(
                 modifier = Modifier
                     .padding(24.dp)
                     .align(Alignment.BottomEnd),
-                listener::onAddWorkoutClicked
+                onClickAddWorkout = listener::onAddWorkoutClicked
             )
         }
     }

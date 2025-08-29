@@ -3,6 +3,7 @@ package com.cairosquad.evolvefit.ui.screen.workout
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -58,19 +59,32 @@ fun WorkoutScreen(
 @Composable
 fun AddWorkoutBtn(
     modifier: Modifier = Modifier,
-    onClickAddWorkout: () -> Unit
+    isLoading: Boolean = false,
+    onClickAddWorkout: () -> Unit,
 ) {
+    val onClick = if (isLoading) {
+        {}
+    } else {
+        onClickAddWorkout
+    }
     FloatingActionButton(
-        onClick = onClickAddWorkout,
+        onClick = onClick,
         modifier = modifier,
         containerColor = Theme.color.brand.primary,
         shape = CircleShape,
     ) {
-        Icon(
-            painter = painterResource(Res.drawable.ic_plus),
-            contentDescription = stringResource(Res.string.create_workout_title_),
-            modifier = Modifier.padding(12.dp).size(24.dp)
-        )
+        if (isLoading) {
+            CircularProgressIndicator(
+                color = Theme.color.surfaces.surface,
+                modifier = Modifier.size(24.dp)
+            )
+        } else {
+            Icon(
+                painter = painterResource(Res.drawable.ic_plus),
+                contentDescription = stringResource(Res.string.create_workout_title_),
+                modifier = Modifier.padding(12.dp).size(24.dp)
+            )
+        }
     }
 }
 
