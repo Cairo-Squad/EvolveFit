@@ -14,24 +14,19 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
-import com.cairosquad.evolvefit.ui.navigation.navBar.navigateToNavBarRoute
 import com.cairosquad.evolvefit.ui.screen.communityWorkout.CommunityWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.createExercise.CreateExerciseScreen
 import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.editProfile.EditProfileScreen
 import com.cairosquad.evolvefit.ui.screen.favorites.FavoritesScreen
-import com.cairosquad.evolvefit.ui.screen.home.HomeScreen
 import com.cairosquad.evolvefit.ui.screen.login.LoginScreen
 import com.cairosquad.evolvefit.ui.screen.mealDetails.MealDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.mealsHistory.MealsHistoryScreen
-import com.cairosquad.evolvefit.ui.screen.more.MoreScreen
-import com.cairosquad.evolvefit.ui.screen.nutrition.NutritionScreen
+import com.cairosquad.evolvefit.ui.navigation.navBar.NavBarScreesContainer
 import com.cairosquad.evolvefit.ui.screen.onboarding.OnboardingScreen
 import com.cairosquad.evolvefit.ui.screen.playWorkout.PlayWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
-import com.cairosquad.evolvefit.ui.screen.report.ReportScreen
 import com.cairosquad.evolvefit.ui.screen.suggestedMeals.SuggestedMealsScreen
-import com.cairosquad.evolvefit.ui.screen.workout.WorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.WorkoutDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.WorkoutHistoryScreen
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
@@ -110,64 +105,12 @@ fun NavigationHost(
         }
 
         composable<NavBarRoute.Home> {
-            HomeScreen(
-                navigateToWorkout = { workoutId, onNavigateBack ->
-                    navController.navigate(WorkoutDetailsRoute(workoutId))
-                    navController.saveInSavedState(onNavigateBack)
-                },
-                onSelectNavBarRoute = navController::navigateToNavBarRoute
-            )
-        }
-
-        composable<NavBarRoute.Nutrition> {
-            NutritionScreen(
-                navigateToSuggestedMeals = { navController.navigate(SuggestedMealsRoute) },
-                navigateToMealDetails = { mealId -> navController.navigate(MealDetailsRoute(mealId)) },
-                navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) },
-                onSelectNavBarRoute = navController::navigateToNavBarRoute
-            )
-        }
-
-        composable<NavBarRoute.Workout> {
-            WorkoutScreen(
-                navigateToCreateWorkout = { navController.navigate(CreateWorkoutRoute) },
-                navigateToCommunityWorkout = { navController.navigate(CommunityWorkoutRoute) },
-                navigateToWorkoutDetails = { workoutId ->
-                    navController.navigate(
-                        WorkoutDetailsRoute(
-                            workoutId
-                        )
-                    )
-                },
-                onSelectNavBarRoute = navController::navigateToNavBarRoute
-            )
-        }
-
-        composable<NavBarRoute.Report> {
-            ReportScreen(
-                navigateToWorkoutHistory = { navController.navigate(WorkoutHistoryRoute) },
-                onSelectNavBarRoute = navController::navigateToNavBarRoute
-            )
-        }
-
-        composable<NavBarRoute.More> {
-            MoreScreen(
-                navigateToFavorites = { navController.navigate(FavoritesScreenRoute) },
-                navigateToNotificationSettings = { },
-                onLogout = {
-                    navController.navigate(LoginRoute) {
-                        popUpTo(NavBarRoute.Home) { inclusive = true }
-                        launchSingleTop = true
-                        restoreState = false
-                    }
-                },
-                navigateToEditProfile = { navController.navigate(EditProfileRoute) },
-                onSelectNavBarRoute = navController::navigateToNavBarRoute,
+            NavBarScreesContainer(
+                navController = navController,
                 onLanguageChange = onLanguageChange,
-                onThemeChanged = onThemeChange,
+                onThemeChange = onThemeChange,
             )
         }
-
         composable<CreateWorkoutRoute> {
             CreateWorkoutScreen(
                 navigateBack = navController::popBackStack,

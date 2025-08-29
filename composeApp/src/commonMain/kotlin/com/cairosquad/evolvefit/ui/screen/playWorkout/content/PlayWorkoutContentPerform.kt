@@ -9,6 +9,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -108,20 +109,25 @@ fun PlayWorkoutContentPerform(
             state = pagerState,
             userScrollEnabled = false
         ) { pageIndex ->
-            val imageHeightDp = maxOf(ScreenSize.heightDp - 440, 360f)
+            val imageHeightDp = maxOf(ScreenSize.heightDp - 440, 80f)
             val imageWidthDp = minOf(ScreenSize.widthDp - 16, imageHeightDp)
-            NetworkImage(
-                modifier = Modifier
-                    .padding(bottom = 40.dp)
-                    .padding(horizontal = 16.dp)
-                    .size(imageWidthDp.dp, imageHeightDp.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                model = screenState.workout.exercises[pageIndex].imageUrls.firstOrNull() ?: "",
-                contentDescription = screenState.workout.exercises[pageIndex].name,
-                defaultImage = painterResource(Res.drawable.ic_app_logo),
-                placeholderImageSize = DpSize(imageWidthDp.dp / 2, imageHeightDp.dp / 2),
-                loadingPlaceHolder = painterResource(Res.drawable.ic_app_logo)
-            )
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ){
+                NetworkImage(
+                    modifier = Modifier
+                        .padding(bottom = 40.dp)
+                        .padding(horizontal = 16.dp)
+                        .size(imageWidthDp.dp, imageHeightDp.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    model = screenState.workout.exercises[pageIndex].imageUrls.firstOrNull() ?: "",
+                    contentDescription = screenState.workout.exercises[pageIndex].name,
+                    defaultImage = painterResource(Res.drawable.ic_app_logo),
+                    placeholderImageSize = DpSize(imageWidthDp.dp / 2, imageHeightDp.dp / 2),
+                    loadingPlaceHolder = painterResource(Res.drawable.ic_app_logo)
+                )
+            }
         }
         Text(
             modifier = Modifier
