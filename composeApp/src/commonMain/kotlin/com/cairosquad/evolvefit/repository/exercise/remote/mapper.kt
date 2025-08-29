@@ -31,7 +31,7 @@ fun ExerciseDto.toDomain(
         else -> throw IllegalArgumentException("Invalid exerciseType: $exerciseType")
     }
 
-    val equipment = gymEquipments.firstOrNull()?.let { Equipment(it, "Unknown") }
+    val equipment = gymEquipments.firstOrNull()?.let { Equipment(it, name) }
         ?: Equipment(0, "Unknown")
 
     val focusAreas = focusArea.map { FocusArea.valueOf(it.uppercase()) }.toSet()
@@ -55,7 +55,7 @@ fun ExerciseResponseDto.toDomain(): Exercise {
         else -> throw IllegalArgumentException("Invalid exerciseType: $exerciseType")
     }
 
-    val equipment = gymEquipments.firstOrNull()?.let { Equipment(it.id, "Unknown") }
+    val equipment = gymEquipments.firstOrNull()?.let { Equipment(it.id, it.name) }
         ?: Equipment(0, "Unknown")
 
     val focusAreas = focusArea.map { FocusArea.valueOf(it.uppercase()) }.toSet()
