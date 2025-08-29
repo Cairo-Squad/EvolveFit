@@ -125,7 +125,7 @@ fun MealDetailsSuccessScreen(
 
         AnimatedVisibility(
             state.screenStatus != MealDetailsScreenState.ScreenStatus.ERROR,
-            modifier = Modifier.align(Alignment.BottomEnd)
+            modifier = Modifier.align(Alignment.BottomEnd).navigationBarsPadding()
         ) {
             AddWorkoutBtn(
                 isLoading = state.mealAddingStatus == MealDetailsScreenState.MealAddingStatus.LOADING,
@@ -139,7 +139,8 @@ fun MealDetailsSuccessScreen(
         SnackBar(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 12.dp),
+                .padding(bottom = 12.dp)
+                .navigationBarsPadding(),
             text = stringResource(state.snackBarMessage),
             isVisible = state.isSnackBarVisible,
             addNavBarPadding = false,

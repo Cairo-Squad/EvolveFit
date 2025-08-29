@@ -62,7 +62,10 @@ fun NavBarScreesContainer(
 
             NavBarRoute.Nutrition -> NutritionScreen(
                 navigateToSuggestedMeals = { navController.navigate(SuggestedMealsRoute) },
-                navigateToMealDetails = { mealId -> navController.navigate(MealDetailsRoute(mealId)) },
+                navigateToMealDetails = { mealId, onNavigateBack ->
+                    navController.navigate(MealDetailsRoute(mealId))
+                    navController.saveInSavedState(value = onNavigateBack)
+                },
                 navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) },
                 onSelectNavBarRoute = { navBarRouteIndex = it.index }
             )
