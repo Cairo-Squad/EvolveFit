@@ -11,7 +11,9 @@ import com.cairosquad.evolvefit.viewmodel.utils.getTodayDate
 import com.cairosquad.evolvefit.viewmodel.utils.toErrorMessageRes
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.error_unknown
+import evolvefit.composeapp.generated.resources.ic_green_check_circle
 import evolvefit.composeapp.generated.resources.ic_info
+import evolvefit.composeapp.generated.resources.meal_added_snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -83,7 +85,7 @@ class MealDetailsViewModel(
                     )
                 }
 
-                showErrorMessage(Res.string.error_unknown, Res.drawable.ic_info)
+                showMessage(Res.string.error_unknown, Res.drawable.ic_info)
             },
             onStart = { updateState { it.copy(mealAddingStatus = MealDetailsScreenState.MealAddingStatus.LOADING) } }
         )
@@ -110,7 +112,13 @@ class MealDetailsViewModel(
                     remainingCalories = remainingCalories
                 )
             },
-            onSuccess = { updateState { it.copy(mealAddingStatus = MealDetailsScreenState.MealAddingStatus.READY) } },
+            onSuccess = {
+                updateState { it.copy(mealAddingStatus = MealDetailsScreenState.MealAddingStatus.READY) }
+                showMessage(
+                    Res.string.meal_added_snackbar,
+                    Res.drawable.ic_green_check_circle
+                )
+            },
             onError = { e ->
                 updateState {
                     it.copy(
@@ -118,7 +126,7 @@ class MealDetailsViewModel(
                     )
                 }
 
-                showErrorMessage(Res.string.error_unknown, Res.drawable.ic_info)
+                showMessage(Res.string.error_unknown, Res.drawable.ic_info)
             }
         )
     }
@@ -190,7 +198,7 @@ class MealDetailsViewModel(
         }
     }
 
-    private fun showErrorMessage(
+    private fun showMessage(
         message: StringResource,
         icon: DrawableResource,
         duration: Long = 3000L
