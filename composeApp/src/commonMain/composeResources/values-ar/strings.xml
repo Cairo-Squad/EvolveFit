@@ -379,7 +379,8 @@
     <string name="workout_duration">%1$s دقيقة</string>
 
     <string name="play_button">زر التشغيل</string>
-
+    <string name="error_exceeded_calories">لقد تجاوزت السعرات الحرارية المسموح بها</string>
+    <string name="error_exceeded_water">لقد تجاوزت كمية شرب الماء المسموح بها</string>
     <string name="failed_to_load_workouts">حدث خطأ أثناء تحميل التمارين</string>
     <string name="failed_to_refresh">حدث خطأ أثناء أعادة التحميل</string>
     <string name="water_added_successfully">تم اضافة الماء بنجاح</string>
