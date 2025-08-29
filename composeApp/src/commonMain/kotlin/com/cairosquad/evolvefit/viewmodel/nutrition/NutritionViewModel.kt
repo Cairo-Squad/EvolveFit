@@ -33,6 +33,7 @@ import evolvefit.composeapp.generated.resources.error_unknown
 import evolvefit.composeapp.generated.resources.ic_green_check_circle
 import evolvefit.composeapp.generated.resources.ic_info
 import evolvefit.composeapp.generated.resources.meal_added_snackbar
+import evolvefit.composeapp.generated.resources.error_amount_too_large
 import evolvefit.composeapp.generated.resources.water_added_successfully
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -192,7 +193,9 @@ class NutritionViewModel(
     override fun onAddWaterClicked() {
         val state = screenState.value
         if (state.dailyWaterGoal > 0 && state.todayConsumedWater >= state.dailyWaterGoal) {
+            updateState { it.copy(isAddWaterSheetVisible = false) }
             showSnackBar(Res.string.error_exceeded_water, Res.drawable.ic_info)
+
         } else {
             updateState { it.copy(isAddWaterSheetVisible = true) }
         }
@@ -201,11 +204,24 @@ class NutritionViewModel(
     override fun onConfirmAddWaterClicked(waterAmount: String) {
         val consumedWaterInput = screenState.value.consumedWaterInput.trim()
         val remaining = screenState.value.dailyWaterGoal - screenState.value.todayConsumedWater
+        val input = consumedWaterInput.toIntOrNull() ?: 0
+
+        if (input > remaining) {
+            println("water")
+            showSnackBar(
+                message = Res.string.error_amount_too_large,
+                icon = Res.drawable.ic_info
+            )
+            updateState { it.copy(isAddWaterSheetVisible = false) }
+            return
+        }
+
         callWithNutritionHandler(
             block = { manageNutritionUseCase.saveConsumedWater(consumedWaterInput, remaining) },
             onSuccess = ::onAddWaterSuccess
         )
     }
+
 
     private fun onAddWaterSuccess(isAdded: Boolean) {
         if (isAdded) {
@@ -250,13 +266,27 @@ class NutritionViewModel(
     override fun onConfirmAddMealClicked() {
         val caloriesInput = screenState.value.consumedCaloriesInput.trim()
         val remainingCalories = screenState.value.remainingDailyCalories
+
+        val calories = caloriesInput.toIntOrNull() ?: 0
+
+        if (calories > remainingCalories) {
+            showSnackBar(
+                message = Res.string.error_amount_too_large,
+                icon = Res.drawable.ic_info
+            )
+            updateState { it.copy(isAddMealSheetVisible = false) }
+            return
+
+        }
+
         val meal = ConsumedMeal(
             name = screenState.value.mealNameInput,
             type = screenState.value.selectedMeal.toMealType(),
-            calories = 0,
+            calories = calories,
             dateTime = getTodayDate(),
             id = "0"
         )
+
         callWithNutritionHandler(
             block = {
                 manageNutritionUseCase.saveConsumedMeal(
@@ -268,6 +298,7 @@ class NutritionViewModel(
             onSuccess = ::onAddMealSuccess
         )
     }
+
 
     private fun onAddMealSuccess(isAdded: Boolean) {
         if (isAdded) {
