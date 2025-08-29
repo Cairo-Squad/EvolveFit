@@ -12,6 +12,6 @@ fun getTodayDate(): String {
 
 fun getCurrentIsoDateTime(): String {
     val currentMoment = Clock.System.now()
-    val localDateTime = currentMoment.toLocalDateTime(TimeZone.currentSystemDefault())
-    return localDateTime.toString()
+    val dateTimeInUTC = currentMoment.toLocalDateTime(TimeZone.UTC)
+    return dateTimeInUTC.date.toString()
 }
