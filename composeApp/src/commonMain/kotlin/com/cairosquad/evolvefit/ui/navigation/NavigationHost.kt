@@ -202,9 +202,16 @@ fun NavigationHost(
         }
 
         composable<MealDetailsRoute> { backStackEntry ->
+
+            val onNavigateBack: (() -> Unit)? = navController.getFromSavedState()
+
             MealDetailsScreen(
                 mealId = backStackEntry.toRoute<MealDetailsRoute>().mealId,
-                navigateBack = navController::popBackStack
+                navigateBack = {
+                    navController.popBackStack()
+                    onNavigateBack?.invoke()
+                    navController.clearSavedState()
+                }
             )
         }
 

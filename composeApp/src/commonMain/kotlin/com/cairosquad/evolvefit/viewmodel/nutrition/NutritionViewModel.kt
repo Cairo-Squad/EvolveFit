@@ -53,8 +53,8 @@ class NutritionViewModel(
 
     private fun fetchNutritionData() {
         tryToCall(
-            block = { fetchAllNutritionSections() },
             onStart = { updateState { it.copy(screenStatus = NutritionScreenState.ScreenStatus.LOADING) } },
+            block = { fetchAllNutritionSections() },
             onSuccess = { updateState { it.copy(screenStatus = NutritionScreenState.ScreenStatus.SUCCESS) } },
             onError = ::handleFetchNutritionError
         )
@@ -68,6 +68,14 @@ class NutritionViewModel(
             )
         }
         handleNutritionErrors(throwable)
+    }
+
+    fun loadNutritionData() {
+        tryToCall(
+            block = { fetchAllNutritionSections() },
+            onSuccess = { },
+            onError = ::handleFetchNutritionError
+        )
     }
 
     private suspend fun fetchAllNutritionSections() {

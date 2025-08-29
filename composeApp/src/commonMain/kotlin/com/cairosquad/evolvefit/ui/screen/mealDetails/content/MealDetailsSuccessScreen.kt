@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.mealDetails.content
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.component.SnackBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.theme.UpdateStatusBarIconsForTheme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
@@ -30,11 +32,12 @@ import com.cairosquad.evolvefit.ui.screen.mealDetails.content.components.Ingredi
 import com.cairosquad.evolvefit.ui.screen.mealDetails.content.components.MealDescription
 import com.cairosquad.evolvefit.ui.screen.mealDetails.content.components.MealDetailsAppBar
 import com.cairosquad.evolvefit.ui.screen.mealDetails.content.components.NutritionalInfo
-import com.cairosquad.evolvefit.ui.screen.mealDetails.content.components.SaveMealSuccessSnackBar
+import com.cairosquad.evolvefit.ui.screen.workout.AddWorkoutBtn
 import com.cairosquad.evolvefit.viewmodel.meal_details.MealDetailsInteractionListener
 import com.cairosquad.evolvefit.viewmodel.meal_details.MealDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.meal_image
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -120,12 +123,36 @@ fun MealDetailsSuccessScreen(
             }
         }
 
-      MealDetailsAppBar(
-          state = state,
-          appBarBackground = appBarBackground,
-          iconTint = iconTint,
-          onBackClick = { listener.onBackClicked() },
-          onBookmarkClick = { listener.onSaveMealClicked(mealId) }
-      )
+        AnimatedVisibility(
+            state.screenStatus != MealDetailsScreenState.ScreenStatus.ERROR,
+            modifier = Modifier.align(Alignment.BottomEnd).navigationBarsPadding()
+        ) {
+            AddWorkoutBtn(
+                isLoading = state.mealAddingStatus == MealDetailsScreenState.MealAddingStatus.LOADING,
+                modifier = Modifier
+                    .padding(24.dp)
+                    .align(Alignment.BottomEnd),
+                onClickAddWorkout = listener::onAddWorkoutClicked
+            )
+        }
+
+        SnackBar(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 12.dp)
+                .navigationBarsPadding(),
+            text = stringResource(state.snackBarMessage),
+            isVisible = state.isSnackBarVisible,
+            addNavBarPadding = false,
+            icon = painterResource(state.snackBarIcon)
+        )
+
+        MealDetailsAppBar(
+            state = state,
+            appBarBackground = appBarBackground,
+            iconTint = iconTint,
+            onBackClick = { listener.onBackClicked() },
+            onBookmarkClick = { listener.onSaveMealClicked(mealId) }
+        )
     }
 }
