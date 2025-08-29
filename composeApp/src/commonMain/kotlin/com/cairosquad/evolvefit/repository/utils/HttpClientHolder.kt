@@ -7,6 +7,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.engine.HttpClientEngineFactory
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
@@ -129,6 +130,12 @@ class HttpClientHolder(
                     }
                 }
             }
+
+            install(HttpTimeout) {
+                requestTimeoutMillis = TIME_OUT_INTERVAL_MILLI
+                connectTimeoutMillis = TIME_OUT_INTERVAL_MILLI
+                socketTimeoutMillis = TIME_OUT_INTERVAL_MILLI
+            }
         }
     }
 
@@ -148,11 +155,18 @@ class HttpClientHolder(
             }
 
             install(Logging) { level = LogLevel.ALL }
+
+            install(HttpTimeout) {
+                requestTimeoutMillis = TIME_OUT_INTERVAL_MILLI
+                connectTimeoutMillis = TIME_OUT_INTERVAL_MILLI
+                socketTimeoutMillis = TIME_OUT_INTERVAL_MILLI
+            }
         }
     }
 
     companion object {
         private const val BASE_URL = "https://evolve-fit-dev.the-chance.net/"
         private const val REFRESH_TOKENS_ENDPOINT = "auth/refresh"
+        private const val TIME_OUT_INTERVAL_MILLI = 1000L
     }
 }
