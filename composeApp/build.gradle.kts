@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -106,6 +108,20 @@ android {
     lint {
         disable += "NullSafeMutableLiveData"
     }
+    val localFile = file("${rootProject.projectDir}/local.properties")
+    val locals = Properties().apply {
+        if (localFile.exists()) {
+            load(FileInputStream(localFile))
+        }
+    }
+    signingConfigs {
+        create("release") {
+            storeFile = file("evolve-key.jks")
+            storePassword = locals.getProperty("KEYSTORE_PASSWORD")
+            keyAlias = locals.getProperty("KEY_ALIAS")
+            keyPassword = locals.getProperty("KEY_PASSWORD")
+        }
+    }
     defaultConfig {
         applicationId = "com.cairosquad.evolvefit"
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -121,6 +137,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
