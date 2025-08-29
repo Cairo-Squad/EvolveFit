@@ -115,7 +115,6 @@ class LoginViewModel(
             is InternetConnectionException -> {
                 setErrorState(
                     generalError = Res.string.error_no_internet,
-                    isFormError = true
                 )
             }
 
@@ -142,7 +141,6 @@ class LoginViewModel(
                 val unexpectedError = Res.string.error_unexpected
                 showError(unexpectedError)
                 setErrorState(
-                    isFormError = true,
                     generalError = unexpectedError
                 )
             }

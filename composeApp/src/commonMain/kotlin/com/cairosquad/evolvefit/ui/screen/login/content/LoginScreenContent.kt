@@ -3,6 +3,7 @@ package com.cairosquad.evolvefit.ui.screen.login.content
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -135,8 +136,6 @@ fun LoginScreenContent(
 
             item {
                 InputField(
-                    modifier = Modifier
-                        .padding(bottom = 68.dp),
                     value = state.password,
                     onValueChange = listener::onPasswordChanged,
                     placeholder = stringResource(Res.string.password_placeholder),
@@ -148,8 +147,6 @@ fun LoginScreenContent(
                     error = state.passwordError?.let { stringResource(it) } ?: "",
                     isError = state.passwordError != null || state.isFormError != null
                 )
-            }
-            item{
                 state.generalError?.let { errorRes ->
                     Row(
                         modifier = Modifier.padding(top = 7.dp),
@@ -168,6 +165,7 @@ fun LoginScreenContent(
                         )
                     }
                 }
+                Spacer(modifier = Modifier.padding(bottom = 68.dp))
             }
 
             item {
