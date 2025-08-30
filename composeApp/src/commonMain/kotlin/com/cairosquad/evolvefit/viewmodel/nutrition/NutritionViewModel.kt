@@ -19,6 +19,7 @@ import com.cairosquad.evolvefit.domain.exception.NumberTooLargeException
 import com.cairosquad.evolvefit.domain.model.FieldType
 import com.cairosquad.evolvefit.domain.model.MealType
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
+import com.cairosquad.evolvefit.viewmodel.utils.getCurrentIsoDateTime
 import com.cairosquad.evolvefit.viewmodel.utils.getTodayDate
 import com.cairosquad.evolvefit.viewmodel.utils.toErrorMessageRes
 import evolvefit.composeapp.generated.resources.Res
@@ -129,7 +130,7 @@ class NutritionViewModel(
     }
 
     private fun loadConsumedMealsForToday() {
-        val todayDate = getTodayDate()
+        val todayDate = getCurrentIsoDateTime()
         callWithNutritionHandler(
             block = {
                 manageNutritionUseCase.getConsumedMealsByDate(

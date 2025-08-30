@@ -7,7 +7,7 @@ import com.cairosquad.evolvefit.domain.entity.Meal
 import com.cairosquad.evolvefit.domain.entity.SuggestedMeal
 import com.cairosquad.evolvefit.domain.usecase.nutrition.ManageNutritionUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
-import com.cairosquad.evolvefit.viewmodel.utils.getTodayDate
+import com.cairosquad.evolvefit.viewmodel.utils.getCurrentIsoDateTime
 import com.cairosquad.evolvefit.viewmodel.utils.toErrorMessageRes
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.error_unknown
@@ -101,7 +101,7 @@ class MealDetailsViewModel(
             name = screenState.value.mealDetails.name,
             type = screenState.value.mealDetails.mealType.toMealType(),
             calories = 0,
-            dateTime = getTodayDate(),
+            dateTime = getCurrentIsoDateTime(),
             id = "0"
         )
         tryToCall(
