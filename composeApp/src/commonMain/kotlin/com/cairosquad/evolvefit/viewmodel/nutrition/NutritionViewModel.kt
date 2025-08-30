@@ -207,7 +207,6 @@ class NutritionViewModel(
         val input = consumedWaterInput.toIntOrNull() ?: 0
 
         if (input > remaining) {
-            println("water")
             showSnackBar(
                 message = Res.string.error_amount_too_large,
                 icon = Res.drawable.ic_info
