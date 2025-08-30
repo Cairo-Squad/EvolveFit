@@ -167,6 +167,6 @@ class HttpClientHolder(
     companion object {
         private const val BASE_URL = "https://evolve-fit-dev.the-chance.net/"
         private const val REFRESH_TOKENS_ENDPOINT = "auth/refresh"
-        private const val TIME_OUT_INTERVAL_MILLI = 1000L
+        private const val TIME_OUT_INTERVAL_MILLI = 15_000L
     }
 }
