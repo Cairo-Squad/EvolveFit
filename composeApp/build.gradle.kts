@@ -43,7 +43,7 @@ kotlin {
 
             implementation(libs.ktor.client.android)
             implementation(libs.core.splashscreen)
-
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(compose.runtime)

@@ -3,10 +3,13 @@ package com.cairosquad.evolvefit.ui.screen.register.content
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,6 +35,7 @@ import evolvefit.composeapp.generated.resources.enter_your_email
 import evolvefit.composeapp.generated.resources.enter_your_name
 import evolvefit.composeapp.generated.resources.ic_date
 import evolvefit.composeapp.generated.resources.ic_end_arrow
+import evolvefit.composeapp.generated.resources.ic_error
 import evolvefit.composeapp.generated.resources.ic_lock
 import evolvefit.composeapp.generated.resources.ic_mail
 import evolvefit.composeapp.generated.resources.ic_profile
@@ -41,6 +45,7 @@ import evolvefit.composeapp.generated.resources.password
 import evolvefit.composeapp.generated.resources.upload_image
 import evolvefit.composeapp.generated.resources.user_profile
 import evolvefit.composeapp.generated.resources.user_profile_description
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -253,6 +258,24 @@ private fun UserProfileForm(
             isError = state.passwordError != null,
             verticalPadding = 15.5.dp
         )
+        state.generalError?.let { errorRes ->
+            Row(
+                modifier = Modifier.padding(top = 7.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    modifier = Modifier.size(16.dp).padding(end=4.dp),
+                    painter = painterResource(Res.drawable.ic_error),
+                    contentDescription = "error",
+                    tint = Theme.color.system.error
+                )
+                Text(
+                    text = stringResource(errorRes),
+                    color = Theme.color.system.error,
+                    style = Theme.textStyle.label.smallRegular12,
+                )
+            }
+        }
     }
 
     DateBottomSheet(
