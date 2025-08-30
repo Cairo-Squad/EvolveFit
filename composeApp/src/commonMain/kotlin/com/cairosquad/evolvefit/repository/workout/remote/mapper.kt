@@ -13,16 +13,6 @@ import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDetailsDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutDto
 import com.cairosquad.evolvefit.repository.workout.remote.dto.WorkoutHistoryDto
 
-fun Workout.toDto(): WorkoutDto {
-    return WorkoutDto(
-        durationSeconds = estimatedTimeInSeconds,
-        imageUrl = imageUrl,
-        name = name,
-        id = id,
-        focusArea = emptyList()
-    )
-}
-
 fun Workout.toCreateRequest(): CreateWorkoutRequest {
     return CreateWorkoutRequest(
         name = this.name,

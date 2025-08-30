@@ -9,10 +9,3 @@ fun GymEquipmentDto.toDomain(): Equipment {
         name = name
     )
 }
-
-fun Equipment.toDto(): GymEquipmentDto{
-    return GymEquipmentDto(
-        id = this.id,
-        name = this.name
-    )
-}

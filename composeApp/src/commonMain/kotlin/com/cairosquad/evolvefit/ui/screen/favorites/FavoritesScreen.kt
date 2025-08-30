@@ -20,7 +20,6 @@ import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
 import com.cairosquad.evolvefit.design_system.theme.AppTheme
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.favorites.content.componants.TabsWithPager
-import com.cairosquad.evolvefit.ui.screen.favorites.content.componants.dummyWorkouts
 import com.cairosquad.evolvefit.ui.util.ObserveAsEffect
 import com.cairosquad.evolvefit.viewmodel.favorites.FavoritesEffect
 import com.cairosquad.evolvefit.viewmodel.favorites.FavoritesInteractionListener

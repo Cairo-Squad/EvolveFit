@@ -14,16 +14,11 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.SnackBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.RefreshBox
-import com.cairosquad.evolvefit.ui.screen.nutrition.component.AddWaterIntakeBottomSheet
-import com.cairosquad.evolvefit.ui.screen.nutrition.component.MealAddedSnackBar
-import com.cairosquad.evolvefit.ui.screen.nutrition.component.MealCantAddSnackBar
-import com.cairosquad.evolvefit.ui.screen.nutrition.component.MealTypeDropdownMenu
-import com.cairosquad.evolvefit.ui.screen.nutrition.component.NutritionHeader
+import com.cairosquad.evolvefit.ui.screen.nutrition.content.component.AddWaterIntakeBottomSheet
+import com.cairosquad.evolvefit.ui.screen.nutrition.content.component.MealTypeDropdownMenu
+import com.cairosquad.evolvefit.ui.screen.nutrition.content.component.NutritionHeader
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
-import com.cairosquad.evolvefit.ui.screen.nutrition.component.WaterAddedSnackBar
-import evolvefit.composeapp.generated.resources.Res
-import evolvefit.composeapp.generated.resources.meal_added_snackbar
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 

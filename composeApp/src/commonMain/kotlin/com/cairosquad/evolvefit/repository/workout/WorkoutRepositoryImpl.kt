@@ -80,7 +80,6 @@ class WorkoutRepositoryImpl(
         try {
 
             workoutRemoteDataSource.submitPlayedWorkout(playedWorkout.toDto())
-            println("Workout submitted successfully: ${playedWorkout.workoutId}")
 
         } catch (e: Exception) {
 
@@ -90,21 +89,16 @@ class WorkoutRepositoryImpl(
                 isSynced = false
             )
             playedWorkoutDao.insertPlayedWorkout(entity)
-            println("Failed to submit workout, saved locally: ${e.message}")
         }
     }
 
     @Suppress("SuspiciousIndentation")
     override suspend fun syncPendingWorkouts() {
-        val pending = playedWorkoutDao.getPendingWorkouts() // isSynced = false
+        val pending = playedWorkoutDao.getPendingWorkouts()
         pending.forEach { entity ->
             try {
                 workoutRemoteDataSource.submitPlayedWorkout(entity.toDo())
-              val isDeleted=  playedWorkoutDao.deletePlayedWorkouts(entity)
-                println("Pending workout synced successfully: ${entity.workoutId}")
-                println("Deleted workout successfully: $isDeleted")
             } catch (e: Exception) {
-                println("Failed to sync workout ${entity.workoutId}: ${e.message}")
             }
         }
     }

@@ -21,7 +21,4 @@ class ManageExerciseUseCase(
         return exerciseRepository.getAllExercises()
     }
 
-    suspend fun getExercisesByQuery(query: String): List<Exercise> {
-        return exerciseRepository.getExercisesByQuery(query)
-    }
 }

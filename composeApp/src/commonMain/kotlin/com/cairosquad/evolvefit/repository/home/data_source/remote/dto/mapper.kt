@@ -2,7 +2,6 @@ package com.cairosquad.evolvefit.repository.home.data_source.remote.dto
 
 import com.cairosquad.evolvefit.repository.utils.localDateTimeToLocalDate
 import com.cairosquad.evolvefit.repository.utils.parseIsoDateStringToLocalDateTime
-import com.cairosquad.evolvefit.repository.utils.parseIsoStringToLocalDateTime
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
