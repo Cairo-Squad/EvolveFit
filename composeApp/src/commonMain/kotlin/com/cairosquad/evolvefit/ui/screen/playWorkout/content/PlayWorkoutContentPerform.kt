@@ -12,11 +12,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -36,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.LayoutDirection
@@ -47,7 +51,6 @@ import com.cairosquad.evolvefit.design_system.component.clockTimer.rememberClock
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.ui.screen.playWorkout.content.component.ExerciseNameAndInfoIcon
-import com.cairosquad.evolvefit.ui.util.ScreenSize
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutInteractionListener
 import com.cairosquad.evolvefit.viewmodel.play_workout.PlayWorkoutScreenState
 import evolvefit.composeapp.generated.resources.Res
@@ -60,8 +63,6 @@ import evolvefit.composeapp.generated.resources.ic_next_arrow
 import evolvefit.composeapp.generated.resources.ic_pause
 import evolvefit.composeapp.generated.resources.ic_play
 import evolvefit.composeapp.generated.resources.ic_previous_arrow
-import evolvefit.composeapp.generated.resources.im_default_image
-import evolvefit.composeapp.generated.resources.im_default_workout
 import evolvefit.composeapp.generated.resources.next
 import evolvefit.composeapp.generated.resources.primary_button
 import kotlinx.coroutines.delay
@@ -105,26 +106,38 @@ fun PlayWorkoutContentPerform(
             isStepsCountVisible = false,
             leadingIcon = painterResource(Res.drawable.ic_cross),
         )
+
+        var useAspectRation by remember { mutableStateOf(false) }
+
         HorizontalPager(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
             state = pagerState,
             userScrollEnabled = false
         ) { pageIndex ->
-            val imageHeightDp = maxOf(ScreenSize.heightDp - 440, 80f)
-            val imageWidthDp = minOf(ScreenSize.widthDp - 16, imageHeightDp)
             Box(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 40.dp),
                 contentAlignment = Alignment.Center
             ){
                 NetworkImage(
                     modifier = Modifier
-                        .padding(bottom = 40.dp)
-                        .padding(horizontal = 16.dp)
-                        .size(imageWidthDp.dp, imageHeightDp.dp)
+                        .fillMaxHeight()
+                        .then(
+                            if (useAspectRation) Modifier.aspectRatio(1f)
+                            else Modifier.fillMaxWidth()
+                        )
+                        .onGloballyPositioned {
+                            if (it.size.width > it.size.height) useAspectRation = true
+                        }
                         .clip(RoundedCornerShape(8.dp)),
                     model = screenState.workout.exercises[pageIndex].imageUrls.firstOrNull() ?: "",
                     contentDescription = screenState.workout.exercises[pageIndex].name,
                     defaultImage = painterResource(Res.drawable.ic_app_logo),
-                    placeholderImageSize = DpSize(imageWidthDp.dp / 2, imageHeightDp.dp / 2),
+                    placeholderImageSize = DpSize(200.dp, 200.dp),
                     loadingPlaceHolder = painterResource(Res.drawable.ic_app_logo)
                 )
             }

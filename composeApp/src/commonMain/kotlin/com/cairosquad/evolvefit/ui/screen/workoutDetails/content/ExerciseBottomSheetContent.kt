@@ -20,7 +20,6 @@ import com.cairosquad.evolvefit.design_system.component.Chip
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.ImageCarousel
-import com.cairosquad.evolvefit.ui.util.ScreenSize
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.bullet_point
 import evolvefit.composeapp.generated.resources.close
@@ -28,7 +27,6 @@ import evolvefit.composeapp.generated.resources.equipment
 import evolvefit.composeapp.generated.resources.focus_area
 import evolvefit.composeapp.generated.resources.instructions
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ExerciseBottomSheetContent(

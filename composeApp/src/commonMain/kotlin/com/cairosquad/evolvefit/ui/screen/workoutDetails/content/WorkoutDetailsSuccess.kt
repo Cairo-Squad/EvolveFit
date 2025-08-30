@@ -35,7 +35,6 @@ import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.DetailsCardsRow
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.Exercises
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.WorkoutDetailsText
-import com.cairosquad.evolvefit.ui.util.ScreenSize
 import com.cairosquad.evolvefit.ui.util.Share
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsInteractionListener
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
