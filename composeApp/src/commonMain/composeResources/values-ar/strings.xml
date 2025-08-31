@@ -377,12 +377,26 @@
     <string name="duration">المدة</string>
 
     <string name="workout_duration">%1$s دقيقة</string>
+    <string name="error_amount_too_large">هذه الكمية اكبر من المتوقع</string>
+
 
     <string name="play_button">زر التشغيل</string>
-
+    <string name="error_exceeded_calories">لقد تجاوزت السعرات الحرارية المسموح بها</string>
+    <string name="error_exceeded_water">لقد تجاوزت كمية شرب الماء المسموح بها</string>
     <string name="failed_to_load_workouts">حدث خطأ أثناء تحميل التمارين</string>
     <string name="failed_to_refresh">حدث خطأ أثناء أعادة التحميل</string>
     <string name="water_added_successfully">تم اضافة الماء بنجاح</string>
     <string name="no_workouts_title">لا توجد تمارين متاحة الآن</string>
     <string name="no_workouts_subtitle">سيتم إضافة التمارين قريبًا، تابع التحديثات.</string>
+    <string name="meal_added_snackbar">تم اضافةالوجبة الي السجل</string>
+
+    <string name="create_workout_title">إنشاء تمرين</string>
+    <string name="create_workout_description">خطط وقم بتخصيص تمرينك ليتوافق مع أهدافك الرياضية.</string>
+    <string name="cross_icon_desc">إغلاق</string>
+    <string name="enter_workout_name">أدخل اسم التمرين</string>
+    <string name="choose_goal">اختر هدفك</string>
+    <string name="enter_description">أدخل الوصف</string>
+    <string name="next_button">التالي</string>
+    <string name="error_meal_not_found">لم يتم العثور على الوجبة</string>
+    <string name="error_unknown">حدث خطأ، يرجى المحاولة مرة أخرى</string>
 </resources>

@@ -395,6 +395,8 @@
     <string name="workout_duration">%1$s Min</string>
 
     <string name="play_button">Play Button</string>
+    <string name="error_amount_too_large">This amount is greater than expected</string>
+
 
     <string name="failed_to_load_workouts">Failed to load workouts</string>
     <string name="failed_to_refresh">Failed to refresh workouts</string>
