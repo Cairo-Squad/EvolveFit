@@ -11,10 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.util.NetworkImage
-import com.cairosquad.evolvefit.ui.util.ScreenSize
 import evolvefit.composeapp.generated.resources.Onboarding
 import evolvefit.composeapp.generated.resources.Res
 import org.jetbrains.compose.resources.painterResource
