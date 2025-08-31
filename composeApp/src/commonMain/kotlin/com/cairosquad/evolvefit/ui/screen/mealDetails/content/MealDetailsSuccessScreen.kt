@@ -53,7 +53,6 @@ fun MealDetailsSuccessScreen(
             scrollState.value > scrollOffsetThreshold
         }
     }
-    println("asdqweio qwdjasd asd ${scrollState.value}")
 
     if (Theme.isDark.not() && isScrolled) {
         UpdateStatusBarIconsForTheme(false)
@@ -123,29 +122,6 @@ fun MealDetailsSuccessScreen(
             }
         }
 
-        AnimatedVisibility(
-            state.screenStatus != MealDetailsScreenState.ScreenStatus.ERROR,
-            modifier = Modifier.align(Alignment.BottomEnd).navigationBarsPadding()
-        ) {
-            AddWorkoutBtn(
-                isLoading = state.mealAddingStatus == MealDetailsScreenState.MealAddingStatus.LOADING,
-                modifier = Modifier
-                    .padding(24.dp)
-                    .align(Alignment.BottomEnd),
-                onClickAddWorkout = listener::onAddWorkoutClicked
-            )
-        }
-
-        SnackBar(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 12.dp)
-                .navigationBarsPadding(),
-            text = stringResource(state.snackBarMessage),
-            isVisible = state.isSnackBarVisible,
-            addNavBarPadding = false,
-            icon = painterResource(state.snackBarIcon)
-        )
 
         MealDetailsAppBar(
             state = state,

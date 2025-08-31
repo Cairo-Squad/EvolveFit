@@ -29,6 +29,7 @@ import com.cairosquad.evolvefit.ui.screen.register.content.component.UserRegiste
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
+import com.cairosquad.evolvefit.viewmodel.utils.getTodayDate
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.date_of_birth
 import evolvefit.composeapp.generated.resources.enter_your_email
@@ -62,7 +63,7 @@ fun RegisterScreenContentUserNamePasswordDateOfBirth(
         UserProfileStep(
             image = state.image,
             state = state,
-            maxDate = "2023-08-06",
+            maxDate = getTodayDate(),
             dateOfBirth = state.dateOfBirthInput,
             userName = state.userNameInput,
             userEmail = state.userEmailInput,

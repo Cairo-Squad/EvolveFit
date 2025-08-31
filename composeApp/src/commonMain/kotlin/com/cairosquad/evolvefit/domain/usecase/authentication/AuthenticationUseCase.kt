@@ -22,10 +22,6 @@ class AuthenticationUseCase(
         return authenticationRepository.login(email, password)
     }
 
-    suspend fun isUserLoggedIn(): Boolean {
-        return authenticationRepository.isUserLoggedIn()
-    }
-
     suspend fun logout() {
         authenticationRepository.logout()
     }
