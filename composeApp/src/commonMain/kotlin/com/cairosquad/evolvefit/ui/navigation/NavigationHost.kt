@@ -187,7 +187,7 @@ fun NavigationHost(
                 navigateBack = navController::popBackStack,
                 navigateBackToApp = {
                     navController.popBackStack(
-                        route = NavBarRoute.Workout,
+                        route = NavBarRoute.Home,
                         inclusive = false
                     )
                 }
