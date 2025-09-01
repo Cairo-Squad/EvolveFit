@@ -21,7 +21,7 @@ This project is based on a Kotlin Multiplatform (KMP) architecture with shared b
 ## Features
 ### OnBoarding
                                                                                                                                                                                                                             
-                                           <img width="384" height="776" alt="image" src="https://github.com/user-attachments/assets/f0351615-99cd-4202-9f9b-2622c7917d02" />
+<img width="384" height="776" alt="image" src="https://github.com/user-attachments/assets/f0351615-99cd-4202-9f9b-2622c7917d02" />
 
 
 ### Authentication
@@ -33,7 +33,9 @@ This project is based on a Kotlin Multiplatform (KMP) architecture with shared b
 > [!Note]|
 
 > - **Weakly Progress**: View your workout progress over the week.
+> - 
 > - **Today's Nutrition**:Track your water intake and calorie consumption for the day.
+> - 
 > - **Just For You**:Discover personalized workouts tailored to your goals.
 
 
@@ -41,6 +43,7 @@ This project is based on a Kotlin Multiplatform (KMP) architecture with shared b
 <img width="323" height="720" alt="nut1" src="https://github.com/user-attachments/assets/4b1dfa38-0593-444d-8515-7cdd153a06f5" /><img width="323" height="720" alt="nut2" src="https://github.com/user-attachments/assets/59ef9705-181e-4d17-ae85-425dd410163f" /><img width="323" height="720" alt="nut3" src="https://github.com/user-attachments/assets/e14967c6-2d04-4885-8526-5594bd1e4a93" />
 
 [!Note]
+
 Nutrition: Overview of your daily nutrient and calorie progress.
 
 Add Meal: log your meals with amount of calories.
@@ -60,7 +63,6 @@ Suggested Meals: meal recommendations.
     <tr>
       <td>
     <img width="323" height="720" alt="meal" src="https://github.com/user-attachments/assets/6f91196e-70db-4151-886d-f40c8ce81a7d" />
-
       </td>
     </tr>
   </tbody>
@@ -86,11 +88,11 @@ Suggested Meals: meal recommendations.
 
 
 ### Workout:
-|Wokout                                                                                                                           | Create Exercise                                                                                                                            | Community                                                                                                                           | Add Exercise                                                                                                                             | Create Workout                                                                                                                             |
+|Wokout                                                                                                                           |                                                                                                                            |                                                                                                                           |                                                                                                                             |                                                                                                                              |
 |--------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
 | <img width="323" height="720" alt="workout1" src="https://github.com/user-attachments/assets/18a2acf4-9858-4361-8511-493e33703247" /> |<img width="323" height="720" alt="wor2" src="https://github.com/user-attachments/assets/b6e6b621-55e2-45e2-b868-43e38abe110d" /> | <img width="323" height="720" alt="work2" src="https://github.com/user-attachments/assets/06d15897-bd7f-4446-922d-c934ba7c13ec" /> |<img width="323" height="720" alt="work3" src="https://github.com/user-attachments/assets/78c19172-7618-4f32-aaec-eb1ce8b922c2" />| <img width="323" height="720" alt="workout4" src="https://github.com/user-attachments/assets/597e3a1a-f190-46f7-883b-51dcd69e1ba6" />
 ### Profile Screen:
-| Profile                                                                                                                          | Profile (Logged In)                                                                                                                            | Theme Switch                                                                                                                              | Language Change                                                                                                                              |
+| Profile                                                                                                                          | Profile                                                                                                                         |                                                                                                                              | Theme Change                                                                                                                              |
 |--------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
 |<img width="323" height="720" alt="more" src="https://github.com/user-attachments/assets/a3c2ece1-a26c-42e0-b986-2eb0b582bff1" /> |<img width="323" height="720" alt="mor2" src="https://github.com/user-attachments/assets/fd3eca99-440c-4b84-8f67-4dd958667366" /> | <img width="323" height="720" alt="them" src="https://github.com/user-attachments/assets/22e10a4c-5cb1-404a-9299-aed19e95fb88" /> |<img width="323" height="720" alt="white" src="https://github.com/user-attachments/assets/860e23d5-e406-4f5c-a3fe-bb4ea001f650" />
  |
