@@ -20,9 +20,8 @@ This project is based on a Kotlin Multiplatform (KMP) architecture with shared b
 
 ## Features
 ### OnBoarding
-| On Boarding 1                                                                                                                                                                                                                                 |
-|------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-|<img width="1280" height="2856" alt="image" src="https://github.com/user-attachments/assets/f0351615-99cd-4202-9f9b-2622c7917d02" />
+| On Boarding                                                                                                                                                                                                                             
+|<img width="384" height="776" alt="image" src="https://github.com/user-attachments/assets/f0351615-99cd-4202-9f9b-2622c7917d02" />
 
 
 ### Authentication
