@@ -41,6 +41,7 @@ jobs:
         run: |
           mkdir -p composeApp/
           echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > composeApp/google-services.json
+          echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > composeApp/google-services.json
         shell: bash
 
       - name: Decode Keystore and Create local.properties

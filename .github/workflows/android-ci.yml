@@ -29,7 +29,14 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: ${{ env.JAVA_VERSION }}
-
+      - name: Create google-services.json
+        env:
+          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+        run: |
+          mkdir -p composeApp/
+          mkdir -p composeApp/src/debug/
+          echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > composeApp/google-services.json
+          cp composeApp/google-services.json composeApp/src/debug/google-services.json
       - name: Build Android App
         run: ./gradlew :composeApp:assembleDebug
 
