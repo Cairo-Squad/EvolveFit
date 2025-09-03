@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
+import kotlin.apply
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -9,6 +10,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     kotlin("plugin.serialization") version libs.versions.kotlin
+    alias(libs.plugins.googleFirebaseAppdistribution)
+    alias(libs.plugins.googleGmsGoogleServices)
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidx.room)
 }
@@ -108,26 +111,27 @@ android {
     lint {
         disable += "NullSafeMutableLiveData"
     }
-    val localFile = file("${rootProject.projectDir}/local.properties")
-    val locals = Properties().apply {
-        if (localFile.exists()) {
-            load(FileInputStream(localFile))
-        }
-    }
-    signingConfigs {
-        create("release") {
-            storeFile = file("evolve-key.jks")
-            storePassword = locals.getProperty("KEYSTORE_PASSWORD")
-            keyAlias = locals.getProperty("KEY_ALIAS")
-            keyPassword = locals.getProperty("KEY_PASSWORD")
-        }
-    }
     defaultConfig {
         applicationId = "com.cairosquad.evolvefit"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+    }
+    val localFile = file("${rootProject.projectDir}/local.properties")
+    val locals = Properties().apply {
+        if (localFile.exists()) {
+            load(FileInputStream(localFile))
+        }
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = file("JKS.jks")
+            storePassword = locals.getProperty("KEYSTORE_PASSWORD")
+            keyAlias = locals.getProperty("KEY_ALIAS")
+            keyPassword = locals.getProperty("KEY_PASSWORD")
+        }
     }
     packaging {
         resources {

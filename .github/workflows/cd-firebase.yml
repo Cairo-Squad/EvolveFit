@@ -1,0 +1,84 @@
+name: EvolveFit CD Pipeline
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/cd-firebase
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Create google-services.json
+        env:
+          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+        run: |
+          mkdir -p composeApp/
+          echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > composeApp/google-services.json
+          echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > composeApp/google-services.json
+        shell: bash
+
+      - name: Decode Keystore and Create local.properties
+        env:
+          KEYSTORE: ${{ secrets.KEYSTORE }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          rm -f composeApp/JKS.jks local.properties release_notes.txt
+          echo "$KEYSTORE" | base64 -d > composeApp/JKS.jks
+          echo "KEYSTORE_PASSWORD = $KEYSTORE_PASSWORD" >> local.properties
+          echo "KEY_ALIAS = $KEY_ALIAS" >> local.properties
+          echo "KEY_PASSWORD = $KEY_PASSWORD" >> local.properties
+
+      - name: Generate Signed APK
+        run: |
+          ./gradlew assembleRelease --build-cache -x test -x lint
+
+      - name: Find APKs
+        run: |
+          echo "Searching for APKs..."
+          find . -type f -name "*.apk"
+
+      - name: Create Release Notes
+        run: |
+          echo "Automated build from GitHub Actions on $(date)" > release_notes.txt
+
+      - name: Upload APKs to Firebase App Distribution
+        env:
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          FIREBASE_AUTH_TOKEN: ${{ secrets.FIREBASE_AUTH_TOKEN }}
+        run: |
+          npm install -g firebase-tools
+          firebase appdistribution:distribute \
+            composeApp/build/outputs/apk/release/composeApp-release.apk \
+            --app "$FIREBASE_APP_ID" \
+            --token "$FIREBASE_AUTH_TOKEN" \
+            --groups "cairo_squad" \
+            --release-notes-file release_notes.txt
