@@ -3,8 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
 import kotlin.apply
-import java.io.FileInputStream
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -140,27 +138,23 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName("release")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
 //    buildTypes {
 //        getByName("release") {
 //            isMinifyEnabled = false
+//            signingConfig = signingConfigs.getByName("release")
 //        }
 //    }
-//    buildTypes {
-//        getByName("release") {
-//            isMinifyEnabled = true
-//            isShrinkResources = true // يقلل الصور + XML
-//            proguardFiles(
-//                getDefaultProguardFile("proguard-android-optimize.txt"),
-//                "proguard-rules.pro"
-//            )
-//        }
-//    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            signingConfig = signingConfigs.getByName("release")
-        }
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11

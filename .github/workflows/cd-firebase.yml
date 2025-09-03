@@ -2,8 +2,8 @@ name: EvolveFit CD Pipeline
 on:
   push:
     branches:
+      - main
       - develop
-      - master
       - feature/cd-firebase
 
 jobs:
