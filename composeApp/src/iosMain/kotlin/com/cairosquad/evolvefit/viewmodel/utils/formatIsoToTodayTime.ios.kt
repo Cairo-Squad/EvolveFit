@@ -9,6 +9,7 @@ import platform.Foundation.NSTimeZone
 import platform.Foundation.currentLocale
 import platform.Foundation.languageCode
 import platform.Foundation.localTimeZone
+import platform.Foundation.localeWithLocaleIdentifier
 
 actual fun formatIsoToTodayTime(isoString: String): String {
     val locale = NSLocale.currentLocale
@@ -67,7 +68,7 @@ actual fun getCurrentLocale(): String {
 }
 
 fun formateDateDayMonth(dateIso: String): String {
-    val locale = NSLocale.currentLocale
+    val locale = NSLocale.localeWithLocaleIdentifier("en_US")
     val date = parseIsoDate(dateIso, locale) ?: return dateIso
     return makeFormatter("dd MMM, yyyy", locale).stringFromDate(date)
 }

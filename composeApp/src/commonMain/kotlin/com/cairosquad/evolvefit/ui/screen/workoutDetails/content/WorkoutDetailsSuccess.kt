@@ -35,7 +35,6 @@ import com.cairosquad.evolvefit.design_system.util.NetworkImage
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.DetailsCardsRow
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.Exercises
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.WorkoutDetailsText
-import com.cairosquad.evolvefit.ui.util.ScreenSize
 import com.cairosquad.evolvefit.ui.util.Share
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsInteractionListener
 import com.cairosquad.evolvefit.viewmodel.workout_details.WorkoutDetailsScreenState
@@ -168,8 +167,6 @@ fun WorkoutDetailsSuccess(
         BottomSheet(
             isVisible = state.workout.selectedExercise != null,
             onDismiss = listener::onExerciseBottomSheetDismiss,
-            modifier = Modifier.heightIn(max = ScreenSize.heightDp.dp * 0.95f)
-                .align(Alignment.BottomCenter)
         ) {
             state.workout.selectedExercise?.let {
                 ExerciseBottomSheetContent(
@@ -202,7 +199,7 @@ fun WorkoutDetailsSuccess(
                         WorkoutDetailsViewModel.DEEP_LINK_BASE_URL + state.workout.workoutID
                     shareToPlatform(platform, workoutUrl, onDismiss = listener::onShareClicked)
                 },
-                onCopyLinkClick = {}
+                onCopyLinkClick = { listener.onCopyLinkClicked(state.workout.workoutID) }
             )
         }
         SnackBar(

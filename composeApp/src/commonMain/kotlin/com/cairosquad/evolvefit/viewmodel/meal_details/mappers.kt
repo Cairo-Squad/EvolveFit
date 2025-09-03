@@ -26,3 +26,12 @@ fun MealType.toMealUiState(): MealDetailsScreenState.MealTypeUiState {
         MealType.SNACK -> MealDetailsScreenState.MealTypeUiState.Snacks
     }
 }
+
+fun MealDetailsScreenState.MealTypeUiState.toMealType(): MealType {
+    return when (this) {
+        MealDetailsScreenState.MealTypeUiState.Breakfast -> MealType.BREAKFAST
+        MealDetailsScreenState.MealTypeUiState.Lunch -> MealType.LUNCH
+        MealDetailsScreenState.MealTypeUiState.Dinner -> MealType.DINNER
+        MealDetailsScreenState.MealTypeUiState.Snacks -> MealType.SNACK
+    }
+}

@@ -42,7 +42,7 @@ class MoreViewModel(
     private fun loadLanguagePreferences() {
         tryToCall(
             block = { managePreferencesUseCase.getLanguage() },
-            onSuccess = {::loadLanguagePreferencesSuccess},
+            onSuccess = ::loadLanguagePreferencesSuccess,
             onError = { },
         )
     }

@@ -25,7 +25,6 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun MealsHistoryScreen(
     navigateBack: () -> Unit,
-    modifier: Modifier = Modifier,
     viewModel: MealHistoryViewModel = koinViewModel()
 ) {
     val state by viewModel.screenState.collectAsState()

@@ -11,16 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.cairosquad.evolvefit.design_system.component.SnackBar
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.RefreshBox
-import com.cairosquad.evolvefit.ui.screen.nutrition.component.AddWaterIntakeBottomSheet
-import com.cairosquad.evolvefit.ui.screen.nutrition.component.MealAddedSnackBar
-import com.cairosquad.evolvefit.ui.screen.nutrition.component.MealCantAddSnackBar
-import com.cairosquad.evolvefit.ui.screen.nutrition.component.MealTypeDropdownMenu
-import com.cairosquad.evolvefit.ui.screen.nutrition.component.NutritionHeader
+import com.cairosquad.evolvefit.ui.screen.nutrition.content.component.AddWaterIntakeBottomSheet
+import com.cairosquad.evolvefit.ui.screen.nutrition.content.component.MealTypeDropdownMenu
+import com.cairosquad.evolvefit.ui.screen.nutrition.content.component.NutritionHeader
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionInteractionListener
 import com.cairosquad.evolvefit.viewmodel.nutrition.NutritionScreenState
-
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun NutritionContent(
@@ -69,18 +69,14 @@ fun NutritionContent(
                 listener = listener,
                 state = state
             )
-            MealAddedSnackBar(
+            SnackBar(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 12.dp),
+                text = stringResource(state.snackBarMessage),
                 isVisible = state.isSnackBarVisible,
-            )
-            MealCantAddSnackBar(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 12.dp),
-                isVisible = state.isSnackBarVisible,
-                state = state
+                addNavBarPadding = false,
+                icon = painterResource(state.snackBarIcon)
             )
         }
     }

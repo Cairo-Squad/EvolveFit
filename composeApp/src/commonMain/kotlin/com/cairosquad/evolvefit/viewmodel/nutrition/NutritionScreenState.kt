@@ -2,6 +2,8 @@ package com.cairosquad.evolvefit.viewmodel.nutrition
 
 import com.cairosquad.evolvefit.domain.model.FieldType
 import evolvefit.composeapp.generated.resources.Res
+import evolvefit.composeapp.generated.resources.add_meal
+import evolvefit.composeapp.generated.resources.ic_green_check_circle
 import evolvefit.composeapp.generated.resources.meal_type_breakfast
 import evolvefit.composeapp.generated.resources.meal_type_dinner
 import evolvefit.composeapp.generated.resources.meal_type_lunch
@@ -27,7 +29,7 @@ data class NutritionScreenState(
     val isDroppedMenuVisible: Boolean = false,
     val isMealTypeMenuExpanded: Boolean = false,
     val isAddButtonEnabled: Boolean = false,
-    val isInitialLoad : Boolean = true ,
+    val isInitialLoad : Boolean = true,
 
     val screenStatus: ScreenStatus = ScreenStatus.LOADING,
 
@@ -40,10 +42,12 @@ data class NutritionScreenState(
     val mealCaloriesInputError: StringResource?? = null,
     val mealNameInputError: StringResource?? = null,
     val waterInputError: StringResource?? = null,
+
     val isSnackBarVisible: Boolean = false,
+    val snackBarMessage: StringResource = Res.string.add_meal,
+    val snackBarIcon: DrawableResource = Res.drawable.ic_green_check_circle,
 
     val screenErrorMessage: StringResource? = null,
-    val snackBarErrorMessage: StringResource? = null,
 
     val isRefreshing: Boolean = false
 ) {

@@ -94,7 +94,7 @@ class ManageNutritionUseCase(private val nutritionRepository: NutritionRepositor
     }
 
     private fun validateRemainingCalories(calories: Int, remainingCalories: Int) {
-        if (calories > remainingCalories) throw ExceededCaloriesException()
+        if (calories >remainingCalories) throw ExceededCaloriesException()
     }
 
 

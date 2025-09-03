@@ -1,6 +1,5 @@
-package com.cairosquad.evolvefit.ui.screen.nutrition.component
+package com.cairosquad.evolvefit.ui.screen.nutrition.content.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets

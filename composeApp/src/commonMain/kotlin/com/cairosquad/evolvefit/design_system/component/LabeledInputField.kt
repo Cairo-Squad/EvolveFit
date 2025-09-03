@@ -64,7 +64,7 @@ fun LabeledInputField(
             onClick = if (readOnly) onClick else null,
             modifier = Modifier.fillMaxWidth(),
             verticalPadding = 0.dp,
-            horizontalPadding = 0.dp
+            horizontalPadding = 3.dp
         )
 
         if (isDividerVisible) {

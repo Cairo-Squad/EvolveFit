@@ -37,7 +37,6 @@ fun LoginScreen(
             }
 
             is LoginScreenEffect.ShowError -> {
-                // TODO()
             }
         }
     }

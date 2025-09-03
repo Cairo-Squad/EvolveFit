@@ -114,8 +114,7 @@ class LoginViewModel(
 
             is InternetConnectionException -> {
                 setErrorState(
-                    passwordError = Res.string.error_no_internet,
-                    isFormError = true
+                    generalError = Res.string.error_no_internet,
                 )
             }
 
@@ -142,8 +141,7 @@ class LoginViewModel(
                 val unexpectedError = Res.string.error_unexpected
                 showError(unexpectedError)
                 setErrorState(
-                    isFormError = true,
-                    passwordError = unexpectedError
+                    generalError = unexpectedError
                 )
             }
         }
@@ -157,12 +155,14 @@ class LoginViewModel(
     private fun setErrorState(
         emailError: StringResource? = null,
         passwordError: StringResource? = null,
+        generalError: StringResource? = null,
         isFormError: Boolean? = null
     ) {
         updateState {
             val updated = it.copy(
                 emailError = emailError,
                 passwordError = passwordError,
+                generalError = generalError,
                 isFormError = isFormError
             )
             updated.copy(canSubmit = isSubmitAllowed(updated))

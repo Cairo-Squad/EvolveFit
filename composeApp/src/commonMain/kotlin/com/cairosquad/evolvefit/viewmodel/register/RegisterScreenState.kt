@@ -39,6 +39,7 @@ data class RegisterScreenState(
     val isPasswordVisible: Boolean = false,
     val emailError: StringResource? = null,
     val passwordError: StringResource? = null,
+    val generalError:StringResource? = null,
     val equipments: Set<EquipmentUiState> = emptySet(),
     val workoutDays: Set<WeekDay> = emptySet()
 ) {

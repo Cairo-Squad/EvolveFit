@@ -3,10 +3,13 @@ package com.cairosquad.evolvefit.ui.screen.register.content
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,16 +24,19 @@ import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.InputField
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.component.DateBottomSheet
+import com.cairosquad.evolvefit.ui.component.UserProfileImage
 import com.cairosquad.evolvefit.ui.screen.register.content.component.UserRegisterImage
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterInteractionListener
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState
+import com.cairosquad.evolvefit.viewmodel.utils.getTodayDate
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.date_of_birth
 import evolvefit.composeapp.generated.resources.enter_your_email
 import evolvefit.composeapp.generated.resources.enter_your_name
 import evolvefit.composeapp.generated.resources.ic_date
 import evolvefit.composeapp.generated.resources.ic_end_arrow
+import evolvefit.composeapp.generated.resources.ic_error
 import evolvefit.composeapp.generated.resources.ic_lock
 import evolvefit.composeapp.generated.resources.ic_mail
 import evolvefit.composeapp.generated.resources.ic_profile
@@ -40,6 +46,7 @@ import evolvefit.composeapp.generated.resources.password
 import evolvefit.composeapp.generated.resources.upload_image
 import evolvefit.composeapp.generated.resources.user_profile
 import evolvefit.composeapp.generated.resources.user_profile_description
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -56,7 +63,7 @@ fun RegisterScreenContentUserNamePasswordDateOfBirth(
         UserProfileStep(
             image = state.image,
             state = state,
-            maxDate = "2023-08-06",
+            maxDate = getTodayDate(),
             dateOfBirth = state.dateOfBirthInput,
             userName = state.userNameInput,
             userEmail = state.userEmailInput,
@@ -105,16 +112,27 @@ private fun UserProfileStep(
             modifier = Modifier
                 .padding(bottom = 24.dp)
         )
-        UserRegisterImage(
-            image = image,
+        UserProfileImage(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            image = state.image,
             isImagePickerOpen = isImagePickerOpen,
             onImagePickerDismiss = onImagePickerDismiss,
             onImagePickerClick = onImagePickerClick,
-            onImageRetrieved = onImageRetrieved,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally),
-            text = stringResource(Res.string.upload_image),
-            defaultSize = if (image is UiImage.ImageResource) 32.dp else 100.dp
+            onImageRetrieved = { uiImage ->
+                when (uiImage) {
+                    is UiImage.ImageFile -> {
+                        onImageRetrieved(uiImage)
+                    }
+
+                    is UiImage.ImageUrl -> {
+                    }
+
+                    else -> Unit
+                }
+            },
+            isEditScreen = false,
+            defaultSize = if (image is UiImage.ImageResource) 32.dp else 100.dp,
+            text = stringResource(Res.string.upload_image)
         )
 
         UserProfileForm(
@@ -241,6 +259,24 @@ private fun UserProfileForm(
             isError = state.passwordError != null,
             verticalPadding = 15.5.dp
         )
+        state.generalError?.let { errorRes ->
+            Row(
+                modifier = Modifier.padding(top = 7.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    modifier = Modifier.size(16.dp).padding(end=4.dp),
+                    painter = painterResource(Res.drawable.ic_error),
+                    contentDescription = "error",
+                    tint = Theme.color.system.error
+                )
+                Text(
+                    text = stringResource(errorRes),
+                    color = Theme.color.system.error,
+                    style = Theme.textStyle.label.smallRegular12,
+                )
+            }
+        }
     }
 
     DateBottomSheet(

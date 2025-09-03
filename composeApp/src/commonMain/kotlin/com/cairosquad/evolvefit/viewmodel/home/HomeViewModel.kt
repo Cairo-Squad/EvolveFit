@@ -18,6 +18,7 @@ import evolvefit.composeapp.generated.resources.ic_save_tick
 import evolvefit.composeapp.generated.resources.workout_added_to_your_favorites
 import evolvefit.composeapp.generated.resources.workout_removed_from_your_favorites
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.DrawableResource
@@ -192,11 +193,13 @@ class HomeViewModel(
         )
     }
 
+    private var snackBarJob: Job? = null
     private fun showSnackBar(
         messageRes: StringResource,
         iconRes: DrawableResource,
-        durationMilli: Long = 2000,
+        durationMilli: Long = 3000,
     ) {
+        snackBarJob?.cancel()
         updateState {
             it.copy(
                 snackBarState = it.snackBarState.copy(
@@ -206,7 +209,7 @@ class HomeViewModel(
                 )
             )
         }
-        viewModelScope.launch {
+        snackBarJob = viewModelScope.launch {
             delay(durationMilli)
             updateState { it.copy(snackBarState = it.snackBarState.copy(isVisible = false)) }
         }

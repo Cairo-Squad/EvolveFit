@@ -190,7 +190,7 @@
     <string name="enter_exercise_name">أدخل اسم التمرين</string>
     <string name="add_duration">أضف المدة</string>
     <string name="add_reps">أضف التكرارات</string>
-    <string name="add_duration_placeholder">أدخل المدة</string>
+    <string name="add_duration_placeholder">أدخل المدة (بالتواني)</string>
     <string name="add_reps_placeholder">أدخل التكرارات</string>
     <string name="enter_instructions">أدخل التعليمات</string>
     <string name="save_exercise">احفظ التمرين</string>
@@ -227,14 +227,14 @@
     <string name="your_weight">وزنك الحالي</string>
     <string name="choose_your_main_goal">أختر هدفك الرئيسي</string>
 
-    <string name="error_no_internet">لا يوجد اتصال بالإنترنت.</string>
-    <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>
+    <string name="error_no_internet">لا يوجد اتصال بالإنترنت</string>
+    <string name="error_unknown_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة</string>
     <string name="user_not_found">هذا المستخدم غير موجود</string>
-    <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.التنسيق الصحيح: example@domain.com.</string>
-    <string name="error_invalid_email">تحقّق من البريد الإلكتروني وحاول مرة أخرى.</string>
-    <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل.</string>
-    <string name="error_unexpected">حدث خطأ غير متوقع.</string>
-    <string name="error_email_already_used">البريد الإلكتروني مستخدم بالفعل.</string>
+    <string name="error_invalid_email_format">تنسيق البريد الإلكتروني غير صحيح.التنسيق الصحيح: example@domain.com</string>
+    <string name="error_invalid_email">تحقّق من البريد الإلكتروني وحاول مرة أخرى</string>
+    <string name="error_invalid_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل</string>
+    <string name="error_unexpected">حدث خطأ غير متوقع</string>
+    <string name="error_email_already_used">البريد الإلكتروني مستخدم بالفعل</string>
     <string name="liters1">لترات</string>
     <string name="calories_small">سعر حراري</string>
     <string name="water_consumption">شرب الماء</string>
@@ -377,9 +377,26 @@
     <string name="duration">المدة</string>
 
     <string name="workout_duration">%1$s دقيقة</string>
+    <string name="error_amount_too_large">هذه الكمية اكبر من المتوقع</string>
+
 
     <string name="play_button">زر التشغيل</string>
-
+    <string name="error_exceeded_calories">لقد تجاوزت السعرات الحرارية المسموح بها</string>
+    <string name="error_exceeded_water">لقد تجاوزت كمية شرب الماء المسموح بها</string>
     <string name="failed_to_load_workouts">حدث خطأ أثناء تحميل التمارين</string>
     <string name="failed_to_refresh">حدث خطأ أثناء أعادة التحميل</string>
+    <string name="water_added_successfully">تم اضافة الماء بنجاح</string>
+    <string name="no_workouts_title">لا توجد تمارين متاحة الآن</string>
+    <string name="no_workouts_subtitle">سيتم إضافة التمارين قريبًا، تابع التحديثات.</string>
+    <string name="meal_added_snackbar">تم اضافةالوجبة الي السجل</string>
+
+    <string name="create_workout_title">إنشاء تمرين</string>
+    <string name="create_workout_description">خطط وقم بتخصيص تمرينك ليتوافق مع أهدافك الرياضية.</string>
+    <string name="cross_icon_desc">إغلاق</string>
+    <string name="enter_workout_name">أدخل اسم التمرين</string>
+    <string name="choose_goal">اختر هدفك</string>
+    <string name="enter_description">أدخل الوصف</string>
+    <string name="next_button">التالي</string>
+    <string name="error_meal_not_found">لم يتم العثور على الوجبة</string>
+    <string name="error_unknown">حدث خطأ، يرجى المحاولة مرة أخرى</string>
 </resources>

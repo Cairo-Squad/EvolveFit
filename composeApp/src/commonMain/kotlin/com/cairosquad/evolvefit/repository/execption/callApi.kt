@@ -13,7 +13,6 @@ suspend inline fun <reified T> callApi(
 ): T {
     val response = try {
         val res = execute()
-        println("RAW RESPONSE BODY: ${res.bodyAsText()}")
         res
     } catch (e: IOException) {
         throw NoInternetException(e.message ?: "")

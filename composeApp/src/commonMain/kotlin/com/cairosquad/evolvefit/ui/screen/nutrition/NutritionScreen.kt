@@ -14,7 +14,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun NutritionScreen(
     navigateToSuggestedMeals: () -> Unit,
-    navigateToMealDetails: (String) -> Unit,
+    navigateToMealDetails: (mealId: String, onNavigateBack: (() -> Unit)?) -> Unit,
     navigateToMealsHistory: () -> Unit,
     onSelectNavBarRoute: (navBarRoute: NavBarRoute) -> Unit,
     nutritionViewModel: NutritionViewModel = koinViewModel()
@@ -24,7 +24,10 @@ fun NutritionScreen(
     ObserveAsEffect(nutritionViewModel.effect) { effect ->
         when (effect) {
             NutritionEffect.NavigateToMealHistory -> navigateToMealsHistory()
-            is NutritionEffect.NavigateToSuggestedMealDetails -> navigateToMealDetails(effect.mealId)
+            is NutritionEffect.NavigateToSuggestedMealDetails -> navigateToMealDetails(
+                effect.mealId,
+                nutritionViewModel::loadNutritionData
+            )
             NutritionEffect.NavigateToSuggestedMeals -> navigateToSuggestedMeals()
         }
     }

@@ -11,27 +11,23 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
-import com.cairosquad.evolvefit.ui.navigation.navBar.navigateToNavBarRoute
 import com.cairosquad.evolvefit.ui.screen.communityWorkout.CommunityWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.createExercise.CreateExerciseScreen
 import com.cairosquad.evolvefit.ui.screen.createWorkout.CreateWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.editProfile.EditProfileScreen
 import com.cairosquad.evolvefit.ui.screen.favorites.FavoritesScreen
-import com.cairosquad.evolvefit.ui.screen.home.HomeScreen
 import com.cairosquad.evolvefit.ui.screen.login.LoginScreen
 import com.cairosquad.evolvefit.ui.screen.mealDetails.MealDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.mealsHistory.MealsHistoryScreen
-import com.cairosquad.evolvefit.ui.screen.more.MoreScreen
-import com.cairosquad.evolvefit.ui.screen.nutrition.NutritionScreen
+import com.cairosquad.evolvefit.ui.navigation.navBar.NavBarScreesContainer
 import com.cairosquad.evolvefit.ui.screen.onboarding.OnboardingScreen
 import com.cairosquad.evolvefit.ui.screen.playWorkout.PlayWorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.register.RegisterScreen
-import com.cairosquad.evolvefit.ui.screen.report.ReportScreen
 import com.cairosquad.evolvefit.ui.screen.suggestedMeals.SuggestedMealsScreen
-import com.cairosquad.evolvefit.ui.screen.workout.WorkoutScreen
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.WorkoutDetailsScreen
 import com.cairosquad.evolvefit.ui.screen.workoutHistory.WorkoutHistoryScreen
 import com.cairosquad.evolvefit.viewmodel.more.MoreScreenState
@@ -43,12 +39,14 @@ fun NavigationHost(
     deepLinkRoute: Any? = null,
     onLanguageChange: (String) -> Unit,
     onThemeChange: (MoreScreenState.Theme) -> Unit,
-    ) {
+) {
 
     val isUserLoggedIn = authenticationPreferences.getAccessToken().isNullOrBlank().not()
     val startDestination = if (isUserLoggedIn) NavBarRoute.Home else OnboardingRoute
+    val WORKOUT_DETAILS_DEEPLINK = "https://cairo-evolve.vercel.app/workouts"
 
     val navController = rememberNavController()
+    DeepLinkListener(navController)
 
     LaunchedEffect(deepLinkRoute, isUserLoggedIn) {
         if (deepLinkRoute != null && isUserLoggedIn) {
@@ -63,9 +61,23 @@ fun NavigationHost(
         navController = navController,
         startDestination = startDestination,
         enterTransition = { fadeIn(animationSpec = tween(durationMillis = 300)) },
-        exitTransition = { fadeOut(animationSpec = tween(durationMillis = 300, delayMillis = 300)) },
+        exitTransition = {
+            fadeOut(
+                animationSpec = tween(
+                    durationMillis = 300,
+                    delayMillis = 300
+                )
+            )
+        },
         popEnterTransition = { fadeIn(animationSpec = tween(durationMillis = 300)) },
-        popExitTransition = { fadeOut(animationSpec = tween(durationMillis = 300, delayMillis = 300)) },
+        popExitTransition = {
+            fadeOut(
+                animationSpec = tween(
+                    durationMillis = 300,
+                    delayMillis = 300
+                )
+            )
+        },
     ) {
         composable<OnboardingRoute> {
             OnboardingScreen(
@@ -110,64 +122,12 @@ fun NavigationHost(
         }
 
         composable<NavBarRoute.Home> {
-            HomeScreen(
-                navigateToWorkout = { workoutId, onNavigateBack ->
-                    navController.navigate(WorkoutDetailsRoute(workoutId))
-                    navController.saveInSavedState(onNavigateBack)
-                },
-                onSelectNavBarRoute = navController::navigateToNavBarRoute
-            )
-        }
-
-        composable<NavBarRoute.Nutrition> {
-            NutritionScreen(
-                navigateToSuggestedMeals = { navController.navigate(SuggestedMealsRoute) },
-                navigateToMealDetails = { mealId -> navController.navigate(MealDetailsRoute(mealId)) },
-                navigateToMealsHistory = { navController.navigate(MealsHistoryRoute) },
-                onSelectNavBarRoute = navController::navigateToNavBarRoute
-            )
-        }
-
-        composable<NavBarRoute.Workout> {
-            WorkoutScreen(
-                navigateToCreateWorkout = { navController.navigate(CreateWorkoutRoute) },
-                navigateToCommunityWorkout = { navController.navigate(CommunityWorkoutRoute) },
-                navigateToWorkoutDetails = { workoutId ->
-                    navController.navigate(
-                        WorkoutDetailsRoute(
-                            workoutId
-                        )
-                    )
-                },
-                onSelectNavBarRoute = navController::navigateToNavBarRoute
-            )
-        }
-
-        composable<NavBarRoute.Report> {
-            ReportScreen(
-                navigateToWorkoutHistory = { navController.navigate(WorkoutHistoryRoute) },
-                onSelectNavBarRoute = navController::navigateToNavBarRoute
-            )
-        }
-
-        composable<NavBarRoute.More> {
-            MoreScreen(
-                navigateToFavorites = { navController.navigate(FavoritesScreenRoute) },
-                navigateToNotificationSettings = { },
-                onLogout = {
-                    navController.navigate(LoginRoute) {
-                        popUpTo(NavBarRoute.Home) { inclusive = true }
-                        launchSingleTop = true
-                        restoreState = false
-                    }
-                },
-                navigateToEditProfile = { navController.navigate(EditProfileRoute) },
-                onSelectNavBarRoute = navController::navigateToNavBarRoute,
+            NavBarScreesContainer(
+                navController = navController,
                 onLanguageChange = onLanguageChange,
-                onThemeChanged = onThemeChange,
+                onThemeChange = onThemeChange,
             )
         }
-
         composable<CreateWorkoutRoute> {
             CreateWorkoutScreen(
                 navigateBack = navController::popBackStack,
@@ -203,7 +163,11 @@ fun NavigationHost(
             )
         }
 
-        composable<WorkoutDetailsRoute> { backStackEntry ->
+        composable<WorkoutDetailsRoute>(
+            deepLinks = listOf(
+                navDeepLink<WorkoutDetailsRoute>(basePath = WORKOUT_DETAILS_DEEPLINK)
+            )
+        ) { backStackEntry ->
             val onNavigateBack: (() -> Unit)? = navController.getFromSavedState()
             val workoutId = backStackEntry.toRoute<WorkoutDetailsRoute>().workoutId
             WorkoutDetailsScreen(
@@ -223,7 +187,7 @@ fun NavigationHost(
                 navigateBack = navController::popBackStack,
                 navigateBackToApp = {
                     navController.popBackStack(
-                        route = NavBarRoute.Workout,
+                        route = NavBarRoute.Home,
                         inclusive = false
                     )
                 }
@@ -238,9 +202,16 @@ fun NavigationHost(
         }
 
         composable<MealDetailsRoute> { backStackEntry ->
+
+            val onNavigateBack: (() -> Unit)? = navController.getFromSavedState()
+
             MealDetailsScreen(
                 mealId = backStackEntry.toRoute<MealDetailsRoute>().mealId,
-                navigateBack = navController::popBackStack
+                navigateBack = {
+                    navController.popBackStack()
+                    onNavigateBack?.invoke()
+                    navController.clearSavedState()
+                }
             )
         }
 
@@ -262,7 +233,13 @@ fun NavigationHost(
         }
         composable<FavoritesScreenRoute> {
             FavoritesScreen(
-                navigateBack = navController::popBackStack
+                navigateBack = navController::popBackStack,
+                navigateToMealDetails = { mealId ->
+                    navController.navigate(MealDetailsRoute(mealId.toString()))
+                },
+                navigateToWorkoutDetails = { workoutId ->
+                    navController.navigate(WorkoutDetailsRoute(workoutId.toString()))
+                }
             )
         }
     }

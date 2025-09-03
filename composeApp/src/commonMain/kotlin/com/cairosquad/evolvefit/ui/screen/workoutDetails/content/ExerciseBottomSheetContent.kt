@@ -20,7 +20,6 @@ import com.cairosquad.evolvefit.design_system.component.Chip
 import com.cairosquad.evolvefit.design_system.component.PrimaryButton
 import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.ui.screen.workoutDetails.content.component.ImageCarousel
-import com.cairosquad.evolvefit.ui.util.ScreenSize
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.bullet_point
 import evolvefit.composeapp.generated.resources.close
@@ -28,7 +27,6 @@ import evolvefit.composeapp.generated.resources.equipment
 import evolvefit.composeapp.generated.resources.focus_area
 import evolvefit.composeapp.generated.resources.instructions
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ExerciseBottomSheetContent(
@@ -43,15 +41,15 @@ fun ExerciseBottomSheetContent(
 ) {
     Box(
         modifier = Modifier
+            .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .heightIn(max = ScreenSize.heightDp.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
                 .navigationBarsPadding()
-                .padding(bottom = 16.dp + 48.dp + 40.dp)
+                .padding(bottom = 80.dp)
         ) {
             Text(
                 modifier = Modifier.padding(bottom = 12.dp),
@@ -64,52 +62,58 @@ fun ExerciseBottomSheetContent(
                 specificationString = specificationString,
                 specificationIcon = specificationIcon,
             )
-            Text(
-                modifier = Modifier.padding(top = 16.dp, bottom = 12.dp),
-                text = stringResource(Res.string.instructions),
-                style = Theme.textStyle.headline.largeBold18,
-                color = Theme.color.surfaces.onSurface,
-            )
-            instructions.forEach { instruction ->
-                Row(
-                    modifier = Modifier.padding(bottom = 4.dp, start = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text(
-                        text = "•",
-                        style = Theme.textStyle.label.smallRegular14,
-                        color = Theme.color.surfaces.onSurfaceVariant,
-                    )
-                    Text(
-                        text = instruction,
-                        style = Theme.textStyle.label.smallRegular14,
-                        color = Theme.color.surfaces.onSurfaceVariant,
-                    )
+            if (instructions.isNotEmpty()) {
+                Text(
+                    modifier = Modifier.padding(top = 16.dp, bottom = 12.dp),
+                    text = stringResource(Res.string.instructions),
+                    style = Theme.textStyle.headline.largeBold18,
+                    color = Theme.color.surfaces.onSurface,
+                )
+                instructions.forEach { instruction ->
+                    Row(
+                        modifier = Modifier.padding(bottom = 4.dp, start = 4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Text(
+                            text = "•",
+                            style = Theme.textStyle.label.smallRegular14,
+                            color = Theme.color.surfaces.onSurfaceVariant,
+                        )
+                        Text(
+                            text = instruction,
+                            style = Theme.textStyle.label.smallRegular14,
+                            color = Theme.color.surfaces.onSurfaceVariant,
+                        )
+                    }
                 }
             }
-            Text(
-                modifier = Modifier.padding(top = 20.dp, bottom = 12.dp),
-                text = stringResource(Res.string.equipment),
-                style = Theme.textStyle.headline.largeBold18,
-                color = Theme.color.surfaces.onSurface,
-            )
-            Text(
-                modifier = Modifier.padding(bottom = 24.dp, start = 4.dp),
-                text = stringResource(Res.string.bullet_point, equipment),
-                style = Theme.textStyle.label.smallRegular14,
-                color = Theme.color.surfaces.onSurfaceVariant,
-            )
-            Text(
-                modifier = Modifier.padding(bottom = 12.dp),
-                text = stringResource(Res.string.focus_area),
-                style = Theme.textStyle.headline.largeBold18,
-                color = Theme.color.surfaces.onSurface,
-            )
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                focusAreas.forEach { area -> Chip(title = area) }
+            if (equipment.isNotBlank() && !equipment.equals("unknown", ignoreCase = true)) {
+                Text(
+                    modifier = Modifier.padding(top = 20.dp, bottom = 12.dp),
+                    text = stringResource(Res.string.equipment),
+                    style = Theme.textStyle.headline.largeBold18,
+                    color = Theme.color.surfaces.onSurface,
+                )
+                Text(
+                    modifier = Modifier.padding(bottom = 24.dp, start = 4.dp),
+                    text = stringResource(Res.string.bullet_point, equipment),
+                    style = Theme.textStyle.label.smallRegular14,
+                    color = Theme.color.surfaces.onSurfaceVariant,
+                )
+            }
+            if (focusAreas.isNotEmpty()) {
+                Text(
+                    modifier = Modifier.padding(bottom = 12.dp),
+                    text = stringResource(Res.string.focus_area),
+                    style = Theme.textStyle.headline.largeBold18,
+                    color = Theme.color.surfaces.onSurface,
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    focusAreas.forEach { area -> Chip(title = area) }
+                }
             }
         }
         PrimaryButton(
@@ -124,6 +128,3 @@ fun ExerciseBottomSheetContent(
         )
     }
 }
-
-
-

@@ -103,8 +103,8 @@ fun TabsWithPager(
                         ) {
                             WorkoutList(
                                 workouts = workouts,
-                                onSaveIconClick = listener::deleteWorkout
-
+                                onSaveIconClick = listener::deleteWorkout,
+                                onCardClick = listener::onWorkoutClicked
                             )
                         }
                     }
@@ -120,7 +120,8 @@ fun TabsWithPager(
                         ) {
                             MealsList(
                                 meals = meals,
-                                onSaveIconClick = listener::deleteMeal
+                                onSaveIconClick = listener::deleteMeal,
+                                onCardClick = listener::onMealClicked
                             )
                         }
                     }

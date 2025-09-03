@@ -13,6 +13,7 @@ import com.cairosquad.evolvefit.domain.usecase.profile.ManageProfileUseCase
 import com.cairosquad.evolvefit.viewmodel.base.BaseViewModel
 import com.cairosquad.evolvefit.viewmodel.onboarding.models.UiImage
 import com.cairosquad.evolvefit.viewmodel.register.RegisterScreenState.Goal
+import com.cairosquad.evolvefit.viewmodel.utils.asByteArray
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.error_email_already_used
 import evolvefit.composeapp.generated.resources.error_invalid_email
@@ -78,9 +79,22 @@ class RegisterViewModel(
                 )
                 delay(500)
             },
-            onSuccess = { sendEffect(RegisterEffect.NavigateToHome) },
+            onSuccess = {
+                if (state.image is UiImage.ImageFile) {
+                    val imageFileData = state.image.asByteArray()
+                    manageProfileUseCase.uploadProfileImage(
+                        imageFileData.bytes,
+                        imageFileData.fileName
+                    )
+                }
+                sendEffect(RegisterEffect.NavigateToHome)
+            },
             onError = { error -> handleRegisterError(error) },
-            onEnd = { updateState { it.copy(isLoading = false) } }
+            onEnd = {
+                updateState {
+                    it.copy(isLoading = false)
+                }
+            }
         )
     }
 
@@ -302,12 +316,12 @@ class RegisterViewModel(
             }
 
             error is InternetConnectionException -> {
-                setErrorState(passwordError = Res.string.error_no_internet)
+                setErrorState(generalError = Res.string.error_no_internet)
             }
 
             error is UnknownException -> {
                 setErrorState(
-                    passwordError = Res.string.error_unexpected
+                    generalError = Res.string.error_unexpected
                 )
             }
 
@@ -322,7 +336,7 @@ class RegisterViewModel(
             }
 
             else -> {
-                setErrorState(passwordError = Res.string.error_unexpected)
+                setErrorState(generalError = Res.string.error_unexpected)
             }
         }
 
@@ -331,17 +345,19 @@ class RegisterViewModel(
     private fun setErrorState(
         emailError: StringResource? = null,
         passwordError: StringResource? = null,
+        generalError: StringResource? = null
     ) {
         updateState {
             val updated = it.copy(
                 emailError = emailError,
                 passwordError = passwordError,
+                generalError = generalError
             )
             updated.copy()
         }
     }
 
     companion object {
-        const val MAX_STEPS = 8
+        const val MAX_STEPS = 7
     }
 }

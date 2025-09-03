@@ -4,6 +4,19 @@
 <dict>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
+	<key>CFBundleURLTypes</key>
+    	<array>
+    		<dict>
+    			<key>CFBundleTypeRole</key>
+    			<string>None</string>
+    			<key>CFBundleURLName</key>
+    			<string>cairo-evolve.vercel.app</string>
+    			<key>CFBundleURLSchemes</key>
+    			<array>
+    				<string>https</string>
+    			</array>
+    		</dict>
+    	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 </dict>

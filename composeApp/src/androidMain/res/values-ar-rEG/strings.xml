@@ -8,5 +8,6 @@
     <string name="login">تسجيل الدخول</string>
     <string name="arrow_back">العودة</string>
     <string name="logo">شعار التطبيق</string>
-
+    <string name="copied_to_clipboard_successfully">تم النسخ بنجاح</string>
+    <string name="workout_link">رابط التدريب</string>
 </resources>

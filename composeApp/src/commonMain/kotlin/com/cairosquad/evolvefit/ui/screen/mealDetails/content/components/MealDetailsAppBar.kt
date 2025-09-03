@@ -1,5 +1,6 @@
 package com.cairosquad.evolvefit.ui.screen.mealDetails.content.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
@@ -11,10 +12,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.cairosquad.evolvefit.design_system.component.appbar.ActionIconButton
 import com.cairosquad.evolvefit.design_system.component.appbar.CustomAppBar
-import com.cairosquad.evolvefit.design_system.theme.Theme
 import com.cairosquad.evolvefit.viewmodel.meal_details.MealDetailsScreenState
 import evolvefit.composeapp.generated.resources.Res
 import evolvefit.composeapp.generated.resources.back
@@ -28,11 +29,15 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun MealDetailsAppBar(
     state: MealDetailsScreenState,
+    appBarBackground: Color,
+    iconTint: Color,
     onBackClick: () -> Unit,
     onBookmarkClick: () -> Unit
 ) {
+
     CustomAppBar(
         modifier = Modifier
+            .background(appBarBackground)
             .windowInsetsPadding(WindowInsets.statusBars)
             .padding(horizontal = 16.dp),
         title = "",
@@ -40,7 +45,7 @@ fun MealDetailsAppBar(
             ActionIconButton(
                 icon = painterResource(Res.drawable.ic_back),
                 contentDescription = stringResource(Res.string.back),
-                tint = Theme.color.surfaces.textColor,
+                tint = iconTint,
                 onClick = onBackClick
             )
         },
@@ -51,14 +56,13 @@ fun MealDetailsAppBar(
                         painterResource(Res.drawable.ic_bookmark_big_filled)
                     else painterResource(Res.drawable.ic_bookmark_big),
                 contentDescription = stringResource(Res.string.bookmark),
-                tint = Theme.color.surfaces.textColor,
+                tint = iconTint,
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
                     .clickable(onClick = onBookmarkClick)
                     .padding(8.dp)
             )
-
         }
     )
 }
