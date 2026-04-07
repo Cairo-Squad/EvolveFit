@@ -3,170 +3,151 @@ package com.cairosquad.evolvefit.repository.utils
 import com.cairosquad.evolvefit.repository.authentication.local.AuthenticationPreferences
 import com.cairosquad.evolvefit.repository.authentication.remote.dto.AuthResponse
 import com.cairosquad.evolvefit.repository.authentication.remote.dto.RefreshRequest
-import io.ktor.client.HttpClient
+import io.ktor.client.*
 import io.ktor.client.call.body
-import io.ktor.client.engine.HttpClientEngineConfig
-import io.ktor.client.engine.HttpClientEngineFactory
-import io.ktor.client.plugins.HttpTimeout
-import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.plugins.auth.providers.BearerTokens
-import io.ktor.client.plugins.auth.providers.bearer
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.HttpRequestBuilder
-import io.ktor.client.request.delete
-import io.ktor.client.request.get
-import io.ktor.client.request.post
-import io.ktor.client.request.put
-import io.ktor.client.request.setBody
-import io.ktor.client.statement.HttpResponse
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
-import io.ktor.serialization.kotlinx.json.json
+import io.ktor.client.engine.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.auth.*
+import io.ktor.client.plugins.auth.providers.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.logging.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.Json
+import kotlin.concurrent.Volatile
 
 expect val platformHttpClientEngineFactory: HttpClientEngineFactory<HttpClientEngineConfig>
 
 class HttpClientHolder(
-    private val authenticationPreferences: AuthenticationPreferences,
+    private val authPrefs: AuthenticationPreferences,
+    private val baseUrlProvider: BaseUrlProvider
 ) {
-    private var client: HttpClient = buildClient()
+
+    private val initMutex = Mutex()
+
+    @Volatile
+    private var client: HttpClient = createClient()
+
+    suspend fun get(url: String, block: HttpRequestBuilder.() -> Unit = {}) =
+        execute { it.get(url, block) }
+
+    suspend fun post(url: String, block: HttpRequestBuilder.() -> Unit = {}) =
+        execute { it.post(url, block) }
+
+    suspend fun put(url: String, block: HttpRequestBuilder.() -> Unit = {}) =
+        execute { it.put(url, block) }
+
+    suspend fun delete(url: String, block: HttpRequestBuilder.() -> Unit = {}) =
+        execute { it.delete(url, block) }
 
     fun clearTokens() {
-        client.close()
-        client = buildClient()
+        rebuildClient(baseUrlProvider.baseUrl)
     }
 
-    suspend fun post(
-        urlString: String,
-        block: HttpRequestBuilder.() -> Unit = {}
-    ): HttpResponse {
-        return client.post(urlString, block)
+    private suspend fun execute(block: suspend (HttpClient) -> HttpResponse): HttpResponse {
+        ensureInitialized()
+        return block(client)
     }
 
-    suspend fun get(
-        urlString: String,
-        block: HttpRequestBuilder.() -> Unit = {}
-    ): HttpResponse {
-        return client.get(urlString, block)
-    }
+    private suspend fun ensureInitialized() {
+        if (baseUrlProvider.baseUrl.isNotBlank()) return
 
-    suspend fun put(
-        urlString: String,
-        block: HttpRequestBuilder.() -> Unit = {}
-    ): HttpResponse {
-        return client.put(urlString, block)
-    }
-
-    suspend fun delete(
-        urlString: String,
-        block: HttpRequestBuilder.() -> Unit = {}
-    ): HttpResponse {
-        return client.delete(urlString, block)
-    }
-
-    private suspend fun getNewTokens(
-        refreshToken: String,
-    ): BearerTokens? {
-        val tempClient = buildClientWithoutAuth()
-
-        return try {
-            tempClient.post(REFRESH_TOKENS_ENDPOINT) {
-                contentType(ContentType.Application.Json)
-                setBody(RefreshRequest(refreshToken))
-            }.body<AuthResponse>()
-                .toBearerTokens()
-                .also {
-                    authenticationPreferences.saveTokens(
-                        it.accessToken,
-                        it.refreshToken
-                    )
-                    tempClient.close()
-                }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
+        initMutex.withLock {
+            if (baseUrlProvider.baseUrl.isNotBlank()) return
+            val url = fetchBaseUrl()
+            rebuildClient(url)
         }
     }
 
-    private fun AuthResponse.toBearerTokens(): BearerTokens {
-        return BearerTokens(
-            accessToken = accessToken,
-            refreshToken = refreshToken
-        )
+    private fun rebuildClient(newBaseUrl: String) {
+        client.close()
+        baseUrlProvider.baseUrl = newBaseUrl
+        client = createClient()
     }
 
-    private fun buildClient(): HttpClient {
-        return HttpClient(platformHttpClientEngineFactory) {
-            defaultRequest { url(BASE_URL) }
+    private suspend fun fetchBaseUrl(): String {
+        return simpleClient().use { temp ->
+            val response: Map<String, String> =
+                temp.get("https://evolve-fit-registry.vercel.app/tunnel-url").body()
 
-            install(ContentNegotiation) {
-                json(
-                    Json {
-                        prettyPrint = true
-                        isLenient = true
-                        ignoreUnknownKeys = true
-                        encodeDefaults = true
-                    }
-                )
+            response["url"] ?: error("Missing base URL")
+        }
+    }
+
+    private suspend fun refreshTokens(oldRefresh: String): BearerTokens? {
+        return runCatching {
+            simpleClient().use { temp ->
+                temp.post(REFRESH_ENDPOINT) {
+                    contentType(ContentType.Application.Json)
+                    setBody(RefreshRequest(oldRefresh))
+                }.body<AuthResponse>()
+            }.toTokens().also {
+                authPrefs.saveTokens(it.accessToken, it.refreshToken)
             }
+        }.getOrNull()
+    }
 
-            install(Logging) { level = LogLevel.ALL }
+    private fun createClient(): HttpClient {
+        return HttpClient(platformHttpClientEngineFactory) {
+            installCommon()
+
+            defaultRequest {
+                url(baseUrlProvider.baseUrl)
+            }
 
             install(Auth) {
                 bearer {
                     loadTokens {
-                        val access = authenticationPreferences.getAccessToken()
-                        val refresh = authenticationPreferences.getRefreshToken()
-                        if (access != null && refresh != null) {
-                            BearerTokens(access, refresh)
-                        } else null
+                        authPrefs.getAccessToken()?.let { access ->
+                            authPrefs.getRefreshToken()?.let { refresh ->
+                                BearerTokens(access, refresh)
+                            }
+                        }
                     }
+
                     refreshTokens {
-                        val oldRefreshToken = oldTokens?.refreshToken ?: ""
-                        getNewTokens(oldRefreshToken)
+                        val refresh = oldTokens?.refreshToken ?: return@refreshTokens null
+                        refreshTokens(refresh)
                     }
                 }
             }
-
-            install(HttpTimeout) {
-                requestTimeoutMillis = TIME_OUT_INTERVAL_MILLI
-                connectTimeoutMillis = TIME_OUT_INTERVAL_MILLI
-                socketTimeoutMillis = TIME_OUT_INTERVAL_MILLI
-            }
         }
     }
 
-    private fun buildClientWithoutAuth(): HttpClient {
+    private fun simpleClient(): HttpClient {
         return HttpClient(platformHttpClientEngineFactory) {
-            defaultRequest { url(BASE_URL) }
-
-            install(ContentNegotiation) {
-                json(
-                    Json {
-                        prettyPrint = true
-                        isLenient = true
-                        ignoreUnknownKeys = true
-                        encodeDefaults = true
-                    }
-                )
-            }
-
-            install(Logging) { level = LogLevel.ALL }
-
-            install(HttpTimeout) {
-                requestTimeoutMillis = TIME_OUT_INTERVAL_MILLI
-                connectTimeoutMillis = TIME_OUT_INTERVAL_MILLI
-                socketTimeoutMillis = TIME_OUT_INTERVAL_MILLI
-            }
+            installCommon()
         }
     }
+
+    private fun HttpClientConfig<*>.installCommon() {
+        install(ContentNegotiation) {
+            json(Json {
+                ignoreUnknownKeys = true
+                encodeDefaults = true
+                isLenient = true
+            })
+        }
+
+        install(Logging) {
+            level = LogLevel.ALL
+        }
+
+        install(HttpTimeout) {
+            requestTimeoutMillis = TIMEOUT
+            connectTimeoutMillis = TIMEOUT
+            socketTimeoutMillis = TIMEOUT
+        }
+    }
+
+    private fun AuthResponse.toTokens() = BearerTokens(accessToken, refreshToken)
 
     companion object {
-        private const val BASE_URL = "https://evolve-fit-dev.the-chance.net/"
-        private const val REFRESH_TOKENS_ENDPOINT = "auth/refresh"
-        private const val TIME_OUT_INTERVAL_MILLI = 15_000L
+        private const val REFRESH_ENDPOINT = "auth/refresh"
+        private const val TIMEOUT = 15_000L
     }
 }

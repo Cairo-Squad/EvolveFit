@@ -14,16 +14,17 @@ import com.cairosquad.evolvefit.repository.profile.remote.ProfileRemoteDataSourc
 import com.cairosquad.evolvefit.repository.profile.remote.ProfileRemoteDataSourceImpl
 import com.cairosquad.evolvefit.repository.report.remote.ReportRemoteDataSource
 import com.cairosquad.evolvefit.repository.report.remote.ReportRemoteDataSourceImpl
+import com.cairosquad.evolvefit.repository.utils.BaseUrlProvider
 import com.cairosquad.evolvefit.repository.utils.HttpClientHolder
 import com.cairosquad.evolvefit.repository.workout.remote.WorkoutRemoteDataSource
 import com.cairosquad.evolvefit.repository.workout.remote.WorkoutRemoteDataSourceImpl
-import io.ktor.client.HttpClient
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val remoteModule = module {
     singleOf (::HttpClientHolder)
+    singleOf(::BaseUrlProvider)
     singleOf(::AuthenticationRemoteDataSourceImpl).bind(AuthenticationRemoteDataSource::class)
     singleOf(::ExerciseRemoteDataSourceImpl).bind(ExerciseRemoteDataSource::class)
     singleOf(::EquipmentRemoteDataSourceImpl).bind(EquipmentsRemoteDataSource::class)
